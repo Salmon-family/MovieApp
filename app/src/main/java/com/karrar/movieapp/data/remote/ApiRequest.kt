@@ -1,12 +1,18 @@
 package com.karrar.movieapp.data.remote
 
 import com.karrar.movieapp.utilities.Constants
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiRequest {
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(TokenInterceptor())
+        .build()
+
     private val retrofit = Retrofit.Builder()
         .baseUrl(Constants.BASE_URL)
+        .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
