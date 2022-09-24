@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.base
+package com.karrar.movieapp.data.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

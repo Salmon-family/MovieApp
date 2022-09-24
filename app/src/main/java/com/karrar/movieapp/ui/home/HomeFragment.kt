@@ -1,9 +1,10 @@
-package com.karrar.movieapp.ui.home
+package com.karrar.movieapp.data.ui.home
 
 import androidx.fragment.app.viewModels
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentHomeBinding
-import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.data.ui.base.BaseFragment
+import com.karrar.movieapp.ui.home.HomeViewModel
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
