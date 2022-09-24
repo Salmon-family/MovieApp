@@ -1,4 +1,4 @@
-package com.karrar.movieapp.data
+package com.karrar.movieapp.data.remote
 
 sealed class State<out T> {
 

@@ -1,4 +1,4 @@
-package com.karrar.movieapp.data.remote
+package com.karrar.movieapp.data.remote.service
 
 import com.karrar.movieapp.data.remote.response.MovieResponse
 import retrofit2.Response

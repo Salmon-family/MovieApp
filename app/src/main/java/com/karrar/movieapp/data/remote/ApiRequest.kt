@@ -1,5 +1,6 @@
 package com.karrar.movieapp.data.remote
 
+import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.utilities.Constants
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
