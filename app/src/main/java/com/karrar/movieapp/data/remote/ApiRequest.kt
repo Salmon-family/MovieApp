@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiRequest {
     private val client = OkHttpClient.Builder()
-        .addInterceptor(TokenInterceptor())
+        .addInterceptor(AuthInterceptor())
         .build()
 
     private val retrofit = Retrofit.Builder()
