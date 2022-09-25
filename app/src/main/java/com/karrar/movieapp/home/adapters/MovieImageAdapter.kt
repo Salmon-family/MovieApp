@@ -2,7 +2,6 @@ package com.karrar.movieapp.home.adapters
 
 import com.karrar.movieapp.R
 import com.karrar.movieapp.base.BaseAdapter
-import com.karrar.movieapp.base.HorizontalBaseAdapter
 
 
 class MovieImageAdapter(items: List<String>) :
@@ -15,7 +14,4 @@ class MovieImageAdapter(items: List<String>) :
     }
 }
 
-class HorizontalImageAdapter(adapter: MovieImageAdapter) :
-    HorizontalBaseAdapter<MovieImageAdapter>(adapter) {
-    override val layoutID: Int = R.layout.layout_base_recycler
-}
+class HorizontalImageAdapter(adapter: MovieImageAdapter) : HorizontalBaseAdapter<String>(adapter)

@@ -5,9 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
-import com.karrar.movieapp.base.BaseAdapter
 import com.karrar.movieapp.base.BaseFragment
-import com.karrar.movieapp.base.HorizontalBaseAdapter
 import com.karrar.movieapp.databinding.FragmentHomeBinding
 import com.karrar.movieapp.home.adapters.*
 
@@ -20,8 +18,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     private val data3 =
         listOf("C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11", "C12")
 
-    private val horizontalAdapter = HorizontalAdapter(data2)
-    private val horizontalAdapter2 = HorizontalAdapter(data3)
     private val movieImageAdapter = MovieImageAdapter(data3)
 
     private val concatAdapter: ConcatAdapter by lazy {
@@ -30,9 +26,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         }.build()
         ConcatAdapter(
             config,
-            HorizontalWrapperAdapter(horizontalAdapter),
-            HorizontalWrapperAdapter(horizontalAdapter2),
-//            HorizontalWrapperAdapter2(movieImageAdapter )
+            HorizontalImageAdapter(movieImageAdapter),
+            HorizontalImageAdapter(movieImageAdapter),
         )
     }
 
