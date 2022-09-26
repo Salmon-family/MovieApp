@@ -6,6 +6,7 @@ import com.karrar.movieapp.databinding.FragmentHomeBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val layoutIdFragment = R.layout.fragment_home
