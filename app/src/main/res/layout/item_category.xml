@@ -5,12 +5,14 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.data.Movie" />
+            type="String" />
     </data>
 
     <TextView
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_margin="8dp"
-        android:text="@{item.name}" />
+        android:background="@color/teal_700"
+        android:textColor="@color/black"
+        android:text="@{item}" />
 </layout>

@@ -9,6 +9,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.karrar.movieapp.BR
 
 abstract class BaseFragment<VDB : ViewDataBinding, VM: ViewModel> : Fragment() {
 
@@ -28,7 +29,7 @@ abstract class BaseFragment<VDB : ViewDataBinding, VM: ViewModel> : Fragment() {
         _binding = DataBindingUtil.inflate<VDB>(inflater, layoutIdFragment, container, false)
         _binding.apply {
             lifecycleOwner = viewLifecycleOwner
-//            setVariable(BR.viewModel, viewModel)
+            setVariable(BR.viewModel, viewModel)
             return root
         }
     }
