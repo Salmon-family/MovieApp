@@ -1,13 +1,15 @@
 package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.remote.response.MovieResponse
+import com.karrar.movieapp.data.remote.service.MovieService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
+import javax.inject.Inject
 
-class MovieRepositoryImp(private val movieService: MovieService) : MovieRepository {
+class MovieRepositoryImp @Inject constructor(private val movieService: MovieService) :
+    MovieRepository {
     override fun getPopularMovies(): Flow<State<MovieResponse>> {
         return wrapWithFlow { movieService.getPopularMovies() }
     }
