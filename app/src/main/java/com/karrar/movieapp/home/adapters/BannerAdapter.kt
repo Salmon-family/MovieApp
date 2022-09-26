@@ -7,17 +7,16 @@ import com.karrar.movieapp.base.HorizontalBaseAdapter
 import com.karrar.movieapp.data.Movie
 import com.karrar.movieapp.home.HomeViewModel
 
-
-class MovieImageAdapter(items: List<Movie>, listener: MovieInteractionListener) :
+class BannerAdapter(items: List<Movie>, listener: BannerInteractionListener) :
     BaseAdapter<Movie>(items, listener) {
-    override val layoutID: Int = R.layout.item_movie
+    override val layoutID: Int = R.layout.item_banner
 }
 
-class HorizontalImageAdapter(adapter: MovieImageAdapter, viewModel: HomeViewModel) :
+class BannerHorizontalAdapter(adapter: BannerAdapter, viewModel: HomeViewModel) :
     HorizontalBaseAdapter<Movie, HomeViewModel>(adapter, viewModel) {
-    override val layoutID = R.layout.recycler_movie
+    override val layoutID = R.layout.recycler_banner
 }
 
-interface MovieInteractionListener : BaseInteractionListener {
-    fun onClickMovie(name: String)
+interface BannerInteractionListener : BaseInteractionListener {
+    fun onClickBanner(name: String)
 }

@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.karrar.movieapp.BR
 
-abstract class BaseFragment<VDB : ViewDataBinding, VM: ViewModel> : Fragment() {
+abstract class BaseFragment<VDB : ViewDataBinding, VM: ViewModel> : Fragment()  {
 
     abstract val layoutIdFragment: Int
     lateinit var viewModel: VM

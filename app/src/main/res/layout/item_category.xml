@@ -4,6 +4,11 @@
     <data>
 
         <variable
+            name="listener"
+            type="com.karrar.movieapp.home.adapters.CategoryInteractionListener" />
+
+
+        <variable
             name="item"
             type="com.karrar.movieapp.data.Category" />
     </data>
@@ -12,6 +17,7 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_margin="8dp"
+        android:onClick="@{() -> listener.onClickCategory(item.categoryName)}"
         android:background="@color/teal_700"
         android:textColor="@color/black"
         android:text="@{item.categoryName}" />

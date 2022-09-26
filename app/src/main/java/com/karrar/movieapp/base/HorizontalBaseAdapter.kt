@@ -23,7 +23,7 @@ abstract class HorizontalBaseAdapter<T, M>(
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        if (holder is ItemViewHolder && position ==0)
+        if (holder is ItemViewHolder)
             bind(holder)
     }
 
