@@ -5,7 +5,7 @@
 
         <variable
             name="item"
-            type="String" />
+            type="com.karrar.movieapp.data.Category" />
     </data>
 
     <TextView
@@ -14,5 +14,5 @@
         android:layout_margin="8dp"
         android:background="@color/teal_700"
         android:textColor="@color/black"
-        android:text="@{item}" />
+        android:text="@{item.categoryName}" />
 </layout>

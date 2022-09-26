@@ -8,6 +8,8 @@ import com.karrar.movieapp.base.BaseFragment
 import com.karrar.movieapp.databinding.FragmentHomeBinding
 import com.karrar.movieapp.home.adapters.CategoryAdapter
 import com.karrar.movieapp.home.adapters.HorizontalCategoryAdapter
+import com.karrar.movieapp.home.adapters.HorizontalImageAdapter
+import com.karrar.movieapp.home.adapters.MovieImageAdapter
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
@@ -20,12 +22,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         val config = ConcatAdapter.Config.Builder().apply {
             setIsolateViewTypes(false)
         }.build()
+
         val concatAdapter = ConcatAdapter(
             config,
-            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel),
-            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel),
-            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel)
+//            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel),
+            HorizontalImageAdapter(MovieImageAdapter(emptyList()), viewModel),
+//            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel)
         )
+
         binding.recyclerView.adapter = concatAdapter
 
     }

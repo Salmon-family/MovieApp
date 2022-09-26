@@ -5,6 +5,8 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.base.BaseAdapter
+import com.karrar.movieapp.home.adapters.CategoryAdapter
+import com.karrar.movieapp.home.adapters.MovieImageAdapter
 import com.squareup.picasso.Picasso
 
 @BindingAdapter("app:movieImage")
@@ -17,7 +19,11 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
     }
 }
 
-@BindingAdapter(value = ["app:items"])
-fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
-    (view.adapter as BaseAdapter<T>?)?.setItems(items ?: emptyList())
+@BindingAdapter(value = ["app:items", "app:adapter"])
+fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?, adapter: BaseAdapter<T>?) {
+    adapter?.setItems(items ?: emptyList())
+    view.adapter = adapter
+//    (view.adapter as BaseAdapter<T>?)?.setItems(items ?: emptyList())
 }
+
+
