@@ -25,9 +25,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
         val concatAdapter = ConcatAdapter(
             config,
-//            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel),
             HorizontalImageAdapter(MovieImageAdapter(emptyList()), viewModel),
-//            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel)
+            HorizontalImageAdapter(MovieImageAdapter(emptyList()), viewModel),
+            HorizontalImageAdapter(MovieImageAdapter(emptyList()), viewModel),
+            HorizontalCategoryAdapter(CategoryAdapter(emptyList()), viewModel)
         )
 
         binding.recyclerView.adapter = concatAdapter

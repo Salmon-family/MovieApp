@@ -16,7 +16,7 @@ class CategoryAdapter(items: List<Category>) : BaseAdapter<Category>(items) {
 }
 
 class HorizontalCategoryAdapter(adapter: CategoryAdapter, viewModel: HomeViewModel) :
-    HorizontalBaseAdapter<BaseAdapter<Category>, HomeViewModel>(adapter, viewModel) {
-
+    HorizontalBaseAdapter<Category, HomeViewModel>(adapter, viewModel) {
     override val layoutID = R.layout.recycler_horizontal
+
 }

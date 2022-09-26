@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="adapter"
+            name="adapterRecycler"
             type="com.karrar.movieapp.home.adapters.CategoryAdapter" />
 
         <variable
@@ -21,8 +21,8 @@
             android:id="@+id/categoryRecyclerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:adapter="@{adapterRecycler}"
             android:orientation="horizontal"
-            app:adapter="@{adapter}"
             app:items="@{viewModel.data}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
