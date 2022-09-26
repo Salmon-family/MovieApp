@@ -10,7 +10,6 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -19,8 +18,11 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideMovieService(client: OkHttpClient,gsonConverterFactory: GsonConverterFactory) : MovieService{
-         val retrofit = Retrofit.Builder()
+    fun provideMovieService(
+        client: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory,
+    ): MovieService {
+        val retrofit = Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .client(client)
             .addConverterFactory(gsonConverterFactory)
@@ -31,13 +33,13 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(authInterceptor: AuthInterceptor) : OkHttpClient = OkHttpClient.Builder()
+    fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(authInterceptor)
         .build()
 
     @Singleton
     @Provides
-    fun provideGsonConverterFactory() : GsonConverterFactory = GsonConverterFactory.create()
+    fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
 
 
 }

@@ -15,7 +15,7 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideMovieRepository (movieService: MovieService) : MovieRepository{
+    fun provideMovieRepository(movieService: MovieService): MovieRepository {
         return MovieRepositoryImp(movieService)
     }
 }
