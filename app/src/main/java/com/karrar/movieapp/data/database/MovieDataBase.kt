@@ -4,13 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.karrar.movieapp.data.database.entity.Saved
+import com.karrar.movieapp.data.database.entity.WatchList
 import com.karrar.movieapp.data.database.entity.SearchHistory
 
-@Database(entities = [Saved::class, SearchHistory::class], version = 1)
+@Database(entities = [WatchList::class, SearchHistory::class], version = 1)
 abstract class MovieDataBase : RoomDatabase() {
 
-    abstract fun savedDao(): SavedDao
+    abstract fun savedDao(): ListDao
     abstract fun searchHistoryDa(): SearchHistory
 
     companion object {
