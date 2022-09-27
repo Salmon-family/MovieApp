@@ -12,4 +12,9 @@
     <dimen name="text_medium">14sp</dimen>
     <dimen name="text_small">12sp</dimen>
 
+    <!-- radius -->
+    <dimen name="radius_large">24dp</dimen>
+    <dimen name="radius_medium">16dp</dimen>
+    <dimen name="radius_small">8dp</dimen>
+    <dimen name="radius_too_small">4dp</dimen>
 </resources>

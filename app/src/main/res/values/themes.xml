@@ -59,4 +59,17 @@
         <item name="android:textColor">@color/shade_ternary_color</item>
     </style>
 
+
+    <style name="CardCorners">
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="CardCorners.Small">
+        <item name="cornerSize">@dimen/radius_small</item>
+    </style>
+
+    <style name="CardCorners.Medium">
+        <item name="cornerSize">@dimen/radius_medium</item>
+    </style>
+
 </resources>
