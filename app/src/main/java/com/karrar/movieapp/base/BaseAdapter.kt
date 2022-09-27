@@ -28,8 +28,6 @@ abstract class BaseAdapter<T>(
         if (holder is ItemViewHolder) bind(holder, position)
     }
 
-    override fun getItemCount() = items.size
-
     private fun bind(holder: ItemViewHolder, position: Int) {
         holder.binding.apply {
             setVariable(BR.item, items[position])
@@ -40,6 +38,8 @@ abstract class BaseAdapter<T>(
     class ItemViewHolder(val binding: ViewDataBinding) : BaseViewHolder(binding)
 
     abstract class BaseViewHolder(binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)
+
+    override fun getItemCount() = items.size
 
     fun setItems(newItems: List<T>) {
         val diffResult = DiffUtil.calculateDiff(

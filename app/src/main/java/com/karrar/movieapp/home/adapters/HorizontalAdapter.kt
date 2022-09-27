@@ -8,8 +8,11 @@ import com.karrar.movieapp.home.HomeViewModel
 class HorizontalAdapter<T>(type: Types, viewModel: HomeViewModel) :
     HorizontalBaseAdapter<HomeViewModel, T>(viewModel) {
 
-    override val layoutID: Int by lazy {
-        return@lazy when (type) {
+    override val layoutID: Int = initLayout(type)
+    override val adapter: T = initAdapter(type, viewModel)
+
+    private fun initLayout(type: Types): Int {
+        return when (type) {
             is Types.BannerType -> {
                 R.layout.recycler_banner
             }
@@ -22,8 +25,8 @@ class HorizontalAdapter<T>(type: Types, viewModel: HomeViewModel) :
         }
     }
 
-    override val adapter: T by lazy {
-        return@lazy when (type) {
+    private fun initAdapter(type: Types, viewModel: HomeViewModel): T {
+        return when (type) {
             is Types.BannerType -> {
                 BannerAdapter(emptyList(), viewModel) as T
             }
@@ -35,6 +38,4 @@ class HorizontalAdapter<T>(type: Types, viewModel: HomeViewModel) :
             }
         }
     }
-
-
 }
