@@ -18,7 +18,7 @@
         android:layout_height="120dp"
         android:layout_margin="8dp"
         android:onClick="@{() -> listener.onClickCategory(item.categoryName)}"
-        android:background="@color/teal_700"
-        android:textColor="@color/black"
+        android:background="@color/brand_color"
+        android:textColor="@color/background_color"
         android:text="@{item.categoryName}" />
 </layout>
