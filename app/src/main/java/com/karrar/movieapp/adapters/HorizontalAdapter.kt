@@ -1,9 +1,9 @@
-package com.karrar.movieapp.home.adapters
+package com.karrar.movieapp.adapters
 
 import com.karrar.movieapp.R
-import com.karrar.movieapp.base.HorizontalBaseAdapter
+import com.karrar.movieapp.ui.base.HorizontalBaseAdapter
 import com.karrar.movieapp.data.Types
-import com.karrar.movieapp.home.HomeViewModel
+import com.karrar.movieapp.ui.home.HomeViewModel
 
 class HorizontalAdapter<T>(type: Types, viewModel: HomeViewModel) :
     HorizontalBaseAdapter<HomeViewModel, T>(viewModel) {

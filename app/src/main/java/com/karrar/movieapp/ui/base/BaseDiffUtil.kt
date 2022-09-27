@@ -1,4 +1,4 @@
-package com.karrar.movieapp.base
+package com.karrar.movieapp.ui.base
 
 import androidx.recyclerview.widget.DiffUtil
 

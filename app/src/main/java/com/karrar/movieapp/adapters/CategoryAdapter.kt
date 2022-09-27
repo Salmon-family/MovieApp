@@ -1,11 +1,9 @@
-package com.karrar.movieapp.home.adapters
+package com.karrar.movieapp.adapters
 
 import com.karrar.movieapp.R
 import com.karrar.movieapp.base.BaseAdapter
 import com.karrar.movieapp.base.BaseInteractionListener
-import com.karrar.movieapp.base.HorizontalBaseAdapter
 import com.karrar.movieapp.data.Category
-import com.karrar.movieapp.home.HomeViewModel
 
 class CategoryAdapter(items: List<Category>, listener: CategoryInteractionListener) :
     BaseAdapter<Category>(items, listener) {

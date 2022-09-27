@@ -6,7 +6,7 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.home.adapters.BannerInteractionListener" />
+            type="com.karrar.movieapp.adapters.BannerInteractionListener" />
 
         <variable
             name="item"

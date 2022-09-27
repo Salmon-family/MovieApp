@@ -5,7 +5,7 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.home.adapters.MovieInteractionListener" />
+            type="com.karrar.movieapp.adapters.MovieInteractionListener" />
 
         <variable
             name="item"

@@ -6,11 +6,11 @@
 
         <variable
             name="adapterRecycler"
-            type="com.karrar.movieapp.home.adapters.CategoryAdapter" />
+            type="com.karrar.movieapp.adapters.CategoryAdapter" />
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.home.HomeViewModel" />
+            type="com.karrar.movieapp.ui.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

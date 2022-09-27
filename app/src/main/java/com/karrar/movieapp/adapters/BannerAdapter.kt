@@ -1,4 +1,4 @@
-package com.karrar.movieapp.home.adapters
+package com.karrar.movieapp.adapters
 
 import com.karrar.movieapp.R
 import com.karrar.movieapp.base.BaseAdapter
