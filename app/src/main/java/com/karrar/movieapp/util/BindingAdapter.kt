@@ -19,10 +19,6 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
 
 @BindingAdapter(value = ["app:items"])
 fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
-   /* recyclerAdapter?.let {
-        recyclerAdapter.setItems(items ?: emptyList())
-        view.adapter = recyclerAdapter
-    }*/
     (view.adapter as BaseAdapter<T>?)?.setItems(items ?: emptyList())
 }
 

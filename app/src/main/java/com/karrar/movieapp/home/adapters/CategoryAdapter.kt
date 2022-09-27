@@ -12,12 +12,6 @@ class CategoryAdapter(items: List<Category>, listener: CategoryInteractionListen
     override val layoutID: Int = R.layout.item_category
 }
 
-class HorizontalCategoryAdapter(adapter: CategoryAdapter, viewModel: HomeViewModel) :
-    HorizontalBaseAdapter<Category, HomeViewModel>(adapter, viewModel) {
-    override val layoutID = R.layout.recycler_category
-
-}
-
 interface CategoryInteractionListener : BaseInteractionListener {
     fun onClickCategory(name: String)
 }

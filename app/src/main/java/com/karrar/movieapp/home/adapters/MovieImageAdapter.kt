@@ -7,15 +7,9 @@ import com.karrar.movieapp.base.HorizontalBaseAdapter
 import com.karrar.movieapp.data.Movie
 import com.karrar.movieapp.home.HomeViewModel
 
-
 class MovieImageAdapter(items: List<Movie>, listener: MovieInteractionListener) :
     BaseAdapter<Movie>(items, listener) {
     override val layoutID: Int = R.layout.item_movie
-}
-
-class HorizontalImageAdapter(adapter: MovieImageAdapter, viewModel: HomeViewModel) :
-    HorizontalBaseAdapter<Movie, HomeViewModel>(adapter, viewModel) {
-    override val layoutID = R.layout.recycler_movie
 }
 
 interface MovieInteractionListener : BaseInteractionListener {
