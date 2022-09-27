@@ -1,4 +1,4 @@
-package com.karrar.movieapp.util
+package com.karrar.movieapp.utilities
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
