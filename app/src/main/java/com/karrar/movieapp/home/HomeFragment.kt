@@ -7,18 +7,21 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.base.BaseFragment
 import com.karrar.movieapp.data.Types
 import com.karrar.movieapp.databinding.FragmentHomeBinding
+import com.karrar.movieapp.home.adapters.BannerAdapter
+import com.karrar.movieapp.home.adapters.CategoryAdapter
 import com.karrar.movieapp.home.adapters.HorizontalAdapter
+import com.karrar.movieapp.home.adapters.MovieImageAdapter
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override val layoutIdFragment = R.layout.fragment_home
     override val viewModelClass = HomeViewModel::class.java
 
-    private val homeAdapter: List<HorizontalAdapter> by lazy {
+    private val homeAdapter by lazy {
         listOf(
-            HorizontalAdapter(Types.BannerType, viewModel),
-            HorizontalAdapter(Types.MovieType, viewModel),
-            HorizontalAdapter(Types.CategoryType, viewModel)
+            HorizontalAdapter<BannerAdapter>(Types.BannerType, viewModel),
+            HorizontalAdapter<MovieImageAdapter>(Types.MovieType, viewModel),
+            HorizontalAdapter<CategoryAdapter>(Types.CategoryType, viewModel)
         )
     }
 

@@ -7,12 +7,12 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.BR
 
-abstract class HorizontalBaseAdapter<M>(
+abstract class HorizontalBaseAdapter<M,T>(
     private val viewModel: M,
 ) : RecyclerView.Adapter<HorizontalBaseAdapter.BaseViewHolder>() {
 
     abstract val layoutID: Int
-    abstract val adapter: Any
+    abstract val adapter: T
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)

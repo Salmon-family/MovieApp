@@ -5,8 +5,8 @@ import com.karrar.movieapp.base.HorizontalBaseAdapter
 import com.karrar.movieapp.data.Types
 import com.karrar.movieapp.home.HomeViewModel
 
-class HorizontalAdapter(type: Types, viewModel: HomeViewModel) :
-    HorizontalBaseAdapter<HomeViewModel>(viewModel) {
+class HorizontalAdapter<T>(type: Types, viewModel: HomeViewModel) :
+    HorizontalBaseAdapter<HomeViewModel, T>(viewModel) {
 
     override val layoutID: Int by lazy {
         return@lazy when (type) {
@@ -22,16 +22,16 @@ class HorizontalAdapter(type: Types, viewModel: HomeViewModel) :
         }
     }
 
-    override val adapter by lazy {
+    override val adapter: T by lazy {
         return@lazy when (type) {
             is Types.BannerType -> {
-                BannerAdapter(emptyList(), viewModel)
+                BannerAdapter(emptyList(), viewModel) as T
             }
             is Types.MovieType -> {
-                MovieImageAdapter(emptyList(), viewModel)
+                MovieImageAdapter(emptyList(), viewModel) as T
             }
             Types.CategoryType -> {
-                CategoryAdapter(emptyList(), viewModel)
+                CategoryAdapter(emptyList(), viewModel) as T
             }
         }
     }
