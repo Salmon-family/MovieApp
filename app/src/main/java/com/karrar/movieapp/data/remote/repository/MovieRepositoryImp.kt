@@ -1,7 +1,9 @@
 package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.response.MovieResponse
+import com.karrar.movieapp.data.remote.response.BaseResponse
+import com.karrar.movieapp.data.remote.response.MovieDto
+import com.karrar.movieapp.data.remote.response.PersonDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -10,20 +12,28 @@ import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(private val movieService: MovieService) :
     MovieRepository {
-    override fun getPopularMovies(): Flow<State<MovieResponse>> {
+    override fun getPopularMovies(): Flow<State<BaseResponse<MovieDto>>> {
         return wrapWithFlow { movieService.getPopularMovies() }
     }
 
-    override fun getUpcomingMovies(): Flow<State<MovieResponse>> {
+    override fun getUpcomingMovies(): Flow<State<BaseResponse<MovieDto>>> {
         return wrapWithFlow { movieService.getUpcomingMovies() }
     }
 
-    override fun getTopRatedMovies(): Flow<State<MovieResponse>> {
+    override fun getTopRatedMovies(): Flow<State<BaseResponse<MovieDto>>> {
         return wrapWithFlow { movieService.getTopRatedMovies() }
     }
 
-    override fun getNowPlayingMovies(): Flow<State<MovieResponse>> {
+    override fun getNowPlayingMovies(): Flow<State<BaseResponse<MovieDto>>> {
         return wrapWithFlow { movieService.getNowPlayingMovies() }
+    }
+
+    override fun getTrendingMovies(): Flow<State<BaseResponse<MovieDto>>> {
+        return wrapWithFlow { movieService.getTrendingMovies() }
+    }
+
+    override fun getTrendingPersons(): Flow<State<BaseResponse<PersonDto>>> {
+        return wrapWithFlow { movieService.getTrendingPersons() }
     }
 
 
@@ -42,4 +52,6 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
             }
         }
     }
+
+
 }
