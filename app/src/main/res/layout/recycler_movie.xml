@@ -37,7 +37,7 @@
             android:layout_height="20dp"
             android:layout_marginEnd="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_small"
-            android:background="@color/brand_color"
+            android:src="@drawable/ic_arrow_right"
             android:onClick="@{() -> viewModel.seeAllMovie()}"
             app:layout_constraintBottom_toTopOf="@+id/movieView"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -53,7 +53,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="@+id/imageView" />
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/movieView"
