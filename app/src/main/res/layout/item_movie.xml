@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.home.adapters.MovieInteractionListener" />
+
+        <variable
+            name="item"
+            type="com.karrar.movieapp.data.test.Movie" />
+    </data>
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_margin="8dp"
+        android:onClick="@{() -> listener.onClickMovie(item.name)}"
+        android:text="@{item.name}" />
+</layout>
