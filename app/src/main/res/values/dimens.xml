@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="spacingSmall">8dp</dimen>
+    <dimen name="spacingMedium">16dp</dimen>
+    <dimen name="spacingLarge">24dp</dimen>
+
+    <dimen name="cornerRadiusSmall">8dp</dimen>
+    <dimen name="cornerRadiusLarge">16dp</dimen>
+
+</resources>

@@ -10,6 +10,9 @@
 
     </style>
 
+
+
+
     <style name="Theme.MovieApp.SemiBold">
         <item name="android:fontFamily">@font/poppins_semibold</item>
     </style>
