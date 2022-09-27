@@ -1,16 +1,62 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.MovieApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+
+        <item name="colorPrimary">@color/brand_color</item>
+        <item name="colorPrimaryVariant">@color/background_color</item>
+
+        <item name="android:statusBarColor">@color/background_color</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+
     </style>
+
+
+    <style name="SemiBold">
+        <item name="android:fontFamily">@font/plus_jakarta_sans_semibold</item>
+        <item name="android:textColor">@color/shade_primary_color</item>
+    </style>
+
+    <style name="SemiBold.LargeTitle">
+        <item name="android:textSize">@dimen/spacing_large</item>
+    </style>
+
+    <style name="SemiBold.MediumTitle">
+        <item name="android:textSize">@dimen/spacing_medium</item>
+    </style>
+
+    <style name="SemiBold.SmallText">
+        <item name="android:textColor">@color/yellow</item>
+        <item name="android:textSize">@dimen/spacing_small</item>
+    </style>
+
+
+    <style name="Regular">
+        <item name="android:fontFamily">@font/plus_jakarta_sans_regular</item>
+    </style>
+
+    <style name="Regular.BodyMedium">
+        <item name="android:textSize">@dimen/spacing_medium</item>
+    </style>
+
+    <style name="Regular.BodyMedium.Primary">
+        <item name="android:textSize">@color/shade_primary_color</item>
+    </style>
+
+    <style name="Regular.BodyMedium.Secondary">
+        <item name="android:textSize">@color/shade_secondary_color</item>
+    </style>
+
+
+    <style name="Regular.BodySmall">
+        <item name="android:textSize">@dimen/spacing_small</item>
+    </style>
+
+    <style name="Regular.BodySmall.Secondary">
+        <item name="android:textSize">@color/shade_secondary_color</item>
+    </style>
+
+    <style name="Regular.BodySmall.ternary">
+        <item name="android:textSize">@color/shade_ternary_color</item>
+    </style>
+
 </resources>
