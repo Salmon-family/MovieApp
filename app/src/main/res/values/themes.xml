@@ -11,60 +11,53 @@
     </style>
 
 
-
-
-    <style name="Theme.MovieApp.SemiBold">
+    <style name="SemiBold">
         <item name="android:fontFamily">@font/poppins_semibold</item>
-    </style>
-
-    <style name="Theme.MovieApp.SemiBold.LargeTitle">
-        <item name="android:textSize">20dp</item>
         <item name="android:textColor">@color/shade_primary_color</item>
-
     </style>
 
-    <style name="Theme.MovieApp.SemiBold.Title">
-        <item name="android:textSize">16dp</item>
-        <item name="android:textColor">@color/shade_primary_color</item>
+    <style name="SemiBold.LargeTitle">
+        <item name="android:textSize">20sp</item>
+    </style>
 
+    <style name="SemiBold.MediumTitle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="SemiBold.SmallText">
+        <item name="android:textColor">@color/yellow</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
 
 
-
-    <style name="Theme.MovieApp.Regular">
+    <style name="Regular">
         <item name="android:fontFamily">poppins_regular</item>
     </style>
 
-
-    <style name="Theme.MovieApp.Regular.Body">
+    <style name="Regular.BodyMedium">
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="Theme.MovieApp.Regular.Body.Primary">
+    <style name="Regular.BodyMedium.Primary">
         <item name="android:textSize">@color/shade_primary_color</item>
     </style>
 
-    <style name="Theme.MovieApp.Regular.Body.Secondary">
+    <style name="Regular.BodyMedium.Secondary">
         <item name="android:textSize">@color/shade_secondary_color</item>
     </style>
 
 
-    <style name="Theme.MovieApp.Regular.Small">
+    <style name="Regular.BodySmall">
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="Theme.MovieApp.Regular.Small.Secondary">
+    <style name="Regular.BodySmall.Secondary">
         <item name="android:textSize">@color/shade_secondary_color</item>
     </style>
 
-    <style name="Theme.MovieApp.Regular.Small.ternary">
+    <style name="Regular.BodySmall.ternary">
         <item name="android:textSize">@color/shade_ternary_color</item>
-    </style>
-
-    <style name="Theme.MovieApp.SemiBold.Stars">
-        <item name="android:textColor">@color/yellow</item>
-        <item name="android:textSize">12sp</item>
     </style>
 
 </resources>
