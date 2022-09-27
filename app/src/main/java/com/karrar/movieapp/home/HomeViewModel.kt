@@ -2,14 +2,14 @@ package com.karrar.movieapp.home
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.karrar.movieapp.base.BaseViewModel
+import androidx.lifecycle.ViewModel
 import com.karrar.movieapp.data.Category
 import com.karrar.movieapp.data.Movie
 import com.karrar.movieapp.home.adapters.BannerInteractionListener
 import com.karrar.movieapp.home.adapters.CategoryInteractionListener
 import com.karrar.movieapp.home.adapters.MovieInteractionListener
 
-class HomeViewModel : BaseViewModel(), CategoryInteractionListener, MovieInteractionListener,
+class HomeViewModel : ViewModel(), CategoryInteractionListener, MovieInteractionListener,
     BannerInteractionListener {
 
     val data2 = MutableLiveData<List<Movie>>()
