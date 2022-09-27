@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -12,11 +13,10 @@
             type="com.karrar.movieapp.data.test.Movie" />
     </data>
 
-    <TextView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_margin="8dp"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="128dp"
+        android:layout_height="176dp"
+        android:layout_marginHorizontal="@dimen/spacing_small"
         android:background="@color/brand_color"
-        android:onClick="@{() -> listener.onClickMovie(item.name)}"
-        android:text="@{item.name}" />
+        app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 </layout>
