@@ -17,18 +17,17 @@
     </style>
 
     <style name="SemiBold.LargeTitle">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">@dimen/spacing_large</item>
     </style>
 
     <style name="SemiBold.MediumTitle">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/spacing_medium</item>
     </style>
 
     <style name="SemiBold.SmallText">
         <item name="android:textColor">@color/yellow</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/spacing_small</item>
     </style>
-
 
 
     <style name="Regular">
@@ -36,7 +35,7 @@
     </style>
 
     <style name="Regular.BodyMedium">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/spacing_medium</item>
     </style>
 
     <style name="Regular.BodyMedium.Primary">
@@ -49,7 +48,7 @@
 
 
     <style name="Regular.BodySmall">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/spacing_small</item>
     </style>
 
     <style name="Regular.BodySmall.Secondary">
