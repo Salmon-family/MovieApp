@@ -1,17 +1,17 @@
-package com.karrar.movieapp.data.database
+package com.karrar.movieapp.data.local.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.karrar.movieapp.data.database.entity.WatchList
-import com.karrar.movieapp.data.database.entity.SearchHistory
+import com.karrar.movieapp.data.local.database.daos.MovieDao
+import com.karrar.movieapp.data.local.database.entity.WatchList
+import com.karrar.movieapp.data.local.database.entity.SearchHistory
 
 @Database(entities = [WatchList::class, SearchHistory::class], version = 1)
 abstract class MovieDataBase : RoomDatabase() {
 
-    abstract fun savedDao(): ListDao
-    abstract fun searchHistoryDa(): SearchHistory
+    abstract fun movieDao(): MovieDao
 
     companion object {
         private const val DATABASE_NAME = "MovieDatabase"

@@ -2,7 +2,7 @@ package com.karrar.movieapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.karrar.movieapp.data.database.MovieDataBase
+import com.karrar.movieapp.data.local.database.MovieDataBase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

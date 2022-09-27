@@ -1,4 +1,4 @@
-package com.karrar.movieapp.data.database.entity
+package com.karrar.movieapp.data.local.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
