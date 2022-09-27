@@ -3,12 +3,12 @@ package com.karrar.movieapp.ui.home
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.karrar.movieapp.data.Category
-import com.karrar.movieapp.data.Movie
+import com.karrar.movieapp.data.test.Category
+import com.karrar.movieapp.data.test.Movie
 import com.karrar.movieapp.data.remote.repository.MovieRepository
-import com.karrar.movieapp.adapters.BannerInteractionListener
-import com.karrar.movieapp.adapters.CategoryInteractionListener
-import com.karrar.movieapp.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.home.adapters.BannerInteractionListener
+import com.karrar.movieapp.ui.home.adapters.CategoryInteractionListener
+import com.karrar.movieapp.ui.home.adapters.MovieInteractionListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

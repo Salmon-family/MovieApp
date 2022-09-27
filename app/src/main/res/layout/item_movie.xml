@@ -5,11 +5,11 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.adapters.MovieInteractionListener" />
+            type="com.karrar.movieapp.ui.home.adapters.MovieInteractionListener" />
 
         <variable
             name="item"
-            type="com.karrar.movieapp.data.Movie" />
+            type="com.karrar.movieapp.data.test.Movie" />
     </data>
 
     <TextView

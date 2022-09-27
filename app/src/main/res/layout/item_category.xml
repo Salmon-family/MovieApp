@@ -5,12 +5,12 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.adapters.CategoryInteractionListener" />
+            type="com.karrar.movieapp.ui.home.adapters.CategoryInteractionListener" />
 
 
         <variable
             name="item"
-            type="com.karrar.movieapp.data.Category" />
+            type="com.karrar.movieapp.data.test.Category" />
     </data>
 
     <TextView

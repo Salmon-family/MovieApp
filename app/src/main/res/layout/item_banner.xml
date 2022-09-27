@@ -6,11 +6,11 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.adapters.BannerInteractionListener" />
+            type="com.karrar.movieapp.ui.home.adapters.BannerInteractionListener" />
 
         <variable
             name="item"
-            type="com.karrar.movieapp.data.Movie" />
+            type="com.karrar.movieapp.data.test.Movie" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

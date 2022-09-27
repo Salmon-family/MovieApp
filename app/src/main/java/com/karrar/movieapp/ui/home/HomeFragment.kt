@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.ConcatAdapter
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.Types
 import com.karrar.movieapp.databinding.FragmentHomeBinding
-import com.karrar.movieapp.adapters.BannerAdapter
-import com.karrar.movieapp.adapters.CategoryAdapter
-import com.karrar.movieapp.adapters.HorizontalAdapter
-import com.karrar.movieapp.adapters.MovieImageAdapter
+import com.karrar.movieapp.ui.home.adapters.BannerAdapter
+import com.karrar.movieapp.ui.home.adapters.CategoryAdapter
+import com.karrar.movieapp.ui.home.adapters.HorizontalAdapter
+import com.karrar.movieapp.ui.home.adapters.MovieImageAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 

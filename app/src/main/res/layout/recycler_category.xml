@@ -6,7 +6,7 @@
 
         <variable
             name="adapterRecycler"
-            type="com.karrar.movieapp.adapters.CategoryAdapter" />
+            type="com.karrar.movieapp.ui.home.adapters.CategoryAdapter" />
 
         <variable
             name="viewModel"
