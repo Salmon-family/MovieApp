@@ -12,7 +12,7 @@
 
 
     <style name="SemiBold">
-        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:fontFamily">@font/plus_jakarta_sans_semibold</item>
         <item name="android:textColor">@color/shade_primary_color</item>
     </style>
 
@@ -31,7 +31,7 @@
 
 
     <style name="Regular">
-        <item name="android:fontFamily">poppins_regular</item>
+        <item name="android:fontFamily">@font/plus_jakarta_sans_regular</item>
     </style>
 
     <style name="Regular.BodyMedium">
