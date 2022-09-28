@@ -6,6 +6,10 @@
     <string name="latest">Latest</string>
     <string name="popular">Popular</string>
     <string name="tv_shows">TV Shows</string>
+    <string name="title_on_air">On The Air</string>
+    <string name="title_trending">Trending</string>
+    <string name="title_streaming">Now Streaming</string>
+    <string name="title_upcoming">Upcoming</string>
     <string name="title_celebrity">Celebrities</string>
     <string name="title_airing_today">Airing today</string>
     <string name="text_movies">%s Movies</string>

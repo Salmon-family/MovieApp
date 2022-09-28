@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import type="com.karrar.movieapp.domain.enums.Type" />
+
         <variable
             name="adapterRecycler"
-            type="com.karrar.movieapp.ui.home.adapters.ActorAdapter" />
+            type="com.karrar.movieapp.ui.home.adapters.MovieAdapter" />
 
         <variable
             name="viewModel"
@@ -16,47 +19,47 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:padding="@dimen/spacing_medium">
+        android:background="@color/background_color">
 
         <TextView
-            android:id="@+id/text_celebrities"
+            android:id="@+id/text_title"
             style="@style/SemiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_celebrity"
-            android:textColor="@color/shade_primary_color"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/title_streaming"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text_see_actors"
             style="@style/Regular.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_too_small"
-            android:onClick="@{() -> viewModel.seeAllActors()}"
+            android:onClick="@{() -> viewModel.seeAllMovie(Type.NowStreaming)}"
             android:text="@string/see_all"
             android:textColor="@color/brand_color"
             app:drawableEndCompat="@drawable/ic_arrow_right"
-            app:layout_constraintBaseline_toBaselineOf="@+id/text_celebrities"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_title"
             app:layout_constraintEnd_toEndOf="parent" />
 
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_actors"
-            android:layout_width="match_parent"
+            android:id="@+id/recycler_movie"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
             android:adapter="@{adapterRecycler}"
-            app:items="@{viewModel.actors}"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            android:orientation="horizontal"
+            app:items="@{viewModel.nowStreaming}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_celebrities"
-            app:spanCount="4" />
+            app:layout_constraintTop_toBottomOf="@+id/text_title"
+            tools:listitem="@layout/item_movie" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </layout>

@@ -7,12 +7,12 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.home.adapters.CategoryInteractionListener" />
-
+            type="com.karrar.movieapp.ui.home.adapters.GenreInteractionListener" />
 
         <variable
             name="item"
-            type="com.karrar.movieapp.data.test.Category" />
+            type="com.karrar.movieapp.domain.models.Genre" />
+
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -22,16 +22,16 @@
         android:layout_marginBottom="@dimen/spacing_medium"
         android:background="@color/yellow"
         android:backgroundTint="@color/background_color"
-        android:onClick="@{() -> listener.onClickCategory(item.categoryName)}"
         app:cardCornerRadius="@dimen/radius_medium"
-        app:strokeWidth="1dp"
+        app:cardElevation="0dp"
         app:strokeColor="@color/shade_quaternary_color"
-        app:cardElevation="0dp">
+        app:strokeWidth="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
+            android:onClick="@{ ()-> listener.onClickGenre(item.genreID)}"
             android:orientation="vertical"
             android:padding="@dimen/spacing_medium">
 
@@ -40,8 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_small"
-                android:text="@{item.categoryName}"
-                tools:text="Category name" />
+                tools:text="@{item.genreName}" />
 
             <TextView
                 style="@style/Regular.Small.ternary"

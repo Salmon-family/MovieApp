@@ -1,12 +1,12 @@
 package com.karrar.movieapp.ui.home.adapters
 
 import com.karrar.movieapp.R
-import com.karrar.movieapp.base.BaseAdapter
-import com.karrar.movieapp.base.BaseInteractionListener
-import com.karrar.movieapp.data.test.Movie
+import com.karrar.movieapp.domain.models.PopularMovie
+import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.ui.base.BaseInteractionListener
 
-class PopularMovieAdapter(items: List<Movie>, listener: PopularMovieInteractionListener) :
-    BaseAdapter<Movie>(items, listener) {
+class PopularMovieAdapter(items: List<PopularMovie>, listener: PopularMovieInteractionListener) :
+    BaseAdapter<PopularMovie>(items, listener, null) {
     override val layoutID: Int = R.layout.item_popular_movie
 }
 

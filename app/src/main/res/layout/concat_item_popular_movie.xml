@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:adapter="@{adapterRecycler}"
         android:orientation="horizontal"
-        app:items="@{viewModel.data2}"
+        app:items="@{viewModel.popularMovie}"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 </layout>

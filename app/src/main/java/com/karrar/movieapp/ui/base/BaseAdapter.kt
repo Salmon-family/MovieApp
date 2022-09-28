@@ -1,4 +1,4 @@
-package com.karrar.movieapp.base
+package com.karrar.movieapp.ui.base
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,13 +7,14 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.BR
-import com.karrar.movieapp.ui.base.BaseDiffUtil
+import com.karrar.movieapp.domain.enums.Type
 
 interface BaseInteractionListener
 
 abstract class BaseAdapter<T>(
     private var items: List<T>,
-    private val listener: BaseInteractionListener
+    private val listener: BaseInteractionListener,
+    private val type: Type?
 ) : RecyclerView.Adapter<BaseAdapter.BaseViewHolder>() {
 
     abstract val layoutID: Int
@@ -33,6 +34,7 @@ abstract class BaseAdapter<T>(
         holder.binding.apply {
             setVariable(BR.item, items[position])
             setVariable(BR.listener, listener)
+            setVariable(BR.type, type)
         }
     }
 

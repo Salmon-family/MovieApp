@@ -5,8 +5,8 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import com.karrar.movieapp.R
-import com.karrar.movieapp.data.Types
 import com.karrar.movieapp.databinding.FragmentHomeBinding
+import com.karrar.movieapp.domain.enums.Type
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.home.adapters.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,11 +19,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val homeAdapter by lazy {
         listOf(
-            HorizontalAdapter<PopularMovieAdapter>(Types.PopularMovieType, viewModel),
-            HorizontalAdapter<MovieImageAdapter>(Types.MovieType, viewModel),
-            HorizontalAdapter<AiringTodayAdapter>(Types.AiringTodayType, viewModel),
-            HorizontalAdapter<CategoryAdapter>(Types.CategoryType, viewModel),
-            HorizontalAdapter<ActorAdapter>(Types.ActorType, viewModel)
+            HorizontalAdapter<PopularMovieAdapter>(Type.PopularMovieType, viewModel),
+            HorizontalAdapter<MovieAdapter>(Type.OnTheAirType, viewModel),
+            HorizontalAdapter<MovieAdapter>(Type.TrendingMovieType, viewModel),
+            HorizontalAdapter<AiringTodayAdapter>(Type.AiringTodayType, viewModel),
+            HorizontalAdapter<GenreAdapter>(Type.GenreType, viewModel),
+            HorizontalAdapter<MovieAdapter>(Type.NowStreaming, viewModel),
+            HorizontalAdapter<MovieAdapter>(Type.Upcoming, viewModel),
+            HorizontalAdapter<ActorAdapter>(Type.ActorType, viewModel)
         )
     }
 

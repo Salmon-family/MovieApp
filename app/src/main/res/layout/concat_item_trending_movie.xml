@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.karrar.movieapp.domain.enums.Type" />
+
+        <variable
+            name="adapterRecycler"
+            type="com.karrar.movieapp.ui.home.adapters.MovieAdapter" />
+
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.home.HomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_color">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/title_trending"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/button_see_all"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:onClick="@{() -> viewModel.seeAllMovie(Type.TrendingMovieType)}"
+            android:src="@drawable/ic_arrow_right"
+            app:layout_constraintBottom_toTopOf="@+id/recycler_movie"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            style="@style/Regular.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_too_small"
+            android:onClick="@{() -> viewModel.seeAllMovie(Type.TrendingMovieType)}"
+            android:text="@string/see_all"
+            android:textColor="@color/brand_color"
+            app:layout_constraintBottom_toBottomOf="@+id/button_see_all"
+            app:layout_constraintEnd_toStartOf="@+id/button_see_all"
+            app:layout_constraintTop_toTopOf="@+id/button_see_all" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_movie"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:adapter="@{adapterRecycler}"
+            android:orientation="horizontal"
+            app:items="@{viewModel.trending}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            tools:listitem="@layout/item_movie" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

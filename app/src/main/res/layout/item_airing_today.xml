@@ -6,11 +6,12 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.home.adapters.MovieInteractionListener" />
+            type="com.karrar.movieapp.ui.home.adapters.AiringTodayInteractionListener" />
 
         <variable
             name="item"
-            type="com.karrar.movieapp.data.test.Movie" />
+            type="com.karrar.movieapp.domain.models.Movie" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,9 +25,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="@dimen/spacing_too_small"
-            android:background="@color/brand_color"
+            android:onClick="@{() -> listener.onClickAiringToday(item.movieID)}"
+            android:scaleType="fitXY"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintTop_toTopOf="parent"
+            app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

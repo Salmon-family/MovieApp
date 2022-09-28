@@ -6,27 +6,30 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.home.adapters.MovieInteractionListener" />
+            type="com.karrar.movieapp.ui.home.adapters.ActorInteractionListener" />
 
         <variable
             name="item"
-            type="com.karrar.movieapp.data.test.Movie" />
+            type="com.karrar.movieapp.domain.models.Actor" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/spacing_small"
-        android:background="@android:color/transparent">
+        android:background="@android:color/transparent"
+        android:onClick="@{ () -> listener.onClickActor(item.actorID)}">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_actor"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="@dimen/spacing_too_small"
+            android:scaleType="fitXY"
             android:background="@color/brand_color"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintTop_toTopOf="parent"
+            app:posterImage="@{item.actorImage}"
             app:shapeAppearanceOverlay="@style/Circle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
