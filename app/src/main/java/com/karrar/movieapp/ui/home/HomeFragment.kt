@@ -11,7 +11,6 @@ import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.home.adapters.*
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val layoutIdFragment = R.layout.fragment_home
@@ -32,9 +31,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val concatAdapter = ConcatAdapter(homeAdapter)
         binding.recyclerView.adapter = concatAdapter
-
     }
 }

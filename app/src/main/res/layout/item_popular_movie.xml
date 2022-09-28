@@ -19,17 +19,28 @@
         android:paddingVertical="@dimen/spacing_small">
 
         <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/gradient"
+            android:elevation="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/image_movie"
+            app:layout_constraintEnd_toEndOf="@id/image_movie"
+            app:layout_constraintStart_toStartOf="@id/image_movie"
+            app:layout_constraintTop_toTopOf="@id/text_movie_title"
+            app:shapeAppearanceOverlay="@style/CardCorners.BottomMedium" />
+
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_movie"
             android:layout_width="350dp"
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/spacing_small"
-            app:posterImage="@{item.imageUrl}"
-            android:scaleType="fitXY"
             android:onClick="@{() -> listener.onClickPopularMovie(item.movieID)}"
+            android:scaleType="fitXY"
             app:layout_constraintDimensionRatio="2:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
         <TextView
@@ -39,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_small"
             android:paddingStart="0dp"
+            android:elevation="2dp"
             android:paddingEnd="@dimen/spacing_medium"
             android:text="@{item.title}"
             android:textColor="@color/shade_primary_color"
@@ -48,10 +60,11 @@
         <TextView
             android:id="@+id/text_rate"
             style="@style/SemiBold.Small"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/spacing_small"
-            android:gravity="center"
+            android:elevation="2dp"
+            android:gravity="start|center"
             android:text="@{String.valueOf(item.movieRate)}"
             android:textColor="@color/yellow"
             app:drawableStartCompat="@drawable/ic_star_filled"
@@ -65,6 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/spacing_small"
             android:gravity="start"
+            android:elevation="2dp"
             android:text="Drama . Action . Adventure"
             android:textColor="@color/shade_secondary_color"
             app:layout_constraintBottom_toBottomOf="parent"

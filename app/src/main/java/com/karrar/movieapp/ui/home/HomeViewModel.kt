@@ -20,7 +20,7 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
     PopularMovieInteractionListener,
     ActorInteractionListener, AiringTodayInteractionListener {
 
-    val popularMovie = MutableLiveData<List<PopularMovie>>()
+    val popularMovie = MutableLiveData<List<PopularMovie>>()//movieRepository.getPopularMovies().asLiveData()
     val airingToday = MutableLiveData<List<Movie>>()
     val trending = MutableLiveData<List<Movie>>()
     val genre = MutableLiveData<List<Genre>>()
@@ -65,10 +65,6 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
 
     override fun onClickMovie(movieID: Int, type: Type) {
         Log.e("TEST", "$movieID")
-    }
-
-    fun seeAllCategory() {
-        Log.e("TEST", "All category")
     }
 
     fun seeAllMovie(types: Type) {
