@@ -6,15 +6,14 @@ import androidx.lifecycle.ViewModel
 import com.karrar.movieapp.data.test.Category
 import com.karrar.movieapp.data.test.Movie
 import com.karrar.movieapp.data.remote.repository.MovieRepository
-import com.karrar.movieapp.ui.home.adapters.BannerInteractionListener
-import com.karrar.movieapp.ui.home.adapters.CategoryInteractionListener
-import com.karrar.movieapp.ui.home.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.home.adapters.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val movieRepository: MovieRepository) :
-    ViewModel(), CategoryInteractionListener, MovieInteractionListener, BannerInteractionListener {
+    ViewModel(), CategoryInteractionListener, MovieInteractionListener, PopularMovieInteractionListener,
+    ActorInteractionListener,AiringTodayInteractionListener {
 
     val data2 = MutableLiveData<List<Movie>>()
 
@@ -53,7 +52,19 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
         Log.e("TEST", "All Movie")
     }
 
-    override fun onClickBanner(name: String) {
-        Log.e("TEST", "All banner")
+    fun seeAllActors(){
+
     }
+
+    override fun onClickPopularMovie(movieId: Int) {
+
+    }
+
+    override fun onClickActor(actorID: Int) {
+
+    }
+
+    override fun onClickAiringToday(airingTodayID: Int) {
+    }
+
 }

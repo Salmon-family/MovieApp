@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="adapterRecycler"
+            type="com.karrar.movieapp.ui.home.adapters.ActorAdapter" />
+
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.home.HomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:padding="@dimen/spacing_medium">
+
+        <TextView
+            android:id="@+id/text_celebrities"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_celebrity"
+            android:textColor="@color/shade_primary_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_see_actors"
+            style="@style/Regular.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_too_small"
+            android:onClick="@{() -> viewModel.seeAllActors()}"
+            android:text="@string/see_all"
+            android:textColor="@color/brand_color"
+            app:drawableEndCompat="@drawable/ic_arrow_right"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_celebrities"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_actors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adapter="@{adapterRecycler}"
+            android:orientation="vertical"
+            app:items="@{viewModel.data2}"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_celebrities"
+            app:spanCount="4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

@@ -7,11 +7,8 @@ import androidx.recyclerview.widget.ConcatAdapter
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.Types
 import com.karrar.movieapp.databinding.FragmentHomeBinding
-import com.karrar.movieapp.ui.home.adapters.BannerAdapter
-import com.karrar.movieapp.ui.home.adapters.CategoryAdapter
-import com.karrar.movieapp.ui.home.adapters.HorizontalAdapter
-import com.karrar.movieapp.ui.home.adapters.MovieImageAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.home.adapters.*
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -22,9 +19,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val homeAdapter by lazy {
         listOf(
-            HorizontalAdapter<BannerAdapter>(Types.BannerType, viewModel),
+            HorizontalAdapter<PopularMovieAdapter>(Types.PopularMovieType, viewModel),
             HorizontalAdapter<MovieImageAdapter>(Types.MovieType, viewModel),
-            HorizontalAdapter<CategoryAdapter>(Types.CategoryType, viewModel)
+            HorizontalAdapter<AiringTodayAdapter>(Types.AiringTodayType, viewModel),
+            HorizontalAdapter<CategoryAdapter>(Types.CategoryType, viewModel),
+            HorizontalAdapter<ActorAdapter>(Types.ActorType, viewModel)
         )
     }
 

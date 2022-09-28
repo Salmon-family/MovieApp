@@ -6,7 +6,7 @@
 
         <variable
             name="adapterRecycler"
-            type="com.karrar.movieapp.ui.home.adapters.BannerAdapter" />
+            type="com.karrar.movieapp.ui.home.adapters.PopularMovieAdapter" />
 
         <variable
             name="viewModel"
@@ -15,7 +15,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/movieView"
+        android:id="@+id/recycler_popular_movie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adapter="@{adapterRecycler}"

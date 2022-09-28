@@ -5,11 +5,11 @@ import com.karrar.movieapp.base.BaseAdapter
 import com.karrar.movieapp.base.BaseInteractionListener
 import com.karrar.movieapp.data.test.Movie
 
-class BannerAdapter(items: List<Movie>, listener: BannerInteractionListener) :
+class PopularMovieAdapter(items: List<Movie>, listener: PopularMovieInteractionListener) :
     BaseAdapter<Movie>(items, listener) {
-    override val layoutID: Int = R.layout.item_banner
+    override val layoutID: Int = R.layout.item_popular_movie
 }
 
-interface BannerInteractionListener : BaseInteractionListener {
-    fun onClickBanner(name: String)
+interface PopularMovieInteractionListener : BaseInteractionListener {
+    fun onClickPopularMovie(movieId: Int)
 }
