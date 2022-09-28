@@ -32,14 +32,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/button_see_all"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginEnd="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_small"
             android:src="@drawable/ic_arrow_right"
             android:onClick="@{() -> viewModel.seeAllMovie()}"
-            app:layout_constraintBottom_toTopOf="@+id/movieView"
+            app:layout_constraintBottom_toTopOf="@+id/recycler_movie"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
@@ -50,12 +50,12 @@
             android:onClick="@{() -> viewModel.seeAllMovie()}"
             android:text="@string/see_all"
             android:textColor="@color/brand_color"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintEnd_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/imageView" />
+            app:layout_constraintBottom_toBottomOf="@+id/button_see_all"
+            app:layout_constraintEnd_toStartOf="@+id/button_see_all"
+            app:layout_constraintTop_toTopOf="@+id/button_see_all" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/movieView"
+            android:id="@+id/recycler_movie"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"

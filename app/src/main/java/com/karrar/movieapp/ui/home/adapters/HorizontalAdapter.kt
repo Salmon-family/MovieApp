@@ -17,10 +17,10 @@ class HorizontalAdapter<T>(type: Types, viewModel: HomeViewModel) :
                 R.layout.recycler_banner
             }
             is Types.MovieType -> {
-                R.layout.recycler_movie
+                R.layout.concat_item_movie
             }
             Types.CategoryType -> {
-                R.layout.recycler_category
+                R.layout.concat_item_category
             }
         }
     }

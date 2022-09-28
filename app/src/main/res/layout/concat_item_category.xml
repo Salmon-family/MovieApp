@@ -20,7 +20,7 @@
         android:background="@color/background_color">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/categoryRecyclerView"
+            android:id="@+id/recycler_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_small"
