@@ -2,6 +2,7 @@ package com.karrar.movieapp.utilities
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.ui.base.BaseAdapter
@@ -23,4 +24,8 @@ fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
     (view.adapter as BaseAdapter<T>?)?.setItems(items ?: emptyList())
 }
 
-
+@BindingAdapter(value = ["app:usePagerSnapHelper"])
+fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolean = false) {
+    if (useSnapHelper)
+        PagerSnapHelper().attachToRecyclerView(recycler)
+}
