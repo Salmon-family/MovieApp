@@ -10,4 +10,11 @@
         android:name="com.karrar.movieapp.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.karrar.movieapp.ui.movieDetails.MovieDetailsFragment"
+        android:label="MovieDetailsFragment"
+        tools:layout="@layout/fragment_movie_details"/>
+
 </navigation>

@@ -1,9 +1,8 @@
 package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.response.BaseResponse
-import com.karrar.movieapp.data.remote.response.MovieDto
-import com.karrar.movieapp.data.remote.response.PersonDto
+import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.MovieDetailsDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -36,6 +35,9 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
         return wrapWithFlow { movieService.getTrendingPersons() }
     }
 
+    override fun getMovieDetails(movie_id: Int): Flow<State<BaseResponse<MovieDetailsDto>>> {
+        return wrapWithFlow { movieService.getMovieDetails(movie_id) }
+    }
 
     private fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<State<T>> {
         return flow {
