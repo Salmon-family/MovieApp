@@ -1,13 +1,12 @@
 package com.karrar.movieapp.data.remote.response
 
-
 import com.google.gson.annotations.SerializedName
 
-data class MovieResponse(
+data class BaseResponse<T> (
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")
-    val movies: List<Movie?>?,
+    val items: List<PersonDto?>?,
     @SerializedName("total_pages")
     val totalPages: Int?,
     @SerializedName("total_results")
