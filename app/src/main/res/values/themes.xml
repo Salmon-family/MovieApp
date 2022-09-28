@@ -16,17 +16,16 @@
         <item name="android:textColor">@color/shade_primary_color</item>
     </style>
 
-    <style name="SemiBold.LargeTitle">
-        <item name="android:textSize">@dimen/spacing_large</item>
+    <style name="SemiBold.Large">
+        <item name="android:textSize">@dimen/text_large</item>
     </style>
 
-    <style name="SemiBold.MediumTitle">
-        <item name="android:textSize">@dimen/spacing_medium</item>
+    <style name="SemiBold.Medium">
+        <item name="android:textSize">@dimen/text_medium</item>
     </style>
 
-    <style name="SemiBold.SmallText">
-        <item name="android:textColor">@color/yellow</item>
-        <item name="android:textSize">@dimen/spacing_small</item>
+    <style name="SemiBold.Small">
+        <item name="android:textSize">@dimen/text_small</item>
     </style>
 
 
@@ -34,29 +33,43 @@
         <item name="android:fontFamily">@font/plus_jakarta_sans_regular</item>
     </style>
 
-    <style name="Regular.BodyMedium">
-        <item name="android:textSize">@dimen/spacing_medium</item>
+    <style name="Regular.Medium">
+        <item name="android:textSize">@dimen/text_medium</item>
     </style>
 
-    <style name="Regular.BodyMedium.Primary">
-        <item name="android:textSize">@color/shade_primary_color</item>
+    <style name="Regular.Medium.Primary">
+        <item name="android:textColor">@color/shade_primary_color</item>
     </style>
 
-    <style name="Regular.BodyMedium.Secondary">
-        <item name="android:textSize">@color/shade_secondary_color</item>
+    <style name="Regular.Medium.Secondary">
+        <item name="android:textColor">@color/shade_secondary_color</item>
     </style>
 
 
-    <style name="Regular.BodySmall">
-        <item name="android:textSize">@dimen/spacing_small</item>
+    <style name="Regular.Small">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/shade_primary_color</item>
     </style>
 
-    <style name="Regular.BodySmall.Secondary">
-        <item name="android:textSize">@color/shade_secondary_color</item>
+    <style name="Regular.Small.Secondary">
+        <item name="android:textColor">@color/shade_secondary_color</item>
     </style>
 
-    <style name="Regular.BodySmall.ternary">
-        <item name="android:textSize">@color/shade_ternary_color</item>
+    <style name="Regular.Small.ternary">
+        <item name="android:textColor">@color/shade_ternary_color</item>
+    </style>
+
+
+    <style name="CardCorners">
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="CardCorners.Small">
+        <item name="cornerSize">@dimen/radius_small</item>
+    </style>
+
+    <style name="CardCorners.Medium">
+        <item name="cornerSize">@dimen/radius_medium</item>
     </style>
 
 </resources>

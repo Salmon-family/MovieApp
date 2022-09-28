@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,12 +15,50 @@
             type="com.karrar.movieapp.data.test.Category" />
     </data>
 
-    <TextView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_margin="8dp"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:background="@color/yellow"
+        android:backgroundTint="@color/background_color"
         android:onClick="@{() -> listener.onClickCategory(item.categoryName)}"
-        android:background="@color/brand_color"
-        android:textColor="@color/background_color"
-        android:text="@{item.categoryName}" />
+        app:cardCornerRadius="@dimen/radius_medium"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/shade_quaternary_color"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_medium">
+
+            <TextView
+                style="@style/Regular.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:text="@{item.categoryName}"
+                tools:text="Category name" />
+
+            <TextView
+                style="@style/Regular.Small.ternary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:text="300 Movies"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/brand_color"
+                app:shapeAppearanceOverlay="@style/CardCorners.Small" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
 </layout>
