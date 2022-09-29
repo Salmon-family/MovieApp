@@ -21,7 +21,7 @@ class MovieDetailsFragment :BaseFragment<FragmentMovieDetailsBinding>() {
 
         binding.castAdapter.adapter = CastAdapter(mutableListOf(), viewModel)
 
-        viewModel.movieCast.observe(viewLifecycleOwner) {
+        viewModel.movieDetails.observe(viewLifecycleOwner) {
             Log.i("kkk", it.toString())
         }
 

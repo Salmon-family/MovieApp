@@ -2,19 +2,21 @@ package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.MovieDetailsDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.CastMapper
+import com.karrar.movieapp.domain.mappers.MovieDetailsMapper
 import com.karrar.movieapp.domain.models.Cast
+import com.karrar.movieapp.domain.models.MovieDetails
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import retrofit2.Response
 import javax.inject.Inject
-import kotlin.reflect.KFunction2
 
 class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
-    private val castMapper: CastMapper
+    private val castMapper: CastMapper,
+    private val movieDetailsMapper: MovieDetailsMapper
 ) : MovieRepository {
     override fun getPopularMovies(): Flow<State<BaseResponse<MovieDto>>> {
         return wrapWithFlow { movieService.getPopularMovies() }
@@ -40,20 +42,34 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.getTrendingPersons() }
     }
 
-    override fun getMovieDetails(movie_id: Int): Flow<State<MovieDetailsDto>> {
-        return wrapWithFlow { movieService.getMovieDetails(movie_id) }
+
+    override fun getMovieDetails(movie_id: Int): Flow<State<MovieDetails>> {
+       return wrap ({ movieService.getMovieDetails(movie_id) },{
+            movieDetailsMapper.map(it)
+        })
     }
 
 
     override fun getMovieCast(movie_id: Int): Flow<State<List<Cast>>> {
-         return flow {
+        return wrap ({ movieService.getMovieCast(movie_id) },{
+            it.cast?.map { castMapper.map(it) } ?: emptyList()
+        })
+    }
+
+
+    private fun <I, O> wrap(function: suspend () -> Response<I>,  mapper: (I) -> O,): Flow<State<O>> {
+        return flow {
             emit(State.Loading)
             try {
-                val response = movieService.getMovieCast(movie_id)
-                val items = response.body()?.cast?.map { castMapper.map(it) }
-                emit(State.Success(items))
-            } catch (throwable: Throwable) {
-                emit(State.Error(throwable.message.toString()))
+                val response = function()
+                if (response.isSuccessful) {
+                    val items = response.body()?.let { mapper(it) }
+                    emit(State.Success(items))
+                } else {
+                    emit(State.Error(response.message()))
+                }
+            } catch (e: Exception) {
+                emit(State.Error(e.message.toString()))
             }
         }
     }

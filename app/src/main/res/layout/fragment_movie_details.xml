@@ -28,7 +28,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:movieImage="@{viewModel.movieDetails.toData().posterPath}"
+                app:movieImage="@{viewModel.movieDetails.toData().movie_cover}"
                 tools:src="@drawable/image" />
 
             <View
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@{viewModel.movieDetails.toData().title}"
+                android:text="@{viewModel.movieDetails.toData().movie_name}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView"
@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                app:setReleaseDate="@{viewModel.movieDetails.toData().releaseDate}"
+                app:setReleaseDate="@{viewModel.movieDetails.toData().release_date}"
                 app:layout_constraintBottom_toBottomOf="@+id/line"
                 app:layout_constraintEnd_toStartOf="@+id/line"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -100,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="@{@string/duration(viewModel.movieDetails.toData().runtime)}"
+                android:text="@{@string/duration(viewModel.movieDetails.toData().duration)}"
                 app:layout_constraintBottom_toBottomOf="@+id/line"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -118,8 +118,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/line"
-                app:setGenre="@{viewModel.movieDetails.toData().genres}"
-                tools:text="Adventure, Drama, Science Fiction" />
+                android:text="@{viewModel.movieDetails.toData().genres}"
+                tools:text="Adventure, Drama, Science Fiction"
+                />
 
             <TextView
                 android:id="@+id/review"
@@ -127,7 +128,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@{@string/reviews(viewModel.movieDetails.toData().voteCount)}"
+                android:text="@{@string/reviews(viewModel.movieDetails.toData().review)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/stars"
@@ -140,7 +141,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="@{viewModel.movieDetails.toData().voteAverage.toString()}"
+                android:text="@{viewModel.movieDetails.toData().vote_average}"
                 android:textColor="@color/yellow"
                 app:layout_constraintBottom_toBottomOf="@+id/review"
                 app:layout_constraintEnd_toStartOf="@+id/review"
@@ -181,7 +182,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="@{viewModel.movieDetails.toData().overview}"
+                android:text="@{viewModel.movieDetails.toData().over_view}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/over_view_title"
                 app:layout_constraintTop_toBottomOf="@+id/over_view_title"
