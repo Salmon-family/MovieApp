@@ -7,4 +7,11 @@
     <string name="latest">Latest</string>
     <string name="popular">Popular</string>
     <string name="tv_shows">TV Shows</string>
+    <string name="play_trailer">Play Trailer</string>
+    <string name="duration">%1$s Minutes</string>
+    <string name="reviews">( %1$s Reviews )</string>
+    <string name="overview">OverView</string>
+    <string name="cast">Cast</string>
+
+
 </resources>

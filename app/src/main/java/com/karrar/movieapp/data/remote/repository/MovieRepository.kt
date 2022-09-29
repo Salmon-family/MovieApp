@@ -2,7 +2,7 @@ package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.MovieDetailsDto
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.*
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
@@ -19,6 +19,8 @@ interface MovieRepository {
 
     fun getTrendingPersons(): Flow<State<BaseResponse<PersonDto>>>
 
-    fun getMovieDetails(movie_id: Int): Flow<State<BaseResponse<MovieDetailsDto>>>
+    fun getMovieDetails(movie_id: Int): Flow<State<MovieDetailsDto>>
+
+    fun getMovieCast(movie_id: Int): Flow<State<Cast>>
 
 }
