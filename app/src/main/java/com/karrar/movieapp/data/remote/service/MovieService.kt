@@ -33,8 +33,6 @@ interface MovieService {
     suspend fun getTrendingPersons(
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
     ): Response<BaseResponse<PersonDto>>
-
-
 }
 
 
