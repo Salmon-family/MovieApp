@@ -35,30 +35,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         val concatAdapter = ConcatAdapter(homeAdapter)
         binding.recyclerView.adapter = concatAdapter
 
-        viewModel.popularMovie.observe(viewLifecycleOwner) {
-            concatAdapter.notifyDataSetChanged()
-        }
-
-        viewModel.actors.observe(viewLifecycleOwner) {
-            concatAdapter.notifyDataSetChanged()
-        }
-
-        viewModel.trending.observe(viewLifecycleOwner) {
-            concatAdapter.notifyDataSetChanged()
-        }
-
-        viewModel.upcoming.observe(viewLifecycleOwner) {
-            concatAdapter.notifyDataSetChanged()
-        }
-        viewModel.nowStreaming.observe(viewLifecycleOwner) {
-            concatAdapter.notifyDataSetChanged()
-        }
-
-        viewModel.airingToday.observe(viewLifecycleOwner){
-            concatAdapter.notifyDataSetChanged()
-        }
-
-        viewModel.onTheAiring.observe(viewLifecycleOwner){
+        viewModel.updatingRecycler.observe(viewLifecycleOwner) {
             concatAdapter.notifyDataSetChanged()
         }
     }
