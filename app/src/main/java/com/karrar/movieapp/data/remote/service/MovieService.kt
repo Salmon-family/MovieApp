@@ -8,7 +8,6 @@ import com.karrar.movieapp.domain.enums.TrendingTimeWindow
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 
 interface MovieService {
@@ -38,8 +37,6 @@ interface MovieService {
     @GET("genre/movie/list")
     suspend fun getGenreList(): Response<GenreResponse>
 
-    @GET("discover/movie")
-    suspend fun getMoviesWithGenre(@Query("with_genres") genreId: Int): Response<BaseResponse<MovieDto>>
 }
 
 

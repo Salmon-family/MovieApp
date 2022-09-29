@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
-    private val movieMapper : MovieMapper,
+    private val movieMapper: MovieMapper,
     private val actorMapper: ActorMapper,
     private val genreMapper: GenreMapper
 ) :

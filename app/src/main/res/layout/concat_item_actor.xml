@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:padding="@dimen/spacing_medium">
+        android:padding="@dimen/spacing_small">
 
         <TextView
             android:id="@+id/text_celebrities"
@@ -49,15 +49,15 @@
             android:id="@+id/recycler_actors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
             android:adapter="@{adapterRecycler}"
-            android:orientation="vertical"
-            app:itemsWithMax="@{viewModel.actors.toData()}"
+            android:orientation="horizontal"
+            app:items="@{viewModel.actors.toData()}"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_celebrities"
-            app:maxNumber="@{Constants.MAX_NUMBER_ACTORS}"
-            app:spanCount="4" />
+            app:spanCount="2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

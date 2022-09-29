@@ -18,8 +18,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_medium"
-        android:background="@android:color/transparent">
+        android:background="@android:color/transparent"
+        android:padding="@dimen/spacing_small">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_airing_today"
@@ -37,7 +37,7 @@
             style="@style/SemiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_small"
             android:elevation="2dp"
             android:text="@string/title_airing_today"
@@ -50,7 +50,7 @@
             style="@style/Regular.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_medium"
             android:elevation="2dp"
             android:text="@{@string/text_movies(viewModel.airingToday.toData().size())}"
             android:textColor="@color/shade_ternary_color"

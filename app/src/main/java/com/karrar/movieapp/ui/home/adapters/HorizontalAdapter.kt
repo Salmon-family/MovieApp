@@ -28,9 +28,6 @@ class HorizontalAdapter<T>(type: Type, viewModel: HomeViewModel) :
             Type.Upcoming -> {
                 R.layout.concat_item_upcoming_movie
             }
-            Type.GenreType -> {
-                R.layout.concat_item_genre
-            }
             Type.ActorType -> {
                 R.layout.concat_item_actor
             }
@@ -50,9 +47,6 @@ class HorizontalAdapter<T>(type: Type, viewModel: HomeViewModel) :
             }
             Type.TrendingMovieType,  Type.NowStreaming, Type.Upcoming -> {
                 MovieAdapter(emptyList(), viewModel, type) as T
-            }
-            Type.GenreType -> {
-                GenreAdapter(emptyList(), viewModel) as T
             }
             Type.ActorType -> {
                 ActorAdapter(emptyList(), viewModel) as T

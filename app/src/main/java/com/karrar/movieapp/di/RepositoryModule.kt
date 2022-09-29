@@ -23,7 +23,6 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    @Named("MovieRepository")
     fun provideMovieRepository(
         movieService: MovieService,
         movieMapper: MovieMapper,
@@ -35,7 +34,6 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    @Named("SeriesRepository")
     fun provideSeriesRepository(
         seriesService: SeriesService,
         seriesMapper: SeriesMapper

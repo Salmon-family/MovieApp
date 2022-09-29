@@ -19,6 +19,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_small"
         android:background="@color/background_color">
 
         <TextView
@@ -26,10 +27,7 @@
             style="@style/SemiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_medium"
             android:text="@string/title_upcoming"
-            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,7 +35,6 @@
             style="@style/Regular.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_too_small"
             android:onClick="@{() -> viewModel.seeAllMovie(Type.Upcoming)}"
             android:text="@string/see_all"
             android:textColor="@color/brand_color"
@@ -49,7 +46,7 @@
             android:id="@+id/recycler_movie"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_medium"
             android:adapter="@{adapterRecycler}"
             android:orientation="horizontal"
             app:items="@{viewModel.upcoming.toData()}"

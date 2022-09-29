@@ -5,7 +5,6 @@ enum class Type {
     TvShowType,
     OnTheAirType ,
     TrendingMovieType ,
-    GenreType ,
     ActorType ,
     AiringTodayType,
     NowStreaming,
