@@ -1,8 +1,6 @@
 package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.response.BaseResponse
-import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.ActorMapper
 import com.karrar.movieapp.domain.mappers.GenreMapper
@@ -17,17 +15,21 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 import javax.inject.Inject
 
-class MovieRepositoryImp @Inject constructor(private val movieService: MovieService) :
+class MovieRepositoryImp @Inject constructor(
+    private val movieService: MovieService,
+    private val movieMapper : MovieMapper,
+    private val actorMapper: ActorMapper,
+    private val genreMapper: GenreMapper
+) :
     MovieRepository {
 
     override fun getPopularMovies(): Flow<State<List<PopularMovie>>> {
         val mapper = PopularMovieMapper()
-        val mapperGenre = GenreMapper()
         return flow {
             emit(State.Loading)
             try {
                 val responseGenre = movieService.getGenreList()
-                val genreList = responseGenre.body()?.genres?.map { mapperGenre.map(it) }
+                val genreList = responseGenre.body()?.genres?.map { genreMapper.map(it) }
                 val responseMovie = movieService.getPopularMovies()
                 val items = responseMovie.body()?.items?.map { mapper.map(it) }
                 val movieWithGenre = mapper.mapGenreMovie(items!!, genreList!!)
@@ -39,44 +41,38 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
     }
 
     override fun getUpcomingMovies(): Flow<State<List<Movie>>> {
-        val mapper = MovieMapper()
         return wrap({ movieService.getUpcomingMovies() }, {
-            it.items?.map { mapper.map(it) } ?: emptyList()
+            it.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
 
     override fun getTopRatedMovies(): Flow<State<List<Movie>>> {
-        val mapper = MovieMapper()
         return wrap({ movieService.getTopRatedMovies() }, {
-            it.items?.map { mapper.map(it) } ?: emptyList()
+            it.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
 
     override fun getNowPlayingMovies(): Flow<State<List<Movie>>> {
-        val mapper = MovieMapper()
         return wrap({ movieService.getNowPlayingMovies() }, {
-            it.items?.map { mapper.map(it) } ?: emptyList()
+            it.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
 
     override fun getTrendingMovies(): Flow<State<List<Movie>>> {
-        val mapper = MovieMapper()
         return wrap({ movieService.getTrendingMovies() }, {
-            it.items?.map { mapper.map(it) } ?: emptyList()
+            it.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
 
     override fun getTrendingPersons(): Flow<State<List<Actor>>> {
-        val mapper = ActorMapper()
         return wrap({ movieService.getTrendingPersons() }, {
-            it.items?.map { mapper.map(it) } ?: emptyList()
+            it.items?.map { actorMapper.map(it) } ?: emptyList()
         })
     }
 
     override fun getGenreList(): Flow<State<List<Genre>>> {
-        val mapper = GenreMapper()
         return wrap({ movieService.getGenreList() }, {
-            it.genres?.map { mapper.map(it) } ?: emptyList()
+            it.genres?.map { genreMapper.map(it) } ?: emptyList()
         })
     }
 
