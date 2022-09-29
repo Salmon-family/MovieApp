@@ -2,7 +2,7 @@ package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.Cast
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.CreditsDto
 import com.karrar.movieapp.data.remote.response.movieDetailsDto.MovieDetailsDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import kotlinx.coroutines.flow.Flow
@@ -40,7 +40,7 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
         return wrapWithFlow { movieService.getMovieDetails(movie_id) }
     }
 
-    override fun getMovieCast(movie_id: Int): Flow<State<Cast>> {
+    override fun getMovieCast(movie_id: Int): Flow<State<CreditsDto>> {
         return wrapWithFlow { movieService.getMovieCast(movie_id) }
     }
 

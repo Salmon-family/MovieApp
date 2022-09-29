@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.data.remote.response.movieDetailsDto.CastX"/>
+            type="com.karrar.movieapp.data.remote.response.movieDetailsDto.CastDto"/>
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -22,7 +22,7 @@
             android:background="@color/background_color"
             >
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/cast_image"
                 android:layout_width="84dp"
                 android:layout_height="84dp"
@@ -36,9 +36,10 @@
             <TextView
                 android:id="@+id/cast_name"
                 style="@style/Regular.Small.Secondary"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:textAlignment="center"
                 android:ellipsize="end"
                 android:text="@{item.name}"
                 android:lines="2"

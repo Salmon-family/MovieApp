@@ -3,9 +3,9 @@ package com.karrar.movieapp.data.remote.response.movieDetailsDto
 
 import com.google.gson.annotations.SerializedName
 
-data class Cast(
+data class CreditsDto(
     @SerializedName("cast")
-    val cast: List<CastX>? = listOf(),
+    val cast: List<CastDto>? = listOf(),
     @SerializedName("crew")
     val crew: List<Crew>? = listOf(),
     @SerializedName("id")

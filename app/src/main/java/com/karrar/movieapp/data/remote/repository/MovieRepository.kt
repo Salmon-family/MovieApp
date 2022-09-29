@@ -21,6 +21,6 @@ interface MovieRepository {
 
     fun getMovieDetails(movie_id: Int): Flow<State<MovieDetailsDto>>
 
-    fun getMovieCast(movie_id: Int): Flow<State<Cast>>
+    fun getMovieCast(movie_id: Int): Flow<State<CreditsDto>>
 
 }

@@ -3,7 +3,7 @@ package com.karrar.movieapp.data.remote.response.movieDetailsDto
 
 import com.google.gson.annotations.SerializedName
 
-data class CastX(
+data class CastDto(
     @SerializedName("adult")
     val adult: Boolean? = null,
     @SerializedName("cast_id")

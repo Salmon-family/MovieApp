@@ -78,4 +78,9 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:2.42"
 
 
+    //circle image view
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+
+
 }
