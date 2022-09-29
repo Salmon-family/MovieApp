@@ -10,7 +10,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Movie" />
+            type="com.karrar.movieapp.domain.models.Media" />
 
         <variable
             name="type"

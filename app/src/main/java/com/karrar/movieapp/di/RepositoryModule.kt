@@ -8,13 +8,11 @@ import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.remote.service.SeriesService
 import com.karrar.movieapp.domain.mappers.ActorMapper
 import com.karrar.movieapp.domain.mappers.GenreMapper
-import com.karrar.movieapp.domain.mappers.MovieMapper
-import com.karrar.movieapp.domain.mappers.SeriesMapper
+import com.karrar.movieapp.domain.mappers.MediaMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -25,7 +23,7 @@ object RepositoryModule {
     @Singleton
     fun provideMovieRepository(
         movieService: MovieService,
-        movieMapper: MovieMapper,
+        movieMapper: MediaMapper,
         actorMapper: ActorMapper,
         genreMapper: GenreMapper
     ): MovieRepository {
@@ -36,7 +34,7 @@ object RepositoryModule {
     @Singleton
     fun provideSeriesRepository(
         seriesService: SeriesService,
-        seriesMapper: SeriesMapper
+        seriesMapper: MediaMapper
     ): SeriesRepository {
         return SeriesRepositoryImp(seriesService, seriesMapper)
     }

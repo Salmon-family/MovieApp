@@ -4,13 +4,15 @@
 
     <data>
 
+        <import type="com.karrar.movieapp.domain.enums.Type"/>
+
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.home.adapters.SeriesInteractionListener" />
+            type="com.karrar.movieapp.ui.home.adapters.MovieInteractionListener" />
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Series" />
+            type="com.karrar.movieapp.domain.models.Media" />
 
     </data>
 
@@ -22,7 +24,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:onClick="@{ () -> listener.onClickSeries(item.seriesID)}"
+            android:onClick="@{ () -> listener.onClickMovie(item.movieID,Type.AiringTodayType)}"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1.4"

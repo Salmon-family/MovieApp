@@ -9,7 +9,7 @@
 
         <variable
             name="adapterRecycler"
-            type="com.karrar.movieapp.ui.home.adapters.SeriesAdapter" />
+            type="com.karrar.movieapp.ui.home.adapters.MovieAdapter" />
 
         <variable
             name="viewModel"

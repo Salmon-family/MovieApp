@@ -16,7 +16,7 @@ class HomeViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     private val seriesRepository: SeriesRepository
 ) : ViewModel(), MovieInteractionListener,
-    PopularMovieInteractionListener, SeriesInteractionListener,
+    PopularMovieInteractionListener,
     ActorInteractionListener, AiringTodayInteractionListener {
 
     val popularMovie = movieRepository.getPopularMovies().asLiveData()
@@ -76,9 +76,5 @@ class HomeViewModel @Inject constructor(
 
     override fun onClickAiringToday(airingTodayID: Int) {
     }
-
-    override fun onClickSeries(seriesID: Int) {
-    }
-
-
+    
 }

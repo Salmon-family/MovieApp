@@ -20,8 +20,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val homeAdapter by lazy {
         listOf(
             HorizontalAdapter<PopularMovieAdapter>(Type.PopularMovieType, viewModel),
-            HorizontalAdapter<SeriesAdapter>(Type.TvShowType, viewModel),
-            HorizontalAdapter<SeriesAdapter>(Type.OnTheAirType, viewModel),
+            HorizontalAdapter<MovieAdapter>(Type.TvShowType, viewModel),
+            HorizontalAdapter<MovieAdapter>(Type.OnTheAirType, viewModel),
             HorizontalAdapter<MovieAdapter>(Type.TrendingMovieType, viewModel),
             HorizontalAdapter<AiringTodayAdapter>(Type.AiringTodayType, viewModel),
             HorizontalAdapter<MovieAdapter>(Type.NowStreaming, viewModel),
