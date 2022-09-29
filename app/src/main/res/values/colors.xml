@@ -5,6 +5,7 @@
 
     <color name="background_color">#03050A</color>
     <color name="card_background_color">#13171D</color>
+    <color name="slider_gradiant_end_color">#9903050A</color>
 
     <color name="shade_primary_color">#DFFFFFFF</color>
     <color name="shade_secondary_color">#99FFFFFF</color>

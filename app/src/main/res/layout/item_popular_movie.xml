@@ -26,7 +26,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/image_movie"
             app:layout_constraintEnd_toEndOf="@id/image_movie"
             app:layout_constraintStart_toStartOf="@id/image_movie"
-            app:layout_constraintTop_toTopOf="@id/text_movie_title"
+            app:layout_constraintTop_toTopOf="@id/image_movie"
             app:shapeAppearanceOverlay="@style/CardCorners.BottomMedium" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -36,7 +36,7 @@
             android:layout_marginHorizontal="@dimen/spacing_small"
             android:onClick="@{() -> listener.onClickPopularMovie(item.movieID)}"
             android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="2:1"
+            app:layout_constraintDimensionRatio="1.75:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -48,8 +48,11 @@
             style="@style/SemiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxWidth="240dp"
             android:layout_marginStart="@dimen/spacing_small"
             android:elevation="2dp"
+            android:lines="1"
+            android:ellipsize="end"
             android:paddingStart="0dp"
             android:paddingEnd="@dimen/spacing_medium"
             android:text="@{item.title}"
