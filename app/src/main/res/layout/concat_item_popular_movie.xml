@@ -21,7 +21,7 @@
         android:adapter="@{adapterRecycler}"
         android:orientation="horizontal"
         app:usePagerSnapHelper="@{true}"
-        app:items="@{viewModel.popularMovie}"
+        app:items="@{viewModel.popularMovie.toData()}"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 </layout>

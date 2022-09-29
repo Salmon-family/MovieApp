@@ -3,63 +3,39 @@ package com.karrar.movieapp.ui.home
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.karrar.movieapp.data.remote.repository.MovieRepository
+import com.karrar.movieapp.data.remote.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.Type
-import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.domain.models.Genre
-import com.karrar.movieapp.domain.models.Movie
-import com.karrar.movieapp.domain.models.PopularMovie
 import com.karrar.movieapp.ui.home.adapters.*
-import com.karrar.movieapp.utilities.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val movieRepository: MovieRepository) :
+class HomeViewModel @Inject constructor(
+    @Named("MovieRepository") private val movieRepository: MovieRepository,
+    @Named("SeriesRepository") private val seriesRepository: SeriesRepository
+) :
     ViewModel(), GenreInteractionListener, MovieInteractionListener,
-    PopularMovieInteractionListener,
+    PopularMovieInteractionListener, SeriesInteractionListener,
     ActorInteractionListener, AiringTodayInteractionListener {
 
-    val popularMovie = MutableLiveData<List<PopularMovie>>()//movieRepository.getPopularMovies().asLiveData()
-    val airingToday = MutableLiveData<List<Movie>>()
-    val trending = MutableLiveData<List<Movie>>()
+    val popularMovie = movieRepository.getPopularMovies().asLiveData()
+    val trending = movieRepository.getTrendingMovies().asLiveData()
     val genre = MutableLiveData<List<Genre>>()
-    val nowStreaming = MutableLiveData<List<Movie>>()
-    val upcoming = MutableLiveData<List<Movie>>()
-    val actors = MutableLiveData<List<Actor>>()
+    val nowStreaming = movieRepository.getNowPlayingMovies().asLiveData()
+    val upcoming = movieRepository.getUpcomingMovies().asLiveData()
+    val actors = movieRepository.getTrendingPersons().asLiveData()
+
+
+    val onTheAiring = seriesRepository.getOnTheAir().asLiveData()
+    val airingToday = seriesRepository.getAiringToday().asLiveData()
 
     init {
-        //TEST DATA
-        val popularMovieItem = PopularMovie(
-            760161,
-            "Orphan: First Kill",
-            Constants.IMAGE_BASE_PATH + "/5GA3vV1aWWHTSDO5eno8V5zDo8r.jpg",
-            7.3
-        )
-        popularMovie.postValue(mutableListOf(popularMovieItem, popularMovieItem, popularMovieItem))
-
-        val movie = Movie(
-            760161,
-            Constants.IMAGE_BASE_PATH + "/g8sclIV4gj1TZqUpnL82hKOTK3B.jpg",
-        )
-
-        //************** Trending************\\
-        trending.postValue(
-            mutableListOf(movie, movie, movie, movie, movie, movie, movie, movie, movie, movie)
-        )
-        //*************AIR Today****************\\
-        airingToday.postValue(mutableListOf(movie, movie, movie, movie, movie, movie))
-        //************** Genre *******************]]
         val genreItem = Genre(28, "Action")
         genre.postValue(mutableListOf(genreItem, genreItem, genreItem, genreItem))
-
-        //**************** nowStreaming*****************\\
-        nowStreaming.postValue(mutableListOf(movie, movie, movie, movie, movie, movie))
-        //***************** upcoming *************\\
-        upcoming.postValue(mutableListOf(movie, movie, movie, movie, movie, movie))
-        //**************** Actor **************\\
-        val actor = Actor(55089, Constants.IMAGE_BASE_PATH + "/zxfMLydSWz5OaZp5EvGTBsuYmpt.jpg")
-        actors.postValue(mutableListOf(actor,actor,actor,actor,actor,actor,actor,actor))
     }
 
 
@@ -80,7 +56,6 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
         Log.e("TEST", "All Movie")
     }
 
-
     fun seeAllActors() {
 
     }
@@ -97,6 +72,10 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
     }
 
     override fun onClickGenre(genreID: Int) {
+
+    }
+
+    override fun onClickSeries(seriesID: Int) {
 
     }
 

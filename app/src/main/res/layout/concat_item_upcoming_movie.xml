@@ -52,7 +52,7 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:adapter="@{adapterRecycler}"
             android:orientation="horizontal"
-            app:items="@{viewModel.upcoming}"
+            app:items="@{viewModel.upcoming.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

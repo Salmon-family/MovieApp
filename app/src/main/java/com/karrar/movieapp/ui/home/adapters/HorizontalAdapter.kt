@@ -45,7 +45,7 @@ class HorizontalAdapter<T>(type: Type, viewModel: HomeViewModel) :
             Type.PopularMovieType -> {
                 PopularMovieAdapter(emptyList(), viewModel) as T
             }
-            Type.TrendingMovieType, Type.OnTheAirType, Type.NowStreaming, Type.Upcoming -> {
+            Type.TrendingMovieType,  Type.NowStreaming, Type.Upcoming -> {
                 MovieAdapter(emptyList(), viewModel, type) as T
             }
             Type.GenreType -> {
@@ -53,6 +53,9 @@ class HorizontalAdapter<T>(type: Type, viewModel: HomeViewModel) :
             }
             Type.ActorType -> {
                 ActorAdapter(emptyList(), viewModel) as T
+            }
+            Type.OnTheAirType ->{
+                SeriesAdapter(emptyList(),viewModel) as T
             }
             Type.AiringTodayType -> {
                 AiringTodayAdapter(emptyList(), viewModel) as T

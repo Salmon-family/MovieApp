@@ -1,6 +1,7 @@
 package com.karrar.movieapp.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
@@ -19,7 +20,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val homeAdapter by lazy {
         listOf(
             HorizontalAdapter<PopularMovieAdapter>(Type.PopularMovieType, viewModel),
-            HorizontalAdapter<MovieAdapter>(Type.OnTheAirType, viewModel),
+            HorizontalAdapter<SeriesAdapter>(Type.OnTheAirType, viewModel),
             HorizontalAdapter<MovieAdapter>(Type.TrendingMovieType, viewModel),
             HorizontalAdapter<AiringTodayAdapter>(Type.AiringTodayType, viewModel),
             HorizontalAdapter<GenreAdapter>(Type.GenreType, viewModel),
@@ -33,5 +34,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.onViewCreated(view, savedInstanceState)
         val concatAdapter = ConcatAdapter(homeAdapter)
         binding.recyclerView.adapter = concatAdapter
+
+        viewModel.popularMovie.observe(viewLifecycleOwner) {
+            concatAdapter.notifyDataSetChanged()
+        }
+
+        viewModel.actors.observe(viewLifecycleOwner) {
+            concatAdapter.notifyDataSetChanged()
+        }
+
+        viewModel.trending.observe(viewLifecycleOwner) {
+            concatAdapter.notifyDataSetChanged()
+        }
+
+        viewModel.upcoming.observe(viewLifecycleOwner) {
+            concatAdapter.notifyDataSetChanged()
+        }
+        viewModel.nowStreaming.observe(viewLifecycleOwner) {
+            concatAdapter.notifyDataSetChanged()
+        }
+
+        viewModel.airingToday.observe(viewLifecycleOwner){
+            concatAdapter.notifyDataSetChanged()
+        }
+
+        viewModel.onTheAiring.observe(viewLifecycleOwner){
+            concatAdapter.notifyDataSetChanged()
+        }
     }
 }
