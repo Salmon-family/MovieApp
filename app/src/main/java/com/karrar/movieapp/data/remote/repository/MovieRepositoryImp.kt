@@ -29,7 +29,6 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
             try {
                 val responseGenre = movieService.getGenreList()
                 val genreList = responseGenre.body()?.genres?.map { mapperGenre.map(it) }
-
                 val responseMovie = movieService.getPopularMovies()
                 val items = responseMovie.body()?.items?.map { mapper.map(it) }
                 val movieWithGenre = mapper.mapGenreMovie(items!!, genreList!!)
@@ -105,8 +104,8 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
         return flow {
             emit(State.Loading)
             try {
-                val response = movieService.getGenreList()
-                val items = response.body()?.genres?.map { mapper.map(it) }
+                val genreList = movieService.getGenreList()
+                val items = genreList.body()?.genres?.map { mapper.map(it) }
                 emit(State.Success(items))
             } catch (throwable: Throwable) {
                 emit(State.Error(throwable.message.toString()))

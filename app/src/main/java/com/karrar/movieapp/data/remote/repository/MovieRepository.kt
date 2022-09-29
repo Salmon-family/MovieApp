@@ -10,6 +10,7 @@ import com.karrar.movieapp.domain.models.Movie
 import com.karrar.movieapp.domain.models.PopularMovie
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
+import retrofit2.http.Query
 
 interface MovieRepository {
 
@@ -26,5 +27,4 @@ interface MovieRepository {
     fun getTrendingPersons(): Flow<State<List<Actor>>>
 
     fun getGenreList(): Flow<State<List<Genre>>>
-
 }
