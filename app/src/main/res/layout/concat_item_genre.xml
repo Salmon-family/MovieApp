@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="com.karrar.movieapp.utilities.Constants" />
+
         <variable
             name="adapterRecycler"
             type="com.karrar.movieapp.ui.home.adapters.GenreAdapter" />
@@ -26,12 +28,13 @@
             android:layout_marginHorizontal="@dimen/spacing_small"
             android:adapter="@{adapterRecycler}"
             android:orientation="vertical"
-            app:items="@{viewModel.genre}"
+            app:itemsWithMax="@{viewModel.genre.toData()}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:maxNumber="@{Constants.MAX_NUMBER_GENRE}"
             app:spanCount="2"
             tools:itemCount="4"
             tools:listitem="@layout/item_genre" />

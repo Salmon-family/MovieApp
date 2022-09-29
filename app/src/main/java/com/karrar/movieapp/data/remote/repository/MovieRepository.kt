@@ -2,12 +2,14 @@ package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.BaseResponse
+import com.karrar.movieapp.data.remote.response.GenreResponse
 import com.karrar.movieapp.data.remote.response.MovieDto
-import com.karrar.movieapp.data.remote.response.PersonDto
 import com.karrar.movieapp.domain.models.Actor
+import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Movie
 import com.karrar.movieapp.domain.models.PopularMovie
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 interface MovieRepository {
 
@@ -22,4 +24,7 @@ interface MovieRepository {
     fun getTrendingMovies(): Flow<State<List<Movie>>>
 
     fun getTrendingPersons(): Flow<State<List<Actor>>>
+
+    fun getGenreList(): Flow<State<List<Genre>>>
+
 }

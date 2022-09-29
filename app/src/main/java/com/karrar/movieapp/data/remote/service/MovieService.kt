@@ -1,6 +1,7 @@
 package com.karrar.movieapp.data.remote.service
 
 import com.karrar.movieapp.data.remote.response.BaseResponse
+import com.karrar.movieapp.data.remote.response.GenreResponse
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.PersonDto
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
@@ -28,11 +29,13 @@ interface MovieService {
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
     ): Response<BaseResponse<MovieDto>>
 
-
     @GET("trending/person/{time_window}")
     suspend fun getTrendingPersons(
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
     ): Response<BaseResponse<PersonDto>>
+
+    @GET("genre/movie/list")
+    suspend fun getGenreList():Response<GenreResponse>
 }
 
 

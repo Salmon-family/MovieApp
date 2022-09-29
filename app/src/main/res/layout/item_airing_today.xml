@@ -19,13 +19,13 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_margin="@dimen/spacing_too_small"
             android:layout_marginHorizontal="@dimen/spacing_small"
             android:onClick="@{ () -> listener.onClickSeries(item.seriesID)}"
             android:scaleType="fitXY"
-            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />

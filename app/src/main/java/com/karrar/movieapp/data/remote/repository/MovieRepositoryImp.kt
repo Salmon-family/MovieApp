@@ -5,9 +5,11 @@ import com.karrar.movieapp.data.remote.response.BaseResponse
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.ActorMapper
+import com.karrar.movieapp.domain.mappers.GenreMapper
 import com.karrar.movieapp.domain.mappers.MovieMapper
 import com.karrar.movieapp.domain.mappers.PopularMovieMapper
 import com.karrar.movieapp.domain.models.Actor
+import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Movie
 import com.karrar.movieapp.domain.models.PopularMovie
 import kotlinx.coroutines.flow.Flow
@@ -92,6 +94,20 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
         }
     }
 
+    override fun getGenreList(): Flow<State<List<Genre>>> {
+        val mapper = GenreMapper()
+        return flow {
+            emit(State.Loading)
+            try {
+                val response = movieService.getGenreList()
+                val items = response.body()?.genres?.map { mapper.map(it) }
+                emit(State.Success(items))
+            } catch (throwable: Throwable) {
+                emit(State.Error(throwable.message.toString()))
+            }
+        }
+    }
+
     private fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<State<T>> {
         return flow {
             emit(State.Loading)
@@ -107,5 +123,6 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
             }
         }
     }
+
 
 }

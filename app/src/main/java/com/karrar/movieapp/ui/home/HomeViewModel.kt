@@ -2,13 +2,11 @@ package com.karrar.movieapp.ui.home
 
 import android.util.Log
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.Type
-import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.home.adapters.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -22,13 +20,14 @@ class HomeViewModel @Inject constructor(
     PopularMovieInteractionListener, SeriesInteractionListener,
     ActorInteractionListener, AiringTodayInteractionListener {
 
-    val genre = MutableLiveData<List<Genre>>()
-
     val popularMovie = movieRepository.getPopularMovies().asLiveData()
     val trending = movieRepository.getTrendingMovies().asLiveData()
     val nowStreaming = movieRepository.getNowPlayingMovies().asLiveData()
     val upcoming = movieRepository.getUpcomingMovies().asLiveData()
     val actors = movieRepository.getTrendingPersons().asLiveData()
+
+    val genre = movieRepository.getGenreList().asLiveData()
+
 
     val onTheAiring = seriesRepository.getOnTheAir().asLiveData()
     val airingToday = seriesRepository.getAiringToday().asLiveData()
@@ -47,17 +46,12 @@ class HomeViewModel @Inject constructor(
         addSource(topRatedTvShow, this@HomeViewModel::updateData)
         addSource(latestTvShow, this@HomeViewModel::updateData)
         addSource(popularTvShow, this@HomeViewModel::updateData)
+        addSource(genre, this@HomeViewModel::updateData)
     }
 
     private fun updateData(value: Any) {
         updatingRecycler.postValue(true)
     }
-
-    init {
-        val genreItem = Genre(28, "Action")
-        genre.postValue(mutableListOf(genreItem, genreItem, genreItem, genreItem))
-    }
-
 
     override fun onClickMovie(movieID: Int, type: Type) {
         Log.e("TEST", "$movieID")
