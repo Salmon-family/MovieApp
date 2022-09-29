@@ -79,7 +79,7 @@
             android:layout_marginVertical="@dimen/spacing_small"
             android:elevation="2dp"
             android:gravity="start"
-            android:text="Drama . Action . Adventure"
+            app:genre="@{item.genre}"
             android:textColor="@color/shade_secondary_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

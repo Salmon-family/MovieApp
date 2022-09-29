@@ -2,11 +2,14 @@ package com.karrar.movieapp.ui.home
 
 import android.util.Log
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.Type
+import com.karrar.movieapp.domain.models.PopularMovie
 import com.karrar.movieapp.ui.home.adapters.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -25,9 +28,7 @@ class HomeViewModel @Inject constructor(
     val nowStreaming = movieRepository.getNowPlayingMovies().asLiveData()
     val upcoming = movieRepository.getUpcomingMovies().asLiveData()
     val actors = movieRepository.getTrendingPersons().asLiveData()
-
     val genre = movieRepository.getGenreList().asLiveData()
-
 
     val onTheAiring = seriesRepository.getOnTheAir().asLiveData()
     val airingToday = seriesRepository.getAiringToday().asLiveData()
@@ -48,7 +49,6 @@ class HomeViewModel @Inject constructor(
         addSource(popularTvShow, this@HomeViewModel::updateData)
         addSource(genre, this@HomeViewModel::updateData)
     }
-
     private fun updateData(value: Any) {
         updatingRecycler.postValue(true)
     }

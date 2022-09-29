@@ -8,5 +8,4 @@ object Constants {
     const val MAX_NUMBER_ACTORS = 8
     const val MAX_NUMBER_AIRING_TODAY = 6
     const val MAX_NUMBER_GENRE = 4
-
 }

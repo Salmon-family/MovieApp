@@ -2,12 +2,14 @@ package com.karrar.movieapp.utilities
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.State
+import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.squareup.picasso.Picasso
 
@@ -41,6 +43,13 @@ fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
 fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolean = false) {
     if (useSnapHelper)
         PagerSnapHelper().attachToRecyclerView(recycler)
+}
+
+@BindingAdapter("app:genre")
+fun setGenre(textView: TextView,genreList: List<Genre>?){
+    genreList?.let {
+        textView.text = genreList.map { it.genreName }.joinToString(" . ")
+    }
 }
 
 @BindingAdapter("app:isLoading")

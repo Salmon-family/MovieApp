@@ -22,12 +22,18 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
 
     override fun getPopularMovies(): Flow<State<List<PopularMovie>>> {
         val mapper = PopularMovieMapper()
+        val mapperGenre = GenreMapper()
+
         return flow {
             emit(State.Loading)
             try {
-                val response = movieService.getPopularMovies()
-                val items = response.body()?.items?.map { mapper.map(it) }
-                emit(State.Success(items))
+                val responseGenre = movieService.getGenreList()
+                val genreList = responseGenre.body()?.genres?.map { mapperGenre.map(it) }
+
+                val responseMovie = movieService.getPopularMovies()
+                val items = responseMovie.body()?.items?.map { mapper.map(it) }
+                val movieWithGenre = mapper.mapGenreMovie(items!!, genreList!!)
+                emit(State.Success(movieWithGenre))
             } catch (throwable: Throwable) {
                 emit(State.Error(throwable.message.toString()))
             }
