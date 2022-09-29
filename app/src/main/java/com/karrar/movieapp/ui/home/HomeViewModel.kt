@@ -18,13 +18,11 @@ import javax.inject.Named
 class HomeViewModel @Inject constructor(
     @Named("MovieRepository") private val movieRepository: MovieRepository,
     @Named("SeriesRepository") private val seriesRepository: SeriesRepository
-) :
-    ViewModel(), GenreInteractionListener, MovieInteractionListener,
+) : ViewModel(), GenreInteractionListener, MovieInteractionListener,
     PopularMovieInteractionListener, SeriesInteractionListener,
     ActorInteractionListener, AiringTodayInteractionListener {
 
     val genre = MutableLiveData<List<Genre>>()
-
 
     val popularMovie = movieRepository.getPopularMovies().asLiveData()
     val trending = movieRepository.getTrendingMovies().asLiveData()
@@ -94,5 +92,6 @@ class HomeViewModel @Inject constructor(
     override fun onClickSeries(seriesID: Int) {
 
     }
+
 
 }

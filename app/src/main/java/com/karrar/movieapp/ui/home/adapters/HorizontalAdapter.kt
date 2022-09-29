@@ -37,6 +37,9 @@ class HorizontalAdapter<T>(type: Type, viewModel: HomeViewModel) :
             Type.AiringTodayType -> {
                 R.layout.cocat_item_airing_today
             }
+            Type.TvShowType -> {
+                R.layout.concat_item_collections
+            }
         }
     }
 
@@ -59,6 +62,9 @@ class HorizontalAdapter<T>(type: Type, viewModel: HomeViewModel) :
             }
             Type.AiringTodayType -> {
                 AiringTodayAdapter(emptyList(), viewModel) as T
+            }
+            Type.TvShowType -> {
+                SeriesAdapter(emptyList(), viewModel) as T
             }
         }
     }
