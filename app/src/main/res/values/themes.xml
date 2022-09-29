@@ -72,4 +72,10 @@
         <item name="cornerSize">@dimen/radius_medium</item>
     </style>
 
+    <style name="Theme.MovieApp.SplashScreen" parent="Theme.SplashScreen.IconBackground">
+        <item name="postSplashScreenTheme">@style/Theme.MovieApp</item>
+        <item name="windowSplashScreenBackground">@color/background_color</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
+    </style>
+
 </resources>

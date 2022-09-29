@@ -78,4 +78,8 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:2.42"
 
 
+    implementation 'androidx.core:core-splashscreen:1.0.0'
+
+
+
 }
