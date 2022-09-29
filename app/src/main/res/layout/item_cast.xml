@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.data.remote.response.movieDetailsDto.CastDto"/>
+            type="com.karrar.movieapp.domain.models.Cast"/>
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -27,7 +27,7 @@
                 android:layout_width="84dp"
                 android:layout_height="84dp"
                 android:scaleType="centerCrop"
-                app:movieImage="@{item.profilePath}"
+                app:movieImage="@{item.actor_image}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -41,7 +41,7 @@
                 android:layout_marginTop="8dp"
                 android:textAlignment="center"
                 android:ellipsize="end"
-                android:text="@{item.name}"
+                android:text="@{item.actor_name}"
                 android:lines="2"
                 app:layout_constraintEnd_toEndOf="@+id/cast_image"
                 app:layout_constraintStart_toStartOf="@+id/cast_image"

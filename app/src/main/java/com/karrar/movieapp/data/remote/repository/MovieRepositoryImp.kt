@@ -2,16 +2,20 @@ package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.CreditsDto
 import com.karrar.movieapp.data.remote.response.movieDetailsDto.MovieDetailsDto
 import com.karrar.movieapp.data.remote.service.MovieService
+import com.karrar.movieapp.domain.mappers.CastMapper
+import com.karrar.movieapp.domain.models.Cast
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 import javax.inject.Inject
+import kotlin.reflect.KFunction2
 
-class MovieRepositoryImp @Inject constructor(private val movieService: MovieService) :
-    MovieRepository {
+class MovieRepositoryImp @Inject constructor(
+    private val movieService: MovieService,
+    private val castMapper: CastMapper
+) : MovieRepository {
     override fun getPopularMovies(): Flow<State<BaseResponse<MovieDto>>> {
         return wrapWithFlow { movieService.getPopularMovies() }
     }
@@ -40,9 +44,20 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
         return wrapWithFlow { movieService.getMovieDetails(movie_id) }
     }
 
-    override fun getMovieCast(movie_id: Int): Flow<State<CreditsDto>> {
-        return wrapWithFlow { movieService.getMovieCast(movie_id) }
+
+    override fun getMovieCast(movie_id: Int): Flow<State<List<Cast>>> {
+         return flow {
+            emit(State.Loading)
+            try {
+                val response = movieService.getMovieCast(movie_id)
+                val items = response.body()?.cast?.map { castMapper.map(it) }
+                emit(State.Success(items))
+            } catch (throwable: Throwable) {
+                emit(State.Error(throwable.message.toString()))
+            }
+        }
     }
+
 
     private fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<State<T>> {
         return flow {
