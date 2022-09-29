@@ -32,6 +32,9 @@ class HomeViewModel @Inject constructor(
 
     val onTheAiring = seriesRepository.getOnTheAir().asLiveData()
     val airingToday = seriesRepository.getAiringToday().asLiveData()
+    val topRatedTvShow = seriesRepository.getTopRatedTvShow().asLiveData()
+    val latestTvShow = seriesRepository.getLatestTvShow().asLiveData()
+    val popularTvShow = seriesRepository.getPopularTvShow().asLiveData()
 
     val updatingRecycler = MediatorLiveData<Boolean>().apply {
         addSource(popularMovie, this@HomeViewModel::updateData)
@@ -41,6 +44,9 @@ class HomeViewModel @Inject constructor(
         addSource(actors, this@HomeViewModel::updateData)
         addSource(onTheAiring, this@HomeViewModel::updateData)
         addSource(airingToday, this@HomeViewModel::updateData)
+        addSource(topRatedTvShow, this@HomeViewModel::updateData)
+        addSource(latestTvShow, this@HomeViewModel::updateData)
+        addSource(popularTvShow, this@HomeViewModel::updateData)
     }
 
     private fun updateData(value: Any) {

@@ -39,4 +39,43 @@ class SeriesRepositoryImp @Inject constructor(private val seriesService: SeriesS
         }
     }
 
+    override fun getTopRatedTvShow(): Flow<State<List<Series>>> {
+        return flow {
+            emit(State.Loading)
+            try {
+                val response = seriesService.getTopRatedTvShow()
+                val items = response.body()?.items?.map { mapper.map(it) }
+                emit(State.Success(items))
+            } catch (throwable: Throwable) {
+                emit(State.Error(throwable.message.toString()))
+            }
+        }
+    }
+
+    override fun getPopularTvShow(): Flow<State<List<Series>>> {
+        return flow {
+            emit(State.Loading)
+            try {
+                val response = seriesService.getPopularTvShow()
+                val items = response.body()?.items?.map { mapper.map(it) }
+                emit(State.Success(items))
+            } catch (throwable: Throwable) {
+                emit(State.Error(throwable.message.toString()))
+            }
+        }
+    }
+
+    override fun getLatestTvShow(): Flow<State<List<Series>>> {
+        return flow {
+            emit(State.Loading)
+            try {
+                val response = seriesService.getLatestTvShow()
+                val items = response.body()?.items?.map { mapper.map(it) }
+                emit(State.Success(items))
+            } catch (throwable: Throwable) {
+                emit(State.Error(throwable.message.toString()))
+            }
+        }
+    }
+
 }
