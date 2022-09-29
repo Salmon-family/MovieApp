@@ -19,7 +19,7 @@
         android:layout_height="176dp"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:onClick="@{ () -> listener.onClickSeries(item.seriesID)}"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         app:posterImage="@{item.imageUrl}"
         app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 

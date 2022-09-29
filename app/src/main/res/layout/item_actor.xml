@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="@dimen/spacing_too_small"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:background="@color/brand_color"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintTop_toTopOf="parent"

@@ -24,7 +24,7 @@
             android:layout_margin="@dimen/spacing_too_small"
             android:layout_marginHorizontal="@dimen/spacing_small"
             android:onClick="@{ () -> listener.onClickSeries(item.seriesID)}"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:posterImage="@{item.imageUrl}"
