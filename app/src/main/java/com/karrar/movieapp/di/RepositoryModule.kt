@@ -6,10 +6,10 @@ import com.karrar.movieapp.data.remote.repository.SeriesRepository
 import com.karrar.movieapp.data.remote.repository.SeriesRepositoryImp
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.remote.service.SeriesService
+import com.karrar.movieapp.domain.mappers.SeriesMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Named
 import javax.inject.Singleton
@@ -28,7 +28,11 @@ object RepositoryModule {
     @Provides
     @Singleton
     @Named("SeriesRepository")
-    fun provideSeriesRepository(seriesService: SeriesService): SeriesRepository {
-        return SeriesRepositoryImp(seriesService)
+    fun provideSeriesRepository(
+        seriesService: SeriesService,
+        seriesMapper: SeriesMapper
+    ): SeriesRepository {
+        return SeriesRepositoryImp(seriesService,seriesMapper)
     }
+
 }

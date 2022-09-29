@@ -18,7 +18,7 @@ interface MovieRepository {
 
     fun getUpcomingMovies(): Flow<State<List<Movie>>>
 
-    fun getTopRatedMovies(): Flow<State<BaseResponse<MovieDto>>>
+    fun getTopRatedMovies(): Flow<State<List<Movie>>>
 
     fun getNowPlayingMovies(): Flow<State<List<Movie>>>
 

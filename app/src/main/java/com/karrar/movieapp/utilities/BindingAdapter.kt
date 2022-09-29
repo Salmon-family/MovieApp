@@ -17,12 +17,11 @@ import com.squareup.picasso.Picasso
 fun bindMovieImage(image: ImageView, imageURL: String?) {
     imageURL?.let {
         Picasso.get()
-            .load(imageURL)
+            .load("https://image.tmdb.org/t/p/w500$imageURL")
             .error(R.mipmap.ic_launcher)
             .into(image)
     }
 }
-
 
 @BindingAdapter(value = ["app:itemsWithMax", "app:maxNumber"])
 fun <T> setRecyclerItemsWithMaxNumberOfItems(

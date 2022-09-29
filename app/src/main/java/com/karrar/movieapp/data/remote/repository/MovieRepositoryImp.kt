@@ -23,7 +23,6 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
     override fun getPopularMovies(): Flow<State<List<PopularMovie>>> {
         val mapper = PopularMovieMapper()
         val mapperGenre = GenreMapper()
-
         return flow {
             emit(State.Loading)
             try {
@@ -41,85 +40,57 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
 
     override fun getUpcomingMovies(): Flow<State<List<Movie>>> {
         val mapper = MovieMapper()
-        return flow {
-            emit(State.Loading)
-            try {
-                val response = movieService.getUpcomingMovies()
-                val items = response.body()?.items?.map { mapper.map(it) }
-                emit(State.Success(items))
-            } catch (throwable: Throwable) {
-                emit(State.Error(throwable.message.toString()))
-            }
-        }
+        return wrap({ movieService.getUpcomingMovies() }, {
+            it.items?.map { mapper.map(it) } ?: emptyList()
+        })
     }
 
-    override fun getTopRatedMovies(): Flow<State<BaseResponse<MovieDto>>> {
-        return wrapWithFlow { movieService.getTopRatedMovies() }
+    override fun getTopRatedMovies(): Flow<State<List<Movie>>> {
+        val mapper = MovieMapper()
+        return wrap({ movieService.getTopRatedMovies() }, {
+            it.items?.map { mapper.map(it) } ?: emptyList()
+        })
     }
 
     override fun getNowPlayingMovies(): Flow<State<List<Movie>>> {
         val mapper = MovieMapper()
-        return flow {
-            emit(State.Loading)
-            try {
-                val response = movieService.getNowPlayingMovies()
-                val items = response.body()?.items?.map { mapper.map(it) }
-                emit(State.Success(items))
-            } catch (throwable: Throwable) {
-                emit(State.Error(throwable.message.toString()))
-            }
-        }
+        return wrap({ movieService.getNowPlayingMovies() }, {
+            it.items?.map { mapper.map(it) } ?: emptyList()
+        })
     }
 
     override fun getTrendingMovies(): Flow<State<List<Movie>>> {
         val mapper = MovieMapper()
-        return flow {
-            emit(State.Loading)
-            try {
-                val response = movieService.getTrendingMovies()
-                val items = response.body()?.items?.map { mapper.map(it) }
-                emit(State.Success(items))
-            } catch (throwable: Throwable) {
-                emit(State.Error(throwable.message.toString()))
-            }
-        }
+        return wrap({ movieService.getTrendingMovies() }, {
+            it.items?.map { mapper.map(it) } ?: emptyList()
+        })
     }
 
     override fun getTrendingPersons(): Flow<State<List<Actor>>> {
         val mapper = ActorMapper()
-        return flow {
-            emit(State.Loading)
-            try {
-                val response = movieService.getTrendingPersons()
-                val items = response.body()?.items?.map { mapper.map(it) }
-                emit(State.Success(items))
-            } catch (throwable: Throwable) {
-                emit(State.Error(throwable.message.toString()))
-            }
-        }
+        return wrap({ movieService.getTrendingPersons() }, {
+            it.items?.map { mapper.map(it) } ?: emptyList()
+        })
     }
 
     override fun getGenreList(): Flow<State<List<Genre>>> {
         val mapper = GenreMapper()
-        return flow {
-            emit(State.Loading)
-            try {
-                val genreList = movieService.getGenreList()
-                val items = genreList.body()?.genres?.map { mapper.map(it) }
-                emit(State.Success(items))
-            } catch (throwable: Throwable) {
-                emit(State.Error(throwable.message.toString()))
-            }
-        }
+        return wrap({ movieService.getGenreList() }, {
+            it.genres?.map { mapper.map(it) } ?: emptyList()
+        })
     }
 
-    private fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<State<T>> {
+    private fun <I, O> wrap(
+        function: suspend () -> Response<I>,
+        mapper: (I) -> O,
+    ): Flow<State<O>> {
         return flow {
             emit(State.Loading)
             try {
                 val response = function()
                 if (response.isSuccessful) {
-                    emit(State.Success(response.body()))
+                    val items = response.body()?.let { mapper(it) }
+                    emit(State.Success(items))
                 } else {
                     emit(State.Error(response.message()))
                 }
@@ -128,6 +99,4 @@ class MovieRepositoryImp @Inject constructor(private val movieService: MovieServ
             }
         }
     }
-
-
 }
