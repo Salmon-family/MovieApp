@@ -21,7 +21,7 @@ class MovieRepositoryImp @Inject constructor(
     private val actorMapper: ActorMapper,
     private val genreMapper: GenreMapper
 ) :
-    MovieRepository {
+    BaseRepository(),MovieRepository {
 
     override fun getPopularMovies(): Flow<State<List<PopularMovie>>> {
         val mapper = PopularMovieMapper()
@@ -74,25 +74,5 @@ class MovieRepositoryImp @Inject constructor(
         return wrap({ movieService.getGenreList() }, {
             it.genres?.map { genreMapper.map(it) } ?: emptyList()
         })
-    }
-
-    private fun <I, O> wrap(
-        function: suspend () -> Response<I>,
-        mapper: (I) -> O,
-    ): Flow<State<O>> {
-        return flow {
-            emit(State.Loading)
-            try {
-                val response = function()
-                if (response.isSuccessful) {
-                    val items = response.body()?.let { mapper(it) }
-                    emit(State.Success(items))
-                } else {
-                    emit(State.Error(response.message()))
-                }
-            } catch (e: Exception) {
-                emit(State.Error(e.message.toString()))
-            }
-        }
     }
 }
