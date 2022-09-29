@@ -19,8 +19,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/spacing_small"
-        android:background="@color/background_color">
+        android:background="@color/background_color"
+        android:padding="@dimen/spacing_small">
 
         <TextView
             android:id="@+id/text_title"
@@ -50,6 +50,8 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:adapter="@{adapterRecycler}"
             android:orientation="horizontal"
+            android:overScrollMode="never"
+            android:scrollbars="none"
             app:items="@{viewModel.nowStreaming.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

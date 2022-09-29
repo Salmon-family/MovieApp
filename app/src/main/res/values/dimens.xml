@@ -10,7 +10,7 @@
     <!--  actors -->
     <dimen name="spacing_actor">72dp</dimen>
     <dimen name="media_card_width">128dp</dimen>
-    <dimen name="media_card_width_small">88dp</dimen>
+    <dimen name="media_card_airing_today_height">145dp</dimen>
 
     <!-- texts -->
     <dimen name="text_large">20sp</dimen>

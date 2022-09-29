@@ -20,8 +20,10 @@
         android:layout_height="wrap_content"
         android:adapter="@{adapterRecycler}"
         android:orientation="horizontal"
-        app:usePagerSnapHelper="@{true}"
+        android:overScrollMode="never"
+        android:scrollbars="none"
         app:items="@{viewModel.popularMovie.toData()}"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:usePagerSnapHelper="@{true}" />
 
 </layout>

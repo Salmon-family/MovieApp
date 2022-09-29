@@ -52,6 +52,8 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:adapter="@{adapterRecycler}"
             android:orientation="horizontal"
+            android:overScrollMode="never"
+            android:scrollbars="none"
             app:items="@{viewModel.actors.toData()}"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"

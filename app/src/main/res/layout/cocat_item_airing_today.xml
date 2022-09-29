@@ -65,6 +65,8 @@
             android:adapter="@{adapterRecycler}"
             android:elevation="2dp"
             android:orientation="vertical"
+            android:overScrollMode="never"
+            android:scrollbars="none"
             app:itemsWithMax="@{viewModel.airingToday.toData()}"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
