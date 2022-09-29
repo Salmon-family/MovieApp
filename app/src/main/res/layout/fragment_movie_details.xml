@@ -214,6 +214,32 @@
                 tools:listitem="@layout/item_cast"
                 />
 
+            <TextView
+                android:id="@+id/similar_movie_title"
+                style="@style/SemiBold.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/similar_movies"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cast_adapter"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/similar_movie_adapter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:items="@{viewModel.similarMovie.toData()}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/similar_movie_title"
+                tools:listitem="@layout/item_movie"
+                />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

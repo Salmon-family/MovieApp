@@ -12,6 +12,7 @@
     <string name="reviews">( %1$s Reviews )</string>
     <string name="overview">OverView</string>
     <string name="cast">Cast</string>
+    <string name="similar_movies">Similar Movies</string>
 
 
 </resources>

@@ -5,18 +5,20 @@ import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.CastMapper
 import com.karrar.movieapp.domain.mappers.MovieDetailsMapper
+import com.karrar.movieapp.domain.mappers.MovieMapper
 import com.karrar.movieapp.domain.models.Cast
+import com.karrar.movieapp.domain.models.Movie
 import com.karrar.movieapp.domain.models.MovieDetails
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import retrofit2.Response
 import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     private val castMapper: CastMapper,
-    private val movieDetailsMapper: MovieDetailsMapper
+    private val movieDetailsMapper: MovieDetailsMapper,
+    private val movieMapper: MovieMapper
 ) : MovieRepository {
     override fun getPopularMovies(): Flow<State<BaseResponse<MovieDto>>> {
         return wrapWithFlow { movieService.getPopularMovies() }
@@ -53,6 +55,12 @@ class MovieRepositoryImp @Inject constructor(
     override fun getMovieCast(movie_id: Int): Flow<State<List<Cast>>> {
         return wrap ({ movieService.getMovieCast(movie_id) },{
             it.cast?.map { castMapper.map(it) } ?: emptyList()
+        })
+    }
+
+    override fun getSimilarMovie(movie_id: Int): Flow<State<List<Movie>>> {
+        return wrap ({ movieService.getSimilarMovie(movie_id) },{
+            it.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
 

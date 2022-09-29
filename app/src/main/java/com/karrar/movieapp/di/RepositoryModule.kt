@@ -5,6 +5,7 @@ import com.karrar.movieapp.data.remote.repository.MovieRepositoryImp
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.CastMapper
 import com.karrar.movieapp.domain.mappers.MovieDetailsMapper
+import com.karrar.movieapp.domain.mappers.MovieMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,12 +21,14 @@ object RepositoryModule {
     fun provideMovieRepository(
         movieService: MovieService,
         castMapper: CastMapper,
-        movieDetailsMapper: MovieDetailsMapper
+        movieDetailsMapper: MovieDetailsMapper,
+        movieMapper: MovieMapper
     ): MovieRepository {
         return MovieRepositoryImp(
             movieService,
             castMapper,
-            movieDetailsMapper
+            movieDetailsMapper,
+            movieMapper
         )
     }
 
@@ -34,5 +37,8 @@ object RepositoryModule {
 
     @Provides
     fun provideMovieDetailsMapper() = MovieDetailsMapper()
+
+    @Provides
+    fun provideMovieMapper() = MovieMapper()
 
 }
