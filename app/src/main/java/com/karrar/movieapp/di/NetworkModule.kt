@@ -1,5 +1,6 @@
 package com.karrar.movieapp.di
 
+import com.google.gson.Gson
 import com.karrar.movieapp.data.remote.AuthInterceptor
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.utilities.Constants
@@ -41,5 +42,8 @@ object NetworkModule {
     @Provides
     fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
 
+    @Singleton
+    @Provides
+    fun provideGson(): Gson = Gson()
 
 }
