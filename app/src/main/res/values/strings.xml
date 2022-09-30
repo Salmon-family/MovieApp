@@ -10,4 +10,6 @@
     <string name="place_of_birth">place of Birth</string>
     <string name="konwn_for">Konwn For</string>
     <string name="todo">TODO</string>
+    <string name="gender">Gender</string>
+    <string name="birthday">Birthday</string>
 </resources>

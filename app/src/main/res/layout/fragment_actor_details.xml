@@ -81,7 +81,7 @@
                     style="@style/Regular.Small.Secondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Gender" />
+                    android:text="@string/gender" />
 
                 <TextView
                     android:id="@+id/text_gender_actor"
@@ -109,7 +109,7 @@
                     style="@style/Regular.Small.Secondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Birthday" />
+                    android:text="@string/birthday" />
 
                 <TextView
                     android:id="@+id/text_birthday_actor"
