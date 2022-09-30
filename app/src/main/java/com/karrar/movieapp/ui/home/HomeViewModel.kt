@@ -69,7 +69,6 @@ class HomeViewModel @Inject constructor(
             }
             else -> {}
         }
-        Log.e("TEST", "All Movie")
     }
 
     fun seeAllActors() {

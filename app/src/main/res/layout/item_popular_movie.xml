@@ -31,7 +31,7 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_movie"
-            android:layout_width="350dp"
+            android:layout_width="@dimen/media_card_popular_movie"
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/spacing_small"
             android:onClick="@{() -> listener.onClickPopularMovie(item.movieID)}"
@@ -48,11 +48,11 @@
             style="@style/SemiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="240dp"
             android:layout_marginStart="@dimen/spacing_small"
             android:elevation="2dp"
-            android:lines="1"
             android:ellipsize="end"
+            android:lines="1"
+            android:maxWidth="240dp"
             android:paddingStart="0dp"
             android:paddingEnd="@dimen/spacing_medium"
             android:text="@{item.title}"
@@ -82,8 +82,8 @@
             android:layout_marginVertical="@dimen/spacing_small"
             android:elevation="2dp"
             android:gravity="start"
-            app:genre="@{item.genre}"
             android:textColor="@color/shade_secondary_color"
+            app:genre="@{item.genre}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/text_movie_title" />
