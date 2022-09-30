@@ -2,7 +2,7 @@ package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.Reviews
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.ReviewsDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.CastMapper
 import com.karrar.movieapp.domain.mappers.MovieDetailsMapper
@@ -65,7 +65,7 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getMovieReviews(movie_id: Int): Flow<State<BaseResponse<Reviews>>> {
+    override fun getMovieReviews(movie_id: Int): Flow<State<BaseResponse<ReviewsDto>>> {
         return wrapWithFlow {  movieService.getMovieReviews(movie_id) }
     }
 

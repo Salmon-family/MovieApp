@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.Reviews" />
+            type="com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.ReviewsDto" />
 
     </data>
 

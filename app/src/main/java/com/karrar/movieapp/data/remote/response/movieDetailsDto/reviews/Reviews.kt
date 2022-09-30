@@ -3,11 +3,11 @@ package com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews
 import com.google.gson.annotations.SerializedName
 
 
-data class Reviews(
+data class ReviewsDto(
     @SerializedName("author")
     val author: String? = null,
     @SerializedName("author_details")
-    val authorDetails: AuthorDetails? = null,
+    val authorDetails: AuthorDetailsDto? = null,
     @SerializedName("content")
     val content: String? = null,
     @SerializedName("created_at")
