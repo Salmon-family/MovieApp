@@ -3,11 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/actorDetailsFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.karrar.movieapp.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/actorDetailsFragment"
+        android:name="com.karrar.movieapp.ui.actorDetails.ActorDetailsFragment"
+        android:label="ActorDetailsFragment"
+        tools:layout="@layout/fragment_actor_details"/>
 </navigation>

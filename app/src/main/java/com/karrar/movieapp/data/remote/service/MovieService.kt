@@ -3,7 +3,11 @@ package com.karrar.movieapp.data.remote.service
 import com.karrar.movieapp.data.remote.response.BaseResponse
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.PersonDto
+import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorDetailsDto
+import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorMoviesDto
+import com.karrar.movieapp.data.remote.response.actorDetailsDto.Cast
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
+import com.karrar.movieapp.domain.models.ActorDetails
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -35,6 +39,15 @@ interface MovieService {
     ): Response<BaseResponse<PersonDto>>
 
 
+    @GET("/person/{person_id}")
+    fun getActorDetails(
+        @Path("person_id") actorId: Int,
+    ): Response<ActorDetailsDto>
+
+    @GET("/person/{person_id}/movie_credits")
+    fun getActorMovies(
+        @Path("person_id") actorId: Int,
+    ): Response<BaseResponse<ActorMoviesDto>>
 }
 
 
