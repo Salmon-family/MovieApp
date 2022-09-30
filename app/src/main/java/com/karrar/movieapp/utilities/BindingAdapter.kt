@@ -6,7 +6,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.base.BaseAdapter
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.cast.Genre
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.cast.GenreDto
 import com.squareup.picasso.Picasso
 
 @BindingAdapter("app:movieImage")
@@ -21,7 +21,7 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
 }
 
 @BindingAdapter("app:setGenre")
-fun setGenre(text: TextView, genres: List<Genre>?) {
+fun setGenre(text: TextView, genres: List<GenreDto>?) {
     text.text = genres?.map { it.name }?.joinToString(" , ")
 }
 

@@ -7,7 +7,7 @@ data class CreditsDto(
     @SerializedName("cast")
     val cast: List<CastDto>? = listOf(),
     @SerializedName("crew")
-    val crew: List<Crew>? = listOf(),
+    val crew: List<CrewDto>? = listOf(),
     @SerializedName("id")
     val id: Int? = 0
 )

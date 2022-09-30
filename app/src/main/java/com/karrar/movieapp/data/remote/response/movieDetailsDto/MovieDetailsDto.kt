@@ -2,7 +2,7 @@ package com.karrar.movieapp.data.remote.response.movieDetailsDto
 
 
 import com.google.gson.annotations.SerializedName
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.cast.Genre
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.cast.GenreDto
 
 data class MovieDetailsDto(
     @SerializedName("adult")
@@ -10,11 +10,11 @@ data class MovieDetailsDto(
     @SerializedName("backdrop_path")
     val backdropPath: String? = null,
     @SerializedName("belongs_to_collection")
-    val belongsToCollection: BelongsToCollection? = null,
+    val belongsToCollection: BelongsToCollectionDto? = null,
     @SerializedName("budget")
     val budget: Int? = null,
     @SerializedName("genres")
-    val genres: List<Genre?>? = null,
+    val genres: List<GenreDto?>? = null,
     @SerializedName("homepage")
     val homepage: String? = null,
     @SerializedName("id")
@@ -32,9 +32,9 @@ data class MovieDetailsDto(
     @SerializedName("poster_path")
     val posterPath: String? = null,
     @SerializedName("production_companies")
-    val productionCompanies: List<ProductionCompany?>? = null,
+    val productionCompanies: List<ProductionCompanyDto?>? = null,
     @SerializedName("production_countries")
-    val productionCountries: List<ProductionCountry?>? = null,
+    val productionCountries: List<ProductionCountryDto?>? = null,
     @SerializedName("release_date")
     val releaseDate: String? = null,
     @SerializedName("revenue")
@@ -42,7 +42,7 @@ data class MovieDetailsDto(
     @SerializedName("runtime")
     val runtime: Int? = null,
     @SerializedName("spoken_languages")
-    val spokenLanguages: List<SpokenLanguage?>? = null,
+    val spokenLanguages: List<SpokenLanguageDto?>? = null,
     @SerializedName("status")
     val status: String? = null,
     @SerializedName("tagline")

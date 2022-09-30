@@ -3,13 +3,13 @@ package com.karrar.movieapp.data.remote.response.movieDetailsDto
 
 import com.google.gson.annotations.SerializedName
 
-data class ProductionCompany(
+data class BelongsToCollectionDto(
+    @SerializedName("backdrop_path")
+    val backdropPath: String? = null,
     @SerializedName("id")
     val id: Int? = null,
-    @SerializedName("logo_path")
-    val logoPath: String? = null,
     @SerializedName("name")
     val name: String? = null,
-    @SerializedName("origin_country")
-    val originCountry: String? = null
+    @SerializedName("poster_path")
+    val posterPath: String? = null
 )

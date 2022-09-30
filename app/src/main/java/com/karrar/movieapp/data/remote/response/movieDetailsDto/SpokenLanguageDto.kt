@@ -3,7 +3,7 @@ package com.karrar.movieapp.data.remote.response.movieDetailsDto
 
 import com.google.gson.annotations.SerializedName
 
-data class SpokenLanguage(
+data class SpokenLanguageDto(
     @SerializedName("english_name")
     val englishName: String? = null,
     @SerializedName("iso_639_1")
