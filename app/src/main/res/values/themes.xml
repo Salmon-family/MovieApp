@@ -52,6 +52,10 @@
         <item name="android:textColor">@color/shade_primary_color</item>
     </style>
 
+    <style name="Regular.Small.Primary">
+        <item name="android:textColor">@color/shade_primary_color</item>
+    </style>
+
     <style name="Regular.Small.Secondary">
         <item name="android:textColor">@color/shade_secondary_color</item>
     </style>
@@ -71,6 +75,10 @@
 
     <style name="CardCorners.Medium">
         <item name="cornerSize">@dimen/radius_medium</item>
+    </style>
+
+    <style name="Circle">
+        <item name="cornerSize">50%</item>
     </style>
 
 </resources>

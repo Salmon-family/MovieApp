@@ -14,6 +14,9 @@
     <string name="cast">Cast</string>
     <string name="similar_movies">Similar Movies</string>
     <string name="rate_the_movie">Rate The Movie</string>
+    <string name="reviews_title">Reviews</string>
+    <string name="review">Reviews</string>
+    <string name="reviews_comment">Reviews</string>
 
 
 </resources>

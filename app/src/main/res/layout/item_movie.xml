@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_medium"
         android:layout_marginVertical="@dimen/spacing_small"
+        app:shapeAppearanceOverlay="@style/CardCorners.Medium"
         >
 
 

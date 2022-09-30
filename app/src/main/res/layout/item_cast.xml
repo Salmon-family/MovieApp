@@ -22,11 +22,12 @@
             android:background="@color/background_color"
             >
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/cast_image"
                 android:layout_width="84dp"
                 android:layout_height="84dp"
                 android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/Circle"
                 app:movieImage="@{item.actorImage}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
