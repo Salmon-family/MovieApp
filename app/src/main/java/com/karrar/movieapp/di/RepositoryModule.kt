@@ -32,13 +32,4 @@ object RepositoryModule {
         )
     }
 
-    @Provides
-    fun provideCastMapper() = CastMapper()
-
-    @Provides
-    fun provideMovieDetailsMapper() = MovieDetailsMapper()
-
-    @Provides
-    fun provideMovieMapper() = MovieMapper()
-
 }

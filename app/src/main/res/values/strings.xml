@@ -13,6 +13,7 @@
     <string name="overview">OverView</string>
     <string name="cast">Cast</string>
     <string name="similar_movies">Similar Movies</string>
+    <string name="rate_the_movie">Rate The Movie</string>
 
 
 </resources>

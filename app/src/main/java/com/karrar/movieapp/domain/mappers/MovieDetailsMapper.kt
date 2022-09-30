@@ -2,8 +2,9 @@ package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.data.remote.response.movieDetailsDto.MovieDetailsDto
 import com.karrar.movieapp.domain.models.MovieDetails
+import javax.inject.Inject
 
-class MovieDetailsMapper:Mapper<MovieDetailsDto, MovieDetails> {
+class MovieDetailsMapper  @Inject constructor():Mapper<MovieDetailsDto, MovieDetails> {
     override fun map(input: MovieDetailsDto): MovieDetails {
         return MovieDetails(
             input.posterPath,
