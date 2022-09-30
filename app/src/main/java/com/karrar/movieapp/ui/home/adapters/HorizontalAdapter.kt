@@ -37,6 +37,12 @@ class HorizontalAdapter<T>(type: Type, viewModel: HomeViewModel) :
             Type.TvShowType -> {
                 R.layout.concat_item_collections
             }
+            Type.MYSTERY_TYPE -> {
+                R.layout.concat_item_mystery_movie
+            }
+            Type.ADVENTURE_TYPE -> {
+                R.layout.concat_item_adventure_movie
+            }
         }
     }
 
@@ -45,21 +51,21 @@ class HorizontalAdapter<T>(type: Type, viewModel: HomeViewModel) :
             Type.PopularMovieType -> {
                 PopularMovieAdapter(emptyList(), viewModel) as T
             }
-            Type.TrendingMovieType, Type.TvShowType, Type.OnTheAirType, Type.NowStreaming, Type.Upcoming -> {
+            Type.TrendingMovieType,
+            Type.MYSTERY_TYPE,
+            Type.TvShowType,
+            Type.OnTheAirType,
+            Type.NowStreaming,
+            Type.ADVENTURE_TYPE,
+            Type.Upcoming -> {
                 MovieAdapter(emptyList(), viewModel, type) as T
             }
             Type.ActorType -> {
                 ActorAdapter(emptyList(), viewModel) as T
             }
-//            Type.OnTheAirType ->{
-//                SeriesAdapter(emptyList(),viewModel) as T
-//            }
             Type.AiringTodayType -> {
                 AiringTodayAdapter(emptyList(), viewModel) as T
             }
-//            Type.TvShowType -> {
-//                SeriesAdapter(emptyList(), viewModel) as T
-//            }
         }
     }
 }

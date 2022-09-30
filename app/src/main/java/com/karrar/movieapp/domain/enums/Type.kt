@@ -8,5 +8,7 @@ enum class Type {
     ActorType ,
     AiringTodayType,
     NowStreaming,
-    Upcoming
+    Upcoming,
+    MYSTERY_TYPE,
+    ADVENTURE_TYPE
 }

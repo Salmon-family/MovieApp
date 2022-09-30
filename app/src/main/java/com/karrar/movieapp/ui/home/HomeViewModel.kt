@@ -7,7 +7,11 @@ import androidx.lifecycle.asLiveData
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.Type
-import com.karrar.movieapp.ui.home.adapters.*
+import com.karrar.movieapp.ui.home.adapters.ActorInteractionListener
+import com.karrar.movieapp.ui.home.adapters.AiringTodayInteractionListener
+import com.karrar.movieapp.ui.home.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.home.adapters.PopularMovieInteractionListener
+import com.karrar.movieapp.utilities.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -24,6 +28,8 @@ class HomeViewModel @Inject constructor(
     val nowStreaming = movieRepository.getNowPlayingMovies().asLiveData()
     val upcoming = movieRepository.getUpcomingMovies().asLiveData()
     val actors = movieRepository.getTrendingPersons().asLiveData()
+    val mysteryMovie = movieRepository.getMovieListByGenre(Constants.MYSTERY_ID).asLiveData()
+    val adventureMovie = movieRepository.getMovieListByGenre(Constants.ADVENTURE_ID).asLiveData()
 
     val onTheAiring = seriesRepository.getOnTheAir().asLiveData()
     val airingToday = seriesRepository.getAiringToday().asLiveData()
@@ -42,6 +48,8 @@ class HomeViewModel @Inject constructor(
         addSource(topRatedTvShow, this@HomeViewModel::updateData)
         addSource(latestTvShow, this@HomeViewModel::updateData)
         addSource(popularTvShow, this@HomeViewModel::updateData)
+        addSource(mysteryMovie, this@HomeViewModel::updateData)
+        addSource(adventureMovie, this@HomeViewModel::updateData)
     }
 
     private fun updateData(value: Any) {
@@ -76,5 +84,5 @@ class HomeViewModel @Inject constructor(
 
     override fun onClickAiringToday(airingTodayID: Int) {
     }
-    
+
 }

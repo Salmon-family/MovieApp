@@ -7,7 +7,7 @@
     <dimen name="spacing_small">8dp</dimen>
     <dimen name="spacing_too_small">4dp</dimen>
 
-    <!--  actors -->
+    <!--  layout -->
     <dimen name="spacing_actor">72dp</dimen>
     <dimen name="media_card_width">128dp</dimen>
     <dimen name="media_card_airing_today_height">145dp</dimen>

@@ -26,6 +26,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             HorizontalAdapter<AiringTodayAdapter>(Type.AiringTodayType, viewModel),
             HorizontalAdapter<MovieAdapter>(Type.NowStreaming, viewModel),
             HorizontalAdapter<MovieAdapter>(Type.Upcoming, viewModel),
+            HorizontalAdapter<MovieAdapter>(Type.MYSTERY_TYPE, viewModel),
+            HorizontalAdapter<MovieAdapter>(Type.ADVENTURE_TYPE, viewModel),
             HorizontalAdapter<ActorAdapter>(Type.ActorType, viewModel)
         )
     }
