@@ -9,5 +9,5 @@ data class RequestTokenResponse(
     @SerializedName("request_token")
     val requestToken: String?,
     @SerializedName("success")
-    val success: Boolean?
+    val success: Boolean?,
 )

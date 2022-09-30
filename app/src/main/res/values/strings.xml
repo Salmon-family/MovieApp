@@ -9,7 +9,7 @@
     <string name="tv_shows">TV Shows</string>
     <string name="login_to_your_account">Login to your account</string>
     <string name="username">Username</string>
-    <string name="password">password</string>
+    <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="don_t_have_an_account_sign_up">Don’t have an account? Sign up</string>
 </resources>

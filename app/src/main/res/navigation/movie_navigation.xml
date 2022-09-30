@@ -3,11 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.karrar.movieapp.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.karrar.movieapp.ui.login.LoginFragment"
+        android:label="LoginFragment" />
 </navigation>

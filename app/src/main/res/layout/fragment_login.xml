@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.login.LoginViewModel" />
 
     </data>
 
@@ -47,8 +50,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:textAppearance="@style/Regular.Medium.Primary"
-
+                android:textColor="@color/shade_secondary_color"
+                android:afterTextChanged="@{(text)->viewModel.onUserNameChanged(String.valueOf(text))}"
                 />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -63,7 +66,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:textAppearance="@style/Regular.Medium.Primary" />
+                android:textColor="@color/shade_secondary_color"
+                android:afterTextChanged="@{(text)->viewModel.onPasswordChanged(String.valueOf(text))}"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -75,6 +80,7 @@
             android:textAppearance="@style/SemiBold.Medium"
             app:cornerRadius="@dimen/radius_small"
             android:text="@string/login"
+            android:onClick="@{()->viewModel.onClickLogin()}"
             app:layout_constraintTop_toBottomOf="@+id/password" />
 
         <com.google.android.material.textview.MaterialTextView

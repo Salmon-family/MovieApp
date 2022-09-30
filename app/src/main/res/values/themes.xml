@@ -78,13 +78,15 @@
         <item name="cornerSize">@dimen/radius_medium</item>
     </style>
     <style name="Login" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-
         <item name="android:textColorHint">@color/shade_secondary_color</item>
         <item name="boxBackgroundColor">@color/card_background_color</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
         <item name="boxCornerRadiusTopStart">@dimen/radius_small</item>
         <item name="boxCornerRadiusTopEnd">@dimen/radius_small</item>
         <item name="boxCornerRadiusBottomStart">@dimen/radius_small</item>
         <item name="boxCornerRadiusBottomEnd">@dimen/radius_small</item>
+        <item name="hintTextAppearance">@style/Regular.Medium.Primary</item>
         <item name="startIconTint">@color/shade_secondary_color</item>
     </style>
 
