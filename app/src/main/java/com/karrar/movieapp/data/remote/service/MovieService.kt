@@ -1,8 +1,9 @@
 package com.karrar.movieapp.data.remote.service
 
 import com.karrar.movieapp.data.remote.response.*
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.CreditsDto
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.cast.CreditsDto
 import com.karrar.movieapp.data.remote.response.movieDetailsDto.MovieDetailsDto
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.Reviews
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
 import retrofit2.Response
 import retrofit2.http.*
@@ -51,7 +52,11 @@ interface MovieService {
         @Path("movie_id") movieId: Int,
     ): Response<BaseResponse<MovieDto>>
 
-}
 
+    @GET("movie/{movie_id}/reviews")
+    suspend fun getMovieReviews(
+        @Path("movie_id") movieId: Int,
+    ): Response<BaseResponse<Reviews>>
+}
 
 

@@ -1,13 +1,12 @@
 package com.karrar.movieapp.utilities
 
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.base.BaseAdapter
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.Genre
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.cast.Genre
 import com.squareup.picasso.Picasso
 
 @BindingAdapter("app:movieImage")

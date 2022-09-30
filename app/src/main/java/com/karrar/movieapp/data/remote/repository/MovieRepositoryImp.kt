@@ -2,6 +2,7 @@ package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.Reviews
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.CastMapper
 import com.karrar.movieapp.domain.mappers.MovieDetailsMapper
@@ -62,6 +63,10 @@ class MovieRepositoryImp @Inject constructor(
         return wrap ({ movieService.getSimilarMovie(movie_id) },{
             it.items?.map { movieMapper.map(it) } ?: emptyList()
         })
+    }
+
+    override fun getMovieReviews(movie_id: Int): Flow<State<BaseResponse<Reviews>>> {
+        return wrapWithFlow {  movieService.getMovieReviews(movie_id) }
     }
 
 

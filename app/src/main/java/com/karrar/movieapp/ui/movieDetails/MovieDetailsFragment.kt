@@ -21,6 +21,8 @@ class MovieDetailsFragment :BaseFragment<FragmentMovieDetailsBinding>() {
 
         binding.castAdapter.adapter = CastAdapter(mutableListOf(), viewModel)
         binding.similarMovieAdapter.adapter = MovieAdapter(mutableListOf(), viewModel)
+        binding.commentReviewAdapter.adapter = ReviewAdapter(mutableListOf(), viewModel)
+
 
         viewModel.similarMovie.observe(viewLifecycleOwner) {
             Log.i("kkk", it.toString())

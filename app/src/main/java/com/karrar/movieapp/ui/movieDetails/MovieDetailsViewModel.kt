@@ -14,7 +14,7 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
      var movieDetails = movieRepository.getMovieDetails(760161).asLiveData()
      var movieCast = movieRepository.getMovieCast(760161).asLiveData()
      var similarMovie = movieRepository.getSimilarMovie(760161).asLiveData()
-
+     var MovieReviews = movieRepository.getMovieReviews(985939).asLiveData()
 
 
      override fun onClickCast(cast_id: Int) { }
