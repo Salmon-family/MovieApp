@@ -1,4 +1,4 @@
-package com.karrar.movieapp.data.remote.response
+package com.karrar.movieapp.data.remote.response.login
 
 
 import com.google.gson.annotations.SerializedName
