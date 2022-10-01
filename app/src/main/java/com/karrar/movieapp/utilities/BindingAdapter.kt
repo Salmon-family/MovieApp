@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.ui.home.adapters.HorizontalAdapter
 import com.squareup.picasso.Picasso
 
 
@@ -42,9 +44,19 @@ fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
     (view.adapter as BaseAdapter<T>?)?.setItems(items ?: emptyList())
 }
 
-@BindingAdapter(value = ["app:itemsAdapter"])
-fun setRecyclerAdapter(view: RecyclerView, state: Boolean) {
-    view.adapter?.notifyDataSetChanged()
+@BindingAdapter(value = ["app:itemsAdapter", "app:isSuccess"])
+fun <M : Any, T> setRecyclerAdapter(
+    view: RecyclerView,
+    adapters: List<Any>?,
+    state: State<T>?
+) {
+    if (state is State.Success) {
+        adapters?.let {
+            it.forEach {
+                (view.adapter as ConcatAdapter).addAdapter(it as HorizontalAdapter<M>)
+            }
+        }
+    }
 }
 
 

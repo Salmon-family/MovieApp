@@ -1,10 +1,10 @@
 package com.karrar.movieapp.ui.home
 
-import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.Type
@@ -48,7 +48,21 @@ class HomeViewModel @Inject constructor(
     val latestTvShow = seriesRepository.getLatestTvShow().asLiveData()
     val popularTvShow = seriesRepository.getPopularTvShow().asLiveData()
 
-    val updatingRecycler = MediatorLiveData<Boolean>().apply {
+    val homeAdapter =
+        listOf(
+            HorizontalAdapter<PopularMovieAdapter>(Type.PopularMovieType, this),
+            HorizontalAdapter<MovieAdapter>(Type.TvShowType, this),
+            HorizontalAdapter<MovieAdapter>(Type.OnTheAirType, this),
+            HorizontalAdapter<MovieAdapter>(Type.TrendingMovieType, this),
+            HorizontalAdapter<AiringTodayAdapter>(Type.AiringTodayType, this),
+            HorizontalAdapter<MovieAdapter>(Type.NowStreaming, this),
+            HorizontalAdapter<MovieAdapter>(Type.Upcoming, this),
+            HorizontalAdapter<MovieAdapter>(Type.MYSTERY_TYPE, this),
+            HorizontalAdapter<MovieAdapter>(Type.ADVENTURE_TYPE, this),
+            HorizontalAdapter<ActorAdapter>(Type.ActorType, this)
+        )
+
+    val updatingRecycler = MediatorLiveData<State<Any>>().apply {
         addSource(popularMovie, this@HomeViewModel::updateData)
         addSource(trending, this@HomeViewModel::updateData)
         addSource(nowStreaming, this@HomeViewModel::updateData)
@@ -63,8 +77,10 @@ class HomeViewModel @Inject constructor(
         addSource(adventureMovie, this@HomeViewModel::updateData)
     }
 
-    private fun updateData(value: Any) {
-        updatingRecycler.postValue(true)
+    private fun <T> updateData(value: State<T>) {
+        if (value is State.Success) {
+            updatingRecycler.postValue(value as State<Any>)
+        }
     }
 
     override fun onClickMovie(movieID: Int, type: Type) {
