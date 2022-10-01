@@ -7,7 +7,7 @@ sealed class FormFieldState {
 
     fun errorMessage() = if (this is InValid) message else null
 
-    fun isValidField(): Boolean {
+    fun isValid(): Boolean {
         return this is Valid
     }
 }

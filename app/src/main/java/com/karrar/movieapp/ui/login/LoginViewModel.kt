@@ -58,7 +58,7 @@ class LoginViewModel @Inject constructor(
         val userNameFieldState = textValidation.validateFiledState(userName.value.toString())
         val passwordFieldState = textValidation.validatePasswordFiledState(password.value.toString())
 
-        if (userNameFieldState.isValidField() && passwordFieldState.isValidField()) {
+        if (userNameFieldState.isValid() && passwordFieldState.isValid()) {
             loginValidation.postValue(true)
         } else {
             loginValidation.postValue(false)
