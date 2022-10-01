@@ -20,6 +20,12 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
     }
 }
 
+//@BindingAdapter("app:text")
+//fun setText(text: Text, genres: List<GenreDto>?) {
+//    text.text = genres?.map { it.name }?.joinToString(" , ")
+//}
+
+
 @BindingAdapter("app:setGenre")
 fun setGenre(text: TextView, genres: List<GenreDto>?) {
     text.text = genres?.map { it.name }?.joinToString(" , ")

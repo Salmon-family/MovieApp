@@ -19,16 +19,16 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
 ): ViewModel(), CastInteractionListener, MovieInteractionListener{
 
      private var _movieDetails = MutableLiveData<State<MovieDetails>>()
-     val movieDetails :LiveData<State<MovieDetails>> =_movieDetails
+     val movieDetails :LiveData<State<MovieDetails>> = _movieDetails
 
      private var _movieCast = MutableLiveData<State<List<Cast>>>()
-     val movieCast :LiveData<State<List<Cast>>> =_movieCast
+     val movieCast :LiveData<State<List<Cast>>> = _movieCast
 
      private var _similarMovie = MutableLiveData<State<List<Movie>>>()
-     val similarMovie :LiveData<State<List<Movie>>> =_similarMovie
+     val similarMovie :LiveData<State<List<Movie>>> = _similarMovie
 
      private var _movieReviews = MutableLiveData<State<BaseResponse<ReviewsDto>>>()
-     val movieReviews :LiveData<State<BaseResponse<ReviewsDto>>> =_movieReviews
+     val movieReviews :LiveData<State<BaseResponse<ReviewsDto>>> = _movieReviews
 
 
      fun getAllDetails(movie_id:Int){
