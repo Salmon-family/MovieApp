@@ -6,6 +6,7 @@ import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.ReviewsD
 import com.karrar.movieapp.domain.models.Cast
 import com.karrar.movieapp.domain.models.Movie
 import com.karrar.movieapp.domain.models.MovieDetails
+import com.karrar.movieapp.domain.models.Review
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
@@ -28,7 +29,7 @@ interface MovieRepository {
 
     fun getSimilarMovie(movie_id: Int): Flow<State<List<Movie>>>
 
-    fun getMovieReviews(movie_id: Int): Flow<State<BaseResponse<ReviewsDto>>>
+    fun getMovieReviews(movie_id: Int): Flow<State<List<Review>>>
 
 
 }

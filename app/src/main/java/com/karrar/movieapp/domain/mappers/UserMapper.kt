@@ -10,8 +10,7 @@ class UserMapper @Inject constructor():Mapper<AuthorDetailsDto, User> {
             input.avatarPath,
             input.name,
             input.username,
-            input.rating.toString()
-
+            input.rating?.toFloat()?.div(2)
         )
     }
 }

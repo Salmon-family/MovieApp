@@ -2,14 +2,15 @@ package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.ReviewsDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.CastMapper
 import com.karrar.movieapp.domain.mappers.MovieDetailsMapper
 import com.karrar.movieapp.domain.mappers.MovieMapper
+import com.karrar.movieapp.domain.mappers.ReviewMapper
 import com.karrar.movieapp.domain.models.Cast
 import com.karrar.movieapp.domain.models.Movie
 import com.karrar.movieapp.domain.models.MovieDetails
+import com.karrar.movieapp.domain.models.Review
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
@@ -19,7 +20,8 @@ class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     private val castMapper: CastMapper,
     private val movieDetailsMapper: MovieDetailsMapper,
-    private val movieMapper: MovieMapper
+    private val movieMapper: MovieMapper,
+    private val reviewMapper: ReviewMapper
 ) : MovieRepository {
     override fun getPopularMovies(): Flow<State<BaseResponse<MovieDto>>> {
         return wrapWithFlow { movieService.getPopularMovies() }
@@ -65,8 +67,10 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getMovieReviews(movie_id: Int): Flow<State<BaseResponse<ReviewsDto>>> {
-        return wrapWithFlow {  movieService.getMovieReviews(movie_id) }
+    override fun getMovieReviews(movie_id: Int): Flow<State<List<Review>>> {
+        return wrap ({ movieService.getMovieReviews(movie_id) },{
+            it.items?.map { reviewMapper.map(it) } ?: emptyList()
+        })
     }
 
 

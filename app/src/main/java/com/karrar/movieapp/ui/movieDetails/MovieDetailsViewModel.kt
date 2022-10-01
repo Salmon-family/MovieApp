@@ -27,8 +27,8 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
      private var _similarMovie = MutableLiveData<State<List<Movie>>>()
      val similarMovie :LiveData<State<List<Movie>>> = _similarMovie
 
-     private var _movieReviews = MutableLiveData<State<BaseResponse<ReviewsDto>>>()
-     val movieReviews :LiveData<State<BaseResponse<ReviewsDto>>> = _movieReviews
+     private var _movieReviews = MutableLiveData<State<List<Review>>>()
+     val movieReviews :LiveData<State<List<Review>>> = _movieReviews
 
 
      fun getAllDetails(movie_id:Int){
