@@ -37,10 +37,16 @@ class LoginViewModel @Inject constructor(
     private val _loginEvent = MutableLiveData<Event<Boolean>>()
     val loginEvent = _loginEvent.toLiveData()
 
+    private val _signUpEvent = MutableLiveData<Event<Boolean>>()
+    val signUpEvent = _signUpEvent.toLiveData()
+
+    fun onClickSignUp() {
+        _signUpEvent.postValue(Event(true))
+    }
 
     fun onClickLogin() {
         if (isValidUserName() && isValidPassword()) {
-           login()
+            login()
         }
     }
 
@@ -57,8 +63,7 @@ class LoginViewModel @Inject constructor(
     }
 
 
-
-   private fun login() {
+    private fun login() {
         viewModelScope.launch {
             accountRepository.loginWithUserNameANdPassword(userName.value.toString(),
                 password.value.toString()).collect {
