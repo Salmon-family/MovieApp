@@ -17,7 +17,7 @@ import javax.inject.Inject
 class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     private val actorDetailsMapper: ActorDetailsMapper,
-    private val actorMoviesMapper: ActorMoviesMapper
+    private val actorMoviesMapper: ActorMoviesMapper,
 ) :
     MovieRepository {
     override fun getPopularMovies(): Flow<State<BaseResponse<MovieDto>>> {
@@ -48,9 +48,11 @@ class MovieRepositoryImp @Inject constructor(
         return wrap({ movieService.getActorDetails(actorId) }, { actorDetailsMapper.map(it) })
     }
 
-    override fun getMovieDetails(movieId: Int): Flow<State<List<Movie>>> {
-        return wrap({ movieService.getActorMovies(movieId) }, {
-            it.items?.map { actorMoviesMapper.map(it!!) } ?: emptyList()
+    override fun getMovieDetails(actorId: Int): Flow<State<List<Movie>>> {
+        return wrap({ movieService.getActorMovies(actorId) }, {
+            it.cast?.map {
+                actorMoviesMapper.map(it!!)
+            } ?: emptyList()
         })
     }
 

@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageView"
                 android:layout_width="0dp"
                 android:layout_height="364dp"
@@ -42,21 +42,23 @@
                 app:layout_constraintTop_toTopOf="@+id/imageView" />
 
             <ImageView
+                android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/radius_medium"
+                android:layout_marginTop="@dimen/radius_medium"
+                android:contentDescription="@string/todo"
+                android:onClick="@{() -> viewModel.onClickBack()}"
                 android:src="@drawable/ic_arrow_left"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/todo" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/text_name_actor"
                 style="@style/SemiBold.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/radius_small"
                 android:text="@{viewModel.actorDetails.toData().name}"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -69,10 +71,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="@dimen/radius_medium"
+                android:layout_marginTop="@dimen/radius_medium"
                 android:gravity="center"
                 android:orientation="vertical"
-                app:layout_constraintDimensionRatio="5:1"
+                app:layout_constraintDimensionRatio="4.5:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView"
                 tools:ignore="MissingConstraints">
@@ -88,7 +91,7 @@
                     style="@style/SemiBold.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.actorDetails.toData().gender.toString()}"
+                    app:actorGender="@{viewModel.actorDetails.toData().gender}"
                     tools:text="Male" />
             </LinearLayout>
 
@@ -97,10 +100,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/radius_medium"
+                android:layout_marginEnd="@dimen/radius_medium"
                 android:gravity="center"
                 android:orientation="vertical"
-                app:layout_constraintDimensionRatio="5:1"
+                app:layout_constraintDimensionRatio="4.5:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView"
                 tools:ignore="MissingConstraints">
@@ -121,13 +125,15 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayout3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="@dimen/radius_medium"
+                android:layout_marginTop="@dimen/radius_medium"
                 android:gravity="center"
                 android:orientation="vertical"
-                app:layout_constraintDimensionRatio="5:1"
+                app:layout_constraintDimensionRatio="4.5:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout"
                 tools:ignore="MissingConstraints">
@@ -143,6 +149,8 @@
                     style="@style/SemiBold.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:text="@{viewModel.actorDetails.toData().placeOfBirth}"
                     tools:text=" Massachusetts, USA " />
             </LinearLayout>
@@ -151,10 +159,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/radius_medium"
+                android:layout_marginEnd="@dimen/radius_medium"
                 android:gravity="center"
                 android:orientation="vertical"
-                app:layout_constraintDimensionRatio="5:1"
+                app:layout_constraintDimensionRatio="4.5:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
                 tools:ignore="MissingConstraints">
@@ -180,47 +189,56 @@
                 style="@style/SemiBold.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginStart="@dimen/radius_medium"
+                android:layout_marginBottom="@dimen/radius_small"
+                android:text="@string/movies"
                 app:layout_constraintBottom_toTopOf="@+id/related_movie_recycler"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="Movies" />
+                app:layout_constraintStart_toStartOf="parent" />
 
-            <ImageView
-                android:id="@+id/button_see_all"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:src="@drawable/ic_arrow_right"
-                app:layout_constraintBottom_toTopOf="@+id/related_movie_recycler"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:contentDescription="@string/todo" />
 
-            <TextView
-                style="@style/Regular.Small"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_too_small"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="8dp"
-                android:text="@string/see_all"
-                android:textColor="@color/brand_color"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/related_movie_recycler"
-                app:layout_constraintEnd_toStartOf="@+id/button_see_all"
-                tools:ignore="MissingConstraints" />
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="MissingConstraints,UseCompoundDrawables">
+
+                <TextView
+                    style="@style/Regular.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_too_small"
+                    android:layout_marginBottom="@dimen/radius_small"
+                    android:text="@string/see_all"
+                    android:textColor="@color/brand_color"
+                    tools:ignore="MissingConstraints" />
+
+                <ImageView
+                    android:id="@+id/button_see_all"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="@dimen/radius_medium"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/ic_arrow_right" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/related_movie_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="160dp"
                 android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_marginStart="@dimen/radius_medium"
                 app:items="@{viewModel.actorMovies.toData()}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
                 tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteY="519dp"
                 tools:listitem="@layout/item_movie" />
 
             <TextView
@@ -228,24 +246,40 @@
                 style="@style/SemiBold.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="@dimen/radius_medium"
+                android:layout_marginTop="@dimen/radius_medium"
+                android:layout_marginBottom="@dimen/radius_medium"
+                android:text="@string/biography"
+                app:layout_constraintBottom_toTopOf="@+id/over_view"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/related_movie_recycler"
-                tools:text="Biography" />
+                app:layout_constraintTop_toBottomOf="@+id/related_movie_recycler" />
 
-            <TextView
+
+            <io.github.glailton.expandabletextview.ExpandableTextView
                 android:id="@+id/over_view"
                 style="@style/Regular.Medium.Secondary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginHorizontal="@dimen/radius_medium"
+                android:layout_marginTop="48dp"
                 android:text="@{viewModel.actorDetails.toData().biography}"
+                app:animDuration="500"
+                app:collapsedLines="5"
+                app:ellipsizeTextColor="@color/brand_color"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/over_view_title"
-                app:layout_constraintTop_toBottomOf="@+id/over_view_title"
-                tools:text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam. Exercitation veniam." />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/related_movie_recycler"
+                app:readLessText="Read less"
+                app:readMoreText="Read more"
+                tools:ignore="MissingClass"
+                tools:text="Krasinski's instincts are very good, and once you've placed the primary action there, then it allows the story instincts are very good, and once you've placed the primary action there, then it allows the story" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/radius_large"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/over_view" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

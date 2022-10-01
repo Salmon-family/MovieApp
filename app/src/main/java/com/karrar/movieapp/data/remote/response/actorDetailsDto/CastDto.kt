@@ -3,7 +3,7 @@ package com.karrar.movieapp.data.remote.response.actorDetailsDto
 
 import com.google.gson.annotations.SerializedName
 
-data class Cast(
+data class CastDto(
     @SerializedName("adult")
     val adult: Boolean? = null,
     @SerializedName("backdrop_path")

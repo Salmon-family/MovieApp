@@ -1,6 +1,8 @@
 package com.karrar.movieapp.utilities
 
+import android.annotation.SuppressLint
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
@@ -22,4 +24,13 @@ fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
     (view.adapter as BaseAdapter<T>?)?.setItems(items ?: emptyList())
 }
 
+@SuppressLint("SetTextI18n")
+@BindingAdapter("app:actorGender")
+fun setGender(view: TextView,gender: Int){
+    if (gender == 2){
+        view.text = "Male"
+    } else {
+        view.text = "Female"
+    }
+}
 

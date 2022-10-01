@@ -77,5 +77,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.42"
     kapt "com.google.dagger:hilt-compiler:2.42"
 
+    implementation 'io.github.glailton.expandabletextview:expandabletextview:1.0.2'
+
 
 }

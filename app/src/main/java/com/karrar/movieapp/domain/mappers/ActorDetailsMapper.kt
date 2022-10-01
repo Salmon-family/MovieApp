@@ -1,6 +1,7 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorDetailsDto
+import com.karrar.movieapp.data.remote.response.actorDetailsDto.CastDto
 import com.karrar.movieapp.domain.models.ActorDetails
 import javax.inject.Inject
 

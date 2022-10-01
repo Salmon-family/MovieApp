@@ -12,4 +12,6 @@
     <string name="todo">TODO</string>
     <string name="gender">Gender</string>
     <string name="birthday">Birthday</string>
+    <string name="biography">Biography</string>
+    <string name="movies">Movies</string>
 </resources>
