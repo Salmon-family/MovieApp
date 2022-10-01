@@ -17,6 +17,7 @@
         tools:targetApi="31">
         <activity
             android:name=".ui.main.MainActivity"
+            android:theme="@style/Theme.MovieApp.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
