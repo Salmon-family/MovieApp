@@ -72,4 +72,8 @@
         <item name="cornerSize">@dimen/radius_medium</item>
     </style>
 
+    <style name="CircleImage">
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>
