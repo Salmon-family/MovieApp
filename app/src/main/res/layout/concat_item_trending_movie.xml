@@ -53,6 +53,7 @@
             android:orientation="horizontal"
             android:overScrollMode="never"
             android:scrollbars="none"
+            app:currentPosition="@={viewModel.trendingPosition}"
             app:items="@{viewModel.trending.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

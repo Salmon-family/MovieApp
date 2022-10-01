@@ -52,6 +52,7 @@
             android:orientation="horizontal"
             android:overScrollMode="never"
             android:scrollbars="none"
+            app:currentPosition="@={viewModel.adventureMoviePosition}"
             app:items="@{viewModel.adventureMovie.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

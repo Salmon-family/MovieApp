@@ -52,6 +52,7 @@
             android:orientation="horizontal"
             android:overScrollMode="never"
             android:scrollbars="none"
+            app:currentPosition="@={viewModel.nowStreamingPosition}"
             app:items="@{viewModel.nowStreaming.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

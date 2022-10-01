@@ -2,15 +2,13 @@ package com.karrar.movieapp.ui.home
 
 import android.util.Log
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.Type
-import com.karrar.movieapp.ui.home.adapters.ActorInteractionListener
-import com.karrar.movieapp.ui.home.adapters.AiringTodayInteractionListener
-import com.karrar.movieapp.ui.home.adapters.MovieInteractionListener
-import com.karrar.movieapp.ui.home.adapters.PopularMovieInteractionListener
+import com.karrar.movieapp.ui.home.adapters.*
 import com.karrar.movieapp.utilities.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -24,14 +22,27 @@ class HomeViewModel @Inject constructor(
     ActorInteractionListener, AiringTodayInteractionListener {
 
     val popularMovie = movieRepository.getPopularMovies().asLiveData()
+    val popularMoviePosition = MutableLiveData<Int>()
+
     val trending = movieRepository.getTrendingMovies().asLiveData()
+    val trendingPosition = MutableLiveData<Int>()
+
     val nowStreaming = movieRepository.getNowPlayingMovies().asLiveData()
+    val nowStreamingPosition = MutableLiveData<Int>()
+
     val upcoming = movieRepository.getUpcomingMovies().asLiveData()
-    val actors = movieRepository.getTrendingPersons().asLiveData()
+    val upcomingPosition = MutableLiveData<Int>()
+
     val mysteryMovie = movieRepository.getMovieListByGenre(Constants.MYSTERY_ID).asLiveData()
+    val mysteryMoviePosition = MutableLiveData<Int>()
+
     val adventureMovie = movieRepository.getMovieListByGenre(Constants.ADVENTURE_ID).asLiveData()
+    val adventureMoviePosition = MutableLiveData<Int>()
 
     val onTheAiring = seriesRepository.getOnTheAir().asLiveData()
+    val onTheAiringPosition = MutableLiveData<Int>()
+
+    val actors = movieRepository.getTrendingPersons().asLiveData()
     val airingToday = seriesRepository.getAiringToday().asLiveData()
     val topRatedTvShow = seriesRepository.getTopRatedTvShow().asLiveData()
     val latestTvShow = seriesRepository.getLatestTvShow().asLiveData()
@@ -60,22 +71,12 @@ class HomeViewModel @Inject constructor(
     }
 
     fun seeAllMovie(types: Type) {
-        when (types) {
-            Type.TrendingMovieType -> {
-
-            }
-            Type.OnTheAirType -> {
-
-            }
-            else -> {}
-        }
     }
 
     fun seeAllActors() {
     }
 
     override fun onClickPopularMovie(movieId: Int) {
-
     }
 
     override fun onClickActor(actorID: Int) {

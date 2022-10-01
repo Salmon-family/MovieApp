@@ -7,13 +7,12 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.BR
 
-abstract class HorizontalBaseAdapter<M,T>(
-    private val viewModel: M,
+abstract class HorizontalBaseAdapter<M, T>(
+    private val viewModel: M
 ) : RecyclerView.Adapter<HorizontalBaseAdapter.BaseViewHolder>() {
 
     abstract val layoutID: Int
     abstract val adapter: T
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             : BaseViewHolder {
@@ -25,11 +24,12 @@ abstract class HorizontalBaseAdapter<M,T>(
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        if (holder is ItemViewHolder)
-            bind(holder)
+        if (holder is ItemViewHolder) {
+            bind(holder, position)
+        }
     }
 
-    private fun bind(holder: ItemViewHolder) {
+    private fun bind(holder: ItemViewHolder, position: Int) {
         holder.binding.apply {
             setVariable(BR.viewModel, viewModel)
             setVariable(BR.adapterRecycler, adapter)
@@ -38,8 +38,7 @@ abstract class HorizontalBaseAdapter<M,T>(
 
     class ItemViewHolder(val binding: ViewDataBinding) : BaseViewHolder(binding)
 
-    abstract class BaseViewHolder(binding: ViewDataBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    abstract class BaseViewHolder(binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun getItemCount(): Int = 1
 }

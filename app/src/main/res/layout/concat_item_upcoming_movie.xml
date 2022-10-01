@@ -51,6 +51,7 @@
             android:orientation="horizontal"
             android:overScrollMode="never"
             android:scrollbars="none"
+            app:currentPosition="@={viewModel.upcomingPosition}"
             app:items="@{viewModel.upcoming.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

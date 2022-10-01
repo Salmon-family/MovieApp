@@ -1,8 +1,6 @@
 package com.karrar.movieapp.ui.home
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
@@ -12,6 +10,7 @@ import com.karrar.movieapp.domain.enums.Type
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.home.adapters.*
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -33,14 +32,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         )
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val concatAdapter = ConcatAdapter(homeAdapter)
         binding.recyclerView.adapter = concatAdapter
-
-        viewModel.updatingRecycler.observe(viewLifecycleOwner) {
-            concatAdapter.notifyDataSetChanged()
-        }
     }
+
 }

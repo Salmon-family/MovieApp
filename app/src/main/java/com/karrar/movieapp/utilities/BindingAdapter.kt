@@ -5,6 +5,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
@@ -12,6 +15,7 @@ import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.squareup.picasso.Picasso
+
 
 @BindingAdapter("app:posterImage")
 fun bindMovieImage(image: ImageView, imageURL: String?) {
@@ -38,6 +42,12 @@ fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
     (view.adapter as BaseAdapter<T>?)?.setItems(items ?: emptyList())
 }
 
+@BindingAdapter(value = ["app:itemsAdapter"])
+fun setRecyclerAdapter(view: RecyclerView, state: Boolean) {
+    view.adapter?.notifyDataSetChanged()
+}
+
+
 @BindingAdapter(value = ["app:usePagerSnapHelper"])
 fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolean = false) {
     if (useSnapHelper)
@@ -45,7 +55,7 @@ fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolea
 }
 
 @BindingAdapter("app:genre")
-fun setGenre(textView: TextView,genreList: List<Genre>?){
+fun setGenre(textView: TextView, genreList: List<Genre>?) {
     genreList?.let {
         textView.text = genreList.map { it.genreName }.joinToString(" . ")
     }
@@ -64,4 +74,35 @@ fun <T> showWhenSuccess(view: View, state: State<T>?) {
 @BindingAdapter("app:isFail")
 fun <T> showWhenFail(view: View, state: State<T>?) {
     view.isVisible = state is State.Error
+}
+
+
+@InverseBindingAdapter(attribute = "app:currentPosition", event = "currentPositionAttributeChanged")
+fun getCurrentPosition(recycler: RecyclerView): Int {
+    return (recycler.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+
+}
+
+@BindingAdapter(value = ["currentPositionAttributeChanged"])
+fun setListener(rv: RecyclerView, l: InverseBindingListener) {
+    val layoutManager = (rv.layoutManager as LinearLayoutManager?)!!
+    var prevPos = layoutManager.findFirstVisibleItemPosition()
+    rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            if (dx == 0) {
+                return
+            }
+            val newPos = layoutManager.findFirstVisibleItemPosition()
+            if (prevPos != newPos) {
+                prevPos = newPos
+                l.onChange()
+            }
+        }
+    })
+}
+
+@BindingAdapter("currentPosition")
+fun setCurrentPosition(rv: RecyclerView, pos: Int) {
+    (rv.layoutManager)?.scrollToPosition(pos)
 }
