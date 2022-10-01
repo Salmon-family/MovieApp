@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.AccountRepository
 import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.TextValidation
+import com.karrar.movieapp.utilities.TextFiledValidation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +17,7 @@ fun <T> MutableLiveData<T>.toLiveData(): LiveData<T> {
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
-    private val textValidation: TextValidation,
+    private val textValidation: TextFiledValidation,
 ) : ViewModel() {
 
     val userName = MutableLiveData("")
@@ -25,6 +25,7 @@ class LoginViewModel @Inject constructor(
 
     private val _passwordHelperText = MutableLiveData("")
     val passwordHelperText = _passwordHelperText.toLiveData()
+
     private val _userNameHelperText = MutableLiveData("")
     val userNameHelperText = _userNameHelperText.toLiveData()
 
@@ -39,8 +40,8 @@ class LoginViewModel @Inject constructor(
 
 
     val loginValidation = MediatorLiveData<Boolean>().apply {
-        addSource(userName,this@LoginViewModel::checkFormValidation)
-        addSource(password,this@LoginViewModel::checkFormValidation)
+        addSource(userName, this@LoginViewModel::checkFormValidation)
+        addSource(password, this@LoginViewModel::checkFormValidation)
     }
 
     fun onClickSignUp() {
@@ -48,38 +49,25 @@ class LoginViewModel @Inject constructor(
     }
 
     fun onClickLogin() {
-            login()
+        login()
 
     }
 
-    private fun checkFormValidation(value :String){
-        val validPassword = textValidation.validPassword(password.value.toString())
-        val validUserName = textValidation.validFiled(userName.value.toString())
-        if(validUserName ==null && validPassword == null){
+    private fun checkFormValidation(value: String) {
+
+        val userNameFieldState = textValidation.validateFiledState(userName.value.toString())
+        val passwordFieldState = textValidation.validatePasswordFiledState(password.value.toString())
+
+        if (userNameFieldState.isValidField() && passwordFieldState.isValidField()) {
             loginValidation.postValue(true)
-        }else{
+        } else {
             loginValidation.postValue(false)
-
         }
-        _passwordHelperText.postValue(validPassword)
-        _userNameHelperText.postValue(validUserName)
+        _userNameHelperText.postValue(userNameFieldState.errorMessage())
+        _passwordHelperText.postValue(passwordFieldState.errorMessage())
 
 
     }
-
-//    private fun isValidPassword(password:String) :Boolean{
-//        val validPassword = textValidation.validPassword(password)
-//
-//        return (validPassword == null)
-//
-//    }
-//
-//    private fun isValidUserName(userName:String) : Boolean {
-//        val validUserName = textValidation.validFiled(userName)
-//
-//        return (validUserName == null)
-//
-//    }
 
 
     private fun login() {
