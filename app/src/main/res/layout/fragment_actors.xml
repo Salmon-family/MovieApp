@@ -12,69 +12,111 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background_color">
+        android:layout_height="match_parent">
 
-
-        <ImageButton
-            android:id="@+id/ic_arrow_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:backgroundTint="@android:color/transparent"
-            android:src="@drawable/ic_arrow_left"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            style="@style/SemiBold.Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_small"
-            android:text="@string/actors"
-            app:layout_constraintBottom_toBottomOf="@+id/ic_arrow_left"
-            app:layout_constraintStart_toEndOf="@+id/ic_arrow_left"
-            app:layout_constraintTop_toTopOf="@+id/ic_arrow_left" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/screen_on_success"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/spacing_small"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:items="@{viewModel.trendingActors.toData()}"
-            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-            app:layout_constraintTop_toBottomOf="@+id/ic_arrow_left"
-            app:showWhenSuccess="@{viewModel.trendingActors}"
-            app:spanCount="3"
-            tools:listitem="@layout/item_actor" />
+            android:layout_height="match_parent"
+            android:background="@color/background_color">
+
+
+            <ImageButton
+                android:id="@+id/button_back_to_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:backgroundTint="@android:color/transparent"
+                android:src="@drawable/ic_arrow_left"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                style="@style/SemiBold.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:text="@string/actors"
+                app:layout_constraintBottom_toBottomOf="@+id/button_back_to_home"
+                app:layout_constraintStart_toEndOf="@+id/button_back_to_home"
+                app:layout_constraintTop_toTopOf="@+id/button_back_to_home" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_actors"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/spacing_small"
+                app:items="@{viewModel.trendingActors.toData()}"
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_back_to_home"
+                app:showWhenSuccess="@{viewModel.trendingActors}"
+                app:spanCount="3"
+                tools:listitem="@layout/item_actor" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/screen_on_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background_color"
+            app:showWhenLoading="@{viewModel.trendingActors}">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animation_loading"
                 android:layout_width="128dp"
                 android:layout_height="128dp"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                tools:visibility="gone"
-                app:showWhenLoading="@{viewModel.trendingActors}"
-                app:lottie_rawRes="@raw/loading_animation"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading_animation" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_fail"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            tools:visibility="gone"
-            app:lottie_autoPlay="true"
-            app:showWhenFail="@{viewModel.trendingActors}"
-            app:lottie_rawRes="@raw/lost_internet_animation"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/screen_on_lost_internet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background_color"
+            app:showWhenFail="@{viewModel.trendingActors}">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_lost_connection"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_marginTop="214dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_rawRes="@raw/lost_internet_animation" />
+
+            <TextView
+                android:id="@+id/title_lost_connection"
+                style="@style/SemiBold.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_extra_large"
+                android:text="@string/oops"
+                app:layout_constraintEnd_toEndOf="@id/animation_lost_connection"
+                app:layout_constraintStart_toStartOf="@id/animation_lost_connection"
+                app:layout_constraintTop_toBottomOf="@id/animation_lost_connection" />
+
+            <TextView
+                android:id="@+id/description_lost_connection"
+                style="@style/Regular.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:gravity="center"
+                android:text="@string/description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_lost_connection" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -31,6 +31,7 @@
 
     <style name="Regular">
         <item name="android:fontFamily">@font/plus_jakarta_sans_regular</item>
+        <item name="android:textColor">@color/shade_primary_color</item>
     </style>
 
     <style name="Regular.Medium">

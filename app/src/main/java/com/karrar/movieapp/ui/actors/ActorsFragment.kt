@@ -19,6 +19,6 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
 
         val actorsAdapter =
             ActorsAdapter(viewModel.trendingActors.value?.toData().orEmpty(), viewModel)
-        binding.recyclerView.adapter = actorsAdapter
+        binding.recyclerViewActors.adapter = actorsAdapter
     }
 }

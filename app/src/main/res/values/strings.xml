@@ -8,4 +8,6 @@
     <string name="popular">Popular</string>
     <string name="tv_shows">TV Shows</string>
     <string name="actors">Actors</string>
+    <string name="oops">Oops!</string>
+    <string name="description">There is no internet connection\nPlease check it out</string>
 </resources>

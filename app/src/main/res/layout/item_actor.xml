@@ -30,6 +30,7 @@
             tools:src="@drawable/actor" />
 
         <TextView
+            android:id="@+id/text_name_actor"
             style="@style/SemiBold.Medium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
