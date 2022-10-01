@@ -1,8 +1,10 @@
 package com.karrar.movieapp.ui.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.widget.doOnTextChanged
+import androidx.databinding.InverseMethod
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import com.karrar.movieapp.R

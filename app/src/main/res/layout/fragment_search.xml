@@ -32,7 +32,8 @@
             style="@style/Regular.Medium"
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="@dimen/spacing_small"
-            android:paddingStart="@dimen/spacing_small" />
+            android:paddingStart="@dimen/spacing_small"
+            android:textCursorDrawable="@color/brand_color"/>
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group_media_type"
             android:layout_width="0dp"
@@ -90,6 +91,6 @@
             tools:listitem="@layout/item_media"
             app:items="@{viewModel.media.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

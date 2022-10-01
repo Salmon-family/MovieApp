@@ -13,7 +13,7 @@ class MediaMapper @Inject constructor() : Mapper<MediaDto,Media> {
             movieName = input.originalTitle,
             seriesName = input.originalName,
             actorName = input.name,
-            releaseDate = input.releaseDate,
+            releaseDate = input.releaseDate?.substringBefore('-'),
             rate = input.voteAverage?.toFloat(),
             imagePath = Constants.IMAGE_BASE_PATH + input.backdropPath,
             firstAirDate = input.firstAirDate,

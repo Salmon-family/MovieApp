@@ -12,8 +12,9 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_media"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_marginBottom="@dimen/spacing_medium"
+        app:cardElevation="1dp"
         style="@style/CardCorners.Small">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -21,10 +22,9 @@
             android:background="@color/card_background_color">
             <ImageView
                 android:id="@+id/image_media"
-                android:layout_width="0dp"
+                android:layout_width="142dp"
                 android:layout_height="match_parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/text_title"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginEnd="@dimen/spacing_medium"
                 tools:src="@drawable/test"
@@ -32,24 +32,25 @@
                 android:scaleType="centerCrop"/>
             <TextView
                 android:id="@+id/text_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_media"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:layout_marginEnd="@dimen/spacing_medium"
                 tools:text="Shang-Chi and the Legend of the Ten Rings"
-                android:text="@{item.movieName}"
+                app:title="@{item}"
                 style="@style/Regular.Small"/>
             <TextView
                 android:id="@+id/text_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/text_title"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/text_title"
                 tools:text="8.9"
                 android:text="@{item.rate.toString()}"
-                android:layout_marginVertical="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_small"
                 style="@style/SemiBold.Small"
                 android:textColor="@color/yellow"
                 android:drawablePadding="@dimen/spacing_small"
