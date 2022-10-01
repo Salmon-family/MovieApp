@@ -1,5 +1,6 @@
 package com.karrar.movieapp.di
 
+import com.karrar.movieapp.data.local.DataStorePreferences
 import com.karrar.movieapp.data.remote.repository.AccountRepository
 import com.karrar.movieapp.data.remote.repository.AccountRepositoryImp
 import com.karrar.movieapp.data.remote.repository.MovieRepository
@@ -24,7 +25,11 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideAccountRepository(movieService: MovieService,dataClassParser: DataClassParser): AccountRepository {
-        return AccountRepositoryImp(movieService,dataClassParser)
+    fun provideAccountRepository(
+        movieService: MovieService,
+        dataStorePreferences: DataStorePreferences,
+        dataClassParser: DataClassParser,
+    ): AccountRepository {
+        return AccountRepositoryImp(movieService, dataStorePreferences, dataClassParser)
     }
 }
