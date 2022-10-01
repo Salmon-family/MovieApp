@@ -92,6 +92,7 @@
             android:textAppearance="@style/SemiBold.Medium"
             app:cornerRadius="@dimen/radius_small"
             android:text="@string/login"
+            android:enabled="@{viewModel.loginValidation}"
             app:hideWhenLoading="@{viewModel.loginRequestState}"
             android:onClick="@{()->viewModel.onClickLogin()}"
             app:layout_constraintTop_toBottomOf="@+id/password" />

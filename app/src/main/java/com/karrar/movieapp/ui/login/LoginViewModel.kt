@@ -1,9 +1,6 @@
 package com.karrar.movieapp.ui.login
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.AccountRepository
 import com.karrar.movieapp.utilities.Event
@@ -40,26 +37,33 @@ class LoginViewModel @Inject constructor(
     private val _signUpEvent = MutableLiveData<Event<Boolean>>()
     val signUpEvent = _signUpEvent.toLiveData()
 
+
+    val loginValidation = MediatorLiveData<Boolean>().apply {
+        addSource(userName,this@LoginViewModel::isValidUserName)
+        addSource(password,this@LoginViewModel::isValidPassword)
+    }
+
     fun onClickSignUp() {
         _signUpEvent.postValue(Event(true))
     }
 
     fun onClickLogin() {
-        if (isValidUserName() && isValidPassword()) {
             login()
-        }
+
     }
 
-    private fun isValidPassword(): Boolean {
-        val validPassword = textValidation.validPassword(password.value.toString())
+    private fun isValidPassword(password:String) {
+        val validPassword = textValidation.validPassword(password)
         _passwordHelperText.postValue(validPassword)
-        return validPassword == null
+        loginValidation.postValue(validPassword == null)
+
     }
 
-    private fun isValidUserName(): Boolean {
-        val validUserName = textValidation.validFiled(userName.value.toString())
+    private fun isValidUserName(userName:String) {
+        val validUserName = textValidation.validFiled(userName)
         _userNameHelperText.postValue(validUserName)
-        return validUserName == null
+        loginValidation.postValue(validUserName == null)
+
     }
 
 
