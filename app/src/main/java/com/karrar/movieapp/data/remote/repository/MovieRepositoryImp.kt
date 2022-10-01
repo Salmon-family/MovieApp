@@ -1,5 +1,6 @@
 package com.karrar.movieapp.data.remote.repository
 
+import android.util.Log
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.service.MovieService

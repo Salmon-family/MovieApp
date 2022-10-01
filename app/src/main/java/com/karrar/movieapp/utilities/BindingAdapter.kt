@@ -11,10 +11,9 @@ import com.squareup.picasso.Picasso
 
 @BindingAdapter("app:movieImage")
 fun bindMovieImage(image: ImageView, imageURL: String?) {
-    val URL = "https://image.tmdb.org/t/p/w500$imageURL"
     imageURL?.let {
         Picasso.get()
-            .load(URL)
+            .load(imageURL)
             .error(R.mipmap.ic_launcher)
             .into(image)
     }

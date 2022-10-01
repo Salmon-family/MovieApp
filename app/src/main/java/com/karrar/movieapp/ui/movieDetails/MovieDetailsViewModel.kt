@@ -3,8 +3,6 @@ package com.karrar.movieapp.ui.movieDetails
 import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
-import com.karrar.movieapp.data.remote.response.BaseResponse
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.ReviewsDto
 import com.karrar.movieapp.domain.models.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +28,7 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
      private var _movieReviews = MutableLiveData<State<List<Review>>>()
      val movieReviews :LiveData<State<List<Review>>> = _movieReviews
 
+     var ratingValue = MutableLiveData<Float>()
 
      fun getAllDetails(movie_id:Int){
           collectResponse(movieRepository.getMovieDetails(movie_id)) {
