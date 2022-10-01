@@ -88,6 +88,10 @@
         <item name="boxCornerRadiusBottomEnd">@dimen/radius_small</item>
         <item name="hintTextAppearance">@style/Regular.Medium.Primary</item>
         <item name="startIconTint">@color/shade_secondary_color</item>
+        <item name="helperTextEnabled">true</item>
+        <item name="helperTextTextColor">@color/design_default_color_error</item>
+        <item name="errorEnabled">true</item>
+
     </style>
 
 
