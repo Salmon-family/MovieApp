@@ -3,6 +3,7 @@ package com.karrar.movieapp.di
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.repository.MovieRepositoryImp
 import com.karrar.movieapp.data.remote.service.MovieService
+import com.karrar.movieapp.domain.mappers.ActorMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +16,10 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideMovieRepository(movieService: MovieService): MovieRepository {
-        return MovieRepositoryImp(movieService)
+    fun provideMovieRepository(
+        movieService: MovieService,
+        actorMapper: ActorMapper,
+    ): MovieRepository {
+        return MovieRepositoryImp(movieService, actorMapper)
     }
 }
