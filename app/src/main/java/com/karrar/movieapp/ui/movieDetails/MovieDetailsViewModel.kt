@@ -30,6 +30,8 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
 
      var ratingValue = MutableLiveData<Float>()
 
+     var rating = movieRepository.setRating(760161, 8.0).asLiveData()
+
      fun getAllDetails(movie_id:Int){
           collectResponse(movieRepository.getMovieDetails(movie_id)) {
                _movieDetails.postValue(it)
@@ -56,6 +58,6 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
      }
 
      override fun onClickCast(cast_id: Int) { }
-     override fun onClickMovie(cast_id: Int) { }
+     override fun onClickMovie(movie_id: Int) { getAllDetails(movie_id) }
 
 }

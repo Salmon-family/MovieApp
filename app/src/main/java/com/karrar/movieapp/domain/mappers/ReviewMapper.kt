@@ -9,7 +9,7 @@ class ReviewMapper @Inject constructor(private val userMapper: UserMapper):Mappe
     override fun map(input: ReviewsDto): Review {
         return Review(
             input.content,
-            input.createdAt,
+            input.createdAt?.take(10),
             input.authorDetails?.let { userMapper.map(it) }
         )
     }

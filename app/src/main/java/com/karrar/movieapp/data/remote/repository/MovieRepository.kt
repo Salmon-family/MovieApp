@@ -2,6 +2,7 @@ package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.RatingDto
 import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.ReviewsDto
 import com.karrar.movieapp.domain.models.Cast
 import com.karrar.movieapp.domain.models.Movie
@@ -30,6 +31,9 @@ interface MovieRepository {
     fun getSimilarMovie(movie_id: Int): Flow<State<List<Movie>>>
 
     fun getMovieReviews(movie_id: Int): Flow<State<List<Review>>>
+
+    fun setRating(movie_id: Int, value:Double): Flow<State<RatingDto>>
+
 
 
 }

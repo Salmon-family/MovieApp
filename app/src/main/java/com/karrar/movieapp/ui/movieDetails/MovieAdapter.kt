@@ -12,5 +12,5 @@ class MovieAdapter(items: List<Movie>, listener: CastInteractionListener
 }
 
 interface MovieInteractionListener : BaseInteractionListener {
-    fun onClickMovie(cast_id: Int)
+    fun onClickMovie(movie_id: Int)
 }

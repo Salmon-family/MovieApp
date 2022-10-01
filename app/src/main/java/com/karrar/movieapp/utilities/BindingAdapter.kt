@@ -19,12 +19,6 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
     }
 }
 
-//@BindingAdapter("app:text")
-//fun setText(text: Text, genres: List<GenreDto>?) {
-//    text.text = genres?.map { it.name }?.joinToString(" , ")
-//}
-
-
 @BindingAdapter("app:setGenre")
 fun setGenre(text: TextView, genres: List<GenreDto>?) {
     text.text = genres?.map { it.name }?.joinToString(" , ")
@@ -43,3 +37,11 @@ fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
 }
 
 
+
+@BindingAdapter(value = ["app:itemsWithMax"])
+fun <T> setRecyclerItemsWithMaxNumberOfItems(
+    view: RecyclerView,
+    items: List<T>?,
+) {
+    (view.adapter as BaseAdapter<T>?)?.setItems(items?.take(3) ?: emptyList())
+}

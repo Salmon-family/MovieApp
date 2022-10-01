@@ -9,6 +9,10 @@
             name="item"
             type="com.karrar.movieapp.domain.models.Movie" />
 
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.movieDetails.MovieInteractionListener" />
+
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -16,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_medium"
         android:layout_marginVertical="@dimen/spacing_small"
+        android:onClick="@{() -> listener.onClickMovie(item.id)}"
         app:shapeAppearanceOverlay="@style/CardCorners.Medium"
         >
 

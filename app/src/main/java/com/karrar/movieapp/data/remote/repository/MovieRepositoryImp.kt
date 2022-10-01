@@ -3,6 +3,7 @@ package com.karrar.movieapp.data.remote.repository
 import android.util.Log
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.CastMapper
 import com.karrar.movieapp.domain.mappers.MovieDetailsMapper
@@ -72,6 +73,10 @@ class MovieRepositoryImp @Inject constructor(
         return wrap ({ movieService.getMovieReviews(movie_id) },{
             it.items?.map { reviewMapper.map(it) } ?: emptyList()
         })
+    }
+
+    override fun setRating(movie_id: Int, value: Double): Flow<State<RatingDto>> {
+        return wrapWithFlow { movieService.postRating(movie_id, value) }
     }
 
 

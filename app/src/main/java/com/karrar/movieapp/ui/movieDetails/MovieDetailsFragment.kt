@@ -32,8 +32,8 @@ class MovieDetailsFragment :BaseFragment<FragmentMovieDetailsBinding>() {
         binding.similarMovieAdapter.adapter = MovieAdapter(mutableListOf(), viewModel)
         binding.commentReviewAdapter.adapter = ReviewAdapter(mutableListOf(), viewModel)
 
-        viewModel.similarMovie.observe(viewLifecycleOwner){
-//           Log.i("kkk", it.toData().toString())
+        viewModel.rating.observe(viewLifecycleOwner){
+           Log.i("kkk", it.toString())
         }
 
         viewModel.ratingValue.observe(viewLifecycleOwner){
