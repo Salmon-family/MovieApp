@@ -7,4 +7,8 @@
     <string name="latest">Latest</string>
     <string name="popular">Popular</string>
     <string name="tv_shows">TV Shows</string>
+    <string name="search_hint">Search for a movie, tv show, person...</string>
+    <string name="movies_chip">Movies</string>
+    <string name="tv_shows_chip">TV Shows</string>
+    <string name="actors_label">Actors</string>
 </resources>

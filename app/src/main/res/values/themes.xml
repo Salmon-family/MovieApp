@@ -1,12 +1,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MovieApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.MovieApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <item name="colorPrimary">@color/brand_color</item>
         <item name="colorPrimaryVariant">@color/background_color</item>
 
         <item name="android:statusBarColor">@color/background_color</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="colorAccent">@color/brand_color</item>
 
     </style>
 
@@ -72,4 +74,13 @@
         <item name="cornerSize">@dimen/radius_medium</item>
     </style>
 
+    <style name="Chip.Regular.Small" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipStrokeColor">@color/chip_stroke</item>
+
+        <item name="chipBackgroundColor">@color/chip_background</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
 </resources>
+<!--    parent="Widget.Material3.Chip.Filter"-->

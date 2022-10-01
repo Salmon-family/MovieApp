@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.karrar.movieapp.domain.models.Media" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_media"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        style="@style/CardCorners.Small">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/card_background_color">
+            <ImageView
+                android:id="@+id/image_media"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/text_title"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                tools:src="@drawable/test"
+                app:movieImage="@{item.imagePath}"
+                android:scaleType="centerCrop"/>
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                tools:text="Shang-Chi and the Legend of the Ten Rings"
+                android:text="@{item.movieName}"
+                style="@style/Regular.Small"/>
+            <TextView
+                android:id="@+id/text_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/text_title"
+                app:layout_constraintStart_toStartOf="@id/text_title"
+                tools:text="8.9"
+                android:text="@{item.rate.toString()}"
+                android:layout_marginVertical="@dimen/spacing_small"
+                style="@style/SemiBold.Small"
+                android:textColor="@color/yellow"
+                android:drawablePadding="@dimen/spacing_small"
+                app:drawableStartCompat="@drawable/ic_star_filled"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/text_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="2021"
+                android:text="@{item.releaseDate}"
+                style="@style/Regular.Small"
+                app:layout_constraintStart_toEndOf="@id/text_rate"
+                app:layout_constraintTop_toTopOf="@id/text_rate"
+                app:layout_constraintBottom_toBottomOf="@id/text_rate"
+                android:layout_marginStart="@dimen/spacing_medium"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
