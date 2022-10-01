@@ -12,6 +12,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+fun <T> MutableLiveData<T>.toLiveData(): LiveData<T> {
+    return this
+}
+
+
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
@@ -22,20 +27,20 @@ class LoginViewModel @Inject constructor(
     val password = MutableLiveData("")
 
     private val _passwordHelperText = MutableLiveData("")
-    val passwordHelperText: LiveData<String> = _passwordHelperText
+    val passwordHelperText = _passwordHelperText.toLiveData()
     private val _userNameHelperText = MutableLiveData("")
-    val userNameHelperText: LiveData<String> = _userNameHelperText
+    val userNameHelperText = _userNameHelperText.toLiveData()
 
     private val _loginRequestState = MutableLiveData<State<Boolean>>()
-    val loginRequestState: LiveData<State<Boolean>> = _loginRequestState
+    val loginRequestState = _loginRequestState.toLiveData()
 
     private val _loginEvent = MutableLiveData<Event<Boolean>>()
-    val loginEvent: LiveData<Event<Boolean>> = _loginEvent
+    val loginEvent = _loginEvent.toLiveData()
 
 
     fun onClickLogin() {
         if (isValidUserName() && isValidPassword()) {
-            whenFormIsValid()
+           login()
         }
     }
 
@@ -52,11 +57,8 @@ class LoginViewModel @Inject constructor(
     }
 
 
-    private fun whenFormIsValid() {
-        login()
-    }
 
-    fun login() {
+   private fun login() {
         viewModelScope.launch {
             accountRepository.loginWithUserNameANdPassword(userName.value.toString(),
                 password.value.toString()).collect {
