@@ -2,6 +2,7 @@ package com.karrar.movieapp.di
 
 import android.content.Context
 import androidx.room.Room
+import com.karrar.movieapp.data.local.DataStorePreferences
 import com.karrar.movieapp.data.local.database.MovieDataBase
 import dagger.Module
 import dagger.Provides
@@ -13,10 +14,14 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataBaseModule {
-    private lateinit var movieDatabase: MovieDataBase
 
     @Singleton
     @Provides
     fun providesRoomDatabase(@ApplicationContext context: Context): MovieDataBase =
-        Room.databaseBuilder(context,MovieDataBase::class.java,"MovieDatabase").build()
+        Room.databaseBuilder(context, MovieDataBase::class.java, "MovieDatabase").build()
+
+    @Singleton
+    @Provides
+    fun provideDataStorePreferences(@ApplicationContext context: Context) =
+        DataStorePreferences(context)
 }
