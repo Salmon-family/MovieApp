@@ -10,11 +10,13 @@
 
     </data>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_color"
         tools:context=".ui.login.LoginFragment">
+
 
         <ImageView
             android:id="@+id/imageView"
@@ -45,13 +47,17 @@
             android:layout_marginHorizontal="16dp"
             android:layout_height="wrap_content"
             android:hint="@string/username"
+            app:helperText="@{viewModel.userNameHelperText}"
             app:startIconDrawable="@drawable/ic_profile"
             app:layout_constraintTop_toBottomOf="@+id/textView">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:maxLines="1"
+                android:inputType="textPersonName"
                 android:textColor="@color/shade_secondary_color"
-                android:afterTextChanged="@{(text)->viewModel.onUserNameChanged(String.valueOf(text))}"
+                android:text="@={viewModel.userName}"
+
                 />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -60,14 +66,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginHorizontal="16dp"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/shade_secondary_color"
             android:hint="@string/password"
+            app:helperText="@{viewModel.passwordHelperText}"
             app:startIconDrawable="@drawable/ic_key"
             app:layout_constraintTop_toBottomOf="@+id/user_name">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:maxLines="1"
+                android:inputType="textPassword"
                 android:textColor="@color/shade_secondary_color"
-                android:afterTextChanged="@{(text)->viewModel.onPasswordChanged(String.valueOf(text))}"
+                android:text="@={viewModel.password}"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -80,18 +91,33 @@
             android:textAppearance="@style/SemiBold.Medium"
             app:cornerRadius="@dimen/radius_small"
             android:text="@string/login"
+            app:hideWhenLoading="@{viewModel.loginRequestState}"
             android:onClick="@{()->viewModel.onClickLogin()}"
+            app:layout_constraintTop_toBottomOf="@+id/password" />
+
+
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            app:showWhenLoading="@{viewModel.loginRequestState}"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:indeterminate="true"
+           android:visibility="gone"
+            app:trackColor="@color/shade_secondary_color"
+            app:indicatorColor="@color/brand_color"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:text="@string/don_t_have_an_account_sign_up"
             android:textAppearance="@style/Regular.Medium.Primary"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/containedButton" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
