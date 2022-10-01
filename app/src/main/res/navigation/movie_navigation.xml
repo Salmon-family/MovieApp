@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_actorsFragment2"
-            app:destination="@id/actorsFragment2" />
+            app:destination="@id/actorsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/actorsFragment2"
+        android:id="@+id/actorsFragment"
         android:name="com.karrar.movieapp.ui.actors.ActorsFragment"
         android:label="ActorsFragment" />
 </navigation>
