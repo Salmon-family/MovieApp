@@ -64,8 +64,9 @@ interface MovieService {
     @POST("movie/{movie_id}/rating")
     suspend fun postRating(
         @Path("movie_id") movieId: Int,
-        @Field ("value") rating: Double,
-    ): Response<RatingDto>
+        @Field ("value") rating: Float,
+        @Query("guest_session_id") apiKey: String?,
+        ): Response<RatingDto>
 
 }
 

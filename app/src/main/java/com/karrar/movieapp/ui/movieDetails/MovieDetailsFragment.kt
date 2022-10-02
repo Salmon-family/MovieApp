@@ -30,12 +30,17 @@ class MovieDetailsFragment :BaseFragment<FragmentMovieDetailsBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         observeEvents()
-        viewModel.getAllDetails(args.movieId)
 
         binding.castAdapter.adapter = CastAdapter(mutableListOf(), viewModel)
         binding.similarMovieAdapter.adapter = MovieAdapter(mutableListOf(), viewModel)
         binding.commentReviewAdapter.adapter = ReviewAdapter(mutableListOf(), viewModel)
 
+
+        viewModel.getAllDetails(args.movieId)
+
+        viewModel.ratingValue.observe(viewLifecycleOwner){
+            viewModel.onAddRating(args.movieId, it)
+        }
 
         viewModel.ratingValue.observe(viewLifecycleOwner){
            Snackbar.make(view,

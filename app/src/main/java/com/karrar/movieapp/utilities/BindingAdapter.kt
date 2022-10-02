@@ -1,6 +1,5 @@
 package com.karrar.movieapp.utilities
 
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -20,6 +19,19 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
             .error(R.mipmap.ic_launcher)
             .into(image)
     }
+}
+
+@BindingAdapter("app:isVisible")
+fun <T> isVisible(view: View, items: List<T>?){
+    if (items != null && items.size <3)
+        view.isVisible = false
+
+}
+
+@BindingAdapter("app:isThereReview")
+fun <T> isThereReview(view: View, items: List<T>?){
+    if (items != null && items.isEmpty())
+        view.isVisible = false
 }
 
 @BindingAdapter("app:setGenre")

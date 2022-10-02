@@ -307,6 +307,7 @@
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:text="@string/reviews_comment"
+                app:isThereReview="@{viewModel.movieReviews.toData()}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rating_bar"
                 />
@@ -332,6 +333,7 @@
                 android:layout_marginBottom="@dimen/spacing_small"
                 android:layout_marginHorizontal="16dp"
                 android:text="View all reviews"
+                app:isVisible="@{viewModel.movieReviews.toData()}"
                 android:textAllCaps="false"
                 android:paddingTop="16dp"
                 android:onClick="@{() -> viewModel.onclickViewReviews()}"

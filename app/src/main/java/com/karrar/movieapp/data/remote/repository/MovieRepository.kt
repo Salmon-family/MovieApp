@@ -32,7 +32,7 @@ interface MovieRepository {
 
     fun getMovieReviews(movie_id: Int): Flow<State<List<Review>>>
 
-    fun setRating(movie_id: Int, value:Double): Flow<State<RatingDto>>
+    fun setRating(movie_id: Int, value:Float, guest_session_id: String): Flow<State<RatingDto>>
 
 
 

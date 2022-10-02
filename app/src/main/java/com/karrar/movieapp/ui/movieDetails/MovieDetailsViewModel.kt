@@ -1,8 +1,10 @@
 package com.karrar.movieapp.ui.movieDetails
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.RatingDto
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,11 +45,12 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
 
      var ratingValue = MutableLiveData<Float>()
 
-     var rating = movieRepository.setRating(760161, 8.0).asLiveData()
 
      fun getAllDetails(movie_id:Int){
+
           collectResponse(movieRepository.getMovieDetails(movie_id)) {
                _movieDetails.postValue(it)
+
           }
           collectResponse(movieRepository.getMovieCast(movie_id)){
                _movieCast.postValue(it)
@@ -58,6 +61,7 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
           collectResponse(movieRepository.getMovieReviews(movie_id)){
                _movieReviews.postValue(it)
           }
+
      }
 
 
@@ -68,6 +72,11 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
                          function(state)
                     }
           }
+     }
+
+
+     fun onAddRating(movie_id: Int, value: Float) {
+          movieRepository.setRating(movie_id, value, "e6e2f890a0ef87c0381061ccf8787494")
      }
 
      fun onclickBack() {
