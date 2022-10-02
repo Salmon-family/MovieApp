@@ -11,21 +11,17 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.karrar.movieapp.R
+import com.bumptech.glide.Glide
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.home.adapters.HorizontalAdapter
-import com.squareup.picasso.Picasso
 
 
 @BindingAdapter("app:posterImage")
 fun bindMovieImage(image: ImageView, imageURL: String?) {
     imageURL?.let {
-        Picasso.get()
-            .load(imageURL)
-            .error(R.mipmap.ic_launcher)
-            .into(image)
+        Glide.with(image).load(imageURL).into(image)
     }
 }
 
@@ -48,11 +44,11 @@ fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
 fun <M : Any, T> setRecyclerAdapter(
     view: RecyclerView,
     adapters: List<Any>?,
-    state: State<T>?
+    state: Boolean?
 ) {
-    if (state is State.Success) {
-        adapters?.let {
-            it.forEach {
+    if (state == true) {
+        adapters?.let { list ->
+            list.forEach {
                 (view.adapter as ConcatAdapter).addAdapter(it as HorizontalAdapter<M>)
             }
         }
@@ -91,21 +87,21 @@ fun <T> showWhenFail(view: View, state: State<T>?) {
 
 @InverseBindingAdapter(attribute = "app:currentPosition", event = "currentPositionAttributeChanged")
 fun getCurrentPosition(recycler: RecyclerView): Int {
-    return (recycler.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+    return (recycler.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
 
 }
 
 @BindingAdapter(value = ["currentPositionAttributeChanged"])
 fun setListener(rv: RecyclerView, l: InverseBindingListener) {
-    val layoutManager = (rv.layoutManager as LinearLayoutManager?)!!
-    var prevPos = layoutManager.findFirstVisibleItemPosition()
+    val layoutManager = (rv.layoutManager as LinearLayoutManager)
+    var prevPos = layoutManager.findFirstCompletelyVisibleItemPosition()
     rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
             if (dx == 0) {
                 return
             }
-            val newPos = layoutManager.findFirstVisibleItemPosition()
+            val newPos = layoutManager.findFirstCompletelyVisibleItemPosition()
             if (prevPos != newPos) {
                 prevPos = newPos
                 l.onChange()
@@ -116,5 +112,8 @@ fun setListener(rv: RecyclerView, l: InverseBindingListener) {
 
 @BindingAdapter("currentPosition")
 fun setCurrentPosition(rv: RecyclerView, pos: Int) {
-    (rv.layoutManager)?.scrollToPosition(pos)
+    if (pos >= 0) {
+        (rv.layoutManager)?.scrollToPosition(pos)
+    }
+
 }

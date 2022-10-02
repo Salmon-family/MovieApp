@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.home
 
+import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -62,7 +63,8 @@ class HomeViewModel @Inject constructor(
             HorizontalAdapter<ActorAdapter>(Type.ActorType, this)
         )
 
-    val updatingRecycler = MediatorLiveData<State<Any>>().apply {
+
+    val updatingRecycler = MediatorLiveData<Boolean>().apply {
         addSource(popularMovie, this@HomeViewModel::updateData)
         addSource(trending, this@HomeViewModel::updateData)
         addSource(nowStreaming, this@HomeViewModel::updateData)
@@ -78,8 +80,22 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun <T> updateData(value: State<T>) {
-        if (value is State.Success) {
-            updatingRecycler.postValue(value as State<Any>)
+        if (
+            popularMovie.value is State.Success &&
+            trending.value is State.Success &&
+            nowStreaming.value is State.Success &&
+            upcoming.value is State.Success &&
+            mysteryMovie.value is State.Success &&
+            adventureMovie.value is State.Success &&
+            actors.value is State.Success &&
+            airingToday.value is State.Success &&
+            topRatedTvShow.value is State.Success &&
+            latestTvShow.value is State.Success &&
+            popularTvShow.value is State.Success
+
+        ) {
+            Log.i("testRecyeler", "before state")
+            updatingRecycler.postValue(true)
         }
     }
 

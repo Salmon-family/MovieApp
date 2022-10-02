@@ -78,4 +78,7 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:2.42"
 
 
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+
+
 }
