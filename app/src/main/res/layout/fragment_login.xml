@@ -96,6 +96,7 @@
             android:enabled="@{viewModel.loginValidation}"
             android:onClick="@{()->viewModel.onClickLogin()}"
             android:text="@string/login"
+            android:textColor="@color/shade_secondary_color"
             android:textAppearance="@style/SemiBold.Medium"
             app:cornerRadius="@dimen/radius_small"
             app:hideWhenLoading="@{viewModel.loginRequestState}"
