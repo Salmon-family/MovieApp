@@ -7,6 +7,10 @@
     <string name="latest">Latest</string>
     <string name="popular">Popular</string>
     <string name="tv_shows">TV Shows</string>
+    <string name="profile">Profile</string>
+    <string name="watch_history">Watch History</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="rated_movies">Rated Movies</string>
     <string name="login_to_your_account">Login to your account</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
