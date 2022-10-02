@@ -6,6 +6,7 @@
         <item name="colorPrimaryVariant">@color/background_color</item>
 
         <item name="android:statusBarColor">@color/background_color</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
 
     </style>

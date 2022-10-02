@@ -15,9 +15,10 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="128dp"
         android:layout_height="176dp"
-        android:layout_marginRight="@dimen/spacing_medium"
+        android:layout_marginHorizontal="@dimen/spacing_small"
         android:onClick="@{ () -> listener.onClickMovie(item.id)}"
         app:movieImage="@{item.imageUrl}"
+        android:scaleType="centerCrop"
         android:background="@color/brand_color"
         app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 </layout>

@@ -91,7 +91,7 @@
                     style="@style/SemiBold.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:actorGender="@{viewModel.actorDetails.toData().gender}"
+                    android:text="@{viewModel.actorDetails.toData().gender}"
                     tools:text="Male" />
             </LinearLayout>
 
@@ -190,17 +190,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/radius_medium"
-                android:layout_marginBottom="@dimen/radius_small"
+                android:layout_marginTop="23dp"
                 android:text="@string/movies"
-                app:layout_constraintBottom_toTopOf="@+id/related_movie_recycler"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="8dp"
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="@dimen/spacing_small"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/related_movie_recycler"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -229,15 +229,16 @@
                 android:id="@+id/related_movie_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="160dp"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
-                android:layout_marginStart="@dimen/radius_medium"
+                android:paddingHorizontal="@dimen/radius_medium"
                 app:items="@{viewModel.actorMovies.toData()}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/related_movie_title"
                 tools:ignore="MissingConstraints"
                 tools:listitem="@layout/item_movie" />
 
@@ -247,39 +248,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/radius_medium"
-                android:layout_marginTop="@dimen/radius_medium"
-                android:layout_marginBottom="@dimen/radius_medium"
+                android:layout_marginTop="@dimen/radius_large"
                 android:text="@string/biography"
-                app:layout_constraintBottom_toTopOf="@+id/over_view"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/related_movie_recycler" />
 
 
-            <io.github.glailton.expandabletextview.ExpandableTextView
+            <TextView
                 android:id="@+id/over_view"
                 style="@style/Regular.Medium.Secondary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/radius_medium"
-                android:layout_marginTop="48dp"
+                android:layout_marginBottom="@dimen/radius_large"
                 android:text="@{viewModel.actorDetails.toData().biography}"
-                app:animDuration="500"
-                app:collapsedLines="5"
                 app:ellipsizeTextColor="@color/brand_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/related_movie_recycler"
-                app:readLessText="Read less"
-                app:readMoreText="Read more"
+                app:layout_constraintTop_toBottomOf="@+id/over_view_title"
                 tools:ignore="MissingClass"
                 tools:text="Krasinski's instincts are very good, and once you've placed the primary action there, then it allows the story instincts are very good, and once you've placed the primary action there, then it allows the story" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/radius_large"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/over_view" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

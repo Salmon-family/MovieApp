@@ -23,10 +23,6 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
 
         binding.relatedMovieRecycler.adapter = MovieAdapter(mutableListOf(), viewModel)
 
-        viewModel.actorMovies.observe(viewLifecycleOwner) {
-            Log.i("TAG", "onViewCreated: $it")
-        }
-
         observeEvents()
     }
 

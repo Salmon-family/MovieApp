@@ -15,7 +15,7 @@ data class ActorDetailsDto(
     @SerializedName("deathday")
     val deathday: Any? = null,
     @SerializedName("gender")
-    val gender: Int? = null,
+    var gender: Int? = null,
     @SerializedName("homepage")
     val homepage: Any? = null,
     @SerializedName("id")

@@ -23,14 +23,3 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
 fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
     (view.adapter as BaseAdapter<T>?)?.setItems(items ?: emptyList())
 }
-
-@SuppressLint("SetTextI18n")
-@BindingAdapter("app:actorGender")
-fun setGender(view: TextView,gender: Int){
-    if (gender == 2){
-        view.text = "Male"
-    } else {
-        view.text = "Female"
-    }
-}
-

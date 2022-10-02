@@ -8,5 +8,5 @@ data class ActorDetails(
     val placeOfBirth: String?,
     val biography: String?,
     val knownForDepartment: String?,
-    val gender: Int?,
+    val gender: String?,
 )

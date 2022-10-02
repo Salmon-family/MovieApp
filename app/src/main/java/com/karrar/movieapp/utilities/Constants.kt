@@ -5,4 +5,6 @@ object Constants {
     const val API_KEY = "84c61eff2fcefd931aff41f9d620ab21"
 
     const val ACTOR_ID = 287
+
+    const val IMAGE_BASE_PATH = "https://image.tmdb.org/t/p/w500"
 }
