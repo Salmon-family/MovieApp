@@ -262,7 +262,6 @@
                 android:layout_marginHorizontal="@dimen/radius_medium"
                 android:layout_marginBottom="@dimen/radius_large"
                 android:text="@{viewModel.actorDetails.toData().biography}"
-                app:ellipsizeTextColor="@color/brand_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

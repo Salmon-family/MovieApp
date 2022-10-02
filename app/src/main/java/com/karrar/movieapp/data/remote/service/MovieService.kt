@@ -1,6 +1,5 @@
 package com.karrar.movieapp.data.remote.service
 
-import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.response.login.SessionResponse
 import com.karrar.movieapp.data.remote.response.BaseResponse
@@ -8,9 +7,7 @@ import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.PersonDto
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorDetailsDto
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorMoviesDto
-import com.karrar.movieapp.data.remote.response.actorDetailsDto.CastDto
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
-import com.karrar.movieapp.domain.models.Movie
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FieldMap
