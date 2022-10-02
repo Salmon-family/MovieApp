@@ -291,12 +291,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_medium"
-                android:progressTint="@color/yellow"
-                android:progressBackgroundTint="@color/shade_quaternary_color"
+                android:progressDrawable="@drawable/rating_custom"
                 android:isIndicator="false"
-                android:numStars="5"
                 android:rating="@={viewModel.ratingValue}"
-                android:stepSize="0.5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rate_the_movie" />
