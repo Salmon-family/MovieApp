@@ -19,38 +19,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/background_color">
-
-
-            <ImageButton
-                android:id="@+id/button_back_to_home"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:backgroundTint="@android:color/transparent"
-                android:src="@drawable/ic_arrow_left"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                style="@style/SemiBold.Large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_small"
-                android:text="@string/actors"
-                app:layout_constraintBottom_toBottomOf="@+id/button_back_to_home"
-                app:layout_constraintStart_toEndOf="@+id/button_back_to_home"
-                app:layout_constraintTop_toTopOf="@+id/button_back_to_home" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_actors"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_height="match_parent"
                 app:items="@{viewModel.trendingActors.toData()}"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_back_to_home"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:showWhenSuccess="@{viewModel.trendingActors}"
                 app:spanCount="3"
                 tools:listitem="@layout/item_actor" />
@@ -61,6 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/background_color"
+            tools:visibility="gone"
             app:showWhenLoading="@{viewModel.trendingActors}">
 
             <com.airbnb.lottie.LottieAnimationView
@@ -80,6 +59,7 @@
             android:id="@+id/screen_on_lost_internet"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            tools:visibility="gone"
             android:background="@color/background_color"
             app:showWhenFail="@{viewModel.trendingActors}">
 
