@@ -40,8 +40,8 @@ class LoginViewModel @Inject constructor(
 
 
     val loginValidation = MediatorLiveData<Boolean>().apply {
-        addSource(userName, ::checkFormValidation)
-        addSource(password, ::checkFormValidation)
+        addSource(userName, ::checkUserNameValidation)
+        addSource(password, ::checkPasswordValidation)
     }
 
     fun onClickSignUp() {
@@ -53,16 +53,23 @@ class LoginViewModel @Inject constructor(
 
     }
 
-    private fun checkFormValidation(value: String?) {
 
-        val userNameFieldState = textValidation.validateFiledState(userName.value.toString())
-        val passwordFieldState = textValidation.validatePasswordFiledState(password.value.toString())
-
-        val isValidUserNameAndPassword = userNameFieldState.isValid() && passwordFieldState.isValid()
-        loginValidation.postValue(isValidUserNameAndPassword)
-
-        _userNameHelperText.postValue(userNameFieldState.errorMessage())
+    private fun checkPasswordValidation(password: String?) {
+        val passwordFieldState = textValidation.validatePasswordFiledState(password.toString())
         _passwordHelperText.postValue(passwordFieldState.errorMessage())
+        checkFormValidation()
+
+    }
+
+    private fun checkUserNameValidation(userName: String?) {
+        val userNameFieldState = textValidation.validateFiledState(userName.toString())
+        _userNameHelperText.postValue(userNameFieldState.errorMessage())
+        checkFormValidation()
+    }
+
+    private fun checkFormValidation() {
+        val isValidUserNameAndPassword = textValidation.isValidUserNameAndPassword(userName.value.toString(), password.value.toString())
+        loginValidation.postValue(isValidUserNameAndPassword)
 
 
     }

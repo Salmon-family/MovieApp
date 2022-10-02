@@ -20,4 +20,8 @@ class FormFiledValidator @Inject constructor(){
         }
         return FormFieldState.Valid
     }
+
+    fun isValidUserNameAndPassword(userName:String , password:String) : Boolean{
+        return validateFiledState(userName).isValid()  and  validateFiledState(password).isValid()
+    }
 }
