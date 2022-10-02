@@ -5,10 +5,7 @@ import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.GenericTransitionOptions
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.google.android.material.imageview.ShapeableImageView
+import coil.load
 import com.karrar.movieapp.R
 import com.karrar.movieapp.base.BaseAdapter
 import com.karrar.movieapp.data.remote.State
@@ -16,7 +13,7 @@ import com.karrar.movieapp.utilities.Constants.IMAGE_DOWNLOAD_URL
 import com.squareup.picasso.Picasso
 
 @BindingAdapter("app:movieImage")
-fun bindMovieImage(image: ShapeableImageView, imageURL: String?) {
+fun bindMovieImage(image: ImageView, imageURL: String?) {
     imageURL?.let {
         Picasso.get()
             .load(imageURL)
@@ -47,10 +44,8 @@ fun <T> showWhenFail(view: View, state: State<T>?) {
 
 @BindingAdapter(value = ["app:loadImage"])
 fun loadImage(view: ImageView, pathImage: String?) {
-    Glide.with(view).load("$IMAGE_DOWNLOAD_URL$pathImage")
-        .error(R.drawable.ic_baseline_person_24)
-        .placeholder(R.drawable.loading)
-        .into(view)
+    view.load(IMAGE_DOWNLOAD_URL + pathImage) {
+        placeholder(R.drawable.ic_loading)
+        error(R.drawable.ic_baseline_person_24)
+    }
 }
-
-
