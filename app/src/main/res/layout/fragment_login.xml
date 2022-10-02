@@ -26,7 +26,7 @@
             android:scaleType="centerCrop"
             android:shadowColor="@color/shade_secondary_color"
             android:src="@drawable/login_movie"
-            app:layout_constraintHeight_percent="0.45"
+            app:layout_constraintHeight_percent="0.35"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -92,7 +92,8 @@
             android:layout_height="56dp"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_extra_large"
-            android:clickable="@{viewModel.loginValidation}"
+            app:backgroundTint="@color/color_states_material_button"
+            android:enabled="@{viewModel.loginValidation}"
             android:onClick="@{()->viewModel.onClickLogin()}"
             android:text="@string/login"
             android:textAppearance="@style/SemiBold.Medium"
@@ -119,7 +120,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:onClick="@{()->viewModel.onClickSignUp()}"
             android:text="@string/don_t_have_an_account"
             android:textAppearance="@style/Regular.Medium.Primary"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -127,14 +127,15 @@
             app:layout_constraintHorizontal_bias="0.42"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
+        <TextView
             android:id="@+id/sign_up"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="-12dp"
+            android:layout_marginStart="4dp"
             android:text="@string/sign_up"
+            android:textColor="@color/brand_color"
             android:textAppearance="@style/Regular.Medium.Primary"
+            android:onClick="@{()->viewModel.onClickSignUp()}"
             app:layout_constraintBottom_toBottomOf="@+id/materialTextView"
             app:layout_constraintStart_toEndOf="@+id/materialTextView"
             app:layout_constraintTop_toTopOf="@+id/materialTextView" />

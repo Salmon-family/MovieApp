@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.AccountRepository
 import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.TextFiledValidation
+import com.karrar.movieapp.utilities.FormFiledValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,11 +17,11 @@ fun <T> MutableLiveData<T>.toLiveData(): LiveData<T> {
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
-    private val textValidation: TextFiledValidation,
+    private val textValidation: FormFiledValidator,
 ) : ViewModel() {
 
-    val userName = MutableLiveData("")
-    val password = MutableLiveData("")
+    val userName = MutableLiveData<String?>()
+    val password = MutableLiveData<String?>()
 
     private val _passwordHelperText = MutableLiveData("")
     val passwordHelperText = _passwordHelperText.toLiveData()
@@ -53,7 +53,7 @@ class LoginViewModel @Inject constructor(
 
     }
 
-    private fun checkFormValidation(value: String) {
+    private fun checkFormValidation(value: String?) {
 
         val userNameFieldState = textValidation.validateFiledState(userName.value.toString())
         val passwordFieldState = textValidation.validatePasswordFiledState(password.value.toString())

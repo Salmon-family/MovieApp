@@ -1,12 +1,11 @@
 package com.karrar.movieapp.utilities
 
-import com.karrar.movieapp.domain.FormFieldState
 import javax.inject.Inject
 
-class TextFiledValidation @Inject constructor(){
+class FormFiledValidator @Inject constructor(){
 
 
-    fun validateFiledState(text : String) : FormFieldState{
+    fun validateFiledState(text : String) : FormFieldState {
         if (text.isBlank() || text.isEmpty()){
             return FormFieldState.InValid("Required")
         }

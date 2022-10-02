@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain
+package com.karrar.movieapp.utilities
 
 sealed class FormFieldState {
 
