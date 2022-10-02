@@ -6,28 +6,54 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
-import com.karrar.movieapp.data.remote.repository.SeriesRepository
 import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.ui.home.adapters.MovieInteractionListener
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewmodel @Inject constructor(
+class SearchViewModel @Inject constructor(
     private val movieRepository: MovieRepository
 ) : ViewModel(), MediaInteractionListener{
     private val _media = MutableLiveData<State<List<Media>>>()
     val media: LiveData<State<List<Media>>> get() = _media
 
-    fun getMedia(query: String){
+    val searchText = MutableStateFlow("")
+    val mediaType = MutableStateFlow("movie")
+
+
+    init {
         viewModelScope.launch {
-            movieRepository.getMedia(query).debounce(1000).flowOn(Dispatchers.IO).collect{
+            mediaType.combine(searchText){ type, text ->
+                "${type},${text}"
+            }.debounce(1000).collect{getMedia(it.substringBefore(','), it.substringAfter(','))}
+        }
+    }
+
+    private fun getMedia(query: String, type: String){
+        viewModelScope.launch {
+            movieRepository.getMedia(query, type).collect{
                 _media.postValue(it)
             }
+        }
+    }
+
+    fun getMovies(){
+        viewModelScope.launch {
+            mediaType.emit("movie")
+        }
+    }
+
+    fun getSeries(){
+        viewModelScope.launch {
+            mediaType.emit("tv")
+        }
+    }
+
+    fun getActors(){
+        viewModelScope.launch {
+            mediaType.emit("person")
         }
     }
 

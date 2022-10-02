@@ -40,7 +40,7 @@
                 android:layout_marginHorizontal="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_small"
                 tools:text="Shang-Chi and the Legend of the Ten Rings"
-                app:title="@{item}"
+                android:text="@{item.name}"
                 style="@style/Regular.Small"/>
             <TextView
                 android:id="@+id/text_rate"

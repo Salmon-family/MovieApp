@@ -6,14 +6,16 @@
     <data>
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.search.SearchViewmodel" />
+            type="com.karrar.movieapp.ui.search.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_color">
+
         <EditText
+            android:text="@={viewModel.searchText}"
             android:id="@+id/input_search"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -34,10 +36,12 @@
             android:drawablePadding="@dimen/spacing_small"
             android:paddingStart="@dimen/spacing_small"
             android:textCursorDrawable="@color/brand_color"/>
+
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group_media_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:checkedChip="@id/chip_movie"
             style="@style/Widget.Material3.ChipGroup"
             app:layout_constraintTop_toBottomOf="@id/input_search"
             app:layout_constraintStart_toStartOf="@id/input_search"
@@ -45,6 +49,7 @@
             app:singleSelection="true"
             android:layout_marginTop="@dimen/spacing_medium"
             app:chipSpacingHorizontal="12dp">
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_movie"
                 android:layout_width="wrap_content"
@@ -55,7 +60,9 @@
                 android:paddingHorizontal="@dimen/spacing_medium"
                 app:checkedIconEnabled="false"
                 app:chipCornerRadius="@dimen/spacing_small"
-                android:text="@string/movies_chip"/>
+                android:text="@string/movies_chip"
+                android:onClick="@{() -> viewModel.getMovies()}"/>
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_series"
                 android:layout_width="wrap_content"
@@ -66,7 +73,9 @@
                 android:paddingHorizontal="@dimen/spacing_medium"
                 app:checkedIconEnabled="false"
                 app:chipCornerRadius="@dimen/spacing_small"
-                android:text="@string/tv_shows_chip"/>
+                android:text="@string/tv_shows_chip"
+                android:onClick="@{() -> viewModel.getSeries()}"/>
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_actors"
                 android:layout_width="wrap_content"
@@ -77,8 +86,10 @@
                 android:paddingHorizontal="@dimen/spacing_medium"
                 app:checkedIconEnabled="false"
                 app:chipCornerRadius="@dimen/spacing_small"
-                android:text="@string/actors_label"/>
+                android:text="@string/actors_label"
+                android:onClick="@{() -> viewModel.getActors()}"/>
         </com.google.android.material.chip.ChipGroup>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_media"
             android:layout_width="0dp"

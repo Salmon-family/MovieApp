@@ -58,8 +58,8 @@ class MovieRepositoryImp @Inject constructor(
         }
     }
 
-    override fun getMedia(query: String): Flow<State<List<Media>>> {
-        return wrap({movieService.getMedia(query)}, {
+    override fun getMedia(type: String, query: String): Flow<State<List<Media>>> {
+        return wrap({movieService.getMedia(type,query)}, {
             it.items?.map{ mediaMapper.map(it!!) } ?: emptyList()
         })
     }

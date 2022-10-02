@@ -24,13 +24,5 @@ fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
     (view.adapter as BaseAdapter<T>?)?.setItems(items ?: emptyList())
 }
 
-@BindingAdapter(value = ["app:title"])
-fun setTitle(view: TextView, media: Media){
-    when(media.type){
-        "movie" -> view.text = media.movieName
-        "tv" -> view.text = media.seriesName
-        "person" -> view.text = media.actorName
-    }
-}
 
 

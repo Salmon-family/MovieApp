@@ -19,5 +19,5 @@ interface MovieRepository {
 
     fun getTrendingPersons(): Flow<State<BaseResponse<PersonDto>>>
 
-    fun getMedia(query: String): Flow<State<List<Media>>>
+    fun getMedia(type: String, query: String): Flow<State<List<Media>>>
 }

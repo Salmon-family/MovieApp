@@ -36,9 +36,10 @@ interface MovieService {
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
     ): Response<BaseResponse<PersonDto>>
 
-    @GET("search/multi")
+    @GET("search/{type}")
     suspend fun getMedia(
-        @Query("query") query: String
+        @Path("type") type: String,
+        @Query("query") query: String,
     ): Response<BaseResponse<MediaDto>>
 }
 
