@@ -7,20 +7,25 @@
         <variable
             name="item"
             type="com.karrar.movieapp.domain.models.Cast"/>
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.movieDetails.CastInteractionListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_medium"
+        android:onClick="@{() -> listener.onClickCast(item.id)}"
+        android:layout_marginStart="@dimen/spacing_medium"
         android:layout_marginVertical="@dimen/spacing_small"
         android:backgroundTint="@color/background_color"
-
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             >
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -29,7 +34,7 @@
                 android:layout_height="84dp"
                 android:scaleType="centerCrop"
                 app:shapeAppearanceOverlay="@style/Circle"
-                app:movieImage="@{item.actorImage}"
+                app:movieImage="@{item.imageUrl}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -43,12 +48,12 @@
                 android:layout_marginTop="8dp"
                 android:textAlignment="center"
                 android:ellipsize="end"
-                android:text="@{item.actorName}"
+                android:text="@{item.name}"
                 android:lines="2"
                 app:layout_constraintEnd_toEndOf="@+id/cast_image"
                 app:layout_constraintStart_toStartOf="@+id/cast_image"
                 app:layout_constraintTop_toBottomOf="@+id/cast_image"
-                tools:text="Shahad Abdulhasan" />
+                tools:text="Debora Caprioglio" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

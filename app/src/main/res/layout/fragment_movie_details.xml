@@ -48,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
+                android:onClick="@{() -> viewModel.onclickBack()}"
                 android:background="@drawable/back_icon_shape"
                 android:padding="@dimen/spacing_small"
                 android:src="@drawable/ic_arrow_left_details"
@@ -93,6 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
+                android:textAlignment="center"
                 android:text="@{viewModel.movieDetails.toData().movieName}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -325,8 +327,25 @@
                 tools:listitem="@layout/item_movie_review"
                 />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/view_all_reviews"
+                style="@style/SemiBold.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:layout_marginHorizontal="16dp"
+                android:text="View all reviews"
+                android:textAllCaps="false"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                app:cornerRadius="@dimen/radius_small"
+                app:layout_constraintTop_toBottomOf="@+id/comment_review_adapter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Play Trailer" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 

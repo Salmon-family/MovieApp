@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.domain.models.*
+import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -27,6 +28,15 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
 
      private var _movieReviews = MutableLiveData<State<List<Review>>>()
      val movieReviews :LiveData<State<List<Review>>> = _movieReviews
+
+     private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
+     var clickBackEvent: LiveData<Event<Boolean>> = _clickBackEvent
+
+     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
+     var clickMovieEvent: LiveData<Event<Int>> = _clickMovieEvent
+
+     private val _clickCastEvent = MutableLiveData<Event<Int>>()
+     var clickCastEvent: LiveData<Event<Int>> = _clickCastEvent
 
      var ratingValue = MutableLiveData<Float>()
 
@@ -57,7 +67,17 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
           }
      }
 
-     override fun onClickCast(cast_id: Int) { }
-     override fun onClickMovie(movie_id: Int) { getAllDetails(movie_id) }
+     fun onclickBack() {
+          _clickBackEvent.postValue(Event(true))
+     }
+
+     override fun onClickCast(cast_id: Int) {
+          _clickCastEvent.postValue(Event(cast_id))
+
+     }
+
+     override fun onClickMovie(movie_id: Int) {
+          _clickMovieEvent.postValue(Event(movie_id))
+     }
 
 }

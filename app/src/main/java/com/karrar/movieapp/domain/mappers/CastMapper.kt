@@ -9,6 +9,7 @@ import javax.inject.Inject
 class CastMapper @Inject constructor() :Mapper<CastDto, Cast> {
     override fun map(input: CastDto): Cast {
         return Cast(
+            input.id,
             Constants.IMAGE_BASE_PATH + input.profilePath,
             input.name
         )

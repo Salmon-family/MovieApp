@@ -1,6 +1,7 @@
 package com.karrar.movieapp.ui.home
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.karrar.movieapp.data.test.Category
@@ -9,6 +10,7 @@ import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.ui.home.adapters.BannerInteractionListener
 import com.karrar.movieapp.ui.home.adapters.CategoryInteractionListener
 import com.karrar.movieapp.ui.home.adapters.MovieInteractionListener
+import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -21,6 +23,13 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
     val data = MutableLiveData<List<Category>>()
 
     private val list = mutableListOf<Category>()
+
+    private val _clickItemEvent = MutableLiveData<Event<Int>>()
+    var clickItemEvent: LiveData<Event<Int>> = _clickItemEvent
+
+    fun onClickMovie() {
+        _clickItemEvent.postValue(Event(760161))
+    }
 
     init {
         for (i in 0..10)
