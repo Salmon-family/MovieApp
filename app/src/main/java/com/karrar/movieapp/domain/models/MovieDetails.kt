@@ -1,6 +1,7 @@
 package com.karrar.movieapp.domain.models
 
 data class MovieDetails(
+    val id:Int?,
     val movieImage:String?,
     val movieName: String?,
     val releaseDate: String?,

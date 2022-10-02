@@ -337,6 +337,7 @@
                 android:text="View all reviews"
                 android:textAllCaps="false"
                 android:paddingTop="16dp"
+                android:onClick="@{() -> viewModel.onclickViewReviews()}"
                 android:paddingBottom="16dp"
                 app:cornerRadius="@dimen/radius_small"
                 app:layout_constraintTop_toBottomOf="@+id/comment_review_adapter"

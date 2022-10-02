@@ -19,13 +19,28 @@
         android:id="@+id/movieDetailsFragment"
         android:name="com.karrar.movieapp.ui.movieDetails.MovieDetailsFragment"
         android:label="MovieDetailsFragment"
-        tools:layout="@layout/fragment_movie_details">
+        tools:layout="@layout/fragment_movie_details"
+        >
         <argument
             android:name="movie_id"
             app:argType="integer" />
         <action
             android:id="@+id/action_movieDetailsFragment_self2"
             app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_reviewFragment"
+            app:destination="@id/reviewFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/reviewFragment"
+        android:name="com.karrar.movieapp.ui.movieReviews.ReviewFragment"
+        android:label="ReviewFragment"
+        tools:layout="@layout/fragment_review"
+        >
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
     </fragment>
 
 </navigation>

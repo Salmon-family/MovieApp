@@ -8,6 +8,7 @@ import javax.inject.Inject
 class MovieDetailsMapper  @Inject constructor():Mapper<MovieDetailsDto, MovieDetails> {
     override fun map(input: MovieDetailsDto): MovieDetails {
         return MovieDetails(
+            input.id,
             Constants.IMAGE_BASE_PATH + input.posterPath,
             input.title,
             input.releaseDate?.take(4),

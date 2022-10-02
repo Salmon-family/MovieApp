@@ -38,6 +38,9 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
      private val _clickCastEvent = MutableLiveData<Event<Int>>()
      var clickCastEvent: LiveData<Event<Int>> = _clickCastEvent
 
+     private val _clickReviewsEvent = MutableLiveData<Event<Boolean>>()
+     var clickReviewsEvent: LiveData<Event<Boolean>> = _clickReviewsEvent
+
      var ratingValue = MutableLiveData<Float>()
 
      var rating = movieRepository.setRating(760161, 8.0).asLiveData()
@@ -69,6 +72,10 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
 
      fun onclickBack() {
           _clickBackEvent.postValue(Event(true))
+     }
+
+     fun onclickViewReviews() {
+          _clickReviewsEvent.postValue(Event(true))
      }
 
      override fun onClickCast(cast_id: Int) {

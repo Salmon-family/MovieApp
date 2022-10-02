@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.movieDetails
+package com.karrar.movieapp.ui.movieReviews
 
 import com.karrar.movieapp.R
 import com.karrar.movieapp.base.*

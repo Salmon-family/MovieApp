@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.movieReviews.ReviewAdapter
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,16 +30,12 @@ class MovieDetailsFragment :BaseFragment<FragmentMovieDetailsBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         observeEvents()
-
         viewModel.getAllDetails(args.movieId)
 
         binding.castAdapter.adapter = CastAdapter(mutableListOf(), viewModel)
         binding.similarMovieAdapter.adapter = MovieAdapter(mutableListOf(), viewModel)
         binding.commentReviewAdapter.adapter = ReviewAdapter(mutableListOf(), viewModel)
 
-        viewModel.rating.observe(viewLifecycleOwner){
-           Log.i("kkk", it.toString())
-        }
 
         viewModel.ratingValue.observe(viewLifecycleOwner){
            Snackbar.make(view,
@@ -60,6 +57,11 @@ class MovieDetailsFragment :BaseFragment<FragmentMovieDetailsBinding>() {
          viewModel.clickCastEvent.observe(viewLifecycleOwner, EventObserve{
              Navigation.findNavController(binding.root)
                  .navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf2(it))
+         })
+
+         viewModel.clickReviewsEvent.observe(viewLifecycleOwner, EventObserve{
+             Navigation.findNavController(binding.root)
+                 .navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewFragment(args.movieId))
          })
 
          viewModel.clickBackEvent.observe(viewLifecycleOwner, EventObserve{
