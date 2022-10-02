@@ -40,8 +40,8 @@ class LoginViewModel @Inject constructor(
 
 
     val loginValidation = MediatorLiveData<Boolean>().apply {
-        addSource(userName, this@LoginViewModel::checkFormValidation)
-        addSource(password, this@LoginViewModel::checkFormValidation)
+        addSource(userName, ::checkFormValidation)
+        addSource(password, ::checkFormValidation)
     }
 
     fun onClickSignUp() {
