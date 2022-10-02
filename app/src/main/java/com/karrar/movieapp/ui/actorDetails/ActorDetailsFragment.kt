@@ -27,10 +27,10 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
     }
 
     private fun observeEvents() {
-        viewModel.backEvent.observe(viewLifecycleOwner, EventObserve { backToDetails() })
+        viewModel.backEvent.observe(viewLifecycleOwner, EventObserve { removeFragment() })
     }
 
-    private fun backToDetails() {
+    private fun removeFragment() {
         findNavController().popBackStack()
     }
 }
