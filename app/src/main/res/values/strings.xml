@@ -18,7 +18,7 @@
     <string name="review">Reviews</string>
     <string name="reviews_comment">Reviews</string>
     <string name="user_name">"@" %1$s</string>
-
+    <string name="back_button">back button</string>
 
 
 </resources>

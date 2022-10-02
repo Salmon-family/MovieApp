@@ -1,15 +1,11 @@
 package com.karrar.movieapp.ui.movieDetails
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.SnackbarContentLayout
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
@@ -26,7 +22,7 @@ class MovieDetailsFragment :BaseFragment<FragmentMovieDetailsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getAllDetails(985939)
+        viewModel.getAllDetails(760161)
 
         binding.castAdapter.adapter = CastAdapter(mutableListOf(), viewModel)
         binding.similarMovieAdapter.adapter = MovieAdapter(mutableListOf(), viewModel)
