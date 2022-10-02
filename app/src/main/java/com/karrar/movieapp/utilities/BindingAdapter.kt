@@ -45,7 +45,7 @@ fun <T> showWhenFail(view: View, state: State<T>?) {
 @BindingAdapter(value = ["app:loadImage"])
 fun loadImage(view: ImageView, pathImage: String?) {
     view.load(IMAGE_DOWNLOAD_URL + pathImage) {
-        placeholder(R.drawable.ic_loading)
+        placeholder(R.drawable.loading)
         error(R.drawable.ic_baseline_person_24)
     }
 }
