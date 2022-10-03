@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.category.CategoryInteractionListener" />
+
+        <variable
+            name="item"
+            type="com.karrar.movieapp.domain.models.Genre" />
+    </data>
+
+    <com.google.android.material.chip.Chip
+        style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+        android:layout_width="wrap_content"
+        android:fontFamily="@font/plus_jakarta_sans_regular"
+        android:textSize="@dimen/text_small"
+        android:layout_height="@dimen/chip_height"
+        android:onClick="@{()->listener.onClickCategory(item.genreID)}"
+        android:text="@{item.genreName}"
+        app:chipMinTouchTargetSize="0dp"
+        tools:backgroundTint="@color/background_color"
+        tools:text="Movie Category" />
+
+</layout>
