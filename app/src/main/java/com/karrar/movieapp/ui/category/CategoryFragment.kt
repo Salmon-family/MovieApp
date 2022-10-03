@@ -17,4 +17,25 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     private val args: CategoryFragmentArgs by navArgs()
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.categoryTypeId.value = args.mediaId
+
+        viewModel.setInitialMediaListId()
+
+        viewModel.movieCategories.observe(viewLifecycleOwner) {
+            viewModel.setCategoryType(args.mediaId)
+        }
+        viewModel.tvCategories.observe(viewLifecycleOwner) {
+            viewModel.setCategoryType(args.mediaId)
+        }
+
+        setMediaAdapter()
+    }
+
+    private fun setMediaAdapter() {
+        binding.recyclerMedia.adapter = MediaAdapter(mutableListOf(), viewModel)
+    }
+
 }

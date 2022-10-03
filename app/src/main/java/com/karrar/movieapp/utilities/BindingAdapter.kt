@@ -1,16 +1,22 @@
 package com.karrar.movieapp.utilities
 
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.State
+import com.karrar.movieapp.databinding.ChipItemCategoryBinding
+import com.karrar.movieapp.domain.CategoryType
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.ui.category.CategoryInteractionListener
 import com.squareup.picasso.Picasso
 
 @BindingAdapter("app:posterImage")
@@ -64,4 +70,35 @@ fun <T> showWhenSuccess(view: View, state: State<T>?) {
 @BindingAdapter("app:isFail")
 fun <T> showWhenFail(view: View, state: State<T>?) {
     view.isVisible = state is State.Error
+}
+
+@BindingAdapter("app:setGenres", "app:listener")
+fun <T> setGenresChips(view: ChipGroup, mediaList: CategoryType<List<Genre>>?, listener: T) {
+    when (mediaList) {
+        is CategoryType.MovieFoo -> mediaList.toMovieData()?.let {
+            it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
+        }
+        is CategoryType.TvFoo -> mediaList.toTvData()?.let {
+            it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
+        }
+        else -> {}
+    }
+
+}
+
+fun <T> ChipGroup.createChip(item: Genre, listener: T): View {
+    val chipBinding: ChipItemCategoryBinding = DataBindingUtil.inflate(
+        LayoutInflater.from(context),
+        R.layout.chip_item_category,
+        this,
+        false
+    )
+    chipBinding.item = item
+    chipBinding.listener = listener as CategoryInteractionListener
+    return chipBinding.root
+}
+
+@BindingAdapter("app:hideWhenSuccess")
+fun <T> hideWhenSuccess(view: View, state: State<T>?) {
+    if (state is State.Success) view.isVisible = false
 }

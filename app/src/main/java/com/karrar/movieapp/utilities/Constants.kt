@@ -8,5 +8,10 @@ object Constants {
     const val MAX_NUMBER_AIRING_TODAY = 6
     const val MYSTERY_ID = 9648
     const val ADVENTURE_ID = 12
+    const val ACTION_ID = 28
+    const val ACTION_AND_ADVENTURE_ID = 10759
+
+    const val MOVIE_CATEGORIES_ID = 1
+    const val TV_CATEGORIES_ID = 2
 
 }
