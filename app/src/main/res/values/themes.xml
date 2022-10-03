@@ -106,4 +106,15 @@
         <item name="cornerSize">50%</item>
     </style>
 
+
+    <style name="CardCorners.BottomMedium">
+        <item name="cornerSizeBottomLeft">@dimen/radius_medium</item>
+        <item name="cornerSizeBottomRight">@dimen/radius_medium</item>
+    </style>
+
+
+    <style name="Circle">
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>

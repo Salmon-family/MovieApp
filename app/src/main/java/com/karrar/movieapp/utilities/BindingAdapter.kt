@@ -2,16 +2,22 @@ package com.karrar.movieapp.utilities
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.State
+import com.karrar.movieapp.domain.models.Genre
+import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.squareup.picasso.Picasso
 
-@BindingAdapter("app:movieImage")
+
+@BindingAdapter("app:posterImage")
 fun bindMovieImage(image: ImageView, imageURL: String?) {
     imageURL?.let {
         Picasso.get()
@@ -20,6 +26,9 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
             .into(image)
     }
 }
+
+
+
 
 
 @BindingAdapter(value = ["app:showWhenLoading"])
@@ -42,6 +51,27 @@ fun <T> showWhenSuccess(view: View, state: State<T>?) {
     view.isVisible = state is State.Success
 }
 
+@BindingAdapter("app:genre")
+fun setGenre(textView: TextView, genreList: List<Genre>?) {
+    genreList?.let {
+        textView.text = genreList.map { it.genreName }.joinToString(" . ")
+    }
+}
+
+@BindingAdapter("app:isLoading")
+fun <T> showWhenLoading(view: View, state: State<T>?) {
+    view.isVisible = state is State.Loading
+}
+
+@BindingAdapter("app:isSuccess")
+fun <T> showWhenSuccess(view: View, state: State<T>?) {
+    view.isVisible = state is State.Success
+}
+
+@BindingAdapter("app:isFail")
+fun <T> showWhenFail(view: View, state: State<T>?) {
+    view.isVisible = state is State.Error
+}
 @BindingAdapter("app:showWhenFail")
 fun <T> showWhenFail(view: View, state: State<T>?) {
     view.isVisible = state is State.Error

@@ -12,7 +12,7 @@ interface BaseInteractionListener
 
 abstract class BaseAdapter<T>(
     private var items: List<T>,
-    private val listener: BaseInteractionListener
+    private val listener: BaseInteractionListener,
 ) : RecyclerView.Adapter<BaseAdapter.BaseViewHolder>() {
 
     abstract val layoutID: Int
@@ -28,10 +28,11 @@ abstract class BaseAdapter<T>(
         if (holder is ItemViewHolder) bind(holder, position)
     }
 
-    private fun bind(holder: ItemViewHolder, position: Int) {
+    open fun bind(holder: ItemViewHolder, position: Int) {
         holder.binding.apply {
             setVariable(BR.item, items[position])
             setVariable(BR.listener, listener)
+
         }
     }
 
@@ -41,12 +42,8 @@ abstract class BaseAdapter<T>(
 
     override fun getItemCount() = items.size
 
-    fun setItems(newItems: List<T>) {
-        val diffResult = DiffUtil.calculateDiff(
-            BaseDiffUtil(items, newItems,
-                { oldItem, newItem -> areItemsSame(oldItem, newItem) },
-                { oldItem, newItem -> areItemsSame(oldItem, newItem) })
-        )
+  open  fun setItems(newItems: List<T>) {
+        val diffResult = DiffUtil.calculateDiff(BaseDiffUtil(items, newItems,::areItemsSame, ::areContentSame))
         items = newItems
         diffResult.dispatchUpdatesTo(this)
     }
@@ -54,5 +51,6 @@ abstract class BaseAdapter<T>(
     open fun areItemsSame(oldItem: T, newItem: T): Boolean {
         return oldItem?.equals(newItem) == true
     }
+    open fun areContentSame(oldPosition: T, newPosition: T) = true
 
 }

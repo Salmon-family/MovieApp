@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.karrar.movieapp.utilities.Constants" />
+
+        <variable
+            name="adapterRecycler"
+            type="com.karrar.movieapp.ui.home.adapters.AiringTodayAdapter" />
+        <variable
+            name="count"
+            type="Integer" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:padding="@dimen/spacing_small">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_airing_today"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:backgroundTint="@color/card_background_color"
+            app:cardCornerRadius="@dimen/radius_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_airing_today"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:elevation="2dp"
+            android:text="@string/title_airing_today"
+            android:textColor="@color/shade_primary_color"
+            app:layout_constraintStart_toStartOf="@+id/recycler_airing_movies"
+            app:layout_constraintTop_toTopOf="@+id/card_airing_today" />
+
+        <TextView
+            android:id="@+id/text_count_airing_movies"
+            style="@style/Regular.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:text="@{count.toString()}"
+            android:elevation="2dp"
+            android:textColor="@color/shade_ternary_color"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_airing_today"
+            app:layout_constraintEnd_toEndOf="@id/recycler_airing_movies" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_airing_movies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:adapter="@{adapterRecycler}"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/card_airing_today"
+            app:layout_constraintStart_toStartOf="@id/card_airing_today"
+            app:layout_constraintTop_toBottomOf="@+id/text_airing_today"
+            app:spanCount="3" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
