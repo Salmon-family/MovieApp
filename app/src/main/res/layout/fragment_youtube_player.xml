@@ -15,15 +15,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_color"
-        tools:context=".ui.youtubePlayer.YoutubePlayerFragment"
         >
 
         <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
             android:id="@+id/youtube_player"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:videoId="_uX6of3vBu0"
-            app:autoPlay="true"
+            app:setVideoId="@{viewModel.movieTrailer.toData().videoKey}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

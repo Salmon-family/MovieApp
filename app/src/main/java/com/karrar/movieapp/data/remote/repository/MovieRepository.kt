@@ -3,12 +3,7 @@ package com.karrar.movieapp.data.remote.repository
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.movieDetailsDto.RatingDto
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.ReviewsDto
-import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
-import com.karrar.movieapp.domain.models.Cast
-import com.karrar.movieapp.domain.models.Movie
-import com.karrar.movieapp.domain.models.MovieDetails
-import com.karrar.movieapp.domain.models.Review
+import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
@@ -35,7 +30,7 @@ interface MovieRepository {
 
     fun setRating(movie_id: Int, value:Float, guest_session_id: String): Flow<State<RatingDto>>
 
-    fun getMovieTrailer(movie_id: Int): Flow<State<TrailerDto>>
+    fun getMovieTrailer(movie_id: Int): Flow<State<Trailer>>
 
 
 

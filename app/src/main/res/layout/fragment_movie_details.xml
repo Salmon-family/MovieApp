@@ -79,6 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_small"
+                android:onClick="@{() -> viewModel.onClickPlayTrailer()}"
                 android:text="@string/play_trailer"
                 android:textAllCaps="false"
                 app:cornerRadius="@dimen/spacing_large"

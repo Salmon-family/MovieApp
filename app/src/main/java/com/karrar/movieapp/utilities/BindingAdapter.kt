@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.base.BaseAdapter
 import com.karrar.movieapp.data.remote.response.movieDetailsDto.cast.GenreDto
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.squareup.picasso.Picasso
 
 @BindingAdapter("app:movieImage")
@@ -26,6 +29,15 @@ fun <T> isVisible(view: View, items: List<T>?){
     if (items != null && items.size <3)
         view.isVisible = false
 
+}
+
+@BindingAdapter("app:setVideoId")
+fun setVideoId(view: YouTubePlayerView, videoId: String?){
+    view.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+        override fun onReady(youTubePlayer: YouTubePlayer) {
+            videoId?.let { youTubePlayer.loadVideo(it, 0f) }
+        }
+    })
 }
 
 @BindingAdapter("app:isThereReview")

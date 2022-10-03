@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.ResultDto
+import com.karrar.movieapp.domain.models.Trailer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -15,12 +16,14 @@ import javax.inject.Inject
 class YoutubePlayerViewModel @Inject constructor(private val movieRepository: MovieRepository
 ):ViewModel() {
 
-    private var _movieTrailer = MutableLiveData<List<ResultDto>>()
-    val movieTrailer : LiveData<List<ResultDto>> = _movieTrailer
+    private var _movieTrailer = MutableLiveData<State<Trailer>>()
+    val movieTrailer : LiveData<State<Trailer>> = _movieTrailer
+
+    val hhh = "_uX6of3vBu0"
 
     fun getMovieTrailer(movie_id:Int){
         collectResponse(movieRepository.getMovieTrailer(movie_id)) {
-            _movieTrailer.postValue(it.toData()?.results!! as List<ResultDto>?)
+            _movieTrailer.postValue(it)
         }
     }
 

@@ -3,10 +3,7 @@ package com.karrar.movieapp.di
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.repository.MovieRepositoryImp
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.domain.mappers.CastMapper
-import com.karrar.movieapp.domain.mappers.MovieDetailsMapper
-import com.karrar.movieapp.domain.mappers.MovieMapper
-import com.karrar.movieapp.domain.mappers.ReviewMapper
+import com.karrar.movieapp.domain.mappers.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,14 +21,16 @@ object RepositoryModule {
         castMapper: CastMapper,
         movieDetailsMapper: MovieDetailsMapper,
         movieMapper: MovieMapper,
-        reviewMapper: ReviewMapper
+        reviewMapper: ReviewMapper,
+        trailerMapper: TrailerMapper
     ): MovieRepository {
         return MovieRepositoryImp(
             movieService,
             castMapper,
             movieDetailsMapper,
             movieMapper,
-            reviewMapper
+            reviewMapper,
+            trailerMapper
         )
     }
 
