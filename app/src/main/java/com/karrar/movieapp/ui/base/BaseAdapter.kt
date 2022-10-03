@@ -7,7 +7,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.BR
-import com.karrar.movieapp.domain.enums.Type
 
 interface BaseInteractionListener
 
@@ -44,11 +43,7 @@ abstract class BaseAdapter<T>(
     override fun getItemCount() = items.size
 
     fun setItems(newItems: List<T>) {
-        val diffResult = DiffUtil.calculateDiff(
-            BaseDiffUtil(items, newItems,
-                { oldItem, newItem -> areItemsSame(oldItem, newItem) },
-                { oldItem, newItem -> areItemsSame(oldItem, newItem) })
-        )
+        val diffResult = DiffUtil.calculateDiff(BaseDiffUtil(items, newItems,::areItemsSame, ::areContentSame))
         items = newItems
         diffResult.dispatchUpdatesTo(this)
     }
