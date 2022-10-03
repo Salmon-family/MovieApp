@@ -28,7 +28,7 @@ object RepositoryModule {
         actorMoviesMapper: ActorMoviesMapper,
         actorMapper: ActorMapper,
     ): MovieRepository {
-        return MovieRepositoryImp(movieService, actorDetailsMapper, actorMoviesMapper)
+        return MovieRepositoryImp(movieService, actorDetailsMapper, actorMoviesMapper, actorMapper)
     }
 
     @Singleton

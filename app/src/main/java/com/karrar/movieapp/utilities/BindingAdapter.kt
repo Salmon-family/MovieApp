@@ -7,11 +7,8 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.karrar.movieapp.R
-import com.karrar.movieapp.base.BaseAdapter
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.utilities.Constants.IMAGE_DOWNLOAD_URL
 import com.karrar.movieapp.ui.base.BaseAdapter
-import com.karrar.movieapp.data.remote.State
 import com.squareup.picasso.Picasso
 
 @BindingAdapter("app:movieImage")
@@ -52,7 +49,7 @@ fun <T> showWhenFail(view: View, state: State<T>?) {
 
 @BindingAdapter(value = ["app:loadImage"])
 fun loadImage(view: ImageView, pathImage: String?) {
-    view.load(IMAGE_DOWNLOAD_URL + pathImage) {
+    view.load(Constants.IMAGE_BASE_PATH + pathImage) {
         placeholder(R.drawable.loading)
         error(R.drawable.ic_baseline_person_24)
     }

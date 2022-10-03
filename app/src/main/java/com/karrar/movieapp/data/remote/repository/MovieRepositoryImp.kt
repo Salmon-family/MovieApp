@@ -1,6 +1,7 @@
 package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
+import com.karrar.movieapp.data.remote.response.ActorDto
 import com.karrar.movieapp.data.remote.response.BaseResponse
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.service.MovieService
@@ -19,6 +20,7 @@ class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     private val actorDetailsMapper: ActorDetailsMapper,
     private val actorMoviesMapper: ActorMoviesMapper,
+    private val actorMapper: ActorMapper
 ) :
     MovieRepository {
 

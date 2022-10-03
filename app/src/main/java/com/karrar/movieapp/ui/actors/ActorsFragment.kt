@@ -17,8 +17,7 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val actorsAdapter =
-            ActorsAdapter(mutableListOf(), viewModel)
+        val actorsAdapter = ActorsAdapter(mutableListOf(), viewModel)
         binding.recyclerViewActors.adapter = actorsAdapter
     }
 }
