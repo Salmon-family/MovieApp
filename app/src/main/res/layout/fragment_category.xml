@@ -48,7 +48,6 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:overScrollMode="never"
             android:scrollbars="none"
-            app:isSuccess="@{viewModel.mediaList}"
             app:items="@{viewModel.mediaList.toData()}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -62,7 +61,7 @@
         <com.airbnb.lottie.LottieAnimationView
             android:layout_width="300dp"
             android:layout_height="300dp"
-            app:hideWhenSuccess="@{viewModel.mediaList}"
+            app:isLoading="@{viewModel.mediaList}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

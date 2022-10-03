@@ -17,6 +17,7 @@ import com.karrar.movieapp.domain.CategoryType
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.category.CategoryInteractionListener
+import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.squareup.picasso.Picasso
 
 @BindingAdapter("app:posterImage")
@@ -51,7 +52,7 @@ fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolea
 }
 
 @BindingAdapter("app:genre")
-fun setGenre(textView: TextView,genreList: List<Genre>?){
+fun setGenre(textView: TextView, genreList: List<Genre>?) {
     genreList?.let {
         textView.text = genreList.map { it.genreName }.joinToString(" . ")
     }
@@ -74,16 +75,18 @@ fun <T> showWhenFail(view: View, state: State<T>?) {
 
 @BindingAdapter("app:setGenres", "app:listener")
 fun <T> setGenresChips(view: ChipGroup, mediaList: CategoryType<List<Genre>>?, listener: T) {
+    val allMedia = Genre(FIRST_CATEGORY_ID, "All")
     when (mediaList) {
-        is CategoryType.MovieFoo -> mediaList.toMovieData()?.let {
+        is CategoryType.Movies -> mediaList.toMovieData()?.let {
+            view.addView(view.createChip(allMedia, listener))
             it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
         }
-        is CategoryType.TvFoo -> mediaList.toTvData()?.let {
+        is CategoryType.TvShows -> mediaList.toTvData()?.let {
+            view.addView(view.createChip(allMedia, listener))
             it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
         }
         else -> {}
     }
-
 }
 
 fun <T> ChipGroup.createChip(item: Genre, listener: T): View {
@@ -96,9 +99,4 @@ fun <T> ChipGroup.createChip(item: Genre, listener: T): View {
     chipBinding.item = item
     chipBinding.listener = listener as CategoryInteractionListener
     return chipBinding.root
-}
-
-@BindingAdapter("app:hideWhenSuccess")
-fun <T> hideWhenSuccess(view: View, state: State<T>?) {
-    if (state is State.Success) view.isVisible = false
 }

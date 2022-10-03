@@ -7,12 +7,10 @@ import com.karrar.movieapp.data.remote.repository.SeriesRepository
 import com.karrar.movieapp.domain.CategoryType
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.utilities.Constants.ACTION_AND_ADVENTURE_ID
-import com.karrar.movieapp.utilities.Constants.ACTION_ID
+import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,7 +30,6 @@ class CategoryViewModel @Inject constructor(
     val tvCategories = seriesRepository.getGenreList().asLiveData()
 
     val categoryTypeId = MutableLiveData<Int>()
-    private val mediaListId = MutableLiveData<Int>()
 
 
     fun setCategoryType(id: Int) {
@@ -40,21 +37,21 @@ class CategoryViewModel @Inject constructor(
         val tvResponse = tvCategories.value?.toData()
 
         when (id) {
-            MOVIE_CATEGORIES_ID -> _categoryType.postValue(CategoryType.MovieFoo(movieResponse))
-            TV_CATEGORIES_ID -> _categoryType.postValue(CategoryType.TvFoo(tvResponse))
+            MOVIE_CATEGORIES_ID -> _categoryType.postValue(CategoryType.Movies(movieResponse))
+            TV_CATEGORIES_ID -> _categoryType.postValue(CategoryType.TvShows(tvResponse))
         }
     }
 
 
-    fun setInitialMediaListId() {
+    fun setInitialMediaList() {
         viewModelScope.launch {
             when (categoryTypeId.value) {
                 MOVIE_CATEGORIES_ID -> {
-                    movieRepository.getMovieListByGenre(ACTION_ID)
-                        .collect { _mediaList.postValue(it) }
+                    movieRepository.getAllMovies(2).collect { _mediaList.postValue(it) }
                 }
-                TV_CATEGORIES_ID -> seriesRepository.getTvListByGenre(ACTION_AND_ADVENTURE_ID)
-                    .collect { _mediaList.postValue(it) }
+                TV_CATEGORIES_ID -> {
+                    seriesRepository.getAllTvShows(2).collect { _mediaList.postValue(it) }
+                }
             }
         }
     }
@@ -62,24 +59,36 @@ class CategoryViewModel @Inject constructor(
 
     override fun onClickMedia(mediaId: Int) {}
 
+
     override fun onClickCategory(categoryId: Int) {
-        mediaListId.postValue(categoryId)
-        setMediaList()
+        setMediaList(categoryId)
+        if (categoryId == FIRST_CATEGORY_ID) getAllMedia()
     }
 
-    private fun setMediaList() {
+    private fun setMediaList(id: Int) {
         viewModelScope.launch {
-            delay(300)
-            mediaListId.value?.let {
-                when (_categoryType.value) {
-                    CategoryType.MovieFoo(movieCategories.value?.toData()) -> {
-                        movieRepository.getMovieListByGenre(it).collect { _mediaList.postValue(it) }
-                    }
-                    CategoryType.TvFoo(tvCategories.value?.toData()) -> {
-                        seriesRepository.getTvListByGenre(it).collect { _mediaList.postValue(it) }
-                    }
-                    else -> {}
+            when (_categoryType.value) {
+                CategoryType.Movies(movieCategories.value?.toData()) -> {
+                    movieRepository.getMovieListByGenre(id).collect { _mediaList.postValue(it) }
                 }
+                CategoryType.TvShows(tvCategories.value?.toData()) -> {
+                    seriesRepository.getTvListByGenre(id).collect { _mediaList.postValue(it) }
+                }
+                else -> {}
+            }
+        }
+    }
+
+    private fun getAllMedia() {
+        viewModelScope.launch {
+            when (_categoryType.value) {
+                CategoryType.Movies(movieCategories.value?.toData()) -> {
+                    movieRepository.getAllMovies(2).collect { _mediaList.postValue(it) }
+                }
+                CategoryType.TvShows(tvCategories.value?.toData()) -> {
+                    seriesRepository.getAllTvShows(2).collect { _mediaList.postValue(it) }
+                }
+                else -> {}
             }
         }
     }

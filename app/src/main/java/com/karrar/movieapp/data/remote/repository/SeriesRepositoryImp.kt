@@ -59,4 +59,10 @@ class SeriesRepositoryImp @Inject constructor(
         })
     }
 
+    override fun getAllTvShows(page: Int): Flow<State<List<Media>>> {
+        return wrap({ seriesService.getAllTvShows(page) }, {
+            it.items?.map { mapper.map(it) } ?: emptyList()
+        })
+    }
+
 }

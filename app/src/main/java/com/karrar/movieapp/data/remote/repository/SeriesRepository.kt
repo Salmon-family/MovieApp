@@ -20,4 +20,7 @@ interface SeriesRepository {
     fun getGenreList(): Flow<State<List<Genre>>>
 
     fun getTvListByGenre(genreId: Int): Flow<State<List<Media>>>
+
+    fun getAllTvShows(page: Int): Flow<State<List<Media>>>
+
 }
