@@ -21,7 +21,7 @@ class CategoryViewModel @Inject constructor(
 ) : ViewModel(), MediaInteractionListener, CategoryInteractionListener {
 
     private val _categoryType = MutableLiveData<CategoryType<List<Genre>?>>()
-    val categoryTypeCategoryType: LiveData<CategoryType<List<Genre>?>> = _categoryType
+    val categoryType: LiveData<CategoryType<List<Genre>?>> = _categoryType
 
     private val _mediaList = MutableLiveData<State<List<Media>>>()
     val mediaList: LiveData<State<List<Media>>> = _mediaList

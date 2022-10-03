@@ -10,67 +10,83 @@
             type="com.karrar.movieapp.ui.category.CategoryViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background_color">
+        android:layout_height="match_parent">
 
-        <HorizontalScrollView
-            android:id="@+id/horizontalScrollView"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/chip_height"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:clipToPadding="false"
-            android:overScrollMode="never"
-            android:paddingHorizontal="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:background="@color/brand_color">
+            android:layout_height="60dp"
+            android:background="@color/background_color">
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroup_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:listener="@{viewModel}"
-                app:selectionRequired="true"
-                app:setGenres="@{viewModel.categoryTypeCategoryType}"
-                app:singleLine="true"
-                app:singleSelection="true" />
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bottom_line"
+                app:contentInsetStart="0dp"
+                app:isSuccess="@{viewModel.movieCategories}"
+                app:layout_scrollFlags="scroll|enterAlways">
 
-        </HorizontalScrollView>
+                <HorizontalScrollView
+                    android:id="@+id/horizontalScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/chip_height"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingHorizontal="@dimen/spacing_medium"
+                    tools:background="@color/brand_color">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_media"
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroup_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:listener="@{viewModel}"
+                        app:selectionRequired="true"
+                        app:setGenres="@{viewModel.categoryType}"
+                        app:singleLine="true"
+                        app:singleSelection="true" />
+
+                </HorizontalScrollView>
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/spacing_small"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:overScrollMode="never"
-            android:scrollbars="none"
-            app:items="@{viewModel.mediaList.toData()}"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/horizontalScrollView"
-            app:spanCount="3"
-            tools:itemCount="15"
-            tools:listitem="@layout/item_media" />
+            android:layout_height="match_parent"
+            android:layout_gravity="fill_vertical"
+            android:background="@color/background_color"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            app:isLoading="@{viewModel.mediaList}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading"
-            tools:visibility="gone" />
+            <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background_color">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_media"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    app:items="@{viewModel.mediaList.toData()}"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="3"
+                    tools:itemCount="15"
+                    tools:listitem="@layout/item_media" />
+
+            </FrameLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
