@@ -24,7 +24,7 @@ class YoutubePlayerFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getMovieTrailer(760161)
+        viewModel.getMovieTrailer(args.movieId)
 
     }
 

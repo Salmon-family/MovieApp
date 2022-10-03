@@ -40,6 +40,9 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
      private val _clickCastEvent = MutableLiveData<Event<Int>>()
      var clickCastEvent: LiveData<Event<Int>> = _clickCastEvent
 
+     private val _clickPlayTrailerEvent = MutableLiveData<Event<Boolean>>()
+     var clickPlayTrailerEvent: LiveData<Event<Boolean>> = _clickPlayTrailerEvent
+
      private val _clickReviewsEvent = MutableLiveData<Event<Boolean>>()
      var clickReviewsEvent: LiveData<Event<Boolean>> = _clickReviewsEvent
 
@@ -50,7 +53,6 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
 
           collectResponse(movieRepository.getMovieDetails(movie_id)) {
                _movieDetails.postValue(it)
-
           }
           collectResponse(movieRepository.getMovieCast(movie_id)){
                _movieCast.postValue(it)
@@ -74,6 +76,9 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
           }
      }
 
+     fun onClickPlayTrailer(){
+          _clickPlayTrailerEvent.postValue(Event(true))
+     }
 
      fun onAddRating(movie_id: Int, value: Float) {
           movieRepository.setRating(movie_id, value, "e6e2f890a0ef87c0381061ccf8787494")

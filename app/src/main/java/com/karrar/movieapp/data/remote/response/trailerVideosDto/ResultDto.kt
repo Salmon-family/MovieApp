@@ -3,7 +3,7 @@ package com.karrar.movieapp.data.remote.response.trailerVideosDto
 
 import com.google.gson.annotations.SerializedName
 
-data class Result(
+data class ResultDto(
     @SerializedName("id")
     val id: String? = null,
     @SerializedName("iso_3166_1")

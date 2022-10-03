@@ -7,5 +7,5 @@ data class TrailerDto(
     @SerializedName("id")
     val id: Int? = null,
     @SerializedName("results")
-    val results: List<Result?>? = null
+    val results: List<ResultDto?>? = null
 )
