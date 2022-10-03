@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     movieRepository: MovieRepository,
-     seriesRepository: SeriesRepository,
+    seriesRepository: SeriesRepository,
 ) : ViewModel(), HomeInteractionListener {
     val popularMovie = movieRepository.getPopularMovies().asLiveData()
 

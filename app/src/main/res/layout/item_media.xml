@@ -10,7 +10,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Movie" />
+            type="com.karrar.movieapp.domain.models.Media" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,13 +23,13 @@
             android:layout_marginHorizontal="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_medium"
             android:background="@color/card_background_color"
-            android:onClick="@{ () -> listener.onClickMovie(item.id)}"
+            android:onClick="@{ () -> listener.onClickMovie(item.movieID)}"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:movieImage="@{item.imageUrl}"
+            app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

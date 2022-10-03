@@ -28,7 +28,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:movieImage="@{viewModel.actorDetails.toData().imageUrlActor}"
+                app:posterImage="@{viewModel.actorDetails.toData().imageUrlActor}"
                 tools:src="@drawable/chris_evans" />
 
             <View

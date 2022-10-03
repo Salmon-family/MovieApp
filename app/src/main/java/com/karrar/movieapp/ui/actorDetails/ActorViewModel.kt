@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.domain.models.ActorDetails
-import com.karrar.movieapp.domain.models.Movie
+import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,8 +20,8 @@ class ActorViewModel @Inject constructor(private val movieRepository: MovieRepos
     private val _actorDetails = MutableLiveData<State<ActorDetails>>()
     val actorDetails: LiveData<State<ActorDetails>> = _actorDetails
 
-    private val _actorMovies = MutableLiveData<State<List<Movie>>>()
-    val actorMovies: LiveData<State<List<Movie>>> = _actorMovies
+    private val _actorMovies = MutableLiveData<State<List<Media>>>()
+    val actorMovies: LiveData<State<List<Media>>> = _actorMovies
 
     private val _backEvent = MutableLiveData<Event<Boolean>>()
     val backEvent: LiveData<Event<Boolean>> = _backEvent

@@ -92,15 +92,17 @@
             android:layout_height="56dp"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_extra_large"
-            app:backgroundTint="@color/color_states_material_button"
             android:enabled="@{viewModel.loginValidation}"
             android:onClick="@{()->viewModel.onClickLogin()}"
             android:text="@string/login"
-            android:textColor="@color/shade_secondary_color"
             android:textAppearance="@style/SemiBold.Medium"
+            android:textColor="@color/shade_secondary_color"
+            app:backgroundTint="@color/color_states_material_button"
             app:cornerRadius="@dimen/radius_small"
-            app:hideWhenLoading="@{viewModel.loginRequestState}"
-            app:layout_constraintTop_toBottomOf="@+id/password" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/password"
+            app:hideWhenLoading="@{viewModel.loginRequestState}" />
 
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -133,10 +135,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="@string/sign_up"
-            android:textColor="@color/brand_color"
-            android:textAppearance="@style/Regular.Medium.Primary"
             android:onClick="@{()->viewModel.onClickSignUp()}"
+            android:text="@string/sign_up"
+            android:textAppearance="@style/Regular.Medium.Primary"
+            android:textColor="@color/brand_color"
             app:layout_constraintBottom_toBottomOf="@+id/materialTextView"
             app:layout_constraintStart_toEndOf="@+id/materialTextView"
             app:layout_constraintTop_toTopOf="@+id/materialTextView" />

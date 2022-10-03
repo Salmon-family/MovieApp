@@ -1,12 +1,7 @@
 package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.response.*
-import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorMoviesDto
-import com.karrar.movieapp.data.remote.response.actorDetailsDto.CastDto
 import com.karrar.movieapp.domain.models.ActorDetails
-import com.karrar.movieapp.domain.models.Movie
-import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Media
@@ -34,5 +29,5 @@ interface MovieRepository {
 
     fun getTrendingActors(): Flow<State<List<Actor>>>
 
-    fun getActorMovies(actorId: Int): Flow<State<List<Movie>>>
+    fun getActorMovies(actorId: Int): Flow<State<List<Media>>>
 }
