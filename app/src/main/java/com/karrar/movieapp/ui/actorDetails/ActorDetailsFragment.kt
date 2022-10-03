@@ -40,7 +40,7 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
 
     private fun seeAllMovies() {
         Navigation.findNavController(binding.root)
-            .navigate(ActorDetailsFragmentDirections.actionActorDetailsFragmentToAllMovieOfActorFragment())
+            .navigate(ActorDetailsFragmentDirections.actionActorDetailsFragmentToAllMovieOfActorFragment(args.id))
     }
 
     private fun removeFragment() {

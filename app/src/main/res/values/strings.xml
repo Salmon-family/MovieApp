@@ -20,4 +20,5 @@
     <string name="birthday">Birthday</string>
     <string name="biography">Biography</string>
     <string name="movies">Movies</string>
+    <string name="all_movies_of_actor">All Movies Of Actor</string>
 </resources>
