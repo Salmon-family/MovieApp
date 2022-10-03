@@ -11,36 +11,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-        <LinearLayout
-            android:id="@+id/linearLayout4"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/background_color"
-            android:paddingVertical="16dp"
-            android:paddingHorizontal="@dimen/radius_medium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{()-> viewModel.onClickBack()}"
-                android:src="@drawable/ic_arrow_left"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                style="@style/SemiBold.Large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@string/all_movies_of_actor"
-                android:textSize="16sp" />
-        </LinearLayout>
-
+        android:layout_height="match_parent"
+        android:background="@color/background_color">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_media"
@@ -54,7 +26,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
             app:spanCount="3"
             tools:itemCount="15"
             tools:listitem="@layout/item_media" />
