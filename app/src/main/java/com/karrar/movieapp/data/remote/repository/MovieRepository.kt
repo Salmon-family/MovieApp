@@ -4,6 +4,7 @@ import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.movieDetailsDto.RatingDto
 import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.ReviewsDto
+import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.domain.models.Cast
 import com.karrar.movieapp.domain.models.Movie
 import com.karrar.movieapp.domain.models.MovieDetails
@@ -33,6 +34,8 @@ interface MovieRepository {
     fun getMovieReviews(movie_id: Int): Flow<State<List<Review>>>
 
     fun setRating(movie_id: Int, value:Float, guest_session_id: String): Flow<State<RatingDto>>
+
+    fun getMovieTrailer(movie_id: Int): Flow<State<TrailerDto>>
 
 
 

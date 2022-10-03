@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_movieDetailsFragment_to_reviewFragment"
             app:destination="@id/reviewFragment" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_youtubePlayerFragment"
+            app:destination="@id/youtubePlayerFragment" />
     </fragment>
 
     <fragment
@@ -37,6 +40,16 @@
         android:name="com.karrar.movieapp.ui.movieReviews.ReviewFragment"
         android:label="ReviewFragment"
         tools:layout="@layout/fragment_review"
+        >
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/youtubePlayerFragment"
+        android:name="com.karrar.movieapp.ui.youtubePlayer.YoutubePlayerFragment"
+        android:label="YoutubePlayerFragment"
+        tools:layout="@layout/fragment_youtube_player"
         >
         <argument
             android:name="movie_id"

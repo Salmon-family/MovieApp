@@ -1,9 +1,9 @@
 package com.karrar.movieapp.data.remote.repository
 
-import android.util.Log
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.movieDetailsDto.RatingDto
+import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.CastMapper
 import com.karrar.movieapp.domain.mappers.MovieDetailsMapper
@@ -17,6 +17,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 import javax.inject.Inject
+
+
 
 class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
@@ -77,6 +79,10 @@ class MovieRepositoryImp @Inject constructor(
 
     override fun setRating(movie_id: Int, value: Float, guest_session_id: String): Flow<State<RatingDto>> {
         return wrapWithFlow { movieService.postRating(movie_id, value, guest_session_id) }
+    }
+
+    override fun getMovieTrailer(movie_id: Int): Flow<State<TrailerDto>> {
+        return wrapWithFlow { movieService.getMovieTrailer(movie_id) }
     }
 
 

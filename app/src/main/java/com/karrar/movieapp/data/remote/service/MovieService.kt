@@ -5,6 +5,7 @@ import com.karrar.movieapp.data.remote.response.movieDetailsDto.cast.CreditsDto
 import com.karrar.movieapp.data.remote.response.movieDetailsDto.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movieDetailsDto.RatingDto
 import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.ReviewsDto
+import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
 import retrofit2.Response
 import retrofit2.http.*
@@ -68,6 +69,11 @@ interface MovieService {
         @Query("guest_session_id") apiKey: String?,
         ): Response<RatingDto>
 
+
+    @GET("movie/{movie_id}/videos")
+    suspend fun getMovieTrailer(
+        @Path("movie_id") movieId: Int,
+    ): Response<TrailerDto>
 }
 
 
