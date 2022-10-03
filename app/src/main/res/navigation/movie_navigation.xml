@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_navigation"
-    app:startDestination="@id/actorsFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -27,10 +27,24 @@
         android:name="com.karrar.movieapp.ui.actorDetails.ActorDetailsFragment"
         android:label="ActorDetailsFragment"
         tools:layout="@layout/fragment_actor_details">
+        <argument
+            android:name="id"
+            app:argType="integer" />
         <action
-            android:id="@+id/action_homeFragment_to_actorsFragment2"
-            app:destination="@id/actorsFragment" />
+            android:id="@+id/action_actorDetailsFragment_to_allMovieOfActorFragment"
+            app:destination="@id/allMovieOfActorFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/allMovieOfActorFragment"
+        android:name="com.karrar.movieapp.ui.actorDetails.AllMovieOfActorFragment"
+        android:label="AllMovieOfActorFragment"
+        tools:layout="@layout/fragment_all_movie_of_actor">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+
     <fragment
         android:id="@+id/actorsFragment"
         android:name="com.karrar.movieapp.ui.actors.ActorsFragment"
