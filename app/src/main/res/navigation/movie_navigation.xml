@@ -12,10 +12,23 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.karrar.movieapp.ui.category.CategoryFragment"
+        android:label="CategoryFragment"
+        tools:layout="@layout/fragment_category" >
+        <argument
+            android:name="mediaId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
         android:id="@+id/tempFragment"
         android:name="com.karrar.movieapp.ui.category.temp.TempFragment"
         android:label="TempFragment"
         tools:layout="@layout/fragment_temp">
+        <action
+            android:id="@+id/action_tempFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
     </fragment>
 
 </navigation>
