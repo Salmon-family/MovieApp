@@ -3,6 +3,7 @@ package com.karrar.movieapp.data.remote.repository
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.domain.models.Person
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
@@ -19,5 +20,7 @@ interface MovieRepository {
 
     fun getTrendingPersons(): Flow<State<BaseResponse<PersonDto>>>
 
-    fun getMedia(type: String, query: String): Flow<State<List<Media>>>
+    fun searchWithType(type: String, query: String): Flow<State<List<Media>>>
+
+    fun searchForPerson(query: String): Flow<State<List<Person>>>
 }

@@ -37,10 +37,15 @@ interface MovieService {
     ): Response<BaseResponse<PersonDto>>
 
     @GET("search/{type}")
-    suspend fun getMedia(
+    suspend fun searchWithType(
         @Path("type") type: String,
         @Query("query") query: String,
     ): Response<BaseResponse<MediaDto>>
+
+    @GET("search/person")
+    suspend fun searchForPerson(
+        @Query("query") query: String
+    ): Response<BaseResponse<PersonDto>>
 }
 
 

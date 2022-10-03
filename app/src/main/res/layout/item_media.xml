@@ -13,13 +13,14 @@
         android:id="@+id/card_media"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginBottom="@dimen/spacing_medium"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_small"
         app:cardElevation="1dp"
-        style="@style/CardCorners.Small">
+        style="@style/CardCorners.Small"
+        android:backgroundTint="@color/card_background_color">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/card_background_color">
+            android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/image_media"
                 android:layout_width="142dp"

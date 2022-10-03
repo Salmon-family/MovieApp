@@ -24,16 +24,21 @@ class SearchViewModel @Inject constructor(
 
 
     init {
+//        viewModelScope.launch {
+//            mediaType.combine(searchText){ type, text ->
+//                "${type},${text}"
+//            }.debounce(1000).collect{getMedia(it.substringBefore(','), it.substringAfter(','))}
+//        }
         viewModelScope.launch {
-            mediaType.combine(searchText){ type, text ->
-                "${type},${text}"
-            }.debounce(1000).collect{getMedia(it.substringBefore(','), it.substringAfter(','))}
+            searchText.debounce(1000).collect{
+                getMedia(mediaType.value,it)
+            }
         }
     }
 
-    private fun getMedia(query: String, type: String){
+    private fun getMedia(type: String, query: String){
         viewModelScope.launch {
-            movieRepository.getMedia(query, type).collect{
+            movieRepository.searchWithType(type, query).collect{
                 _media.postValue(it)
             }
         }
@@ -42,18 +47,21 @@ class SearchViewModel @Inject constructor(
     fun getMovies(){
         viewModelScope.launch {
             mediaType.emit("movie")
+            getMedia(mediaType.value,searchText.value)
         }
     }
 
     fun getSeries(){
         viewModelScope.launch {
             mediaType.emit("tv")
+            getMedia(mediaType.value,searchText.value)
         }
     }
 
     fun getActors(){
         viewModelScope.launch {
             mediaType.emit("person")
+            getMedia(mediaType.value,searchText.value)
         }
     }
 
