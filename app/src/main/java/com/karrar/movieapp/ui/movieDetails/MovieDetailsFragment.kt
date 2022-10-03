@@ -25,7 +25,6 @@ class MovieDetailsFragment :BaseFragment<FragmentMovieDetailsBinding>() {
     private val args: MovieDetailsFragmentArgs by navArgs()
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -48,7 +47,6 @@ class MovieDetailsFragment :BaseFragment<FragmentMovieDetailsBinding>() {
                Toast.LENGTH_SHORT
            ).show()
         }
-
     }
 
      private fun observeEvents() {

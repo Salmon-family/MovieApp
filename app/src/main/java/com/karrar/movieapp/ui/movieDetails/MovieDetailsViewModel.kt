@@ -1,23 +1,18 @@
 package com.karrar.movieapp.ui.movieDetails
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.RatingDto
 import com.karrar.movieapp.domain.models.*
+import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(private val movieRepository: MovieRepository
-): ViewModel(), CastInteractionListener, MovieInteractionListener{
+): BaseViewModel(), CastInteractionListener, MovieInteractionListener{
 
      private var _movieDetails = MutableLiveData<State<MovieDetails>>()
      val movieDetails :LiveData<State<MovieDetails>> = _movieDetails
@@ -66,15 +61,6 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
 
      }
 
-
-     private fun <T> collectResponse(flow: Flow<State<T>>, function: (State<T>) -> Unit) {
-          viewModelScope.launch {
-               flow.flowOn(Dispatchers.IO)
-                    .collect { state ->
-                         function(state)
-                    }
-          }
-     }
 
      fun onClickPlayTrailer(){
           _clickPlayTrailerEvent.postValue(Event(true))
