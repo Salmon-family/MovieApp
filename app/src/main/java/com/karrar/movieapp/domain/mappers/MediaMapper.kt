@@ -12,12 +12,10 @@ class MediaMapper @Inject constructor() : Mapper<MediaDto,Media> {
         return Media(
             type = input.mediaType,
             id = input.id,
-            name = listOf(input.originalName, input.name, input.originalTitle).first { it != null },
-            releaseDate = input.releaseDate?.substringBefore('-'),
+            name = listOf(input.originalName, input.originalTitle).first { it != null },
+            releaseDate = listOf(input.releaseDate?.substringBefore('-'), input.firstAirDate?.substringBefore('-')).first { it != null },
             rate = input.voteAverage?.toFloat(),
-            imagePath = Constants.IMAGE_BASE_PATH + input.backdropPath ,
-            firstAirDate = input.firstAirDate,
-            profilePath = Constants.IMAGE_BASE_PATH + input.profilePath
+            imagePath = Constants.IMAGE_BASE_PATH + input.backdropPath,
         )
     }
 }

@@ -29,7 +29,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginEnd="@dimen/spacing_medium"
                 tools:src="@drawable/test"
-                app:movieImage="@{item.imagePath}"
+                app:mediaImage="@{item.imagePath}"
                 android:scaleType="centerCrop"/>
             <TextView
                 android:id="@+id/text_title"

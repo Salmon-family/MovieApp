@@ -9,6 +9,8 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="android:colorAccent">@color/brand_color</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="textInputStyle">@style/Login</item>
 
     </style>
 
@@ -73,6 +75,29 @@
     <style name="CardCorners.Medium">
         <item name="cornerSize">@dimen/radius_medium</item>
     </style>
+    <style name="Login" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:textColorHint">@color/shade_secondary_color</item>
+        <item name="boxBackgroundColor">@color/card_background_color</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radius_small</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_small</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_small</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_small</item>
+        <item name="hintTextAppearance">@style/Regular.Medium.Primary</item>
+        <item name="startIconTint">@color/shade_secondary_color</item>
+        <item name="helperTextEnabled">true</item>
+        <item name="helperTextTextColor">@color/design_default_color_error</item>
+        <item name="errorEnabled">true</item>
+
+    </style>
+
+
+    <style name="Theme.MovieApp.SplashScreen" parent="Theme.SplashScreen.IconBackground">
+        <item name="postSplashScreenTheme">@style/Theme.MovieApp</item>
+        <item name="windowSplashScreenBackground">@color/background_color</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+    </style>
 
     <style name="Chip.Regular.Small" parent="Widget.MaterialComponents.Chip.Filter">
         <item name="chipStrokeColor">@color/chip_stroke</item>
@@ -82,5 +107,8 @@
         <item name="android:textAlignment">center</item>
     </style>
 
+    <style name="Circle">
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>
-<!--    parent="Widget.Material3.Chip.Filter"-->

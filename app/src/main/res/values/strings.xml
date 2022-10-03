@@ -11,4 +11,17 @@
     <string name="movies_chip">Movies</string>
     <string name="tv_shows_chip">TV Shows</string>
     <string name="actors_label">Actors</string>
+    <string name="login_to_your_account">Login to your account</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="don_t_have_an_account">Don’t have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="place_of_birth">place of Birth</string>
+    <string name="konwn_for">Konwn For</string>
+    <string name="todo">TODO</string>
+    <string name="gender">Gender</string>
+    <string name="birthday">Birthday</string>
+    <string name="biography">Biography</string>
+    <string name="movies">Movies</string>
 </resources>

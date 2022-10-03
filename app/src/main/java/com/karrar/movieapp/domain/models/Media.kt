@@ -5,8 +5,6 @@ data class Media(
     val id: Int?,
     val name: String?,
     val releaseDate: String?,
-    val firstAirDate: String?,
     val rate: Float?,
     val imagePath: String?,
-    val profilePath: String?
 )

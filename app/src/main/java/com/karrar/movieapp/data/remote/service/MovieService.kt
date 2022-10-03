@@ -1,12 +1,20 @@
 package com.karrar.movieapp.data.remote.service
 
+import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
+import com.karrar.movieapp.data.remote.response.login.SessionResponse
 import com.karrar.movieapp.data.remote.response.BaseResponse
 import com.karrar.movieapp.data.remote.response.MediaDto
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.PersonDto
+import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorDetailsDto
+import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorMoviesDto
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
 import retrofit2.Response
+import retrofit2.http.Field
+import retrofit2.http.FieldMap
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -46,6 +54,32 @@ interface MovieService {
     suspend fun searchForPerson(
         @Query("query") query: String
     ): Response<BaseResponse<PersonDto>>
+
+    @GET("authentication/token/new")
+    suspend fun getRequestToken() : Response<RequestTokenResponse>
+
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("authentication/token/validate_with_login")
+    suspend fun validateRequestTokenWithLogin(
+        @FieldMap body:  Map<String,Any>
+    ) : Response<RequestTokenResponse>
+
+    @FormUrlEncoded
+    @POST("authentication/session/new")
+    suspend fun createSession(
+        @Field("request_token")  requestToken : String
+    ) : Response<SessionResponse>
+
+    @GET("person/{person_id}")
+    suspend fun getActorDetails(
+        @Path("person_id") actorId: Int,
+    ): Response<ActorDetailsDto>
+
+    @GET("person/{person_id}/movie_credits")
+    suspend fun getActorMovies(
+        @Path("person_id") actorId: Int,
+    ): Response<ActorMoviesDto>
 }
 
 
