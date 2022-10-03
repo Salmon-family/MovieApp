@@ -48,7 +48,7 @@ class MovieRepositoryImp @Inject constructor(
         return wrap({ movieService.getActorDetails(actorId) }, { actorDetailsMapper.map(it) })
     }
 
-    override fun getMovieDetails(actorId: Int): Flow<State<List<Movie>>> {
+    override fun getActorMovies(actorId: Int): Flow<State<List<Movie>>> {
         return wrap({ movieService.getActorMovies(actorId) }, {
             it.cast?.map {
                 actorMoviesMapper.map(it!!)
