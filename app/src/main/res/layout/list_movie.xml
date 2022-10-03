@@ -5,15 +5,14 @@
 
     <data>
 
-        <import type="com.karrar.movieapp.domain.enums.Type" />
-
         <variable
             name="adapterRecycler"
             type="com.karrar.movieapp.ui.home.adapters.MovieAdapter" />
-
         <variable
-            name="viewModel"
-            type="com.karrar.movieapp.ui.home.HomeViewModel" />
+            name="title"
+            type="String" />
+
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +26,7 @@
             style="@style/SemiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_streaming"
+            android:text="@{title}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +35,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_too_small"
-            android:onClick="@{() -> viewModel.seeAllMovie(Type.NowStreaming)}"
             android:text="@string/see_all"
             android:textColor="@color/brand_color"
             app:drawableEndCompat="@drawable/ic_arrow_right"
@@ -52,8 +50,6 @@
             android:orientation="horizontal"
             android:overScrollMode="never"
             android:scrollbars="none"
-            app:currentPosition="@={viewModel.nowStreamingPosition}"
-            app:items="@{viewModel.nowStreaming.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

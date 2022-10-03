@@ -6,7 +6,7 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.home.adapters.PopularMovieInteractionListener" />
+            type="com.karrar.movieapp.ui.home.adapters.HomeInteractionListener" />
 
         <variable
             name="item"
@@ -34,7 +34,6 @@
             android:layout_width="@dimen/media_card_popular_movie"
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/spacing_small"
-            android:onClick="@{() -> listener.onClickPopularMovie(item.movieID)}"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1.75:1"
             app:layout_constraintEnd_toEndOf="parent"

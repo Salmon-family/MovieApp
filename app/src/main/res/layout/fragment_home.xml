@@ -16,9 +16,8 @@
         android:background="@color/background_color"
         android:overScrollMode="never"
         android:scrollbars="none"
-        app:itemsAdapter="@{viewModel.homeAdapter}"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         app:spanCount="1"
-        app:isSuccess="@{viewModel.updatingRecycler}" />
+         />
 
 </layout>

@@ -14,10 +14,9 @@ interface BaseInteractionListener
 abstract class BaseAdapter<T>(
     private var items: List<T>,
     private val listener: BaseInteractionListener,
-    private val type: Type?
 ) : RecyclerView.Adapter<BaseAdapter.BaseViewHolder>() {
 
-    abstract val layoutID: Int
+    abstract var layoutID: Int
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ItemViewHolder(
@@ -30,11 +29,11 @@ abstract class BaseAdapter<T>(
         if (holder is ItemViewHolder) bind(holder, position)
     }
 
-    private fun bind(holder: ItemViewHolder, position: Int) {
+    open fun bind(holder: ItemViewHolder, position: Int) {
         holder.binding.apply {
             setVariable(BR.item, items[position])
             setVariable(BR.listener, listener)
-            setVariable(BR.type, type)
+
         }
     }
 
@@ -57,5 +56,6 @@ abstract class BaseAdapter<T>(
     open fun areItemsSame(oldItem: T, newItem: T): Boolean {
         return oldItem?.equals(newItem) == true
     }
+    open fun areContentSame(oldPosition: T, newPosition: T) = true
 
 }

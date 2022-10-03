@@ -3,10 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
-            name="viewModel"
-            type="com.karrar.movieapp.ui.home.HomeViewModel" />
+            name="topRated"
+            type="com.karrar.movieapp.domain.models.Media" />
+        <variable
+            name="latest"
+            type="com.karrar.movieapp.domain.models.Media" />
+        <variable
+            name="popular"
+            type="com.karrar.movieapp.domain.models.Media" />
+
+
 
     </data>
 
@@ -33,12 +40,12 @@
             android:layout_marginStart="@dimen/spacing_medium"
             android:background="@color/brand_color"
             android:scaleType="centerCrop"
+            app:posterImage="@{topRated.imageUrl}"
             app:layout_constraintBottom_toBottomOf="@+id/image_popular"
             app:layout_constraintEnd_toStartOf="@+id/image_latest"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/image_latest"
-            app:posterImage="@{viewModel.topRatedTvShow.toData()[0].imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -76,7 +83,6 @@
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@+id/image_top_rated"
             app:layout_constraintTop_toBottomOf="@+id/text_tvShow_title"
-            app:posterImage="@{viewModel.latestTvShow.toData()[0].imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -84,6 +90,7 @@
             android:layout_height="0dp"
             android:background="@drawable/gradient"
             android:elevation="1dp"
+            app:posterImage="@{latest.imageUrl}"
             app:layout_constraintBottom_toBottomOf="@+id/image_latest"
             app:layout_constraintEnd_toEndOf="@id/image_latest"
             app:layout_constraintStart_toStartOf="@id/image_latest"
@@ -114,7 +121,6 @@
             app:layout_constraintEnd_toEndOf="@+id/image_latest"
             app:layout_constraintStart_toStartOf="@+id/image_latest"
             app:layout_constraintTop_toBottomOf="@+id/image_latest"
-            app:posterImage="@{viewModel.popularTvShow.toData()[0].imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -122,6 +128,7 @@
             android:layout_height="0dp"
             android:background="@drawable/gradient"
             android:elevation="1dp"
+            app:posterImage="@{popular.imageUrl}"
             app:layout_constraintBottom_toBottomOf="@+id/image_popular"
             app:layout_constraintEnd_toEndOf="@id/image_popular"
             app:layout_constraintStart_toStartOf="@id/image_popular"

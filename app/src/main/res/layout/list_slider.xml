@@ -3,14 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="adapterRecycler"
             type="com.karrar.movieapp.ui.home.adapters.PopularMovieAdapter" />
 
-        <variable
-            name="viewModel"
-            type="com.karrar.movieapp.ui.home.HomeViewModel" />
+
+
     </data>
 
 
@@ -22,9 +20,7 @@
         android:orientation="horizontal"
         android:overScrollMode="never"
         android:scrollbars="none"
-        app:currentPosition="@={viewModel.popularMoviePosition}"
-        app:items="@{viewModel.popularMovie.toData()}"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:usePagerSnapHelper="@{true}" />
+        />
 
 </layout>

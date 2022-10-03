@@ -19,28 +19,22 @@ class HomeViewModel @Inject constructor(
     private val seriesRepository: SeriesRepository
 ) : ViewModel(), MovieInteractionListener,
     PopularMovieInteractionListener,
-    ActorInteractionListener, AiringTodayInteractionListener {
+     AiringTodayInteractionListener {
 
     val popularMovie = movieRepository.getPopularMovies().asLiveData()
-    val popularMoviePosition = MutableLiveData<Int>()
+
 
     val trending = movieRepository.getTrendingMovies().asLiveData()
-    val trendingPosition = MutableLiveData<Int>()
 
     val nowStreaming = movieRepository.getNowPlayingMovies().asLiveData()
-    val nowStreamingPosition = MutableLiveData<Int>()
 
     val upcoming = movieRepository.getUpcomingMovies().asLiveData()
-    val upcomingPosition = MutableLiveData<Int>()
 
     val mysteryMovie = movieRepository.getMovieListByGenre(Constants.MYSTERY_ID).asLiveData()
-    val mysteryMoviePosition = MutableLiveData<Int>()
 
     val adventureMovie = movieRepository.getMovieListByGenre(Constants.ADVENTURE_ID).asLiveData()
-    val adventureMoviePosition = MutableLiveData<Int>()
 
     val onTheAiring = seriesRepository.getOnTheAir().asLiveData()
-    val onTheAiringPosition = MutableLiveData<Int>()
 
     val actors = movieRepository.getTrendingPersons().asLiveData()
     val airingToday = seriesRepository.getAiringToday().asLiveData()
@@ -48,40 +42,6 @@ class HomeViewModel @Inject constructor(
     val latestTvShow = seriesRepository.getLatestTvShow().asLiveData()
     val popularTvShow = seriesRepository.getPopularTvShow().asLiveData()
 
-    val homeAdapter =
-        listOf(
-            HorizontalAdapter<PopularMovieAdapter>(Type.PopularMovieType, this),
-            HorizontalAdapter<MovieAdapter>(Type.TvShowType, this),
-            HorizontalAdapter<MovieAdapter>(Type.OnTheAirType, this),
-            HorizontalAdapter<MovieAdapter>(Type.TrendingMovieType, this),
-            HorizontalAdapter<AiringTodayAdapter>(Type.AiringTodayType, this),
-            HorizontalAdapter<MovieAdapter>(Type.NowStreaming, this),
-            HorizontalAdapter<MovieAdapter>(Type.Upcoming, this),
-            HorizontalAdapter<MovieAdapter>(Type.MYSTERY_TYPE, this),
-            HorizontalAdapter<MovieAdapter>(Type.ADVENTURE_TYPE, this),
-            HorizontalAdapter<ActorAdapter>(Type.ActorType, this)
-        )
-
-    val updatingRecycler = MediatorLiveData<State<Any>>().apply {
-        addSource(popularMovie, this@HomeViewModel::updateData)
-        addSource(trending, this@HomeViewModel::updateData)
-        addSource(nowStreaming, this@HomeViewModel::updateData)
-        addSource(upcoming, this@HomeViewModel::updateData)
-        addSource(actors, this@HomeViewModel::updateData)
-        addSource(onTheAiring, this@HomeViewModel::updateData)
-        addSource(airingToday, this@HomeViewModel::updateData)
-        addSource(topRatedTvShow, this@HomeViewModel::updateData)
-        addSource(latestTvShow, this@HomeViewModel::updateData)
-        addSource(popularTvShow, this@HomeViewModel::updateData)
-        addSource(mysteryMovie, this@HomeViewModel::updateData)
-        addSource(adventureMovie, this@HomeViewModel::updateData)
-    }
-
-    private fun <T> updateData(value: State<T>) {
-        if (value is State.Success) {
-            updatingRecycler.postValue(value as State<Any>)
-        }
-    }
 
     override fun onClickMovie(movieID: Int, type: Type) {
     }
@@ -95,8 +55,7 @@ class HomeViewModel @Inject constructor(
     override fun onClickPopularMovie(movieId: Int) {
     }
 
-    override fun onClickActor(actorID: Int) {
-    }
+
 
     override fun onClickAiringToday(airingTodayID: Int) {
     }

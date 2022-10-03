@@ -6,9 +6,9 @@ import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 
-class MovieAdapter(items: List<Media>, listener: MovieInteractionListener, type: Type) :
-    BaseAdapter<Media>(items, listener, type) {
-    override val layoutID: Int = R.layout.item_movie
+class MovieAdapter(items: List<Media>, listener: HomeInteractionListener) :
+    BaseAdapter<Media>(items, listener) {
+    override var layoutID: Int = R.layout.item_movie
 }
 
 interface MovieInteractionListener : BaseInteractionListener {

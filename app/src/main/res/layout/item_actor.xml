@@ -4,9 +4,6 @@
 
     <data>
 
-        <variable
-            name="listener"
-            type="com.karrar.movieapp.ui.home.adapters.ActorInteractionListener" />
 
         <variable
             name="item"
@@ -18,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/spacing_medium"
         android:background="@android:color/transparent"
-        android:onClick="@{ () -> listener.onClickActor(item.actorID)}">
+        >
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_actor"

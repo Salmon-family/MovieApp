@@ -6,7 +6,7 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.home.adapters.MovieInteractionListener" />
+            type="com.karrar.movieapp.ui.home.adapters.HomeInteractionListener" />
 
         <variable
             name="item"
@@ -26,7 +26,6 @@
             android:layout_width="@dimen/media_card_width"
             android:layout_height="0dp"
             android:layout_marginEnd="@dimen/spacing_medium"
-            android:onClick="@{ () -> listener.onClickMovie(item.movieID,type)}"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1.4"
