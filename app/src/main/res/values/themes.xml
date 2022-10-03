@@ -38,6 +38,7 @@
 
     <style name="Regular">
         <item name="android:fontFamily">@font/plus_jakarta_sans_regular</item>
+        <item name="android:textColor">@color/shade_primary_color</item>
     </style>
 
     <style name="Regular.Medium">
@@ -100,6 +101,10 @@
         <item name="postSplashScreenTheme">@style/Theme.MovieApp</item>
         <item name="windowSplashScreenBackground">@color/background_color</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+    </style>
+
+    <style name="CircleImage">
+        <item name="cornerSize">50%</item>
     </style>
 
 </resources>

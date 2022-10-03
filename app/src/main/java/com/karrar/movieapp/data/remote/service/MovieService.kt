@@ -7,6 +7,7 @@ import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.PersonDto
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorDetailsDto
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorMoviesDto
+import com.karrar.movieapp.data.remote.response.ActorDto
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
 import retrofit2.Response
 import retrofit2.http.Field
@@ -38,9 +39,9 @@ interface MovieService {
 
 
     @GET("trending/person/{time_window}")
-    suspend fun getTrendingPersons(
+    suspend fun getTrendingActors(
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
-    ): Response<BaseResponse<PersonDto>>
+    ): Response<BaseResponse<ActorDto>>
 
 
     @GET("authentication/token/new")

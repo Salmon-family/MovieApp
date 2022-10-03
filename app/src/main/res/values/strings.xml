@@ -20,4 +20,7 @@
     <string name="birthday">Birthday</string>
     <string name="biography">Biography</string>
     <string name="movies">Movies</string>
+    <string name="actors">Actors</string>
+    <string name="oops">Oops!</string>
+    <string name="description">There is no internet connection\nPlease check it out</string>
 </resources>

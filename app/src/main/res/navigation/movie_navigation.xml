@@ -26,5 +26,14 @@
         android:id="@+id/actorDetailsFragment"
         android:name="com.karrar.movieapp.ui.actorDetails.ActorDetailsFragment"
         android:label="ActorDetailsFragment"
-        tools:layout="@layout/fragment_actor_details"/>
+        tools:layout="@layout/fragment_actor_details">
+        <action
+            android:id="@+id/action_homeFragment_to_actorsFragment2"
+            app:destination="@id/actorsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/actorsFragment"
+        android:name="com.karrar.movieapp.ui.actors.ActorsFragment"
+        android:label="Actors"
+        tools:layout="@layout/fragment_actors"/>
 </navigation>

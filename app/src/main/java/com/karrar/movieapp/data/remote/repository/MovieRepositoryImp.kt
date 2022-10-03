@@ -3,12 +3,13 @@ package com.karrar.movieapp.data.remote.repository
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.BaseResponse
 import com.karrar.movieapp.data.remote.response.MovieDto
-import com.karrar.movieapp.data.remote.response.PersonDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.ActorDetailsMapper
 import com.karrar.movieapp.domain.mappers.ActorMoviesMapper
 import com.karrar.movieapp.domain.models.ActorDetails
 import com.karrar.movieapp.domain.models.Movie
+import com.karrar.movieapp.domain.mappers.ActorMapper
+import com.karrar.movieapp.domain.models.Actor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
@@ -20,6 +21,7 @@ class MovieRepositoryImp @Inject constructor(
     private val actorMoviesMapper: ActorMoviesMapper,
 ) :
     MovieRepository {
+
     override fun getPopularMovies(): Flow<State<BaseResponse<MovieDto>>> {
         return wrapWithFlow { movieService.getPopularMovies() }
     }
@@ -40,8 +42,10 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.getTrendingMovies() }
     }
 
-    override fun getTrendingPersons(): Flow<State<BaseResponse<PersonDto>>> {
-        return wrapWithFlow { movieService.getTrendingPersons() }
+    override fun getTrendingActors(): Flow<State<List<Actor>>> {
+        return wrap({ movieService.getTrendingActors() }) { it ->
+            it.items?.map { actorMapper.map(it) } ?: emptyList()
+        }
     }
 
     override fun getActorDetails(actorId: Int): Flow<State<ActorDetails>> {

@@ -9,6 +9,7 @@ import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.utilities.DataClassParser
 import com.karrar.movieapp.domain.mappers.ActorDetailsMapper
 import com.karrar.movieapp.domain.mappers.ActorMoviesMapper
+import com.karrar.movieapp.domain.mappers.ActorMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,6 +26,7 @@ object RepositoryModule {
         movieService: MovieService,
         actorDetailsMapper: ActorDetailsMapper,
         actorMoviesMapper: ActorMoviesMapper,
+        actorMapper: ActorMapper,
     ): MovieRepository {
         return MovieRepositoryImp(movieService, actorDetailsMapper, actorMoviesMapper)
     }
