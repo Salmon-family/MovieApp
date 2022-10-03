@@ -4,11 +4,10 @@
 
     <data>
 
-        <import type="com.karrar.movieapp.domain.enums.Type" />
-
+        <import type="com.karrar.movieapp.domain.enums.MovieType" />
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.home.adapters.MovieInteractionListener" />
+            type="com.karrar.movieapp.ui.home.HomeInteractionListener" />
 
         <variable
             name="item"
@@ -24,7 +23,6 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="0dp"
             android:layout_height="@dimen/media_card_airing_today_height"
-            android:onClick="@{ () -> listener.onClickMovie(item.movieID,Type.AiringTodayType)}"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1.4"
@@ -32,6 +30,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:posterImage="@{item.imageUrl}"
+            android:onClick="@{()->listener.onClickAiringToday(item.movieID)}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.home.HomeInteractionListener" />
 
         <variable
             name="item"
@@ -27,6 +29,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:onClick="@{()->listener.onClickActor(item.actorID)}"
             app:posterImage="@{item.actorImage}"
             app:shapeAppearanceOverlay="@style/Circle" />
 

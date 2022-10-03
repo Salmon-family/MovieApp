@@ -6,7 +6,7 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.home.adapters.HomeInteractionListener" />
+            type="com.karrar.movieapp.ui.home.HomeInteractionListener" />
 
         <variable
             name="item"
@@ -15,6 +15,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
+        android:onClick="@{()->listener.onClickMovie(item.movieID)}"
         android:layout_height="wrap_content"
         android:paddingVertical="@dimen/spacing_small">
 

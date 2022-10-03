@@ -9,8 +9,8 @@
             name="adapterRecycler"
             type="com.karrar.movieapp.ui.home.adapters.MovieAdapter" />
         <variable
-            name="title"
-            type="String" />
+            name="movieType"
+            type="com.karrar.movieapp.domain.enums.MovieType" />
 
 
     </data>
@@ -26,7 +26,7 @@
             style="@style/SemiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{title}"
+            android:text="@{movieType.value}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_too_small"
+            android:onClick="@{()->adapterRecycler.listener.onClickSeeAllMovie(movieType)}"
             android:text="@string/see_all"
             android:textColor="@color/brand_color"
             app:drawableEndCompat="@drawable/ic_arrow_right"

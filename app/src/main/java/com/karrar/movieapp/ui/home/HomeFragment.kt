@@ -1,96 +1,93 @@
 package com.karrar.movieapp.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.ConcatAdapter
 import com.karrar.movieapp.R
+import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.databinding.FragmentHomeBinding
-import com.karrar.movieapp.domain.enums.Type
+import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.home.adapters.HomeAdapter
-import com.karrar.movieapp.ui.home.adapters.HomeInteractionListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(),HomeInteractionListener {
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val layoutIdFragment = R.layout.fragment_home
     override val viewModel: HomeViewModel by viewModels()
-    val homeItems = mutableListOf<HomeRecyclerItem>(
-        HomeRecyclerItem.MoviesType(listOf(
-            Media(12,"https://image.tmdb.org/t/p/w500/7ze7YNmUaX81ufctGqt0AgHxRtL.jpg"),
-            Media(12,"https://image.tmdb.org/t/p/w500/7ze7YNmUaX81ufctGqt0AgHxRtL.jpg"),
-            Media(12,"https://image.tmdb.org/t/p/w500/7ze7YNmUaX81ufctGqt0AgHxRtL.jpg"),
-            Media(12,"https://image.tmdb.org/t/p/w500/7ze7YNmUaX81ufctGqt0AgHxRtL.jpg"),
-        ),Type.OnTheAirType),
-        HomeRecyclerItem.MoviesType(listOf(
-            Media(12,"https://image.tmdb.org/t/p/w500/7ze7YNmUaX81ufctGqt0AgHxRtL.jpg"),
-            Media(12,"https://image.tmdb.org/t/p/w500/7ze7YNmUaX81ufctGqt0AgHxRtL.jpg"),
-            Media(12,"https://image.tmdb.org/t/p/w500/7ze7YNmUaX81ufctGqt0AgHxRtL.jpg"),
-            Media(12,"https://image.tmdb.org/t/p/w500/7ze7YNmUaX81ufctGqt0AgHxRtL.jpg"),
-        ),Type.AiringTodayType),
-        HomeRecyclerItem.MoviesType(listOf(
-            Media(12,"https://image.tmdb.org/t/p/w500/7ze7YNmUaX81ufctGqt0AgHxRtL.jpg"),
-            Media(12,"https://image.tmdb.org/t/p/w500/7ze7YNmUaX81ufctGqt0AgHxRtL.jpg"),
-            Media(12,"https://image.tmdb.org/t/p/w500/7ze7YNmUaX81ufctGqt0AgHxRtL.jpg"),
-            Media(12,"https://image.tmdb.org/t/p/w500/tVxDe01Zy3kZqaZRNiXFGDICdZk.jpg"),
-        ),Type.Adventure),
-        HomeRecyclerItem.MoviesType(listOf(
-            Media(12,"https://image.tmdb.org/t/p/w500/7ze7YNmUaX81ufctGqt0AgHxRtL.jpg"),
-            Media(12,"https://image.tmdb.org/t/p/w500/7ze7YNmUaX81ufctGqt0AgHxRtL.jpg"),
-            Media(12,"https://image.tmdb.org/t/p/w500/7ze7YNmUaX81ufctGqt0AgHxRtL.jpg"),
-            Media(12,"https://image.tmdb.org/t/p/w500/7ze7YNmUaX81ufctGqt0AgHxRtL.jpg"),
-        ),Type.Adventure),
-    )
-    private val homeAdapter = HomeAdapter(mutableListOf(),this)
+    private lateinit var homeAdapter: HomeAdapter
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        homeAdapter = HomeAdapter(mutableListOf(), viewModel)
         binding.recyclerView.adapter = homeAdapter
 
-        assignAdapter()
+        observeResponse()
     }
 
 
-    private fun assignAdapter(){
-
-
+    private fun observeResponse() {
 
         viewModel.run {
-            trending.observe(viewLifecycleOwner){
-                it.toData()?.let { items->
-                    homeAdapter.addItem(HomeRecyclerItem.MoviesType(items,Type.Trending))
+            popularMovie.observe(viewLifecycleOwner) {
+                it.toData()?.let { items ->
+                    homeAdapter.addItem(HomeRecyclerItem.Slider(items))
                 }
             }
-            upcoming.observe(viewLifecycleOwner){
-                it.toData()?.let { items->
-                    homeAdapter.addItem(HomeRecyclerItem.MoviesType(items,Type.Upcoming).apply { priority = 2 })
-                }
-            }
-            mysteryMovie.observe(viewLifecycleOwner){
-                it.toData()?.let { items->
-                    homeAdapter.addItem(HomeRecyclerItem.MoviesType(items,Type.Mystery))
+            popularTvShow.observe(viewLifecycleOwner) {
+                it.toData()?.let { items ->
+                    homeAdapter.addItem(HomeRecyclerItem.TvShows(items))
                 }
             }
 
-popularTvShow.observe(viewLifecycleOwner){
-    it.toData()?.let { items->
-        homeAdapter.addItem(HomeRecyclerItem.TvShows(items))
-    }
-}
-            popularMovie.observe(viewLifecycleOwner){
-                it.toData()?.let {items->
-                    homeAdapter.addItem(HomeRecyclerItem.SlideType(items))
+            onTheAiring.observe(viewLifecycleOwner) {
+                addMoviesWithType(it, MovieType.ON_THE_AIR, 2)
+            }
+            trending.observe(viewLifecycleOwner) {
+                addMoviesWithType(it, MovieType.TRENDING, 3)
+
+            }
+
+            airingToday.observe(viewLifecycleOwner) {
+                it.toData()?.let { items ->
+                    homeAdapter.addItem(HomeRecyclerItem.AiringToday(items))
                 }
             }
+            nowStreaming.observe(viewLifecycleOwner) {
+                addMoviesWithType(it, MovieType.NOW_STREAMING, 5)
+            }
+            upcoming.observe(viewLifecycleOwner) {
+                addMoviesWithType(it, MovieType.UPCOMING, 6)
+
+            }
+            mysteryMovie.observe(viewLifecycleOwner) {
+                addMoviesWithType(it, MovieType.MYSTERY, 7)
+
+
+            }
+            adventureMovie.observe(viewLifecycleOwner) {
+                addMoviesWithType(it, MovieType.ADVENTURE, 8)
+
+            }
+            actors.observe(viewLifecycleOwner) {
+                it.toData()?.let { items ->
+                    homeAdapter.addItem(HomeRecyclerItem.Actor(items))
+                }
+            }
+
 
         }
 
     }
+
+    private fun addMoviesWithType(state: State<List<Media>>, movieType: MovieType, priority: Int) {
+        state.toData()?.let { items ->
+            homeAdapter.addItem(HomeRecyclerItem.Movie(items, movieType)
+                .apply { this.priority = priority })
+        }
+    }
+
 }

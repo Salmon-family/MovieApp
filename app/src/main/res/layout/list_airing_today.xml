@@ -9,10 +9,10 @@
         <variable
             name="adapterRecycler"
             type="com.karrar.movieapp.ui.home.adapters.AiringTodayAdapter" />
-
         <variable
-            name="viewModel"
-            type="com.karrar.movieapp.ui.home.HomeViewModel" />
+            name="count"
+            type="Integer" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,8 +51,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_medium"
+            android:text="@{count.toString()}"
             android:elevation="2dp"
-            android:text="@{@string/text_movies(viewModel.airingToday.toData().size())}"
             android:textColor="@color/shade_ternary_color"
             app:layout_constraintBaseline_toBaselineOf="@+id/text_airing_today"
             app:layout_constraintEnd_toEndOf="@id/recycler_airing_movies" />
@@ -67,13 +67,11 @@
             android:orientation="vertical"
             android:overScrollMode="never"
             android:scrollbars="none"
-            app:itemsWithMax="@{viewModel.airingToday.toData()}"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/card_airing_today"
             app:layout_constraintStart_toStartOf="@id/card_airing_today"
             app:layout_constraintTop_toBottomOf="@+id/text_airing_today"
-            app:maxNumber="@{Constants.MAX_NUMBER_AIRING_TODAY}"
             app:spanCount="3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

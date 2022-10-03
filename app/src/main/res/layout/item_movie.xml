@@ -6,7 +6,7 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.home.adapters.HomeInteractionListener" />
+            type="com.karrar.movieapp.ui.home.HomeInteractionListener" />
 
         <variable
             name="item"
@@ -14,7 +14,7 @@
 
         <variable
             name="type"
-            type="com.karrar.movieapp.domain.enums.Type" />
+            type="com.karrar.movieapp.domain.enums.MovieType" />
 
     </data>
 
@@ -32,6 +32,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:onClick="@{()->listener.onClickMovie(item.movieID)}"
             app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,25 +1,20 @@
 package com.karrar.movieapp.ui.home
 
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.repository.SeriesRepository
-import com.karrar.movieapp.domain.enums.Type
-import com.karrar.movieapp.ui.home.adapters.*
+import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.utilities.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val movieRepository: MovieRepository,
-    private val seriesRepository: SeriesRepository
-) : ViewModel(), MovieInteractionListener,
-    PopularMovieInteractionListener,
-     AiringTodayInteractionListener {
+    movieRepository: MovieRepository,
+     seriesRepository: SeriesRepository,
+) : ViewModel(), HomeInteractionListener {
 
     val popularMovie = movieRepository.getPopularMovies().asLiveData()
 
@@ -41,23 +36,23 @@ class HomeViewModel @Inject constructor(
     val topRatedTvShow = seriesRepository.getTopRatedTvShow().asLiveData()
     val latestTvShow = seriesRepository.getLatestTvShow().asLiveData()
     val popularTvShow = seriesRepository.getPopularTvShow().asLiveData()
-
-
-    override fun onClickMovie(movieID: Int, type: Type) {
+    override fun onClickMovie(movieID: Int) {
+        Log.e("DEVFALAH",movieID.toString())
     }
 
-    fun seeAllMovie(types: Type) {
+    override fun onClickActor(actorID: Int) {
+        Log.e("DEVFALAH",actorID.toString())
     }
-
-    fun seeAllActors() {
-    }
-
-    override fun onClickPopularMovie(movieId: Int) {
-    }
-
-
 
     override fun onClickAiringToday(airingTodayID: Int) {
+        Log.e("DEVFALAH",airingTodayID.toString())
+
     }
+
+    override fun onClickSeeAllMovie(movieType: MovieType) {
+        Log.e("DEVFALAH",movieType.name)
+
+    }
+
 
 }
