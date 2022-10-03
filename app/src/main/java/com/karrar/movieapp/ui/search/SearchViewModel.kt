@@ -27,11 +27,6 @@ class SearchViewModel @Inject constructor(
     val mediaType = MutableStateFlow("movie")
 
     init {
-//        viewModelScope.launch {
-//            mediaType.combine(searchText){ type, text ->
-//                "${type},${text}"
-//            }.debounce(1000).collect{getMedia(it.substringBefore(','), it.substringAfter(','))}
-//        }
         viewModelScope.launch {
             searchText.debounce(1000).collect{
                 searchForMedia(mediaType.value,it)
