@@ -34,9 +34,10 @@ object RepositoryModule {
     @Singleton
     fun provideSeriesRepository(
         seriesService: SeriesService,
-        seriesMapper: MediaMapper
+        seriesMapper: MediaMapper,
+        genreMapper: GenreMapper
     ): SeriesRepository {
-        return SeriesRepositoryImp(seriesService, seriesMapper)
+        return SeriesRepositoryImp(seriesService, seriesMapper, genreMapper)
     }
 
 }
