@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
-import com.karrar.movieapp.base.BaseAdapter
+import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.data.remote.State
 import com.squareup.picasso.Picasso
 

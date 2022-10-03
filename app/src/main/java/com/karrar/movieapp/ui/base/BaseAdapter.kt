@@ -1,4 +1,4 @@
-package com.karrar.movieapp.base
+package com.karrar.movieapp.ui.base
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.BR
-import com.karrar.movieapp.ui.base.BaseDiffUtil
 
 interface BaseInteractionListener
 
