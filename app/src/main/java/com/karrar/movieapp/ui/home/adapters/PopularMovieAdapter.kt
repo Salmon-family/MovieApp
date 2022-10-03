@@ -3,13 +3,10 @@ package com.karrar.movieapp.ui.home.adapters
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.models.PopularMovie
 import com.karrar.movieapp.ui.base.BaseAdapter
-import com.karrar.movieapp.ui.base.BaseInteractionListener
+import com.karrar.movieapp.ui.home.HomeInteractionListener
 
 class PopularMovieAdapter(items: List<PopularMovie>, listener: HomeInteractionListener) :
     BaseAdapter<PopularMovie>(items, listener) {
     override var layoutID: Int = R.layout.item_popular_movie
 }
 
-interface PopularMovieInteractionListener : BaseInteractionListener {
-    fun onClickPopularMovie(movieId: Int)
-}

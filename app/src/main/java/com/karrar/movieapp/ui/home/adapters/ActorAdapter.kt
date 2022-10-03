@@ -2,9 +2,8 @@ package com.karrar.movieapp.ui.home.adapters
 
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.models.Actor
-import com.karrar.movieapp.domain.models.PopularMovie
 import com.karrar.movieapp.ui.base.BaseAdapter
-import com.karrar.movieapp.ui.base.BaseInteractionListener
+import com.karrar.movieapp.ui.home.HomeInteractionListener
 
 
 class ActorAdapter(items: List<Actor>, listener: HomeInteractionListener) :
