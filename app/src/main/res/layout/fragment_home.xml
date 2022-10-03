@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
+
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.home.HomeViewModel" />
 
     </data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-        app:spanCount="1" />
+        android:gravity="center"
+        android:onClick="@{()-> viewModel.onclick()}"
+        android:text="Home" />
+
+
 
 </layout>
