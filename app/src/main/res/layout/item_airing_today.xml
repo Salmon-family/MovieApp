@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.karrar.movieapp.domain.enums.MovieType" />
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.home.HomeInteractionListener" />
+
+        <variable
+            name="item"
+            type="com.karrar.movieapp.domain.models.Media" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_small">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/media_card_airing_today_height"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1.4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:posterImage="@{item.imageUrl}"
+            android:onClick="@{()->listener.onClickAiringToday(item.movieID)}"
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

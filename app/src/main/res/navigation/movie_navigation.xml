@@ -3,44 +3,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.karrar.movieapp.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.karrar.movieapp.ui.login.LoginFragment"
         android:label="LoginFragment"
-        tools:layout="@layout/fragment_login">
+        tools:layout="@layout/fragment_login"
+        >
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+
     <fragment
-        android:id="@+id/myListFragment"
-        android:name="com.karrar.movieapp.ui.MyListFragment"
-        android:label="My List"
-        tools:layout="@layout/fragment_my_list" />
+        android:id="@+id/actorDetailsFragment"
+        android:name="com.karrar.movieapp.ui.actorDetails.ActorDetailsFragment"
+        android:label="ActorDetailsFragment"
+        tools:layout="@layout/fragment_actor_details">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_actorDetailsFragment_to_allMovieOfActorFragment"
+            app:destination="@id/allMovieOfActorFragment" />
+    </fragment>
+
     <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.karrar.movieapp.ui.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        android:id="@+id/allMovieOfActorFragment"
+        android:name="com.karrar.movieapp.ui.actorDetails.AllMovieOfActorFragment"
+        android:label="AllMovieOfActorFragment"
+        tools:layout="@layout/fragment_all_movie_of_actor">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.karrar.movieapp.ui.ProfileFragment"
-        android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
-    <fragment
-        android:id="@+id/detailFragment"
-        android:name="com.karrar.movieapp.ui.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        android:id="@+id/actorsFragment"
+        android:name="com.karrar.movieapp.ui.actors.ActorsFragment"
+        android:label="Actors"
+        tools:layout="@layout/fragment_actors"/>
 </navigation>
