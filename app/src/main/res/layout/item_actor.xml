@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.home.HomeInteractionListener" />
+            type="com.karrar.movieapp.ui.actors.adapters.ActorsInteractionListener" />
 
         <variable
             name="item"
@@ -16,8 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/spacing_medium"
-        android:background="@android:color/transparent"
-        >
+        android:background="@android:color/transparent">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_actor"
@@ -25,13 +25,14 @@
             android:layout_height="@dimen/spacing_actor"
             android:layout_marginVertical="@dimen/spacing_medium"
             android:background="@color/brand_color"
+            android:onClick="@{()->listener.onClickActor(item.actorID)}"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:onClick="@{()->listener.onClickActor(item.actorID)}"
             app:posterImage="@{item.actorImage}"
             app:shapeAppearanceOverlay="@style/Circle" />
+
 
         <TextView
             android:id="@+id/text_actor_name"

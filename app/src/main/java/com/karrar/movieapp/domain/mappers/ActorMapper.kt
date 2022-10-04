@@ -8,7 +8,7 @@ import javax.inject.Inject
 class ActorMapper @Inject constructor() : Mapper<ActorDto, Actor> {
     override fun map(input: ActorDto): Actor {
         return Actor(
-            actorID = input.id,
+            actorID = input.id ?: 0,
             actorName = input.name,
             actorImage = Constants.IMAGE_BASE_PATH + input.profilePath
         )

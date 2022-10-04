@@ -6,7 +6,7 @@ import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.home.HomeInteractionListener
 
 
-class ActorAdapter(items: List<Actor>, listener: HomeInteractionListener) :
+class ActorAdapter(items: List<Actor>,val listener: HomeInteractionListener) :
     BaseAdapter<Actor>(items, listener) {
     override val layoutID: Int = R.layout.item_actor
 }
