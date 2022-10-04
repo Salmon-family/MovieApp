@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.DiffUtil
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseDiffUtil
+import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.home.HomeInteractionListener
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 
 class HomeAdapter(
     private val items: MutableList<HomeRecyclerItem>,
-    private val listener: HomeInteractionListener,
+    private val listener: BaseInteractionListener,
 ) : BaseAdapter<HomeRecyclerItem>(items, listener) {
     override val layoutID: Int = 0
 
@@ -32,8 +33,10 @@ class HomeAdapter(
     override fun bind(holder: ItemViewHolder, position: Int) {
         when (val currentItem = items[position]) {
             is HomeRecyclerItem.Slider -> {
-                holder.binding.setVariable(BR.adapterRecycler,
-                    PopularMovieAdapter(currentItem.items, listener))
+                holder.binding.setVariable(
+                    BR.adapterRecycler,
+                    PopularMovieAdapter(currentItem.items, listener as HomeInteractionListener)
+                )
             }
 
             is HomeRecyclerItem.TvShows -> {
@@ -45,19 +48,34 @@ class HomeAdapter(
             }
             is HomeRecyclerItem.Movie -> {
                 holder.binding.run {
-                    setVariable(BR.adapterRecycler, MovieAdapter(currentItem.items, listener))
+                    setVariable(
+                        BR.adapterRecycler,
+                        MovieAdapter(currentItem.items, listener as MovieInteractionListener)
+                    )
                     setVariable(BR.movieType, currentItem.type)
                 }
 
             }
             is HomeRecyclerItem.Actor -> {
-                holder.binding.setVariable(BR.adapterRecycler, ActorAdapter(currentItem.items, listener))
+                holder.binding.apply {
+                    setVariable(
+                        BR.adapterRecycler,
+                        ActorAdapter(currentItem.items, listener as ActorsInteractionListener)
+                    )
+                    setVariable(BR.listener , listener as HomeInteractionListener)
+                }
+
             }
             is HomeRecyclerItem.AiringToday -> {
                 holder.binding.run {
-                    setVariable(BR.adapterRecycler,
-                        AiringTodayAdapter(currentItem.items.take(6), listener))
-                    setVariable(BR.count,currentItem.items.size)
+                    setVariable(
+                        BR.adapterRecycler,
+                        AiringTodayAdapter(
+                            currentItem.items.take(6),
+                            listener as HomeInteractionListener
+                        )
+                    )
+                    setVariable(BR.count, currentItem.items.size)
                 }
 
 

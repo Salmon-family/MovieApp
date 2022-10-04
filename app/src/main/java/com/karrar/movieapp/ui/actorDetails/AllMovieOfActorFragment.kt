@@ -8,6 +8,8 @@ import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentAllMovieOfActorBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.home.adapters.ActorAdapter
+import com.karrar.movieapp.ui.home.adapters.MovieAdapter
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,11 +29,16 @@ class AllMovieOfActorFragment : BaseFragment<FragmentAllMovieOfActorBinding>() {
     }
 
     private fun setMovieAdapter() {
-        binding.recyclerMedia.adapter = ActorMoviesAdapter(mutableListOf(), viewModel)
+        binding.recyclerMedia.adapter = MovieAdapter(mutableListOf(), viewModel)
     }
 
     private fun observeEvents() {
         viewModel.backEvent.observe(viewLifecycleOwner, EventObserve { removeFragment() })
+        viewModel.clickMovieEvent.observe(viewLifecycleOwner,EventObserve{movieID -> seeMovieDetails(movieID)})
+    }
+
+    private fun seeMovieDetails(movieID:Int){
+        findNavController().navigate(AllMovieOfActorFragmentDirections.actionAllMovieOfActorFragmentToMovieDetailFragment(movieID))
     }
 
     private fun removeFragment() {

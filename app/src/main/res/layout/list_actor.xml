@@ -7,6 +7,10 @@
         <variable
             name="adapterRecycler"
             type="com.karrar.movieapp.ui.home.adapters.ActorAdapter" />
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.home.HomeInteractionListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_too_small"
-            android:onClick="@{ ()-> adapterRecycler.listener.onClickSeeAllActors()}"
+            android:onClick="@{() -> listener.onClickSeeAllActors()}"
             android:text="@string/see_all"
             android:textColor="@color/brand_color"
             app:drawableEndCompat="@drawable/ic_arrow_right"

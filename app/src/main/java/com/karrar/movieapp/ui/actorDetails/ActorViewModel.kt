@@ -1,12 +1,17 @@
 package com.karrar.movieapp.ui.actorDetails
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.domain.models.ActorDetails
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.home.adapters.MovieInteractionListener
 import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.postEvent
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +34,9 @@ class ActorViewModel @Inject constructor(private val movieRepository: MovieRepos
 
     private val _seeAllMovies = MutableLiveData<Event<Boolean>>()
     val seeAllMovies: LiveData<Event<Boolean>> = _seeAllMovies
+
+    private val _clickMovieEvent = MutableLiveData<Event<Int>>()
+    val clickMovieEvent = _clickMovieEvent.toLiveData()
 
     fun getDetailsById(actorId: Int) {
         _actorDetails.postValue(State.Loading)
@@ -61,5 +69,8 @@ class ActorViewModel @Inject constructor(private val movieRepository: MovieRepos
         _seeAllMovies.postValue(Event(true))
     }
 
-    override fun onClickMovie(movieId: Int) {}
+    override fun onClickMovie(movieId: Int) {
+        _clickMovieEvent.postEvent(movieId)
+    }
+
 }

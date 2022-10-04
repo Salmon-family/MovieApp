@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_actorDetailsFragment"
             app:destination="@id/actorDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
     </fragment>
 
     <fragment
@@ -39,6 +42,9 @@
         <action
             android:id="@+id/action_actorDetailsFragment_to_allMovieOfActorFragment"
             app:destination="@id/allMovieOfActorFragment" />
+        <action
+            android:id="@+id/action_actorDetailsFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
     </fragment>
 
     <fragment
@@ -49,6 +55,9 @@
         <argument
             android:name="id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_allMovieOfActorFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
     </fragment>
 
     <fragment
@@ -59,5 +68,14 @@
         <action
             android:id="@+id/action_actorsFragment_to_actorDetailsFragment"
             app:destination="@id/actorDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="com.karrar.movieapp.ui.MovieDetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="movieID"
+            app:argType="integer" />
     </fragment>
 </navigation>

@@ -7,8 +7,6 @@
             name="adapterRecycler"
             type="com.karrar.movieapp.ui.home.adapters.PopularMovieAdapter" />
 
-
-
     </data>
 
 
