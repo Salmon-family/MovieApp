@@ -63,7 +63,11 @@ class MainActivity : AppCompatActivity() {
     private fun setToolBarVisibility() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.searchFragment, R.id.homeFragment, R.id.loginFragment -> {
+                R.id.searchFragment,
+                R.id.homeFragment,
+                R.id.loginFragment//,
+//                R.id.allMovieOfActorFragment
+                -> {
                     binding.topAppBar.visibility = View.GONE
                 }
                 else -> {

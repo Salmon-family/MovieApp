@@ -5,6 +5,7 @@ import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.domain.models.ActorDetails
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.ui.home.adapters.MovieInteractionListener
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

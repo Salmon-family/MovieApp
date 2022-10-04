@@ -96,5 +96,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewModel.clickSeeAllActorEvent.observe(viewLifecycleOwner, EventObserve {
             findNavController().navigate(R.id.action_homeFragment_to_actorsFragment)
         })
+
+        viewModel.clickActorEvent.observe(viewLifecycleOwner, EventObserve {actorID ->
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToActorDetailsFragment(actorID))
+        })
     }
 }
