@@ -7,6 +7,6 @@ import com.karrar.movieapp.ui.home.HomeInteractionListener
 
 class AiringTodayAdapter(items: List<Media>, listener: HomeInteractionListener) :
     BaseAdapter<Media>(items, listener) {
-    override var layoutID: Int = R.layout.item_airing_today
+    override val layoutID: Int = R.layout.item_airing_today
 }
 

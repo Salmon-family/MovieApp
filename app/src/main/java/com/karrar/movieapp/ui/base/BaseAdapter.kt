@@ -15,7 +15,7 @@ abstract class BaseAdapter<T>(
     private val listener: BaseInteractionListener,
 ) : RecyclerView.Adapter<BaseAdapter.BaseViewHolder>() {
 
-    abstract var layoutID: Int
+    abstract val layoutID: Int
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ItemViewHolder(
@@ -42,7 +42,7 @@ abstract class BaseAdapter<T>(
 
     override fun getItemCount() = items.size
 
-    fun setItems(newItems: List<T>) {
+  open  fun setItems(newItems: List<T>) {
         val diffResult = DiffUtil.calculateDiff(BaseDiffUtil(items, newItems,::areItemsSame, ::areContentSame))
         items = newItems
         diffResult.dispatchUpdatesTo(this)

@@ -7,7 +7,7 @@ interface HomeInteractionListener : BaseInteractionListener{
     fun onClickMovie(movieID: Int)
     fun onClickActor(actorID: Int)
     fun onClickAiringToday(airingTodayID: Int)
-     fun onClickSeeAllMovie(movieType: MovieType)
+    fun onClickSeeAllMovie(movieType: MovieType)
 
 
 }

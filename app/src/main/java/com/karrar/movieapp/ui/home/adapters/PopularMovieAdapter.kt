@@ -7,6 +7,6 @@ import com.karrar.movieapp.ui.home.HomeInteractionListener
 
 class PopularMovieAdapter(items: List<PopularMovie>, listener: HomeInteractionListener) :
     BaseAdapter<PopularMovie>(items, listener) {
-    override var layoutID: Int = R.layout.item_popular_movie
+    override val layoutID: Int = R.layout.item_popular_movie
 }
 

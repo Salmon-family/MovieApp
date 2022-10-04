@@ -7,6 +7,6 @@ import com.karrar.movieapp.ui.home.HomeInteractionListener
 
 class MovieAdapter(items: List<Media>,val listener: HomeInteractionListener) :
     BaseAdapter<Media>(items, listener) {
-    override var layoutID: Int = R.layout.item_movie
+    override val layoutID: Int = R.layout.item_movie
 }
 

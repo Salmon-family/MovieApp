@@ -1,7 +1,9 @@
 package com.karrar.movieapp.ui.home.adapters
 
 import android.annotation.SuppressLint
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.ui.base.BaseAdapter
@@ -10,14 +12,17 @@ import com.karrar.movieapp.ui.home.HomeInteractionListener
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 
 class HomeAdapter(
-    private val items: MutableList<HomeRecyclerItem>,
+    private var items: MutableList<HomeRecyclerItem>,
     private val listener: HomeInteractionListener,
 ) : BaseAdapter<HomeRecyclerItem>(items, listener) {
-    override var layoutID: Int = 0
+    override val layoutID: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
-        layoutID = viewType
-        return super.onCreateViewHolder(parent, viewType)
+        return ItemViewHolder(
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context), viewType, parent, false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
@@ -60,18 +65,14 @@ class HomeAdapter(
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun addItem(newItem: HomeRecyclerItem) {
-        val newItems = items.apply {
-            add(newItem)
-            sortBy {
-                it.priority
-            }
-        }
+    override fun setItems(newItems: List<HomeRecyclerItem>) {
         val diffResult = DiffUtil.calculateDiff(BaseDiffUtil(items, newItems,::areItemsSame, ::areContentSame))
+        items = newItems.toMutableList()
+        items.sortBy { it.priority }
         diffResult.dispatchUpdatesTo(this)
         notifyDataSetChanged()
     }
+
 
     override fun areItemsSame(oldItem: HomeRecyclerItem, newItem: HomeRecyclerItem): Boolean {
         return oldItem.priority == newItem.priority

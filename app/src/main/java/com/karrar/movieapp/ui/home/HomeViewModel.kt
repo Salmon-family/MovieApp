@@ -15,7 +15,6 @@ class HomeViewModel @Inject constructor(
     movieRepository: MovieRepository,
      seriesRepository: SeriesRepository,
 ) : ViewModel(), HomeInteractionListener {
-
     val popularMovie = movieRepository.getPopularMovies().asLiveData()
 
 
