@@ -23,10 +23,7 @@ class SearchViewModel @Inject constructor(
 
     private val _searchHistory = MutableLiveData<List<SearchHistory>>()
     val searchHistory: LiveData<List<SearchHistory>> get() = _searchHistory
-
-    private val _person = MutableLiveData<State<List<Person>>>()
-    val person: LiveData<State<List<Person>>> get() = _person
-
+    
     val searchText = MutableStateFlow("")
     val mediaType = MutableStateFlow("movie")
 
