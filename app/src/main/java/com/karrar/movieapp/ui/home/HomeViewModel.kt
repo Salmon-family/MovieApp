@@ -7,6 +7,7 @@ import androidx.lifecycle.asLiveData
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MovieType
+import com.karrar.movieapp.ui.actorDetails.MovieInteractionListener
 import com.karrar.movieapp.ui.actors.adapters.ActorsInteractionListener
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
@@ -19,7 +20,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     movieRepository: MovieRepository,
     seriesRepository: SeriesRepository,
-) : ViewModel(), HomeInteractionListener, ActorsInteractionListener {
+) : ViewModel(), HomeInteractionListener, ActorsInteractionListener, MovieInteractionListener {
 
     val popularMovie = movieRepository.getPopularMovies().asLiveData()
     val trending = movieRepository.getTrendingMovies().asLiveData()

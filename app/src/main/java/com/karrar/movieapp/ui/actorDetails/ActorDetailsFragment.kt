@@ -29,6 +29,7 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
         setMovieAdapter()
         observeEvents()
     }
+
     private fun setMovieAdapter() {
         binding.relatedMovieRecycler.adapter = MovieAdapter(mutableListOf(), viewModel)
     }
