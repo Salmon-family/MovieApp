@@ -23,21 +23,21 @@ class SearchViewModel @Inject constructor(
 
     private val _searchHistory = MutableLiveData<List<SearchHistory>>()
     val searchHistory: LiveData<List<SearchHistory>> get() = _searchHistory
-    
+
     val searchText = MutableStateFlow("")
     val mediaType = MutableStateFlow("movie")
 
     init {
         viewModelScope.launch {
             searchText.debounce(1000).collect{
-                if(!searchText.value.isNullOrEmpty()){
+                if (searchText.value.isNullOrEmpty()) {
+                    getAllSearchHistory()
+                } else {
                     when(mediaType.value){
                         "movie"  -> searchForMovie(it)
                         "tv" ->  searchForSeries(it)
                         "person" -> searchForPerson(it)
                     }
-                }else{
-                    getAllSearchHistory()
                 }
             }
         }
@@ -69,7 +69,7 @@ class SearchViewModel @Inject constructor(
 
     fun getMovies(){
         viewModelScope.launch {
-            if(mediaType.value != "movie" && !searchText.value.isNullOrEmpty()){
+            if(mediaType.value != "movie" ){
                 mediaType.emit("movie")
                 searchForMovie(searchText.value)
             }
@@ -78,7 +78,7 @@ class SearchViewModel @Inject constructor(
 
     fun getSeries(){
         viewModelScope.launch {
-            if(mediaType.value != "tv" && !searchText.value.isNullOrEmpty()){
+            if(mediaType.value != "tv" ){
                 mediaType.emit("tv")
                 searchForSeries(searchText.value)
             }
@@ -87,7 +87,7 @@ class SearchViewModel @Inject constructor(
 
     fun getActors(){
         viewModelScope.launch {
-            if(mediaType.value != "person" && !searchText.value.isNullOrEmpty()){
+            if(mediaType.value != "person" ){
                 mediaType.emit("person")
                 searchForPerson(searchText.value)
             }
