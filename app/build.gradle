@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id "kotlin-kapt"
     id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -84,5 +85,9 @@ dependencies {
     implementation 'androidx.core:core-splashscreen:1.0.0'
 
 
+    // Lottie
+    implementation 'com.airbnb.android:lottie:5.2.0'
 
+    //Coil
+    implementation 'io.coil-kt:coil:2.2.2'
 }
