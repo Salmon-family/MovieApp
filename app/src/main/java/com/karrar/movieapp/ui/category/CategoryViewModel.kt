@@ -20,12 +20,12 @@ class CategoryViewModel @Inject constructor(
     private val seriesRepository: SeriesRepository
 ) : ViewModel(), MediaInteractionListener, CategoryInteractionListener {
 
+    val movieCategories = movieRepository.getGenreList().asLiveData()
+    val tvCategories = seriesRepository.getGenreList().asLiveData()
+
     val scope = viewModelScope
 
     val categoryTypeId = MutableLiveData<Int>()
-
-    val movieCategories = movieRepository.getGenreList().asLiveData()
-    val tvCategories = seriesRepository.getGenreList().asLiveData()
 
     private val _categoryType = MutableLiveData<CategoryType<List<Genre>?>>()
     val categoryType: LiveData<CategoryType<List<Genre>?>> = _categoryType
@@ -63,25 +63,11 @@ class CategoryViewModel @Inject constructor(
 
 
     override fun onClickCategory(categoryId: Int) {
+        if (categoryId == FIRST_CATEGORY_ID) setAllMediaList()
         setMediaList(categoryId)
-        if (categoryId == FIRST_CATEGORY_ID) getAllMedia()
     }
 
-    private fun setMediaList(id: Int) {
-        viewModelScope.launch {
-            when (_categoryType.value) {
-                CategoryType.Movies(movieCategories.value?.toData()) -> {
-                    movieRepository.getMovieListByGenre(id).collect { _mediaList.postValue(it) }
-                }
-                CategoryType.TvShows(tvCategories.value?.toData()) -> {
-                    seriesRepository.getTvListByGenre(id).collect { _mediaList.postValue(it) }
-                }
-                else -> {}
-            }
-        }
-    }
-
-    private fun getAllMedia() {
+    private fun setAllMediaList() {
         val movieResponse = movieCategories.value?.toData()
         val tvResponse = tvCategories.value?.toData()
 
@@ -92,6 +78,23 @@ class CategoryViewModel @Inject constructor(
                 }
                 CategoryType.TvShows(tvResponse) -> {
                     seriesRepository.getAllTvShows(1).collect { _mediaList.postValue(it) }
+                }
+                else -> {}
+            }
+        }
+    }
+
+    private fun setMediaList(id: Int) {
+        val movieResponse = movieCategories.value?.toData()
+        val tvResponse = tvCategories.value?.toData()
+
+        viewModelScope.launch {
+            when (_categoryType.value) {
+                CategoryType.Movies(movieResponse) -> {
+                    movieRepository.getMovieListByGenre(id).collect { _mediaList.postValue(it) }
+                }
+                CategoryType.TvShows(tvResponse) -> {
+                    seriesRepository.getTvListByGenre(id).collect { _mediaList.postValue(it) }
                 }
                 else -> {}
             }
