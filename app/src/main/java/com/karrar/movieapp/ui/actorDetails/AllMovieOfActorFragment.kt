@@ -25,6 +25,9 @@ class AllMovieOfActorFragment : BaseFragment<FragmentAllMovieOfActorBinding>() {
         viewModel.getActorMoviesById(args.id)
         viewModel.getTypeMovies(args.type)
 
+        sharedViewModel.toolbarVisibility.postValue(true)
+        sharedViewModel.toolbarTitle.postValue(args.type.value)
+
         setMovieAdapter()
         observeEvents()
     }

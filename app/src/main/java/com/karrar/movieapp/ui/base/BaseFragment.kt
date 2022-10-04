@@ -8,7 +8,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.karrar.movieapp.BR
+import com.karrar.movieapp.ui.main.SharedViewModel
 
 abstract class BaseFragment<VDB : ViewDataBinding> : Fragment() {
     abstract val layoutIdFragment: Int
@@ -18,6 +20,8 @@ abstract class BaseFragment<VDB : ViewDataBinding> : Fragment() {
     protected val binding: VDB
         get() = _binding
 
+    val sharedViewModel by lazy { ViewModelProvider(requireActivity()).get(SharedViewModel::class.java) }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,7 +30,7 @@ abstract class BaseFragment<VDB : ViewDataBinding> : Fragment() {
         _binding = DataBindingUtil.inflate(inflater, layoutIdFragment, container, false)
         _binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            setVariable(BR.viewModel,viewModel)
+            setVariable(BR.viewModel, viewModel)
             return root
         }
     }

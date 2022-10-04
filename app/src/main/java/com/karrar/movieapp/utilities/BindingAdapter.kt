@@ -3,10 +3,12 @@ package com.karrar.movieapp.utilities
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.google.android.material.appbar.MaterialToolbar
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.domain.models.Genre

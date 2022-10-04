@@ -12,6 +12,10 @@
         <item name="textInputStyle">@style/Login</item>
     </style>
 
+    <style name="ToolbarTheme" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="colorOnPrimary">@color/shade_primary_color</item>
+    </style>
+
 
     <style name="SemiBold">
         <item name="android:fontFamily">@font/plus_jakarta_sans_semibold</item>

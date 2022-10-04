@@ -19,6 +19,9 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sharedViewModel.toolbarVisibility.postValue(true)
+        sharedViewModel.toolbarTitle.postValue(resources.getString(R.string.actors))
+
         val actorsAdapter = ActorAdapter(mutableListOf(), viewModel)
         binding.recyclerViewActors.adapter = actorsAdapter
 
@@ -28,7 +31,11 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
     private fun observeEvents() {
         viewModel.clickActorEvent.observe(viewLifecycleOwner, EventObserve { actorID ->
             findNavController()
-                .navigate(ActorsFragmentDirections.actionActorsFragmentToActorDetailsFragment(actorID))
+                .navigate(
+                    ActorsFragmentDirections.actionActorsFragmentToActorDetailsFragment(
+                        actorID
+                    )
+                )
         })
     }
 }

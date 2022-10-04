@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -17,6 +19,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var navHostFragment: NavHostFragment
+    private val sharedViewModel by lazy { ViewModelProvider(this).get(SharedViewModel::class.java) }
+
     private val appBarConfiguration: AppBarConfiguration by lazy {
         AppBarConfiguration(
             setOf(
@@ -34,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -45,7 +48,8 @@ class MainActivity : AppCompatActivity() {
             appBarConfiguration
         )
         setBottomNavBar()
-        setToolBarVisibility()
+        observeToolbar()
+//        setToolBarVisibility()
     }
 
     private fun setBottomNavBar() {
@@ -60,13 +64,22 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
+    private fun observeToolbar() {
+        sharedViewModel.toolbarVisibility.observe(this) { visibility ->
+            binding.topAppBar.isVisible = visibility
+        }
+        sharedViewModel.toolbarTitle.observe(this) { title ->
+            binding.topAppBar.title = title
+
+        }
+    }
+
     private fun setToolBarVisibility() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.searchFragment,
                 R.id.homeFragment,
-                R.id.loginFragment//,
-//                R.id.allMovieOfActorFragment
+                R.id.loginFragment
                 -> {
                     binding.topAppBar.visibility = View.GONE
                 }
