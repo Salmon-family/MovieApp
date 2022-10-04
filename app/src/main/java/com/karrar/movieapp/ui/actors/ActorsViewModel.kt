@@ -12,4 +12,7 @@ import javax.inject.Inject
 class ActorsViewModel @Inject constructor(private val movieRepository: MovieRepository) :
     ViewModel(), ActorsInteractionListener {
     val trendingActors = movieRepository.getTrendingActors().asLiveData()
+
+    override fun onClickActor(actorID: Int) {
+    }
 }

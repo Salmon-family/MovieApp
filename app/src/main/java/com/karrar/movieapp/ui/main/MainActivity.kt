@@ -9,7 +9,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
