@@ -102,7 +102,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         })
 
         viewModel.clickMovieEvent.observe(viewLifecycleOwner,EventObserve{movieID ->
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMovieDetailFragment(movieID))
+            navigateToMovieDetails(movieID)
         })
+
+        viewModel.clickSeriesEvent.observe(viewLifecycleOwner,EventObserve{seriesID ->
+            navigateToMovieDetails(seriesID)
+        })
+
+        viewModel.clickSeeAllMovieEvent.observe(viewLifecycleOwner,EventObserve{ typeMovieID ->
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAllMovieOfActorFragment(-1,typeMovieID))
+        })
+    }
+
+    private fun navigateToMovieDetails(movieID:Int){
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMovieDetailFragment(movieID))
     }
 }

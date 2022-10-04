@@ -23,6 +23,7 @@ class AllMovieOfActorFragment : BaseFragment<FragmentAllMovieOfActorBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getActorMoviesById(args.id)
+        viewModel.getTypeMovies(args.type)
 
         setMovieAdapter()
         observeEvents()

@@ -33,10 +33,7 @@ class HomeAdapter(
     override fun bind(holder: ItemViewHolder, position: Int) {
         when (val currentItem = items[position]) {
             is HomeRecyclerItem.Slider -> {
-                holder.binding.setVariable(
-                    BR.adapterRecycler,
-                    PopularMovieAdapter(currentItem.items, listener as HomeInteractionListener)
-                )
+                holder.binding.setVariable(BR.adapterRecycler, PopularMovieAdapter(currentItem.items, listener as HomeInteractionListener))
             }
 
             is HomeRecyclerItem.TvShows -> {
@@ -48,37 +45,23 @@ class HomeAdapter(
             }
             is HomeRecyclerItem.Movie -> {
                 holder.binding.run {
-                    setVariable(
-                        BR.adapterRecycler,
-                        MovieAdapter(currentItem.items, listener as MovieInteractionListener)
-                    )
+                    setVariable(BR.adapterRecycler, MovieAdapter(currentItem.items, listener as MovieInteractionListener))
                     setVariable(BR.movieType, currentItem.type)
                 }
 
             }
             is HomeRecyclerItem.Actor -> {
-                holder.binding.apply {
-                    setVariable(
-                        BR.adapterRecycler,
-                        ActorAdapter(currentItem.items, listener as ActorsInteractionListener)
-                    )
+                holder.binding.run {
+                    setVariable(BR.adapterRecycler, ActorAdapter(currentItem.items, listener as ActorsInteractionListener))
                     setVariable(BR.listener , listener as HomeInteractionListener)
                 }
 
             }
             is HomeRecyclerItem.AiringToday -> {
                 holder.binding.run {
-                    setVariable(
-                        BR.adapterRecycler,
-                        AiringTodayAdapter(
-                            currentItem.items.take(6),
-                            listener as HomeInteractionListener
-                        )
-                    )
+                    setVariable(BR.adapterRecycler, AiringTodayAdapter(currentItem.items.take(6), listener as HomeInteractionListener))
                     setVariable(BR.count, currentItem.items.size)
                 }
-
-
             }
         }
     }
@@ -97,13 +80,11 @@ class HomeAdapter(
         notifyDataSetChanged()
     }
 
-
     override fun areItemsSame(oldItem: HomeRecyclerItem, newItem: HomeRecyclerItem): Boolean {
         return oldItem.priority == newItem.priority
     }
 
     override fun getItemViewType(position: Int) = items[position].layoutID
-
 
 }
 

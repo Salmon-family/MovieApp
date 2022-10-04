@@ -1,6 +1,5 @@
 package com.karrar.movieapp.ui.home
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -19,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     movieRepository: MovieRepository,
-    seriesRepository: SeriesRepository,
+    seriesRepository: SeriesRepository
 ) : ViewModel(), HomeInteractionListener , ActorsInteractionListener , MovieInteractionListener {
 
     val popularMovie = movieRepository.getPopularMovies().asLiveData()
@@ -41,21 +40,17 @@ class HomeViewModel @Inject constructor(
     private val _clickActorEvent = MutableLiveData<Event<Int>>()
     val clickActorEvent = _clickActorEvent.toLiveData()
 
+    private val _clickSeriesEvent = MutableLiveData<Event<Int>>()
+    val clickSeriesEvent = _clickSeriesEvent.toLiveData()
+
     private val _clickSeeAllMovieEvent = MutableLiveData<Event<MovieType>>()
     val clickSeeAllMovieEvent = _clickSeeAllMovieEvent.toLiveData()
 
     private val _clickSeeAllActorEvent = MutableLiveData<Event<Boolean>>()
     val clickSeeAllActorEvent = _clickSeeAllActorEvent.toLiveData()
 
-    override fun onClickMovie(movieID: Int) {
-//        when(type){
-//            MovieType.ON_THE_AIR -> TODO()
-//            MovieType.TRENDING -> TODO()
-//            MovieType.NOW_STREAMING -> TODO()
-//            MovieType.UPCOMING -> TODO()
-//            MovieType.MYSTERY -> TODO()
-//            MovieType.ADVENTURE -> TODO()
-//        }
+    override fun onClickMovie(movieId: Int) {
+        _clickMovieEvent.postEvent(movieId)
     }
 
     override fun onClickActor(actorID: Int) {
@@ -63,11 +58,11 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onClickAiringToday(airingTodayID: Int) {
+        _clickSeriesEvent.postEvent(airingTodayID)
     }
 
     override fun onClickSeeAllMovie(movieType: MovieType) {
-        Log.e("DEVFALAH", movieType.name)
-
+        _clickSeeAllMovieEvent.postEvent(movieType)
     }
 
     override fun onClickSeeAllActors() {

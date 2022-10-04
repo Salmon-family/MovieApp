@@ -8,11 +8,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentActorDetailsBinding
+import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.home.HomeFragmentDirections
 import com.karrar.movieapp.ui.home.adapters.MovieAdapter
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.reflect.Type
 
 @AndroidEntryPoint
 class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
@@ -44,7 +46,8 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
 
     private fun seeAllMovies() {
         Navigation.findNavController(binding.root)
-            .navigate(ActorDetailsFragmentDirections.actionActorDetailsFragmentToAllMovieOfActorFragment(args.id))
+            .navigate(ActorDetailsFragmentDirections.actionActorDetailsFragmentToAllMovieOfActorFragment(args.id,
+                MovieType.NON))
     }
 
     private fun seeMovieDetails(movieID:Int){

@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_homeFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_allMovieOfActorFragment"
+            app:destination="@id/allMovieOfActorFragment" />
     </fragment>
 
     <fragment
@@ -55,6 +58,9 @@
         <argument
             android:name="id"
             app:argType="integer" />
+        <argument
+            android:name="type"
+            app:argType="com.karrar.movieapp.domain.enums.MovieType" />
         <action
             android:id="@+id/action_allMovieOfActorFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
@@ -73,7 +79,7 @@
         android:id="@+id/movieDetailFragment"
         android:name="com.karrar.movieapp.ui.MovieDetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" >
+        tools:layout="@layout/fragment_detail">
         <argument
             android:name="movieID"
             app:argType="integer" />
