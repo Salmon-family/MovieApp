@@ -4,10 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveMovieViewModel" />
+            type="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveMovieViewModel"
+            />
     </data>
 
 
@@ -15,15 +15,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/card_background_color"
-        android:paddingVertical="@dimen/spacing_large"
-        >
+        android:paddingVertical="@dimen/spacing_large">
 
         <TextView
             android:id="@+id/dialog_text"
             style="@style/SemiBold.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save Movie"
+            android:text="Save to"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -45,6 +44,7 @@
             android:layout_marginBottom="@dimen/spacing_small"
             android:padding="8dp"
             android:paddingStart="16dp"
+            android:paddingEnd="250dp"
             app:backgroundTint="@color/card_background_color"
             android:text="New List"
             android:textAllCaps="false"
@@ -53,6 +53,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view"
             tools:text="New List"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/save_list_adapter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:items="@{viewModel.list}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_play_trailer"
+            tools:listitem="@layout/item_list"
             />
 
 
