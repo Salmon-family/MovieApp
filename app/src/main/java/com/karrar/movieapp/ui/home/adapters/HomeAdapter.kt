@@ -12,7 +12,7 @@ import com.karrar.movieapp.ui.home.HomeInteractionListener
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 
 class HomeAdapter(
-    private var items: MutableList<HomeRecyclerItem>,
+    private val items: MutableList<HomeRecyclerItem>,
     private val listener: HomeInteractionListener,
 ) : BaseAdapter<HomeRecyclerItem>(items, listener) {
     override val layoutID: Int = 0
@@ -65,10 +65,16 @@ class HomeAdapter(
         }
     }
 
-    override fun setItems(newItems: List<HomeRecyclerItem>) {
-        val diffResult = DiffUtil.calculateDiff(BaseDiffUtil(items, newItems,::areItemsSame, ::areContentSame))
-        items = newItems.toMutableList()
-        items.sortBy { it.priority }
+    @SuppressLint("NotifyDataSetChanged")
+    fun addItem(newItem: HomeRecyclerItem) {
+        val newItems = items.apply {
+            add(newItem)
+            sortBy {
+                it.priority
+            }
+        }
+        val diffResult =
+            DiffUtil.calculateDiff(BaseDiffUtil(items, newItems, ::areItemsSame, ::areContentSame))
         diffResult.dispatchUpdatesTo(this)
         notifyDataSetChanged()
     }

@@ -1,12 +1,15 @@
 package com.karrar.movieapp.ui.home
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.utilities.Constants
+import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -35,6 +38,19 @@ class HomeViewModel @Inject constructor(
     val topRatedTvShow = seriesRepository.getTopRatedTvShow().asLiveData()
     val latestTvShow = seriesRepository.getLatestTvShow().asLiveData()
     val popularTvShow = seriesRepository.getPopularTvShow().asLiveData()
+
+    private val _clickMovieEvent = MutableLiveData<Event<Int>>()
+    val clickMovieEvent = _clickMovieEvent.toLiveData()
+
+    private val _clickActorEvent = MutableLiveData<Event<Int>>()
+    val clickActorEvent = _clickActorEvent.toLiveData()
+
+    private val _clickSeeAllMovieEvent = MutableLiveData<Event<MovieType>>()
+    val clickSeeAllMovieEvent = _clickSeeAllMovieEvent.toLiveData()
+
+    private val _clickSeeAllActorEvent = MutableLiveData<Event<Boolean>>()
+    val clickSeeAllActorEvent = _clickSeeAllActorEvent.toLiveData()
+
     override fun onClickMovie(movieID: Int) {
         Log.e("DEVFALAH",movieID.toString())
     }
