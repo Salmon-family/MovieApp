@@ -43,12 +43,12 @@
                         android:id="@+id/chipGroup_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        app:chipList="@{viewModel.movieCategories}"
+                        app:firstItemSelection="@{viewModel.scope}"
                         app:listener="@{viewModel}"
                         app:selectionRequired="true"
                         app:setGenres="@{viewModel.categoryType}"
                         app:singleLine="true"
-                        app:firstItemSelection="@{viewModel.scope}"
-                        app:chipList="@{viewModel.movieCategories}"
                         app:singleSelection="true" />
 
                 </HorizontalScrollView>
@@ -57,37 +57,23 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-
-        <androidx.core.widget.NestedScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_media"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="fill_vertical"
             android:background="@color/background_color"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <FrameLayout
-                android:id="@+id/container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/background_color">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_media"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="@dimen/spacing_small"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:overScrollMode="never"
-                    android:scrollbars="none"
-                    app:items="@{viewModel.mediaList.toData()}"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="3"
-                    tools:itemCount="15"
-                    tools:listitem="@layout/item_media" />
-
-            </FrameLayout>
-
-        </androidx.core.widget.NestedScrollView>
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingHorizontal="@dimen/spacing_small"
+            android:paddingTop="@dimen/spacing_medium"
+            android:scrollbars="none"
+            app:items="@{viewModel.mediaList.toData()}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:spanCount="3"
+            tools:itemCount="15"
+            tools:listitem="@layout/item_media" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
