@@ -26,7 +26,7 @@ import javax.inject.Inject
 class ActorViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     val seriesRepository: SeriesRepository) :
-    ViewModel(), MovieInteractionListener {
+    ViewModel(), MovieInteractionListener,MediaInteractionListener {
 
     private val _actorDetails = MutableLiveData<State<ActorDetails>>()
     val actorDetails: LiveData<State<ActorDetails>> = _actorDetails

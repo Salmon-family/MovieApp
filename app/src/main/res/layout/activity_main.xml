@@ -16,6 +16,7 @@
         android:background="@android:color/transparent"
         android:theme="@style/ToolbarTheme"
         app:elevation="0dp"
+        app:contentInsetStartWithNavigation="0dp"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/app_name"
         app:titleTextColor="@color/shade_primary_color" />
