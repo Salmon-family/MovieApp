@@ -41,6 +41,10 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
      private val _clickReviewsEvent = MutableLiveData<Event<Boolean>>()
      var clickReviewsEvent: LiveData<Event<Boolean>> = _clickReviewsEvent
 
+     private val _clickSaveEvent = MutableLiveData<Event<Boolean>>()
+     var clickSaveEvent: LiveData<Event<Boolean>> = _clickSaveEvent
+
+
      var ratingValue = MutableLiveData<Float>()
 
 
@@ -61,6 +65,9 @@ class MovieDetailsViewModel @Inject constructor(private val movieRepository: Mov
 
      }
 
+     fun onClickSave(){
+          _clickSaveEvent.postValue(Event(true))
+     }
 
      fun onClickPlayTrailer(){
           _clickPlayTrailerEvent.postValue(Event(true))

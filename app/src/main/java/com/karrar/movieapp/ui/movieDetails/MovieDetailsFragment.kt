@@ -72,6 +72,11 @@ class MovieDetailsFragment :BaseFragment<FragmentMovieDetailsBinding>() {
                  .navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragmentToYoutubePlayerFragment(args.movieId))
          })
 
+         viewModel.clickSaveEvent.observe(viewLifecycleOwner, EventObserve{
+             Navigation.findNavController(binding.root)
+                 .navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragmentToSaveMovieDialog(args.movieId))
+         })
+
          viewModel.clickBackEvent.observe(viewLifecycleOwner, EventObserve{
              findNavController().navigateUp()
          })
