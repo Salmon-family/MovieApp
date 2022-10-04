@@ -48,7 +48,8 @@
             app:selectionRequired="true"
             app:singleSelection="true"
             android:layout_marginTop="@dimen/spacing_medium"
-            app:chipSpacingHorizontal="12dp">
+            app:chipSpacingHorizontal="12dp"
+            app:showWhenSearch="@{viewModel.searchText}">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_movie"
@@ -90,6 +91,21 @@
                 android:onClick="@{() -> viewModel.getActors()}"/>
         </com.google.android.material.chip.ChipGroup>
 
+        <TextView
+            android:id="@+id/text_search_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/input_search"
+            app:layout_constraintStart_toStartOf="@id/input_search"
+            android:layout_marginTop="@dimen/spacing_medium"
+            style="@style/SemiBold.Medium"
+            android:textColor="@color/shade_primary_color"
+            android:text="History"
+            android:drawablePadding="@dimen/spacing_small"
+            android:gravity="center"
+            app:drawableStartCompat="@drawable/ic_history"
+            app:hideWhenSearch="@{viewModel.searchText}"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_media"
             android:layout_width="0dp"
@@ -104,21 +120,37 @@
             app:items="@{viewModel.media.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
-            app:setMediaVisibility="@{viewModel.mediaType}"/>
+            app:hideWhenLoading="@{viewModel.media}"
+            app:showWhenSearch="@{viewModel.searchText}"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_person"
+            android:id="@+id/recycler_search_history"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/chip_group_media_type"
+            app:layout_constraintTop_toBottomOf="@id/text_search_label"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/input_search"
             app:layout_constraintEnd_toEndOf="@id/input_search"
-            android:paddingVertical="@dimen/spacing_small"
+            android:paddingVertical="@dimen/spacing_too_small"
             android:clipToPadding="false"
-            app:items="@{viewModel.person.toData()}"
-            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-            app:spanCount="3"
-            app:setPersonVisibility="@{viewModel.mediaType}"/>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            tools:listitem="@layout/item_search_history"
+            app:items="@{viewModel.searchHistory}"
+            app:hideWhenSearch="@{viewModel.searchText}"/>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_loading"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/recycler_media"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_animation"
+            app:showWhenLoading="@{viewModel.media}" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

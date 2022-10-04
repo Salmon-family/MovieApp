@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.karrar.movieapp.data.local.DataStorePreferences
 import com.karrar.movieapp.data.local.database.MovieDataBase
+import com.karrar.movieapp.data.local.database.daos.MovieDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +20,12 @@ object DataBaseModule {
     @Provides
     fun providesRoomDatabase(@ApplicationContext context: Context): MovieDataBase =
         Room.databaseBuilder(context, MovieDataBase::class.java, "MovieDatabase").build()
+
+    @Singleton
+    @Provides
+    fun provideMovieDao(@ApplicationContext context: Context): MovieDao{
+        return providesRoomDatabase(context).movieDao()
+    }
 
     @Singleton
     @Provides

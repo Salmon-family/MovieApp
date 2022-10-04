@@ -36,14 +36,14 @@ fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
     (view.adapter as BaseAdapter<T>?)?.setItems(items ?: emptyList())
 }
 
-@BindingAdapter(value = ["app:setMediaVisibility"])
-fun setMediaVisibility(view: RecyclerView, type: String){
-    view.isVisible = type == "movie" || type == "tv"
+@BindingAdapter(value = ["app:showWhenSearch"])
+fun showWhenSearch(view: View, text: String){
+    view.isVisible = !text.isNullOrEmpty()
 }
 
-@BindingAdapter(value = ["app:setPersonVisibility"])
-fun setPersonVisibility(view: RecyclerView, type: String){
-    view.isVisible = type == "person"
+@BindingAdapter(value = ["app:hideWhenSearch"])
+fun hideWhenSearch(view: View, text: String){
+    view.isVisible = text.isNullOrEmpty()
 }
 
 

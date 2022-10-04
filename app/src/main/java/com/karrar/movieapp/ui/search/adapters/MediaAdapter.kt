@@ -11,5 +11,5 @@ class MediaAdapter(items: List<Media>, listener: MediaInteractionListener)
 }
 
 interface MediaInteractionListener : BaseInteractionListener {
-    fun onClickMedia(mediaID: Int)
+    fun onClickMedia(mediaID: Int, name: String)
 }

@@ -9,6 +9,7 @@ class ActorMoviesMapper @Inject constructor() : Mapper<CastDto, Movie> {
     override fun map(input: CastDto): Movie {
         return Movie(
             input.id,
+            name = input.originalTitle,
             IMAGE_BASE_PATH + input.posterPath,
         )
     }

@@ -1,16 +1,14 @@
 package com.karrar.movieapp.di
 
 import com.karrar.movieapp.data.local.DataStorePreferences
+import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.remote.repository.AccountRepository
 import com.karrar.movieapp.data.remote.repository.AccountRepositoryImp
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.repository.MovieRepositoryImp
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.domain.mappers.MediaMapper
-import com.karrar.movieapp.domain.mappers.PersonMapper
+import com.karrar.movieapp.domain.mappers.*
 import com.karrar.movieapp.utilities.DataClassParser
-import com.karrar.movieapp.domain.mappers.ActorDetailsMapper
-import com.karrar.movieapp.domain.mappers.ActorMoviesMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,12 +23,23 @@ object RepositoryModule {
     @Provides
     fun provideMovieRepository(
         movieService: MovieService,
-        mediaMapper: MediaMapper,
         personMapper: PersonMapper,
+        movieMapper: MovieMapper,
+        seriesMapper: SeriesMapper,
         actorDetailsMapper: ActorDetailsMapper,
         actorMoviesMapper: ActorMoviesMapper,
+        movieDao: MovieDao,
+        searchHistoryMapper: SearchHistoryMapper
     ): MovieRepository {
-        return MovieRepositoryImp(movieService, mediaMapper, personMapper,actorDetailsMapper, actorMoviesMapper)
+        return MovieRepositoryImp(
+            movieService,
+            personMapper,
+            actorDetailsMapper,
+            actorMoviesMapper,
+            movieMapper,
+            seriesMapper,
+            movieDao,
+            searchHistoryMapper)
     }
 
     @Singleton

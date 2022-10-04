@@ -12,5 +12,5 @@ class PersonAdapter(items: List<Person>, listener: PersonInteractionListener)
 }
 
 interface PersonInteractionListener : BaseInteractionListener{
-    fun onClickPerson(personID: Int)
+    fun onClickPerson(personID: Int, name: String)
 }

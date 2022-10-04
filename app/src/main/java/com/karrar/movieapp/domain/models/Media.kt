@@ -7,4 +7,5 @@ data class Media(
     val releaseDate: String?,
     val rate: Float?,
     val imagePath: String?,
+    val profileImage: String?
 )

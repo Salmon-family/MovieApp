@@ -1,9 +1,10 @@
 package com.karrar.movieapp.data.local.database.daos
 
 import androidx.room.*
-import com.karrar.movieapp.data.local.database.entity.SearchHistory
+import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchList
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 @Dao
 interface MovieDao {
@@ -17,12 +18,12 @@ interface MovieDao {
     @Query("SELECT * FROM WATCH_LIST_TABLE")
     fun getAllSavedMovies(): Flow<List<WatchList>>
 
-    @Insert
-    suspend fun insert(Search: SearchHistory)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(Search: SearchHistoryEntity)
 
     @Delete
-    suspend fun delete(Search: SearchHistory)
+    suspend fun delete(Search: SearchHistoryEntity)
 
     @Query("SELECT * FROM SEARCH_HISTORY_TABLE")
-    fun getAllSearchHistory(): Flow<List<SearchHistory>>
+    fun getAllSearchHistory(): Flow<List<SearchHistoryEntity>>
 }

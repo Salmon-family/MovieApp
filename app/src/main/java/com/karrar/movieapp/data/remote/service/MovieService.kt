@@ -1,11 +1,8 @@
 package com.karrar.movieapp.data.remote.service
 
+import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.response.login.SessionResponse
-import com.karrar.movieapp.data.remote.response.BaseResponse
-import com.karrar.movieapp.data.remote.response.MediaDto
-import com.karrar.movieapp.data.remote.response.MovieDto
-import com.karrar.movieapp.data.remote.response.PersonDto
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorDetailsDto
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorMoviesDto
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
@@ -54,6 +51,16 @@ interface MovieService {
     suspend fun searchForPerson(
         @Query("query") query: String
     ): Response<BaseResponse<PersonDto>>
+
+    @GET("search/movie")
+    suspend fun searchForMovie(
+        @Query("query") query: String
+    ): Response<BaseResponse<MovieDto>>
+
+    @GET("search/tv")
+    suspend fun searchForSeries(
+        @Query("query") query: String
+    ): Response<BaseResponse<SeriesDto>>
 
     @GET("authentication/token/new")
     suspend fun getRequestToken() : Response<RequestTokenResponse>

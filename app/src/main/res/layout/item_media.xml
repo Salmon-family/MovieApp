@@ -7,6 +7,12 @@
         <variable
             name="item"
             type="com.karrar.movieapp.domain.models.Media" />
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.search.MediaInteractionListener" />
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.search.SearchViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -17,7 +23,8 @@
         android:layout_marginTop="@dimen/spacing_small"
         app:cardElevation="1dp"
         style="@style/CardCorners.Small"
-        android:backgroundTint="@color/card_background_color">
+        android:backgroundTint="@color/card_background_color"
+        android:onClick="@{() -> listener.onClickMedia(item.id,item.name)}">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">

@@ -7,12 +7,16 @@ import com.karrar.movieapp.domain.models.Person
 import com.karrar.movieapp.utilities.Constants
 import javax.inject.Inject
 
-class PersonMapper @Inject constructor() : Mapper<PersonDto, Person>{
-    override fun map(input: PersonDto): Person {
-        return Person(
+class PersonMapper @Inject constructor() : Mapper<PersonDto, Media>{
+    override fun map(input: PersonDto): Media {
+        return Media(
             id = input.id,
             name = input.name,
-            profileImage = Constants.IMAGE_BASE_PATH + input.profilePath
+            profileImage = Constants.IMAGE_BASE_PATH + input.profilePath,
+            type = null,
+            releaseDate = null,
+            rate = null,
+            imagePath = null
         )
     }
 }

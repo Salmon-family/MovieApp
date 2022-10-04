@@ -1,29 +1,33 @@
 package com.karrar.movieapp.data.remote.repository
 
+import com.karrar.movieapp.MovieApplication
+import com.karrar.movieapp.data.local.database.MovieDataBase
+import com.karrar.movieapp.data.local.database.daos.MovieDao
+import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.BaseResponse
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.PersonDto
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.domain.mappers.MediaMapper
-import com.karrar.movieapp.domain.mappers.PersonMapper
-import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.domain.models.Person
-import com.karrar.movieapp.domain.mappers.ActorDetailsMapper
-import com.karrar.movieapp.domain.mappers.ActorMoviesMapper
-import com.karrar.movieapp.domain.models.ActorDetails
-import com.karrar.movieapp.domain.models.Movie
+import com.karrar.movieapp.domain.mappers.*
+import com.karrar.movieapp.domain.models.*
+import dagger.Provides
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import retrofit2.Response
 import javax.inject.Inject
 
+
 class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
-    private val mediaMapper: MediaMapper,
     private val personMapper: PersonMapper,
     private val actorDetailsMapper: ActorDetailsMapper,
     private val actorMoviesMapper: ActorMoviesMapper,
+    private val movieMapper: MovieMapper,
+    private val seriesMapper: SeriesMapper,
+    private val movieDao: MovieDao,
+    private val searchHistoryMapper: SearchHistoryMapper
 ) : BaseRepository(),MovieRepository {
     override fun getPopularMovies(): Flow<State<BaseResponse<MovieDto>>> {
         return wrapWithFlow { movieService.getPopularMovies() }
@@ -77,15 +81,35 @@ class MovieRepositoryImp @Inject constructor(
         }
     }
 
-    override fun searchForMedia(type: String, query: String): Flow<State<List<Media>>> {
-        return wrap({movieService.searchWithType(type,query)}, {
-            it.items?.map{ mediaMapper.map(it!!) } ?: emptyList()
-        })
-    }
-
-    override fun searchForPerson(query: String): Flow<State<List<Person>>> {
+    override fun searchForPerson(query: String): Flow<State<List<Media>>> {
         return wrap({ movieService.searchForPerson(query) }, {
             it.items?.map { personMapper.map(it!!) } ?: emptyList()
         })
+    }
+
+    override fun searchForMovie(query: String): Flow<State<List<Media>>> {
+        return wrap({ movieService.searchForMovie(query) }, {
+            it.items?.map { movieMapper.map(it!!) } ?: emptyList()
+        })
+    }
+
+    override fun searchForSeries(query: String): Flow<State<List<Media>>> {
+        return wrap({ movieService.searchForSeries(query) }, {
+            it.items?.map { seriesMapper.map(it!!) } ?: emptyList()
+        })
+    }
+
+    override suspend fun insertSearchItem(item: SearchHistoryEntity) {
+        return movieDao.insert(item)
+    }
+
+    override suspend fun deleteSearchItem(item: SearchHistoryEntity) {
+        return movieDao.delete(item)
+    }
+
+    override fun getAllSearchHistory(): Flow<List<SearchHistory>> {
+        return movieDao.getAllSearchHistory().map {
+            it.map { searchHistoryMapper.map(it)}
+        }
     }
 }
