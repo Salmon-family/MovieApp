@@ -19,6 +19,9 @@ import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.category.CategoryInteractionListener
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @BindingAdapter("app:posterImage")
 fun bindMovieImage(image: ImageView, imageURL: String?) {
@@ -99,4 +102,14 @@ fun <T> ChipGroup.createChip(item: Genre, listener: T): View {
     chipBinding.item = item
     chipBinding.listener = listener as CategoryInteractionListener
     return chipBinding.root
+}
+
+@BindingAdapter("app:firstItemSelection", "app:chipList")
+fun selectFirstItem(view: ChipGroup, scope: CoroutineScope, chipList: State<List<Genre>>?) {
+    if (chipList is State.Success) {
+        scope.launch {
+            delay(100)
+            view.getChildAt(FIRST_CATEGORY_ID)?.id?.let { view.check(it) }
+        }
+    }
 }

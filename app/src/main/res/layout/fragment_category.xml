@@ -47,6 +47,8 @@
                         app:selectionRequired="true"
                         app:setGenres="@{viewModel.categoryType}"
                         app:singleLine="true"
+                        app:firstItemSelection="@{viewModel.scope}"
+                        app:chipList="@{viewModel.movieCategories}"
                         app:singleSelection="true" />
 
                 </HorizontalScrollView>

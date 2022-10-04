@@ -23,6 +23,8 @@ class CategoryViewModel @Inject constructor(
     private val _categoryType = MutableLiveData<CategoryType<List<Genre>?>>()
     val categoryType: LiveData<CategoryType<List<Genre>?>> = _categoryType
 
+    val scope = viewModelScope
+
     private val _mediaList = MutableLiveData<State<List<Media>>>()
     val mediaList: LiveData<State<List<Media>>> = _mediaList
 

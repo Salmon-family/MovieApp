@@ -34,15 +34,6 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
             viewModel.setCategoryType(args.mediaId)
         }
 
-        viewModel.movieCategories.observe(viewLifecycleOwner) {
-            lifecycleScope.launch {
-                delay(300)
-                binding.chipGroupCategory.apply {
-                    this.getChildAt(0)?.id?.let { this.check(it) }
-                }
-            }
-        }
-
         setMediaAdapter()
     }
 
