@@ -25,7 +25,7 @@
             android:name="movie_id"
             app:argType="integer" />
         <action
-            android:id="@+id/action_movieDetailsFragment_self2"
+            android:id="@+id/action_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
         <action
             android:id="@+id/action_movieDetailsFragment_to_reviewFragment"

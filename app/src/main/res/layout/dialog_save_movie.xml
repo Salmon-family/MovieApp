@@ -1,21 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveMovieViewModel" />
     </data>
 
-    <FrameLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.movieDetails.saveMovie.SaveMovieDialog">
+        android:background="@color/card_background_color"
+        android:paddingVertical="@dimen/spacing_large"
+        >
 
         <TextView
+            android:id="@+id/dialog_text"
+            style="@style/SemiBold.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save Movie"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText,SpUsage" />
+
+        <View
+            android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/shade_quaternary_color"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_text" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_play_trailer"
+            style="@style/SemiBold.Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:padding="8dp"
+            android:paddingStart="16dp"
+            app:backgroundTint="@color/card_background_color"
+            android:text="New List"
+            android:textAllCaps="false"
+            app:icon="@drawable/new_list_ic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            tools:text="New List"
             />
 
-    </FrameLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

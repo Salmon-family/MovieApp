@@ -53,13 +53,13 @@ class MovieDetailsFragment :BaseFragment<FragmentMovieDetailsBinding>() {
 
          viewModel.clickMovieEvent.observe(viewLifecycleOwner, EventObserve{
              Navigation.findNavController(binding.root)
-                 .navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf2(it))
+                 .navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragment(it))
          })
 
          //change the direction to cast details
          viewModel.clickCastEvent.observe(viewLifecycleOwner, EventObserve{
              Navigation.findNavController(binding.root)
-                 .navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf2(it))
+                 .navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragment(it))
          })
 
          viewModel.clickReviewsEvent.observe(viewLifecycleOwner, EventObserve{
