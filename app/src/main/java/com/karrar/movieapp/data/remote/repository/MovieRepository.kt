@@ -23,7 +23,7 @@ interface MovieRepository {
 
     fun getGenreList(): Flow<State<List<Genre>>>
 
-    fun getMovieListByGenre(genreID: Int): Flow<State<List<Media>>>
+    fun getMoviesByGenre(genreID: Int): Flow<State<List<Media>>>
 
     fun getAllMovies(page: Int): Flow<State<List<Media>>>
 }

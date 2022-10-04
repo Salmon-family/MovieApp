@@ -1,7 +1,11 @@
 package com.karrar.movieapp.ui.category
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
@@ -21,11 +25,8 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.categoryTypeId.value = args.mediaId
-
-        viewModel.setInitialMediaList()
-
-        viewModel.movieCategories.observe(viewLifecycleOwner) { viewModel.setCategoryType() }
-        viewModel.tvCategories.observe(viewLifecycleOwner) { viewModel.setCategoryType() }
+        viewModel.setAllMediaList()
+        viewModel.setCategoryType()
 
         setMediaAdapter()
     }

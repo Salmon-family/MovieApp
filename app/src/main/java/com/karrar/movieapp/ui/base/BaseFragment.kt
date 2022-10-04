@@ -31,5 +31,13 @@ abstract class BaseFragment<VDB : ViewDataBinding> : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        _binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            setVariable(BR.viewModel,viewModel)
+        }
+        super.onViewCreated(view, savedInstanceState)
+    }
+
 
 }

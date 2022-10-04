@@ -53,7 +53,7 @@ class SeriesRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getTvListByGenre(genreId: Int): Flow<State<List<Media>>> {
+    override fun getTvShowsByGenre(genreId: Int): Flow<State<List<Media>>> {
         return wrap({ seriesService.getTvListByGenre(genreId) }, {
             it.items?.map { mapper.map(it) } ?: emptyList()
         })

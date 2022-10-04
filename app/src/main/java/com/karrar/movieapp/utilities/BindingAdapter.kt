@@ -13,16 +13,14 @@ import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.databinding.ChipItemCategoryBinding
-import com.karrar.movieapp.domain.CategoryType
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.category.CategoryInteractionListener
 import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
+import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
+import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @BindingAdapter("app:posterImage")
 fun bindMovieImage(image: ImageView, imageURL: String?) {
@@ -77,20 +75,31 @@ fun <T> showWhenFail(view: View, state: State<T>?) {
     view.isVisible = state is State.Error
 }
 
-@BindingAdapter("app:setGenres", "app:listener")
-fun <T> setGenresChips(view: ChipGroup, mediaList: CategoryType<List<Genre>>?, listener: T) {
+@BindingAdapter("app:setGenres", "app:genresId", "app:listener", "app:firstChipSelection")
+fun <T> setGenresChips(
+    view: ChipGroup,
+    chipList: State<List<Genre>>?,
+    categoryId: Int?,
+    listener: T,
+    isFirstChipSelected: Boolean
+) {
     val allMedia = Genre(FIRST_CATEGORY_ID, ALL)
-    when (mediaList) {
-        is CategoryType.Movies -> mediaList.toMovieData()?.let {
-            view.addView(view.createChip(allMedia, listener))
-            it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
+    when (categoryId) {
+        MOVIE_CATEGORIES_ID -> {
+            chipList?.toData()?.let {
+                view.addView(view.createChip(allMedia, listener))
+                it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
+            }
         }
-        is CategoryType.TvShows -> mediaList.toTvData()?.let {
-            view.addView(view.createChip(allMedia, listener))
-            it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
+        TV_CATEGORIES_ID -> {
+            chipList?.toData()?.let {
+                view.addView(view.createChip(allMedia, listener))
+                it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
+            }
         }
-        else -> {}
     }
+
+    if (isFirstChipSelected) view.getChildAt(FIRST_CATEGORY_ID)?.id?.let { view.check(it) }
 }
 
 // should be at extensions file
@@ -104,14 +113,4 @@ fun <T> ChipGroup.createChip(item: Genre, listener: T): View {
     chipBinding.item = item
     chipBinding.listener = listener as CategoryInteractionListener
     return chipBinding.root
-}
-
-@BindingAdapter("app:firstItemSelection", "app:chipList")
-fun selectFirstItem(view: ChipGroup, scope: CoroutineScope, chipList: State<List<Genre>>?) {
-    if (chipList is State.Success) {
-        scope.launch {
-            delay(100)
-            view.getChildAt(FIRST_CATEGORY_ID)?.id?.let { view.check(it) }
-        }
-    }
 }

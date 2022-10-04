@@ -26,7 +26,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/bottom_line"
                 app:contentInsetStart="0dp"
-                app:isSuccess="@{viewModel.movieCategories}"
+
                 app:layout_scrollFlags="scroll|enterAlways">
 
                 <HorizontalScrollView
@@ -43,11 +43,11 @@
                         android:id="@+id/chipGroup_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:chipList="@{viewModel.movieCategories}"
-                        app:firstItemSelection="@{viewModel.scope}"
+                        app:firstChipSelection="@{true}"
+                        app:genresId="@{viewModel.categoryTypeId}"
                         app:listener="@{viewModel}"
                         app:selectionRequired="true"
-                        app:setGenres="@{viewModel.categoryType}"
+                        app:setGenres="@{viewModel.categories}"
                         app:singleLine="true"
                         app:singleSelection="true" />
 
