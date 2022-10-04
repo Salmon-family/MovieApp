@@ -1,12 +1,11 @@
 package com.karrar.movieapp.ui.main
 
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -20,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var navHostFragment: NavHostFragment
-    private val sharedViewModel by lazy { ViewModelProvider(this).get(SharedViewModel::class.java) }
+    private val viewModel: SharedViewModel by viewModels()
 
     private val appBarConfiguration: AppBarConfiguration by lazy {
         AppBarConfiguration(
@@ -65,15 +64,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeToolbar() {
-        sharedViewModel.toolbarVisibility.observe(this) { visibility ->
+        viewModel.toolbarVisibility.observe(this) { visibility ->
             binding.topAppBar.isVisible = visibility
             binding.actionbarTransparent.isVisible = visibility
         }
-        sharedViewModel.toolbarTitle.observe(this) { title ->
+        viewModel.toolbarTitle.observe(this) { title ->
             binding.topAppBar.title = title
         }
 
-        sharedViewModel.toolbarTransparent.observe(this) { transparent ->
+        viewModel.toolbarTransparent.observe(this) { transparent ->
             when (transparent) {
                 true -> {
                     binding.topAppBar.background = ContextCompat.getDrawable(this,android.R.color.transparent)
