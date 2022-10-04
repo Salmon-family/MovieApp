@@ -8,7 +8,6 @@ import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentAllMovieOfActorBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.home.adapters.ActorAdapter
 import com.karrar.movieapp.ui.home.adapters.MovieAdapter
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,8 +24,7 @@ class AllMovieOfActorFragment : BaseFragment<FragmentAllMovieOfActorBinding>() {
         viewModel.getActorMoviesById(args.id)
         viewModel.getTypeMovies(args.type)
 
-        sharedViewModel.toolbarVisibility.postValue(true)
-        sharedViewModel.toolbarTitle.postValue(args.type.value)
+        sharedViewModel.setToolbar(isVisible = true, isTransparent = false, title = args.type.value)
 
         setMovieAdapter()
         observeEvents()
@@ -38,11 +36,17 @@ class AllMovieOfActorFragment : BaseFragment<FragmentAllMovieOfActorBinding>() {
 
     private fun observeEvents() {
         viewModel.backEvent.observe(viewLifecycleOwner, EventObserve { removeFragment() })
-        viewModel.clickMovieEvent.observe(viewLifecycleOwner,EventObserve{movieID -> seeMovieDetails(movieID)})
+        viewModel.clickMovieEvent.observe(
+            viewLifecycleOwner,
+            EventObserve { movieID -> seeMovieDetails(movieID) })
     }
 
-    private fun seeMovieDetails(movieID:Int){
-        findNavController().navigate(AllMovieOfActorFragmentDirections.actionAllMovieOfActorFragmentToMovieDetailFragment(movieID))
+    private fun seeMovieDetails(movieID: Int) {
+        findNavController().navigate(
+            AllMovieOfActorFragmentDirections.actionAllMovieOfActorFragmentToMovieDetailFragment(
+                movieID
+            )
+        )
     }
 
     private fun removeFragment() {

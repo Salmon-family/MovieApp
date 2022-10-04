@@ -26,7 +26,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedViewModel.toolbarVisibility.postValue(false)
+
+        sharedViewModel.setToolbar(isVisible = false, isTransparent = false, title = null)
+
         homeAdapter = HomeAdapter(mutableListOf(), viewModel)
         binding.recyclerView.adapter = homeAdapter
 

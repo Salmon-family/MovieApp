@@ -1,8 +1,9 @@
 package com.karrar.movieapp.ui.main
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -49,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         )
         setBottomNavBar()
         observeToolbar()
-//        setToolBarVisibility()
     }
 
     private fun setBottomNavBar() {
@@ -67,26 +67,23 @@ class MainActivity : AppCompatActivity() {
     private fun observeToolbar() {
         sharedViewModel.toolbarVisibility.observe(this) { visibility ->
             binding.topAppBar.isVisible = visibility
+            binding.actionbarTransparent.isVisible = visibility
         }
         sharedViewModel.toolbarTitle.observe(this) { title ->
             binding.topAppBar.title = title
-
         }
-    }
 
-    private fun setToolBarVisibility() {
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.searchFragment,
-                R.id.homeFragment,
-                R.id.loginFragment
-                -> {
-                    binding.topAppBar.visibility = View.GONE
+        sharedViewModel.toolbarTransparent.observe(this) { transparent ->
+            when (transparent) {
+                true -> {
+                    binding.topAppBar.background = ContextCompat.getDrawable(this,android.R.color.transparent)
+                    binding.actionbarTransparent.isVisible = false
                 }
-                else -> {
-                    binding.topAppBar.visibility = View.VISIBLE
+                false ->{
+                    binding.topAppBar.background = ContextCompat.getDrawable(this, R.color.background_color)
                 }
             }
         }
     }
+
 }

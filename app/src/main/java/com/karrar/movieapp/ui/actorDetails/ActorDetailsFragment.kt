@@ -27,7 +27,7 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedViewModel.toolbarVisibility.postValue(true)
+        sharedViewModel.setToolbar(isVisible = true, isTransparent = true, title = "")
 
         viewModel.getDetailsById(args.id)
         viewModel.getActorMoviesById(args.id)
