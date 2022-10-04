@@ -17,11 +17,11 @@
     <com.google.android.material.chip.Chip
         style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
         android:layout_width="wrap_content"
-        android:fontFamily="@font/plus_jakarta_sans_regular"
-        android:textSize="@dimen/text_small"
         android:layout_height="@dimen/chip_height"
-        android:onClick="@{()->listener.onClickCategory(item.genreID)}"
+        android:fontFamily="@font/plus_jakarta_sans_regular"
+        android:onClick="@{() -> listener.onClickCategory(item.genreID)}"
         android:text="@{item.genreName}"
+        android:textSize="@dimen/text_small"
         app:chipMinTouchTargetSize="0dp"
         tools:backgroundTint="@color/background_color"
         tools:text="Movie Category" />

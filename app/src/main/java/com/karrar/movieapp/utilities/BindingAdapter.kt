@@ -17,6 +17,7 @@ import com.karrar.movieapp.domain.CategoryType
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.category.CategoryInteractionListener
+import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
@@ -78,7 +79,7 @@ fun <T> showWhenFail(view: View, state: State<T>?) {
 
 @BindingAdapter("app:setGenres", "app:listener")
 fun <T> setGenresChips(view: ChipGroup, mediaList: CategoryType<List<Genre>>?, listener: T) {
-    val allMedia = Genre(FIRST_CATEGORY_ID, "All")
+    val allMedia = Genre(FIRST_CATEGORY_ID, ALL)
     when (mediaList) {
         is CategoryType.Movies -> mediaList.toMovieData()?.let {
             view.addView(view.createChip(allMedia, listener))
@@ -92,6 +93,7 @@ fun <T> setGenresChips(view: ChipGroup, mediaList: CategoryType<List<Genre>>?, l
     }
 }
 
+// should be at extensions file
 fun <T> ChipGroup.createChip(item: Genre, listener: T): View {
     val chipBinding: ChipItemCategoryBinding = DataBindingUtil.inflate(
         LayoutInflater.from(context),

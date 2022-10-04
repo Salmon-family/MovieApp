@@ -15,4 +15,6 @@ object Constants {
     const val TV_CATEGORIES_ID = 2
 
     const val FIRST_CATEGORY_ID = 0
+
+    const val ALL = "All"
 }
