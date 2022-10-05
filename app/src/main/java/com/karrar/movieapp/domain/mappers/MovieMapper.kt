@@ -12,7 +12,7 @@ class MovieMapper @Inject constructor() : Mapper<MovieDto, MediaInfo> {
             type = null,
             id = input.id,
             name = input.originalTitle,
-            releaseDate = input.releaseDate,
+            releaseDate = input.releaseDate?.substringBefore('-'),
             rate = input.voteAverage?.toFloat(),
             imagePath = Constants.IMAGE_BASE_PATH + input.backdropPath,
             profileImage = null

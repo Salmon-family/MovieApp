@@ -13,7 +13,7 @@ class SeriesMapper @Inject constructor() : Mapper<SeriesDto, MediaInfo> {
             type = null,
             id = input.id,
             name = input.originalName,
-            releaseDate = input.firstAirDate,
+            releaseDate = input.firstAirDate?.substringBefore('-'),
             rate = input.voteAverage?.toFloat(),
             imagePath = Constants.IMAGE_BASE_PATH + input.backdropPath,
             profileImage = null
