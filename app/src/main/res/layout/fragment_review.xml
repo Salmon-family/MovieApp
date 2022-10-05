@@ -25,11 +25,24 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:items="@{viewModel.movieReviews.toData()}"
+            app:showOnSuccess="@{viewModel.movieReviews}"
+
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_movie_review" />
+
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
+            app:showOnLoading="@{viewModel.movieReviews}"
+            tools:visibility="gone" />
+
+        <include android:id="@+id/error"
+            app:showOnError="@{viewModel.movieReviews}"
+            tools:visibility="gone"
+            layout="@layout/error"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

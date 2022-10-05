@@ -8,6 +8,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.base.BaseAdapter
+import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.movieDetailsDto.cast.GenreDto
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -71,4 +72,19 @@ fun <T> setRecyclerItemsWithMaxNumberOfItems(
     items: List<T>?,
 ) {
     (view.adapter as BaseAdapter<T>?)?.setItems(items?.take(3) ?: emptyList())
+}
+
+@BindingAdapter(value = ["app:showOnSuccess"])
+fun <T> showOnSuccess(view: View, state: State<T>?) {
+    view.isVisible = (state is State.Success)
+}
+
+@BindingAdapter(value = ["app:showOnError"])
+fun <T> showOnError(view: View, state: State<T>?) {
+    view.isVisible = (state is State.Error)
+}
+
+@BindingAdapter(value = ["app:showOnLoading"])
+fun <T> showOnLoading(view: View, state: State<T>?) {
+    view.isVisible = (state is State.Loading)
 }

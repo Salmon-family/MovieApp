@@ -25,6 +25,7 @@
                 android:layout_width="0dp"
                 android:layout_height="364dp"
                 android:scaleType="centerCrop"
+                app:showOnSuccess="@{viewModel.movieDetails}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -80,6 +81,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_small"
+                app:showOnSuccess="@{viewModel.movieDetails}"
+
                 android:onClick="@{() -> viewModel.onClickPlayTrailer()}"
                 android:text="@string/play_trailer"
                 android:textAllCaps="false"
@@ -96,6 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
+                app:showOnSuccess="@{viewModel.movieDetails}"
                 android:textAlignment="center"
                 android:text="@{viewModel.movieDetails.toData().movieName}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -109,6 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/spacing_small"
+                app:showOnSuccess="@{viewModel.movieDetails}"
                 app:setReleaseDate="@{viewModel.movieDetails.toData().releaseDate}"
                 app:layout_constraintBottom_toBottomOf="@+id/line"
                 app:layout_constraintEnd_toStartOf="@+id/line"
@@ -123,6 +128,7 @@
                 android:layout_width="1dp"
                 android:layout_height="16dp"
                 android:layout_marginTop="@dimen/spacing_medium"
+                app:showOnSuccess="@{viewModel.movieDetails}"
                 android:background="@color/shade_ternary_color"
                 app:layout_constraintEnd_toStartOf="@+id/duration"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -135,6 +141,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
+                app:showOnSuccess="@{viewModel.movieDetails}"
                 android:text="@{@string/duration(viewModel.movieDetails.toData().duration)}"
                 app:layout_constraintBottom_toBottomOf="@+id/line"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -149,6 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
+                app:showOnSuccess="@{viewModel.movieDetails}"
                 android:textColor="@color/brand_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -163,6 +171,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
+                app:showOnSuccess="@{viewModel.movieDetails}"
                 android:text="@{@string/reviews(viewModel.movieDetails.toData().review)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -176,6 +185,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/spacing_medium"
+                app:showOnSuccess="@{viewModel.movieDetails}"
+
                 android:text="@{viewModel.movieDetails.toData().voteAverage.toString()}"
                 android:textColor="@color/yellow"
                 app:layout_constraintBottom_toBottomOf="@+id/review"
@@ -191,6 +202,8 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginEnd="@dimen/spacing_small"
+                app:showOnSuccess="@{viewModel.movieDetails}"
+
                 android:src="@drawable/ic_star_filled"
                 app:layout_constraintBottom_toBottomOf="@+id/stars"
                 app:layout_constraintEnd_toStartOf="@+id/stars"
@@ -207,6 +220,8 @@
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:text="@string/overview"
+                app:showOnSuccess="@{viewModel.movieDetails}"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/review" />
 
@@ -217,6 +232,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="@dimen/spacing_medium"
+                app:showOnSuccess="@{viewModel.movieDetails}"
+
                 android:text="@{viewModel.movieDetails.toData().overView}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/over_view_title"
@@ -231,6 +248,8 @@
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:text="@string/cast"
+                app:showOnSuccess="@{viewModel.movieDetails}"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/over_view" />
 
@@ -241,6 +260,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:orientation="horizontal"
+                app:showOnSuccess="@{viewModel.movieDetails}"
+
                 app:items="@{viewModel.movieCast.toData()}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -256,6 +277,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_large"
+                app:showOnSuccess="@{viewModel.movieDetails}"
+
                 android:text="@string/similar_movies"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cast_adapter"
@@ -267,6 +290,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:orientation="horizontal"
+                app:showOnSuccess="@{viewModel.movieDetails}"
+
                 app:items="@{viewModel.similarMovie.toData()}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -281,6 +306,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_medium"
+                app:showOnSuccess="@{viewModel.movieDetails}"
+
                 android:layout_marginTop="@dimen/spacing_large"
                 android:text="@string/rate_the_movie"
                 app:layout_constraintStart_toStartOf="parent"
@@ -293,6 +320,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_medium"
+                app:showOnSuccess="@{viewModel.movieDetails}"
+
                 android:progressDrawable="@drawable/rating_custom"
                 android:isIndicator="false"
                 android:rating="@={viewModel.ratingValue}"
@@ -308,6 +337,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_large"
+                app:showOnSuccess="@{viewModel.movieDetails}"
+
                 android:text="@string/reviews_comment"
                 app:isThereReview="@{viewModel.movieReviews.toData()}"
                 app:layout_constraintStart_toStartOf="parent"
@@ -319,6 +350,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                app:showOnSuccess="@{viewModel.movieDetails}"
+
                 app:itemsWithMax="@{viewModel.movieReviews.toData()}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -335,6 +368,8 @@
                 android:layout_marginBottom="@dimen/spacing_small"
                 android:layout_marginHorizontal="16dp"
                 android:text="View all reviews"
+                app:showOnSuccess="@{viewModel.movieDetails}"
+
                 app:isVisible="@{viewModel.movieReviews.toData()}"
                 android:textAllCaps="false"
                 android:paddingTop="16dp"
@@ -346,6 +381,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="Play Trailer" />
 
+
+            <include
+                android:id="@+id/loading"
+                layout="@layout/loading"
+                app:showOnLoading="@{viewModel.movieDetails}"
+                tools:visibility="gone" />
+
+            <include android:id="@+id/error"
+                app:showOnError="@{viewModel.movieDetails}"
+                tools:visibility="gone"
+                layout="@layout/error"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
