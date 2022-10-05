@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.home.adapters
+package com.karrar.movieapp.ui.actorDetails
 
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MovieType
@@ -6,13 +6,13 @@ import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 
-class MovieAdapter(items: List<Media>,val listener: MovieInteractionListener) :
+
+class MediaAdapter(items: List<Media>, val listener: MediaInteractionListener) :
     BaseAdapter<Media>(items, listener) {
-    override val layoutID: Int = R.layout.item_movie
+    override val layoutID: Int = R.layout.item_media
 }
 
-interface MovieInteractionListener : BaseInteractionListener {
+interface MediaInteractionListener : BaseInteractionListener {
     fun onClickMovie(movieId: Int)
-    fun onClickSeeAllMovie(movieType: MovieType)
 }
 

@@ -32,7 +32,6 @@ abstract class BaseAdapter<T>(
         holder.binding.apply {
             setVariable(BR.item, items[position])
             setVariable(BR.listener, listener)
-
         }
     }
 

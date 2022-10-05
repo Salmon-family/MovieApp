@@ -3,14 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.actorDetails.MovieInteractionListener" />
+            type="com.karrar.movieapp.ui.home.adapters.MovieInteractionListener" />
 
         <variable
             name="item"
             type="com.karrar.movieapp.domain.models.Media" />
+
+        <variable
+            name="type"
+            type="com.karrar.movieapp.domain.enums.MovieType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -6,7 +6,7 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.home.HomeInteractionListener" />
+            type="com.karrar.movieapp.ui.home.adapters.MovieInteractionListener" />
 
         <variable
             name="item"
@@ -25,7 +25,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="@dimen/media_card_width"
             android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/spacing_medium"
+            android:layout_marginHorizontal="@dimen/spacing_small"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1.4"

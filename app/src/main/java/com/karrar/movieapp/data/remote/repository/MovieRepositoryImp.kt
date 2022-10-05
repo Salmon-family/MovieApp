@@ -87,12 +87,6 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getTrendingPersons(): Flow<State<List<Actor>>> {
-        return wrap({ movieService.getTrendingActors() }, { baseResponse ->
-            baseResponse.items?.map { actorMapper.map(it) } ?: emptyList()
-        })
-    }
-
     override fun getGenreList(): Flow<State<List<Genre>>> {
         return wrap({ movieService.getGenreList() }, { genreResponse ->
             genreResponse.genres?.map { genreMapper.map(it) } ?: emptyList()

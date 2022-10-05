@@ -15,32 +15,32 @@ class SeriesRepositoryImp @Inject constructor(
     BaseRepository(),SeriesRepository {
 
     override fun getOnTheAir(): Flow<State<List<Media>>> {
-        return wrap({ seriesService.getOnTheAir() }, {
-            it.items?.map { mapper.map(it) } ?: emptyList()
+        return wrap({ seriesService.getOnTheAir() }, { baseResponse ->
+            baseResponse.items?.map { mapper.map(it) } ?: emptyList()
         })
     }
 
     override fun getAiringToday(): Flow<State<List<Media>>> {
-        return wrap({ seriesService.getAiringToday() }, {
-            it.items?.map { mapper.map(it) } ?: emptyList()
+        return wrap({ seriesService.getAiringToday() }, { baseResponse ->
+            baseResponse.items?.map { mapper.map(it) } ?: emptyList()
         })
     }
 
     override fun getTopRatedTvShow(): Flow<State<List<Media>>> {
-        return wrap({ seriesService.getTopRatedTvShow() }, {
-            it.items?.map { mapper.map(it) } ?: emptyList()
+        return wrap({ seriesService.getTopRatedTvShow() }, { baseResponse ->
+            baseResponse.items?.map { mapper.map(it) } ?: emptyList()
         })
     }
 
     override fun getPopularTvShow(): Flow<State<List<Media>>> {
-        return wrap({ seriesService.getPopularTvShow() }, {
-            it.items?.map { mapper.map(it) } ?: emptyList()
+        return wrap({ seriesService.getPopularTvShow() }, { baseResponse ->
+            baseResponse.items?.map { mapper.map(it) } ?: emptyList()
         })
     }
 
     override fun getLatestTvShow(): Flow<State<List<Media>>> {
-        return wrap({ seriesService.getLatestTvShow() }, {
-            it.items?.map { mapper.map(it) } ?: emptyList()
+        return wrap({ seriesService.getLatestTvShow() }, { baseResponse ->
+            baseResponse.items?.map { mapper.map(it) } ?: emptyList()
         })
     }
 }

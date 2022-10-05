@@ -15,8 +15,8 @@ class DataStorePreferences (context: Context) {
     private val prefDataStore = context.preferencesDataStore
 
     suspend fun writeBoolean(key: String, value: Boolean) {
-        prefDataStore.edit { settings ->
-            settings[booleanPreferencesKey(key)] = value
+        prefDataStore.edit { preferences ->
+            preferences[booleanPreferencesKey(key)] = value
         }
     }
 
@@ -27,8 +27,8 @@ class DataStorePreferences (context: Context) {
     }
 
     suspend fun writeString(key: String, value: String){
-        prefDataStore.edit { settings ->
-            settings[stringPreferencesKey(key)] = value
+        prefDataStore.edit { preferences ->
+            preferences[stringPreferencesKey(key)] = value
         }
     }
 
