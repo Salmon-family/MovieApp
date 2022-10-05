@@ -84,16 +84,6 @@ interface MovieService {
 
 
     @FormUrlEncoded
-    @POST("list")
-    suspend fun createList(
-        @Query("session_id") sessionId: String,
-        @Field("name") name: String,
-        @Field("description") description: String,
-    ) : Response<CreateListDto>
-
-
-
-    @FormUrlEncoded
     @POST("list/{list_id}/add_item")
     suspend fun addMovieToList(
         @Path("list_id") ListId: Int,

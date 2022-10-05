@@ -381,18 +381,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="Play Trailer" />
 
-
-            <include
-                android:id="@+id/loading"
-                layout="@layout/loading"
-                app:showOnLoading="@{viewModel.movieDetails}"
-                tools:visibility="gone" />
-
-            <include android:id="@+id/error"
-                app:showOnError="@{viewModel.movieDetails}"
-                tools:visibility="gone"
-                layout="@layout/error"/>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
