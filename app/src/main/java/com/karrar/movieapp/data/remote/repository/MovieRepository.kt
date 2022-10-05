@@ -1,11 +1,7 @@
 package com.karrar.movieapp.data.remote.repository
 
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.domain.models.ActorDetails
-import com.karrar.movieapp.domain.models.Actor
-import com.karrar.movieapp.domain.models.Genre
-import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.domain.models.PopularMovie
+import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
@@ -30,4 +26,8 @@ interface MovieRepository {
     fun getTrendingActors(): Flow<State<List<Actor>>>
 
     fun getActorMovies(actorId: Int): Flow<State<List<Media>>>
+
+    fun getAccountDetails(sessionId: String?): Flow<State<Account>>
+
+    fun getRatedMovies(sessionId: String?): Flow<State<List<RatedMovie>>>
 }

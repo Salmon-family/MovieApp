@@ -4,12 +4,8 @@ import com.karrar.movieapp.data.local.DataStorePreferences
 import com.karrar.movieapp.data.remote.repository.*
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.remote.service.SeriesService
+import com.karrar.movieapp.domain.mappers.*
 import com.karrar.movieapp.utilities.DataClassParser
-import com.karrar.movieapp.domain.mappers.ActorDetailsMapper
-import com.karrar.movieapp.domain.mappers.ActorMoviesMapper
-import com.karrar.movieapp.domain.mappers.ActorMapper
-import com.karrar.movieapp.domain.mappers.GenreMapper
-import com.karrar.movieapp.domain.mappers.MediaMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,9 +24,11 @@ object RepositoryModule {
         actorMoviesMapper: ActorMoviesMapper,
         actorMapper: ActorMapper,
         movieMapper: MediaMapper,
-        genreMapper: GenreMapper
+        genreMapper: GenreMapper,
+        accountMapper: AccountMapper,
+        ratedMoviesMapper: RatedMoviesMapper
     ): MovieRepository {
-        return MovieRepositoryImp(movieService, actorDetailsMapper, actorMoviesMapper, actorMapper, genreMapper, movieMapper)
+        return MovieRepositoryImp(movieService, actorDetailsMapper, actorMoviesMapper, actorMapper, genreMapper, movieMapper, accountMapper, ratedMoviesMapper)
     }
 
     @Provides

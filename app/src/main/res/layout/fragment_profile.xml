@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.profile.ProfileViewModel" />
@@ -18,13 +19,14 @@
             android:id="@+id/image_actor"
             android:layout_width="0dp"
             android:layout_height="128dp"
-            android:scaleType="centerCrop"
             android:layout_marginTop="50dp"
+            android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/CardCorners.Circle"
+            app:posterImage="@{viewModel.profileDetails.toData().avatarPath}"
+            app:shapeAppearanceOverlay="@style/Circle"
             tools:src="@drawable/actor" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -33,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@{viewModel.profileDetails.toData().name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image_actor"
@@ -44,6 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
+            android:text="@{@string/at + viewModel.profileDetails.toData().username}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_name_actor"
@@ -65,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
-            android:text="@string/watch_history"
+            android:text="@string/my_watchlist"
             app:layout_constraintBottom_toBottomOf="@id/icon_play"
             app:layout_constraintStart_toEndOf="@id/icon_play"
             app:layout_constraintTop_toTopOf="@id/icon_play" />
@@ -87,6 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
+            android:onClick="@{() -> viewModel.onNavigateToRatedMovies()}"
             android:src="@drawable/ic_star_outlined"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/first_divider" />
@@ -97,6 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
+            android:onClick="@{() -> viewModel.onNavigateToRatedMovies()}"
             android:text="@string/rated_movies"
             app:layout_constraintBottom_toBottomOf="@id/icon_star"
             app:layout_constraintStart_toEndOf="@id/icon_star"
@@ -130,11 +136,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
+            android:onClick="@{() -> viewModel.onNavigateToDialogLogout()}"
             android:text="@string/sign_out"
             android:textColor="@color/shade_ternary_color"
             app:layout_constraintBottom_toBottomOf="@id/icon_sign_out"
             app:layout_constraintStart_toEndOf="@id/icon_sign_out"
             app:layout_constraintTop_toTopOf="@id/icon_sign_out" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_animation"
+            app:showWhenLoading="@{viewModel.profileDetails}"
+            tools:visibility="gone" />
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="text_watch_history,text_rated_movies
+            ,text_sign_out,icon_sign_out,first_divider
+            ,icon_star,second_divider,icon_play,image_actor,text_name_actor,text_username"
+            app:showWhenSuccess="@{viewModel.profileDetails}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
