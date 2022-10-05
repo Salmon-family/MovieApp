@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.actorDetails.ActorViewModel" />
+            type="com.karrar.movieapp.ui.allMedia.AllMovieViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,14 +21,14 @@
             android:layout_marginHorizontal="@dimen/spacing_small"
             android:overScrollMode="never"
             android:scrollbars="none"
-            app:items="@{viewModel.actorMovies.toData()}"
+            app:items="@{viewModel.media.toData()}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:spanCount="3"
             tools:itemCount="15"
-            tools:listitem="@layout/item_movie" />
+            tools:listitem="@layout/item_media" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

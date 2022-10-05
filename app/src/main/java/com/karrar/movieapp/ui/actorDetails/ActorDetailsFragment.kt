@@ -19,15 +19,10 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
 
     override val layoutIdFragment = R.layout.fragment_actor_details
     override val viewModel: ActorViewModel by viewModels()
-    private val args: ActorDetailsFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setTitle(false)
-
-        viewModel.getDetailsById(args.id)
-        viewModel.getActorMoviesById(args.id)
 
         setMovieAdapter()
         observeEvents()
@@ -49,7 +44,7 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
         Navigation.findNavController(binding.root)
             .navigate(
                 ActorDetailsFragmentDirections.actionActorDetailsFragmentToAllMovieOfActorFragment(
-                    args.id,
+                    viewModel.actorId,
                     MovieType.NON
                 )
             )
