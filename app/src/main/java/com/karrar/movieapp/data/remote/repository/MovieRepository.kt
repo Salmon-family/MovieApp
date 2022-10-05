@@ -34,7 +34,8 @@ interface MovieRepository {
 
     fun getAllLists(accountId: Int,session_id:String): Flow<State<BaseResponse<CreatedListDto>>>
 
-
     fun createList(session_id: String, name: String, description: String): Flow<State<CreateListDto>>
+
+    fun addMovieToList(session_id: String, list_id: Int, movie_id: Int): Flow<State<AddMovieDto>>
 
 }

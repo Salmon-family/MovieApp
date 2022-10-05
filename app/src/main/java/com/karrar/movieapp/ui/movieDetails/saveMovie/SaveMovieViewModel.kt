@@ -23,9 +23,13 @@ class SaveMovieViewModel @Inject constructor(private val movieRepository: MovieR
 
 
     fun addMovie(movie_id: Int){
-        Log.i("qqq", movie_id.toString())
-        Log.i("qqq", _clickListEvent.value?.peekContent().toString())
+        movieRepository.addMovieToList(
+            "1d92e6a329c67e2e5e0486a0a93d5980711535b1",
+            _clickListEvent.value?.peekContent() ?: 0,
+            movie_id
+        )
     }
+
 
     override fun onClickList(list_id: Int) {
         _clickListEvent.postValue(Event(list_id))
