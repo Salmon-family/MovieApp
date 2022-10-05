@@ -93,6 +93,10 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.addMovieToList(list_id, session_id, movie_id) }
     }
 
+    override fun getListDetails(list_id: Int): Flow<State<ListDetailsDto>> {
+        return wrapWithFlow { movieService.getList(list_id) }
+    }
+
 
     private fun <I, O> wrap(function: suspend () -> Response<I>,  mapper: (I) -> O,): Flow<State<O>> {
         return flow {

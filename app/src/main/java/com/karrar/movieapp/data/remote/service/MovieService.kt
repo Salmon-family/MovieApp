@@ -102,6 +102,12 @@ interface MovieService {
     ) : Response<AddMovieDto>
 
 
+    @GET("list/{list_id}")
+    suspend fun getList(
+        @Path("list_id") listId: Int,
+    ): Response<ListDetailsDto>
+
+
 }
 
 

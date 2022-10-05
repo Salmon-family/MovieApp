@@ -38,4 +38,6 @@ interface MovieRepository {
 
     fun addMovieToList(session_id: String, list_id: Int, movie_id: Int): Flow<State<AddMovieDto>>
 
+    fun getListDetails(list_id: Int): Flow<State<ListDetailsDto>>
+
 }

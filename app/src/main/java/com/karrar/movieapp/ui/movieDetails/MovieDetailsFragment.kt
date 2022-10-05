@@ -44,7 +44,7 @@ class MovieDetailsFragment :BaseFragment<FragmentMovieDetailsBinding>() {
         viewModel.ratingValue.observe(viewLifecycleOwner){
            Snackbar.make(view,
                "Submitted, Thank you for your feedback",
-               Toast.LENGTH_SHORT
+               Snackbar.LENGTH_SHORT
            ).show()
         }
     }
