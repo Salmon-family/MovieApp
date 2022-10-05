@@ -52,6 +52,24 @@ class AccountRepositoryImp @Inject constructor(
         }
     }
 
+    override suspend fun logout(): Flow<State<Boolean>> {
+        return flow {
+            emit(State.Loading)
+            try {
+                getSessionId().collect{
+                    val logout = movieService.deleteSession(it.toString())
+                    if (logout.isSuccessful){
+                        emit(State.Success(true))
+                    } else {
+                        emit(State.Error(logout.errorBody()?.string().toString()))
+                    }
+                }
+            } catch (e: Exception) {
+                emit(State.Error(e.message.toString()))
+            }
+        }
+    }
+
 
     private suspend fun getRequestToken(): String? {
         val tokenResponse = movieService.getRequestToken()
