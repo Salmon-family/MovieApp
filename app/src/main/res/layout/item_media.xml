@@ -10,9 +10,6 @@
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.search.MediaInteractionListener" />
-        <variable
-            name="viewModel"
-            type="com.karrar.movieapp.ui.search.SearchViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView

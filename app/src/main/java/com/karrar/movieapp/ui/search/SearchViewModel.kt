@@ -1,13 +1,10 @@
 package com.karrar.movieapp.ui.search
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
-import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.MediaInfo
-import com.karrar.movieapp.domain.models.Person
 import com.karrar.movieapp.domain.models.SearchHistory
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
@@ -76,7 +73,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun getMovies(){
+    fun onClickMovies(){
         viewModelScope.launch {
             if(mediaType.value != "movie" ){
                 mediaType.emit("movie")
@@ -85,7 +82,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun getSeries(){
+    fun onClickSeries(){
         viewModelScope.launch {
             if(mediaType.value != "tv" ){
                 mediaType.emit("tv")
@@ -94,7 +91,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun getActors(){
+    fun onClickActors(){
         viewModelScope.launch {
             if(mediaType.value != "person" ){
                 mediaType.emit("person")
@@ -126,7 +123,7 @@ class SearchViewModel @Inject constructor(
             movieRepository.insertSearchItem(
                 SearchHistoryEntity(
                     id = id,
-                    Search = name
+                    search = name
                 )
             )
         }

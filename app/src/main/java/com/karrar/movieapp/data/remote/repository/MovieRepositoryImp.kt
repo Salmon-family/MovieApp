@@ -40,6 +40,7 @@ class MovieRepositoryImp @Inject constructor(
     private val seriesMapper: SeriesMapper,
     private val movieDao: MovieDao,
     private val searchHistoryMapper: SearchHistoryMapper,
+    private val trendMapper: TrendMapper
 
 ) : BaseRepository(),MovieRepository {
     override fun getPopularMovies(): Flow<State<List<PopularMovie>>> {
@@ -148,6 +149,12 @@ class MovieRepositoryImp @Inject constructor(
     override fun getMovieListByGenre(genreID: Int): Flow<State<List<Media>>>{
         return wrap({ movieService.getMovieListByGenre(genreID) }, { baseResponse ->
             baseResponse.items?.map { movieMapper.map(it) } ?: emptyList()
+        })
+    }
+
+    override fun getDailyTrending(): Flow<State<List<Trend>>> {
+        return wrap({movieService.getDailyTrending()}, {
+            it.items?.map { trendMapper.map(it) } ?: emptyList()
         })
     }
 }

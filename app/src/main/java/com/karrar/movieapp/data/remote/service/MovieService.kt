@@ -44,12 +44,6 @@ interface MovieService {
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
     ): Response<BaseResponse<ActorDto>>
 
-    @GET("search/{type}")
-    suspend fun searchWithType(
-        @Path("type") type: String,
-        @Query("query") query: String,
-    ): Response<BaseResponse<MediaDto>>
-
     @GET("search/person")
     suspend fun searchForPerson(
         @Query("query") query: String
@@ -92,8 +86,12 @@ interface MovieService {
     suspend fun getActorMovies(
         @Path("person_id") actorId: Int,
     ): Response<ActorMoviesDto>
+
     @GET("discover/movie")
     suspend fun getMovieListByGenre(@Query("with_genres") genreID: Int): Response<BaseResponse<MovieDto>>
+
+    @GET("trending/all/day")
+    suspend fun getDailyTrending(): Response<BaseResponse<TrendingDto>>
 }
 
 

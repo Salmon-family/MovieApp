@@ -20,16 +20,16 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
     override val layoutIdFragment: Int = R.layout.fragment_exploring
     override val viewModel: ExploringViewModel by viewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         observeEvents()
-
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        binding.recyclerTrend.adapter = TrendAdapter(mutableListOf(), viewModel)
     }
 
     private fun observeEvents(){
@@ -37,12 +37,7 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
     }
 
     private fun navigateToSearch(){
-        val extras = FragmentNavigatorExtras(
-            binding.inputSearch to "search_box"
-        )
-//        viewModel.clickSearchEvent.observe(viewLifecycleOwner, EventObserve{
-//            Navigation.findNavController(binding.root).navigate(action, extras)
-//        })
+        val extras = FragmentNavigatorExtras(binding.inputSearch to "search_box")
         lifecycleScope.launch {
             viewModel.searchText.debounce(1000).collect{
                 if(!it.isNullOrEmpty()){

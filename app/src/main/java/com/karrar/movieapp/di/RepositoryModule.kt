@@ -39,7 +39,8 @@ object RepositoryModule {
         searchHistoryMapper: SearchHistoryMapper,
         actorMapper: ActorMapper,
         movieMapper: MediaMapper,
-        genreMapper: GenreMapper
+        genreMapper: GenreMapper,
+        trendMapper: TrendMapper
     ): MovieRepository {
         return MovieRepositoryImp(
             movieService,
@@ -52,7 +53,8 @@ object RepositoryModule {
             moviesMapper,
             seriesMapper,
             movieDao,
-            searchHistoryMapper
+            searchHistoryMapper,
+            trendMapper
         )
     }
 

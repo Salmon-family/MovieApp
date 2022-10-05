@@ -34,15 +34,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
         lifecycleScope.launch {
             viewModel.mediaType.collect{
                 if(it == "movie" || it == "tv"){
-                    binding.recyclerMedia.apply {
-                        adapter = MediaAdapter(mutableListOf(), viewModel)
-                        layoutManager = LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
-                    }
+                    bindMedia()
                 }else{
-                    binding.recyclerMedia.apply {
-                        adapter = PersonAdapter(mutableListOf(), viewModel)
-                        layoutManager = GridLayoutManager(this@SearchFragment.context, 3)
-                    }
+                    bindActors()
                 }
             }
         }
@@ -64,5 +58,19 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
 
     private fun navigateToActorDetails(){
 
+    }
+
+    private fun bindMedia(){
+        binding.recyclerMedia.apply {
+            adapter = MediaAdapter(mutableListOf(), viewModel)
+            layoutManager = LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
+        }
+    }
+
+    private fun bindActors(){
+        binding.recyclerMedia.apply {
+            adapter = PersonAdapter(mutableListOf(), viewModel)
+            layoutManager = GridLayoutManager(this@SearchFragment.context, 3)
+        }
     }
 }

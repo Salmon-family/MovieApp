@@ -38,4 +38,7 @@
     <string name="text_movies">%s Movies</string>
     <string name="movies_label">Movies</string>
     <string name="tv_shows_label">TV Shows</string>
+    <string name="history_label">History</string>
+    <string name="explore_label">Explore</string>
+    <string name="trending_today_label">Trending Today</string>
 </resources>

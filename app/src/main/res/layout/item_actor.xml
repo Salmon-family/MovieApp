@@ -10,9 +10,6 @@
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.search.PersonInteractionListener" />
-        <variable
-            name="viewModel"
-            type="com.karrar.movieapp.ui.search.SearchViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,7 +21,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_actor"
             android:layout_width="0dp"
-            android:layout_height="99dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"

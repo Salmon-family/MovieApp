@@ -27,7 +27,6 @@
             android:background="@drawable/edit_text_background"
             android:inputType="text"
             android:maxLines="1"
-            android:lines="1"
             android:hint="@string/search_hint"
             android:textColorHint="@color/shade_ternary_color"
             android:textColor="@color/shade_primary_color"
@@ -63,7 +62,7 @@
                 app:checkedIconEnabled="false"
                 app:chipCornerRadius="@dimen/spacing_small"
                 android:text="@string/movies_chip"
-                android:onClick="@{() -> viewModel.getMovies()}"/>
+                android:onClick="@{() -> viewModel.onClickMovies()}"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_series"
@@ -76,7 +75,7 @@
                 app:checkedIconEnabled="false"
                 app:chipCornerRadius="@dimen/spacing_small"
                 android:text="@string/tv_shows_chip"
-                android:onClick="@{() -> viewModel.getSeries()}"/>
+                android:onClick="@{() -> viewModel.onClickSeries()}"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_actors"
@@ -89,7 +88,7 @@
                 app:checkedIconEnabled="false"
                 app:chipCornerRadius="@dimen/spacing_small"
                 android:text="@string/actors_label"
-                android:onClick="@{() -> viewModel.getActors()}"/>
+                android:onClick="@{() -> viewModel.onClickActors()}"/>
         </com.google.android.material.chip.ChipGroup>
 
         <TextView
@@ -101,7 +100,7 @@
             android:layout_marginTop="@dimen/spacing_medium"
             style="@style/SemiBold.Medium"
             android:textColor="@color/shade_primary_color"
-            android:text="History"
+            android:text="@string/history_label"
             android:drawablePadding="@dimen/spacing_small"
             android:gravity="center"
             app:drawableStartCompat="@drawable/ic_history"
@@ -152,6 +151,19 @@
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading_animation"
             app:showWhenLoading="@{viewModel.media}" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_error"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/lost_connection"
+            app:showWhenFail="@{viewModel.media}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
