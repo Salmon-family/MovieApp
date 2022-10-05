@@ -1,17 +1,27 @@
 package com.karrar.movieapp.utilities
 
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.State
+import com.karrar.movieapp.databinding.ChipItemCategoryBinding
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.base.BaseAdapter
-
+import com.karrar.movieapp.ui.category.CategoryInteractionListener
+import com.karrar.movieapp.utilities.Constants.ALL
+import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
+import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
+import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
+import com.squareup.picasso.Picasso
 
 @BindingAdapter("app:showWhenSuccess")
 fun <T> showWhenSuccess(view: View, state: State<T>?) {
@@ -48,9 +58,55 @@ fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
     (view.adapter as BaseAdapter<T>?)?.setItems(items ?: emptyList())
 }
 
+@BindingAdapter(value = ["app:usePagerSnapHelper"])
+fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolean = false) {
+    if (useSnapHelper)
+        PagerSnapHelper().attachToRecyclerView(recycler)
+}
+
 @BindingAdapter("app:genre")
 fun setGenre(textView: TextView, genreList: List<Genre>?) {
     genreList?.let {
         textView.text = genreList.map { it.genreName }.joinToString(" . ")
     }
+}
+
+@BindingAdapter("app:setGenres", "app:genresId", "app:listener", "app:firstChipSelection")
+fun <T> setGenresChips(
+    view: ChipGroup,
+    chipList: State<List<Genre>>?,
+    categoryId: Int?,
+    listener: T,
+    isFirstChipSelected: Boolean?
+) {
+    val allMedia = Genre(FIRST_CATEGORY_ID, ALL)
+    when (categoryId) {
+        MOVIE_CATEGORIES_ID -> {
+            chipList?.toData()?.let {
+                view.addView(view.createChip(allMedia, listener))
+                it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
+            }
+        }
+        TV_CATEGORIES_ID -> {
+            chipList?.toData()?.let {
+                view.addView(view.createChip(allMedia, listener))
+                it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
+            }
+        }
+    }
+
+    if (isFirstChipSelected == true) view.getChildAt(FIRST_CATEGORY_ID)?.id?.let { view.check(it) }
+}
+
+// should be at extensions file
+fun <T> ChipGroup.createChip(item: Genre, listener: T): View {
+    val chipBinding: ChipItemCategoryBinding = DataBindingUtil.inflate(
+        LayoutInflater.from(context),
+        R.layout.chip_item_category,
+        this,
+        false
+    )
+    chipBinding.item = item
+    chipBinding.listener = listener as CategoryInteractionListener
+    return chipBinding.root
 }
