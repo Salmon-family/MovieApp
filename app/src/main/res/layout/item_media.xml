@@ -6,7 +6,7 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.category.MediaInteractionListener" />
+            type="com.karrar.movieapp.ui.home.adapters.MovieInteractionListener" />
 
         <variable
             name="item"
@@ -19,7 +19,7 @@
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginBottom="@dimen/spacing_medium"
         android:background="@drawable/ic_media_background"
-        android:onClick="@{ () -> listener.onClickMedia(item.movieID)}"
+        android:onClick="@{ () -> listener.onClickMovie(item.movieID)}"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

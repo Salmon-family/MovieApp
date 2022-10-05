@@ -21,7 +21,6 @@ import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
-import com.squareup.picasso.Picasso
 
 @BindingAdapter("app:showWhenSuccess")
 fun <T> showWhenSuccess(view: View, state: State<T>?) {
