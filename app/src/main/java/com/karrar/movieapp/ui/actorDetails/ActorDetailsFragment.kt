@@ -21,7 +21,6 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
     override val viewModel: ActorViewModel by viewModels()
     private val args: ActorDetailsFragmentArgs by navArgs()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
