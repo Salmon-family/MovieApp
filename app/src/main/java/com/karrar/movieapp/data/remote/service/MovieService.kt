@@ -1,15 +1,15 @@
 package com.karrar.movieapp.data.remote.service
 
+import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.response.login.SessionResponse
-import com.karrar.movieapp.data.remote.response.BaseResponse
-import com.karrar.movieapp.data.remote.response.GenreResponse
-import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorDetailsDto
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorMoviesDto
-import com.karrar.movieapp.data.remote.response.ActorDto
+import com.karrar.movieapp.data.remote.response.account.AccountDto
+import com.karrar.movieapp.data.remote.response.login.LogoutResponse
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
 import retrofit2.Response
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
@@ -74,6 +74,21 @@ interface MovieService {
     ): Response<ActorMoviesDto>
     @GET("discover/movie")
     suspend fun getMovieListByGenre(@Query("with_genres") genreID: Int): Response<BaseResponse<MovieDto>>
+
+    @GET("account")
+    suspend fun getAccountDetails(
+        @Query("session_id") sessionId: String?,
+    ): Response<AccountDto>
+
+    @GET("account/{account_id}/rated/movies")
+    suspend fun getRatedMovies(
+        @Query("session_id") sessionId: String?,
+    ): Response<BaseResponse<RatedMoviesDto>>
+
+    @DELETE("authentication/session")
+    suspend fun deleteSession(
+        @Query("session_id") sessionId: String,
+    ): Response<LogoutResponse>
 }
 
 
