@@ -8,13 +8,22 @@
             name="item"
             type="com.karrar.movieapp.data.remote.response.CreatedListDto"
             />
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveListInteractionListener" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/card_background_color"
+        android:onClick="@{() -> listener.onClickList(item.id)}"
+        style="@style/CardCorners.Medium"
+        app:cardBackgroundColor="@color/background_color"
+        android:layout_marginHorizontal="@dimen/spacing_medium"
+        android:layout_marginVertical="@dimen/spacing_small"
         >
+
 
         <TextView
             android:id="@+id/list_name"
@@ -30,5 +39,5 @@
             tools:text="list name" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -12,5 +12,5 @@ class SaveListAdapter(items: List<CreatedListDto>, listener: SaveListInteraction
 }
 
 interface SaveListInteractionListener : BaseInteractionListener {
-    fun onClickList(movie_id: Int)
+    fun onClickList(list_id: Int)
 }
