@@ -26,19 +26,20 @@ class MovieRepositoryImp @Inject constructor(
     private val actorMapper: ActorMapper,
     private val genreMapper: GenreMapper,
     private val movieMapper: MediaMapper
-) : BaseRepository(),MovieRepository {
+) : BaseRepository(), MovieRepository {
 
     override fun getPopularMovies(): Flow<State<List<PopularMovie>>> {
         val mapper = PopularMovieMapper()
         return flow {
             emit(State.Loading)
             try {
-                val responseGenre = movieService.getGenreList()
-                val genreList = responseGenre.body()?.genres?.map { genreMapper.map(it) }
-                val responseMovie = movieService.getPopularMovies()
-                val items = responseMovie.body()?.items?.map { mapper.map(it) }
-                val movieWithGenre = mapper.mapGenreMovie(items!!, genreList!!)
-                emit(State.Success(movieWithGenre))
+                val responseGenre = movieService.getGenreList().body()?.genres
+                val responseMovie = movieService.getPopularMovies().body()?.items
+
+                if (responseMovie != null && responseGenre != null) {
+                    emit(State.Success(mapper.mapGenreMovie(responseMovie, responseGenre)))
+                } else
+                    emit(State.Error("Mapping error"))
             } catch (throwable: Throwable) {
                 emit(State.Error(throwable.message.toString()))
             }
@@ -55,10 +56,12 @@ class MovieRepositoryImp @Inject constructor(
         return wrap({ movieService.getActorDetails(actorId) }, { actorDetailsMapper.map(it) })
     }
 
-    override fun getActorMovies(actorId: Int): Flow<State<List<Media>>> {
+    override fun getActorMovies(actorId: Int): Flow<State<List<Media?>?>> {
         return wrap({ movieService.getActorMovies(actorId) }, { actorMoviesDto ->
-            actorMoviesDto.cast?.map {
-                actorMoviesMapper.map(it!!)
+            actorMoviesDto.cast?.map { cast ->
+                cast?.let {
+                    actorMoviesMapper.map(it)
+                }
             } ?: emptyList()
         })
     }
@@ -93,7 +96,7 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getMovieListByGenre(genreID: Int): Flow<State<List<Media>>>{
+    override fun getMovieListByGenre(genreID: Int): Flow<State<List<Media>>> {
         return wrap({ movieService.getMovieListByGenre(genreID) }, { baseResponse ->
             baseResponse.items?.map { movieMapper.map(it) } ?: emptyList()
         })

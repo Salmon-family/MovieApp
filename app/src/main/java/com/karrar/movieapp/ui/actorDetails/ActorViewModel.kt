@@ -25,14 +25,15 @@ import javax.inject.Inject
 @HiltViewModel
 class ActorViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
-    val seriesRepository: SeriesRepository) :
-    ViewModel(), MovieInteractionListener,MediaInteractionListener {
+    private val seriesRepository: SeriesRepository
+) :
+    ViewModel(), MovieInteractionListener, MediaInteractionListener {
 
     private val _actorDetails = MutableLiveData<State<ActorDetails>>()
     val actorDetails: LiveData<State<ActorDetails>> = _actorDetails
 
-    private val _actorMovies = MutableLiveData<State<List<Media>>>()
-    val actorMovies: LiveData<State<List<Media>>> = _actorMovies
+    private val _actorMovies = MutableLiveData<State<List<Media?>?>>()
+    val actorMovies: LiveData<State<List<Media?>?>> = _actorMovies
 
     private val _backEvent = MutableLiveData<Event<Boolean>>()
     val backEvent: LiveData<Event<Boolean>> = _backEvent
@@ -66,21 +67,27 @@ class ActorViewModel @Inject constructor(
                 MovieType.TRENDING -> {
                     movieRepository.getTrendingMovies()
                 }
+
                 MovieType.UPCOMING -> {
                     movieRepository.getUpcomingMovies()
                 }
+
                 MovieType.MYSTERY -> {
                     movieRepository.getMovieListByGenre(Constants.MYSTERY_ID)
                 }
+
                 MovieType.ADVENTURE -> {
                     movieRepository.getMovieListByGenre(Constants.ADVENTURE_ID)
                 }
+
                 MovieType.NOW_STREAMING -> {
                     movieRepository.getNowPlayingMovies()
                 }
+
                 MovieType.ON_THE_AIR -> {
                     seriesRepository.getOnTheAir()
                 }
+
                 else -> {
                     throw Throwable("Error")
                 }
