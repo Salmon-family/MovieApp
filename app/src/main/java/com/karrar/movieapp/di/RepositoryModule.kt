@@ -10,6 +10,7 @@ import com.karrar.movieapp.domain.mappers.ActorMoviesMapper
 import com.karrar.movieapp.domain.mappers.ActorMapper
 import com.karrar.movieapp.domain.mappers.GenreMapper
 import com.karrar.movieapp.domain.mappers.MediaMapper
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,37 +19,23 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+abstract class RepositoryModule {
 
     @Singleton
-    @Provides
-    fun provideMovieRepository(
-        movieService: MovieService,
-        actorDetailsMapper: ActorDetailsMapper,
-        actorMoviesMapper: ActorMoviesMapper,
-        actorMapper: ActorMapper,
-        movieMapper: MediaMapper,
-        genreMapper: GenreMapper
-    ): MovieRepository {
-        return MovieRepositoryImp(movieService, actorDetailsMapper, actorMoviesMapper, actorMapper, genreMapper, movieMapper)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSeriesRepository(
-        seriesService: SeriesService,
-        seriesMapper: MediaMapper
-    ): SeriesRepository {
-        return SeriesRepositoryImp(seriesService, seriesMapper)
-    }
+    @Binds
+    abstract fun provideMovieRepository(
+        movieRepositoryImp: MovieRepositoryImp
+    ): MovieRepository
 
     @Singleton
-    @Provides
-    fun provideAccountRepository(
-        movieService: MovieService,
-        dataStorePreferences: DataStorePreferences,
-        dataClassParser: DataClassParser,
-    ): AccountRepository {
-        return AccountRepositoryImp(movieService, dataStorePreferences, dataClassParser)
-    }
+    @Binds
+    abstract fun provideSeriesRepository(
+        seriesRepositoryImp: SeriesRepositoryImp
+    ): SeriesRepository
+
+    @Singleton
+    @Binds
+    abstract fun provideAccountRepository(
+        accountRepositoryImp: AccountRepositoryImp
+    ): AccountRepository
 }
