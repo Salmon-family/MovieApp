@@ -121,7 +121,9 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    override fun onClickSearchHistory(searchID: Int) {
-
+    override fun onClickSearchHistory(name: String) {
+        viewModelScope.launch {
+            searchText.emit(name)
+        }
     }
 }

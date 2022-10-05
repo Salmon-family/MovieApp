@@ -5,8 +5,11 @@
 
     <data>
         <variable
-            name="searchHistory"
+            name="item"
             type="com.karrar.movieapp.domain.models.SearchHistory" />
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener" />
     </data>
     <TextView
         android:id="@+id/text_search_history"
@@ -15,9 +18,10 @@
         android:layout_marginTop="@dimen/spacing_too_small"
         android:layout_marginBottom="@dimen/spacing_too_small"
         tools:text="Star Wars"
-        android:text="@{searchHistory.name}"
+        android:text="@{item.name}"
         style="@style/Regular.Medium"
         android:textColor="@color/shade_secondary_color"
         android:drawablePadding="6dp"
-        app:drawableEndCompat="@drawable/ic_arrow_up_left" />
+        app:drawableEndCompat="@drawable/ic_arrow_up_left"
+        android:onClick="@{() -> listener.onClickSearchHistory(item.name)}"/>
 </layout>

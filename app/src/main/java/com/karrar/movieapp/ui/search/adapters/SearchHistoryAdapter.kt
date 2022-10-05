@@ -11,5 +11,5 @@ class SearchHistoryAdapter(items: List<SearchHistory>, listener: SearchHistoryIn
 }
 
 interface SearchHistoryInteractionListener : BaseInteractionListener {
-    fun onClickSearchHistory(searchID: Int)
+    fun onClickSearchHistory(name: String)
 }
