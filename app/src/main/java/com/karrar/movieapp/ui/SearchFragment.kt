@@ -1,28 +1,23 @@
 package com.karrar.movieapp.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.karrar.movieapp.R
-import com.karrar.movieapp.ui.main.SharedViewModel
+import com.karrar.movieapp.databinding.FragmentHomeBinding
+import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.home.HomeViewModel
 
 
-class SearchFragment : Fragment() {
-    private val sharedViewModel by lazy { ViewModelProvider(requireActivity()).get(SharedViewModel::class.java) }
+class SearchFragment : BaseFragment<FragmentHomeBinding>() {
 
+    override val layoutIdFragment = R.layout.fragment_search
+    override val viewModel: HomeViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_search, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        sharedViewModel.setToolbar(isVisible = true, isTransparent = false, title = "Search")
-
-        return view
+        setTitle(true,"Search")
     }
 
 }

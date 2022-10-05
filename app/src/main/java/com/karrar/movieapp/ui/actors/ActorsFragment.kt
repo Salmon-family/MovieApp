@@ -19,7 +19,7 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedViewModel.setToolbar(isVisible = true, isTransparent = false, title = "")
+        setTitle(true, resources.getString(R.string.actors))
 
         val actorsAdapter = ActorAdapter(mutableListOf(), viewModel)
         binding.recyclerViewActors.adapter = actorsAdapter

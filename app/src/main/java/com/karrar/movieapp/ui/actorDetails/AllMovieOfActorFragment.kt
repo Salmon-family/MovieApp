@@ -24,7 +24,7 @@ class AllMovieOfActorFragment : BaseFragment<FragmentAllMovieOfActorBinding>() {
         viewModel.getActorMoviesById(args.id)
         viewModel.getTypeMovies(args.type)
 
-        sharedViewModel.setToolbar(isVisible = true, isTransparent = false, title = args.type.value)
+        setTitle(true)
 
         setMovieAdapter()
         observeEvents()

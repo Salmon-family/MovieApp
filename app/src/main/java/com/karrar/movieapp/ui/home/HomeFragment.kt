@@ -2,8 +2,8 @@ package com.karrar.movieapp.ui.home
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.State
@@ -12,7 +12,6 @@ import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.home.adapters.HomeAdapter
-import com.karrar.movieapp.ui.main.SharedViewModel
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,7 +26,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedViewModel.setToolbar(isVisible = false, isTransparent = false, title = null)
+        setTitle(false)
 
         homeAdapter = HomeAdapter(mutableListOf(), viewModel)
         binding.recyclerView.adapter = homeAdapter
