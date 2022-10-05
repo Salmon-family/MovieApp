@@ -81,6 +81,14 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
+    override fun getAllLists(accountId: Int, session_id: String, ): Flow<State<BaseResponse<CreatedListDto>>>{
+        return wrapWithFlow { movieService.getCreatedLists(accountId, session_id) }
+    }
+
+    override fun createList(session_id: String, name: String, description: String): Flow<State<CreateListDto>> {
+        return wrapWithFlow { movieService.createList(session_id, name, description) }
+    }
+
 
     private fun <I, O> wrap(function: suspend () -> Response<I>,  mapper: (I) -> O,): Flow<State<O>> {
         return flow {

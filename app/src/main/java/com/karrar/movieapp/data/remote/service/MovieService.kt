@@ -74,6 +74,24 @@ interface MovieService {
     suspend fun getMovieTrailer(
         @Path("movie_id") movieId: Int,
     ): Response<TrailerDto>
+
+
+    @GET("account/{account_id}/lists")
+    suspend fun getCreatedLists(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") session_id: String
+    ): Response<BaseResponse<CreatedListDto>>
+
+
+    @FormUrlEncoded
+    @POST("list")
+    suspend fun createList(
+        @Query("session_id") session_id: String,
+        @Field("name") name: String,
+        @Field("description") description: String,
+    ) : Response<CreateListDto>
+
+
 }
 
 

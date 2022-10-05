@@ -32,6 +32,9 @@ interface MovieRepository {
 
     fun getMovieTrailer(movie_id: Int): Flow<State<Trailer>>
 
+    fun getAllLists(accountId: Int,session_id:String): Flow<State<BaseResponse<CreatedListDto>>>
 
+
+    fun createList(session_id: String, name: String, description: String): Flow<State<CreateListDto>>
 
 }

@@ -3,12 +3,11 @@ package com.karrar.movieapp.ui.movieDetails.saveMovie
 import com.karrar.movieapp.R
 import com.karrar.movieapp.base.BaseAdapter
 import com.karrar.movieapp.base.BaseInteractionListener
-import com.karrar.movieapp.data.remote.response.ListDto
-import com.karrar.movieapp.domain.models.Cast
+import com.karrar.movieapp.data.remote.response.CreatedListDto
 
 
-class SaveListAdapter(items: List<ListDto>, listener: SaveListInteractionListener
-):BaseAdapter<ListDto>(items, listener) {
+class SaveListAdapter(items: List<CreatedListDto>, listener: SaveListInteractionListener
+):BaseAdapter<CreatedListDto>(items, listener) {
     override val layoutID: Int = R.layout.item_list
 }
 
