@@ -81,8 +81,8 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getAllMovies(page: Int): Flow<State<List<Media>>> {
-        return wrap({ movieService.getAllMovies(page) }, {
+    override fun getAllMovies(): Flow<State<List<Media>>> {
+        return wrap({ movieService.getAllMovies() }, {
             it.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }

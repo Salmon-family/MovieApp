@@ -30,6 +30,6 @@ interface SeriesService {
     suspend fun getTvListByGenre(@Query("with_genres") genreId: Int): Response<BaseResponse<MovieDto>>
 
     @GET("discover/tv")
-    suspend fun getAllTvShows(@Query("page") page: Int): Response<BaseResponse<MovieDto>>
+    suspend fun getAllTvShows(): Response<BaseResponse<MovieDto>>
 
 }

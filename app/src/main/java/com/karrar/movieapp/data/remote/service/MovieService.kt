@@ -42,7 +42,7 @@ interface MovieService {
     suspend fun getMovieListByGenre(@Query("with_genres") genreID: Int): Response<BaseResponse<MovieDto>>
 
     @GET("discover/movie")
-    suspend fun getAllMovies(@Query("page") page: Int): Response<BaseResponse<MovieDto>>
+    suspend fun getAllMovies(): Response<BaseResponse<MovieDto>>
 
 }
 

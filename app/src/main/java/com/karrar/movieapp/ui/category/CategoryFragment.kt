@@ -15,14 +15,8 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     override val layoutIdFragment = R.layout.fragment_category
     override val viewModel: CategoryViewModel by viewModels()
 
-    private val args: CategoryFragmentArgs by navArgs()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.categoryTypeId.value = args.mediaId
-        viewModel.setAllMediaList()
-        viewModel.setCategoryType()
 
         setMediaAdapter()
     }

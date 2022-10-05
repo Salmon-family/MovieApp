@@ -1,9 +1,6 @@
 package com.karrar.movieapp.ui.category
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.repository.SeriesRepository
@@ -22,20 +19,29 @@ import javax.inject.Inject
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
-    private val seriesRepository: SeriesRepository
+    private val seriesRepository: SeriesRepository,
+    state: SavedStateHandle
 ) : ViewModel(), MediaInteractionListener, CategoryInteractionListener {
 
-    val categoryTypeId = MutableLiveData<Int>()
+    private val args = CategoryFragmentArgs.fromSavedStateHandle(state)
 
-    private val _categories = MutableLiveData<State<List<Genre>>>()
-    val categories: LiveData<State<List<Genre>>> = _categories
+    val categoryTypeId = args.mediaId
 
-    private val _mediaList = MutableLiveData<State<List<Media>>>()
-    val mediaList: LiveData<State<List<Media>>> = _mediaList
+    private val _categories = MutableLiveData<State<List<Genre>>?>()
+    val categories: LiveData<State<List<Genre>>?> = _categories
+
+    private val _mediaList = MutableLiveData<State<List<Media>>?>()
+    val mediaList: LiveData<State<List<Media>>?> = _mediaList
 
 
-    fun setCategoryType() {
-        when (categoryTypeId.value) {
+    init {
+        setCategoryType()
+        setAllMediaList()
+    }
+
+
+    private fun setCategoryType() {
+        when (categoryTypeId) {
             MOVIE_CATEGORIES_ID ->
                 collectResponse(movieRepository.getGenreList()) { _categories.postValue(it) }
             TV_CATEGORIES_ID ->
@@ -54,17 +60,17 @@ class CategoryViewModel @Inject constructor(
         }
     }
 
-    fun setAllMediaList() {
-        when (categoryTypeId.value) {
+    private fun setAllMediaList() {
+        when (categoryTypeId) {
             MOVIE_CATEGORIES_ID ->
-                collectResponse(movieRepository.getAllMovies(1)) { _mediaList.postValue(it) }
+                collectResponse(movieRepository.getAllMovies()) { _mediaList.postValue(it) }
             TV_CATEGORIES_ID ->
-                collectResponse(seriesRepository.getAllTvShows(1)) { _mediaList.postValue(it) }
+                collectResponse(seriesRepository.getAllTvShows()) { _mediaList.postValue(it) }
         }
     }
 
     private fun setMediaList(id: Int) {
-        when (categoryTypeId.value) {
+        when (categoryTypeId) {
             MOVIE_CATEGORIES_ID ->
                 collectResponse(movieRepository.getMovieListByGenre(id)) { _mediaList.postValue(it) }
             TV_CATEGORIES_ID ->

@@ -81,7 +81,7 @@ fun <T> setGenresChips(
     chipList: State<List<Genre>>?,
     categoryId: Int?,
     listener: T,
-    isFirstChipSelected: Boolean
+    isFirstChipSelected: Boolean?
 ) {
     val allMedia = Genre(FIRST_CATEGORY_ID, ALL)
     when (categoryId) {
@@ -99,7 +99,7 @@ fun <T> setGenresChips(
         }
     }
 
-    if (isFirstChipSelected) view.getChildAt(FIRST_CATEGORY_ID)?.id?.let { view.check(it) }
+    if (isFirstChipSelected == true) view.getChildAt(FIRST_CATEGORY_ID)?.id?.let { view.check(it) }
 }
 
 // should be at extensions file
