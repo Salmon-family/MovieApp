@@ -75,7 +75,7 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getMoviesByGenre(genreID: Int): Flow<State<List<Media>>>{
+    override fun getMovieListByGenre(genreID: Int): Flow<State<List<Media>>>{
         return wrap({ movieService.getMovieListByGenre(genreID) }, {
             it.items?.map { movieMapper.map(it) } ?: emptyList()
         })

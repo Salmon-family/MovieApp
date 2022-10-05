@@ -26,7 +26,6 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/bottom_line"
                 app:contentInsetStart="0dp"
-
                 app:layout_scrollFlags="scroll|enterAlways">
 
                 <HorizontalScrollView
@@ -61,7 +60,6 @@
             android:id="@+id/recycler_media"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="fill_vertical"
             android:background="@color/background_color"
             android:clipToPadding="false"
             android:overScrollMode="never"

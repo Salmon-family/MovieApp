@@ -1,6 +1,5 @@
 package com.karrar.movieapp.ui.category
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -67,18 +66,16 @@ class CategoryViewModel @Inject constructor(
     private fun setMediaList(id: Int) {
         when (categoryTypeId.value) {
             MOVIE_CATEGORIES_ID ->
-                collectResponse(movieRepository.getMoviesByGenre(id)) { _mediaList.postValue(it) }
+                collectResponse(movieRepository.getMovieListByGenre(id)) { _mediaList.postValue(it) }
             TV_CATEGORIES_ID ->
                 collectResponse(seriesRepository.getTvShowsByGenre(id)) { _mediaList.postValue(it) }
         }
     }
 
+
     private fun <T> collectResponse(flow: Flow<State<T>>, function: (State<T>) -> Unit) {
         viewModelScope.launch {
-            flow.flowOn(Dispatchers.IO)
-                .collect { state ->
-                    function(state)
-                }
+            flow.flowOn(Dispatchers.IO).collect { function(it) }
         }
     }
 

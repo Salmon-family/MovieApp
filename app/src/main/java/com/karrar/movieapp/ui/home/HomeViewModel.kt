@@ -27,8 +27,8 @@ class HomeViewModel @Inject constructor(
     val nowStreaming = movieRepository.getNowPlayingMovies().asLiveData()
     val upcoming = movieRepository.getUpcomingMovies().asLiveData()
     val actors = movieRepository.getTrendingPersons().asLiveData()
-    val mysteryMovie = movieRepository.getMoviesByGenre(Constants.MYSTERY_ID).asLiveData()
-    val adventureMovie = movieRepository.getMoviesByGenre(Constants.ADVENTURE_ID).asLiveData()
+    val mysteryMovie = movieRepository.getMovieListByGenre(Constants.MYSTERY_ID).asLiveData()
+    val adventureMovie = movieRepository.getMovieListByGenre(Constants.ADVENTURE_ID).asLiveData()
 
     val onTheAiring = seriesRepository.getOnTheAir().asLiveData()
     val airingToday = seriesRepository.getAiringToday().asLiveData()
