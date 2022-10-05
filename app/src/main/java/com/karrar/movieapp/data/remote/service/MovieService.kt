@@ -3,8 +3,12 @@ package com.karrar.movieapp.data.remote.service
 import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.response.login.SessionResponse
+import com.karrar.movieapp.data.remote.response.BaseResponse
+import com.karrar.movieapp.data.remote.response.MovieDto
+import com.karrar.movieapp.data.remote.response.GenreResponse
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorDetailsDto
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorMoviesDto
+import com.karrar.movieapp.data.remote.response.ActorDto
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
 import retrofit2.Response
 import retrofit2.http.Field
@@ -35,11 +39,10 @@ interface MovieService {
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
     ): Response<BaseResponse<MovieDto>>
 
-
     @GET("trending/person/{time_window}")
-    suspend fun getTrendingPersons(
+    suspend fun getTrendingActors(
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
-    ): Response<BaseResponse<PersonDto>>
+    ): Response<BaseResponse<ActorDto>>
 
     @GET("search/{type}")
     suspend fun searchWithType(
@@ -50,7 +53,7 @@ interface MovieService {
     @GET("search/person")
     suspend fun searchForPerson(
         @Query("query") query: String
-    ): Response<BaseResponse<PersonDto>>
+    ): Response<BaseResponse<ActorDto>>
 
     @GET("search/movie")
     suspend fun searchForMovie(
@@ -64,6 +67,8 @@ interface MovieService {
 
     @GET("authentication/token/new")
     suspend fun getRequestToken() : Response<RequestTokenResponse>
+    @GET("genre/movie/list")
+    suspend fun getGenreList(): Response<GenreResponse>
 
     @JvmSuppressWildcards
     @FormUrlEncoded
@@ -87,6 +92,8 @@ interface MovieService {
     suspend fun getActorMovies(
         @Path("person_id") actorId: Int,
     ): Response<ActorMoviesDto>
+    @GET("discover/movie")
+    suspend fun getMovieListByGenre(@Query("with_genres") genreID: Int): Response<BaseResponse<MovieDto>>
 }
 
 

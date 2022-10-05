@@ -6,9 +6,16 @@ import com.karrar.movieapp.data.remote.repository.AccountRepository
 import com.karrar.movieapp.data.remote.repository.AccountRepositoryImp
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.repository.MovieRepositoryImp
+import com.karrar.movieapp.data.remote.repository.*
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.*
+import com.karrar.movieapp.data.remote.service.SeriesService
 import com.karrar.movieapp.utilities.DataClassParser
+import com.karrar.movieapp.domain.mappers.ActorDetailsMapper
+import com.karrar.movieapp.domain.mappers.ActorMoviesMapper
+import com.karrar.movieapp.domain.mappers.ActorMapper
+import com.karrar.movieapp.domain.mappers.GenreMapper
+import com.karrar.movieapp.domain.mappers.MediaMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,22 +31,38 @@ object RepositoryModule {
     fun provideMovieRepository(
         movieService: MovieService,
         personMapper: PersonMapper,
-        movieMapper: MovieMapper,
+        moviesMapper: MovieMapper,
         seriesMapper: SeriesMapper,
         actorDetailsMapper: ActorDetailsMapper,
         actorMoviesMapper: ActorMoviesMapper,
         movieDao: MovieDao,
-        searchHistoryMapper: SearchHistoryMapper
+        searchHistoryMapper: SearchHistoryMapper,
+        actorMapper: ActorMapper,
+        movieMapper: MediaMapper,
+        genreMapper: GenreMapper
     ): MovieRepository {
         return MovieRepositoryImp(
             movieService,
-            personMapper,
             actorDetailsMapper,
             actorMoviesMapper,
+            actorMapper,
+            genreMapper,
             movieMapper,
+            personMapper,
+            moviesMapper,
             seriesMapper,
             movieDao,
-            searchHistoryMapper)
+            searchHistoryMapper
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideSeriesRepository(
+        seriesService: SeriesService,
+        seriesMapper: MediaMapper
+    ): SeriesRepository {
+        return SeriesRepositoryImp(seriesService, seriesMapper)
     }
 
     @Singleton

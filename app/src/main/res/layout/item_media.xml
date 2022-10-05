@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Media" />
+            type="com.karrar.movieapp.domain.models.MediaInfo" />
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.search.MediaInteractionListener" />
@@ -36,7 +36,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginEnd="@dimen/spacing_medium"
                 tools:src="@drawable/test"
-                app:mediaImage="@{item.imagePath}"
+                app:posterImage="@{item.imagePath}"
                 android:scaleType="centerCrop"/>
             <TextView
                 android:id="@+id/text_title"

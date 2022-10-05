@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Media" />
+            type="com.karrar.movieapp.domain.models.MediaInfo" />
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.search.PersonInteractionListener" />
@@ -32,7 +32,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/Circle"
             tools:src="@drawable/actor"
-            app:mediaImage="@{item.profileImage}"
+            app:posterImage="@{item.profileImage}"
             android:onClick="@{() -> listener.onClickPerson(item.id, item.name)}"/>
 
         <TextView
@@ -53,3 +53,4 @@
             android:text="@{item.name}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
+

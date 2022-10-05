@@ -5,6 +5,9 @@ object Constants {
     const val IMAGE_BASE_PATH = "https://image.tmdb.org/t/p/w500"
     const val API_KEY = "84c61eff2fcefd931aff41f9d620ab21"
     const val TMDB_SIGNUP_URL="https://www.themoviedb.org/signup"
+    const val MAX_NUMBER_AIRING_TODAY = 6
+    const val MYSTERY_ID = 9648
+    const val ADVENTURE_ID = 12
 }
 
 object DataStorePreferencesKeys{

@@ -28,7 +28,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:mediaImage="@{viewModel.actorDetails.toData().imageUrlActor}"
+                app:posterImage="@{viewModel.actorDetails.toData().imageUrlActor}"
                 tools:src="@drawable/chris_evans" />
 
             <View
@@ -201,6 +201,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginBottom="@dimen/spacing_small"
+                android:onClick="@{() -> viewModel.onClickSeeAll()}"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/related_movie_recycler"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -6,9 +6,11 @@ import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.domain.models.MediaInfo
 import com.karrar.movieapp.domain.models.Person
 import com.karrar.movieapp.domain.models.SearchHistory
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
+import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -18,11 +20,17 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val movieRepository: MovieRepository
 ) : ViewModel(), MediaInteractionListener, PersonInteractionListener, SearchHistoryInteractionListener{
-    private val _media = MutableLiveData<State<List<Media>>>()
-    val media: LiveData<State<List<Media>>> get() = _media
+    private val _media = MutableLiveData<State<List<MediaInfo>>>()
+    val media: LiveData<State<List<MediaInfo>>> get() = _media
 
     private val _searchHistory = MutableLiveData<List<SearchHistory>>()
     val searchHistory: LiveData<List<SearchHistory>> get() = _searchHistory
+
+    private val _clickMediaEvent = MutableLiveData<Event<Int>>()
+    var clickMediaEvent: LiveData<Event<Int>> = _clickMediaEvent
+
+    private val _clickActorEvent = MutableLiveData<Event<Int>>()
+    var clickActorEvent: LiveData<Event<Int>> = _clickActorEvent
 
     val searchText = MutableStateFlow("")
     val mediaType = MutableStateFlow("movie")
@@ -104,10 +112,12 @@ class SearchViewModel @Inject constructor(
 
     override fun onClickMedia(mediaID: Int, name: String) {
         saveSearchResult(mediaID, name)
+        _clickMediaEvent.postValue(Event(mediaID))
     }
 
     override fun onClickPerson(personID: Int, name: String) {
         saveSearchResult(personID, name)
+        _clickActorEvent.postValue(Event(personID))
     }
 
     private fun saveSearchResult(id: Int, name: String){

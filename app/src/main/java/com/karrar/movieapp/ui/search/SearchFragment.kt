@@ -24,6 +24,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeEvents()
+
         binding.recyclerSearchHistory.adapter = SearchHistoryAdapter(mutableListOf(), viewModel)
         lifecycleScope.launch {
             viewModel.mediaType.collect{
@@ -40,5 +42,23 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
                 }
             }
         }
+    }
+
+    private fun observeEvents(){
+        navigateToMovieDetails()
+        navigateToSeriesDetails()
+        navigateToActorDetails()
+    }
+
+    private fun navigateToMovieDetails(){
+
+    }
+
+    private fun navigateToSeriesDetails(){
+
+    }
+
+    private fun navigateToActorDetails(){
+
     }
 }

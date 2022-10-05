@@ -91,4 +91,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0-alpha1'
 
     implementation 'com.airbnb.android:lottie:5.2.0'
+
+    // Lottie
+    implementation 'com.airbnb.android:lottie:5.2.0'
+
+    //Coil
+    implementation 'io.coil-kt:coil:2.2.2'
 }

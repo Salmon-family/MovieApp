@@ -8,9 +8,11 @@
         <item name="android:statusBarColor">@color/background_color</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
-        <item name="android:colorAccent">@color/brand_color</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="textInputStyle">@style/Login</item>
+
+
+
 
     </style>
 
@@ -35,6 +37,7 @@
 
     <style name="Regular">
         <item name="android:fontFamily">@font/plus_jakarta_sans_regular</item>
+        <item name="android:textColor">@color/shade_primary_color</item>
     </style>
 
     <style name="Regular.Medium">
@@ -99,16 +102,27 @@
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
     </style>
 
+    <style name="CircleImage">
+        <item name="cornerSize">50%</item>
+    </style>
+
+
+    <style name="CardCorners.BottomMedium">
+        <item name="cornerSizeBottomLeft">@dimen/radius_medium</item>
+        <item name="cornerSizeBottomRight">@dimen/radius_medium</item>
+    </style>
+
+
+    <style name="Circle">
+        <item name="cornerSize">50%</item>
+    </style>
+
     <style name="Chip.Regular.Small" parent="Widget.MaterialComponents.Chip.Filter">
         <item name="chipStrokeColor">@color/chip_stroke</item>
 
         <item name="chipBackgroundColor">@color/chip_background</item>
         <item name="chipStrokeWidth">1dp</item>
         <item name="android:textAlignment">center</item>
-    </style>
-
-    <style name="Circle">
-        <item name="cornerSize">50%</item>
     </style>
 
 </resources>
