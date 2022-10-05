@@ -35,7 +35,8 @@
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="@dimen/spacing_small"
             android:paddingStart="@dimen/spacing_small"
-            android:textCursorDrawable="@color/brand_color"/>
+            android:textCursorDrawable="@color/brand_color"
+            android:transitionName="search_box"/>
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group_media_type"

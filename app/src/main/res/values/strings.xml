@@ -36,4 +36,6 @@
     <string name="title_celebrity">Celebrities</string>
     <string name="title_airing_today">Airing today</string>
     <string name="text_movies">%s Movies</string>
+    <string name="movies_label">Movies</string>
+    <string name="tv_shows_label">TV Shows</string>
 </resources>

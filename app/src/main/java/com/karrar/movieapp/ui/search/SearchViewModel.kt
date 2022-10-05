@@ -9,6 +9,7 @@ import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.MediaInfo
 import com.karrar.movieapp.domain.models.Person
 import com.karrar.movieapp.domain.models.SearchHistory
+import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val movieRepository: MovieRepository
-) : ViewModel(), MediaInteractionListener, PersonInteractionListener, SearchHistoryInteractionListener{
+) : BaseViewModel(), MediaInteractionListener, PersonInteractionListener, SearchHistoryInteractionListener{
     private val _media = MutableLiveData<State<List<MediaInfo>>>()
     val media: LiveData<State<List<MediaInfo>>> get() = _media
 
@@ -134,6 +135,12 @@ class SearchViewModel @Inject constructor(
     override fun onClickSearchHistory(name: String) {
         viewModelScope.launch {
             searchText.emit(name)
+        }
+    }
+
+    fun getSearchText(text: String){
+        viewModelScope.launch {
+            searchText.emit(text)
         }
     }
 }
