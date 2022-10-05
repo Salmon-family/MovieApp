@@ -66,7 +66,7 @@ interface MovieService {
     suspend fun postRating(
         @Path("movie_id") movieId: Int,
         @Field ("value") rating: Float,
-        @Query("guest_session_id") apiKey: String?,
+        @Query("session_id") apiKey: String?,
         ): Response<RatingDto>
 
 
@@ -97,6 +97,11 @@ interface MovieService {
         @Path("list_id") listId: Int,
     ): Response<ListDetailsDto>
 
+    @GET("account/{account_id}/rated/movies")
+    suspend fun getRatedMovie(
+        @Path("account_id") listId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<BaseResponse<RatedMovie>>
 
 }
 

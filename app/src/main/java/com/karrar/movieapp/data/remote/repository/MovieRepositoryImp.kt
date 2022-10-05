@@ -71,8 +71,8 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun setRating(movie_id: Int, value: Float, guest_session_id: String): Flow<State<RatingDto>> {
-        return wrapWithFlow { movieService.postRating(movie_id, value, guest_session_id) }
+    override fun setRating(movie_id: Int, value: Float, session_id: String): Flow<State<RatingDto>> {
+        return wrapWithFlow { movieService.postRating(movie_id, value, session_id) }
     }
 
     override fun getMovieTrailer(movie_id: Int): Flow<State<Trailer>> {
@@ -91,6 +91,10 @@ class MovieRepositoryImp @Inject constructor(
 
     override fun getListDetails(list_id: Int): Flow<State<ListDetailsDto>> {
         return wrapWithFlow { movieService.getList(list_id) }
+    }
+
+    override fun getRatedMovie(account_id: Int, session_id:String): Flow<State<BaseResponse<RatedMovie>>> {
+        return wrapWithFlow { movieService.getRatedMovie(account_id, session_id) }
     }
 
 

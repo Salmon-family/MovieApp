@@ -321,7 +321,6 @@
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_medium"
                 app:showOnSuccess="@{viewModel.movieDetails}"
-
                 android:progressDrawable="@drawable/rating_custom"
                 android:isIndicator="false"
                 android:rating="@={viewModel.ratingValue}"
@@ -369,7 +368,6 @@
                 android:layout_marginHorizontal="16dp"
                 android:text="View all reviews"
                 app:showOnSuccess="@{viewModel.movieDetails}"
-
                 app:isVisible="@{viewModel.movieReviews.toData()}"
                 android:textAllCaps="false"
                 android:paddingTop="16dp"
@@ -380,6 +378,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="Play Trailer" />
+
+            <include
+                android:id="@+id/loading"
+                layout="@layout/loading"
+                app:showOnLoading="@{viewModel.movieReviews}"
+                tools:visibility="gone" />
+
+            <include android:id="@+id/error"
+                app:showOnError="@{viewModel.movieReviews}"
+                tools:visibility="gone"
+                layout="@layout/error"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

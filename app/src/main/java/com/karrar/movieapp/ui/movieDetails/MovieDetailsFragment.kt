@@ -24,10 +24,8 @@ class MovieDetailsFragment :BaseFragment<FragmentMovieDetailsBinding>() {
     override val viewModel: MovieDetailsViewModel by viewModels()
     private val args: MovieDetailsFragmentArgs by navArgs()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         observeEvents()
 
         binding.castAdapter.adapter = CastAdapter(mutableListOf(), viewModel)
@@ -38,16 +36,18 @@ class MovieDetailsFragment :BaseFragment<FragmentMovieDetailsBinding>() {
         viewModel.getAllDetails(args.movieId)
 
         viewModel.ratingValue.observe(viewLifecycleOwner){
-            viewModel.onAddRating(args.movieId, it)
+            it?.let { viewModel.onAddRating(args.movieId, it) }
         }
 
         viewModel.ratingValue.observe(viewLifecycleOwner){
-           Snackbar.make(view,
-               "Submitted, Thank you for your feedback",
-               Snackbar.LENGTH_SHORT
-           ).show()
+            if (viewModel.check.value == true){
+                Snackbar.make(view, "Submitted, Thank you for your feedback", Snackbar.LENGTH_SHORT)
+                    .show()
+            }
         }
+
     }
+
 
      private fun observeEvents() {
 
