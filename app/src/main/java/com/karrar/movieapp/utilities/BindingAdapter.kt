@@ -20,7 +20,7 @@ fun <T> showWhenSuccess(view: View, state: State<T>?) {
 
 @BindingAdapter(value = ["app:showWhenLoading"])
 fun <T> showWhenLoading(view: View, state: State<T>?) {
-    view.isVisible = state is State.Loading
+    view.isVisible = (state is State.Loading)
 }
 
 @BindingAdapter(value = ["app:hideWhenLoading"])
