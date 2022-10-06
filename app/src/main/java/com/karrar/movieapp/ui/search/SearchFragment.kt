@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,22 +47,19 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
     private fun navigateToMovieDetails(){
         if(viewModel.mediaType.value == "movie"){
             viewModel.clickMediaEvent.observe(viewLifecycleOwner, EventObserve{
-
+                findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToMovieDetailFragment(it))
             })
         }
     }
 
     private fun navigateToSeriesDetails(){
-        if(viewModel.mediaType.value == "tv"){
-            viewModel.clickMediaEvent.observe(viewLifecycleOwner, EventObserve{
-
-            })
+        if(viewModel.mediaType.value == "tv") {
         }
     }
 
     private fun navigateToActorDetails(){
-        viewModel.clickActorEvent.observe(viewLifecycleOwner, EventObserve{
-
+        viewModel.clickActorEvent.observe(viewLifecycleOwner, EventObserve{ actorID->
+            findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToActorDetailsFragment(actorID))
         })
     }
 

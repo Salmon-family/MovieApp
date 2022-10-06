@@ -18,7 +18,7 @@ interface MovieDao {
     @Query("SELECT * FROM WATCH_LIST_TABLE")
     fun getAllSavedMovies(): Flow<List<WatchList>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(search: SearchHistoryEntity)
 
     @Delete

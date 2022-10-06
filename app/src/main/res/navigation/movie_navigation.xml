@@ -114,10 +114,20 @@
         <action
             android:id="@+id/action_exploringFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_exploringFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.karrar.movieapp.ui.search.SearchFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search"/>
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_actorDetailsFragment"
+            app:destination="@id/actorDetailsFragment" />
+    </fragment>
 </navigation>

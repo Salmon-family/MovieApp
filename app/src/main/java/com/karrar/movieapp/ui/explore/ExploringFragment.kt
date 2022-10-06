@@ -3,13 +3,16 @@ package com.karrar.movieapp.ui.explore
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.view.View
+import androidx.compose.ui.unit.Constraints
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentExploringBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.debounce
@@ -50,13 +53,17 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
 
     private fun navigateToMovies(){
         viewModel.clickMoviesEvent.observe(viewLifecycleOwner, EventObserve{
-
+            findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToCategoryFragment(
+                Constants.MOVIE_CATEGORIES_ID
+            ))
         })
     }
 
     private fun navigateToSeries(){
         viewModel.clickSeriesEvent.observe(viewLifecycleOwner, EventObserve{
-
+            findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToCategoryFragment(
+                Constants.TV_CATEGORIES_ID
+            ))
         })
     }
 
