@@ -36,6 +36,7 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:background="@drawable/edit_text_background"
             android:drawableStart="@drawable/ic_search"
+            android:drawableTint="@color/brand_color"
             android:drawablePadding="@dimen/spacing_small"
             android:focusableInTouchMode="false"
             android:hint="@string/search_hint"

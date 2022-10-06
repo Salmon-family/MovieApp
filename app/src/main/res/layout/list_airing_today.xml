@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -19,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:padding="@dimen/spacing_small">
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:layout_marginHorizontal="@dimen/spacing_medium">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_airing_today"
@@ -37,7 +39,7 @@
             style="@style/SemiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginStart="@dimen/spacing_small"
             android:layout_marginTop="@dimen/spacing_small"
             android:elevation="2dp"
             android:text="@string/title_airing_today"
@@ -50,6 +52,7 @@
             style="@style/Regular.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            tools:text="20 Movies"
             android:layout_marginEnd="@dimen/spacing_medium"
             android:elevation="2dp"
             android:text="@{@string/text_movies(count.toString())}"
@@ -61,7 +64,9 @@
             android:id="@+id/recycler_airing_movies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_small"
+            tools:listitem="@layout/item_airing_today"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginHorizontal="@dimen/spacing_small"
             android:adapter="@{adapterRecycler}"
             android:elevation="2dp"
             android:orientation="vertical"
@@ -72,7 +77,8 @@
             app:layout_constraintEnd_toEndOf="@id/card_airing_today"
             app:layout_constraintStart_toStartOf="@id/card_airing_today"
             app:layout_constraintTop_toBottomOf="@+id/text_airing_today"
-            app:spanCount="3" />
+            app:spanCount="3"
+            tools:itemCount="6"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
