@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.karrar.movieapp.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
@@ -19,14 +19,14 @@
         android:id="@+id/movieDetailsFragment"
         android:name="com.karrar.movieapp.ui.movieDetails.MovieDetailsFragment"
         android:label="MovieDetailsFragment"
-        tools:layout="@layout/fragment_movie_details"
-        >
+        tools:layout="@layout/fragment_movie_details">
         <argument
             android:name="movie_id"
             app:argType="integer" />
         <action
             android:id="@+id/action_movieDetailsFragment"
-            app:destination="@id/movieDetailsFragment" />
+            app:destination="@id/movieDetailsFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_movieDetailsFragment_to_reviewFragment"
             app:destination="@id/reviewFragment" />
@@ -42,8 +42,7 @@
         android:id="@+id/reviewFragment"
         android:name="com.karrar.movieapp.ui.movieReviews.ReviewFragment"
         android:label="ReviewFragment"
-        tools:layout="@layout/fragment_review"
-        >
+        tools:layout="@layout/fragment_review">
         <argument
             android:name="movie_id"
             app:argType="integer" />
@@ -52,8 +51,7 @@
         android:id="@+id/youtubePlayerFragment"
         android:name="com.karrar.movieapp.ui.youtubePlayer.YoutubePlayerFragment"
         android:label="YoutubePlayerFragment"
-        tools:layout="@layout/fragment_youtube_player"
-        >
+        tools:layout="@layout/fragment_youtube_player">
         <argument
             android:name="movie_id"
             app:argType="integer" />
@@ -62,8 +60,7 @@
         android:id="@+id/saveMovieDialog"
         android:name="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveMovieDialog"
         android:label="SaveMovieDialog"
-        tools:layout="@layout/dialog_save_movie"
-        >
+        tools:layout="@layout/dialog_save_movie">
         <argument
             android:name="movie_id"
             app:argType="integer" />

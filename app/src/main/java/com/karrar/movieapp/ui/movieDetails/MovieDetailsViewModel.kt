@@ -16,103 +16,122 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class MovieDetailsViewModel @Inject constructor(private val movieRepository: MovieRepository
-): BaseViewModel(), CastInteractionListener, MovieInteractionListener{
+class MovieDetailsViewModel @Inject constructor(
+    private val movieRepository: MovieRepository
+) : BaseViewModel(), CastInteractionListener, MovieInteractionListener {
 
-     private var _movieDetails = MutableLiveData<State<MovieDetails>>()
-     val movieDetails :LiveData<State<MovieDetails>> = _movieDetails
+    private var _movieDetails = MutableLiveData<State<MovieDetails>>()
+    val movieDetails: LiveData<State<MovieDetails>> = _movieDetails
 
-     private var _movieCast = MutableLiveData<State<List<Cast>>>()
-     val movieCast :LiveData<State<List<Cast>>> = _movieCast
+    private var _movieCast = MutableLiveData<State<List<Cast>>>()
+    val movieCast: LiveData<State<List<Cast>>> = _movieCast
 
-     private var _similarMovie = MutableLiveData<State<List<Movie>>>()
-     val similarMovie :LiveData<State<List<Movie>>> = _similarMovie
+    private var _similarMovie = MutableLiveData<State<List<Movie>>>()
+    val similarMovie: LiveData<State<List<Movie>>> = _similarMovie
 
-     private var _movieReviews = MutableLiveData<State<List<Review>>>()
-     val movieReviews :LiveData<State<List<Review>>> = _movieReviews
+    private var _movieReviews = MutableLiveData<State<List<Review>>>()
+    val movieReviews: LiveData<State<List<Review>>> = _movieReviews
 
-     private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
-     var clickBackEvent: LiveData<Event<Boolean>> = _clickBackEvent
+    private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
+    var clickBackEvent: LiveData<Event<Boolean>> = _clickBackEvent
 
-     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
-     var clickMovieEvent: LiveData<Event<Int>> = _clickMovieEvent
+    private val _clickMovieEvent = MutableLiveData<Event<Int>>()
+    var clickMovieEvent: LiveData<Event<Int>> = _clickMovieEvent
 
-     private val _clickCastEvent = MutableLiveData<Event<Int>>()
-     var clickCastEvent: LiveData<Event<Int>> = _clickCastEvent
+    private val _clickCastEvent = MutableLiveData<Event<Int>>()
+    var clickCastEvent: LiveData<Event<Int>> = _clickCastEvent
 
-     private val _clickPlayTrailerEvent = MutableLiveData<Event<Boolean>>()
-     var clickPlayTrailerEvent: LiveData<Event<Boolean>> = _clickPlayTrailerEvent
+    private val _clickPlayTrailerEvent = MutableLiveData<Event<Boolean>>()
+    var clickPlayTrailerEvent: LiveData<Event<Boolean>> = _clickPlayTrailerEvent
 
-     private val _clickReviewsEvent = MutableLiveData<Event<Boolean>>()
-     var clickReviewsEvent: LiveData<Event<Boolean>> = _clickReviewsEvent
+    private val _clickReviewsEvent = MutableLiveData<Event<Boolean>>()
+    var clickReviewsEvent: LiveData<Event<Boolean>> = _clickReviewsEvent
 
-     private val _clickSaveEvent = MutableLiveData<Event<Boolean>>()
-     var clickSaveEvent: LiveData<Event<Boolean>> = _clickSaveEvent
+    private val _clickSaveEvent = MutableLiveData<Event<Boolean>>()
+    var clickSaveEvent: LiveData<Event<Boolean>> = _clickSaveEvent
 
-     private val _check = MutableLiveData(false)
-     var check: LiveData<Boolean> = _check
+    private val _check = MutableLiveData<Float>()
 
-     var ratingValue = MutableLiveData<Float>()
+    val messageAppear = MutableLiveData(Event(false))
+
+    var ratingValue = MutableLiveData<Float>()
+
+    fun getAllDetails(movie_id: Int) {
+
+        collectResponse(movieRepository.getMovieDetails(movie_id)) {
+            _movieDetails.postValue(it)
+        }
+        collectResponse(movieRepository.getMovieCast(movie_id)) {
+            _movieCast.postValue(it)
+        }
+        collectResponse(movieRepository.getSimilarMovie(movie_id)) {
+            _similarMovie.postValue(it)
+        }
+        collectResponse(movieRepository.getMovieReviews(movie_id)) {
+            _movieReviews.postValue(it)
+        }
+        collectResponse(
+            movieRepository.getRatedMovie(
+                14012083,
+                "1d92e6a329c67e2e5e0486a0a93d5980711535b1"
+            )
+        ) {
+            checkIfMovieRated(it.toData()?.items, movie_id)
+        }
+
+    }
+
+    private fun checkIfMovieRated(items: List<RatedMovie>?, movie_id: Int) {
+        val item = items?.firstOrNull { it.id == movie_id }
+        item?.let {
+            if (it.rating != ratingValue.value) {
+                _check.postValue(it.rating?.toFloat())
+                ratingValue.postValue(it.rating?.toFloat())
+            }
+        }
+    }
+
+    fun onAddRating(movie_id: Int, value: Float) {
+        if (_check.value != value) {
+            collectResponse(
+                movieRepository.setRating(
+                    movie_id, value,
+                    "1d92e6a329c67e2e5e0486a0a93d5980711535b1"
+                )
+            )
+            {
+                if (it is State.Success) {
+                    messageAppear.postValue(Event(true))
+                    _check.postValue(value)
+                }
+            }
+        }
+    }
 
 
-     fun getAllDetails(movie_id:Int){
+    fun onClickSave() {
+        _clickSaveEvent.postValue(Event(true))
+    }
 
-          collectResponse(movieRepository.getMovieDetails(movie_id)) {
-               _movieDetails.postValue(it)
-          }
-          collectResponse(movieRepository.getMovieCast(movie_id)){
-               _movieCast.postValue(it)
-          }
-          collectResponse(movieRepository.getSimilarMovie(movie_id)){
-               _similarMovie.postValue(it)
-          }
-          collectResponse(movieRepository.getMovieReviews(movie_id)){
-               _movieReviews.postValue(it)
-          }
-          collectResponse(movieRepository.getRatedMovie(14012083, "1d92e6a329c67e2e5e0486a0a93d5980711535b1")){
-               checkIfMovieRated(it.toData()?.items, movie_id)
-          }
+    fun onClickPlayTrailer() {
+        _clickPlayTrailerEvent.postValue(Event(true))
+    }
 
-     }
+    fun onclickBack() {
+        _clickBackEvent.postValue(Event(true))
+    }
 
-     private fun checkIfMovieRated(items: List<RatedMovie>?, movie_id: Int){
-          items?.map {
-               if(it.id == movie_id){
-                    ratingValue.postValue(it.rating?.toFloat())
-               }
-          }
-     }
+    fun onclickViewReviews() {
+        _clickReviewsEvent.postValue(Event(true))
+    }
 
-     fun onAddRating(movie_id: Int, value: Float) {
-          if (_check.value == true){
-               collectResponse(movieRepository.setRating(movie_id, value, "1d92e6a329c67e2e5e0486a0a93d5980711535b1")){ }
-          } else{ _check.postValue(true) }
-     }
+    override fun onClickCast(cast_id: Int) {
+        _clickCastEvent.postValue(Event(cast_id))
 
+    }
 
-     fun onClickSave(){
-          _clickSaveEvent.postValue(Event(true))
-     }
-
-     fun onClickPlayTrailer(){
-          _clickPlayTrailerEvent.postValue(Event(true))
-     }
-
-     fun onclickBack() {
-          _clickBackEvent.postValue(Event(true))
-     }
-
-     fun onclickViewReviews() {
-          _clickReviewsEvent.postValue(Event(true))
-     }
-
-     override fun onClickCast(cast_id: Int) {
-          _clickCastEvent.postValue(Event(cast_id))
-
-     }
-
-     override fun onClickMovie(movie_id: Int) {
-          _clickMovieEvent.postValue(Event(movie_id))
-     }
+    override fun onClickMovie(movie_id: Int) {
+        _clickMovieEvent.postValue(Event(movie_id))
+    }
 
 }
