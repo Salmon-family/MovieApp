@@ -44,6 +44,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         navigateToMovieDetails()
         navigateToSeriesDetails()
         navigateToActorDetails()
+        backToExplore()
     }
 
     private fun navigateToMovieDetails() {
@@ -86,5 +87,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             adapter = PersonAdapter(mutableListOf(), viewModel)
             layoutManager = GridLayoutManager(this@SearchFragment.context, 3)
         }
+    }
+
+    private fun backToExplore(){
+        viewModel.clickBackEvent.observe(viewLifecycleOwner, EventObserve{
+            findNavController().popBackStack()
+        })
     }
 }
