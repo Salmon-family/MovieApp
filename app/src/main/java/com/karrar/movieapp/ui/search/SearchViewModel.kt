@@ -122,7 +122,7 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             movieRepository.insertSearchItem(
                 SearchHistoryEntity(
-                    id = id,
+                    id = id.toLong(),
                     search = name
                 )
             )

@@ -3,13 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_navigation"
-    app:startDestination="@id/exploringFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.karrar.movieapp.ui.home.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        android:label=""
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_actorsFragment"
+            app:destination="@id/actorsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_actorDetailsFragment"
+            app:destination="@id/actorDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_allMovieFragment"
+            app:destination="@id/allMovieFragment" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/loginFragment"
@@ -31,24 +45,71 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_actorDetailsFragment_to_allMovieOfActorFragment"
-            app:destination="@id/allMovieOfActorFragment" />
+            app:destination="@id/allMovieFragment" />
+        <action
+            android:id="@+id/action_actorDetailsFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/allMovieOfActorFragment"
-        android:name="com.karrar.movieapp.ui.actorDetails.AllMovieOfActorFragment"
-        android:label="AllMovieOfActorFragment"
-        tools:layout="@layout/fragment_all_movie_of_actor">
-        <argument
-            android:name="id"
-            app:argType="integer" />
-    </fragment>
 
     <fragment
         android:id="@+id/actorsFragment"
         android:name="com.karrar.movieapp.ui.actors.ActorsFragment"
         android:label="Actors"
-        tools:layout="@layout/fragment_actors"/>
+        tools:layout="@layout/fragment_actors">
+        <action
+            android:id="@+id/action_actorsFragment_to_actorDetailsFragment"
+            app:destination="@id/actorDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="com.karrar.movieapp.ui.MovieDetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="movieID"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.karrar.movieapp.ui.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.karrar.movieapp.ui.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/myListFragment"
+        android:name="com.karrar.movieapp.ui.MyListFragment"
+        android:label="My List"
+        tools:layout="@layout/fragment_my_list" />
+
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.karrar.movieapp.ui.category.CategoryFragment"
+        android:label="CategoryFragment"
+        tools:layout="@layout/fragment_category">
+        <argument
+            android:name="mediaId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/allMovieFragment"
+        android:name="com.karrar.movieapp.ui.allMedia.AllMovieFragment"
+        android:label="AllMovieFragment"
+        tools:layout="@layout/fragment_all_movie">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="type"
+            app:argType="com.karrar.movieapp.domain.enums.MovieType" />
+        <action
+            android:id="@+id/action_allMovieFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/exploringFragment"
         android:name="com.karrar.movieapp.ui.explore.ExploringFragment"
@@ -58,10 +119,4 @@
             android:id="@+id/action_exploringFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
     </fragment>
-
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.karrar.movieapp.ui.search.SearchFragment"
-        android:label="SearchFragment"
-        tools:layout="@layout/fragment_search"/>
 </navigation>

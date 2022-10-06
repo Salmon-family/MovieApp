@@ -7,8 +7,6 @@
             name="adapterRecycler"
             type="com.karrar.movieapp.ui.home.adapters.PopularMovieAdapter" />
 
-
-
     </data>
 
 
@@ -17,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_marginTop="1dp"
         android:layout_height="wrap_content"
+        app:usePagerSnapHelper="@{true}"
         android:adapter="@{adapterRecycler}"
         android:orientation="horizontal"
         android:overScrollMode="never"

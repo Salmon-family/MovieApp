@@ -92,6 +92,9 @@ interface MovieService {
 
     @GET("trending/all/day")
     suspend fun getDailyTrending(): Response<BaseResponse<TrendingDto>>
+
+    @GET("discover/movie")
+    suspend fun getAllMovies(): Response<BaseResponse<MovieDto>>
 }
 
 
