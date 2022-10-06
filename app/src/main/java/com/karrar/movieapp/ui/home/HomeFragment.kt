@@ -65,7 +65,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         viewModel.clickSeeAllMovieEvent.observe(viewLifecycleOwner, EventObserve { typeMovieID ->
             findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToAllMovieOfActorFragment(
+                HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(
                     -1,
                     typeMovieID
                 )
