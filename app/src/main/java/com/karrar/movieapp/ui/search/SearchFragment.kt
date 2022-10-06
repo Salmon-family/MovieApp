@@ -4,18 +4,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentSearchBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryAdapter
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -70,7 +67,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
 
     private fun bindMedia(){
         binding.recyclerMedia.apply {
-            adapter = MediaAdapter(mutableListOf(), viewModel)
+            adapter = MediaSearchAdapter(mutableListOf(), viewModel)
             layoutManager = LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
         }
     }

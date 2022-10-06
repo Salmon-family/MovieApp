@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val movieRepository: MovieRepository
-) : BaseViewModel(), MediaInteractionListener, PersonInteractionListener, SearchHistoryInteractionListener{
+) : BaseViewModel(), MediaSearchInteractionListener, PersonInteractionListener, SearchHistoryInteractionListener{
     private val _media = MutableLiveData<State<List<MediaInfo>>>()
     val media: LiveData<State<List<MediaInfo>>> get() = _media
 

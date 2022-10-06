@@ -9,7 +9,7 @@ import com.karrar.movieapp.ui.home.HomeInteractionListener
 
 class ActorAdapter(items: List<Actor>,val listener: ActorsInteractionListener) :
     BaseAdapter<Actor>(items, listener) {
-    override val layoutID: Int = R.layout.item_actor_search
+    override val layoutID: Int = R.layout.item_actor
 }
 
 interface ActorsInteractionListener : BaseInteractionListener {
