@@ -19,9 +19,6 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "API_KEY", localProperties['apiKey']
-        buildConfigField "String", "BASE_URL", localProperties['baseUrl']
-        buildConfigField "String", "IMAGE_BASE_PATH", localProperties['imageBasePath']
-        buildConfigField "String", "TMDB_SIGNUP_URL", localProperties['tmdbSignupUrl']
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

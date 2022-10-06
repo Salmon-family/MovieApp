@@ -1,8 +1,9 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.MovieDto
+import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.MediaInfo
+import com.karrar.movieapp.utilities.Constants
 import javax.inject.Inject
 
 class MovieMapper @Inject constructor() : Mapper<MovieDto, MediaInfo> {
@@ -13,7 +14,7 @@ class MovieMapper @Inject constructor() : Mapper<MovieDto, MediaInfo> {
             name = input.originalTitle,
             releaseDate = input.releaseDate?.substringBefore('-'),
             rate = input.voteAverage?.toFloat(),
-            imagePath = BuildConfig.IMAGE_BASE_PATH + input.backdropPath,
+            imagePath = Constants.IMAGE_BASE_PATH + input.backdropPath,
             profileImage = null
         )
     }

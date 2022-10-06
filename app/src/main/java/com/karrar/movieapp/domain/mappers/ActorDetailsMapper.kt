@@ -1,8 +1,10 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.karrar.movieapp.BuildConfig
+import android.widget.TextView
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorDetailsDto
+import com.karrar.movieapp.data.remote.response.actorDetailsDto.CastDto
 import com.karrar.movieapp.domain.models.ActorDetails
+import com.karrar.movieapp.utilities.Constants.IMAGE_BASE_PATH
 import javax.inject.Inject
 
 class ActorDetailsMapper @Inject constructor(): Mapper<ActorDetailsDto, ActorDetails> {
@@ -17,7 +19,7 @@ class ActorDetailsMapper @Inject constructor(): Mapper<ActorDetailsDto, ActorDet
         return ActorDetails(
             input.id,
             input.name,
-            BuildConfig.IMAGE_BASE_PATH + input.profilePath,
+            IMAGE_BASE_PATH + input.profilePath,
             input.birthday,
             input.placeOfBirth,
             input.biography,

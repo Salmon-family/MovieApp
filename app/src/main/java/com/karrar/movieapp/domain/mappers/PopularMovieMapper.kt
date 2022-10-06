@@ -1,10 +1,10 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.GenreDto
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.PopularMovie
+import com.karrar.movieapp.utilities.Constants.IMAGE_BASE_PATH
 
 class PopularMovieMapper {
 
@@ -26,7 +26,7 @@ class PopularMovieMapper {
             movieID = movie.id ?: 0,
             title = movie.title ?: "",
             movieRate = movie.voteAverage ?: 0.0,
-            imageUrl = (BuildConfig.IMAGE_BASE_PATH + movie.backdropPath),
+            imageUrl = (IMAGE_BASE_PATH + movie.backdropPath),
             genre = genres
         )
     }

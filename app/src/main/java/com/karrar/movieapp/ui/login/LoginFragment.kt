@@ -29,7 +29,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         })
 
         viewModel.signUpEvent.observe(viewLifecycleOwner, EventObserve {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.TMDB_SIGNUP_URL))
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TMDB_SIGNUP_URL))
             startActivity(browserIntent)
         })
     }
