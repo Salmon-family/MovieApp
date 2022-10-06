@@ -1,4 +1,4 @@
-package com.karrar.movieapp.data.remote.repository
+package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.remote.State
 import kotlinx.coroutines.flow.Flow

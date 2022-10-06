@@ -143,7 +143,7 @@ interface MovieService {
     @GET("account/{account_id}/lists")
     suspend fun getCreatedLists(
         @Path("account_id") accountId: Int,
-        @Query("session_id") session_id: String
+        @Query("session_id") sessionId: String
     ): Response<BaseResponse<CreatedListDto>>
 
 

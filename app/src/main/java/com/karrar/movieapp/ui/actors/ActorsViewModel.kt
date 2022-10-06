@@ -4,7 +4,7 @@ package com.karrar.movieapp.ui.actors
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.karrar.movieapp.data.remote.repository.MovieRepository
+import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.ui.home.adapters.ActorsInteractionListener
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent

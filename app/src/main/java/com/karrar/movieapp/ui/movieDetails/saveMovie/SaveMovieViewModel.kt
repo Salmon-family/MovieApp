@@ -3,7 +3,7 @@ package com.karrar.movieapp.ui.movieDetails.saveMovie
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import com.karrar.movieapp.data.remote.repository.MovieRepository
+import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.checkIfExist

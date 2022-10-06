@@ -2,7 +2,7 @@ package com.karrar.movieapp.ui.youtubePlayer
 
 import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.repository.MovieRepository
+import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Trailer
 import com.karrar.movieapp.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,6 +1,6 @@
 package com.karrar.movieapp.di
 
-import com.karrar.movieapp.data.remote.repository.*
+import com.karrar.movieapp.data.repository.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,19 +13,19 @@ abstract class RepositoryModule {
 
     @ViewModelScoped
     @Binds
-    abstract fun provideMovieRepository(
+    abstract fun bindMovieRepository(
         movieRepositoryImp: MovieRepositoryImp
     ): MovieRepository
 
     @ViewModelScoped
     @Binds
-    abstract fun provideSeriesRepository(
+    abstract fun bindSeriesRepository(
         seriesRepositoryImp: SeriesRepositoryImp
     ): SeriesRepository
 
     @ViewModelScoped
     @Binds
-    abstract fun provideAccountRepository(
+    abstract fun bindAccountRepository(
         accountRepositoryImp: AccountRepositoryImp
     ): AccountRepository
 }

@@ -5,8 +5,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.repository.MovieRepository
-import com.karrar.movieapp.data.remote.repository.SeriesRepository
+import com.karrar.movieapp.data.repository.MovieRepository
+import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.utilities.Constants

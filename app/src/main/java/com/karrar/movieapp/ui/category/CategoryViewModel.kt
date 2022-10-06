@@ -2,8 +2,8 @@ package com.karrar.movieapp.ui.category
 
 import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.repository.MovieRepository
-import com.karrar.movieapp.data.remote.repository.SeriesRepository
+import com.karrar.movieapp.data.repository.MovieRepository
+import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.allMedia.MediaInteractionListener
