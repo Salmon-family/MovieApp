@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.category
+package com.karrar.movieapp.ui.allMedia
 
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.models.Media

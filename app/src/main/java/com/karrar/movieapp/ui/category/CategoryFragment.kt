@@ -3,9 +3,9 @@ package com.karrar.movieapp.ui.category
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentCategoryBinding
+import com.karrar.movieapp.ui.allMedia.MediaAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
