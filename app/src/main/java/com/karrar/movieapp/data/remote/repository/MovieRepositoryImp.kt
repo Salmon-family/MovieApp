@@ -184,7 +184,7 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getSimilarMovie(movie_id: Int): Flow<State<List<Movie>>> {
+    override fun getSimilarMovie(movie_id: Int): Flow<State<List<Media>>> {
         return wrap ({ movieService.getSimilarMovie(movie_id) },{
             it.items?.map { movieMapper.map(it) } ?: emptyList()
         })

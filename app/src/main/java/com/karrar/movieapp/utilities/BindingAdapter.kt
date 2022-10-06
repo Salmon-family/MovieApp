@@ -1,24 +1,19 @@
 package com.karrar.movieapp.utilities
 
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
-import com.karrar.movieapp.base.BaseAdapter
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.movieDetailsDto.cast.GenreDto
-import com.karrar.movieapp.databinding.ChipItemCategoryBinding
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.base.BaseAdapter
-import com.karrar.movieapp.ui.category.CategoryInteractionListener
 import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
@@ -164,17 +159,17 @@ fun <T> setRecyclerItemsWithMaxNumberOfItems(
     (view.adapter as BaseAdapter<T>?)?.setItems(items?.take(3) ?: emptyList())
 }
 
-@BindingAdapter(value = ["app:showOnSuccess"])
-fun <T> showOnSuccess(view: View, state: State<T>?) {
-    view.isVisible = (state is State.Success)
-}
-
-@BindingAdapter(value = ["app:showOnError"])
-fun <T> showOnError(view: View, state: State<T>?) {
-    view.isVisible = (state is State.Error)
-}
-
-@BindingAdapter(value = ["app:showOnLoading"])
-fun <T> showOnLoading(view: View, state: State<T>?) {
-    view.isVisible = (state is State.Loading)
-}
+//@BindingAdapter(value = ["app:showOnSuccess"])
+//fun <T> showOnSuccess(view: View, state: State<T>?) {
+//    view.isVisible = (state is State.Success)
+//}
+//
+//@BindingAdapter(value = ["app:showOnError"])
+//fun <T> showOnError(view: View, state: State<T>?) {
+//    view.isVisible = (state is State.Error)
+//}
+//
+//@BindingAdapter(value = ["app:showOnLoading"])
+//fun <T> showOnLoading(view: View, state: State<T>?) {
+//    view.isVisible = (state is State.Loading)
+//}
