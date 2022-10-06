@@ -17,60 +17,71 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SearchFragment : BaseFragment<FragmentSearchBinding>(){
+class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     override val layoutIdFragment: Int = R.layout.fragment_search
     override val viewModel: SearchViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setTitle(false)
+
         observeEvents()
 
         binding.recyclerSearchHistory.adapter = SearchHistoryAdapter(mutableListOf(), viewModel)
         lifecycleScope.launch {
-            viewModel.mediaType.collect{
-                if(it == "movie" || it == "tv"){
+            viewModel.mediaType.collect {
+                if (it == "movie" || it == "tv") {
                     bindMedia()
-                }else{
+                } else {
                     bindActors()
                 }
             }
         }
     }
 
-    private fun observeEvents(){
+    private fun observeEvents() {
         navigateToMovieDetails()
         navigateToSeriesDetails()
         navigateToActorDetails()
     }
 
-    private fun navigateToMovieDetails(){
-        if(viewModel.mediaType.value == "movie"){
-            viewModel.clickMediaEvent.observe(viewLifecycleOwner, EventObserve{
-                findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToMovieDetailFragment(it))
+    private fun navigateToMovieDetails() {
+        if (viewModel.mediaType.value == "movie") {
+            viewModel.clickMediaEvent.observe(viewLifecycleOwner, EventObserve {
+                findNavController().navigate(
+                    SearchFragmentDirections.actionSearchFragmentToMovieDetailFragment(
+                        it
+                    )
+                )
             })
         }
     }
 
-    private fun navigateToSeriesDetails(){
-        if(viewModel.mediaType.value == "tv") {
+    private fun navigateToSeriesDetails() {
+        if (viewModel.mediaType.value == "tv") {
         }
     }
 
-    private fun navigateToActorDetails(){
-        viewModel.clickActorEvent.observe(viewLifecycleOwner, EventObserve{ actorID->
-            findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToActorDetailsFragment(actorID))
+    private fun navigateToActorDetails() {
+        viewModel.clickActorEvent.observe(viewLifecycleOwner, EventObserve { actorID ->
+            findNavController().navigate(
+                SearchFragmentDirections.actionSearchFragmentToActorDetailsFragment(
+                    actorID
+                )
+            )
         })
     }
 
-    private fun bindMedia(){
+    private fun bindMedia() {
         binding.recyclerMedia.apply {
             adapter = MediaSearchAdapter(mutableListOf(), viewModel)
-            layoutManager = LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
         }
     }
 
-    private fun bindActors(){
+    private fun bindActors() {
         binding.recyclerMedia.apply {
             adapter = PersonAdapter(mutableListOf(), viewModel)
             layoutManager = GridLayoutManager(this@SearchFragment.context, 3)

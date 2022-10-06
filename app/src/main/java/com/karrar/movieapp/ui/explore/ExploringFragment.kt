@@ -31,6 +31,8 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setTitle(true,resources.getString(R.string.explore_label))
+
         observeEvents()
         binding.recyclerTrend.adapter = TrendAdapter(mutableListOf(), viewModel)
     }
@@ -69,7 +71,7 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
 
     private fun navigateToActors(){
         viewModel.clickActorsEvent.observe(viewLifecycleOwner, EventObserve{
-
+            findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToActorsFragment())
         })
     }
 
