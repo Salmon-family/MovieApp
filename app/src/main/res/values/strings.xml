@@ -1,12 +1,52 @@
 <resources>
     <string name="app_name">Movie App</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="see_all">See all</string>
     <string name="top_rated">Top Rated</string>
     <string name="latest">Latest</string>
     <string name="popular">Popular</string>
     <string name="tv_shows">TV Shows</string>
+    <string name="search_hint">Search for a movie, tv show, person...</string>
+    <string name="movies_chip">Movies</string>
+    <string name="tv_shows_chip">TV Shows</string>
+    <string name="actors_label">Actors</string>
+    <string name="login_to_your_account">Login to your account</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="don_t_have_an_account">Don’t have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="place_of_birth">place of Birth</string>
+    <string name="konwn_for">Known For</string>
+    <string name="todo">TODO</string>
+    <string name="gender">Gender</string>
+    <string name="birthday">Birthday</string>
+    <string name="biography">Biography</string>
+    <string name="movies">Movies</string>
+    <string name="actors">Actors</string>
+    <string name="oops">Oops!</string>
+    <string name="description">There is no internet connection\nPlease check it out</string>
+    <string name="all_movies_of_actor">All Movies Of Actor</string>
+    <!--   Titles -->
+    <string name="title_on_air">On The Air</string>
+    <string name="title_tv_shows">TV Shows</string>
+    <string name="title_mystery">Mystery</string>
+    <string name="title_adventure">Adventure</string>
+    <string name="title_trending">Trending</string>
+    <string name="title_streaming">Now Streaming</string>
+    <string name="title_upcoming">Upcoming</string>
+    <string name="title_celebrity">Celebrities</string>
+    <string name="title_airing_today">Airing today</string>
+    <string name="text_movies">%s Movies</string>
+    <string name="movies_label">Movies</string>
+    <string name="tv_shows_label">TV Shows</string>
+    <string name="history_label">History</string>
+    <string name="explore_label">Explore</string>
+    <string name="trending_today_label">Trending Today</string>
+    <string name="home">Home</string>
+    <string name="explore">Explore</string>
+    <string name="myList">My Lists</string>
+    <string name="profile">Profile</string>
     <string name="play_trailer">Play Trailer</string>
     <string name="duration">%1$s Minutes</string>
     <string name="reviews">( %1$s Reviews )</string>
@@ -19,6 +59,5 @@
     <string name="reviews_comment">Reviews</string>
     <string name="user_name">"@" %1$s</string>
     <string name="back_button">back button</string>
-
 
 </resources>

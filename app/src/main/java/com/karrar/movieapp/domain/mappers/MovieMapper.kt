@@ -1,16 +1,21 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.data.remote.response.MovieDto
-import com.karrar.movieapp.domain.models.Movie
+import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.domain.models.MediaInfo
 import com.karrar.movieapp.utilities.Constants
 import javax.inject.Inject
 
-
-class MovieMapper @Inject constructor():Mapper<MovieDto, Movie> {
-    override fun map(input: MovieDto): Movie {
-        return Movie(
-            input.id,
-            Constants.IMAGE_BASE_PATH + input.posterPath
+class MovieMapper @Inject constructor() : Mapper<MovieDto, MediaInfo> {
+    override fun map(input: MovieDto): MediaInfo {
+        return MediaInfo(
+            type = null,
+            id = input.id,
+            name = input.originalTitle,
+            releaseDate = input.releaseDate?.substringBefore('-'),
+            rate = input.voteAverage?.toFloat(),
+            imagePath = Constants.IMAGE_BASE_PATH + input.backdropPath,
+            profileImage = null
         )
     }
 }

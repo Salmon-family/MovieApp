@@ -2,42 +2,82 @@ package com.karrar.movieapp.ui.home
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
-import androidx.recyclerview.widget.ConcatAdapter
+import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
-import com.karrar.movieapp.data.Types
+import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.databinding.FragmentHomeBinding
-import com.karrar.movieapp.ui.home.adapters.*
+import com.karrar.movieapp.domain.enums.MovieType
+import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.movieDetails.MovieDetailsFragmentDirections
+import com.karrar.movieapp.ui.home.adapters.HomeAdapter
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+
     override val layoutIdFragment = R.layout.fragment_home
     override val viewModel: HomeViewModel by viewModels()
-
-    private val homeAdapter by lazy {
-        listOf(
-            HorizontalAdapter<BannerAdapter>(Types.BannerType, viewModel),
-            HorizontalAdapter<MovieImageAdapter>(Types.MovieType, viewModel),
-            HorizontalAdapter<CategoryAdapter>(Types.CategoryType, viewModel)
-        )
-    }
+    private lateinit var homeAdapter: HomeAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.clickItemEvent.observe(viewLifecycleOwner, EventObserve{
-            Navigation.findNavController(binding.root)
-                .navigate(HomeFragmentDirections.actionHomeFragmentToMovieDetailsFragment(it))
+        setTitle(false)
+
+        homeAdapter = HomeAdapter(mutableListOf(), viewModel)
+        binding.recyclerView.adapter = homeAdapter
+
+        observeEvents()
+        viewModel.successItems().observe(viewLifecycleOwner) { homeAdapter.addItem(it) }
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.removeAllHomeItemsMediatorSource()
+    }
+
+
+    private fun observeEvents() {
+        viewModel.clickSeeAllActorEvent.observe(viewLifecycleOwner, EventObserve {
+            findNavController().navigate(R.id.action_homeFragment_to_actorsFragment)
         })
 
-        val concatAdapter = ConcatAdapter(homeAdapter)
-//        binding.recyclerView.adapter = concatAdapter
+        viewModel.clickActorEvent.observe(viewLifecycleOwner, EventObserve { actorID ->
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToActorDetailsFragment(
+                    actorID
+                )
+            )
+        })
 
+        viewModel.clickMovieEvent.observe(viewLifecycleOwner, EventObserve { movieID ->
+            navigateToMovieDetails(movieID)
+        })
+
+        viewModel.clickSeriesEvent.observe(viewLifecycleOwner, EventObserve { seriesID ->
+            navigateToMovieDetails(seriesID)
+        })
+
+        viewModel.clickSeeAllMovieEvent.observe(viewLifecycleOwner, EventObserve { typeMovieID ->
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(
+                    -1,
+                    typeMovieID
+                )
+            )
+        })
+    }
+
+    private fun navigateToMovieDetails(movieID: Int) {
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToMovieDetailFragment(
+                movieID
+            )
+        )
     }
 }

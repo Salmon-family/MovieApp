@@ -1,68 +1,116 @@
 package com.karrar.movieapp.ui.home
 
-import android.util.Log
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.karrar.movieapp.data.test.Category
-import com.karrar.movieapp.data.test.Movie
+import androidx.lifecycle.asLiveData
+import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
-import com.karrar.movieapp.ui.home.adapters.BannerInteractionListener
-import com.karrar.movieapp.ui.home.adapters.CategoryInteractionListener
+import com.karrar.movieapp.data.remote.repository.SeriesRepository
+import com.karrar.movieapp.domain.enums.MovieType
+import com.karrar.movieapp.ui.home.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.home.adapters.MovieInteractionListener
+import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.postEvent
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val movieRepository: MovieRepository) :
-    ViewModel(), CategoryInteractionListener, MovieInteractionListener, BannerInteractionListener {
+class HomeViewModel @Inject constructor(
+    movieRepository: MovieRepository,
+    seriesRepository: SeriesRepository
+) : ViewModel(), HomeInteractionListener , ActorsInteractionListener , MovieInteractionListener {
 
-    val data2 = MutableLiveData<List<Movie>>()
 
-    val data = MutableLiveData<List<Category>>()
-
-    private val list = mutableListOf<Category>()
-
-    private val _clickItemEvent = MutableLiveData<Event<Int>>()
-    var clickItemEvent: LiveData<Event<Int>> = _clickItemEvent
-
-    fun onClickMovie() {
-        _clickItemEvent.postValue(Event(760161))
+    private val homeItems = MediatorLiveData<HomeRecyclerItem>()
+    fun successItems (): MediatorLiveData<HomeRecyclerItem> {
+        return homeItems.apply {
+            addSource(popularMovie){ handleState(it){items-> value = (HomeRecyclerItem.Slider(items))}}
+            addSource(topRatedTvShow){handleState(it) {items-> value = (HomeRecyclerItem.TvShows(items)) }}
+            addSource(onTheAiring){handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.ON_THE_AIR)}}
+            addSource(trending){handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.TRENDING)}}
+            addSource(airingToday){handleState(it){items-> value = (HomeRecyclerItem.AiringToday(items)) }}
+            addSource(nowStreaming) {handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.NOW_STREAMING)}}
+            addSource(upcoming){handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.UPCOMING)}}
+            addSource(mysteryMovie){handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.MYSTERY)}}
+            addSource(adventureMovie){handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.ADVENTURE)}}
+            addSource(actors){handleState(it){items-> value = (HomeRecyclerItem.Actor(items)) }}
+        }
     }
 
-    init {
-        for (i in 0..10)
-            list.add(Category("TEST $i", i))
-        val movies = mutableListOf(
-            Movie("Test 1", ""),
-            Movie("Test 2", ""),
-            Movie("Test 3", ""),
-            Movie("Test 4", ""),
-            Movie("Test 5", ""),
-            Movie("Test 6", "")
-        )
-        data2.postValue(movies)
-        data.postValue(list)
+
+
+
+    fun removeAllHomeItemsMediatorSource(){
+        homeItems.removeSource(popularMovie)
+        homeItems.removeSource(topRatedTvShow)
+        homeItems.removeSource(onTheAiring)
+        homeItems.removeSource(trending)
+        homeItems.removeSource(airingToday)
+        homeItems.removeSource(nowStreaming)
+        homeItems.removeSource(upcoming)
+        homeItems.removeSource(mysteryMovie)
+        homeItems.removeSource(adventureMovie)
+        homeItems.removeSource(actors)
     }
 
-    override fun onClickCategory(name: String) {
-        Log.e("TEST", name)
+
+    private fun <T>handleState(state: State<List<T>>, function: (List<T>) -> Unit){
+        state.toData()?.let {
+            function(it)
+        }
+
     }
 
-    override fun onClickMovie(name: String) {
-        Log.e("TEST", name)
+    private val popularMovie = movieRepository.getPopularMovies().asLiveData()
+    private val trending = movieRepository.getTrendingMovies().asLiveData()
+    private val nowStreaming = movieRepository.getNowPlayingMovies().asLiveData()
+    private val upcoming = movieRepository.getUpcomingMovies().asLiveData()
+    private val mysteryMovie = movieRepository.getMovieListByGenre(Constants.MYSTERY_ID).asLiveData()
+    private val adventureMovie = movieRepository.getMovieListByGenre(Constants.ADVENTURE_ID).asLiveData()
+    private val onTheAiring = seriesRepository.getOnTheAir().asLiveData()
+    private val actors = movieRepository.getTrendingActors().asLiveData()
+    private val airingToday = seriesRepository.getAiringToday().asLiveData()
+    private val topRatedTvShow = seriesRepository.getTopRatedTvShow().asLiveData()
+    val latestTvShow = seriesRepository.getLatestTvShow().asLiveData()
+    val popularTvShow = seriesRepository.getPopularTvShow().asLiveData()
+
+    private val _clickMovieEvent = MutableLiveData<Event<Int>>()
+    val clickMovieEvent = _clickMovieEvent.toLiveData()
+
+    private val _clickActorEvent = MutableLiveData<Event<Int>>()
+    val clickActorEvent = _clickActorEvent.toLiveData()
+
+    private val _clickSeriesEvent = MutableLiveData<Event<Int>>()
+    val clickSeriesEvent = _clickSeriesEvent.toLiveData()
+
+    private val _clickSeeAllMovieEvent = MutableLiveData<Event<MovieType>>()
+    val clickSeeAllMovieEvent = _clickSeeAllMovieEvent.toLiveData()
+
+    private val _clickSeeAllActorEvent = MutableLiveData<Event<Boolean>>()
+    val clickSeeAllActorEvent = _clickSeeAllActorEvent.toLiveData()
+
+    override fun onClickMovie(movieId: Int) {
+        _clickMovieEvent.postEvent(movieId)
     }
 
-    fun seeAllCategory() {
-        Log.e("TEST", "All category")
+    override fun onClickActor(actorID: Int) {
+        _clickActorEvent.postEvent(actorID)
     }
 
-    fun seeAllMovie() {
-        Log.e("TEST", "All Movie")
+    override fun onClickAiringToday(airingTodayID: Int) {
+        _clickSeriesEvent.postEvent(airingTodayID)
     }
 
-    override fun onClickBanner(name: String) {
-        Log.e("TEST", "All banner")
+    override fun onClickSeeAllMovie(movieType: MovieType) {
+        _clickSeeAllMovieEvent.postEvent(movieType)
     }
+
+    override fun onClickSeeAllActors() {
+        _clickSeeAllActorEvent.postEvent(true)
+    }
+
+
 }

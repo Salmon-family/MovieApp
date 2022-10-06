@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.explore.ExploringViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_color">
+
+        <TextView
+            android:id="@+id/text_explore"
+            style="@style/SemiBold.Large"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:visibility="gone"
+            android:paddingVertical="12dp"
+            android:paddingStart="@dimen/spacing_medium"
+            android:text="@string/explore_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/input_search"
+            style="@style/Regular.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_search"
+            android:drawableTint="@color/brand_color"
+            android:drawablePadding="@dimen/spacing_small"
+            android:focusableInTouchMode="false"
+            android:hint="@string/search_hint"
+            android:onClick="@{() -> viewModel.onClickSearch()}"
+            android:paddingStart="@dimen/spacing_small"
+            android:textColorHint="@color/shade_ternary_color"
+            android:transitionName="search_box"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_explore" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_movies"
+            style="@style/CardCorners.Small"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:backgroundTint="@color/card_background_color"
+            android:onClick="@{() -> viewModel.onClickMovies()}"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/card_series"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_search">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="@{()->viewModel.onClickMovies()}"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="18dp">
+
+                <ImageView
+                    android:id="@+id/icon_movie"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="@dimen/spacing_too_small"
+                    android:src="@drawable/ic_movie"
+                    app:layout_constraintBottom_toTopOf="@id/text_movies_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_movies_label"
+                    style="@style/SemiBold.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/movies_label"
+                    android:textColor="@color/brand_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/icon_movie" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_series"
+            style="@style/CardCorners.Small"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:backgroundTint="@color/card_background_color"
+            android:onClick="@{() -> viewModel.onClickSeries()}"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/card_actors"
+            app:layout_constraintStart_toEndOf="@id/card_movies"
+            app:layout_constraintTop_toBottomOf="@id/input_search">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="@{()->viewModel.onClickSeries()}"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="18dp">
+
+                <ImageView
+                    android:id="@+id/icon_series"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="@dimen/spacing_too_small"
+                    android:src="@drawable/ic_tv"
+                    app:layout_constraintBottom_toTopOf="@id/text_series_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_series_label"
+                    style="@style/SemiBold.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_shows_label"
+                    android:textColor="@color/brand_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/icon_series" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_actors"
+            style="@style/CardCorners.Small"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:backgroundTint="@color/card_background_color"
+            android:onClick="@{() -> viewModel.onClickActors()}"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/card_series"
+            app:layout_constraintTop_toBottomOf="@id/input_search">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="18dp">
+
+                <ImageView
+                    android:id="@+id/icon_actors"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="@dimen/spacing_too_small"
+                    android:src="@drawable/ic_actors"
+                    app:layout_constraintBottom_toTopOf="@id/text_actors_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_actors_label"
+                    style="@style/SemiBold.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/actors_label"
+                    android:textColor="@color/brand_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/icon_actors" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/text_trend_label"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:text="@string/trending_today_label"
+            android:textColor="@color/shade_primary_color"
+            app:layout_constraintStart_toStartOf="@id/card_movies"
+            app:layout_constraintTop_toBottomOf="@id/card_movies" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_trend"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            app:items="@{viewModel.trend.toData()}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/card_actors"
+            app:layout_constraintStart_toStartOf="@id/card_movies"
+            app:layout_constraintTop_toBottomOf="@id/text_trend_label"
+            app:showWhenSuccess="@{viewModel.trend}"
+            app:spanCount="2"
+            tools:listitem="@layout/item_trend" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_loading"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_animation"
+            app:showWhenLoading="@{viewModel.trend}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

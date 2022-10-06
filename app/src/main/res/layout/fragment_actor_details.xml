@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.karrar.movieapp.domain.enums.MovieType" />
+
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.actorDetails.ActorViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_color"
+        android:fillViewport="false">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imageView"
+                android:layout_width="0dp"
+                android:layout_height="364dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:posterImage="@{viewModel.actorDetails.toData().imageUrlActor}"
+                tools:src="@drawable/chris_evans" />
+
+            <View
+                android:id="@+id/view_bottom_shadow"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/shape_shadow"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toStartOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/radius_medium"
+                android:layout_marginTop="@dimen/radius_medium"
+                android:contentDescription="@string/todo"
+                android:onClick="@{() -> viewModel.onClickBack()}"
+                android:src="@drawable/ic_arrow_left"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_name_actor"
+                style="@style/SemiBold.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/radius_small"
+                android:text="@{viewModel.actorDetails.toData().name}"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Chris Evans" />
+
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/radius_medium"
+                android:layout_marginTop="@dimen/radius_medium"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintDimensionRatio="4.5:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    style="@style/Regular.Small.Secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gender" />
+
+                <TextView
+                    android:id="@+id/text_gender_actor"
+                    style="@style/SemiBold.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.actorDetails.toData().gender}"
+                    tools:text="Male" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/radius_medium"
+                android:layout_marginEnd="@dimen/radius_medium"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintDimensionRatio="4.5:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    style="@style/Regular.Small.Secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/birthday" />
+
+                <TextView
+                    android:id="@+id/text_birthday_actor"
+                    style="@style/SemiBold.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.actorDetails.toData().birthday}"
+                    tools:text="1981-06-13 " />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/radius_medium"
+                android:layout_marginTop="@dimen/radius_medium"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintDimensionRatio="4.5:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    style="@style/Regular.Small.Secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/place_of_birth" />
+
+                <TextView
+                    android:id="@+id/text_place_of_birth_actor"
+                    style="@style/SemiBold.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@{viewModel.actorDetails.toData().placeOfBirth}"
+                    tools:text=" Massachusetts, USA " />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/radius_medium"
+                android:layout_marginEnd="@dimen/radius_medium"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintDimensionRatio="4.5:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    style="@style/Regular.Small.Secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/konwn_for" />
+
+                <TextView
+                    android:id="@+id/text_known_for_actor"
+                    style="@style/SemiBold.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.actorDetails.toData().knownForDepartment}"
+                    tools:text="Acting" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/related_movie_title"
+                style="@style/SemiBold.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/radius_medium"
+                android:layout_marginTop="23dp"
+                android:text="@string/movies"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:onClick="@{() -> viewModel.onClickSeeAllMovie(MovieType.NON)}"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/related_movie_recycler"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="MissingConstraints,UseCompoundDrawables">
+
+                <TextView
+                    style="@style/Regular.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_too_small"
+                    android:layout_marginBottom="@dimen/radius_small"
+                    android:text="@string/see_all"
+                    android:textColor="@color/brand_color"
+                    tools:ignore="MissingConstraints" />
+
+                <ImageView
+                    android:id="@+id/button_see_all"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="@dimen/radius_medium"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/ic_arrow_right" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/related_movie_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/radius_medium"
+                app:items="@{viewModel.actorMovies.toData()}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/related_movie_title"
+                tools:ignore="MissingConstraints"
+                tools:listitem="@layout/item_movie" />
+
+            <TextView
+                android:id="@+id/over_view_title"
+                style="@style/SemiBold.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/radius_medium"
+                android:layout_marginTop="@dimen/radius_large"
+                android:text="@string/biography"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/related_movie_recycler" />
+
+
+            <TextView
+                android:id="@+id/over_view"
+                style="@style/Regular.Medium.Secondary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/radius_medium"
+                android:layout_marginBottom="@dimen/radius_large"
+                android:text="@{viewModel.actorDetails.toData().biography}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/over_view_title"
+                tools:ignore="MissingClass"
+                tools:text="Krasinski's instincts are very good, and once you've placed the primary action there, then it allows the story instincts are very good, and once you've placed the primary action there, then it allows the story" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

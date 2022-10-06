@@ -1,37 +1,31 @@
 package com.karrar.movieapp.di
 
-import com.karrar.movieapp.data.remote.repository.MovieRepository
-import com.karrar.movieapp.data.remote.repository.MovieRepositoryImp
-import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.domain.mappers.*
+import com.karrar.movieapp.data.remote.repository.*
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
-@InstallIn(SingletonComponent::class)
-object RepositoryModule {
+@InstallIn(ViewModelComponent::class)
+abstract class RepositoryModule {
 
-    @Singleton
-    @Provides
-    fun provideMovieRepository(
-        movieService: MovieService,
-        castMapper: CastMapper,
-        movieDetailsMapper: MovieDetailsMapper,
-        movieMapper: MovieMapper,
-        reviewMapper: ReviewMapper,
-        trailerMapper: TrailerMapper
-    ): MovieRepository {
-        return MovieRepositoryImp(
-            movieService,
-            castMapper,
-            movieDetailsMapper,
-            movieMapper,
-            reviewMapper,
-            trailerMapper
-        )
-    }
+    @ViewModelScoped
+    @Binds
+    abstract fun provideMovieRepository(
+        movieRepositoryImp: MovieRepositoryImp
+    ): MovieRepository
 
+    @ViewModelScoped
+    @Binds
+    abstract fun provideSeriesRepository(
+        seriesRepositoryImp: SeriesRepositoryImp
+    ): SeriesRepository
+
+    @ViewModelScoped
+    @Binds
+    abstract fun provideAccountRepository(
+        accountRepositoryImp: AccountRepositoryImp
+    ): AccountRepository
 }

@@ -6,37 +6,36 @@
     <data>
 
         <variable
-            name="item"
-            type="com.karrar.movieapp.domain.models.Movie" />
+            name="listener"
+            type="com.karrar.movieapp.ui.home.adapters.MovieInteractionListener" />
 
         <variable
-            name="listener"
-            type="com.karrar.movieapp.ui.movieDetails.MovieInteractionListener" />
+            name="item"
+            type="com.karrar.movieapp.domain.models.Media" />
+
+        <variable
+            name="type"
+            type="com.karrar.movieapp.domain.enums.MovieType" />
 
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_medium"
-        android:layout_marginVertical="@dimen/spacing_small"
-        android:onClick="@{() -> listener.onClickMovie(item.id)}"
-        app:shapeAppearanceOverlay="@style/CardCorners.Medium"
-        >
-
+        android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/cast_image"
-            android:layout_width="128dp"
-            android:layout_height="172dp"
+            android:layout_width="@dimen/media_card_width"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/spacing_small"
             android:scaleType="centerCrop"
-            app:movieImage="@{item.imageUrl}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1.4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            tools:background="@color/yellow"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/image"
-            />
-
-
-    </com.google.android.material.card.MaterialCardView>
+            android:onClick="@{()->listener.onClickMovie(item.movieID)}"
+            app:posterImage="@{item.imageUrl}"
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
