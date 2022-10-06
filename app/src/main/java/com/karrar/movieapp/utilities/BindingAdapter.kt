@@ -42,6 +42,16 @@ fun <T> showWhenFail(view: View, state: State<T>?) {
     view.isVisible = state is State.Error
 }
 
+@BindingAdapter(value = ["app:showWhenSearch"])
+fun showWhenSearch(view: View, text: String){
+    view.isVisible = !text.isNullOrEmpty()
+}
+
+@BindingAdapter(value = ["app:hideWhenSearch"])
+fun hideWhenSearch(view: View, text: String){
+    view.isVisible = text.isNullOrEmpty()
+}
+
 @BindingAdapter("app:posterImage")
 fun bindMovieImage(image: ImageView, imageURL: String?) {
     imageURL?.let {

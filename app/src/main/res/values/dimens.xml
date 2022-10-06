@@ -24,6 +24,6 @@
     <dimen name="radius_too_small">4dp</dimen>
 
     <!-- chips -->
-    <dimen name="chip_height">28dp</dimen>
+    <dimen name="chip_height">32dp</dimen>
 
 </resources>

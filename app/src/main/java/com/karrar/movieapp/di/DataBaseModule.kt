@@ -23,6 +23,12 @@ object DataBaseModule {
 
     @Singleton
     @Provides
+    fun provideMovieDao(@ApplicationContext context: Context): MovieDao{
+        return providesRoomDatabase(context).movieDao()
+    }
+
+    @Singleton
+    @Provides
     fun provideDataStorePreferences(@ApplicationContext context: Context) =
         DataStorePreferences(context)
 }

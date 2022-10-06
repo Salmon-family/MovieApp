@@ -1,10 +1,11 @@
 package com.karrar.movieapp.data.remote.service
 
+import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.response.login.SessionResponse
 import com.karrar.movieapp.data.remote.response.BaseResponse
-import com.karrar.movieapp.data.remote.response.GenreResponse
 import com.karrar.movieapp.data.remote.response.MovieDto
+import com.karrar.movieapp.data.remote.response.GenreResponse
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorDetailsDto
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorMoviesDto
 import com.karrar.movieapp.data.remote.response.ActorDto
@@ -43,6 +44,20 @@ interface MovieService {
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
     ): Response<BaseResponse<ActorDto>>
 
+    @GET("search/person")
+    suspend fun searchForPerson(
+        @Query("query") query: String
+    ): Response<BaseResponse<ActorDto>>
+
+    @GET("search/movie")
+    suspend fun searchForMovie(
+        @Query("query") query: String
+    ): Response<BaseResponse<MovieDto>>
+
+    @GET("search/tv")
+    suspend fun searchForSeries(
+        @Query("query") query: String
+    ): Response<BaseResponse<SeriesDto>>
 
     @GET("authentication/token/new")
     suspend fun getRequestToken() : Response<RequestTokenResponse>
@@ -55,7 +70,6 @@ interface MovieService {
     suspend fun validateRequestTokenWithLogin(
         @FieldMap body:  Map<String,Any>
     ) : Response<RequestTokenResponse>
-
 
     @FormUrlEncoded
     @POST("authentication/session/new")
@@ -76,9 +90,11 @@ interface MovieService {
     @GET("discover/movie")
     suspend fun getMovieListByGenre(@Query("with_genres") genreID: Int): Response<BaseResponse<MovieDto>>
 
+    @GET("trending/all/day")
+    suspend fun getDailyTrending(): Response<BaseResponse<TrendingDto>>
+
     @GET("discover/movie")
     suspend fun getAllMovies(): Response<BaseResponse<MovieDto>>
-
 }
 
 

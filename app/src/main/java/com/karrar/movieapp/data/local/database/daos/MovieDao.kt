@@ -1,7 +1,7 @@
 package com.karrar.movieapp.data.local.database.daos
 
 import androidx.room.*
-import com.karrar.movieapp.data.local.database.entity.SearchHistory
+import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistory
 import com.karrar.movieapp.data.local.database.entity.WatchList
 import kotlinx.coroutines.flow.Flow
@@ -18,14 +18,14 @@ interface MovieDao {
     @Query("SELECT * FROM WATCH_LIST_TABLE")
     fun getAllSavedMovies(): Flow<List<WatchList>>
 
-    @Insert
-    suspend fun insert(search: SearchHistory)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(search: SearchHistoryEntity)
 
     @Delete
-    suspend fun delete(search: SearchHistory)
+    suspend fun delete(search: SearchHistoryEntity)
 
     @Query("SELECT * FROM SEARCH_HISTORY_TABLE")
-    fun getAllSearchHistory(): Flow<List<SearchHistory>>
+    fun getAllSearchHistory(): Flow<List<SearchHistoryEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: WatchHistory)

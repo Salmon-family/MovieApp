@@ -79,12 +79,19 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.42"
     kapt "com.google.dagger:hilt-compiler:2.42"
 
+    implementation "androidx.compose.material3:material3:1.0.0-alpha14"
+    implementation "androidx.compose.material3:material3-window-size-class:1.0.0-alpha14"
+    implementation 'com.google.android.material:material:1.0.0'
     //data store preferences
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
 
     implementation 'androidx.core:core-splashscreen:1.0.0'
 
+    implementation 'androidx.appcompat:appcompat:1.0.0-alpha1'
+    implementation 'com.google.android.material:material:1.0.0-alpha1'
+
+    implementation 'com.airbnb.android:lottie:5.2.0'
 
     // Lottie
     implementation 'com.airbnb.android:lottie:5.2.0'

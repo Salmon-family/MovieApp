@@ -6,6 +6,10 @@
     <string name="latest">Latest</string>
     <string name="popular">Popular</string>
     <string name="tv_shows">TV Shows</string>
+    <string name="search_hint">Search for a movie, tv show, person...</string>
+    <string name="movies_chip">Movies</string>
+    <string name="tv_shows_chip">TV Shows</string>
+    <string name="actors_label">Actors</string>
     <string name="login_to_your_account">Login to your account</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -25,6 +29,7 @@
     <string name="all_movies_of_actor">All Movies Of Actor</string>
                 <!--   Titles -->
     <string name="title_on_air">On The Air</string>
+    <string name="title_tv_shows">TV Shows</string>
     <string name="title_mystery">Mystery</string>
     <string name="title_adventure">Adventure</string>
     <string name="title_trending">Trending</string>
@@ -33,5 +38,10 @@
     <string name="title_celebrity">Celebrities</string>
     <string name="title_airing_today">Airing today</string>
     <string name="text_movies">%s Movies</string>
+    <string name="movies_label">Movies</string>
+    <string name="tv_shows_label">TV Shows</string>
+    <string name="history_label">History</string>
+    <string name="explore_label">Explore</string>
+    <string name="trending_today_label">Trending Today</string>
 
 </resources>

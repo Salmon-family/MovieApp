@@ -28,7 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:spanCount="3"
             tools:itemCount="15"
-            tools:listitem="@layout/item_media" />
+            tools:listitem="@layout/item_media_search" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
