@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.actorDetails
+package com.karrar.movieapp.ui.allMedia
 
 import android.os.Bundle
 import android.view.View
@@ -6,25 +6,24 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
-import com.karrar.movieapp.databinding.FragmentAllMovieOfActorBinding
+import com.karrar.movieapp.databinding.FragmentAllMovieBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.category.MediaAdapter
 import com.karrar.movieapp.ui.home.adapters.MovieAdapter
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AllMovieOfActorFragment : BaseFragment<FragmentAllMovieOfActorBinding>() {
-    override val layoutIdFragment = R.layout.fragment_all_movie_of_actor
-    override val viewModel: ActorViewModel by viewModels()
-    private val args: AllMovieOfActorFragmentArgs by navArgs()
+class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
+    override val layoutIdFragment = R.layout.fragment_all_movie
+    override val viewModel: AllMovieViewModel by viewModels()
+
+    private val args: AllMovieFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getActorMoviesById(args.id)
-        viewModel.getTypeMovies(args.type)
-
-        setTitle(true)
+        setTitle(true, args.type.value)
 
         setMovieAdapter()
         observeEvents()
@@ -43,7 +42,7 @@ class AllMovieOfActorFragment : BaseFragment<FragmentAllMovieOfActorBinding>() {
 
     private fun seeMovieDetails(movieID: Int) {
         findNavController().navigate(
-            AllMovieOfActorFragmentDirections.actionAllMovieOfActorFragmentToMovieDetailFragment(
+            AllMovieFragmentDirections.actionAllMovieFragmentToMovieDetailFragment(
                 movieID
             )
         )

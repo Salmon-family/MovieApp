@@ -32,67 +32,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.recyclerView.adapter = homeAdapter
 
         observeEvents()
-
-        observeResponse()
+        viewModel.successItems().observe(viewLifecycleOwner) { homeAdapter.addItem(it) }
     }
 
-    private fun observeResponse() {
-        viewModel.run {
-            popularMovie.observe(viewLifecycleOwner) {
-                it.toData()?.let { items ->
-                    homeAdapter.addItem(HomeRecyclerItem.Slider(items))
-                }
-            }
-            popularTvShow.observe(viewLifecycleOwner) {
-                it.toData()?.let { items ->
-                    homeAdapter.addItem(HomeRecyclerItem.TvShows(items))
-                }
-            }
 
-            onTheAiring.observe(viewLifecycleOwner) {
-                addMoviesWithType(it, MovieType.ON_THE_AIR, 2)
-            }
-            trending.observe(viewLifecycleOwner) {
-                addMoviesWithType(it, MovieType.TRENDING, 3)
-
-            }
-
-            airingToday.observe(viewLifecycleOwner) {
-                it.toData()?.let { items ->
-                    homeAdapter.addItem(HomeRecyclerItem.AiringToday(items))
-                }
-            }
-            nowStreaming.observe(viewLifecycleOwner) {
-                addMoviesWithType(it, MovieType.NOW_STREAMING, 5)
-            }
-            upcoming.observe(viewLifecycleOwner) {
-                addMoviesWithType(it, MovieType.UPCOMING, 6)
-
-            }
-            mysteryMovie.observe(viewLifecycleOwner) {
-                addMoviesWithType(it, MovieType.MYSTERY, 7)
-
-
-            }
-            adventureMovie.observe(viewLifecycleOwner) {
-                addMoviesWithType(it, MovieType.ADVENTURE, 8)
-
-            }
-            actors.observe(viewLifecycleOwner) {
-                it.toData()?.let { items ->
-                    homeAdapter.addItem(HomeRecyclerItem.Actor(items))
-                }
-            }
-
-
-        }
-    }
-
-    private fun addMoviesWithType(state: State<List<Media>>, movieType: MovieType, priority: Int) {
-        state.toData()?.let { items ->
-            homeAdapter.addItem(HomeRecyclerItem.Movie(items, movieType)
-                .apply { this.priority = priority })
-        }
+    override fun onStop() {
+        super.onStop()
+        viewModel.removeAllHomeItemsMediatorSource()
     }
 
 
@@ -119,7 +65,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         viewModel.clickSeeAllMovieEvent.observe(viewLifecycleOwner, EventObserve { typeMovieID ->
             findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToAllMovieOfActorFragment(
+                HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(
                     -1,
                     typeMovieID
                 )

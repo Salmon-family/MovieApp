@@ -1,8 +1,10 @@
 package com.karrar.movieapp.ui.home
 
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MovieType
@@ -21,16 +23,57 @@ class HomeViewModel @Inject constructor(
     seriesRepository: SeriesRepository
 ) : ViewModel(), HomeInteractionListener , ActorsInteractionListener , MovieInteractionListener {
 
-    val popularMovie = movieRepository.getPopularMovies().asLiveData()
-    val trending = movieRepository.getTrendingMovies().asLiveData()
-    val nowStreaming = movieRepository.getNowPlayingMovies().asLiveData()
-    val upcoming = movieRepository.getUpcomingMovies().asLiveData()
-    val mysteryMovie = movieRepository.getMovieListByGenre(Constants.MYSTERY_ID).asLiveData()
-    val adventureMovie = movieRepository.getMovieListByGenre(Constants.ADVENTURE_ID).asLiveData()
-    val onTheAiring = seriesRepository.getOnTheAir().asLiveData()
-    val actors = movieRepository.getTrendingActors().asLiveData()
-    val airingToday = seriesRepository.getAiringToday().asLiveData()
-    val topRatedTvShow = seriesRepository.getTopRatedTvShow().asLiveData()
+
+    private val homeItems = MediatorLiveData<HomeRecyclerItem>()
+    fun successItems (): MediatorLiveData<HomeRecyclerItem> {
+        return homeItems.apply {
+            addSource(popularMovie){ handleState(it){items-> value = (HomeRecyclerItem.Slider(items))}}
+            addSource(topRatedTvShow){handleState(it) {items-> value = (HomeRecyclerItem.TvShows(items)) }}
+            addSource(onTheAiring){handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.ON_THE_AIR)}}
+            addSource(trending){handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.TRENDING)}}
+            addSource(airingToday){handleState(it){items-> value = (HomeRecyclerItem.AiringToday(items)) }}
+            addSource(nowStreaming) {handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.NOW_STREAMING)}}
+            addSource(upcoming){handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.UPCOMING)}}
+            addSource(mysteryMovie){handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.MYSTERY)}}
+            addSource(adventureMovie){handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.ADVENTURE)}}
+            addSource(actors){handleState(it){items-> value = (HomeRecyclerItem.Actor(items)) }}
+        }
+    }
+
+
+
+
+    fun removeAllHomeItemsMediatorSource(){
+        homeItems.removeSource(popularMovie)
+        homeItems.removeSource(topRatedTvShow)
+        homeItems.removeSource(onTheAiring)
+        homeItems.removeSource(trending)
+        homeItems.removeSource(airingToday)
+        homeItems.removeSource(nowStreaming)
+        homeItems.removeSource(upcoming)
+        homeItems.removeSource(mysteryMovie)
+        homeItems.removeSource(adventureMovie)
+        homeItems.removeSource(actors)
+    }
+
+
+    private fun <T>handleState(state: State<List<T>>, function: (List<T>) -> Unit){
+        state.toData()?.let {
+            function(it)
+        }
+
+    }
+
+    private val popularMovie = movieRepository.getPopularMovies().asLiveData()
+    private val trending = movieRepository.getTrendingMovies().asLiveData()
+    private val nowStreaming = movieRepository.getNowPlayingMovies().asLiveData()
+    private val upcoming = movieRepository.getUpcomingMovies().asLiveData()
+    private val mysteryMovie = movieRepository.getMovieListByGenre(Constants.MYSTERY_ID).asLiveData()
+    private val adventureMovie = movieRepository.getMovieListByGenre(Constants.ADVENTURE_ID).asLiveData()
+    private val onTheAiring = seriesRepository.getOnTheAir().asLiveData()
+    private val actors = movieRepository.getTrendingActors().asLiveData()
+    private val airingToday = seriesRepository.getAiringToday().asLiveData()
+    private val topRatedTvShow = seriesRepository.getTopRatedTvShow().asLiveData()
     val latestTvShow = seriesRepository.getLatestTvShow().asLiveData()
     val popularTvShow = seriesRepository.getPopularTvShow().asLiveData()
 

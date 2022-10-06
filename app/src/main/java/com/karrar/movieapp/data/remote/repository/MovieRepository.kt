@@ -28,5 +28,7 @@ interface MovieRepository {
 
     fun getTrendingActors(): Flow<State<List<Actor>>>
 
-    fun getActorMovies(actorId: Int): Flow<State<List<Media?>>>
+    fun getActorMovies(actorId: Int): Flow<State<List<Media>>>
+
+    fun getAllMovies(): Flow<State<List<Media>>>
 }
