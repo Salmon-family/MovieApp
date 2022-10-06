@@ -32,6 +32,7 @@
             android:textColor="@color/shade_primary_color"
             style="@style/Regular.Medium"
             android:drawableStart="@drawable/ic_search"
+            app:drawableTint="@color/brand_color"
             android:drawablePadding="@dimen/spacing_small"
             android:paddingStart="@dimen/spacing_small"
             android:textCursorDrawable="@color/brand_color"

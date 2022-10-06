@@ -43,5 +43,9 @@
     <string name="history_label">History</string>
     <string name="explore_label">Explore</string>
     <string name="trending_today_label">Trending Today</string>
+    <string name="home">Home</string>
+    <string name="explore">Explore</string>
+    <string name="myList">My Lists</string>
+    <string name="profile">Profile</string>
 
 </resources>
