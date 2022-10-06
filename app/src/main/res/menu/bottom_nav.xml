@@ -7,7 +7,7 @@
         android:title="Home" />
 
     <item
-        android:id="@+id/searchFragment"
+        android:id="@+id/exploringFragment"
         android:enabled="true"
         android:icon="@drawable/ic_search"
         android:title="Search" />
