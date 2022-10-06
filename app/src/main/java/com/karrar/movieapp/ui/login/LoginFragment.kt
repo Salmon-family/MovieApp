@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentLoginBinding
 import com.karrar.movieapp.ui.base.BaseFragment
@@ -28,7 +29,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         })
 
         viewModel.signUpEvent.observe(viewLifecycleOwner, EventObserve {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TMDB_SIGNUP_URL))
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.TMDB_SIGNUP_URL))
             startActivity(browserIntent)
         })
     }
