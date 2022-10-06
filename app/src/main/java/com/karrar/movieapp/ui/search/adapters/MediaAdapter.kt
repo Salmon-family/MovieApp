@@ -7,7 +7,7 @@ import com.karrar.movieapp.ui.base.BaseInteractionListener
 
 class MediaAdapter(items: List<Media>, listener: MediaInteractionListener)
     : BaseAdapter<Media>(items, listener){
-    override val layoutID: Int = R.layout.item_media
+    override val layoutID: Int = R.layout.item_media_search
 }
 
 interface MediaInteractionListener : BaseInteractionListener {

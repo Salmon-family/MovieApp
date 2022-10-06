@@ -134,10 +134,4 @@ class SearchViewModel @Inject constructor(
             searchText.emit(name)
         }
     }
-
-    fun getSearchText(text: String){
-        viewModelScope.launch {
-            searchText.emit(text)
-        }
-    }
 }

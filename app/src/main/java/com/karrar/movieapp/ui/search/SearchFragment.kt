@@ -13,6 +13,7 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentSearchBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryAdapter
+import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -21,12 +22,9 @@ import kotlinx.coroutines.launch
 class SearchFragment : BaseFragment<FragmentSearchBinding>(){
     override val layoutIdFragment: Int = R.layout.fragment_search
     override val viewModel: SearchViewModel by viewModels()
-    private val args: SearchFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.getSearchText(args.searchText)
 
         observeEvents()
 
@@ -49,15 +47,25 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
     }
 
     private fun navigateToMovieDetails(){
+        if(viewModel.mediaType.value == "movie"){
+            viewModel.clickMediaEvent.observe(viewLifecycleOwner, EventObserve{
 
+            })
+        }
     }
 
     private fun navigateToSeriesDetails(){
+        if(viewModel.mediaType.value == "tv"){
+            viewModel.clickMediaEvent.observe(viewLifecycleOwner, EventObserve{
 
+            })
+        }
     }
 
     private fun navigateToActorDetails(){
+        viewModel.clickActorEvent.observe(viewLifecycleOwner, EventObserve{
 
+        })
     }
 
     private fun bindMedia(){

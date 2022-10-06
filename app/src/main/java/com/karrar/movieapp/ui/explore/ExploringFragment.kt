@@ -34,17 +34,45 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
 
     private fun observeEvents(){
         navigateToSearch()
+        navigateToMovies()
+        navigateToSeries()
+        navigateToActors()
+        navigateToMediaDetails()
     }
 
     private fun navigateToSearch(){
         val extras = FragmentNavigatorExtras(binding.inputSearch to "search_box")
-        lifecycleScope.launch {
-            viewModel.searchText.debounce(1000).collect{
-                if(!it.isNullOrEmpty()){
-                    Navigation.findNavController(binding.root)
-                        .navigate(ExploringFragmentDirections.actionExploringFragmentToSearchFragment(it), extras)
-                }
+        viewModel.clickSearchEvent.observe(viewLifecycleOwner, EventObserve{
+            Navigation.findNavController(binding.root)
+                .navigate(ExploringFragmentDirections.actionExploringFragmentToSearchFragment(), extras)
+        })
+    }
+
+    private fun navigateToMovies(){
+        viewModel.clickMoviesEvent.observe(viewLifecycleOwner, EventObserve{
+
+        })
+    }
+
+    private fun navigateToSeries(){
+        viewModel.clickSeriesEvent.observe(viewLifecycleOwner, EventObserve{
+
+        })
+    }
+
+    private fun navigateToActors(){
+        viewModel.clickActorsEvent.observe(viewLifecycleOwner, EventObserve{
+
+        })
+    }
+
+    private fun navigateToMediaDetails(){
+        viewModel.clickTrendEvent.observe(viewLifecycleOwner, EventObserve{
+            when(viewModel.mediaType.value){
+                "movie" -> {}
+                "tv" -> {}
+                "person" -> {}
             }
-        }
+        })
     }
 }

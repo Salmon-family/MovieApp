@@ -116,7 +116,7 @@
             app:layout_constraintEnd_toEndOf="@id/input_search"
             android:paddingVertical="@dimen/spacing_small"
             android:clipToPadding="false"
-            tools:listitem="@layout/item_media"
+            tools:listitem="@layout/item_media_search"
             app:items="@{viewModel.media.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"

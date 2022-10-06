@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:showWhenSuccess="@{viewModel.trendingActors}"
             app:spanCount="3"
-            tools:listitem="@layout/item_actor" />
+            tools:listitem="@layout/item_actor_search" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_loading"

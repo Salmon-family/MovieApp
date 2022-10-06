@@ -35,34 +35,33 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:background="@drawable/edit_text_background"
-            android:inputType="text"
-            android:maxLines="1"
             android:hint="@string/search_hint"
             android:textColorHint="@color/shade_ternary_color"
-            android:textColor="@color/shade_primary_color"
             style="@style/Regular.Medium"
-            android:textCursorDrawable="@color/brand_color"
+            android:focusableInTouchMode="false"
+            android:onClick="@{() -> viewModel.onClickSearch()}"
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="@dimen/spacing_small"
             android:paddingStart="@dimen/spacing_small"
-            android:transitionName="search_box"
-            android:text="@={viewModel.searchText}" />
+            android:transitionName="search_box" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_movies"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@id/card_series"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/input_search"
             android:layout_marginTop="@dimen/spacing_medium"
             style="@style/CardCorners.Small"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
-            android:layout_marginHorizontal="@dimen/spacing_medium">
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:backgroundTint="@color/card_background_color"
+            android:onClick="@{() -> viewModel.onClickMovies()}">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/card_background_color"
                 android:paddingVertical="18dp"
                 android:paddingHorizontal="25dp">
                 <ImageView
@@ -90,16 +89,18 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/card_series"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toEndOf="@id/card_movies"
             app:layout_constraintEnd_toStartOf="@id/card_actors"
             app:layout_constraintTop_toBottomOf="@id/input_search"
             android:layout_marginTop="@dimen/spacing_medium"
-            style="@style/CardCorners.Small">
+            style="@style/CardCorners.Small"
+            android:backgroundTint="@color/card_background_color"
+            android:onClick="@{() -> viewModel.onClickSeries()}">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/card_background_color"
                 android:paddingVertical="18dp"
                 android:paddingHorizontal="16dp">
                 <ImageView
@@ -127,17 +128,19 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/card_actors"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toEndOf="@id/card_series"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/input_search"
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginHorizontal="@dimen/spacing_medium"
-            style="@style/CardCorners.Small">
+            style="@style/CardCorners.Small"
+            android:backgroundTint="@color/card_background_color"
+            android:onClick="@{() -> viewModel.onClickActors()}">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/card_background_color"
                 android:paddingVertical="18dp"
                 android:paddingHorizontal="25dp">
 

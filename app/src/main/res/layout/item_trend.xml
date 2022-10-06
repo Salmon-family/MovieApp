@@ -7,6 +7,9 @@
         <variable
             name="item"
             type="com.karrar.movieapp.domain.models.Trend" />
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.explore.TrendInteractionListener" />
     </data>
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -18,6 +21,7 @@
         app:shapeAppearanceOverlay="@style/CardCorners.Medium"
         tools:src="@drawable/trend"
         app:posterImage="@{item.imageUrl}"
+        android:onClick="@{() -> listener.onClickTrend(item.id,item.mediaType)}"
         android:layout_marginHorizontal="@dimen/spacing_medium"
         android:layout_marginVertical="@dimen/spacing_medium" />
 </layout>
