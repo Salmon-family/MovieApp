@@ -10,6 +10,7 @@ import com.karrar.movieapp.ui.allMedia.MediaInteractionListener
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
+import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -34,6 +35,8 @@ class CategoryViewModel @Inject constructor(
     private val _mediaList = MutableLiveData<State<List<Media>>?>()
     val mediaList: LiveData<State<List<Media>>?> = _mediaList
 
+    private val _clickMovieEvent = MutableLiveData<Event<Int>>()
+    var clickMovieEvent: LiveData<Event<Int>> = _clickMovieEvent
 
     init {
         setCategoryType()
@@ -51,7 +54,9 @@ class CategoryViewModel @Inject constructor(
     }
 
 
-    override fun onClickMedia(mediaId: Int) {}
+    override fun onClickMedia(mediaId: Int) {
+        _clickMovieEvent.postValue(Event(mediaId))
+    }
 
 
     override fun onClickCategory(categoryId: Int) {

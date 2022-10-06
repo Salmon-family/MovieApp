@@ -44,19 +44,16 @@
                 app:layout_constraintTop_toTopOf="@+id/imageView"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <ImageButton
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/back_icon_shape"
-                android:contentDescription="@string/back_button"
+                android:layout_marginTop="16dp"
                 android:onClick="@{() -> viewModel.onclickBack()}"
                 android:padding="@dimen/spacing_small"
-                android:src="@drawable/ic_arrow_left_details"
+                android:src="@drawable/ic_arrow_left"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/background_color" />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <ImageButton

@@ -29,6 +29,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeEvents()
+        setTitle(false)
 
         binding.castAdapter.adapter = CastAdapter(mutableListOf(), viewModel)
         binding.similarMovieAdapter.adapter = MovieAdapter(mutableListOf(), viewModel)
@@ -39,7 +40,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
 
         viewModel.messageAppear.observe(viewLifecycleOwner,EventObserve{
             if (it) {
-                Snackbar.make(view, "Submitted, Thank you for your feedback", Snackbar.LENGTH_SHORT)
+                Toast.makeText(context, "Submitted, Thank you for your feedback", Toast.LENGTH_SHORT)
                     .show()
             }
         })

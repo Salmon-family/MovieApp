@@ -110,6 +110,9 @@
         <argument
             android:name="mediaId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_categoryFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/allMovieFragment"
@@ -140,6 +143,9 @@
         <action
             android:id="@+id/action_exploringFragment_to_actorsFragment"
             app:destination="@id/actorsFragment" />
+        <action
+            android:id="@+id/action_exploringFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

@@ -14,7 +14,7 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image_trend"
-        android:layout_width="156dp"
+        android:layout_width="match_parent"
         android:layout_height="234dp"
         app:layout_constraintDimensionRatio="1:1.4"
         android:scaleType="centerCrop"
@@ -22,6 +22,7 @@
         tools:src="@drawable/trend"
         app:posterImage="@{item.imageUrl}"
         android:onClick="@{() -> listener.onClickTrend(item.id,item.mediaType)}"
-        android:layout_marginHorizontal="@dimen/spacing_medium"
-        android:layout_marginVertical="@dimen/spacing_medium" />
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginVertical="@dimen/spacing_small"
+        />
 </layout>
