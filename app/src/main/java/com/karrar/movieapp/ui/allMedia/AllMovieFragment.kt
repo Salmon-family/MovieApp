@@ -18,13 +18,10 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
     override val layoutIdFragment = R.layout.fragment_all_movie
     override val viewModel: AllMovieViewModel by viewModels()
 
-    private val args: AllMovieFragmentArgs by navArgs()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setTitle(true, args.type.value)
-
+        setTitle(true, viewModel.type.value)
         setMovieAdapter()
         observeEvents()
     }

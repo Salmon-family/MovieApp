@@ -96,16 +96,3 @@ fun <T> setGenresChips(
 
     if (isFirstChipSelected == true) view.getChildAt(FIRST_CATEGORY_ID)?.id?.let { view.check(it) }
 }
-
-// should be at extensions file
-fun <T> ChipGroup.createChip(item: Genre, listener: T): View {
-    val chipBinding: ChipItemCategoryBinding = DataBindingUtil.inflate(
-        LayoutInflater.from(context),
-        R.layout.chip_item_category,
-        this,
-        false
-    )
-    chipBinding.item = item
-    chipBinding.listener = listener as CategoryInteractionListener
-    return chipBinding.root
-}
