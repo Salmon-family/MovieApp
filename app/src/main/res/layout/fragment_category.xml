@@ -31,6 +31,7 @@
                 <HorizontalScrollView
                     android:id="@+id/horizontalScrollView"
                     android:layout_width="match_parent"
+                    android:scrollbars="none"
                     android:layout_height="@dimen/chip_height"
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:clipToPadding="false"
