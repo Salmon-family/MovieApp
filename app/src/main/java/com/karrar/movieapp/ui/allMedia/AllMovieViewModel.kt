@@ -31,14 +31,14 @@ class AllMovieViewModel @Inject constructor(
 ) : ViewModel(), MediaInteractionListener {
 
     private val args = AllMovieFragmentArgs.fromSavedStateHandle(state)
-    val actorId = args.id
-    private val type = args.type
+    private val actorId = args.id
+    val type = args.type
 
-    private val _media = MutableLiveData<State<List<Media>>>()
+    private val _media = MutableLiveData<State<List<Media?>>>()
     val media = _media.toLiveData()
 
     private val _backEvent = MutableLiveData<Event<Boolean>>()
-    val backEvent: LiveData<Event<Boolean>> = _backEvent
+    val backEvent = _backEvent.toLiveData()
 
 
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()

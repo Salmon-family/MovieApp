@@ -34,16 +34,16 @@ class ActorViewModel @Inject constructor(
     val actorId = args.id
 
     private val _actorDetails = MutableLiveData<State<ActorDetails>>()
-    val actorDetails: LiveData<State<ActorDetails>> = _actorDetails
+    val actorDetails = _actorDetails.toLiveData()
 
-    private val _actorMovies = MutableLiveData<State<List<Media>>>()
-    val actorMovies: LiveData<State<List<Media>>> = _actorMovies
+    private val _actorMovies = MutableLiveData<State<List<Media?>>>()
+    val actorMovies = _actorMovies.toLiveData()
 
     private val _backEvent = MutableLiveData<Event<Boolean>>()
-    val backEvent: LiveData<Event<Boolean>> = _backEvent
+    val backEvent = _backEvent.toLiveData()
 
     private val _seeAllMovies = MutableLiveData<Event<Boolean>>()
-    val seeAllMovies: LiveData<Event<Boolean>> = _seeAllMovies
+    val seeAllMovies = _seeAllMovies.toLiveData()
 
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
     val clickMovieEvent = _clickMovieEvent.toLiveData()
