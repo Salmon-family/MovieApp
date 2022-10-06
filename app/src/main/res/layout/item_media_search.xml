@@ -9,7 +9,7 @@
             type="com.karrar.movieapp.domain.models.MediaInfo" />
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.search.MediaInteractionListener" />
+            type="com.karrar.movieapp.ui.search.MediaSearchInteractionListener" />
     </data>
 
     <androidx.cardview.widget.CardView
