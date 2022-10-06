@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.karrar.movieapp.domain.models.Cast"/>
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.movieDetails.CastInteractionListener" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> listener.onClickCast(item.id)}"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginVertical="@dimen/spacing_small"
+        android:backgroundTint="@color/background_color"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/cast_image"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/Circle"
+                app:movieImage="@{item.imageUrl}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/image" />
+
+            <TextView
+                android:id="@+id/cast_name"
+                style="@style/Regular.Small.Secondary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAlignment="center"
+                android:ellipsize="end"
+                android:text="@{item.name}"
+                android:lines="2"
+                app:layout_constraintEnd_toEndOf="@+id/cast_image"
+                app:layout_constraintStart_toStartOf="@+id/cast_image"
+                app:layout_constraintTop_toBottomOf="@+id/cast_image"
+                tools:text="Debora Caprioglio" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

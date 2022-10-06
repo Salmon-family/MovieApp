@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.compose.ui.unit.Constraints
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentCategoryBinding
 import com.karrar.movieapp.ui.allMedia.MediaAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.movieDetails.MovieDetailsFragmentDirections
 import com.karrar.movieapp.utilities.Constants
+import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,9 +31,21 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         setTitle(true, title)
         
         setMediaAdapter()
+        observeEvents()
+        
     }
 
-    private fun setMediaAdapter() {
+    private fun observeEvents() {
+        viewModel.clickMovieEvent.observe(viewLifecycleOwner, EventObserve {
+            Navigation.findNavController(binding.root)
+                .navigate(
+                    CategoryFragmentDirections.actionCategoryFragmentToMovieDetailFragment(it)
+                )
+        })
+    }
+
+
+        private fun setMediaAdapter() {
         binding.recyclerMedia.adapter = MediaAdapter(mutableListOf(), viewModel)
     }
 

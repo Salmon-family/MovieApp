@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.movieReviews.ReviewViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_color"
+        tools:context=".ui.movieReviews.ReviewFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/comment_review_adapter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:items="@{viewModel.movieReviews.toData()}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showWhenSuccess="@{viewModel.movieReviews}"
+            tools:listitem="@layout/item_movie_review" />
+
+<!--        <include-->
+<!--            android:id="@+id/loading"-->
+<!--            layout="@layout/loading"-->
+<!--            app:showWhenLoading="@{viewModel.movieReviews}"-->
+<!--            tools:visibility="gone" />-->
+
+<!--        <include-->
+<!--            android:id="@+id/error"-->
+<!--            layout="@layout/error"-->
+<!--            app:showWhenFail="@{viewModel.movieReviews}"-->
+<!--            tools:visibility="gone" />-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

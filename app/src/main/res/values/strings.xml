@@ -27,7 +27,7 @@
     <string name="oops">Oops!</string>
     <string name="description">There is no internet connection\nPlease check it out</string>
     <string name="all_movies_of_actor">All Movies Of Actor</string>
-                <!--   Titles -->
+    <!--   Titles -->
     <string name="title_on_air">On The Air</string>
     <string name="title_tv_shows">TV Shows</string>
     <string name="title_mystery">Mystery</string>
@@ -47,5 +47,17 @@
     <string name="explore">Explore</string>
     <string name="myList">My Lists</string>
     <string name="profile">Profile</string>
+    <string name="play_trailer">Play Trailer</string>
+    <string name="duration">%1$s Minutes</string>
+    <string name="reviews">( %1$s Reviews )</string>
+    <string name="overview">OverView</string>
+    <string name="cast">Cast</string>
+    <string name="similar_movies">Similar Movies</string>
+    <string name="rate_the_movie">Rate The Movie</string>
+    <string name="reviews_title">Reviews</string>
+    <string name="review">Reviews</string>
+    <string name="reviews_comment">Reviews</string>
+    <string name="user_name">"@" %1$s</string>
+    <string name="back_button">back button</string>
 
 </resources>

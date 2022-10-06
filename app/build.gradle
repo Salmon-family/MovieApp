@@ -98,4 +98,11 @@ dependencies {
 
     //Coil
     implementation 'io.coil-kt:coil:2.2.2'
+
+    implementation 'io.github.glailton.expandabletextview:expandabletextview:1.0.2'
+
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0'
+
+    implementation 'com.airbnb.android:lottie:5.2.0'
+
 }

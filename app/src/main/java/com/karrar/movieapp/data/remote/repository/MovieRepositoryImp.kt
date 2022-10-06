@@ -5,6 +5,12 @@ import com.karrar.movieapp.data.local.database.MovieDataBase
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.remote.State
+import com.karrar.movieapp.data.remote.response.AddMovieDto
+import com.karrar.movieapp.data.remote.response.BaseResponse
+import com.karrar.movieapp.data.remote.response.CreatedListDto
+import com.karrar.movieapp.data.remote.response.ListDetailsDto
+import com.karrar.movieapp.data.remote.response.RatedMovie
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.*
 import com.karrar.movieapp.domain.models.*
@@ -33,6 +39,7 @@ class MovieRepositoryImp @Inject constructor(
     private val actorDetailsMapper: ActorDetailsMapper,
     private val actorMoviesMapper: ActorMoviesMapper,
     private val actorMapper: ActorMapper,
+    private val castMapper: CastMapper,
     private val genreMapper: GenreMapper,
     private val movieMapper: MediaMapper,
     private val personMapper: PersonMapper,
@@ -40,7 +47,10 @@ class MovieRepositoryImp @Inject constructor(
     private val seriesMapper: SeriesMapper,
     private val movieDao: MovieDao,
     private val searchHistoryMapper: SearchHistoryMapper,
-    private val trendMapper: TrendMapper
+    private val trendMapper: TrendMapper,
+    private val movieDetailsMapper: MovieDetailsMapper,
+    private val reviewMapper: ReviewMapper,
+    private val trailerMapper: TrailerMapper
 ) : BaseRepository(),MovieRepository {
     override fun getPopularMovies(): Flow<State<List<PopularMovie>>> {
         val mapper = PopularMovieMapper()
@@ -159,4 +169,73 @@ class MovieRepositoryImp @Inject constructor(
             it.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
+
+
+    override fun getMovieDetails(movie_id: Int): Flow<State<MovieDetails>> {
+        return wrap ({ movieService.getMovieDetails(movie_id) },{
+            movieDetailsMapper.map(it)
+        })
+    }
+
+
+    override fun getMovieCast(movie_id: Int): Flow<State<List<Cast>>> {
+        return wrap ({ movieService.getMovieCast(movie_id) },{
+            it.cast?.map { castMapper.map(it) } ?: emptyList()
+        })
+    }
+
+    override fun getSimilarMovie(movie_id: Int): Flow<State<List<Media>>> {
+        return wrap ({ movieService.getSimilarMovie(movie_id) },{
+            it.items?.map { movieMapper.map(it) } ?: emptyList()
+        })
+    }
+
+    override fun getMovieReviews(movie_id: Int): Flow<State<List<Review>>> {
+        return wrap ({ movieService.getMovieReviews(movie_id) },{
+            it.items?.map { reviewMapper.map(it) } ?: emptyList()
+        })
+    }
+
+    override fun setRating(movie_id: Int, value: Float, session_id: String): Flow<State<RatingDto>> {
+        return wrapWithFlow { movieService.postRating(movie_id, value, session_id) }
+    }
+
+    override fun getMovieTrailer(movie_id: Int): Flow<State<Trailer>> {
+        return wrap({ movieService.getMovieTrailer(movie_id) },{
+            trailerMapper.map(it)
+        })
+    }
+
+    override fun getAllLists(accountId: Int, session_id: String, ): Flow<State<BaseResponse<CreatedListDto>>>{
+        return wrapWithFlow { movieService.getCreatedLists(accountId, session_id) }
+    }
+
+    override fun addMovieToList(session_id: String, list_id: Int, movie_id: Int, ): Flow<State<AddMovieDto>> {
+        return wrapWithFlow { movieService.addMovieToList(list_id, session_id, movie_id) }
+    }
+
+    override fun getListDetails(list_id: Int): Flow<State<ListDetailsDto>> {
+        return wrapWithFlow { movieService.getList(list_id) }
+    }
+
+    override fun getRatedMovie(account_id: Int, session_id:String): Flow<State<BaseResponse<RatedMovie>>> {
+        return wrapWithFlow { movieService.getRatedMovie(account_id, session_id) }
+    }
+
+    private fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<State<T>> {
+        return flow {
+            emit(State.Loading)
+            try {
+                val response = function()
+                if (response.isSuccessful) {
+                    emit(State.Success(response.body()))
+                } else {
+                    emit(State.Error(response.message()))
+                }
+            } catch (e: Exception) {
+                emit(State.Error(e.message.toString()))
+            }
+        }
+    }
+
 }

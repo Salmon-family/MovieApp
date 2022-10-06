@@ -1,26 +1,27 @@
 package com.karrar.movieapp.utilities
 
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.databinding.ChipItemCategoryBinding
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.cast.GenreDto
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.base.BaseAdapter
-import com.karrar.movieapp.ui.category.CategoryInteractionListener
 import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import com.squareup.picasso.Picasso
 
 @BindingAdapter("app:showWhenSuccess")
 fun <T> showWhenSuccess(view: View, state: State<T>?) {
@@ -106,3 +107,69 @@ fun <T> setGenresChips(
 
     if (isFirstChipSelected == true) view.getChildAt(FIRST_CATEGORY_ID)?.id?.let { view.check(it) }
 }
+
+@BindingAdapter("app:movieImage")
+fun bindMovieImageURL(image: ImageView, imageURL: String?) {
+    imageURL?.let {
+        Picasso.get()
+            .load(imageURL)
+            .error(R.mipmap.ic_launcher)
+            .into(image)
+    }
+}
+
+@BindingAdapter("app:isVisible")
+fun <T> isVisible(view: View, items: List<T>?){
+    if (items != null && items.size <3)
+        view.isVisible = false
+
+}
+
+@BindingAdapter("app:setVideoId")
+fun setVideoId(view: YouTubePlayerView, videoId: String?){
+    view.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+        override fun onReady(youTubePlayer: YouTubePlayer) {
+            videoId?.let { youTubePlayer.loadVideo(it, 0f) }
+        }
+    })
+}
+
+@BindingAdapter("app:isThereReview")
+fun <T> isThereReview(view: View, items: List<T>?){
+    if (items != null && items.isEmpty())
+        view.isVisible = false
+}
+
+@BindingAdapter("app:setGenre")
+fun setGenres(text: TextView, genres: List<GenreDto>?) {
+    text.text = genres?.map { it.name }?.joinToString(" , ")
+}
+
+@BindingAdapter("app:setReleaseDate")
+fun setReleaseDate(text: TextView, date: String?) {
+    text.text = date?.take(4)
+}
+
+
+@BindingAdapter(value = ["app:itemsWithMax"])
+fun <T> setRecyclerItemsWithMaxNumberOfItems(
+    view: RecyclerView,
+    items: List<T>?,
+) {
+    (view.adapter as BaseAdapter<T>?)?.setItems(items?.take(3) ?: emptyList())
+}
+
+//@BindingAdapter(value = ["app:showOnSuccess"])
+//fun <T> showOnSuccess(view: View, state: State<T>?) {
+//    view.isVisible = (state is State.Success)
+//}
+//
+//@BindingAdapter(value = ["app:showOnError"])
+//fun <T> showOnError(view: View, state: State<T>?) {
+//    view.isVisible = (state is State.Error)
+//}
+//
+//@BindingAdapter(value = ["app:showOnLoading"])
+//fun <T> showOnLoading(view: View, state: State<T>?) {
+//    view.isVisible = (state is State.Loading)
+//}

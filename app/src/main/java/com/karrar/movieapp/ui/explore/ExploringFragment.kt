@@ -76,9 +76,11 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
     }
 
     private fun navigateToMediaDetails(){
-        viewModel.clickTrendEvent.observe(viewLifecycleOwner, EventObserve{
+        viewModel.clickTrendEvent.observe(viewLifecycleOwner, EventObserve{ mediaId ->
             when(viewModel.mediaType.value){
-                "movie" -> {}
+                "movie" -> {
+                    findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToMovieDetailFragment(mediaId))
+                }
                 "tv" -> {}
                 "person" -> {}
             }

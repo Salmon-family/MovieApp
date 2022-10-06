@@ -9,6 +9,11 @@ import com.karrar.movieapp.data.remote.response.GenreResponse
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorDetailsDto
 import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorMoviesDto
 import com.karrar.movieapp.data.remote.response.ActorDto
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.MovieDetailsDto
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.RatingDto
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.cast.CreditsDto
+import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.ReviewsDto
+import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
 import retrofit2.Response
 import retrofit2.http.Field
@@ -95,6 +100,73 @@ interface MovieService {
 
     @GET("discover/movie")
     suspend fun getAllMovies(): Response<BaseResponse<MovieDto>>
+
+    @GET("movie/{movie_id}")
+    suspend fun getMovieDetails(
+        @Path("movie_id") movieId: Int,
+    ): Response<MovieDetailsDto>
+
+
+    @GET("movie/{movie_id}/credits")
+    suspend fun getMovieCast(
+        @Path("movie_id") movieId: Int,
+    ): Response<CreditsDto>
+
+
+    @GET("movie/{movie_id}/similar")
+    suspend fun getSimilarMovie(
+        @Path("movie_id") movieId: Int,
+    ): Response<BaseResponse<MovieDto>>
+
+
+    @GET("movie/{movie_id}/reviews")
+    suspend fun getMovieReviews(
+        @Path("movie_id") movieId: Int,
+    ): Response<BaseResponse<ReviewsDto>>
+
+
+    @FormUrlEncoded
+    @POST("movie/{movie_id}/rating")
+    suspend fun postRating(
+        @Path("movie_id") movieId: Int,
+        @Field ("value") rating: Float,
+        @Query("session_id") apiKey: String?,
+    ): Response<RatingDto>
+
+
+    @GET("movie/{movie_id}/videos")
+    suspend fun getMovieTrailer(
+        @Path("movie_id") movieId: Int,
+    ): Response<TrailerDto>
+
+
+    @GET("account/{account_id}/lists")
+    suspend fun getCreatedLists(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") session_id: String
+    ): Response<BaseResponse<CreatedListDto>>
+
+
+    @FormUrlEncoded
+    @POST("list/{list_id}/add_item")
+    suspend fun addMovieToList(
+        @Path("list_id") ListId: Int,
+        @Query("session_id") sessionId: String,
+        @Field("media_id") movieId: Int,
+    ) : Response<AddMovieDto>
+
+
+    @GET("list/{list_id}")
+    suspend fun getList(
+        @Path("list_id") listId: Int,
+    ): Response<ListDetailsDto>
+
+    @GET("account/{account_id}/rated/movies")
+    suspend fun getRatedMovie(
+        @Path("account_id") listId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<BaseResponse<RatedMovie>>
+
 }
 
 

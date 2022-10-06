@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveMovieViewModel"
+            />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bottom_sheet_corners"
+        android:paddingTop="@dimen/spacing_large"
+        >
+
+        <TextView
+            android:id="@+id/dialog_text"
+            style="@style/SemiBold.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save to"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText,SpUsage" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/shade_quaternary_color"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_text" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_play_trailer"
+            style="@style/SemiBold.Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:padding="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="250dp"
+            app:backgroundTint="@color/card_background_color"
+            android:text="New List"
+            android:textAllCaps="false"
+            app:icon="@drawable/new_list_ic"
+            app:iconTint="@color/brand_color"
+            app:rippleColor="@color/brand_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            tools:text="New List"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/save_list_adapter"
+            android:layout_width="match_parent"
+            android:layout_height="590dp"
+            android:orientation="vertical"
+            app:items="@{viewModel.list.toData().items}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_play_trailer"
+            app:layout_constraintVertical_bias="0.0"
+            tools:listitem="@layout/item_list" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

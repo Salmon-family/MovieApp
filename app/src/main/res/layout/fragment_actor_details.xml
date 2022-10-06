@@ -53,7 +53,8 @@
                 android:onClick="@{() -> viewModel.onClickBack()}"
                 android:src="@drawable/ic_arrow_left"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
             <TextView
                 android:id="@+id/text_name_actor"
