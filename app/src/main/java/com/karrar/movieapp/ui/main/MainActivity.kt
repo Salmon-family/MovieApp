@@ -4,8 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,5 +44,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+    override fun onResume() {
+        super.onResume()
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.homeFragment,
+                R.id.exploringFragment,
+                R.id.myListFragment,
+                R.id.profileFragment,
+
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 }

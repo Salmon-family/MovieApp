@@ -29,13 +29,13 @@ class HomeViewModel @Inject constructor(
         return homeItems.apply {
             addSource(popularMovie){ handleState(it){items-> value = (HomeRecyclerItem.Slider(items))}}
             addSource(topRatedTvShow){handleState(it) {items-> value = (HomeRecyclerItem.TvShows(items)) }}
-            addSource(onTheAiring){handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.ON_THE_AIR)}}
-            addSource(trending){handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.TRENDING)}}
+            addSource(onTheAiring){handleState(it){items-> value = HomeRecyclerItem.OnTheAiring(items,MovieType.ON_THE_AIR)}}
+            addSource(trending){handleState(it){items-> value = HomeRecyclerItem.Trending(items,MovieType.TRENDING)}}
             addSource(airingToday){handleState(it){items-> value = (HomeRecyclerItem.AiringToday(items)) }}
             addSource(nowStreaming) {handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.NOW_STREAMING)}}
-            addSource(upcoming){handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.UPCOMING)}}
-            addSource(mysteryMovie){handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.MYSTERY)}}
-            addSource(adventureMovie){handleState(it){items-> value = HomeRecyclerItem.NowStreaming(items,MovieType.ADVENTURE)}}
+            addSource(upcoming){handleState(it){items-> value = HomeRecyclerItem.Upcoming(items,MovieType.UPCOMING)}}
+            addSource(mysteryMovie){handleState(it){items-> value = HomeRecyclerItem.Mystery(items,MovieType.MYSTERY)}}
+            addSource(adventureMovie){handleState(it){items-> value = HomeRecyclerItem.Adventure(items,MovieType.ADVENTURE)}}
             addSource(actors){handleState(it){items-> value = (HomeRecyclerItem.Actor(items)) }}
         }
     }
