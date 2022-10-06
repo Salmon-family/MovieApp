@@ -7,11 +7,11 @@ import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 
 
-class MovieAdapter(items: List<Media>, listener: CastInteractionListener
-): BaseAdapter<Media>(items, listener) {
-    override val layoutID: Int = R.layout.item_movie
-}
-
-interface MovieInteractionListener : BaseInteractionListener {
-    fun onClickMovie(movie_id: Int)
-}
+//class MovieAdapter(items: List<Media>, listener: CastInteractionListener
+//): BaseAdapter<Media>(items, listener) {
+//    override val layoutID: Int = R.layout.item_movie
+//}
+//
+//interface MovieInteractionListener : BaseInteractionListener {
+//    fun onClickMovie(movie_id: Int)
+//}

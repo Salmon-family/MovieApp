@@ -1,17 +1,15 @@
 package com.karrar.movieapp.ui.movieDetails
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.repository.MovieRepository
 import com.karrar.movieapp.data.remote.response.RatedMovie
+import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.home.adapters.MovieInteractionListener
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -26,8 +24,8 @@ class MovieDetailsViewModel @Inject constructor(
     private var _movieCast = MutableLiveData<State<List<Cast>>>()
     val movieCast: LiveData<State<List<Cast>>> = _movieCast
 
-    private var _similarMovie = MutableLiveData<State<List<Media?>>>()
-    val similarMovie: LiveData<State<List<Media?>>> = _similarMovie
+    private var _similarMovie = MutableLiveData<State<List<Media>>>()
+    val similarMovie: LiveData<State<List<Media>>> = _similarMovie
 
     private var _movieReviews = MutableLiveData<State<List<Review>>>()
     val movieReviews: LiveData<State<List<Review>>> = _movieReviews
@@ -132,6 +130,10 @@ class MovieDetailsViewModel @Inject constructor(
 
     override fun onClickMovie(movie_id: Int) {
         _clickMovieEvent.postValue(Event(movie_id))
+    }
+
+    override fun onClickSeeAllMovie(movieType: MovieType) {
+
     }
 
 }

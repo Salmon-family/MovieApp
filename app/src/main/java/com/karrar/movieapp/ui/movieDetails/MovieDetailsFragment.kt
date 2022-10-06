@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.home.adapters.MovieAdapter
 import com.karrar.movieapp.ui.movieReviews.ReviewAdapter
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.EventObserve
@@ -29,25 +30,25 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         observeEvents()
 
-//        binding.castAdapter.adapter = CastAdapter(mutableListOf(), viewModel)
-//        binding.similarMovieAdapter.adapter = MovieAdapter(mutableListOf(), viewModel)
-//        binding.commentReviewAdapter.adapter = ReviewAdapter(mutableListOf(), viewModel)
-//
-//
-//        viewModel.getAllDetails(args.movieId)
-//
-//        viewModel.messageAppear.observe(viewLifecycleOwner,EventObserve{
-//            if (it) {
-//                Snackbar.make(view, "Submitted, Thank you for your feedback", Snackbar.LENGTH_SHORT)
-//                    .show()
-//            }
-//        })
-//
-//        viewModel.ratingValue.observe(viewLifecycleOwner){
-//            it?.let {
-//                viewModel.onAddRating(args.movieId, it)
-//            }
-//        }
+        binding.castAdapter.adapter = CastAdapter(mutableListOf(), viewModel)
+        binding.similarMovieAdapter.adapter = MovieAdapter(mutableListOf(), viewModel)
+        binding.commentReviewAdapter.adapter = ReviewAdapter(mutableListOf(), viewModel)
+
+
+        viewModel.getAllDetails(args.movieId)
+
+        viewModel.messageAppear.observe(viewLifecycleOwner,EventObserve{
+            if (it) {
+                Snackbar.make(view, "Submitted, Thank you for your feedback", Snackbar.LENGTH_SHORT)
+                    .show()
+            }
+        })
+
+        viewModel.ratingValue.observe(viewLifecycleOwner){
+            it?.let {
+                viewModel.onAddRating(args.movieId, it)
+            }
+        }
 
     }
 
@@ -59,10 +60,9 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
                 .navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragment(it))
         })
 
-        //change the direction to cast details
         viewModel.clickCastEvent.observe(viewLifecycleOwner, EventObserve {
             Navigation.findNavController(binding.root)
-                .navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragment(it))
+                .navigate(MovieDetailsFragmentDirections.actionMovieDetailFragmentToActorDetailsFragment(it))
         })
 
         viewModel.clickReviewsEvent.observe(viewLifecycleOwner, EventObserve {
