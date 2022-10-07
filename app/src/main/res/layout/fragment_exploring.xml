@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.explore.ExploringViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_color">
+        android:background="@color/background_color"
+        app:layoutDescription="@xml/fragment_exploring_scene">
 
         <TextView
             android:id="@+id/text_explore"
@@ -50,33 +50,34 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_movies"
-            style="@style/CardCorners.Small"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
+            style="@style/CardCorners.Small"
+            app:cardCornerRadius="@dimen/radius_small"
+            android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
             android:backgroundTint="@color/card_background_color"
             android:onClick="@{() -> viewModel.onClickMovies()}"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@id/card_series"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/card_series"
+            android:layout_marginEnd="@dimen/spacing_medium"
             app:layout_constraintTop_toBottomOf="@id/input_search">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:onClick="@{()->viewModel.onClickMovies()}"
-                android:paddingHorizontal="25dp"
-                android:paddingVertical="18dp">
+                android:onClick="@{()->viewModel.onClickMovies()}">
 
                 <ImageView
                     android:id="@+id/icon_movie"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginBottom="@dimen/spacing_too_small"
                     android:src="@drawable/ic_movie"
+                    android:layout_marginBottom="@dimen/spacing_too_small"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     app:layout_constraintBottom_toTopOf="@id/text_movies_label"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -89,39 +90,42 @@
                     android:textColor="@color/brand_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/icon_movie" />
+                    app:layout_constraintTop_toBottomOf="@id/icon_movie"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="@dimen/spacing_medium"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_series"
-            style="@style/CardCorners.Small"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            style="@style/CardCorners.Small"
+            app:cardCornerRadius="@dimen/radius_small"
             android:layout_marginTop="@dimen/spacing_medium"
             android:backgroundTint="@color/card_background_color"
             android:onClick="@{() -> viewModel.onClickSeries()}"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@id/card_actors"
             app:layout_constraintStart_toEndOf="@id/card_movies"
+            app:layout_constraintEnd_toStartOf="@id/card_actors"
             app:layout_constraintTop_toBottomOf="@id/input_search">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:onClick="@{()->viewModel.onClickSeries()}"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="18dp">
+                android:onClick="@{()->viewModel.onClickSeries()}">
 
                 <ImageView
                     android:id="@+id/icon_series"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginBottom="@dimen/spacing_too_small"
                     android:src="@drawable/ic_tv"
+                    android:layout_marginBottom="@dimen/spacing_too_small"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     app:layout_constraintBottom_toTopOf="@id/text_series_label"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     android:id="@+id/text_series_label"
@@ -130,38 +134,41 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_shows_label"
                     android:textColor="@color/brand_color"
+                    android:layout_marginBottom="@dimen/spacing_medium"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/icon_series" />
+                    app:layout_constraintTop_toBottomOf="@id/icon_series"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_actors"
-            style="@style/CardCorners.Small"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
+            style="@style/CardCorners.Small"
+            app:cardCornerRadius="@dimen/radius_small"
+            android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
             android:backgroundTint="@color/card_background_color"
             android:onClick="@{() -> viewModel.onClickActors()}"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/input_search"
             app:layout_constraintStart_toEndOf="@id/card_series"
             app:layout_constraintTop_toBottomOf="@id/input_search">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="25dp"
-                android:paddingVertical="18dp">
+                android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/icon_actors"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginBottom="@dimen/spacing_too_small"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     android:src="@drawable/ic_actors"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/text_actors_label"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -172,7 +179,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/actors_label"
+                    android:layout_marginBottom="@dimen/spacing_medium"
                     android:textColor="@color/brand_color"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/icon_actors" />
@@ -195,30 +204,35 @@
             android:id="@+id/recycler_trend"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/spacing_small"
             android:layout_marginTop="@dimen/spacing_small"
             android:clipToPadding="false"
             app:items="@{viewModel.trend.toData()}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/input_search"
+            app:layout_constraintStart_toStartOf="@id/input_search"
             app:layout_constraintTop_toBottomOf="@id/text_trend_label"
             app:showWhenSuccess="@{viewModel.trend}"
             app:spanCount="2"
             tools:listitem="@layout/item_trend" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_loading"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading="@{viewModel.trend}" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_loading"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading_animation"
+                app:showWhenLoading="@{viewModel.trend}" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>
