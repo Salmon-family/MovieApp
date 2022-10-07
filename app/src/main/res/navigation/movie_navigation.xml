@@ -66,29 +66,25 @@
         android:name="com.karrar.movieapp.ui.movieDetails.MovieDetailsFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_movie_details">
-<!--        <argument-->
-<!--            android:name="movieID"-->
-<!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="movieID"-->
+        <!--            app:argType="integer" />-->
 
         <argument
             android:name="movie_id"
             app:argType="integer" />
         <action
-            android:id="@+id/action_movieDetailsFragment"
-            app:destination="@id/movieDetailFragment"
-            app:popUpToInclusive="true"/>
-        <action
             android:id="@+id/action_movieDetailsFragment_to_reviewFragment"
             app:destination="@id/reviewFragment" />
-        <action
-            android:id="@+id/action_movieDetailsFragment_to_youtubePlayerFragment"
-            app:destination="@id/youtubePlayerFragment" />
         <action
             android:id="@+id/action_movieDetailsFragment_to_saveMovieDialog"
             app:destination="@id/saveMovieDialog" />
         <action
             android:id="@+id/action_movieDetailFragment_to_actorDetailsFragment"
             app:destination="@id/actorDetailsFragment" />
+        <action
+            android:id="@+id/action_movieDetailFragment_to_youtubePlayerActivity"
+            app:destination="@id/youtubePlayerActivity" />
     </fragment>
 
     <fragment
@@ -160,43 +156,34 @@
             app:destination="@id/actorDetailsFragment" />
     </fragment>
 
-<!--    <fragment-->
-<!--        android:id="@+id/movieDetailsFragment"-->
-<!--        android:name="com.karrar.movieapp.ui.movieDetails.MovieDetailsFragment"-->
-<!--        android:label="MovieDetailsFragment"-->
-<!--        tools:layout="@layout/fragment_movie_details">-->
-<!--        <argument-->
-<!--            android:name="movie_id"-->
-<!--            app:argType="integer" />-->
-<!--        <action-->
-<!--            android:id="@+id/action_movieDetailsFragment"-->
-<!--            app:destination="@id/movieDetailsFragment"-->
-<!--            app:popUpToInclusive="true"/>-->
-<!--        <action-->
-<!--            android:id="@+id/action_movieDetailsFragment_to_reviewFragment"-->
-<!--            app:destination="@id/reviewFragment" />-->
-<!--        <action-->
-<!--            android:id="@+id/action_movieDetailsFragment_to_youtubePlayerFragment"-->
-<!--            app:destination="@id/youtubePlayerFragment" />-->
-<!--        <action-->
-<!--            android:id="@+id/action_movieDetailsFragment_to_saveMovieDialog"-->
-<!--            app:destination="@id/saveMovieDialog" />-->
-<!--    </fragment>-->
+    <!--    <fragment-->
+    <!--        android:id="@+id/movieDetailsFragment"-->
+    <!--        android:name="com.karrar.movieapp.ui.movieDetails.MovieDetailsFragment"-->
+    <!--        android:label="MovieDetailsFragment"-->
+    <!--        tools:layout="@layout/fragment_movie_details">-->
+    <!--        <argument-->
+    <!--            android:name="movie_id"-->
+    <!--            app:argType="integer" />-->
+    <!--        <action-->
+    <!--            android:id="@+id/action_movieDetailsFragment"-->
+    <!--            app:destination="@id/movieDetailsFragment"-->
+    <!--            app:popUpToInclusive="true"/>-->
+    <!--        <action-->
+    <!--            android:id="@+id/action_movieDetailsFragment_to_reviewFragment"-->
+    <!--            app:destination="@id/reviewFragment" />-->
+    <!--        <action-->
+    <!--            android:id="@+id/action_movieDetailsFragment_to_youtubePlayerFragment"-->
+    <!--            app:destination="@id/youtubePlayerFragment" />-->
+    <!--        <action-->
+    <!--            android:id="@+id/action_movieDetailsFragment_to_saveMovieDialog"-->
+    <!--            app:destination="@id/saveMovieDialog" />-->
+    <!--    </fragment>-->
 
     <fragment
         android:id="@+id/reviewFragment"
         android:name="com.karrar.movieapp.ui.movieReviews.ReviewFragment"
         android:label="ReviewFragment"
         tools:layout="@layout/fragment_review">
-        <argument
-            android:name="movie_id"
-            app:argType="integer" />
-    </fragment>
-    <fragment
-        android:id="@+id/youtubePlayerFragment"
-        android:name="com.karrar.movieapp.ui.youtubePlayer.YoutubePlayerFragment"
-        android:label="YoutubePlayerFragment"
-        tools:layout="@layout/fragment_youtube_player">
         <argument
             android:name="movie_id"
             app:argType="integer" />
@@ -210,4 +197,13 @@
             android:name="movie_id"
             app:argType="integer" />
     </dialog>
+    <activity
+        android:id="@+id/youtubePlayerActivity"
+        android:name="com.karrar.movieapp.ui.youtubePlayer.YoutubePlayerActivity"
+        android:label="YoutubePlayerActivity">
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
+    </activity>
+
 </navigation>

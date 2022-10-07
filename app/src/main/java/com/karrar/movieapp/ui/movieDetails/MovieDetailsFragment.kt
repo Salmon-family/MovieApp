@@ -60,7 +60,11 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         viewModel.clickMovieEvent.observe(viewLifecycleOwner, EventObserve {
             viewModelStore.clear()
             Navigation.findNavController(binding.root)
-                .navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragment(it))
+                .navigate(
+                    MovieDetailsFragmentDirections.actionMovieDetailFragmentToYoutubePlayerActivity(
+                        it
+                    )
+                )
         })
 
         viewModel.clickCastEvent.observe(viewLifecycleOwner, EventObserve {
@@ -84,7 +88,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         viewModel.clickPlayTrailerEvent.observe(viewLifecycleOwner, EventObserve {
             Navigation.findNavController(binding.root)
                 .navigate(
-                    MovieDetailsFragmentDirections.actionMovieDetailsFragmentToYoutubePlayerFragment(
+                    MovieDetailsFragmentDirections.actionMovieDetailFragmentToYoutubePlayerActivity(
                         args.movieId
                     )
                 )

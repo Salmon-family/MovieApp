@@ -2,14 +2,10 @@ package com.karrar.movieapp.ui.home
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
-import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.databinding.FragmentHomeBinding
-import com.karrar.movieapp.domain.enums.MovieType
-import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.adapters.HomeAdapter
 import com.karrar.movieapp.utilities.EventObserve
