@@ -1,7 +1,10 @@
 package com.karrar.movieapp.ui.search
 
 import android.os.Bundle
+import android.transition.ChangeBounds
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -21,9 +24,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     override val layoutIdFragment: Int = R.layout.fragment_search
     override val viewModel: SearchViewModel by viewModels()
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        sharedElementEnterTransition = ChangeBounds()
         setTitle(false)
 
         observeEvents()
