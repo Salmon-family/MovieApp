@@ -3,7 +3,8 @@ package com.karrar.movieapp.data.repository
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.GenreMapper
-import com.karrar.movieapp.domain.mappers.MediaMapper
+import com.karrar.movieapp.domain.mappers.MovieMapper
+import com.karrar.movieapp.domain.mappers.TVShowMapper
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Media
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +13,7 @@ import javax.inject.Inject
 
 class SeriesRepositoryImp @Inject constructor(
     private val service: MovieService,
-    private val mediaMapper: MediaMapper,
+    private val mediaMapper: TVShowMapper,
     private val genreMapper: GenreMapper
 ) : BaseRepository(), SeriesRepository {
 

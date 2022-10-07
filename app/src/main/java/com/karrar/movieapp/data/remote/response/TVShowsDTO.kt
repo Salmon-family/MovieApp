@@ -1,9 +1,8 @@
 package com.karrar.movieapp.data.remote.response
 
-
 import com.google.gson.annotations.SerializedName
 
-data class SeriesDto(
+class TVShowsDTO(
     @SerializedName("backdrop_path")
     val backdropPath: String? = null,
     @SerializedName("first_air_date")

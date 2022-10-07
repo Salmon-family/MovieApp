@@ -7,18 +7,18 @@ import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.BaseResponse
 import com.karrar.movieapp.data.remote.response.CreatedListDto
 import com.karrar.movieapp.data.remote.response.ListDetailsDto
+import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.*
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.domain.mappers.ActorDetailsMapper
-import com.karrar.movieapp.domain.mappers.ActorMoviesMapper
 import com.karrar.movieapp.domain.models.ActorDetails
 import com.karrar.movieapp.domain.mappers.ActorMapper
 import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.domain.mappers.GenreMapper
-import com.karrar.movieapp.domain.mappers.MediaMapper
+import com.karrar.movieapp.domain.mappers.MovieMapper
 import com.karrar.movieapp.domain.mappers.PopularMovieMapper
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Media
@@ -32,17 +32,14 @@ import javax.inject.Inject
 class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     private val actorDetailsMapper: ActorDetailsMapper,
-    private val actorMoviesMapper: ActorMoviesMapper,
     private val actorMapper: ActorMapper,
-    private val castMapper: CastMapper,
     private val genreMapper: GenreMapper,
-    private val movieMapper: MediaMapper,
+    private val movieMapper: MovieMapper,
+    private val tvShowsMapper: TVShowMapper,
     private val personMapper: PersonMapper,
-    private val moviesMapper: MovieMapper,
-    private val seriesMapper: SeriesMapper,
+    private val seriesMapper: SearchSeriesMapper,
     private val movieDao: MovieDao,
     private val searchHistoryMapper: SearchHistoryMapper,
-    private val trendMapper: TrendMapper,
     private val movieDetailsMapper: MovieDetailsMapper,
     private val reviewMapper: ReviewMapper,
     private val trailerMapper: TrailerMapper,
@@ -82,7 +79,7 @@ class MovieRepositoryImp @Inject constructor(
     override fun getActorMovies(actorId: Int): Flow<State<List<Media>>> {
         return wrap({ movieService.getActorMovies(actorId) }, { actorMoviesDto ->
             actorMoviesDto.cast?.mapNotNull { cast ->
-                cast?.let { actorMoviesMapper.map(it) }
+                cast?.let { movieMapper.map(it) }
             } ?: emptyList()
         })
     }
@@ -115,7 +112,7 @@ class MovieRepositoryImp @Inject constructor(
 
     override fun searchForMovie(query: String): Flow<State<List<MediaInfo>>> {
         return wrap({ movieService.searchForMovie(query) }, { response ->
-            response.items?.map { moviesMapper.map(it) } ?: emptyList()
+            response.items?.map { seriesMapper.map(it) } ?: emptyList()
         })
     }
 
@@ -151,7 +148,7 @@ class MovieRepositoryImp @Inject constructor(
 
     override fun getDailyTrending(): Flow<State<List<Media>>> {
         return wrap({ movieService.getDailyTrending() }, { response ->
-            response.items?.map { trendMapper.map(it) } ?: emptyList()
+            response.items?.map { tvShowsMapper.map(it) } ?: emptyList()
         })
     }
 
@@ -170,7 +167,7 @@ class MovieRepositoryImp @Inject constructor(
 
     override fun getMovieCast(movieId: Int): Flow<State<List<Actor>>> {
         return wrap({ movieService.getMovieCast(movieId) }, { response ->
-            response.cast?.map { castMapper.map(it) } ?: emptyList()
+            response.cast?.map { actorMapper.map(it) } ?: emptyList()
         })
     }
 
@@ -186,8 +183,8 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun setRating(movieId: Int, value: Float, sessionId: String): Flow<State<RatingDto>> {
-        return wrapWithFlow { movieService.postRating(movieId, value, sessionId) }
+    override fun setRating(movieId: Int, value: Float, session_id: String): Flow<State<RatingDto>> {
+        return wrapWithFlow { movieService.postRating(movieId, value, session_id) }
     }
 
     override fun getMovieTrailer(movieId: Int): Flow<State<Trailer>> {

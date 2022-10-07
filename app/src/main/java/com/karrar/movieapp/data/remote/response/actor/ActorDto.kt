@@ -31,5 +31,6 @@ data class ActorDto(
     @SerializedName("popularity")
     val popularity: Double? = null,
     @SerializedName("profile_path")
-    val profilePath: String? = null
+    val profilePath: String? = null,
+
 )

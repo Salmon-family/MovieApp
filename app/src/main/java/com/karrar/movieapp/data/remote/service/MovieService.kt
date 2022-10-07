@@ -4,7 +4,7 @@ import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.response.login.SessionResponse
 import com.karrar.movieapp.data.remote.response.BaseResponse
-import com.karrar.movieapp.data.remote.response.movie.MovieDto
+import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
@@ -57,12 +57,12 @@ interface MovieService {
     @GET("search/movie")
     suspend fun searchForMovie(
         @Query("query") query: String
-    ): Response<BaseResponse<MovieDto>>
+    ): Response<BaseResponse<TVShowsDTO>>
 
     @GET("search/tv")
     suspend fun searchForSeries(
         @Query("query") query: String
-    ): Response<BaseResponse<SeriesDto>>
+    ): Response<BaseResponse<TVShowsDTO>>
 
     @GET("authentication/token/new")
     suspend fun getRequestToken() : Response<RequestTokenResponse>
@@ -96,7 +96,7 @@ interface MovieService {
     suspend fun getMovieListByGenre(@Query("with_genres") genreID: Int): Response<BaseResponse<MovieDto>>
 
     @GET("trending/all/day")
-    suspend fun getDailyTrending(): Response<BaseResponse<TrendingDto>>
+    suspend fun getDailyTrending(): Response<BaseResponse<TVShowsDTO>>
 
     @GET("discover/movie")
     suspend fun getAllMovies(): Response<BaseResponse<MovieDto>>
@@ -171,28 +171,28 @@ interface MovieService {
      *          TV Show Services ...
      * */
     @GET("tv/on_the_air")
-    suspend fun getOnTheAir(): Response<BaseResponse<MovieDto>>
+    suspend fun getOnTheAir(): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/airing_today")
-    suspend fun getAiringToday(): Response<BaseResponse<MovieDto>>
+    suspend fun getAiringToday(): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/top_rated")
-    suspend fun getTopRatedTvShow():Response<BaseResponse<MovieDto>>
+    suspend fun getTopRatedTvShow():Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/popular")
-    suspend fun getPopularTvShow():Response<BaseResponse<MovieDto>>
+    suspend fun getPopularTvShow():Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/latest")
-    suspend fun getLatestTvShow():Response<BaseResponse<MovieDto>>
+    suspend fun getLatestTvShow():Response<BaseResponse<TVShowsDTO>>
 
     @GET("genre/tv/list")
     suspend fun getGenreTvShowList(): Response<GenreResponse>
 
     @GET("discover/tv")
-    suspend fun getTvListByGenre(@Query("with_genres") genreId: Int): Response<BaseResponse<MovieDto>>
+    suspend fun getTvListByGenre(@Query("with_genres") genreId: Int): Response<BaseResponse<TVShowsDTO>>
 
     @GET("discover/tv")
-    suspend fun getAllTvShows(): Response<BaseResponse<MovieDto>>
+    suspend fun getAllTvShows(): Response<BaseResponse<TVShowsDTO>>
 
 }
 

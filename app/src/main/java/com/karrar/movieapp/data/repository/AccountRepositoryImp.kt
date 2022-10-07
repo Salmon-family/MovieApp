@@ -16,11 +16,9 @@ class AccountRepositoryImp @Inject constructor(
     private val dataStorePreferences: DataStorePreferences,
     private val dataClassParser: DataClassParser,
 ) : AccountRepository {
-
     override fun getSessionId(): Flow<String?> {
         return dataStorePreferences.readString(DataStorePreferencesKeys.SESSION_ID_KEY)
     }
-
     override suspend fun loginWithUserNameANdPassword(
         userName: String,
         password: String,
