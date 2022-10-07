@@ -8,13 +8,12 @@ import javax.inject.Inject
 class MovieMapper @Inject constructor() : Mapper<MovieDto, MediaInfo> {
     override fun map(input: MovieDto): MediaInfo {
         return MediaInfo(
-            type = null,
-            id = input.id,
-            name = input.originalTitle,
-            releaseDate = input.releaseDate?.substringBefore('-'),
-            rate = input.voteAverage?.toFloat(),
+            type = Constants.MOVIE,
+            id = input.id ?: 0,
+            name = input.originalTitle ?: "",
+            releaseDate = input.releaseDate?.substringBefore('-') ?: "",
+            rate = input.voteAverage?.toFloat() ?: 0F,
             imagePath = Constants.IMAGE_BASE_PATH + input.backdropPath,
-            profileImage = null
         )
     }
 }

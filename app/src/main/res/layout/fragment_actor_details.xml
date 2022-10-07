@@ -30,7 +30,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:posterImage="@{viewModel.actorDetails.toData().imageUrlActor}"
+                app:posterImage="@{viewModel.actorDetails.toData().actorImage}"
                 tools:src="@drawable/chris_evans" />
 
             <View
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/radius_small"
-                android:text="@{viewModel.actorDetails.toData().name}"
+                android:text="@{viewModel.actorDetails.toData().actorName}"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +94,7 @@
                     style="@style/SemiBold.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.actorDetails.toData().gender}"
+                    android:text="@{viewModel.actorDetails.toData().actorGender}"
                     tools:text="Male" />
             </LinearLayout>
 
@@ -123,7 +123,7 @@
                     style="@style/SemiBold.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.actorDetails.toData().birthday}"
+                    android:text="@{viewModel.actorDetails.toData().actorBirthday}"
                     tools:text="1981-06-13 " />
             </LinearLayout>
 
@@ -154,7 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="@{viewModel.actorDetails.toData().placeOfBirth}"
+                    android:text="@{viewModel.actorDetails.toData().actorPlaceOfBirth}"
                     tools:text=" Massachusetts, USA " />
             </LinearLayout>
 
@@ -265,7 +265,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/radius_medium"
                 android:layout_marginBottom="@dimen/radius_large"
-                android:text="@{viewModel.actorDetails.toData().biography}"
+                android:text="@{viewModel.actorDetails.toData().actorBiography}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

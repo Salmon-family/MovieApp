@@ -14,6 +14,7 @@ object Constants {
 
     const val MOVIE ="movie"
     const val TV_SHOWS ="tv"
+    const val ACTOR ="actor"
 }
 
 object DataStorePreferencesKeys{

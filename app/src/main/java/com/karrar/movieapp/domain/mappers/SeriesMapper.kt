@@ -9,13 +9,12 @@ import javax.inject.Inject
 class SeriesMapper @Inject constructor() : Mapper<SeriesDto, MediaInfo> {
     override fun map(input: SeriesDto): MediaInfo {
         return MediaInfo(
-            type = null,
-            id = input.id,
-            name = input.originalName,
-            releaseDate = input.firstAirDate?.substringBefore('-'),
-            rate = input.voteAverage?.toFloat(),
+            type = Constants.TV_SHOWS,
+            id = input.id ?: 0,
+            name = input.originalName ?: "",
+            releaseDate = input.firstAirDate?.substringBefore('-') ?: "",
+            rate = input.voteAverage?.toFloat() ?: 0F,
             imagePath = Constants.IMAGE_BASE_PATH + input.backdropPath,
-            profileImage = null
         )
     }
 }

@@ -35,7 +35,7 @@
             tools:background="@color/yellow"
             app:layout_constraintTop_toTopOf="parent"
             android:onClick="@{()->listener.onClickMovie(item.mediaID)}"
-            app:posterImage="@{item.imageUrl}"
+            app:posterImage="@{item.mediaImage}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

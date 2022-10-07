@@ -9,7 +9,7 @@ class TrendMapper @Inject constructor() : Mapper<TrendingDto, Media> {
     override fun map(input: TrendingDto): Media {
         return Media(
             mediaID = input.id ?: 0,
-            imageUrl = Constants.IMAGE_BASE_PATH + input.posterPath,
+            mediaImage = Constants.IMAGE_BASE_PATH + input.posterPath,
             mediaType = input.mediaType ?: Constants.TV_SHOWS
         )
     }
