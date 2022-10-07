@@ -1,7 +1,7 @@
 package com.karrar.movieapp.ui.search
 
 import android.os.Bundle
-import android.transition.ChangeBounds
+import android.transition.ChangeTransform
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +27,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedElementEnterTransition = ChangeBounds()
+        sharedElementEnterTransition = ChangeTransform()
         setTitle(false)
 
         observeEvents()
