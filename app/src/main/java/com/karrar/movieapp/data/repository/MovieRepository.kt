@@ -3,8 +3,9 @@ package com.karrar.movieapp.data.repository
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.domain.models.*
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.RatingDto
+import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.domain.models.ActorDetails
 import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.domain.models.Genre
@@ -24,17 +25,15 @@ interface MovieRepository {
 
     fun getTrendingMovies(): Flow<State<List<Media>>>
 
-    //fun getTrendingPersons(): Flow<State<List<Actor>>>
-
     fun searchForPerson(query: String): Flow<State<List<MediaInfo>>>
 
     fun searchForMovie(query: String): Flow<State<List<MediaInfo>>>
 
     fun searchForSeries(query: String): Flow<State<List<MediaInfo>>>
 
-    fun getGenreList(): Flow<State<List<Genre>>>
+    fun getMovieGenreList(): Flow<State<List<Genre>>>
 
-    fun getMovieListByGenre(genreID: Int): Flow<State<List<Media>>>
+    fun getMovieListByGenreID(genreID: Int): Flow<State<List<Media>>>
 
     fun getActorDetails(actorId: Int): Flow<State<ActorDetails>>
 
@@ -48,7 +47,7 @@ interface MovieRepository {
 
     fun getActorMovies(actorId: Int): Flow<State<List<Media?>>>
 
-    fun getDailyTrending(): Flow<State<List<Trend>>>
+    fun getDailyTrending(): Flow<State<List<Media>>>
 
     fun getAllMovies(): Flow<State<List<Media>>>
 
@@ -64,9 +63,9 @@ interface MovieRepository {
 
     fun getMovieTrailer(movieId: Int): Flow<State<Trailer>>
 
-    fun getAllLists(accountId: Int,session_id:String): Flow<State<BaseResponse<CreatedListDto>>>
+    fun getAllLists(accountId: Int, sessionId:String): Flow<State<BaseResponse<CreatedListDto>>>
 
-    fun addMovieToList(sessionId: String, list_id: Int, movie_id: Int): Flow<State<AddMovieDto>>
+    fun addMovieToList(sessionId: String, listId: Int, movieId: Int): Flow<State<AddMovieDto>>
 
     fun getListDetails(listId: Int): Flow<State<ListDetailsDto>>
 

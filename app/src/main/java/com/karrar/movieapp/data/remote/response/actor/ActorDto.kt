@@ -1,9 +1,9 @@
-package com.karrar.movieapp.data.remote.response.actorDetailsDto
+package com.karrar.movieapp.data.remote.response.actor
 
 
 import com.google.gson.annotations.SerializedName
 
-data class ActorDetailsDto(
+data class ActorDto(
     @SerializedName("adult")
     val adult: Boolean? = null,
     @SerializedName("also_known_as")

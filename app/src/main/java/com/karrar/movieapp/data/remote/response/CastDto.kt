@@ -1,17 +1,17 @@
-package com.karrar.movieapp.data.remote.response.actorDetailsDto
+package com.karrar.movieapp.data.remote.response
 
 
 import com.google.gson.annotations.SerializedName
 
-data class Crew(
+data class CastDto(
     @SerializedName("adult")
     val adult: Boolean? = null,
     @SerializedName("backdrop_path")
     val backdropPath: String? = null,
+    @SerializedName("character")
+    val character: String? = null,
     @SerializedName("credit_id")
     val creditId: String? = null,
-    @SerializedName("department")
-    val department: String? = null,
     @SerializedName("episode_count")
     val episodeCount: Int? = null,
     @SerializedName("first_air_date")
@@ -20,8 +20,6 @@ data class Crew(
     val genreIds: List<Int?>? = null,
     @SerializedName("id")
     val id: Int? = null,
-    @SerializedName("job")
-    val job: String? = null,
     @SerializedName("media_type")
     val mediaType: String? = null,
     @SerializedName("name")
@@ -49,5 +47,7 @@ data class Crew(
     @SerializedName("vote_average")
     val voteAverage: Double? = null,
     @SerializedName("vote_count")
-    val voteCount: Int? = null
+    val voteCount: Int? = null,
+    @SerializedName("profile_path")
+    val profilePath: String? = null
 )

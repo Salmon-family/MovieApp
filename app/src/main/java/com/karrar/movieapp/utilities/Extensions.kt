@@ -10,6 +10,8 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.State
+import com.karrar.movieapp.data.remote.response.ListDetailsDto
+import com.karrar.movieapp.data.remote.response.trailerVideosDto.ResultDto
 import com.karrar.movieapp.databinding.ChipItemCategoryBinding
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.category.CategoryInteractionListener
@@ -29,8 +31,6 @@ inline fun <T> LiveData<Event<T>>.observeEvent(owner: LifecycleOwner, crossinlin
     observe(owner) { it?.getContentIfNotHandled()?.let(onEventUnhandledContent) }
 }
 
-
-
 fun <T> ChipGroup.createChip(item: Genre, listener: T): View {
     val chipBinding: ChipItemCategoryBinding = DataBindingUtil.inflate(
         LayoutInflater.from(context),
@@ -41,4 +41,23 @@ fun <T> ChipGroup.createChip(item: Genre, listener: T): View {
     chipBinding.item = item
     chipBinding.listener = listener as CategoryInteractionListener
     return chipBinding.root
+}
+
+fun String.checkIfGuest() =
+    if (this == "") "Guest" else this
+
+fun List<ResultDto?>.getKey(): String? =
+    this.map {
+        if (it?.type == "Trailer")
+            return it.key
+    }.toString()
+
+
+fun ListDetailsDto.checkIfExist(movie_id: Int): Boolean {
+    this.items?.map {
+        if (it?.id == movie_id){
+            return true
+        }
+    }
+    return false
 }

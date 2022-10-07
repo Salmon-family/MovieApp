@@ -1,6 +1,6 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.ReviewsDto
+import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.domain.models.Review
 import javax.inject.Inject
 

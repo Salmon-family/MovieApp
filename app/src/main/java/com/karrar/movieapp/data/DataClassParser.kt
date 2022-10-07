@@ -1,4 +1,4 @@
-package com.karrar.movieapp.utilities
+package com.karrar.movieapp.data
 
 import com.google.gson.Gson
 import javax.inject.Inject

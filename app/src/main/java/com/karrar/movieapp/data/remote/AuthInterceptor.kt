@@ -15,7 +15,6 @@ class AuthInterceptor @Inject constructor() : Interceptor {
         return chain.proceed(request)
     }
 
-
     companion object {
         private const val API_KEY_PARAMETER = "api_key"
     }

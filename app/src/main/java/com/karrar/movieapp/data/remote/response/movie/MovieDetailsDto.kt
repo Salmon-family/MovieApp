@@ -1,29 +1,28 @@
-package com.karrar.movieapp.data.remote.response
+package com.karrar.movieapp.data.remote.response.movie
 
 
 import com.google.gson.annotations.SerializedName
+import com.karrar.movieapp.data.remote.response.genre.GenreDto
 
-data class MediaDto(
+data class MovieDetailsDto(
     @SerializedName("adult")
     val adult: Boolean? = null,
     @SerializedName("backdrop_path")
     val backdropPath: String? = null,
-    @SerializedName("first_air_date")
-    val firstAirDate: String? = null,
-    @SerializedName("genre_ids")
-    val genreIds: List<Int?>? = null,
+    @SerializedName("belongs_to_collection")
+    val belongsToCollection: BelongsToCollectionDto? = null,
+    @SerializedName("budget")
+    val budget: Int? = null,
+    @SerializedName("genres")
+    val genres: List<GenreDto?>? = null,
+    @SerializedName("homepage")
+    val homepage: String? = null,
     @SerializedName("id")
     val id: Int? = null,
-    @SerializedName("media_type")
-    val mediaType: String? = null,
-    @SerializedName("name")
-    val name: String? = null,
-    @SerializedName("origin_country")
-    val originCountry: List<String?>? = null,
+    @SerializedName("imdb_id")
+    val imdbId: String? = null,
     @SerializedName("original_language")
     val originalLanguage: String? = null,
-    @SerializedName("original_name")
-    val originalName: String? = null,
     @SerializedName("original_title")
     val originalTitle: String? = null,
     @SerializedName("overview")
@@ -34,6 +33,16 @@ data class MediaDto(
     val posterPath: String? = null,
     @SerializedName("release_date")
     val releaseDate: String? = null,
+    @SerializedName("revenue")
+    val revenue: Int? = null,
+    @SerializedName("runtime")
+    val runtime: Int? = null,
+    @SerializedName("spoken_languages")
+    val spokenLanguages: List<SpokenLanguageDto?>? = null,
+    @SerializedName("status")
+    val status: String? = null,
+    @SerializedName("tagline")
+    val tagline: String? = null,
     @SerializedName("title")
     val title: String? = null,
     @SerializedName("video")
@@ -41,7 +50,5 @@ data class MediaDto(
     @SerializedName("vote_average")
     val voteAverage: Double? = null,
     @SerializedName("vote_count")
-    val voteCount: Int? = null,
-    @SerializedName("profile_path")
-    val profilePath: String? = null
+    val voteCount: Int? = null
 )

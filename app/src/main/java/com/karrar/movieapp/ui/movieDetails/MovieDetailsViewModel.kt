@@ -3,7 +3,7 @@ package com.karrar.movieapp.ui.movieDetails
 import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.data.remote.response.RatedMovie
+import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.ui.base.BaseViewModel

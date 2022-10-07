@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface AccountRepository {
 
-
     fun getSessionId(): Flow<String?>
 
     suspend fun loginWithUserNameANdPassword(

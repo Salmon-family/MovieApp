@@ -4,15 +4,15 @@ import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.response.login.SessionResponse
 import com.karrar.movieapp.data.remote.response.BaseResponse
-import com.karrar.movieapp.data.remote.response.MovieDto
-import com.karrar.movieapp.data.remote.response.GenreResponse
-import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorDetailsDto
-import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorMoviesDto
-import com.karrar.movieapp.data.remote.response.ActorDto
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.MovieDetailsDto
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.RatingDto
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.cast.CreditsDto
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.ReviewsDto
+import com.karrar.movieapp.data.remote.response.movie.MovieDto
+import com.karrar.movieapp.data.remote.response.genre.GenreResponse
+import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
+import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
+import com.karrar.movieapp.data.remote.response.movie.RatingDto
+import com.karrar.movieapp.data.remote.response.CreditsDto
+import com.karrar.movieapp.data.remote.response.movie.RatedMovie
+import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
 import retrofit2.Response
@@ -85,7 +85,7 @@ interface MovieService {
     @GET("person/{person_id}")
     suspend fun getActorDetails(
         @Path("person_id") actorId: Int,
-    ): Response<ActorDetailsDto>
+    ): Response<ActorDto>
 
     @GET("person/{person_id}/movie_credits")
     suspend fun getActorMovies(
@@ -166,6 +166,33 @@ interface MovieService {
         @Path("account_id") listId: Int,
         @Query("session_id") sessionId: String,
     ): Response<BaseResponse<RatedMovie>>
+
+    /**
+     *          TV Show Services ...
+     * */
+    @GET("tv/on_the_air")
+    suspend fun getOnTheAir(): Response<BaseResponse<MovieDto>>
+
+    @GET("tv/airing_today")
+    suspend fun getAiringToday(): Response<BaseResponse<MovieDto>>
+
+    @GET("tv/top_rated")
+    suspend fun getTopRatedTvShow():Response<BaseResponse<MovieDto>>
+
+    @GET("tv/popular")
+    suspend fun getPopularTvShow():Response<BaseResponse<MovieDto>>
+
+    @GET("tv/latest")
+    suspend fun getLatestTvShow():Response<BaseResponse<MovieDto>>
+
+    @GET("genre/tv/list")
+    suspend fun getGenreTvShowList(): Response<GenreResponse>
+
+    @GET("discover/tv")
+    suspend fun getTvListByGenre(@Query("with_genres") genreId: Int): Response<BaseResponse<MovieDto>>
+
+    @GET("discover/tv")
+    suspend fun getAllTvShows(): Response<BaseResponse<MovieDto>>
 
 }
 

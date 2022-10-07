@@ -1,6 +1,7 @@
-package com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews
+package com.karrar.movieapp.data.remote.response.review
 
 import com.google.gson.annotations.SerializedName
+import com.karrar.movieapp.data.remote.response.review.AuthorDetailsDto
 
 
 data class ReviewsDto(

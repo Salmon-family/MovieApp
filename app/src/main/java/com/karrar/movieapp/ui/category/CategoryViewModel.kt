@@ -47,9 +47,9 @@ class CategoryViewModel @Inject constructor(
     private fun setCategoryType() {
         when (categoryTypeId) {
             MOVIE_CATEGORIES_ID ->
-                collectResponse(movieRepository.getGenreList()) { _categories.postValue(it) }
+                collectResponse(movieRepository.getMovieGenreList()) { _categories.postValue(it) }
             TV_CATEGORIES_ID ->
-                collectResponse(seriesRepository.getGenreList()) { _categories.postValue(it) }
+                collectResponse(seriesRepository.getTVShowsGenreList()) { _categories.postValue(it) }
         }
     }
 
@@ -78,9 +78,9 @@ class CategoryViewModel @Inject constructor(
     private fun setMediaList(id: Int) {
         when (categoryTypeId) {
             MOVIE_CATEGORIES_ID ->
-                collectResponse(movieRepository.getMovieListByGenre(id)) { _mediaList.postValue(it) }
+                collectResponse(movieRepository.getMovieListByGenreID(id)) { _mediaList.postValue(it) }
             TV_CATEGORIES_ID ->
-                collectResponse(seriesRepository.getTvShowsByGenre(id)) { _mediaList.postValue(it) }
+                collectResponse(seriesRepository.getTvShowsByGenreID(id)) { _mediaList.postValue(it) }
         }
     }
 

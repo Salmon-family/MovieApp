@@ -72,11 +72,11 @@ class AllMovieViewModel @Inject constructor(
             }
 
             MovieType.MYSTERY -> {
-                movieRepository.getMovieListByGenre(Constants.MYSTERY_ID)
+                movieRepository.getMovieListByGenreID(Constants.MYSTERY_ID)
             }
 
             MovieType.ADVENTURE -> {
-                movieRepository.getMovieListByGenre(Constants.ADVENTURE_ID)
+                movieRepository.getMovieListByGenreID(Constants.ADVENTURE_ID)
             }
 
             MovieType.NOW_STREAMING -> {

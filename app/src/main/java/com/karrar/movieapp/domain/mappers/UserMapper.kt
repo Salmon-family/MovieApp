@@ -1,6 +1,6 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.AuthorDetailsDto
+import com.karrar.movieapp.data.remote.response.review.AuthorDetailsDto
 import com.karrar.movieapp.domain.models.User
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.checkIfGuest

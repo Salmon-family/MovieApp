@@ -1,14 +1,12 @@
 package com.karrar.movieapp.domain.mappers
 
-import android.widget.TextView
-import com.karrar.movieapp.data.remote.response.actorDetailsDto.ActorDetailsDto
-import com.karrar.movieapp.data.remote.response.actorDetailsDto.CastDto
+import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.domain.models.ActorDetails
 import com.karrar.movieapp.utilities.Constants.IMAGE_BASE_PATH
 import javax.inject.Inject
 
-class ActorDetailsMapper @Inject constructor(): Mapper<ActorDetailsDto, ActorDetails> {
-    override fun map(input: ActorDetailsDto): ActorDetails {
+class ActorDetailsMapper @Inject constructor(): Mapper<ActorDto, ActorDetails> {
+    override fun map(input: ActorDto): ActorDetails {
 
         var gender = ""
         if (input.gender == 1){

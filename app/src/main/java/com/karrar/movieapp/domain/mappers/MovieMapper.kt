@@ -1,7 +1,6 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.karrar.movieapp.data.remote.response.MovieDto
-import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.data.remote.response.movie.MovieDto
 import com.karrar.movieapp.domain.models.MediaInfo
 import com.karrar.movieapp.utilities.Constants
 import javax.inject.Inject

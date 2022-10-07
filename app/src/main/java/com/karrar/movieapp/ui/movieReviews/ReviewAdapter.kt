@@ -1,7 +1,7 @@
 package com.karrar.movieapp.ui.movieReviews
 
 import com.karrar.movieapp.R
-import com.karrar.movieapp.data.remote.response.movieDetailsDto.reviews.ReviewsDto
+import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 
