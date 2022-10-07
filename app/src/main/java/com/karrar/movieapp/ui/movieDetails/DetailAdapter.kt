@@ -59,9 +59,7 @@ class DetailAdapter(
             }
             is DetailItem.Comment -> {
                 holder.binding.run {
-                    setVariable(BR.adapterRecycler,ReviewAdapter(currentItem.data,listener as MovieInteractionListener))
-
-                    setVariable(BR.viewModel, currentItem.viewModel)
+                    setVariable(BR.adapterRecycler,ReviewAdapter(currentItem.data,listener as DetailInteractionListener))
                 }
             }
         }

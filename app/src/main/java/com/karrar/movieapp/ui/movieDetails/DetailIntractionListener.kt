@@ -9,4 +9,6 @@ interface DetailInteractionListener :BaseInteractionListener {
     fun onClickSave()
 
     fun onClickPlayTrailer()
+
+    fun onclickViewReviews()
 }

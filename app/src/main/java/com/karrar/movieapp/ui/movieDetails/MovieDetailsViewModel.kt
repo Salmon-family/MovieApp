@@ -6,7 +6,6 @@ import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.*
-import com.karrar.movieapp.ui.actorDetails.ActorDetailsFragmentArgs
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
@@ -18,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
-    private val state: SavedStateHandle
+    state: SavedStateHandle
 ) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener , DetailInteractionListener {
 
     private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
@@ -128,12 +127,12 @@ class MovieDetailsViewModel @Inject constructor(
         _clickBackEvent.postValue(Event(true))
     }
 
-    fun onclickViewReviews() {
+    override fun onclickViewReviews() {
         _clickReviewsEvent.postValue(Event(true))
     }
 
-    override fun onClickMovie(movie_id: Int) {
-        _clickMovieEvent.postValue(Event(movie_id))
+    override fun onClickMovie(movieId: Int) {
+        _clickMovieEvent.postValue(Event(movieId))
     }
 
     override fun onClickSeeAllMovie(movieType: MovieType) {

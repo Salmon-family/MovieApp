@@ -6,8 +6,8 @@
 
     <data>
         <variable
-            name="viewModel"
-            type="com.karrar.movieapp.ui.movieDetails.MovieDetailsViewModel" />
+            name="listener"
+            type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
 
         <variable
             name="adapterRecycler"
@@ -28,7 +28,7 @@
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_large"
             android:text="@string/reviews_comment"
-            app:isThereReview="@{viewModel.movieReviews.toData()}"
+            app:isVisible="@{(adapterRecycler.itemCount>0)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
@@ -38,13 +38,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:itemsWithMax="@{viewModel.movieReviews.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             android:adapter="@{adapterRecycler}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/reviews_comment"
-            app:showWhenSuccess="@{viewModel.movieDetails}"
             tools:listitem="@layout/item_movie_review" />
 
         <com.google.android.material.button.MaterialButton
@@ -54,13 +52,13 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="@dimen/spacing_small"
-            android:onClick="@{() -> viewModel.onclickViewReviews()}"
+            android:onClick="@{() -> listener.onclickViewReviews()}"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:text="View all reviews"
+            android:text="@string/view_all_reviews"
             android:textAllCaps="false"
             app:cornerRadius="@dimen/radius_small"
-            app:isVisible="@{adapterRecycler.itemCount}"
+            app:isVisible="@{(adapterRecycler.itemCount>3)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/comment_review_adapter"
