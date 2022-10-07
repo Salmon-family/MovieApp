@@ -13,6 +13,7 @@ object Constants {
     const val ALL = "All"
 
     const val MOVIE ="movie"
+    const val TV_SHOWS ="tv"
 }
 
 object DataStorePreferencesKeys{

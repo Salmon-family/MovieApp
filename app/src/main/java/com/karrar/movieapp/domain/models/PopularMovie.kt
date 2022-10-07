@@ -5,5 +5,5 @@ data class PopularMovie(
     val title: String,
     val imageUrl: String,
     val movieRate:Double,
-    val genre: List<Genre>?,
+    val genre: List<Genre>,
 )

@@ -43,8 +43,8 @@ fun <T> ChipGroup.createChip(item: Genre, listener: T): View {
     return chipBinding.root
 }
 
-fun String.checkIfGuest() =
-    if (this == "") "Guest" else this
+//fun String.checkIfGuest() =
+//    if (this == "") "Guest" else this
 
 fun List<ResultDto?>.getKey(): String? =
     this.map {

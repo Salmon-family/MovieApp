@@ -9,7 +9,7 @@
             type="com.karrar.movieapp.domain.models.MediaInfo" />
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.search.PersonInteractionListener" />
+            type="com.karrar.movieapp.ui.search.adapters.PersonInteractionListener" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

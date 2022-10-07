@@ -45,7 +45,7 @@ interface MovieRepository {
 
     fun getTrendingActors(): Flow<State<List<Actor>>>
 
-    fun getActorMovies(actorId: Int): Flow<State<List<Media?>>>
+    fun getActorMovies(actorId: Int): Flow<State<List<Media>>>
 
     fun getDailyTrending(): Flow<State<List<Media>>>
 
@@ -53,7 +53,7 @@ interface MovieRepository {
 
     fun getMovieDetails(movieId: Int): Flow<State<MovieDetails>>
 
-    fun getMovieCast(movieId: Int): Flow<State<List<Cast>>>
+    fun getMovieCast(movieId: Int): Flow<State<List<Actor>>>
 
     fun getSimilarMovie(movieId: Int): Flow<State<List<Media>>>
 

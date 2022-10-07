@@ -9,7 +9,7 @@ class ActorMapper @Inject constructor() : Mapper<ActorDto, Actor> {
     override fun map(input: ActorDto): Actor {
         return Actor(
             actorID = input.id ?: 0,
-            actorName = input.name,
+            actorName = input.name ?: "unknown",
             actorImage = Constants.IMAGE_BASE_PATH + input.profilePath
         )
     }

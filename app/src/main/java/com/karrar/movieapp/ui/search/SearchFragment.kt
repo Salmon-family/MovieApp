@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentSearchBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.search.adapters.PersonAdapter
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryAdapter
+import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -31,7 +33,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.recyclerSearchHistory.adapter = SearchHistoryAdapter(mutableListOf(), viewModel)
         lifecycleScope.launch {
             viewModel.mediaType.collect {
-                if (it == "movie" || it == "tv") {
+                if (it == Constants.MOVIE || it == Constants.TV_SHOWS) {
                     bindMedia()
                 } else {
                     bindActors()
@@ -48,7 +50,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun navigateToMovieDetails() {
-        if (viewModel.mediaType.value == "movie") {
+        if (viewModel.mediaType.value == Constants.MOVIE) {
             viewModel.clickMediaEvent.observe(viewLifecycleOwner, EventObserve {
                 findNavController().navigate(
                     SearchFragmentDirections.actionSearchFragmentToMovieDetailFragment(
@@ -60,7 +62,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun navigateToSeriesDetails() {
-        if (viewModel.mediaType.value == "tv") {
+        if (viewModel.mediaType.value == Constants.TV_SHOWS) {
         }
     }
 
@@ -89,8 +91,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         }
     }
 
-    private fun backToExplore(){
-        viewModel.clickBackEvent.observe(viewLifecycleOwner, EventObserve{
+    private fun backToExplore() {
+        viewModel.clickBackEvent.observe(viewLifecycleOwner, EventObserve {
             findNavController().popBackStack()
         })
     }

@@ -21,8 +21,8 @@ class MovieDetailsViewModel @Inject constructor(
     private var _movieDetails = MutableLiveData<State<MovieDetails>>()
     val movieDetails: LiveData<State<MovieDetails>> = _movieDetails
 
-    private var _movieCast = MutableLiveData<State<List<Cast>>>()
-    val movieCast: LiveData<State<List<Cast>>> = _movieCast
+    private var _movieCast = MutableLiveData<State<List<Actor>>>()
+    val movieCast: LiveData<State<List<Actor>>> = _movieCast
 
     private var _similarMovie = MutableLiveData<State<List<Media>>>()
     val similarMovie: LiveData<State<List<Media>>> = _similarMovie

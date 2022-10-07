@@ -368,20 +368,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/comment_review_adapter"
                 app:showWhenSuccess="@{viewModel.movieDetails}"
                 tools:text="Play Trailer" />
-
-<!--            <include-->
-<!--                android:id="@+id/loading"-->
-<!--                layout="@layout/loading"-->
-<!--                app:showWhenLoading="@{viewModel.movieReviews}"-->
-<!--                tools:visibility="gone" />-->
-
-<!--            <include-->
-<!--                android:id="@+id/error"-->
-<!--                layout="@layout/error"-->
-<!--                app:showWhenFail="@{viewModel.movieReviews}"-->
-<!--                tools:visibility="gone" />-->
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

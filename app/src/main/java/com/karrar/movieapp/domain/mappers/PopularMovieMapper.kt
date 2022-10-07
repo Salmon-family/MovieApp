@@ -8,7 +8,6 @@ import com.karrar.movieapp.utilities.Constants.IMAGE_BASE_PATH
 import javax.inject.Inject
 
 class PopularMovieMapper @Inject constructor() {
-
     fun mapGenreMovie(movies: List<MovieDto>, genreList: List<GenreDto>): List<PopularMovie> {
         val popularMovies = mutableListOf<PopularMovie>()
         movies.forEach { movie ->
@@ -20,9 +19,10 @@ class PopularMovieMapper @Inject constructor() {
     private fun mapToPopularMovie(movie: MovieDto, genreList: List<GenreDto>): PopularMovie {
         val genres = mutableListOf<Genre>()
         movie.genreIds?.forEach { movieGenreID ->
-            genres.add(Genre(movieGenreID, genreList.find { it.id == movieGenreID }?.name))
+            genres.add(
+                Genre(movieGenreID, genreList.find { it.id == movieGenreID }?.name ?: "")
+            )
         }
-
         return PopularMovie(
             movieID = movie.id ?: 0,
             title = movie.title ?: "",

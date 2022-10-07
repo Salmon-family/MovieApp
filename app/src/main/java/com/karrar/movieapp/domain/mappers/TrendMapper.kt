@@ -10,7 +10,7 @@ class TrendMapper @Inject constructor() : Mapper<TrendingDto, Media> {
         return Media(
             mediaID = input.id ?: 0,
             imageUrl = Constants.IMAGE_BASE_PATH + input.posterPath,
-            mediaType = input.mediaType ?: ""
+            mediaType = input.mediaType ?: Constants.TV_SHOWS
         )
     }
 }

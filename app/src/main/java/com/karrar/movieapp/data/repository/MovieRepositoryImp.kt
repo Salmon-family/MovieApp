@@ -79,12 +79,10 @@ class MovieRepositoryImp @Inject constructor(
         return wrap({ movieService.getActorDetails(actorId) }, { actorDetailsMapper.map(it) })
     }
 
-    override fun getActorMovies(actorId: Int): Flow<State<List<Media?>>> {
+    override fun getActorMovies(actorId: Int): Flow<State<List<Media>>> {
         return wrap({ movieService.getActorMovies(actorId) }, { actorMoviesDto ->
-            actorMoviesDto.cast?.map { cast ->
-                cast?.let {
-                    actorMoviesMapper.map(it)
-                }
+            actorMoviesDto.cast?.mapNotNull { cast ->
+                cast?.let { actorMoviesMapper.map(it) }
             } ?: emptyList()
         })
     }
@@ -170,7 +168,7 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getMovieCast(movieId: Int): Flow<State<List<Cast>>> {
+    override fun getMovieCast(movieId: Int): Flow<State<List<Actor>>> {
         return wrap({ movieService.getMovieCast(movieId) }, { response ->
             response.cast?.map { castMapper.map(it) } ?: emptyList()
         })
