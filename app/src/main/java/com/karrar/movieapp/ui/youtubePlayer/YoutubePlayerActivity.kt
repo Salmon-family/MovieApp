@@ -11,15 +11,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class YoutubePlayerActivity : BaseActivity<ActivityYoutubePlayerBinding>() {
 
     override val layoutIdActivity: Int = R.layout.activity_youtube_player
-
     override val viewModel: YoutubePlayerViewModel by viewModels()
-
-//    private val args: YoutubePlayerFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel.getMovieTrailer(550)
     }
-
 }

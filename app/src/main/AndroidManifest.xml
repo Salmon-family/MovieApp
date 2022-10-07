@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.karrar.movieapp">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".MovieApplication"
@@ -17,30 +17,25 @@
         android:theme="@style/Theme.MovieApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".ui.youtubePlayer.YoutubePlayerActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true">
 
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MovieApp.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
 
+        <activity
+            android:name=".ui.youtubePlayer.YoutubePlayerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-        </activity>
-        <activity
-            android:name=".ui.main.MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.MovieApp.SplashScreen">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
         </activity>
     </application>
 
