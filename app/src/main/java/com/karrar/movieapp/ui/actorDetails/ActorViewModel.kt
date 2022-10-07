@@ -9,7 +9,7 @@ import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.ActorDetails
 import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.ui.home.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
@@ -45,14 +45,16 @@ class ActorViewModel @Inject constructor(
     val clickMovieEvent = _clickMovieEvent.toLiveData()
 
     init {
-        getActorDetailsById()
+        getActorDetails()
     }
 
-    private fun getActorDetailsById() {
+    private fun getActorDetails() {
         _actorDetails.postValue(State.Loading)
+
         collectResponse(movieRepository.getActorDetails(actorId)) {
             _actorDetails.postValue(it)
         }
+
         collectResponse(movieRepository.getActorMovies(actorId)) {
             _actorMovies.postValue(it)
         }

@@ -8,8 +8,8 @@ import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MovieType
-import com.karrar.movieapp.ui.home.adapters.ActorsInteractionListener
-import com.karrar.movieapp.ui.home.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
+import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     movieRepository: MovieRepository,
     seriesRepository: SeriesRepository
-) : ViewModel(), HomeInteractionListener , ActorsInteractionListener , MovieInteractionListener {
+) : ViewModel(), HomeInteractionListener , ActorsInteractionListener, MovieInteractionListener {
 
 
     private val homeItems = MediatorLiveData<HomeRecyclerItem>()

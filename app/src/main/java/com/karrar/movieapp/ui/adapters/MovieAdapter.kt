@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.home.adapters
+package com.karrar.movieapp.ui.adapters
 
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MovieType

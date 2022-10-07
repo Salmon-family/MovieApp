@@ -9,7 +9,7 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentActorDetailsBinding
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.home.adapters.MovieAdapter
+import com.karrar.movieapp.ui.adapters.MovieAdapter
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +22,6 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
-
         setMovieAdapter()
         observeEvents()
     }
@@ -60,4 +59,5 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
     private fun removeFragment() {
         findNavController().popBackStack()
     }
+
 }

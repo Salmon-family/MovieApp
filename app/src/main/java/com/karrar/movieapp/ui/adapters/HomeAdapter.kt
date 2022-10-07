@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.home.adapters
+package com.karrar.movieapp.ui.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -36,8 +36,10 @@ class HomeAdapter(
     override fun bind(holder: ItemViewHolder, position: Int) {
         when (val currentItem = items[position]) {
             is HomeRecyclerItem.Slider -> {
-                holder.binding.setVariable(BR.adapterRecycler,
-                    PopularMovieAdapter(currentItem.items, listener as HomeInteractionListener))
+                holder.binding.setVariable(
+                    BR.adapterRecycler,
+                    PopularMovieAdapter(currentItem.items, listener as HomeInteractionListener)
+                )
             }
 
             is HomeRecyclerItem.TvShows -> {
@@ -47,46 +49,64 @@ class HomeAdapter(
                     setVariable(BR.latest, currentItem.items.last())
                 }
             }
+
             is HomeRecyclerItem.Actor -> {
                 holder.binding.run {
-                    setVariable(BR.adapterRecycler,
-                        ActorAdapter(currentItem.items, listener as ActorsInteractionListener))
+                    setVariable(
+                        BR.adapterRecycler,
+                        ActorAdapter(
+                            currentItem.items,
+                            R.layout.item_actor,
+                            listener as ActorsInteractionListener
+                        )
+                    )
                     setVariable(BR.listener, listener as HomeInteractionListener)
                 }
 
             }
+
             is HomeRecyclerItem.AiringToday -> {
                 holder.binding.run {
-                    setVariable(BR.adapterRecycler,
-                        AiringTodayAdapter(currentItem.items.take(6),
-                            listener as HomeInteractionListener))
+                    setVariable(
+                        BR.adapterRecycler,
+                        AiringTodayAdapter(
+                            currentItem.items.take(6),
+                            listener as HomeInteractionListener
+                        )
+                    )
                     setVariable(BR.count, currentItem.items.size)
                 }
             }
+
             is HomeRecyclerItem.Adventure -> {
                 bindMovie(holder, currentItem.items, currentItem.type)
 
 
             }
+
             is HomeRecyclerItem.Mystery -> {
                 bindMovie(holder, currentItem.items, currentItem.type)
 
             }
+
             is HomeRecyclerItem.NowStreaming -> {
                 bindMovie(holder, currentItem.items, currentItem.type)
 
 
             }
+
             is HomeRecyclerItem.OnTheAiring -> {
                 bindMovie(holder, currentItem.items, currentItem.type)
 
 
             }
+
             is HomeRecyclerItem.Trending -> {
                 bindMovie(holder, currentItem.items, currentItem.type)
 
 
             }
+
             is HomeRecyclerItem.Upcoming -> {
                 bindMovie(holder, currentItem.items, currentItem.type)
 
@@ -97,8 +117,10 @@ class HomeAdapter(
 
     private fun bindMovie(holder: ItemViewHolder, items: List<Media>, type: MovieType) {
         holder.binding.run {
-            setVariable(BR.adapterRecycler,
-                MovieAdapter(items, listener as MovieInteractionListener))
+            setVariable(
+                BR.adapterRecycler,
+                MovieAdapter(items, listener as MovieInteractionListener)
+            )
             setVariable(BR.movieType, type)
         }
     }

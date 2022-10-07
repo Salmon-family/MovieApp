@@ -11,7 +11,7 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.movieDetails.CastInteractionListener" />
+            type="com.karrar.movieapp.ui.adapters.ActorsInteractionListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -20,7 +20,7 @@
         android:layout_marginVertical="@dimen/spacing_small"
         android:layout_marginStart="@dimen/spacing_medium"
         android:backgroundTint="@color/background_color"
-        android:onClick="@{() -> listener.onClickCast(item.actorID)}">
+        android:onClick="@{() -> listener.onClickActor(item.actorID)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

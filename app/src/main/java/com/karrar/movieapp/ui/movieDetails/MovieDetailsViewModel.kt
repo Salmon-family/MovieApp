@@ -6,8 +6,9 @@ import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.*
+import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.home.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     private val movieRepository: MovieRepository
-) : BaseViewModel(), CastInteractionListener, MovieInteractionListener {
+) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener {
 
     private var _movieDetails = MutableLiveData<State<MovieDetails>>()
     val movieDetails: LiveData<State<MovieDetails>> = _movieDetails
@@ -123,17 +124,16 @@ class MovieDetailsViewModel @Inject constructor(
         _clickReviewsEvent.postValue(Event(true))
     }
 
-    override fun onClickCast(cast_id: Int) {
-        _clickCastEvent.postValue(Event(cast_id))
-
-    }
-
     override fun onClickMovie(movie_id: Int) {
         _clickMovieEvent.postValue(Event(movie_id))
     }
 
     override fun onClickSeeAllMovie(movieType: MovieType) {
 
+    }
+
+    override fun onClickActor(actorID: Int) {
+        _clickCastEvent.postValue(Event(actorID))
     }
 
 }
