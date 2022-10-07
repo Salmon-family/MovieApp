@@ -9,7 +9,7 @@
 
         <variable
             name="adapterRecycler"
-            type="com.karrar.movieapp.ui.adapters.AiringTodayAdapter" />
+            type="com.karrar.movieapp.ui.adapters.MediaAdapter" />
 
         <variable
             name="count"

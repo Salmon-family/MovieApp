@@ -27,10 +27,10 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
             resources.getString(R.string.movies)
         }
         setTitle(true, title)
-        
+
         setMediaAdapter()
         observeEvents()
-        
+
     }
 
     private fun observeEvents() {
@@ -43,8 +43,9 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     }
 
 
-        private fun setMediaAdapter() {
-        binding.recyclerMedia.adapter = MediaAdapter(mutableListOf(), viewModel)
+    private fun setMediaAdapter() {
+        binding.recyclerMedia.adapter =
+            MediaAdapter(mutableListOf(), R.layout.item_media, viewModel)
     }
 
 }

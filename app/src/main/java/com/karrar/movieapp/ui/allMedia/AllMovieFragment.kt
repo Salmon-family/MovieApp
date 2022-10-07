@@ -25,7 +25,8 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
     }
 
     private fun setMovieAdapter() {
-        binding.recyclerMedia.adapter = MediaAdapter(mutableListOf(), viewModel)
+        binding.recyclerMedia.adapter =
+            MediaAdapter(mutableListOf(), R.layout.item_media, viewModel)
     }
 
     private fun observeEvents() {

@@ -8,7 +8,7 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.home.HomeInteractionListener" />
+            type="com.karrar.movieapp.ui.adapters.MediaInteractionListener" />
 
         <variable
             name="item"
@@ -25,7 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/yellow"
-            android:onClick="@{()->listener.onClickAiringToday(item.mediaID)}"
+            android:onClick="@{()->listener.onClickMedia(item.mediaID)}"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1.4"

@@ -69,9 +69,10 @@ class HomeAdapter(
                 holder.binding.run {
                     setVariable(
                         BR.adapterRecycler,
-                        AiringTodayAdapter(
+                        MediaAdapter(
                             currentItem.items.take(6),
-                            listener as HomeInteractionListener
+                            R.layout.item_airing_today,
+                            listener as MediaInteractionListener
                         )
                     )
                     setVariable(BR.count, currentItem.items.size)
