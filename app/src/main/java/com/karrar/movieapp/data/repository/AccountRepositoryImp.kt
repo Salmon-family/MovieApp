@@ -4,7 +4,7 @@ import com.karrar.movieapp.data.local.DataStorePreferences
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.login.ErrorResponse
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.utilities.DataClassParser
+import com.karrar.movieapp.data.DataClassParser
 import com.karrar.movieapp.utilities.DataStorePreferencesKeys
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -12,16 +12,13 @@ import javax.inject.Inject
 
 
 class AccountRepositoryImp @Inject constructor(
-    private val movieService: MovieService,
+    private val service: MovieService,
     private val dataStorePreferences: DataStorePreferences,
     private val dataClassParser: DataClassParser,
 ) : AccountRepository {
-
-
     override fun getSessionId(): Flow<String?> {
         return dataStorePreferences.readString(DataStorePreferencesKeys.SESSION_ID_KEY)
     }
-
     override suspend fun loginWithUserNameANdPassword(
         userName: String,
         password: String,
@@ -35,7 +32,7 @@ class AccountRepositoryImp @Inject constructor(
                     "password" to password,
                     "request_token" to token,
                 ).toMap()
-                val validateRequestTokenWithLogin = movieService.validateRequestTokenWithLogin(body)
+                val validateRequestTokenWithLogin = service.validateRequestTokenWithLogin(body)
                 if (validateRequestTokenWithLogin.isSuccessful) {
                     validateRequestTokenWithLogin.body()?.requestToken?.let { createSession(it) }
                     emit(State.Success(true))
@@ -52,23 +49,20 @@ class AccountRepositoryImp @Inject constructor(
         }
     }
 
-
     private suspend fun getRequestToken(): String? {
-        val tokenResponse = movieService.getRequestToken()
+        val tokenResponse = service.getRequestToken()
         return tokenResponse.body()?.requestToken
     }
 
     private suspend fun createSession(requestToken: String) {
-        val sessionResponse = movieService.createSession(requestToken).body()
+        val sessionResponse = service.createSession(requestToken).body()
         if (sessionResponse?.success == true) {
             saveSessionId(sessionResponse.sessionId.toString())
         }
     }
 
-
     private suspend fun saveSessionId(sessionId: String) {
         dataStorePreferences.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, sessionId)
     }
-
 
 }

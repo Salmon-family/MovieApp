@@ -54,7 +54,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/text_title"
                 tools:text="8.9"
-                android:text="@{item.rate.toString()}"
+                android:text="@{String.valueOf(item.rate)}"
                 android:layout_marginBottom="@dimen/spacing_small"
                 style="@style/SemiBold.Small"
                 android:textColor="@color/yellow"

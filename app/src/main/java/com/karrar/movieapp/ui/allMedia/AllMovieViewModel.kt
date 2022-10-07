@@ -9,6 +9,7 @@ import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
@@ -72,11 +73,11 @@ class AllMovieViewModel @Inject constructor(
             }
 
             MovieType.MYSTERY -> {
-                movieRepository.getMovieListByGenre(Constants.MYSTERY_ID)
+                movieRepository.getMovieListByGenreID(Constants.MYSTERY_ID)
             }
 
             MovieType.ADVENTURE -> {
-                movieRepository.getMovieListByGenre(Constants.ADVENTURE_ID)
+                movieRepository.getMovieListByGenreID(Constants.ADVENTURE_ID)
             }
 
             MovieType.NOW_STREAMING -> {

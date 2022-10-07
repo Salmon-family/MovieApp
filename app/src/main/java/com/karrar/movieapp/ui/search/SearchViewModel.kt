@@ -7,6 +7,7 @@ import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.MediaInfo
 import com.karrar.movieapp.domain.models.SearchHistory
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.search.adapters.PersonInteractionListener
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.models.Trend
+import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,8 +17,8 @@ import javax.inject.Inject
 class ExploringViewModel @Inject constructor(
     private val movieRepository: MovieRepository
 ): ViewModel(), TrendInteractionListener{
-    private val _trend = MutableLiveData<State<List<Trend>>>()
-    val trend: LiveData<State<List<Trend>>> get() = _trend
+    private val _trend = MutableLiveData<State<List<Media>>>()
+    val trend: LiveData<State<List<Media>>> get() = _trend
 
     private val _clickSearchEvent = MutableLiveData<Event<Boolean>>()
     var clickSearchEvent: LiveData<Event<Boolean>> = _clickSearchEvent

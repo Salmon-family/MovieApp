@@ -7,7 +7,7 @@
 
         <variable
             name="adapterRecycler"
-            type="com.karrar.movieapp.ui.home.adapters.ActorAdapter" />
+            type="com.karrar.movieapp.ui.adapters.ActorAdapter" />
 
         <variable
             name="listener"

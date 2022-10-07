@@ -8,8 +8,9 @@ import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MovieType
-import com.karrar.movieapp.ui.home.adapters.ActorsInteractionListener
-import com.karrar.movieapp.ui.home.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
+import com.karrar.movieapp.ui.adapters.MediaInteractionListener
+import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     movieRepository: MovieRepository,
     seriesRepository: SeriesRepository
-) : ViewModel(), HomeInteractionListener , ActorsInteractionListener , MovieInteractionListener {
+) : ViewModel(), HomeInteractionListener , ActorsInteractionListener, MovieInteractionListener ,
+    MediaInteractionListener {
 
 
     private val homeItems = MediatorLiveData<HomeRecyclerItem>()
@@ -40,9 +42,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-
-
-
     fun removeAllHomeItemsMediatorSource(){
         homeItems.removeSource(popularMovie)
         homeItems.removeSource(topRatedTvShow)
@@ -56,7 +55,6 @@ class HomeViewModel @Inject constructor(
         homeItems.removeSource(actors)
     }
 
-
     private fun <T>handleState(state: State<List<T>>, function: (List<T>) -> Unit){
         state.toData()?.let {
             function(it)
@@ -68,13 +66,13 @@ class HomeViewModel @Inject constructor(
     private val trending = movieRepository.getTrendingMovies().asLiveData()
     private val nowStreaming = movieRepository.getNowPlayingMovies().asLiveData()
     private val upcoming = movieRepository.getUpcomingMovies().asLiveData()
-    private val mysteryMovie = movieRepository.getMovieListByGenre(Constants.MYSTERY_ID).asLiveData()
-    private val adventureMovie = movieRepository.getMovieListByGenre(Constants.ADVENTURE_ID).asLiveData()
+    private val mysteryMovie = movieRepository.getMovieListByGenreID(Constants.MYSTERY_ID).asLiveData()
+    private val adventureMovie = movieRepository.getMovieListByGenreID(Constants.ADVENTURE_ID).asLiveData()
     private val onTheAiring = seriesRepository.getOnTheAir().asLiveData()
     private val actors = movieRepository.getTrendingActors().asLiveData()
     private val airingToday = seriesRepository.getAiringToday().asLiveData()
     private val topRatedTvShow = seriesRepository.getTopRatedTvShow().asLiveData()
-    val latestTvShow = seriesRepository.getLatestTvShow().asLiveData()
+    val latestTvShow = seriesRepository.getLatestTvShows().asLiveData()
     val popularTvShow = seriesRepository.getPopularTvShow().asLiveData()
 
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
@@ -100,16 +98,16 @@ class HomeViewModel @Inject constructor(
         _clickActorEvent.postEvent(actorID)
     }
 
-    override fun onClickAiringToday(airingTodayID: Int) {
-        _clickSeriesEvent.postEvent(airingTodayID)
-    }
-
     override fun onClickSeeAllMovie(movieType: MovieType) {
         _clickSeeAllMovieEvent.postEvent(movieType)
     }
 
     override fun onClickSeeAllActors() {
         _clickSeeAllActorEvent.postEvent(true)
+    }
+
+    override fun onClickMedia(mediaId: Int) {
+        _clickSeriesEvent.postEvent(mediaId)
     }
 
 

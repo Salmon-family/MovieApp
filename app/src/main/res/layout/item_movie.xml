@@ -7,7 +7,7 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.home.adapters.MovieInteractionListener" />
+            type="com.karrar.movieapp.ui.adapters.MovieInteractionListener" />
 
         <variable
             name="item"
@@ -34,8 +34,8 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:background="@color/yellow"
             app:layout_constraintTop_toTopOf="parent"
-            android:onClick="@{()->listener.onClickMovie(item.movieID)}"
-            app:posterImage="@{item.imageUrl}"
+            android:onClick="@{()->listener.onClickMovie(item.mediaID)}"
+            app:posterImage="@{item.mediaImage}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

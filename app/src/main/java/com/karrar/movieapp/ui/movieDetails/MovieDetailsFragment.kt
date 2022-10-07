@@ -1,20 +1,18 @@
 package com.karrar.movieapp.ui.movieDetails
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.snackbar.Snackbar
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
+import com.karrar.movieapp.ui.adapters.ActorAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.home.adapters.MovieAdapter
+import com.karrar.movieapp.ui.adapters.MovieAdapter
 import com.karrar.movieapp.ui.movieReviews.ReviewAdapter
-import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,21 +29,25 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         observeEvents()
         setTitle(false)
 
-        binding.castAdapter.adapter = CastAdapter(mutableListOf(), viewModel)
+        binding.castAdapter.adapter = ActorAdapter(mutableListOf(), R.layout.item_cast, viewModel)
         binding.similarMovieAdapter.adapter = MovieAdapter(mutableListOf(), viewModel)
         binding.commentReviewAdapter.adapter = ReviewAdapter(mutableListOf(), viewModel)
 
 
         viewModel.getAllDetails(args.movieId)
 
-        viewModel.messageAppear.observe(viewLifecycleOwner,EventObserve{
+        viewModel.messageAppear.observe(viewLifecycleOwner, EventObserve {
             if (it) {
-                Toast.makeText(context, "Submitted, Thank you for your feedback", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    context,
+                    "Submitted, Thank you for your feedback",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
         })
 
-        viewModel.ratingValue.observe(viewLifecycleOwner){
+        viewModel.ratingValue.observe(viewLifecycleOwner) {
             it?.let {
                 viewModel.onAddRating(args.movieId, it)
             }
@@ -63,7 +65,11 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
 
         viewModel.clickCastEvent.observe(viewLifecycleOwner, EventObserve {
             Navigation.findNavController(binding.root)
-                .navigate(MovieDetailsFragmentDirections.actionMovieDetailFragmentToActorDetailsFragment(it))
+                .navigate(
+                    MovieDetailsFragmentDirections.actionMovieDetailFragmentToActorDetailsFragment(
+                        it
+                    )
+                )
         })
 
         viewModel.clickReviewsEvent.observe(viewLifecycleOwner, EventObserve {

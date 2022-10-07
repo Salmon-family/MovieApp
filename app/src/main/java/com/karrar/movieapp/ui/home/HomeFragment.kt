@@ -11,7 +11,7 @@ import com.karrar.movieapp.databinding.FragmentHomeBinding
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.home.adapters.HomeAdapter
+import com.karrar.movieapp.ui.adapters.HomeAdapter
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 

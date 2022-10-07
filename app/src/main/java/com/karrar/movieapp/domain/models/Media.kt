@@ -1,6 +1,7 @@
 package com.karrar.movieapp.domain.models
 
 data class Media(
-    val movieID: Int,
-    val imageUrl: String
+    val mediaID: Int,
+    val mediaImage: String,
+    val mediaType:String
 )

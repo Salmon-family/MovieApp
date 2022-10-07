@@ -5,10 +5,8 @@ import com.karrar.movieapp.domain.models.Trailer
 import com.karrar.movieapp.utilities.getKey
 import javax.inject.Inject
 
-class TrailerMapper @Inject constructor():Mapper<TrailerDto, Trailer> {
+class TrailerMapper @Inject constructor() : Mapper<TrailerDto, Trailer> {
     override fun map(input: TrailerDto): Trailer {
-        return Trailer(
-            input.results?.getKey()
-        )
+        return Trailer(input.results?.getKey() ?: "")
     }
 }

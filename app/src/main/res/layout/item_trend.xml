@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Trend" />
+            type="com.karrar.movieapp.domain.models.Media" />
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.explore.TrendInteractionListener" />
@@ -20,8 +20,8 @@
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/CardCorners.Medium"
         tools:src="@drawable/trend"
-        app:posterImage="@{item.imageUrl}"
-        android:onClick="@{() -> listener.onClickTrend(item.id,item.mediaType)}"
+        app:posterImage="@{item.mediaImage}"
+        android:onClick="@{() -> listener.onClickTrend(item.mediaID,item.mediaType)}"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginVertical="@dimen/spacing_small"
         />

@@ -1,10 +1,8 @@
 package com.karrar.movieapp.di
 
 import com.google.gson.Gson
-import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.AuthInterceptor
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.data.remote.service.SeriesService
 import com.karrar.movieapp.utilities.Constants
 import dagger.Module
 import dagger.Provides
@@ -34,20 +32,20 @@ object NetworkModule {
         return retrofit.create(MovieService::class.java)
     }
 
-    @Singleton
-    @Provides
-    fun provideSeriesService(
-        client: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory,
-    ): SeriesService {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .client(client)
-            .addConverterFactory(gsonConverterFactory)
-            .build()
-
-        return retrofit.create(SeriesService::class.java)
-    }
+//    @Singleton
+//    @Provides
+//    fun provideSeriesService(
+//        client: OkHttpClient,
+//        gsonConverterFactory: GsonConverterFactory,
+//    ): SeriesService {
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl(Constants.BASE_URL)
+//            .client(client)
+//            .addConverterFactory(gsonConverterFactory)
+//            .build()
+//
+//        return retrofit.create(SeriesService::class.java)
+//    }
 
     @Singleton
     @Provides

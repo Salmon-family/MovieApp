@@ -23,4 +23,20 @@ abstract class BaseRepository {
             }
         }
     }
+
+    fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<State<T>> {
+        return flow {
+            emit(State.Loading)
+            try {
+                val response = function()
+                if (response.isSuccessful) {
+                    emit(State.Success(response.body()))
+                } else {
+                    emit(State.Error(response.message()))
+                }
+            } catch (e: Exception) {
+                emit(State.Error(e.message.toString()))
+            }
+        }
+    }
 }

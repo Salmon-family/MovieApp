@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentActorsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.home.adapters.ActorAdapter
+import com.karrar.movieapp.ui.adapters.ActorAdapter
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +21,7 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
 
         setTitle(true, resources.getString(R.string.actors))
 
-        val actorsAdapter = ActorAdapter(mutableListOf(), viewModel)
+        val actorsAdapter = ActorAdapter(mutableListOf(), R.layout.item_cast, viewModel)
         binding.recyclerViewActors.adapter = actorsAdapter
 
         observeEvents()
