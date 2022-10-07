@@ -3,6 +3,7 @@ package com.karrar.movieapp.utilities
 import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -23,6 +24,12 @@ fun <T> MutableLiveData<T>.toLiveData(): LiveData<T> {
 fun <T> MutableLiveData<Event<T>>.postEvent(content: T) {
     postValue(Event(content))
 }
+
+inline fun <T> LiveData<Event<T>>.observeEvent(owner: LifecycleOwner, crossinline onEventUnhandledContent: (T) -> Unit) {
+    observe(owner) { it?.getContentIfNotHandled()?.let(onEventUnhandledContent) }
+}
+
+
 
 fun <T> ChipGroup.createChip(item: Genre, listener: T): View {
     val chipBinding: ChipItemCategoryBinding = DataBindingUtil.inflate(
