@@ -12,19 +12,19 @@ import javax.inject.Inject
 @HiltViewModel
 class YoutubePlayerViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
-    private val state: SavedStateHandle
+    state: SavedStateHandle
 ):BaseViewModel() {
 
     private val args = YoutubePlayerActivityArgs.fromSavedStateHandle(state)
 
     private var _movieTrailer = MutableLiveData<State<Trailer>>()
-    val movieTrailer : LiveData<State<Trailer>> = _movieTrailer
+    val movieTrailer: LiveData<State<Trailer>> = _movieTrailer
 
     init {
         getMovieTrailer(args.movieId)
     }
 
-    private fun getMovieTrailer(movie_id:Int){
+    private fun getMovieTrailer(movie_id: Int){
         collectResponse(movieRepository.getMovieTrailer(movie_id)) {
             _movieTrailer.postValue(it)
         }
