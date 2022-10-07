@@ -26,7 +26,7 @@ object NetworkModule {
         gsonConverterFactory: GsonConverterFactory,
     ): MovieService {
         val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .client(client)
             .addConverterFactory(gsonConverterFactory)
             .build()
@@ -41,7 +41,7 @@ object NetworkModule {
         gsonConverterFactory: GsonConverterFactory,
     ): SeriesService {
         val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .client(client)
             .addConverterFactory(gsonConverterFactory)
             .build()
