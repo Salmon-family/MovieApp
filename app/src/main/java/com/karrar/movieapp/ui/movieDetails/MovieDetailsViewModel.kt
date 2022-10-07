@@ -6,6 +6,7 @@ import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.*
+import com.karrar.movieapp.ui.actorDetails.ActorDetailsFragmentArgs
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
@@ -16,8 +17,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
-    private val movieRepository: MovieRepository
-) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener {
+    private val movieRepository: MovieRepository,
+    private val state: SavedStateHandle
+) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener , DetailInteractionListener {
+
+    private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
 
     private var _movieDetails = MutableLiveData<State<MovieDetails>>()
     val movieDetails: LiveData<State<MovieDetails>> = _movieDetails
@@ -54,6 +58,10 @@ class MovieDetailsViewModel @Inject constructor(
     val messageAppear = MutableLiveData(Event(false))
 
     var ratingValue = MutableLiveData<Float>()
+
+    init {
+        getAllDetails(args.movieId)
+    }
 
     fun getAllDetails(movie_id: Int) {
 
@@ -108,15 +116,15 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
 
-    fun onClickSave() {
+   override fun onClickSave() {
         _clickSaveEvent.postValue(Event(true))
     }
 
-    fun onClickPlayTrailer() {
+    override fun onClickPlayTrailer() {
         _clickPlayTrailerEvent.postValue(Event(true))
     }
 
-    fun onclickBack() {
+    override fun onclickBack() {
         _clickBackEvent.postValue(Event(true))
     }
 

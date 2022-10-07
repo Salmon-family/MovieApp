@@ -119,8 +119,8 @@ fun bindMovieImageURL(image: ImageView, imageURL: String?) {
 }
 
 @BindingAdapter("app:isVisible")
-fun <T> isVisible(view: View, items: List<T>?){
-    if (items != null && items.size <3)
+fun <T> isVisible(view: View, itemsCount : Int){
+    if (itemsCount != 0 && itemsCount <3)
         view.isVisible = false
 
 }

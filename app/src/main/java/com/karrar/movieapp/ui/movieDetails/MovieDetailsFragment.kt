@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
 import com.karrar.movieapp.ui.adapters.ActorAdapter
+import com.karrar.movieapp.ui.adapters.HomeAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.adapters.MovieAdapter
 import com.karrar.movieapp.ui.movieReviews.ReviewAdapter
@@ -23,18 +24,43 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     override val layoutIdFragment = R.layout.fragment_movie_details
     override val viewModel: MovieDetailsViewModel by viewModels()
     private val args: MovieDetailsFragmentArgs by navArgs()
+    private lateinit var detailAdapter: DetailAdapter
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeEvents()
         setTitle(false)
 
-        binding.castAdapter.adapter = ActorAdapter(mutableListOf(), R.layout.item_cast, viewModel)
-        binding.similarMovieAdapter.adapter = MovieAdapter(mutableListOf(), viewModel)
-        binding.commentReviewAdapter.adapter = ReviewAdapter(mutableListOf(), viewModel)
+        detailAdapter = DetailAdapter(mutableListOf(DetailItem.Rating(viewModel)), viewModel)
+        binding.recyclerView.adapter = detailAdapter
 
 
-        viewModel.getAllDetails(args.movieId)
+        viewModel.movieDetails.observe(viewLifecycleOwner){
+            it.toData()?.let {
+                detailAdapter.addItem(DetailItem.Header(it))
+
+            }
+        }
+        viewModel.movieCast.observe(viewLifecycleOwner){
+            it.toData()?.let {
+                detailAdapter.addItem(DetailItem.Cast(it))
+
+            }
+        }
+        viewModel.similarMovie.observe(viewLifecycleOwner){
+            it.toData()?.let {
+                detailAdapter.addItem(DetailItem.SimilarMovies(it))
+
+            }
+        }
+
+        viewModel.movieReviews.observe(viewLifecycleOwner){
+            it.toData()?.let {
+                detailAdapter.addItem(DetailItem.Comment(it,viewModel))
+
+            }
+        }
 
         viewModel.messageAppear.observe(viewLifecycleOwner, EventObserve {
             if (it) {
