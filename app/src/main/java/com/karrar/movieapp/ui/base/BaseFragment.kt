@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.base
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,7 @@ abstract class BaseFragment<VDB : ViewDataBinding> : Fragment() {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     protected fun setTitle(visibility: Boolean, title: String? = null) {
         if (visibility) {
             (activity as AppCompatActivity).supportActionBar?.show()
@@ -41,6 +43,8 @@ abstract class BaseFragment<VDB : ViewDataBinding> : Fragment() {
         } else {
             (activity as AppCompatActivity).supportActionBar?.hide()
         }
+
+        (activity as AppCompatActivity).supportActionBar?.setShowHideAnimationEnabled(false)
     }
 
 }
