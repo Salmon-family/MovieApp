@@ -16,8 +16,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
-    private val movieRepository: MovieRepository
-) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener {
+    private val movieRepository: MovieRepository,
+    state: SavedStateHandle
+) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener , DetailInteractionListener {
+
+    private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
 
     private var _movieDetails = MutableLiveData<State<MovieDetails>>()
     val movieDetails: LiveData<State<MovieDetails>> = _movieDetails
@@ -54,6 +57,10 @@ class MovieDetailsViewModel @Inject constructor(
     val messageAppear = MutableLiveData(Event(false))
 
     var ratingValue = MutableLiveData<Float>()
+
+    init {
+        getAllDetails(args.movieId)
+    }
 
     fun getAllDetails(movie_id: Int) {
 
@@ -108,24 +115,24 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
 
-    fun onClickSave() {
+   override fun onClickSave() {
         _clickSaveEvent.postValue(Event(true))
     }
 
-    fun onClickPlayTrailer() {
+    override fun onClickPlayTrailer() {
         _clickPlayTrailerEvent.postValue(Event(true))
     }
 
-    fun onclickBack() {
+    override fun onclickBack() {
         _clickBackEvent.postValue(Event(true))
     }
 
-    fun onclickViewReviews() {
+    override fun onclickViewReviews() {
         _clickReviewsEvent.postValue(Event(true))
     }
 
-    override fun onClickMovie(movie_id: Int) {
-        _clickMovieEvent.postValue(Event(movie_id))
+    override fun onClickMovie(movieId: Int) {
+        _clickMovieEvent.postValue(Event(movieId))
     }
 
     override fun onClickSeeAllMovie(movieType: MovieType) {

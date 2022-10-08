@@ -9,10 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
-import com.karrar.movieapp.ui.adapters.ActorAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.adapters.MovieAdapter
-import com.karrar.movieapp.ui.movieReviews.ReviewAdapter
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,18 +20,51 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     override val layoutIdFragment = R.layout.fragment_movie_details
     override val viewModel: MovieDetailsViewModel by viewModels()
     private val args: MovieDetailsFragmentArgs by navArgs()
+    private lateinit var detailAdapter: DetailAdapter
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeEvents()
         setTitle(false)
 
-        binding.castAdapter.adapter = ActorAdapter(mutableListOf(), R.layout.item_cast, viewModel)
-        binding.similarMovieAdapter.adapter = MovieAdapter(mutableListOf(), viewModel)
-        binding.commentReviewAdapter.adapter = ReviewAdapter(mutableListOf(), viewModel)
+        detailAdapter = DetailAdapter(mutableListOf(DetailItem.Rating(viewModel)), viewModel)
+        binding.recyclerView.adapter = detailAdapter
 
 
-        viewModel.getAllDetails(args.movieId)
+        viewModel.movieDetails.observe(viewLifecycleOwner) {
+            it.toData()?.let {
+                detailAdapter.addItem(DetailItem.Header(it))
+
+            }
+        }
+        viewModel.movieCast.observe(viewLifecycleOwner) { item ->
+            item.toData()?.let {
+                detailAdapter.addItem(DetailItem.Cast(it))
+
+            }
+        }
+        viewModel.similarMovie.observe(viewLifecycleOwner) {
+            it.toData()?.let {
+                detailAdapter.addItem(DetailItem.SimilarMovies(it))
+
+            }
+        }
+
+        viewModel.movieReviews.observe(viewLifecycleOwner) {
+            it.toData()?.let { items ->
+                items.take(3).forEach { item ->
+                    detailAdapter.addItem(DetailItem.Comment(item))
+                }
+
+                if (items.isNotEmpty())
+                    detailAdapter.addItem(DetailItem.ReviewText)
+
+                if (items.count() > 3)
+                    detailAdapter.addItem(DetailItem.SeeAllReviewsButton)
+
+            }
+        }
 
         viewModel.messageAppear.observe(viewLifecycleOwner, EventObserve {
             if (it) {

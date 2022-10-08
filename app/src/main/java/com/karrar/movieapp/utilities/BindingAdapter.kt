@@ -119,9 +119,8 @@ fun bindMovieImageURL(image: ImageView, imageURL: String?) {
 }
 
 @BindingAdapter("app:isVisible")
-fun <T> isVisible(view: View, items: List<T>?){
-    if (items != null && items.size <3)
-        view.isVisible = false
+fun <T> isVisible(view: View,isVisible :Boolean){
+    view.isVisible = isVisible
 
 }
 
@@ -134,11 +133,6 @@ fun setVideoId(view: YouTubePlayerView, videoId: String?){
     })
 }
 
-@BindingAdapter("app:isThereReview")
-fun <T> isThereReview(view: View, items: List<T>?){
-    if (items != null && items.isEmpty())
-        view.isVisible = false
-}
 
 @BindingAdapter("app:setGenre")
 fun setGenres(text: TextView, genres: List<GenreDto>?) {
@@ -148,13 +142,4 @@ fun setGenres(text: TextView, genres: List<GenreDto>?) {
 @BindingAdapter("app:setReleaseDate")
 fun setReleaseDate(text: TextView, date: String?) {
     text.text = date?.take(4)
-}
-
-
-@BindingAdapter(value = ["app:itemsWithMax"])
-fun <T> setRecyclerItemsWithMaxNumberOfItems(
-    view: RecyclerView,
-    items: List<T>?,
-) {
-    (view.adapter as BaseAdapter<T>?)?.setItems(items?.take(3) ?: emptyList())
 }
