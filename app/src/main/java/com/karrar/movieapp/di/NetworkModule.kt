@@ -19,10 +19,9 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideMovieService(retrofit: Retrofit, ): MovieService {
+    fun provideMovieService(retrofit: Retrofit): MovieService {
         return retrofit.create(MovieService::class.java)
     }
-
 
     @Singleton
     @Provides
@@ -35,33 +34,24 @@ object NetworkModule {
 
     }
 
-//    @Singleton
-//    @Provides
-//    fun provideSeriesService(
-//        client: OkHttpClient,
-//        gsonConverterFactory: GsonConverterFactory,
-//    ): SeriesService {
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl(Constants.BASE_URL)
-//            .client(client)
-//            .addConverterFactory(gsonConverterFactory)
-//            .build()
-//
-//        return retrofit.create(SeriesService::class.java)
-//    }
+    @Singleton
+    @Provides
+    fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
+            .build()
+    }
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(authInterceptor)
-        .build()
+    fun provideGsonConverterFactory(): GsonConverterFactory {
+        return GsonConverterFactory.create()
+    }
 
     @Singleton
     @Provides
-    fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
-
-    @Singleton
-    @Provides
-    fun provideGson(): Gson = Gson()
+    fun provideGson(): Gson {
+        return Gson()
+    }
 
 }
