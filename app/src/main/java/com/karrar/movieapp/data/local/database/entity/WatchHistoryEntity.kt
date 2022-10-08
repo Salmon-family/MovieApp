@@ -10,5 +10,5 @@ class WatchHistoryEntity(
     var movieTitle: String,
     var voteAverage: String,
     var releaseDate: String,
-    var movieDuration: Int
+    var movieDuration: Int,
 )
