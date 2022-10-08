@@ -64,22 +64,13 @@
             android:layout_marginEnd="@dimen/spacing_medium"
             app:layout_constraintTop_toBottomOf="@id/input_search">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{()->viewModel.onClickMovies()}">
-
                 <ImageView
                     android:id="@+id/icon_movie"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_movie"
-                    android:layout_marginBottom="@dimen/spacing_too_small"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    app:layout_constraintBottom_toTopOf="@id/text_movies_label"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/spacing_medium" />
 
                 <TextView
                     android:id="@+id/text_movies_label"
@@ -88,12 +79,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/movies_label"
                     android:textColor="@color/brand_color"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/icon_movie"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="@dimen/spacing_medium"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/spacing_large" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -110,22 +97,13 @@
             app:layout_constraintEnd_toStartOf="@id/card_actors"
             app:layout_constraintTop_toBottomOf="@id/input_search">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{()->viewModel.onClickSeries()}">
-
                 <ImageView
                     android:id="@+id/icon_series"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_tv"
-                    android:layout_marginBottom="@dimen/spacing_too_small"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    app:layout_constraintBottom_toTopOf="@id/text_series_label"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/spacing_medium"/>
 
                 <TextView
                     android:id="@+id/text_series_label"
@@ -134,12 +112,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_shows_label"
                     android:textColor="@color/brand_color"
-                    android:layout_marginBottom="@dimen/spacing_medium"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/icon_series"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/spacing_large"/>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -157,21 +132,13 @@
             app:layout_constraintStart_toEndOf="@id/card_series"
             app:layout_constraintTop_toBottomOf="@id/input_search">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
                 <ImageView
                     android:id="@+id/icon_actors"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginBottom="@dimen/spacing_too_small"
-                    android:layout_marginTop="@dimen/spacing_medium"
                     android:src="@drawable/ic_actors"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/text_actors_label"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/spacing_medium" />
 
                 <TextView
                     android:id="@+id/text_actors_label"
@@ -179,14 +146,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/actors_label"
-                    android:layout_marginBottom="@dimen/spacing_medium"
                     android:textColor="@color/brand_color"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/icon_actors" />
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/spacing_large" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
         <TextView
