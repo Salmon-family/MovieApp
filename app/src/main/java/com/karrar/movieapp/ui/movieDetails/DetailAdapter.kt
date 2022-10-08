@@ -60,6 +60,7 @@ class DetailAdapter(
             is DetailItem.Comment -> {
                 holder.binding.run {
                     setVariable(BR.adapterRecycler,ReviewAdapter(currentItem.data,listener as DetailInteractionListener))
+                    setVariable(BR.listener, listener)
                 }
             }
         }
