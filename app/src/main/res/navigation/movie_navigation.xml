@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -93,9 +93,19 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.karrar.movieapp.ui.ProfileFragment"
+        android:name="com.karrar.movieapp.ui.profile.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_logoutDialog"
+            app:destination="@id/logoutDialog" />
+        <action
+            android:id="@+id/action_profileFragment_to_ratedMoviesFragment"
+            app:destination="@id/ratedMoviesFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_watchHistoryFragment"
+            app:destination="@id/watchHistoryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/myListFragment"
         android:name="com.karrar.movieapp.ui.MyListFragment"
@@ -210,4 +220,23 @@
             android:name="movie_id"
             app:argType="integer" />
     </dialog>
+    <dialog
+        android:id="@+id/logoutDialog"
+        android:name="com.karrar.movieapp.ui.logout.LogoutDialog"
+        android:label="LogoutDialog"
+        tools:layout="@layout/dialog_logout">
+        <action
+            android:id="@+id/action_logoutDialog_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/ratedMoviesFragment"
+        android:name="com.karrar.movieapp.ui.ratedmovies.RatedMoviesFragment"
+        android:label="RatedMoviesFragment"
+        tools:layout="@layout/fragment_rated_movies"/>
+    <fragment
+        android:id="@+id/watchHistoryFragment"
+        android:name="com.karrar.movieapp.ui.watchhistory.WatchHistoryFragment"
+        android:label="WatchHistoryFragment"
+        tools:layout="@layout/fragment_watch_history"/>
 </navigation>

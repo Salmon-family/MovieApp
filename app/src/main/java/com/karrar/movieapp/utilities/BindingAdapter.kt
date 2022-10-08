@@ -158,3 +158,12 @@ fun <T> setRecyclerItemsWithMaxNumberOfItems(
 ) {
     (view.adapter as BaseAdapter<T>?)?.setItems(items?.take(3) ?: emptyList())
 }
+
+@BindingAdapter("app:convertToHoursPattern")
+fun convertToHoursPattern(text: TextView, duration: Int?) {
+    duration?.let {
+        val hours = duration / 60
+        val minutes = duration % 60
+        "$hours h $minutes min".also { text.text = it }
+    }
+}

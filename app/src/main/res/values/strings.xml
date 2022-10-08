@@ -59,5 +59,12 @@
     <string name="reviews_comment">Reviews</string>
     <string name="user_name">"@" %1$s</string>
     <string name="back_button">back button</string>
-
+    <string name="watch_history">Watch History</string>
+    <string name="rated_movies">Rated Movies</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="at">\@</string>
+    <string name="are_you_sure">Are You Sure?</string>
+    <string name="you_re_about_to_sign_out_of_your_account">You’re about to sign out of your account.</string>
+    <string name="cancel">Cancel</string>
+    <string name="logout">Sign Out</string>
 </resources>

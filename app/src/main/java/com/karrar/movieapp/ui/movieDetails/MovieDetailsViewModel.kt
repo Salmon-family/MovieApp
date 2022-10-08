@@ -1,6 +1,7 @@
 package com.karrar.movieapp.ui.movieDetails
 
 import androidx.lifecycle.*
+import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
@@ -11,6 +12,7 @@ import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -59,6 +61,22 @@ class MovieDetailsViewModel @Inject constructor(
 
         collectResponse(movieRepository.getMovieDetails(movie_id)) {
             _movieDetails.postValue(it)
+            viewModelScope.launch {
+                it.toData().let { movieDetails ->
+                    if (movieDetails != null) {
+                        movieRepository.insertMovie(
+                            WatchHistoryEntity(
+                                id = movieDetails.movieID,
+                                posterPath = movieDetails.movieImage,
+                                movieTitle = movieDetails.movieName,
+                                movieDuration = movieDetails.duration,
+                                voteAverage = movieDetails.voteAverage,
+                                releaseDate = movieDetails.releaseDate,
+                            )
+                        )
+                    }
+                }
+            }
         }
         collectResponse(movieRepository.getMovieCast(movie_id)) {
             _movieCast.postValue(it)

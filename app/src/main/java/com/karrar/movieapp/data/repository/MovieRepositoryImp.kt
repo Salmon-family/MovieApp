@@ -2,12 +2,12 @@ package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
+import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.BaseResponse
 import com.karrar.movieapp.data.remote.response.CreatedListDto
 import com.karrar.movieapp.data.remote.response.ListDetailsDto
-import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
@@ -43,7 +43,9 @@ class MovieRepositoryImp @Inject constructor(
     private val movieDetailsMapper: MovieDetailsMapper,
     private val reviewMapper: ReviewMapper,
     private val trailerMapper: TrailerMapper,
-    private val popularMovieMapper: PopularMovieMapper
+    private val popularMovieMapper: PopularMovieMapper,
+    private val accountMapper: AccountMapper,
+    private val ratedMoviesMapper: RatedMoviesMapper,
 ) : BaseRepository(), MovieRepository {
     override fun getPopularMovies(): Flow<State<List<PopularMovie>>> {
         return flow {
@@ -225,5 +227,23 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun deleteSearchItem(item: SearchHistoryEntity) {
         return movieDao.delete(item)
+    }
+
+    override fun getAccountDetails(sessionId: String): Flow<State<Account>> {
+        return wrap({movieService.getAccountDetails(sessionId)}, accountMapper::map)
+    }
+
+    override fun getRatedMovies(sessionId: String?): Flow<State<List<RatedMovies>>> {
+        return wrap({movieService.getRatedMovies(sessionId)}){ response ->
+            response.items?.map {
+                ratedMoviesMapper.map(it)
+            } ?: emptyList()
+        }
+    }
+
+    override suspend fun insertMovie(movie: WatchHistoryEntity) = movieDao.insert(movie)
+
+    override fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>> {
+        return movieDao.getAllWatchedMovies()
     }
 }

@@ -11,18 +11,13 @@ import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.response.CreditsDto
+import com.karrar.movieapp.data.remote.response.account.AccountDto
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
 import retrofit2.Response
-import retrofit2.http.Field
-import retrofit2.http.FieldMap
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 
 interface MovieService {
@@ -194,6 +189,20 @@ interface MovieService {
     @GET("discover/tv")
     suspend fun getAllTvShows(): Response<BaseResponse<TVShowsDTO>>
 
+    @GET("account")
+    suspend fun getAccountDetails(
+        @Query("session_id") sessionId: String?,
+    ): Response<AccountDto>
+
+    @DELETE("authentication/session")
+    suspend fun logout(
+        @Query("session_id") sessionId: String,
+    ): Response<LogoutResponse>
+
+    @GET("account/{account_id}/rated/movies")
+    suspend fun getRatedMovies(
+        @Query("session_id") sessionId: String?,
+    ): Response<BaseResponse<RatedMoviesDto>>
 }
 
 
