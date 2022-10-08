@@ -9,11 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
-import com.karrar.movieapp.ui.adapters.ActorAdapter
-import com.karrar.movieapp.ui.adapters.HomeAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.adapters.MovieAdapter
-import com.karrar.movieapp.ui.movieReviews.ReviewAdapter
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,28 +32,36 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         binding.recyclerView.adapter = detailAdapter
 
 
-        viewModel.movieDetails.observe(viewLifecycleOwner){
+        viewModel.movieDetails.observe(viewLifecycleOwner) {
             it.toData()?.let {
                 detailAdapter.addItem(DetailItem.Header(it))
 
             }
         }
-        viewModel.movieCast.observe(viewLifecycleOwner){
-            it.toData()?.let {
+        viewModel.movieCast.observe(viewLifecycleOwner) { item ->
+            item.toData()?.let {
                 detailAdapter.addItem(DetailItem.Cast(it))
 
             }
         }
-        viewModel.similarMovie.observe(viewLifecycleOwner){
+        viewModel.similarMovie.observe(viewLifecycleOwner) {
             it.toData()?.let {
                 detailAdapter.addItem(DetailItem.SimilarMovies(it))
 
             }
         }
 
-        viewModel.movieReviews.observe(viewLifecycleOwner){
-            it.toData()?.let {
-                detailAdapter.addItem(DetailItem.Comment(it,viewModel))
+        viewModel.movieReviews.observe(viewLifecycleOwner) {
+            it.toData()?.let { items ->
+                items.take(3).forEach { item ->
+                    detailAdapter.addItem(DetailItem.Comment(item))
+                }
+
+                if (items.isNotEmpty())
+                    detailAdapter.addItem(DetailItem.ReviewText)
+
+                if (items.count() > 3)
+                    detailAdapter.addItem(DetailItem.SeeAllReviewsButton)
 
             }
         }

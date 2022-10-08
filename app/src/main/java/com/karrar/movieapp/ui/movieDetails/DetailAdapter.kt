@@ -14,7 +14,6 @@ import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseDiffUtil
 import com.karrar.movieapp.ui.base.BaseInteractionListener
-import com.karrar.movieapp.ui.movieReviews.ReviewAdapter
 
 class DetailAdapter(
     private val items: MutableList<DetailItem>,
@@ -44,12 +43,16 @@ class DetailAdapter(
             }
             is DetailItem.Cast -> {
                 holder.binding.run {
-                    setVariable(BR.adapterRecycler,ActorAdapter(currentItem.data,R.layout.item_cast,listener as ActorsInteractionListener))
+                    setVariable(BR.adapterRecycler,
+                        ActorAdapter(currentItem.data,
+                            R.layout.item_cast,
+                            listener as ActorsInteractionListener))
                 }
             }
             is DetailItem.SimilarMovies -> {
                 holder.binding.run {
-                    setVariable(BR.adapterRecycler,MovieAdapter(currentItem.data,listener as MovieInteractionListener))
+                    setVariable(BR.adapterRecycler,
+                        MovieAdapter(currentItem.data, listener as MovieInteractionListener))
                 }
             }
             is DetailItem.Rating -> {
@@ -59,8 +62,14 @@ class DetailAdapter(
             }
             is DetailItem.Comment -> {
                 holder.binding.run {
-                    setVariable(BR.adapterRecycler,ReviewAdapter(currentItem.data,listener as DetailInteractionListener))
+                    setVariable(BR.item, currentItem.data)
                     setVariable(BR.listener, listener)
+                }
+            }
+            is DetailItem.ReviewText -> {}
+            DetailItem.SeeAllReviewsButton -> {
+                holder.binding.run {
+                    setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
         }
@@ -90,7 +99,9 @@ class DetailAdapter(
             is DetailItem.Cast -> R.layout.list_cast
             is DetailItem.SimilarMovies -> R.layout.list_similar_movie
             is DetailItem.Rating -> R.layout.item_rating
-            is DetailItem.Comment -> R.layout.list_reviews_comment
+            is DetailItem.Comment -> R.layout.item_movie_review
+            is DetailItem.ReviewText -> R.layout.item_review_text
+            DetailItem.SeeAllReviewsButton -> R.layout.item_see_all_reviews
         }
     }
 

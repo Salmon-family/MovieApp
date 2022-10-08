@@ -1,9 +1,6 @@
 package com.karrar.movieapp.ui.movieDetails
 
-import com.karrar.movieapp.data.remote.response.review.ReviewsDto
-import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.*
-import com.karrar.movieapp.ui.home.HomeRecyclerItem
 
 
 sealed class DetailItem(val priority: Int) {
@@ -16,6 +13,10 @@ sealed class DetailItem(val priority: Int) {
 
     class Rating (val viewModel: MovieDetailsViewModel) : DetailItem(3)
 
-    class Comment (val data: List<Review>,val viewModel: MovieDetailsViewModel) : DetailItem(4)
+    object ReviewText : DetailItem(4)
+
+    class Comment (val data: Review) : DetailItem(5)
+
+    object SeeAllReviewsButton  : DetailItem(6)
 
 }
