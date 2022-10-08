@@ -59,5 +59,6 @@
     <string name="reviews_comment">Reviews</string>
     <string name="user_name">"@" %1$s</string>
     <string name="back_button">back button</string>
-
+    <string name="place_holder">List name</string>
+    <string name="add_review" translatable="false">Add Review</string>
 </resources>

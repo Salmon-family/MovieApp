@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/edit_list_name"
+        android:title="Edit list name"/>
+    <item
+        android:id="@+id/privacy"
+        android:title="Make it public"/>
+    <item
+        android:id="@+id/delete_list"
+        android:title="Delete list"/>
+</menu>

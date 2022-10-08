@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="@dimen/spacing_large"
+    android:background="@drawable/bottom_sheet_corners">
+
+    <TextView
+        android:id="@+id/primary_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:fontFamily="@font/plus_jakarta_sans_semibold"
+        android:text="Rename list"
+        android:textColor="@color/shade_primary_color"
+        android:textSize="@dimen/spacing_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_list_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_medium"
+        android:layout_marginTop="24dp"
+        android:hint="@string/place_holder"
+        android:textColorHint="@color/shade_secondary_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/primary_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_habit_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_corners"
+            android:fontFamily="@font/plus_jakarta_sans_regular"
+            android:inputType="text"
+            android:maxLength="60"
+            android:maxLines="1"
+            android:text="" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/plus_jakarta_sans_semibold"
+        android:paddingVertical="@dimen/spacing_medium"
+        android:text="@string/add_review"
+        android:textAllCaps="false"
+        app:cornerRadius="@dimen/spacing_small"
+        android:layout_marginHorizontal="@dimen/spacing_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_list_name" />
+</androidx.constraintlayout.widget.ConstraintLayout>

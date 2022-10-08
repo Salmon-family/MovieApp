@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_corners"
+    android:paddingVertical="@dimen/spacing_large">
+
+    <TextView
+        android:id="@+id/primary_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:fontFamily="@font/plus_jakarta_sans_semibold"
+        android:text="Delete List"
+        android:textColor="@color/shade_primary_color"
+        android:textSize="@dimen/spacing_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/layout_list_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:fontFamily="@font/plus_jakarta_sans_semibold"
+        android:text="Are you sure you want to delete this list? "
+        android:textColor="@color/shade_secondary_color"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/primary_text" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/materialButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginEnd="@dimen/spacing_extra_large"
+        android:fontFamily="@font/plus_jakarta_sans_semibold"
+        android:paddingVertical="@dimen/spacing_small"
+        android:text="Delete"
+        android:textAllCaps="false"
+        app:cornerRadius="@dimen/spacing_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_list_name" />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/plus_jakarta_sans_semibold"
+        android:paddingVertical="@dimen/spacing_small"
+        android:text="Cancel"
+        android:textAllCaps="false"
+        android:textColor="@color/shade_secondary_color"
+        app:cornerRadius="@dimen/spacing_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/materialButton"
+        app:layout_constraintTop_toTopOf="@+id/materialButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

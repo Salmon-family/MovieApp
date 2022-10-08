@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.saved.CreateListDialogViewModel" />
+    </data>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_color">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_sheet_corners"
+        android:paddingVertical="@dimen/spacing_large">
+
+        <TextView
+            android:id="@+id/primary_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:fontFamily="@font/plus_jakarta_sans_semibold"
+            android:text="Create a new list"
+            android:textColor="@color/shade_primary_color"
+            android:textSize="@dimen/spacing_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:fontFamily="@font/plus_jakarta_sans_regular"
+            android:text="Explore some movies on “Home” or “Search” and then create your movie list."
+            android:textAlignment="center"
+            android:textColor="@color/shade_secondary_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/primary_text" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_list_name"
+            app:boxBackgroundMode="none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="24dp"
+            android:hint="@string/place_holder"
+            app:hintTextColor="@color/shade_secondary_color"
+            android:textColorHint="@color/shade_secondary_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_habit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/spacing_medium"
+                android:inputType="textPersonName"
+                android:textColor="@color/shade_primary_color"
+                android:background="@drawable/edit_text_corners"
+                android:fontFamily="@font/plus_jakarta_sans_regular"
+                android:maxLength="60"
+                android:maxLines="1"
+                android:text="@={viewModel.listName}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/spacing_large"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:checkedButton="@id/private_option"
+            app:layout_constraintTop_toBottomOf="@+id/layout_list_name">
+
+            <RadioButton
+                android:id="@+id/private_option"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="@dimen/spacing_extra_large"
+                android:button="@drawable/custom_radio_button"
+                android:onClick="@{() -> viewModel.selectOption(0)}"
+                android:paddingHorizontal="@dimen/spacing_small"
+                android:text="Private"
+                android:textColor="@drawable/custom_radio_button"
+                android:buttonTint="@drawable/custom_radio_button"/>
+
+            <RadioButton
+                android:id="@+id/public_option"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="@dimen/spacing_extra_large"
+                android:button="@drawable/custom_radio_button"
+                android:onClick="@{() -> viewModel.selectOption(1)}"
+                android:paddingHorizontal="@dimen/spacing_small"
+                android:text="Public"
+                android:textColor="@drawable/custom_radio_button"
+                android:buttonTint="@drawable/custom_radio_button"/>
+
+
+        </RadioGroup>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/plus_jakarta_sans_semibold"
+            android:onClick="@{()->viewModel.onClickAddList()}"
+            android:paddingVertical="@dimen/spacing_medium"
+            android:text="@string/add_review"
+            android:textColor="@color/shade_primary_color"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/brand_color"
+            app:cornerRadius="@dimen/spacing_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+ </layout>
