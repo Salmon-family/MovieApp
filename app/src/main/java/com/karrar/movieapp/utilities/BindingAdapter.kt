@@ -167,3 +167,8 @@ fun convertToHoursPattern(text: TextView, duration: Int?) {
         "$hours h $minutes min".also { text.text = it }
     }
 }
+
+@BindingAdapter("app:showWhenListIsEmpty")
+fun <T> showWhenListIsEmpty(text: TextView, list: List<T>?) {
+    text.isVisible = list?.isEmpty() == true
+}

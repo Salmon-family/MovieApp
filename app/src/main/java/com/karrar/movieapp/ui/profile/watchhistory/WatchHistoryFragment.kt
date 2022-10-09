@@ -1,11 +1,13 @@
-package com.karrar.movieapp.ui.watchhistory
+package com.karrar.movieapp.ui.profile.watchhistory
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentWatchHistoryBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,5 +20,14 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
         binding.recyclerViewWatchHistory.adapter = WatchHistoryAdapter(
             mutableListOf(), viewModel
         )
+        observeEvents()
+        setTitle(true, "Watch History")
+    }
+
+    private fun observeEvents() {
+        viewModel.clickMovieEvent.observe(viewLifecycleOwner, EventObserve { movieId ->
+            findNavController().navigate(WatchHistoryFragmentDirections.actionWatchHistoryFragmentToMovieDetailFragment(
+                movieId))
+        })
     }
 }

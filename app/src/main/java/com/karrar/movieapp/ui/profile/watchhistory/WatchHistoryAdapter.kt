@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.watchhistory
+package com.karrar.movieapp.ui.profile.watchhistory
 
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity

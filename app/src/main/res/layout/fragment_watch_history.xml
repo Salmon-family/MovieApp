@@ -4,25 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-    <variable
-        name="viewModel"
-        type="com.karrar.movieapp.ui.watchhistory.WatchHistoryViewModel" />
+
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.profile.watchhistory.WatchHistoryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_color">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_watch_history"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:items="@{viewModel.watchHistory}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:items="@{viewModel.watchHistory}"
             tools:listitem="@layout/item_watch_history" />
+
+        <TextView
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/this_list_has_no_movies"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showWhenListIsEmpty="@{viewModel.watchHistory}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

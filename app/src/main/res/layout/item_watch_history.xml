@@ -4,11 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
             type="com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity" />
 
-
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.profile.watchhistory.WatchHistoryInteractionListener" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -16,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_medium"
         android:layout_marginTop="@dimen/spacing_medium"
+        android:onClick="@{() -> listener.onClickMovie(item.id)}"
         app:cardCornerRadius="@dimen/radius_small">
 
 
@@ -28,12 +32,13 @@
                 android:id="@+id/image_movie"
                 android:layout_width="142dp"
                 android:layout_height="80dp"
+                android:background="@drawable/ic_media_background"
                 android:scaleType="centerCrop"
-                tools:src="@drawable/test"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:posterImage="@{item.posterPath}"
                 app:shapeAppearanceOverlay="@style/CardCorners.Small"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                tools:src="@drawable/test" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_title_movie"
@@ -81,10 +86,10 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_duration"
                 style="@style/Regular.Small.ternary"
-                app:convertToHoursPattern="@{item.movieDuration}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_medium"
+                app:convertToHoursPattern="@{item.movieDuration}"
                 app:layout_constraintBottom_toBottomOf="@+id/text_year"
                 app:layout_constraintStart_toEndOf="@+id/text_year"
                 app:layout_constraintTop_toTopOf="@+id/text_year"
