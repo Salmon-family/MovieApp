@@ -190,7 +190,7 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.postRating(movieId, value, session_id) }
     }
 
-    override fun getMovieTrailer(movieId: Int): Flow<State<Trailer>> {
+    override suspend fun getMovieTrailer(movieId: Int): Flow<State<Trailer>> {
         return wrap({ movieService.getMovieTrailer(movieId) }, {
             trailerMapper.map(it)
         })

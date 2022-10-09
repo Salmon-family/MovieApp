@@ -6,6 +6,7 @@ import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Trailer
 import com.karrar.movieapp.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -25,9 +26,13 @@ class YoutubePlayerViewModel @Inject constructor(
     }
 
     private fun getMovieTrailer(movie_id: Int){
-        collectResponse(movieRepository.getMovieTrailer(movie_id)) {
-            _movieTrailer.postValue(it)
+        viewModelScope.launch {
+            collectResponse(movieRepository.getMovieTrailer(movie_id)) {
+                _movieTrailer.postValue(it)
+            }
         }
+
+
     }
 
 
