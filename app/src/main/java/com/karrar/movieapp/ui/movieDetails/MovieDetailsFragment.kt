@@ -91,7 +91,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
             viewModelStore.clear()
             Navigation.findNavController(binding.root)
                 .navigate(
-                    MovieDetailsFragmentDirections.actionMovieDetailFragmentToYoutubePlayerActivity(
+                    MovieDetailsFragmentDirections.actionMovieDetailsFragment(
                         it
                     )
                 )
