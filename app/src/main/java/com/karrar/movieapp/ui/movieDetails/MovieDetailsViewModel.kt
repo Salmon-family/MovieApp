@@ -1,6 +1,5 @@
 package com.karrar.movieapp.ui.movieDetails
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
@@ -12,7 +11,6 @@ import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -65,14 +63,14 @@ class MovieDetailsViewModel @Inject constructor(
     var ratingValue = MutableLiveData<Float>()
 
     private val _sessionId = MutableLiveData<String?>()
-    val sessionId = _sessionId.toLiveData()
 
     init {
-        getAllDetails(args.movieId)
+        //login before run
         getSessionId()
+        getAllDetails(args.movieId)
     }
 
-    fun getAllDetails(movie_id: Int) {
+    private fun getAllDetails(movie_id: Int) {
 
         collectResponse(movieRepository.getMovieDetails(movie_id)) {
             _movieDetails.postValue(it)
@@ -90,10 +88,9 @@ class MovieDetailsViewModel @Inject constructor(
         collectResponse(
             movieRepository.getRatedMovie(
                 15140049,
-                "e232e33f6e332ad85e3c1f3055ebfa7090935e33"
+                _sessionId.value.toString()
             )
         ) {
-//            Log.i("kkkkkkk4", )
             checkIfMovieRated(it.toData()?.items, movie_id)
         }
 
@@ -114,7 +111,7 @@ class MovieDetailsViewModel @Inject constructor(
             collectResponse(
                 movieRepository.setRating(
                     movie_id, value,
-                    sessionId.value ?: ""
+                    _sessionId.value.toString()
                 )
             )
             {
@@ -127,7 +124,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     }
 
-    fun getSessionId() {
+    private fun getSessionId() {
         viewModelScope.launch {
             accountRepository.getSessionId().collect {
                 _sessionId.value = it.toString()
