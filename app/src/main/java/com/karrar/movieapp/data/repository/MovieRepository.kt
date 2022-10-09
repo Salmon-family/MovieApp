@@ -25,11 +25,11 @@ interface MovieRepository {
 
     fun getTrendingMovies(): Flow<State<List<Media>>>
 
-    fun searchForPerson(query: String): Flow<State<List<MediaInfo>>>
+    fun searchForActor(query: String): Flow<State<List<Media>>>
 
-    fun searchForMovie(query: String): Flow<State<List<MediaInfo>>>
+    fun searchForMovie(query: String): Flow<State<List<Media>>>
 
-    fun searchForSeries(query: String): Flow<State<List<MediaInfo>>>
+    fun searchForSeries(query: String): Flow<State<List<Media>>>
 
     fun getMovieGenreList(): Flow<State<List<Genre>>>
 

@@ -10,7 +10,10 @@ class MovieMapper @Inject constructor() : Mapper<MovieDto, Media> {
         return Media(
             input.id ?: 0,
             Constants.IMAGE_BASE_PATH + input.posterPath,
-            Constants.MOVIE
+            Constants.MOVIE,
+            input.originalTitle ?: "",
+            input.releaseDate?.substringBefore('-') ?: "",
+            input.voteAverage?.toFloat() ?: 0f
         )
     }
 }

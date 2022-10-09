@@ -167,7 +167,7 @@
             android:id="@+id/recycler_trend"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_medium"
             android:clipToPadding="false"
             app:items="@{viewModel.trend.toData()}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -177,11 +177,8 @@
             app:layout_constraintTop_toBottomOf="@id/text_trend_label"
             app:showWhenSuccess="@{viewModel.trend}"
             app:spanCount="2"
-            tools:listitem="@layout/item_trend" />
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/loading"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            tools:listitem="@layout/item_trend"
+            android:elevation="@dimen/spacing_too_small"/>
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animation_loading"
@@ -195,7 +192,6 @@
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/loading_animation"
                 app:showWhenLoading="@{viewModel.trend}" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>
