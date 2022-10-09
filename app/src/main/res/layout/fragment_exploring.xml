@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.explore.ExploringViewModel" />
@@ -20,10 +21,10 @@
             style="@style/SemiBold.Large"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:visibility="gone"
             android:paddingVertical="12dp"
             android:paddingStart="@dimen/spacing_medium"
             android:text="@string/explore_label"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +37,6 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:background="@drawable/edit_text_background"
             android:drawableStart="@drawable/ic_search"
-            android:drawableTint="@color/brand_color"
             android:drawablePadding="@dimen/spacing_small"
             android:focusableInTouchMode="false"
             android:hint="@string/search_hint"
@@ -50,105 +50,105 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_movies"
+            style="@style/CardCorners.Small"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            style="@style/CardCorners.Small"
-            app:cardCornerRadius="@dimen/radius_small"
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_medium"
             android:backgroundTint="@color/card_background_color"
             android:onClick="@{() -> viewModel.onClickMovies()}"
+            app:cardCornerRadius="@dimen/radius_small"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/card_series"
-            android:layout_marginEnd="@dimen/spacing_medium"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/input_search">
 
-                <ImageView
-                    android:id="@+id/icon_movie"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_movie"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/spacing_medium" />
+            <ImageView
+                android:id="@+id/icon_movie"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:src="@drawable/ic_movie" />
 
-                <TextView
-                    android:id="@+id/text_movies_label"
-                    style="@style/SemiBold.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/movies_label"
-                    android:textColor="@color/brand_color"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/spacing_large" />
+            <TextView
+                android:id="@+id/text_movies_label"
+                style="@style/SemiBold.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="@string/movies_label"
+                android:textColor="@color/brand_color" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_series"
+            style="@style/CardCorners.Small"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            style="@style/CardCorners.Small"
-            app:cardCornerRadius="@dimen/radius_small"
             android:layout_marginTop="@dimen/spacing_medium"
             android:backgroundTint="@color/card_background_color"
             android:onClick="@{() -> viewModel.onClickSeries()}"
+            app:cardCornerRadius="@dimen/radius_small"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toEndOf="@id/card_movies"
             app:layout_constraintEnd_toStartOf="@id/card_actors"
+            app:layout_constraintStart_toEndOf="@id/card_movies"
             app:layout_constraintTop_toBottomOf="@id/input_search">
 
-                <ImageView
-                    android:id="@+id/icon_series"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_tv"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/spacing_medium"/>
+            <ImageView
+                android:id="@+id/icon_series"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:src="@drawable/ic_tv" />
 
-                <TextView
-                    android:id="@+id/text_series_label"
-                    style="@style/SemiBold.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tv_shows_label"
-                    android:textColor="@color/brand_color"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/spacing_large"/>
+            <TextView
+                android:id="@+id/text_series_label"
+                style="@style/SemiBold.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="@string/tv_shows_label"
+                android:textColor="@color/brand_color" />
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_actors"
+            style="@style/CardCorners.Small"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            style="@style/CardCorners.Small"
-            app:cardCornerRadius="@dimen/radius_small"
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
             android:backgroundTint="@color/card_background_color"
             android:onClick="@{() -> viewModel.onClickActors()}"
+            app:cardCornerRadius="@dimen/radius_small"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/input_search"
             app:layout_constraintStart_toEndOf="@id/card_series"
             app:layout_constraintTop_toBottomOf="@id/input_search">
 
-                <ImageView
-                    android:id="@+id/icon_actors"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_actors"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/spacing_medium" />
+            <ImageView
+                android:id="@+id/icon_actors"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:src="@drawable/ic_actors" />
 
-                <TextView
-                    android:id="@+id/text_actors_label"
-                    style="@style/SemiBold.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/actors_label"
-                    android:textColor="@color/brand_color"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/spacing_large" />
+            <TextView
+                android:id="@+id/text_actors_label"
+                style="@style/SemiBold.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="@string/actors_label"
+                android:textColor="@color/brand_color" />
 
         </androidx.cardview.widget.CardView>
 
@@ -167,8 +167,9 @@
             android:id="@+id/recycler_trend"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/spacing_medium"
             android:clipToPadding="false"
+            android:elevation="@dimen/spacing_too_small"
+            android:paddingVertical="@dimen/spacing_medium"
             app:items="@{viewModel.trend.toData()}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -177,21 +178,20 @@
             app:layout_constraintTop_toBottomOf="@id/text_trend_label"
             app:showWhenSuccess="@{viewModel.trend}"
             app:spanCount="2"
-            tools:listitem="@layout/item_trend"
-            android:elevation="@dimen/spacing_too_small"/>
+            tools:listitem="@layout/item_trend" />
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/animation_loading"
-                android:layout_width="128dp"
-                android:layout_height="128dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/loading_animation"
-                app:showWhenLoading="@{viewModel.trend}" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_loading"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_animation"
+            app:showWhenLoading="@{viewModel.trend}" />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>
