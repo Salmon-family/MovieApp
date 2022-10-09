@@ -4,26 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.ratedmovies.RatedMoviesViewModel" />
+            type="com.karrar.movieapp.ui.profile.myratings.MyRatingsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/background_color"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/background_color">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_rated_movies"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:items="@{viewModel.ratedMovies.toData()}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:items="@{viewModel.ratedMovies.toData()}"
             app:showWhenSuccess="@{viewModel.ratedMovies}"
             tools:listitem="@layout/item_rated_movie" />
 
@@ -82,5 +83,17 @@
             android:visibility="invisible"
             app:constraint_referenced_ids="animation_lost_connection,description_lost_connection,title_lost_connection"
             app:showWhenFail="@{viewModel.ratedMovies}" />
+
+        <TextView
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/this_list_has_no_movies"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showWhenListIsEmpty="@{viewModel.ratedMovies.toData()}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.ratedmovies
+package com.karrar.movieapp.ui.profile.myratings
 
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.models.RatedMovies
@@ -10,4 +10,6 @@ class RatedMoviesAdapter(items: List<RatedMovies>, listener: RatedMoviesInteract
     override val layoutID: Int = R.layout.item_rated_movie
 }
 
-interface RatedMoviesInteractionListener : BaseInteractionListener
+interface RatedMoviesInteractionListener : BaseInteractionListener {
+    fun onClickMovie(movieId: Int)
+}

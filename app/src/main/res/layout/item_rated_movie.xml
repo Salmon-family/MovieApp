@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
             type="com.karrar.movieapp.domain.models.RatedMovies" />
+
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.ratedmovies.RatedMoviesInteractionListener" />
+            type="com.karrar.movieapp.ui.profile.myratings.RatedMoviesInteractionListener" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -17,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_medium"
         android:layout_marginTop="@dimen/spacing_medium"
+        android:onClick="@{() -> listener.onClickMovie(item.id)}"
         app:cardCornerRadius="@dimen/radius_small">
 
 
@@ -30,11 +33,11 @@
                 android:layout_width="142dp"
                 android:layout_height="80dp"
                 android:scaleType="centerCrop"
-                tools:src="@drawable/test"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:posterImage="@{item.posterPath}"
                 app:shapeAppearanceOverlay="@style/CardCorners.Small"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                tools:src="@drawable/test" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_title_movie"
@@ -61,7 +64,7 @@
                 android:layout_marginBottom="@dimen/spacing_small"
                 android:drawableStart="@drawable/ic_star_small"
                 android:drawablePadding="@dimen/spacing_too_small"
-                android:text="@{item.rating.toString()}"
+                android:text="@{item.rating + @string/zero}"
                 android:textColor="@color/yellow"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image_movie"

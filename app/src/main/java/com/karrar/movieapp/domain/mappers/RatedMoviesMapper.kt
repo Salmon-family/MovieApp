@@ -8,11 +8,11 @@ import javax.inject.Inject
 class RatedMoviesMapper @Inject constructor() : Mapper<RatedMoviesDto, RatedMovies> {
     override fun map(input: RatedMoviesDto): RatedMovies {
         return RatedMovies(
-            id = input.id,
-            title = input.title,
+            id = input.id ?: 0,
+            title = input.title ?: "",
             posterPath = IMAGE_BASE_PATH + input.posterPath,
-            rating = input.rating,
-            releaseDate = input.releaseDate,
+            rating = input.rating ?: 0,
+            releaseDate = input.releaseDate ?: "",
         )
     }
 }
