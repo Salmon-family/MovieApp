@@ -14,7 +14,7 @@ import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -86,12 +86,14 @@ class MovieDetailsViewModel @Inject constructor(
         collectResponse(movieRepository.getMovieReviews(movie_id)) {
             _movieReviews.postValue(it)
         }
+
         collectResponse(
             movieRepository.getRatedMovie(
-                movie_id,
-                sessionId.value ?: ""
+                15140049,
+                "e232e33f6e332ad85e3c1f3055ebfa7090935e33"
             )
         ) {
+//            Log.i("kkkkkkk4", )
             checkIfMovieRated(it.toData()?.items, movie_id)
         }
 
@@ -123,11 +125,14 @@ class MovieDetailsViewModel @Inject constructor(
             }
         }
 
-        Log.i("llllllllll", sessionId.value ?: "")
     }
 
-    private fun getSessionId() {
-        _sessionId.postValue(accountRepository.getSessionId().toString())
+    fun getSessionId() {
+        viewModelScope.launch {
+            accountRepository.getSessionId().collect {
+                _sessionId.value = it.toString()
+            }
+        }
     }
 
     override fun onClickSave() {
