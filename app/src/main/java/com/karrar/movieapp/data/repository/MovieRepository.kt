@@ -71,4 +71,8 @@ interface MovieRepository {
 
     fun getRatedMovie(accountId: Int, session_id: String): Flow<State<BaseResponse<RatedMovie>>>
 
+    fun createList(session_id: String, name: String, description: String, public: Boolean) : Flow<State<CreateListDto>>
+
+    fun getSavedListDetails(listId: String): Flow<State<List<SaveListDetails>>>
+
 }

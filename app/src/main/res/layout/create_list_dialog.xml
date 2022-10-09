@@ -81,20 +81,8 @@
             android:layout_marginVertical="@dimen/spacing_large"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:checkedButton="@id/private_option"
+            android:checkedButton="@id/public_option"
             app:layout_constraintTop_toBottomOf="@+id/layout_list_name">
-
-            <RadioButton
-                android:id="@+id/private_option"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="@dimen/spacing_extra_large"
-                android:button="@drawable/custom_radio_button"
-                android:onClick="@{() -> viewModel.selectOption(0)}"
-                android:paddingHorizontal="@dimen/spacing_small"
-                android:text="Private"
-                android:textColor="@drawable/custom_radio_button"
-                android:buttonTint="@drawable/custom_radio_button"/>
 
             <RadioButton
                 android:id="@+id/public_option"
@@ -105,6 +93,18 @@
                 android:onClick="@{() -> viewModel.selectOption(1)}"
                 android:paddingHorizontal="@dimen/spacing_small"
                 android:text="Public"
+                android:textColor="@drawable/custom_radio_button"
+                android:buttonTint="@drawable/custom_radio_button"/>
+
+            <RadioButton
+                android:id="@+id/private_option"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="@dimen/spacing_extra_large"
+                android:button="@drawable/custom_radio_button"
+                android:onClick="@{() -> viewModel.selectOption(0)}"
+                android:paddingHorizontal="@dimen/spacing_small"
+                android:text="Private"
                 android:textColor="@drawable/custom_radio_button"
                 android:buttonTint="@drawable/custom_radio_button"/>
 

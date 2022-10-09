@@ -3,11 +3,7 @@ package com.karrar.movieapp.data.repository
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.response.AddMovieDto
-import com.karrar.movieapp.data.remote.response.BaseResponse
-import com.karrar.movieapp.data.remote.response.CreatedListDto
-import com.karrar.movieapp.data.remote.response.ListDetailsDto
-import com.karrar.movieapp.data.remote.response.TVShowsDTO
+import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
@@ -43,8 +39,9 @@ class MovieRepositoryImp @Inject constructor(
     private val movieDetailsMapper: MovieDetailsMapper,
     private val reviewMapper: ReviewMapper,
     private val trailerMapper: TrailerMapper,
-    private val popularMovieMapper: PopularMovieMapper
-) : BaseRepository(), MovieRepository {
+    private val popularMovieMapper: PopularMovieMapper,
+    private val saveListDetailsMapper: SaveListDetailsMapper,
+    ) : BaseRepository(), MovieRepository {
     override fun getPopularMovies(): Flow<State<List<PopularMovie>>> {
         return flow {
             emit(State.Loading)
@@ -212,12 +209,29 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.getList(listId) }
     }
 
+    override fun getSavedListDetails(listId: String): Flow<State<List<SaveListDetails>>> {
+        return wrap(
+            { movieService.getList(listId.toInt()) },
+            { it.items?.map { saveListDetailsMapper.map(it!!) } ?: emptyList() })
+     }
+
     override fun getRatedMovie(
         accountId: Int,
         sessionId: String
     ): Flow<State<BaseResponse<RatedMovie>>> {
         return wrapWithFlow { movieService.getRatedMovie(accountId, sessionId) }
     }
+
+    override fun createList(
+        session_id: String,
+        name: String,
+        description: String,
+        public: Boolean
+    ): Flow<State<CreateListDto>> {
+        return wrapWithFlow {
+            movieService.createList(session_id, name, description,public)
+        }
+     }
 
     override suspend fun insertSearchItem(item: SearchHistoryEntity) {
         return movieDao.insert(item)

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.CreatedLists" />
+            type="com.karrar.movieapp.data.local.database.entity.Lists" />
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.saved.SavedListInteractionListener" />
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/plus_jakarta_sans_semibold"
-                android:text="@{item.name.toString()}"
+                android:text="@{item.listName}"
                 android:textColor="@color/shade_primary_color"
                 android:textSize="@dimen/spacing_large"
                 app:layout_constraintBottom_toBottomOf="parent"

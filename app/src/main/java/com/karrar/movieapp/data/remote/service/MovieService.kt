@@ -11,6 +11,7 @@ import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.response.CreditsDto
+import com.karrar.movieapp.data.remote.response.account.AccountDto
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
@@ -166,6 +167,20 @@ interface MovieService {
         @Path("account_id") listId: Int,
         @Query("session_id") sessionId: String,
     ): Response<BaseResponse<RatedMovie>>
+
+    @FormUrlEncoded
+    @POST("list")
+    suspend fun createList(
+        @Query("session_id") session_id: String,
+        @Field("name") name: String,
+        @Field("description") description: String,
+        @Field("public") public: Boolean
+    ) : Response<CreateListDto>
+
+    @GET("account")
+    suspend fun getMyAccount(
+        @Query("session_id") session_id: String,
+    ): Response<AccountDto>
 
     /**
      *          TV Show Services ...

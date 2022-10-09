@@ -205,5 +205,31 @@
             android:name="movie_id"
             app:argType="integer" />
     </activity>
+    <fragment
+        android:id="@+id/allSavedListsFragment"
+        android:name="com.karrar.movieapp.ui.saved.AllSavedListsFragment"
+        android:label="AllSavedListsFragment"
+        tools:layout="@layout/fragment_all_saved_lists">
+        <action
+            android:id="@+id/action_allSavedListsFragment_to_createListDialog"
+            app:destination="@id/createListDialog" />
+        <action
+            android:id="@+id/action_allSavedListsFragment_to_savedListFragment"
+            app:destination="@id/savedListFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/createListDialog"
+        android:name="com.karrar.movieapp.ui.saved.CreateListDialog"
+        android:label="CreateListDialog"
+        tools:layout="@layout/create_list_dialog"/>
+    <fragment
+        android:id="@+id/savedListFragment"
+        android:name="com.karrar.movieapp.ui.saved.SavedListFragment"
+        android:label="SavedListFragment"
+        tools:layout="@layout/fragment_saved_list">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>
