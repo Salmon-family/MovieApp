@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.profile.logout.LogoutViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/card_background_color"
+        android:layout_marginHorizontal="@dimen/spacing_medium"
+        app:cardCornerRadius="@dimen/radius_medium">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_confirmation"
+                style="@style/SemiBold.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="@string/are_you_sure"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_confirmation_message"
+                style="@style/Regular.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:textColor="@color/white"
+                android:text="@string/you_re_about_to_sign_out_of_your_account"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_confirmation" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_sign_out_action"
+                style="@style/Regular.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:onClick="@{() -> viewModel.onLogout()}"
+                android:text="@string/logout"
+                android:textColor="@color/brand_color"
+                app:hideWhenLoading="@{viewModel.requestState}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_confirmation_message" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_cancel"
+                style="@style/Regular.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_extra_large"
+                android:textColor="@color/white"
+                android:onClick="@{() -> viewModel.onCloseDialog()}"
+                android:text="@string/cancel"
+                app:hideWhenLoading="@{viewModel.requestState}"
+                app:layout_constraintBottom_toBottomOf="@+id/text_sign_out_action"
+                app:layout_constraintEnd_toStartOf="@+id/text_sign_out_action"
+                app:layout_constraintTop_toTopOf="@+id/text_sign_out_action" />
+
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:indeterminate="true"
+                app:indicatorColor="@color/brand_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:showWhenLoading="@{viewModel.requestState}"
+                app:trackColor="@color/shade_secondary_color" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

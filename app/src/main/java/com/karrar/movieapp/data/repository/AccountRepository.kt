@@ -10,5 +10,6 @@ interface AccountRepository {
         password: String,
     ): Flow<State<Boolean>>
 
+    suspend fun logout(): Flow<State<Boolean>>
 }
 
