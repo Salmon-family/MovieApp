@@ -32,4 +32,7 @@ interface MovieDao {
 
     @Query("SELECT * FROM WATCH_HISTORY_TABLE")
     fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>
+
+    @Query("DELETE FROM WATCH_HISTORY_TABLE")
+    suspend fun deleteAllWatchedMovies()
 }
