@@ -8,7 +8,6 @@ import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.BaseResponse
 import com.karrar.movieapp.data.remote.response.CreatedListDto
 import com.karrar.movieapp.data.remote.response.ListDetailsDto
-import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
