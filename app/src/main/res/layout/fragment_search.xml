@@ -48,7 +48,8 @@
             android:drawablePadding="@dimen/spacing_small"
             android:paddingStart="@dimen/spacing_small"
             android:textCursorDrawable="@color/brand_color"
-            android:transitionName="search_box"/>
+            android:transitionName="search_box"
+            android:focusableInTouchMode="true"/>
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group_media_type"

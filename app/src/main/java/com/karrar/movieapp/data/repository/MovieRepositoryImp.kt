@@ -8,6 +8,7 @@ import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.BaseResponse
 import com.karrar.movieapp.data.remote.response.CreatedListDto
 import com.karrar.movieapp.data.remote.response.ListDetailsDto
+import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
@@ -23,6 +24,7 @@ import com.karrar.movieapp.domain.mappers.PopularMovieMapper
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.PopularMovie
+import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -36,7 +38,7 @@ class MovieRepositoryImp @Inject constructor(
     private val genreMapper: GenreMapper,
     private val movieMapper: MovieMapper,
     private val tvShowsMapper: TVShowMapper,
-    private val personMapper: PersonMapper,
+    private val searchActorMapper: SearchActorMapper,
     private val seriesMapper: SearchSeriesMapper,
     private val movieDao: MovieDao,
     private val searchHistoryMapper: SearchHistoryMapper,
@@ -98,10 +100,10 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun searchForPerson(query: String): Flow<State<List<MediaInfo>>> {
-        return wrap({ movieService.searchForPerson(query) }, { response ->
-            response.items?.map {
-                it.let { personMapper.map(it) }
+    override fun searchForActor(query: String): Flow<State<List<Media>>> {
+        return wrap({ movieService.searchForActor(query) }, { response ->
+            response.items?.filter { it.knownForDepartment == Constants.ACTING }?.map {
+                it.let { searchActorMapper.map(it) }
             } ?: emptyList()
         })
     }
@@ -112,13 +114,13 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun searchForMovie(query: String): Flow<State<List<MediaInfo>>> {
+    override fun searchForMovie(query: String): Flow<State<List<Media>>> {
         return wrap({ movieService.searchForMovie(query) }, { response ->
-            response.items?.map { seriesMapper.map(it) } ?: emptyList()
+            response.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
 
-    override fun searchForSeries(query: String): Flow<State<List<MediaInfo>>> {
+    override fun searchForSeries(query: String): Flow<State<List<Media>>> {
         return wrap({ movieService.searchForSeries(query) }, { response ->
             response.items?.map { seriesMapper.map(it) } ?: emptyList()
         })

@@ -45,14 +45,14 @@ interface MovieService {
     ): Response<BaseResponse<ActorDto>>
 
     @GET("search/person")
-    suspend fun searchForPerson(
+    suspend fun searchForActor(
         @Query("query") query: String
     ): Response<BaseResponse<ActorDto>>
 
     @GET("search/movie")
     suspend fun searchForMovie(
         @Query("query") query: String
-    ): Response<BaseResponse<TVShowsDTO>>
+    ): Response<BaseResponse<MovieDto>>
 
     @GET("search/tv")
     suspend fun searchForSeries(

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.MediaInfo" />
+            type="com.karrar.movieapp.domain.models.Media" />
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.search.MediaSearchInteractionListener" />
@@ -21,7 +21,7 @@
         app:cardElevation="1dp"
         style="@style/CardCorners.Small"
         android:backgroundTint="@color/card_background_color"
-        android:onClick="@{() -> listener.onClickMedia(item.id,item.name)}">
+        android:onClick="@{() -> listener.onClickMedia(item.mediaID,item.mediaName)}">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -33,7 +33,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginEnd="@dimen/spacing_medium"
                 tools:src="@drawable/test"
-                app:posterImage="@{item.imagePath}"
+                app:posterImage="@{item.mediaImage}"
                 android:scaleType="centerCrop"/>
             <TextView
                 android:id="@+id/text_title"
@@ -45,7 +45,8 @@
                 android:layout_marginHorizontal="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_small"
                 tools:text="Shang-Chi and the Legend of the Ten Rings"
-                android:text="@{item.name}"
+                android:ellipsize="end"
+                android:text="@{item.mediaName}"
                 style="@style/Regular.Small"/>
             <TextView
                 android:id="@+id/text_rate"
@@ -54,7 +55,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/text_title"
                 tools:text="8.9"
-                android:text="@{String.valueOf(item.rate)}"
+                android:text="@{String.valueOf(item.mediaRate)}"
                 android:layout_marginBottom="@dimen/spacing_small"
                 style="@style/SemiBold.Small"
                 android:textColor="@color/yellow"
@@ -66,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="2021"
-                android:text="@{item.releaseDate}"
+                android:text="@{item.mediaDate}"
                 style="@style/Regular.Small"
                 app:layout_constraintStart_toEndOf="@id/text_rate"
                 app:layout_constraintTop_toTopOf="@id/text_rate"
