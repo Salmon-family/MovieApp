@@ -21,7 +21,7 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
             mutableListOf(), viewModel
         )
         observeEvents()
-        setTitle(true, "Watch History")
+        setTitle(true, getString(R.string.watch_history))
     }
 
     private fun observeEvents() {

@@ -21,7 +21,7 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
         val adapter = RatedMoviesAdapter(mutableListOf(), viewModel)
         binding.recyclerViewRatedMovies.adapter = adapter
         observeEvents()
-        setTitle(true, "My Ratings")
+        setTitle(true, getString(R.string.my_ratings))
     }
 
     private fun observeEvents() {

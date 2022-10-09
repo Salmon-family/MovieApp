@@ -69,4 +69,5 @@
     <string name="logout">Sign Out</string>
     <string name="this_list_has_no_movies">This list has no movies</string>
     <string name="zero">\.0</string>
+    <string name="my_ratings">My Ratings</string>
 </resources>

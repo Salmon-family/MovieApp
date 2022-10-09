@@ -12,13 +12,13 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/card_background_color"
         android:layout_marginHorizontal="@dimen/spacing_medium"
         app:cardCornerRadius="@dimen/radius_medium">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/card_background_color">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_confirmation"
@@ -37,6 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
+                android:textColor="@color/white"
                 android:text="@string/you_re_about_to_sign_out_of_your_account"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/spacing_extra_large"
+                android:textColor="@color/white"
                 android:onClick="@{() -> viewModel.onCloseDialog()}"
                 android:text="@string/cancel"
                 app:hideWhenLoading="@{viewModel.requestState}"

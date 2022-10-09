@@ -18,7 +18,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeEvents()
-        setTitle(true, "Profile")
+        setTitle(true, getString(R.string.profile))
     }
 
     private fun observeEvents() {

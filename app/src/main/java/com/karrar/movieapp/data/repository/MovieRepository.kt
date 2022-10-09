@@ -70,7 +70,7 @@ interface MovieRepository {
 
     fun getListDetails(listId: Int): Flow<State<ListDetailsDto>>
 
-    fun getRatedMovie(accountId: Int, session_id: String): Flow<State<BaseResponse<RatedMovie>>>
+    fun getRatedMovie(accountId: Int, sessionId: String): Flow<State<BaseResponse<RatedMovie>>>
 
     fun getAccountDetails(sessionId: String): Flow<State<Account>>
 

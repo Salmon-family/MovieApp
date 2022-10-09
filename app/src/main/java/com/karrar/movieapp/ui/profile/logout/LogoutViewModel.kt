@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -24,26 +25,21 @@ class LogoutViewModel @Inject constructor(private val accountRepository: Account
     val requestState = _requestState.toLiveData()
 
     fun onLogout() {
-        logout()
+        viewModelScope.launch {
+            accountRepository.logout().collect {
+                _requestState.postValue(it)
+                logoutEvent(it)
+            }
+        }
     }
 
     fun onCloseDialog() {
         _closeDialogEvent.postValue(Event(true))
     }
 
-    private fun logout() {
-        viewModelScope.launch {
-            accountRepository.logout().collect {
-                checkLogoutState(it)
-            }
-        }
-    }
-
-    private fun checkLogoutState(state: State<Boolean>) {
-        when (state) {
-            State.Loading -> _requestState.postValue(State.Loading)
-            is State.Success -> _clickLoginEvent.postValue(Event(true))
-            is State.Error -> _requestState.postValue(State.Error(state.message))
+    private fun logoutEvent(state: State<Boolean>) {
+        if (state is State.Success){
+            _clickLoginEvent.postEvent(true)
         }
     }
 }
