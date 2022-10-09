@@ -27,12 +27,10 @@ class YoutubePlayerViewModel @Inject constructor(
 
     private fun getMovieTrailer(movie_id: Int){
         viewModelScope.launch {
-            collectResponse(movieRepository.getMovieTrailer(movie_id)) {
+            movieRepository.getMovieTrailer(movie_id).collect{
                 _movieTrailer.postValue(it)
             }
         }
-
-
     }
 
 
