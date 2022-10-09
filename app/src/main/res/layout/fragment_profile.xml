@@ -43,7 +43,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_username"
-            style="@style/Regular.Small.ternary"
+            style="@style/Regular.Medium.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
@@ -69,8 +69,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
+            android:onClick="@{() -> viewModel.onClickWatchHistory()}"
             android:text="@string/watch_history"
-            android:onClick="@{() -> viewModel.onNavigateToWatchHistory()}"
             app:layout_constraintBottom_toBottomOf="@id/icon_play"
             app:layout_constraintStart_toEndOf="@id/icon_play"
             app:layout_constraintTop_toTopOf="@id/icon_play" />
@@ -92,10 +92,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:onClick="@{() -> viewModel.onNavigateToRatedMovies()}"
+            android:onClick="@{() -> viewModel.onClickRatedMovies()}"
             android:src="@drawable/ic_star_outlined"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_divider" />
+            app:layout_constraintTop_toBottomOf="@+id/first_divider"
+            app:tint="@color/white" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_rated_movies"
@@ -103,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
-            android:onClick="@{() -> viewModel.onNavigateToRatedMovies()}"
+            android:onClick="@{() -> viewModel.onClickRatedMovies()}"
             android:text="@string/rated_movies"
             app:layout_constraintBottom_toBottomOf="@id/icon_star"
             app:layout_constraintStart_toEndOf="@id/icon_star"
@@ -137,7 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
-            android:onClick="@{() -> viewModel.onNavigateToDialogLogout()}"
+            android:onClick="@{() -> viewModel.onClickLogout()}"
             android:text="@string/sign_out"
             android:textColor="@color/shade_ternary_color"
             app:layout_constraintBottom_toBottomOf="@id/icon_sign_out"
@@ -164,6 +165,5 @@
             ,text_sign_out,icon_sign_out,first_divider
             ,icon_star,second_divider,icon_play,image_actor,text_name_actor,text_username"
             app:showWhenSuccess="@{viewModel.profileDetails}" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

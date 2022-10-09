@@ -1,5 +1,7 @@
 package com.karrar.movieapp.ui.profile
 
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
@@ -13,23 +15,27 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override val layoutIdFragment: Int = R.layout.fragment_profile
     override val viewModel: ProfileViewModel by viewModels()
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         observeEvents()
+        setTitle(true, "Profile")
     }
 
     private fun observeEvents() {
-        viewModel.navigateToRatedMovies.observe(viewLifecycleOwner, EventObserve {
+        viewModel.clickRatedMoviesEvent.observe(viewLifecycleOwner, EventObserve {
             findNavController().navigate(R.id.action_profileFragment_to_ratedMoviesFragment)
         })
 
-        viewModel.navigateToDialogLogout.observe(viewLifecycleOwner, EventObserve {
+        viewModel.clickDialogLogoutEvent.observe(viewLifecycleOwner, EventObserve {
             findNavController().navigate(R.id.action_profileFragment_to_logoutDialog)
         })
 
-        viewModel.navigateToWatchHistory.observe(viewLifecycleOwner, EventObserve {
+        viewModel.clickWatchHistoryEvent.observe(viewLifecycleOwner, EventObserve {
             findNavController().navigate(R.id.action_profileFragment_to_watchHistoryFragment)
         })
 
+        viewModel.clickLoginEvent.observe(viewLifecycleOwner, EventObserve {
+            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+        })
     }
 }
