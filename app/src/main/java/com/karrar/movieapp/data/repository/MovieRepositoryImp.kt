@@ -185,8 +185,8 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun setRating(movieId: Int, value: Float, session_id: String): Flow<State<RatingDto>> {
-        return wrapWithFlow { movieService.postRating(movieId, value, session_id) }
+    override fun setRating(movieId: Int, value: Float, sessionId: String): Flow<State<RatingDto>> {
+        return wrapWithFlow { movieService.postRating(movieId, value, sessionId) }
     }
 
     override fun getMovieTrailer(movieId: Int): Flow<State<Trailer>> {

@@ -65,23 +65,22 @@ class MovieDetailsViewModel @Inject constructor(
     private val _sessionId = MutableLiveData<String?>()
 
     init {
-        //login before run
         getSessionId()
         getAllDetails(args.movieId)
     }
 
-    private fun getAllDetails(movie_id: Int) {
+    private fun getAllDetails(movieId: Int) {
 
-        collectResponse(movieRepository.getMovieDetails(movie_id)) {
+        collectResponse(movieRepository.getMovieDetails(movieId)) {
             _movieDetails.postValue(it)
         }
-        collectResponse(movieRepository.getMovieCast(movie_id)) {
+        collectResponse(movieRepository.getMovieCast(movieId)) {
             _movieCast.postValue(it)
         }
-        collectResponse(movieRepository.getSimilarMovie(movie_id)) {
+        collectResponse(movieRepository.getSimilarMovie(movieId)) {
             _similarMovie.postValue(it)
         }
-        collectResponse(movieRepository.getMovieReviews(movie_id)) {
+        collectResponse(movieRepository.getMovieReviews(movieId)) {
             _movieReviews.postValue(it)
         }
 
@@ -91,13 +90,13 @@ class MovieDetailsViewModel @Inject constructor(
                 _sessionId.value.toString()
             )
         ) {
-            checkIfMovieRated(it.toData()?.items, movie_id)
+            checkIfMovieRated(it.toData()?.items, movieId)
         }
 
     }
 
-    private fun checkIfMovieRated(items: List<RatedMovie>?, movie_id: Int) {
-        val item = items?.firstOrNull { it.id == movie_id }
+    private fun checkIfMovieRated(items: List<RatedMovie>?, movieId: Int) {
+        val item = items?.firstOrNull { it.id == movieId }
         item?.let {
             if (it.rating != ratingValue.value) {
                 _check.postValue(it.rating?.toFloat())
@@ -106,11 +105,11 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    fun onAddRating(movie_id: Int, value: Float) {
+    fun onAddRating(movieId: Int, value: Float) {
         if (_check.value != value) {
             collectResponse(
                 movieRepository.setRating(
-                    movie_id, value,
+                    movieId, value,
                     _sessionId.value.toString()
                 )
             )

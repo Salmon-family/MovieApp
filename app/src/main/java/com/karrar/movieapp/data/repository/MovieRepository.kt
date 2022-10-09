@@ -59,7 +59,7 @@ interface MovieRepository {
 
     fun getMovieReviews(movieId: Int): Flow<State<List<Review>>>
 
-    fun setRating(movieId: Int, value:Float, session_id: String): Flow<State<RatingDto>>
+    fun setRating(movieId: Int, value:Float, sessionId: String): Flow<State<RatingDto>>
 
     fun getMovieTrailer(movieId: Int): Flow<State<Trailer>>
 
@@ -69,6 +69,6 @@ interface MovieRepository {
 
     fun getListDetails(listId: Int): Flow<State<ListDetailsDto>>
 
-    fun getRatedMovie(accountId: Int, session_id: String): Flow<State<BaseResponse<RatedMovie>>>
+    fun getRatedMovie(accountId: Int, sessionId: String): Flow<State<BaseResponse<RatedMovie>>>
 
 }
