@@ -1,24 +1,30 @@
 package com.karrar.movieapp.ui.movieDetails
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
+import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
+    private val accountRepository: AccountRepository,
     state: SavedStateHandle
-) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener , DetailInteractionListener {
+) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener,
+    DetailInteractionListener {
 
     private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
 
@@ -58,8 +64,12 @@ class MovieDetailsViewModel @Inject constructor(
 
     var ratingValue = MutableLiveData<Float>()
 
+    private val _sessionId = MutableLiveData<String?>()
+    val sessionId = _sessionId.toLiveData()
+
     init {
         getAllDetails(args.movieId)
+        getSessionId()
     }
 
     fun getAllDetails(movie_id: Int) {
@@ -78,8 +88,8 @@ class MovieDetailsViewModel @Inject constructor(
         }
         collectResponse(
             movieRepository.getRatedMovie(
-                14012083,
-                "1d92e6a329c67e2e5e0486a0a93d5980711535b1"
+                movie_id,
+                sessionId.value ?: ""
             )
         ) {
             checkIfMovieRated(it.toData()?.items, movie_id)
@@ -102,7 +112,7 @@ class MovieDetailsViewModel @Inject constructor(
             collectResponse(
                 movieRepository.setRating(
                     movie_id, value,
-                    "1d92e6a329c67e2e5e0486a0a93d5980711535b1"
+                    sessionId.value ?: ""
                 )
             )
             {
@@ -112,10 +122,15 @@ class MovieDetailsViewModel @Inject constructor(
                 }
             }
         }
+
+        Log.i("llllllllll", sessionId.value ?: "")
     }
 
+    private fun getSessionId() {
+        _sessionId.postValue(accountRepository.getSessionId().toString())
+    }
 
-   override fun onClickSave() {
+    override fun onClickSave() {
         _clickSaveEvent.postValue(Event(true))
     }
 
