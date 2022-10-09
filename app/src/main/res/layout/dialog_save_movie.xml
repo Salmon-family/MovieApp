@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveMovieViewModel"
-            />
+            type="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveMovieViewModel" />
     </data>
 
 
@@ -46,17 +46,16 @@
             android:padding="8dp"
             android:paddingStart="16dp"
             android:paddingEnd="250dp"
-            app:backgroundTint="@color/card_background_color"
             android:text="New List"
             android:textAllCaps="false"
+            app:backgroundTint="@color/card_background_color"
             app:icon="@drawable/new_list_ic"
             app:iconTint="@color/brand_color"
-            app:rippleColor="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view"
-            tools:text="New List"
-            />
+            app:rippleColor="@color/brand_color"
+            tools:text="New List" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/save_list_adapter"
