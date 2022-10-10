@@ -1,14 +1,11 @@
 package com.karrar.movieapp.ui.home
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MovieType
-import com.karrar.movieapp.domain.mappers.MovieMapper
-import com.karrar.movieapp.domain.mappers.PopularMovieMapper
-import com.karrar.movieapp.domain.mappers.TVShowMapper
-import com.karrar.movieapp.domain.models.Actor
-import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
@@ -25,10 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
-    private val movieMapper: MovieMapper,
-    private val seriesMapper: TVShowMapper,
-    private val seriesRepository: SeriesRepository,
-    private val popularMovieMapper: PopularMovieMapper
+    private val seriesRepository: SeriesRepository
 ) : BaseViewModel(), HomeInteractionListener, ActorsInteractionListener, MovieInteractionListener,
     MediaInteractionListener {
 
@@ -50,25 +44,23 @@ class HomeViewModel @Inject constructor(
     val homeItemsLiveData = MutableLiveData<UIState<List<HomeRecyclerItem>>>()
     private val homeItems = mutableListOf<HomeRecyclerItem>()
 
-    val _failedState = MutableLiveData(0)
-    var counter = 0
+    private val _failedState = MutableLiveData(0)
+    private var counter = 0
     val failedState = MediatorLiveData<UIState<Boolean>>().apply {
         addSource(_failedState, ::updateState)
     }
 
     private fun updateState(value: Any) {
-        if (_failedState.value!! >= 4) {
+        if (_failedState.value!! >= Constants.NUM_HOME_REQUEST) {
             failedState.postValue(UIState.Error)
         }
     }
-
 
     init {
         homeItemsLiveData.postValue(UIState.Loading)
         getTrending()
         getNowStreaming()
         getUpcoming()
-
         getActors()
         getTopRatedTvShow()
         getOnTheAir()
@@ -87,11 +79,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val responseGenre = movieRepository.getMovieGenreList2()
             val responseMovie = movieRepository.getPopularMovies2(responseGenre)
-
-            responseMovie?.let {
-                updateHomeItems(
-                    HomeRecyclerItem.Slider(responseMovie))
-            }
+            updateHomeItems(HomeRecyclerItem.Slider(responseMovie))
         }
     }
 
@@ -99,7 +87,7 @@ class HomeViewModel @Inject constructor(
     private fun getTrending() {
         viewModelScope.launch {
             val response = movieRepository.getTrendingMovies2()
-            if (response.isNullOrEmpty()) {
+            if (response.isEmpty()) {
                 _failedState.postValue(++counter)
             } else {
                 updateHomeItems(HomeRecyclerItem.Trending(response, MovieType.TRENDING))
@@ -121,15 +109,10 @@ class HomeViewModel @Inject constructor(
     private fun getUpcoming() {
         viewModelScope.launch {
             val response = movieRepository.getUpcomingMovies2()
-            if (response.isNullOrEmpty()) {
+            if (response.isEmpty()) {
                 _failedState.postValue(++counter)
             } else {
-                updateHomeItems(
-                    HomeRecyclerItem.Upcoming(
-                        response,
-                        MovieType.UPCOMING
-                    )
-                )
+                updateHomeItems(HomeRecyclerItem.Upcoming(response, MovieType.UPCOMING))
             }
         }
     }
@@ -137,7 +120,7 @@ class HomeViewModel @Inject constructor(
     private fun getNowStreaming() {
         viewModelScope.launch {
             val response = movieRepository.getNowPlayingMovies2()
-            if (response.isNullOrEmpty()) {
+            if (response.isEmpty()) {
                 _failedState.postValue(++counter)
             } else {
                 updateHomeItems(HomeRecyclerItem.NowStreaming(response, MovieType.NOW_STREAMING))
@@ -149,7 +132,7 @@ class HomeViewModel @Inject constructor(
 
         viewModelScope.launch {
             val response = seriesRepository.getTopRatedTvShow2()
-            if (response.isNullOrEmpty()) {
+            if (response.isEmpty()) {
                 _failedState.postValue(++counter)
             } else {
                 updateHomeItems(HomeRecyclerItem.TvShows(response))
@@ -160,7 +143,7 @@ class HomeViewModel @Inject constructor(
     private fun getOnTheAir() {
         viewModelScope.launch {
             val response = seriesRepository.getOnTheAir2()
-            if (response.isNullOrEmpty()) {
+            if (response.isEmpty()) {
                 _failedState.postValue(++counter)
             } else {
                 updateHomeItems(HomeRecyclerItem.OnTheAiring(response, MovieType.ON_THE_AIR))
@@ -171,7 +154,7 @@ class HomeViewModel @Inject constructor(
     private fun getAiringToday() {
         viewModelScope.launch {
             val response = seriesRepository.getAiringToday2()
-            if (response.isNullOrEmpty()) {
+            if (response.isEmpty()) {
                 _failedState.postValue(++counter)
             } else {
                 updateHomeItems(HomeRecyclerItem.AiringToday(response))
@@ -184,7 +167,7 @@ class HomeViewModel @Inject constructor(
             val movieList =
                 movieRepository.getMovieListByGenreID2(genreID)
 
-            if (movieList.isNullOrEmpty()) {
+            if (movieList.isEmpty()) {
                 _failedState.postValue(++counter)
             } else {
                 val item = when (type) {
