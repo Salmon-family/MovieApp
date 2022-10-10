@@ -49,7 +49,9 @@
             android:paddingStart="@dimen/spacing_small"
             android:textCursorDrawable="@color/brand_color"
             android:transitionName="search_box"
-            android:focusableInTouchMode="true"/>
+            android:focusable="true" >
+            <requestFocus/>
+        </EditText>
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group_media_type"
