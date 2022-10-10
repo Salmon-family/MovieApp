@@ -75,7 +75,7 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override fun getUpcomingMovies(): Flow<State<List<Media>>> {
-        return wrap({ movieService.getUpcomingMovies() }, { baseResponse ->
+        return wrap({ movieService.getUpcomingMovies(1) }, { baseResponse ->
             baseResponse.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
@@ -95,7 +95,7 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override fun getNowPlayingMovies(): Flow<State<List<Media>>> {
-        return wrap({ movieService.getNowPlayingMovies() }, { response ->
+        return wrap({ movieService.getNowPlayingMovies(1) }, { response ->
             response.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
@@ -131,7 +131,7 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override fun getMovieListByGenreID(genreID: Int): Flow<State<List<Media>>> {
-        return wrap({ movieService.getMovieListByGenre(genreID) }, { response ->
+        return wrap({ movieService.getMovieListByGenre(genreID,1) }, { response ->
             response.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
@@ -251,18 +251,18 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(actorMapper).mapList(it.items) })
     }
 
-    override suspend fun getUpcomingMovies2(): List<Media> {
-        return wrap2({ movieService.getUpcomingMovies() },
+    override suspend fun getUpcomingMovies2(page: Int): List<Media> {
+        return wrap2({ movieService.getUpcomingMovies(page) },
             { ListMapper(movieMapper).mapList(it.items) }) ?: emptyList()
     }
 
-    override suspend fun getNowPlayingMovies2(): List<Media> {
-        return wrap2({ movieService.getNowPlayingMovies() },
+    override suspend fun getNowPlayingMovies2(page: Int): List<Media> {
+        return wrap2({ movieService.getNowPlayingMovies(page) },
             { ListMapper(movieMapper).mapList(it.items) }) ?: emptyList()
     }
 
-    override suspend fun getMovieListByGenreID2(genreID: Int): List<Media> {
-        return wrap2({ movieService.getMovieListByGenre(genreID) },
+    override suspend fun getMovieListByGenreID2(genreID: Int , page: Int): List<Media> {
+        return wrap2({ movieService.getMovieListByGenre(genreID, page) },
             { ListMapper(movieMapper).mapList(it.items) }) ?: emptyList()
     }
 }

@@ -41,7 +41,7 @@ class AllMovieViewModel @Inject constructor(
 
     val allMedia: Flow<PagingData<Media>> =
         Pager(config = PagingConfig(pageSize = 15, prefetchDistance = 2),
-            pagingSourceFactory = { AllMediaPagingDataSource(movieRepository) }
+            pagingSourceFactory = { AllMediaPagingDataSource(movieRepository,seriesRepository,type) }
         ).flow.cachedIn(viewModelScope)
 
     private val _backEvent = MutableLiveData<Event<Boolean>>()

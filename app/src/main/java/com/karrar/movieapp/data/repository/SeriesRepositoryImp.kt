@@ -17,13 +17,13 @@ class SeriesRepositoryImp @Inject constructor(
 ) : BaseRepository(), SeriesRepository {
 
     override fun getOnTheAir(): Flow<State<List<Media>>> {
-        return wrap({ service.getOnTheAir() }, { response ->
+        return wrap({ service.getOnTheAir(1) }, { response ->
             response.items?.map { mediaMapper.map(it) } ?: emptyList()
         })
     }
 
-    override suspend fun getOnTheAir2(): List<Media> {
-        return wrap2({ service.getOnTheAir() },
+    override suspend fun getOnTheAir2(page: Int): List<Media> {
+        return wrap2({ service.getOnTheAir(page) },
             { ListMapper(mediaMapper).mapList(it.items) }) ?: emptyList()
 
     }

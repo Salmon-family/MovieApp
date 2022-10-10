@@ -31,7 +31,6 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
 //            MediaAdapter(mutableListOf(), R.layout.item_media, viewModel)
        val allMediaAdapter = AllMediaAdapter()
         binding.recyclerMedia.apply {
-            layoutManager = LinearLayoutManager(context)
             adapter = allMediaAdapter
         }
 

@@ -136,7 +136,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getNowStreaming() {
         viewModelScope.launch {
-            val response = movieRepository.getNowPlayingMovies2()
+            val response = movieRepository.getNowPlayingMovies2(1)
             if (response.isNullOrEmpty()) {
                 _failedState.postValue(++counter)
             } else {
@@ -159,7 +159,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getOnTheAir() {
         viewModelScope.launch {
-            val response = seriesRepository.getOnTheAir2()
+            val response = seriesRepository.getOnTheAir2(1)
             if (response.isNullOrEmpty()) {
                 _failedState.postValue(++counter)
             } else {

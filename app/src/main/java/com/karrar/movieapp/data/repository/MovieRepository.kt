@@ -20,17 +20,17 @@ interface MovieRepository {
 
     fun getUpcomingMovies(): Flow<State<List<Media>>>
 
-    suspend fun getUpcomingMovies2(): List<Media>
+    suspend fun getUpcomingMovies2(page: Int = 1): List<Media>
 
     fun getTopRatedMovies(): Flow<State<List<Media>>>
 
     fun getNowPlayingMovies(): Flow<State<List<Media>>>
 
-    suspend fun getNowPlayingMovies2(): List<Media>
+    suspend fun getNowPlayingMovies2(page: Int = 1): List<Media>
 
     fun getTrendingMovies(): Flow<State<List<Media>>>
 
-    suspend fun getTrendingMovies2(page:Int = 1): List<Media>
+    suspend fun getTrendingMovies2(page: Int = 1): List<Media>
 
     fun searchForActor(query: String): Flow<State<List<Media>>>
 
@@ -44,7 +44,7 @@ interface MovieRepository {
 
     fun getMovieListByGenreID(genreID: Int): Flow<State<List<Media>>>
 
-    suspend fun getMovieListByGenreID2(genreID: Int): List<Media>
+    suspend fun getMovieListByGenreID2(genreID: Int, page: Int = 1): List<Media>
 
     fun getActorDetails(actorId: Int): Flow<State<ActorDetails>>
 

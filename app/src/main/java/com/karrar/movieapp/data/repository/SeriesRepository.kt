@@ -9,7 +9,7 @@ interface SeriesRepository {
 
     fun getOnTheAir(): Flow<State<List<Media>>>
 
-    suspend fun getOnTheAir2(): List<Media>
+    suspend fun getOnTheAir2(page: Int = 1): List<Media>
 
     fun getAiringToday(): Flow<State<List<Media>>>
 
