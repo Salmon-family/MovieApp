@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_allMovieFragment"
             app:destination="@id/allMovieFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
 
     </fragment>
 
@@ -109,6 +112,9 @@
         <action
             android:id="@+id/action_categoryFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/allMovieFragment"
@@ -124,6 +130,9 @@
         <action
             android:id="@+id/action_allMovieFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_allMovieFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/exploringFragment"
@@ -142,6 +151,9 @@
         <action
             android:id="@+id/action_exploringFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_exploringFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -154,6 +166,9 @@
         <action
             android:id="@+id/action_searchFragment_to_actorDetailsFragment"
             app:destination="@id/actorDetailsFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
     </fragment>
 
     <!--    <fragment-->
@@ -185,8 +200,11 @@
         android:label="ReviewFragment"
         tools:layout="@layout/fragment_review">
         <argument
-            android:name="movie_id"
+            android:name="mediaId"
             app:argType="integer" />
+        <argument
+            android:name="type"
+            app:argType="com.karrar.movieapp.domain.enums.MediaType" />
     </fragment>
     <dialog
         android:id="@+id/saveMovieDialog"
@@ -204,6 +222,45 @@
         <argument
             android:name="movie_id"
             app:argType="integer" />
+        <argument
+            android:name="type"
+            app:argType="com.karrar.movieapp.domain.enums.MediaType" />
     </activity>
+    <fragment
+        android:id="@+id/episodesFragment"
+        android:name="com.karrar.movieapp.ui.episodes.EpisodesFragment"
+        android:label="EpisodesFragment"
+        tools:layout="@layout/fragment_episodes">
+        <argument
+            android:name="tvShowId"
+            app:argType="integer" />
+        <argument
+            android:name="seasonNumber"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/tvShowDetailsFragment"
+        android:name="com.karrar.movieapp.ui.tvShowDetails.TvShowDetailsFragment"
+        android:label="TvShowDetailsFragment"
+        tools:layout="@layout/fragment_tv_show_details">
+        <argument
+            android:name="tvShowId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_episodesFragment"
+            app:destination="@id/episodesFragment" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_reviewFragment"
+            app:destination="@id/reviewFragment" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_saveMovieDialog"
+            app:destination="@id/saveMovieDialog" />
+        <action
+            android:id="@+id/action_tvShowDetailFragment_to_actorDetailsFragment"
+            app:destination="@id/actorDetailsFragment" />
+        <action
+            android:id="@+id/action_tvShowDetailFragment_to_youtubePlayerActivity"
+            app:destination="@id/youtubePlayerActivity" />
+    </fragment>
 
 </navigation>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.karrar.movieapp.data.remote.response.episode.EpisodeDto" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_medium"
+        android:background="@drawable/bottom_line">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_episode"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="1:0.6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:posterImage="@{item.stillPath}"
+            app:shapeAppearanceOverlay="@style/CardCorners.Small"
+            tools:src="@drawable/test_4" />
+
+        <TextView
+            android:id="@+id/text_episode_name"
+            style="@style/Regular.Medium.Primary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="@{item.name}"
+            app:layout_constraintEnd_toStartOf="@+id/text_episode_duration"
+            app:layout_constraintStart_toEndOf="@+id/image_episode"
+            app:layout_constraintTop_toTopOf="@+id/image_episode"
+            tools:text="1. Cargo" />
+
+        <TextView
+            android:id="@+id/text_episode_duration"
+            style="@style/Regular.Small.Primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{@string/m(String.valueOf(item.runtime))}"
+            app:layout_constraintBottom_toBottomOf="@+id/text_episode_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_episode_name"
+            tools:text="58m" />
+
+        <TextView
+            android:id="@+id/text_review"
+            style="@style/Regular.Small.Secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:text="@{@string/reviews(String.valueOf(item.voteCount))}"
+            app:layout_constraintBottom_toBottomOf="@+id/image_episode"
+            app:layout_constraintStart_toEndOf="@+id/text_stars"
+            tools:text="(128 reviews)" />
+
+        <TextView
+            android:id="@+id/text_stars"
+            style="@style/SemiBold.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:text="@{String.valueOf(item.voteAverage)}"
+            android:textColor="@color/yellow"
+            app:layout_constraintBottom_toBottomOf="@+id/text_review"
+            app:layout_constraintEnd_toStartOf="@+id/text_review"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/image_star"
+            app:layout_constraintTop_toTopOf="@+id/text_review"
+            app:layout_constraintVertical_bias="1.0"
+            tools:text="7.2" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_star"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:src="@drawable/ic_star_filled"
+            app:layout_constraintBottom_toBottomOf="@+id/text_stars"
+            app:layout_constraintEnd_toStartOf="@+id/text_stars"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/image_episode"
+            app:layout_constraintTop_toTopOf="@+id/text_stars" />
+
+        <TextView
+            android:id="@+id/text_episode_date"
+            style="@style/Regular.Small.ternary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.airDate}"
+            app:layout_constraintBottom_toBottomOf="@+id/text_review"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_review"
+            tools:text="2019-10-31" />
+
+        <io.github.glailton.expandabletextview.ExpandableTextView
+            android:id="@+id/text_episode_description"
+            style="@style/Regular.Small.Primary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:text="@{item.overview}"
+            app:animDuration="500"
+            app:collapsedLines="2"
+            app:ellipsizeTextColor="@color/brand_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_episode"
+            app:readLessText="Read less"
+            app:readMoreText="Read more"
+            tools:text="Jack Ryan searches for the truth behind Venezuela's transactions with various World Powers. James Greer, about to get sidelined from his new post in Russia, joins Jack in Venezuela and the two find themselves in the midst of a Venezuelan leader's re-election effort." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
