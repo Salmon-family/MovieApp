@@ -20,19 +20,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/view_bottom_shadow"
-
             />
 
-        <Constraint
-            android:id="@+id/view_bottom_shadow"
-            android:layout_width="match_parent"
-            android:layout_height="364dp"
-            app:layout_constraintEnd_toEndOf="@+id/actor_image"
-            app:layout_constraintStart_toStartOf="@+id/actor_image"
-            app:layout_constraintTop_toTopOf="@+id/actor_image"
-
-            />
 
     </ConstraintSet>
 
@@ -55,20 +44,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/view_bottom_shadow"
 
             />
 
-
-        <Constraint
-            android:id="@+id/view_bottom_shadow"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            app:layout_constraintEnd_toEndOf="@+id/actor_image"
-            app:layout_constraintStart_toStartOf="@+id/actor_image"
-            app:layout_constraintTop_toTopOf="@+id/actor_image"
-
-            />
 
 
 
