@@ -23,23 +23,25 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/actor_image"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="364dp"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:posterImage="@{viewModel.actorDetails.toData().actorImage}"
-            tools:src="@drawable/chris_evans" />
+            tools:src="@drawable/chris_evans"
+            app:layout_constraintBottom_toBottomOf="@+id/view_bottom_shadow"
+            />
 
         <View
             android:id="@+id/view_bottom_shadow"
             android:layout_width="match_parent"
             android:layout_height="364dp"
             android:background="@drawable/shape_shadow"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/actor_image"
+            app:layout_constraintStart_toStartOf="@+id/actor_image"
+            app:layout_constraintTop_toTopOf="@+id/actor_image"
             />
 
         <ImageView
@@ -71,7 +73,7 @@
             android:id="@+id/nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/actor_image"
+            app:layout_constraintTop_toBottomOf="@+id/view_bottom_shadow"
             >
 
             <androidx.constraintlayout.widget.ConstraintLayout
