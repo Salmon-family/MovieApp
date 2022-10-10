@@ -76,4 +76,5 @@
     <string name="this_list_has_no_movies">This list has no movies</string>
     <string name="zero">\.0</string>
     <string name="my_ratings">My Ratings</string>
+    <string name="empty_overview_text">This season does not have a description.</string>
 </resources>

@@ -156,3 +156,12 @@ fun convertToHoursPattern(text: TextView, duration: Int?) {
 fun <T> showWhenListIsEmpty(text: TextView, list: List<T>?) {
     text.isVisible = list?.isEmpty() == true
 }
+
+@BindingAdapter("app:overviewText")
+fun setOverViewText(view: TextView, text: String) {
+    if (text.isNotEmpty()) {
+        view.text = text
+    } else {
+        view.text = view.context.getString(R.string.empty_overview_text)
+    }
+}
