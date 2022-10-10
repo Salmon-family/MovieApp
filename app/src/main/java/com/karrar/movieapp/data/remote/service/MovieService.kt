@@ -1,28 +1,20 @@
 package com.karrar.movieapp.data.remote.service
 
 import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
+import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.response.login.SessionResponse
-import com.karrar.movieapp.data.remote.response.BaseResponse
-import com.karrar.movieapp.data.remote.response.MovieDto
-import com.karrar.movieapp.data.remote.response.genre.GenreResponse
-import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
-import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
-import com.karrar.movieapp.data.remote.response.movie.RatingDto
-import com.karrar.movieapp.data.remote.response.CreditsDto
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
+import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
+import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
 import retrofit2.Response
-import retrofit2.http.Field
-import retrofit2.http.FieldMap
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 
 interface MovieService {
@@ -193,6 +185,33 @@ interface MovieService {
 
     @GET("discover/tv")
     suspend fun getAllTvShows(): Response<BaseResponse<TVShowsDTO>>
+
+    @GET("tv/{tv_id}")
+    suspend fun getTvShowDetails(@Path("tv_id") tvShowId: Int): Response<TvShowDetailsDto>
+
+    @GET("tv/{tv_id}/credits")
+    suspend fun getTvShowCast(@Path("tv_id") tvShowId: Int): Response<CreditsDto>
+
+    @GET("tv/{tv_id}/reviews")
+    suspend fun getTvShowReviews(@Path("tv_id") tvShowId: Int): Response<BaseResponse<ReviewsDto>>
+
+    @GET("account/{account_id}/rated/tv")
+    suspend fun getRatedTvShow(
+        @Path("account_id") listId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<BaseResponse<RatedMovie>>
+
+    @GET("tv/{tv_id}/season/{season_number}")
+    suspend fun getSeasonDetails(
+        @Path("tv_id") tvShowId: Int,
+        @Path("season_number") seasonId: Int
+    ): Response<SeasonDto>
+
+
+    @GET("tv/{tv_id}/videos")
+    suspend fun getTvShowTrailer(
+        @Path("tv_id") tvShowId: Int,
+    ): Response<TrailerDto>
 
 }
 
