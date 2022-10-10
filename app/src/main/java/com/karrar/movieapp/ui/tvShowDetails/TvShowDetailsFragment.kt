@@ -38,14 +38,15 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
         binding.recyclerView.adapter = detailAdapter
 
         viewModel.tvShowDetails.observe(viewLifecycleOwner) { state ->
-            state.toData()?.let { detailAdapter.addItem(DetailItem.Header(it)) }
+            state.toData()?.let {
+                detailAdapter.addItem(DetailItem.Header(it))
+                detailAdapter.addItem(DetailItem.Seasons(it.seasons))
+            }
         }
         viewModel.tvShowCast.observe(viewLifecycleOwner) { state ->
             state.toData()?.let { detailAdapter.addItem(DetailItem.Cast(it)) }
         }
-        viewModel.seasons.observe(viewLifecycleOwner) {
-            if (!it.isNullOrEmpty()) detailAdapter.addItem(DetailItem.Seasons(it))
-        }
+
         viewModel.tvShowReviews.observe(viewLifecycleOwner) {
             it.toData()?.let { items ->
                 items.take(3).forEach { detailAdapter.addItem(DetailItem.Comment(it)) }

@@ -2,6 +2,7 @@ package com.karrar.movieapp.data.remote.response.tvShow
 
 
 import com.google.gson.annotations.SerializedName
+import com.karrar.movieapp.data.remote.response.SeasonDto
 import com.karrar.movieapp.data.remote.response.SpokenLanguageDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 
@@ -57,7 +58,7 @@ data class TvShowDetailsDto(
     @SerializedName("production_countries")
     val productionCountries: List<ProductionCountryDto?>? = null,
     @SerializedName("seasons")
-    val season: List<com.karrar.movieapp.data.remote.response.SeasonDto>? = null,
+    val season: List<SeasonDto>? = null,
     @SerializedName("spoken_languages")
     val spokenLanguages: List<SpokenLanguageDto?>? = null,
     @SerializedName("status")

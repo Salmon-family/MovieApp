@@ -33,9 +33,6 @@ class TvShowDetailsViewModel @Inject constructor(
     private var _tvShowDetails = MutableLiveData<State<TvShowDetails>>()
     val tvShowDetails: LiveData<State<TvShowDetails>> = _tvShowDetails
 
-    private val _seasons = MutableLiveData<List<Season>>()
-    val seasons: LiveData<List<Season>> = _seasons
-
     private var _tvShowCast = MutableLiveData<State<List<Actor>>>()
     val tvShowCast: LiveData<State<List<Actor>>> = _tvShowCast
 
@@ -75,11 +72,6 @@ class TvShowDetailsViewModel @Inject constructor(
         collectResponse(seriesRepository.getTvShowDetails(tvShowId)) { _tvShowDetails.postValue(it) }
 
         collectResponse(seriesRepository.getTvShowCast(tvShowId)) { _tvShowCast.postValue(it) }
-
-        collectResponse(seriesRepository.getTvShowDetails(tvShowId)) { state ->
-            val response = state.toData()
-            _seasons.postValue(response?.seasons?.map { seasonMapper.map(it) } ?: emptyList())
-        }
 
         collectResponse(seriesRepository.getTvShowReviews(tvShowId)) { _tvShowReviews.postValue(it) }
 

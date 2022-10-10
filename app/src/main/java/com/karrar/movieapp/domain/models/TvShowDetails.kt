@@ -12,7 +12,7 @@ data class TvShowDetails(
     val tvShowReview: Int,
     val tvShowVoteAverage: String,
     val tvShowOverview: String,
-    val tvShowSeasons: List<SeasonDto>
+    val tvShowSeasons: List<Season>
 ) : MediaDetails(
     tvShowId,
     tvShowImage,
