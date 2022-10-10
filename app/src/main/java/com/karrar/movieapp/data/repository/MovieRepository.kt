@@ -8,6 +8,7 @@ import com.karrar.movieapp.data.remote.response.BaseResponse
 import com.karrar.movieapp.data.remote.response.CreatedListDto
 import com.karrar.movieapp.data.remote.response.ListDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
+import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
@@ -72,11 +73,11 @@ interface MovieRepository {
 
     fun getMovieReviews(movieId: Int): Flow<State<List<Review>>>
 
-    fun setRating(movieId: Int, value: Float, session_id: String): Flow<State<RatingDto>>
+    fun setRating(movieId: Int, value:Float, session_id: String): Flow<State<RatingDto>>
 
     suspend fun getMovieTrailer(movieId: Int): Flow<State<Trailer>>
 
-    fun getAllLists(accountId: Int, sessionId: String): Flow<State<BaseResponse<CreatedListDto>>>
+    fun getAllLists(accountId: Int, sessionId:String): Flow<State<List<CreatedList>>>
 
     fun addMovieToList(sessionId: String, listId: Int, movieId: Int): Flow<State<AddMovieDto>>
 
@@ -93,4 +94,9 @@ interface MovieRepository {
     fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>
 
     suspend fun clearWatchHistory()
+
+    fun createList(
+        sessionId: String,
+        name: String,
+    ): Flow<State<AddListResponse>>
 }
