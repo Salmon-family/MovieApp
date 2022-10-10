@@ -64,7 +64,7 @@ interface MovieRepository {
 
     suspend fun getMovieTrailer(movieId: Int): Flow<State<Trailer>>
 
-    fun getAllLists(accountId: Int, sessionId:String): Flow<State<BaseResponse<CreatedListDto>>>
+    fun getAllLists(accountId: Int, sessionId:String): Flow<State<List<CreatedList>>>
 
     fun addMovieToList(sessionId: String, listId: Int, movieId: Int): Flow<State<AddMovieDto>>
 
@@ -81,4 +81,9 @@ interface MovieRepository {
     fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>
 
     suspend fun clearWatchHistory()
+
+    fun createList(
+        sessionId: String,
+        name: String,
+    ): Flow<State<AddListResponse>>
 }

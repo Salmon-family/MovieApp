@@ -71,4 +71,10 @@
     <string name="this_list_has_no_movies">This list has no movies</string>
     <string name="zero">\.0</string>
     <string name="my_ratings">My Ratings</string>
+    <string name="items">%1$s Items</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create">Create</string>
+    <string name="list_name">List Name</string>
+    <string name="explore_some_movies_on_home_or_search_and_then_create_your_movie_list">Explore some movies on “Home” or “Search” and then create your movie list.</string>
 </resources>
