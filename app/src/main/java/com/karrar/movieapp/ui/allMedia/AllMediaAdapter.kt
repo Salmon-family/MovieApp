@@ -27,6 +27,7 @@ class AllMediaAdapter @Inject constructor() :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(media: Media) = with(binding) {
             item = media
+//            listener =
         }
     }
 

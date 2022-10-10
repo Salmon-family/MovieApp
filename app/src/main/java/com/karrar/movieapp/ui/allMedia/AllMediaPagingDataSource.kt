@@ -13,8 +13,7 @@ class AllMediaPagingDataSource(
     private val repository: MovieRepository,
     private val seriesRepository: SeriesRepository,
     private val type: MovieType
-) :
-    PagingSource<Int, Media>() {
+) : PagingSource<Int, Media>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Media> {
         val pageNumber = params.key ?: 1
@@ -26,7 +25,7 @@ class AllMediaPagingDataSource(
                 MovieType.MYSTERY ->  repository.getMovieListByGenreID2(Constants.MYSTERY_ID ,pageNumber)
                 MovieType.ADVENTURE -> repository.getMovieListByGenreID2(Constants.ADVENTURE_ID,pageNumber)
                 MovieType.ON_THE_AIR -> seriesRepository.getOnTheAir2(pageNumber)
-                 MovieType.NON -> repository.getTrendingMovies2(pageNumber)
+                MovieType.NON -> repository.getTrendingMovies2(pageNumber)
             }
 
             LoadResult.Page(
