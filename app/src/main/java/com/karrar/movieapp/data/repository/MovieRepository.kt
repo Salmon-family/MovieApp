@@ -86,4 +86,6 @@ interface MovieRepository {
         sessionId: String,
         name: String,
     ): Flow<State<AddListResponse>>
+
+    fun getSavedListDetails(listId: String): Flow<State<List<SaveListDetails>>>
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_myListFragment"
+            app:destination="@id/myListFragment" />
     </fragment>
 
     <fragment
@@ -113,6 +116,9 @@
         <action
             android:id="@+id/action_myListFragment_to_createSavedList"
             app:destination="@id/createSavedList" />
+        <action
+            android:id="@+id/action_myListFragment_to_savedListFragment"
+            app:destination="@id/savedListFragment" />
     </fragment>
 
     <fragment
@@ -242,5 +248,14 @@
             android:name="movie_id"
             app:argType="integer" />
     </activity>
+    <fragment
+        android:id="@+id/savedListFragment"
+        android:name="com.karrar.movieapp.ui.myList.SavedListFragment"
+        android:label="SavedListFragment"
+        tools:layout="@layout/fragment_saved_list">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

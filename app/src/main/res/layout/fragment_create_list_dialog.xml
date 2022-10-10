@@ -12,8 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/card_background_color"
-        >
+        android:background="@drawable/bottom_sheet_corners">
         <TextView
             android:id="@+id/primary_text"
             android:layout_width="wrap_content"
@@ -81,9 +80,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
 </layout>
 

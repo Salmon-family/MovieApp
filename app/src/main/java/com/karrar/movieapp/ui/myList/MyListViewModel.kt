@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.myList
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.MovieRepository
@@ -30,6 +31,10 @@ class MyListViewModel @Inject constructor(
 
     private val _onCLickAddEvent = MutableLiveData<Event<Boolean>>()
     val onClickAddEvent = _onCLickAddEvent.toLiveData()
+
+    private val _itemId = MutableLiveData<Event<Int>>()
+    val itemId: LiveData<Event<Int>>
+        get() = _itemId
 
 
     init {
@@ -76,5 +81,9 @@ class MyListViewModel @Inject constructor(
         oldList?.add(0,createdLists)
         _createdList.postValue(oldList)
 
+    }
+
+    override fun onShowListItems(item: CreatedList) {
+        _itemId.postValue(Event(item.id!!))
     }
 }

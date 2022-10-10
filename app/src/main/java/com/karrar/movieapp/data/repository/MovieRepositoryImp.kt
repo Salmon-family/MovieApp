@@ -35,7 +35,8 @@ class MovieRepositoryImp @Inject constructor(
     private val accountMapper: AccountMapper,
     private val ratedMoviesMapper: RatedMoviesMapper,
     private val createdListsMapper: CreatedListsMapper,
-) : BaseRepository(), MovieRepository {
+    private val saveListDetailsMapper: SaveListDetailsMapper,
+    ) : BaseRepository(), MovieRepository {
     override fun getPopularMovies(): Flow<State<List<PopularMovie>>> {
         return flow {
             emit(State.Loading)
@@ -255,5 +256,11 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow {
             movieService.createList(sessionId, name)
         }
+    }
+
+    override fun getSavedListDetails(listId: String): Flow<State<List<SaveListDetails>>> {
+        return wrap(
+            { movieService.getList(listId.toInt()) },
+            { it.items?.map { saveListDetailsMapper.map(it!!) } ?: emptyList() })
     }
 }
