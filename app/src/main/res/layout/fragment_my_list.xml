@@ -24,6 +24,11 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:paddingTop="@dimen/spacing_small"
+            android:paddingBottom="80dp"
+            android:overScrollMode="never"
+            android:clipToPadding="false"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_saved_list" />
 
