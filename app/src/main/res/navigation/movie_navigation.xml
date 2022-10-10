@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -101,8 +101,8 @@
             android:id="@+id/action_profileFragment_to_watchHistoryFragment"
             app:destination="@id/watchHistoryFragment" />
         <action
-            android:id="@+id/action_profileFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_profileFragment_to_loginDialog"
+            app:destination="@id/loginDialog" />
     </fragment>
 
     <fragment
@@ -231,5 +231,14 @@
             android:name="movie_id"
             app:argType="integer" />
     </activity>
+    <dialog
+        android:id="@+id/loginDialog"
+        android:name="com.karrar.movieapp.ui.profile.login.LoginDialog"
+        android:label="LoginDialog"
+        tools:layout="@layout/dialog_login">
+        <action
+            android:id="@+id/action_loginDialog_to_loginFragment3"
+            app:destination="@id/loginFragment" />
+    </dialog>
 
 </navigation>

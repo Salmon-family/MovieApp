@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.profile
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -9,6 +10,7 @@ import com.karrar.movieapp.ui.login.toLiveData
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.flatMapConcat
 import javax.inject.Inject
 
@@ -19,13 +21,6 @@ class ProfileViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    val profileDetails = accountRepository.getSessionId().flatMapConcat { sessionId ->
-        movieRepository.getAccountDetails(sessionId.toString())
-    }.asLiveData()
-
-    private val _clickLoginEvent = MutableLiveData<Event<Boolean>>()
-    val clickLoginEvent = _clickLoginEvent.toLiveData()
-
     private val _clickRatedMoviesEvent = MutableLiveData<Event<Boolean>>()
     val clickRatedMoviesEvent = _clickRatedMoviesEvent.toLiveData()
 
@@ -35,6 +30,12 @@ class ProfileViewModel @Inject constructor(
     private val _clickWatchHistoryEvent = MutableLiveData<Event<Boolean>>()
     val clickWatchHistoryEvent = _clickWatchHistoryEvent.toLiveData()
 
+
+    val profileDetails = accountRepository.getSessionId().flatMapConcat { sessionId ->
+        movieRepository.getAccountDetails(sessionId.toString())
+    }.asLiveData()
+
+    val sessionId = accountRepository.getSessionId().asLiveData()
 
     fun onClickRatedMovies() {
         _clickRatedMoviesEvent.postEvent(true)
@@ -48,7 +49,4 @@ class ProfileViewModel @Inject constructor(
         _clickWatchHistoryEvent.postEvent(true)
     }
 
-    fun onClickLogin() {
-        _clickLoginEvent.postEvent(true)
-    }
 }

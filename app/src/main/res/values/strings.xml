@@ -71,4 +71,6 @@
     <string name="this_list_has_no_movies">This list has no movies</string>
     <string name="zero">\.0</string>
     <string name="my_ratings">My Ratings</string>
+    <string name="you_do_not_have_an_account">You do not have an account</string>
+    <string name="you_can_register_or_create_an_account_via_the_login_page">You can register or create an account via the login page</string>
 </resources>
