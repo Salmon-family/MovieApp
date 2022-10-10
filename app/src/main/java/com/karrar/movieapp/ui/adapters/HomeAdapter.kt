@@ -16,9 +16,9 @@ import com.karrar.movieapp.ui.home.HomeInteractionListener
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 
 class HomeAdapter(
-    private val items: MutableList<HomeRecyclerItem>,
+    private var homeItems: List<HomeRecyclerItem>,
     private val listener: BaseInteractionListener,
-) : BaseAdapter<HomeRecyclerItem>(items, listener) {
+) : BaseAdapter<HomeRecyclerItem>(homeItems, listener) {
     override val layoutID: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
@@ -30,114 +30,104 @@ class HomeAdapter(
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        bind(holder as ItemViewHolder, position)
+        if (homeItems.isNotEmpty())
+            bind(holder as ItemViewHolder, position)
     }
 
     override fun bind(holder: ItemViewHolder, position: Int) {
-        when (val currentItem = items[position]) {
-            is HomeRecyclerItem.Slider -> {
-                holder.binding.setVariable(
-                    BR.adapterRecycler,
-                    PopularMovieAdapter(currentItem.items, listener as HomeInteractionListener)
-                )
-            }
-
-            is HomeRecyclerItem.TvShows -> {
-                holder.binding.run {
-                    setVariable(BR.topRated, currentItem.items.first())
-                    setVariable(BR.popular, currentItem.items[1])
-                    setVariable(BR.latest, currentItem.items.last())
-                }
-            }
-
-            is HomeRecyclerItem.Actor -> {
-                holder.binding.run {
-                    setVariable(
+        if (homeItems.isNotEmpty())
+            when (val currentItem = homeItems[position]) {
+                is HomeRecyclerItem.Slider -> {
+                    holder.binding.setVariable(
                         BR.adapterRecycler,
-                        ActorAdapter(
-                            currentItem.items,
-                            R.layout.item_actor,
-                            listener as ActorsInteractionListener
-                        )
+                        PopularMovieAdapter(currentItem.items, listener as HomeInteractionListener)
                     )
-                    setVariable(BR.listener, listener as HomeInteractionListener)
                 }
 
-            }
+                is HomeRecyclerItem.TvShows -> {
+                    holder.binding.run {
+                        setVariable(BR.topRated, currentItem.items.first())
+                        setVariable(BR.popular, currentItem.items[1])
+                        setVariable(BR.latest, currentItem.items.last())
+                    }
+                }
 
-            is HomeRecyclerItem.AiringToday -> {
-                holder.binding.run {
-                    setVariable(
-                        BR.adapterRecycler,
-                        MediaAdapter(
-                            currentItem.items.take(6),
-                            R.layout.item_airing_today,
-                            listener as MediaInteractionListener
+                is HomeRecyclerItem.Actor -> {
+                    holder.binding.run {
+                        setVariable(
+                            BR.adapterRecycler, ActorAdapter(
+                                currentItem.items,
+                                R.layout.item_actor,
+                                listener as ActorsInteractionListener
+                            )
                         )
-                    )
-                    setVariable(BR.count, currentItem.items.size)
+                        setVariable(BR.listener, listener as HomeInteractionListener)
+                    }
+
+                }
+
+                is HomeRecyclerItem.AiringToday -> {
+                    holder.binding.run {
+                        setVariable(
+                            BR.adapterRecycler, MediaAdapter(
+                                currentItem.items.take(6),
+                                R.layout.item_airing_today,
+                                listener as MediaInteractionListener
+                            )
+                        )
+                        setVariable(BR.count, currentItem.items.size)
+                    }
+                }
+
+                is HomeRecyclerItem.Adventure -> {
+                    bindMovie(holder, currentItem.items, currentItem.type)
+
+
+                }
+
+                is HomeRecyclerItem.Mystery -> {
+                    bindMovie(holder, currentItem.items, currentItem.type)
+
+                }
+
+                is HomeRecyclerItem.NowStreaming -> {
+                    bindMovie(holder, currentItem.items, currentItem.type)
+
+
+                }
+
+                is HomeRecyclerItem.OnTheAiring -> {
+                    bindMovie(holder, currentItem.items, currentItem.type)
+
+
+                }
+
+                is HomeRecyclerItem.Trending -> {
+                    bindMovie(holder, currentItem.items, currentItem.type)
+
+
+                }
+
+                is HomeRecyclerItem.Upcoming -> {
+                    bindMovie(holder, currentItem.items, currentItem.type)
+
+
                 }
             }
-
-            is HomeRecyclerItem.Adventure -> {
-                bindMovie(holder, currentItem.items, currentItem.type)
-
-
-            }
-
-            is HomeRecyclerItem.Mystery -> {
-                bindMovie(holder, currentItem.items, currentItem.type)
-
-            }
-
-            is HomeRecyclerItem.NowStreaming -> {
-                bindMovie(holder, currentItem.items, currentItem.type)
-
-
-            }
-
-            is HomeRecyclerItem.OnTheAiring -> {
-                bindMovie(holder, currentItem.items, currentItem.type)
-
-
-            }
-
-            is HomeRecyclerItem.Trending -> {
-                bindMovie(holder, currentItem.items, currentItem.type)
-
-
-            }
-
-            is HomeRecyclerItem.Upcoming -> {
-                bindMovie(holder, currentItem.items, currentItem.type)
-
-
-            }
-        }
     }
 
     private fun bindMovie(holder: ItemViewHolder, items: List<Media>, type: MovieType) {
         holder.binding.run {
             setVariable(
-                BR.adapterRecycler,
-                MovieAdapter(items, listener as MovieInteractionListener)
+                BR.adapterRecycler, MovieAdapter(items, listener as MovieInteractionListener)
             )
             setVariable(BR.movieType, type)
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun addItem(newItem: HomeRecyclerItem) {
-        val newItems = items.apply {
-            add(newItem)
-            sortBy {
-                it.priority
-            }
-        }
-        val diffResult =
-            DiffUtil.calculateDiff(BaseDiffUtil(items, newItems, ::areItemsSame, ::areContentSame))
-        diffResult.dispatchUpdatesTo(this)
-        notifyDataSetChanged()
+    override fun setItems(newItems: List<HomeRecyclerItem>) {
+        homeItems = newItems.sortedBy { it.priority }
+        super.setItems(homeItems)
     }
 
     override fun areItemsSame(oldItem: HomeRecyclerItem, newItem: HomeRecyclerItem): Boolean {
@@ -145,21 +135,23 @@ class HomeAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (items[position]) {
-            is HomeRecyclerItem.Actor -> R.layout.list_actor
-            is HomeRecyclerItem.TvShows -> R.layout.list_tv_shows
-            is HomeRecyclerItem.Slider -> R.layout.list_popular
-            is HomeRecyclerItem.AiringToday -> R.layout.list_airing_today
-            is HomeRecyclerItem.Adventure,
-            is HomeRecyclerItem.Mystery,
-            is HomeRecyclerItem.NowStreaming,
-            is HomeRecyclerItem.OnTheAiring,
-            is HomeRecyclerItem.Trending,
-            is HomeRecyclerItem.Upcoming,
-            -> R.layout.list_movie
+        if (homeItems.isNotEmpty()) {
+            return when (homeItems[position]) {
+                is HomeRecyclerItem.Actor -> R.layout.list_actor
+                is HomeRecyclerItem.TvShows -> R.layout.list_tv_shows
+                is HomeRecyclerItem.Slider -> R.layout.list_popular
+                is HomeRecyclerItem.AiringToday -> R.layout.list_airing_today
+                is HomeRecyclerItem.Adventure,
+                is HomeRecyclerItem.Mystery,
+                is HomeRecyclerItem.NowStreaming,
+                is HomeRecyclerItem.OnTheAiring,
+                is HomeRecyclerItem.Trending,
+                is HomeRecyclerItem.Upcoming,
+                -> R.layout.list_movie
+            }
         }
+        return R.layout.list_movie
     }
 
 }
-
 

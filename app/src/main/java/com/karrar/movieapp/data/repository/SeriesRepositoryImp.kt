@@ -3,12 +3,11 @@ package com.karrar.movieapp.data.repository
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.GenreMapper
-import com.karrar.movieapp.domain.mappers.MovieMapper
+import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.TVShowMapper
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Media
 import kotlinx.coroutines.flow.Flow
-
 import javax.inject.Inject
 
 class SeriesRepositoryImp @Inject constructor(
@@ -23,16 +22,32 @@ class SeriesRepositoryImp @Inject constructor(
         })
     }
 
+    override suspend fun getOnTheAir2(): List<Media> {
+        return wrap2({ service.getOnTheAir() },
+            { ListMapper(mediaMapper).mapList(it.items) }) ?: emptyList()
+
+    }
+
     override fun getAiringToday(): Flow<State<List<Media>>> {
         return wrap({ service.getAiringToday() }, { response ->
             response.items?.map { mediaMapper.map(it) } ?: emptyList()
         })
     }
 
+    override suspend fun getAiringToday2(): List<Media> {
+        return wrap2({ service.getAiringToday() },
+            { ListMapper(mediaMapper).mapList(it.items) }) ?: emptyList()
+    }
+
     override fun getTopRatedTvShow(): Flow<State<List<Media>>> {
         return wrap({ service.getTopRatedTvShow() }, { response ->
             response.items?.map { mediaMapper.map(it) } ?: emptyList()
         })
+    }
+
+    override suspend fun getTopRatedTvShow2(): List<Media> {
+        return wrap2({ service.getTopRatedTvShow() },
+            { ListMapper(mediaMapper).mapList(it.items) }) ?: emptyList()
     }
 
     override fun getPopularTvShow(): Flow<State<List<Media>>> {
