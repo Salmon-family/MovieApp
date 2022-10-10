@@ -7,7 +7,7 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.MovieDetails" />
+            type="com.karrar.movieapp.domain.models.MediaDetails" />
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
@@ -143,7 +143,9 @@
         <TextView
             android:id="@+id/genres"
             style="@style/Regular.Small.ternary"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{item.genres}"

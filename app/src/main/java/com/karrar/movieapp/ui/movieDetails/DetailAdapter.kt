@@ -14,6 +14,8 @@ import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseDiffUtil
 import com.karrar.movieapp.ui.base.BaseInteractionListener
+import com.karrar.movieapp.ui.tvShowDetails.SeasonAdapter
+import com.karrar.movieapp.ui.tvShowDetails.SeasonInteractionListener
 
 class DetailAdapter(
     private val items: MutableList<DetailItem>,
@@ -53,6 +55,13 @@ class DetailAdapter(
                 holder.binding.run {
                     setVariable(BR.adapterRecycler,
                         MovieAdapter(currentItem.data, listener as MovieInteractionListener))
+                }
+            }
+            is DetailItem.Seasons -> {
+                holder.binding.run {
+                    setVariable(BR.adapterRecycler,
+                        SeasonAdapter(currentItem.data, listener as SeasonInteractionListener)
+                    )
                 }
             }
             is DetailItem.Rating -> {
@@ -98,6 +107,7 @@ class DetailAdapter(
             is DetailItem.Header -> R.layout.item_movei_detail_header
             is DetailItem.Cast -> R.layout.list_cast
             is DetailItem.SimilarMovies -> R.layout.list_similar_movie
+            is DetailItem.Seasons -> R.layout.list_season
             is DetailItem.Rating -> R.layout.item_rating
             is DetailItem.Comment -> R.layout.item_movie_review
             is DetailItem.ReviewText -> R.layout.item_review_text

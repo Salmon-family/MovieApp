@@ -56,7 +56,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         })
 
         viewModel.clickSeriesEvent.observe(viewLifecycleOwner, EventObserve { seriesID ->
-            navigateToMovieDetails(seriesID)
+            navigateToTvShowDetails(seriesID)
         })
 
         viewModel.clickSeeAllMovieEvent.observe(viewLifecycleOwner, EventObserve { typeMovieID ->
@@ -75,5 +75,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 movieID
             )
         )
+    }
+
+    private fun navigateToTvShowDetails(tvShowId: Int) {
+        val action = HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(tvShowId)
+        findNavController().navigate(action)
     }
 }
