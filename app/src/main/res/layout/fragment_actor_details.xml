@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -9,233 +10,251 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.actorDetails.ActorViewModel" />
+            type="com.karrar.movieapp.ui.actorDetails.ActorViewModel"
+            />
+
     </data>
 
-    <ScrollView
-
+    <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_color"
-        android:fillViewport="false">
+        app:layoutDescription="@xml/fragment_actor_details_scene">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/actor_image"
+            android:layout_width="0dp"
+            android:layout_height="364dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:posterImage="@{viewModel.actorDetails.toData().actorImage}"
+            tools:src="@drawable/chris_evans" />
+
+        <View
+            android:id="@+id/view_bottom_shadow"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="364dp"
+            android:background="@drawable/shape_shadow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/actor_image"
-                android:layout_width="0dp"
-                android:layout_height="364dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:posterImage="@{viewModel.actorDetails.toData().actorImage}"
-                tools:src="@drawable/chris_evans" />
-
-            <View
-                android:id="@+id/view_bottom_shadow"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@drawable/shape_shadow"
-                app:layout_constraintBottom_toBottomOf="@+id/actor_image"
-                app:layout_constraintEnd_toEndOf="@+id/actor_image"
-                app:layout_constraintStart_toStartOf="@+id/actor_image"
-                app:layout_constraintTop_toTopOf="@+id/actor_image" />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/radius_medium"
-                android:layout_marginTop="@dimen/radius_medium"
-                android:contentDescription="@string/todo"
-                android:onClick="@{() -> viewModel.onClickBack()}"
-                android:src="@drawable/ic_arrow_left"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/text_name_actor"
-                style="@style/SemiBold.Large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/radius_small"
-                android:text="@{viewModel.actorDetails.toData().actorName}"
-                app:layout_constraintBottom_toBottomOf="@+id/actor_image"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="Chris Evans" />
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/radius_medium"
+            android:layout_marginTop="@dimen/radius_medium"
+            android:contentDescription="@string/todo"
+            android:onClick="@{() -> viewModel.onClickBack()}"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-            <TextView
-                android:id="@+id/genres_title"
-                style="@style/Regular.Small.Secondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:text="@string/gender"
-                app:layout_constraintEnd_toStartOf="@+id/birthday_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/actor_image" />
+        <TextView
+            android:id="@+id/text_name_actor"
+            style="@style/SemiBold.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.actorDetails.toData().actorName}"
+            app:layout_constraintBottom_toBottomOf="@+id/actor_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Chris Evans"
+            />
 
-            <TextView
-                android:id="@+id/text_gender_actor"
-                style="@style/SemiBold.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:text="@{viewModel.actorDetails.toData().actorGender}"
-                app:layout_constraintEnd_toEndOf="@+id/genres_title"
-                app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toStartOf="@+id/genres_title"
-                app:layout_constraintTop_toBottomOf="@+id/genres_title"
-                tools:text="Male" />
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nested_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/actor_image"
+            >
 
-            <TextView
-                android:id="@+id/birthday_title"
-                style="@style/Regular.Small.Secondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:text="@string/birthday"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/genres_title"
-                app:layout_constraintTop_toBottomOf="@+id/actor_image" />
-
-            <TextView
-                android:id="@+id/text_birthday_actor"
-                style="@style/SemiBold.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:text="@{viewModel.actorDetails.toData().actorBirthday}"
-                app:layout_constraintEnd_toEndOf="@+id/birthday_title"
-                app:layout_constraintStart_toStartOf="@+id/birthday_title"
-                app:layout_constraintTop_toBottomOf="@+id/birthday_title"
-                tools:text="1981-06-13 " />
-
-            <TextView
-                android:id="@+id/place_of_birth_actor_title"
-                style="@style/Regular.Small.Secondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:text="@string/place_of_birth"
-                app:layout_constraintEnd_toStartOf="@+id/known_for_actor_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_gender_actor" />
-
-            <TextView
-                android:id="@+id/text_place_of_birth_actor"
-                style="@style/SemiBold.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:gravity="center"
-                android:text="@{viewModel.actorDetails.toData().actorPlaceOfBirth}"
-                app:layout_constraintEnd_toEndOf="@+id/place_of_birth_actor_title"
-                app:layout_constraintStart_toStartOf="@+id/place_of_birth_actor_title"
-                app:layout_constraintTop_toBottomOf="@+id/place_of_birth_actor_title"
-                tools:text=" Massachusetts, USA " />
-
-            <TextView
-                android:id="@+id/known_for_actor_title"
-                style="@style/Regular.Small.Secondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:text="@string/konwn_for"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/place_of_birth_actor_title"
-                app:layout_constraintTop_toBottomOf="@+id/text_birthday_actor" />
-
-
-            <TextView
-                android:id="@+id/text_known_for_actor"
-                style="@style/SemiBold.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:text="@{viewModel.actorDetails.toData().knownForDepartment}"
-                app:layout_constraintEnd_toEndOf="@+id/known_for_actor_title"
-                app:layout_constraintStart_toStartOf="@+id/known_for_actor_title"
-                app:layout_constraintTop_toBottomOf="@+id/known_for_actor_title"
-                tools:text="Acting" />
-
-            <TextView
-                android:id="@+id/related_movie_title"
-                style="@style/SemiBold.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/radius_medium"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:text="@string/movies"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_place_of_birth_actor" />
-
-
-            <TextView
-                style="@style/Regular.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_small"
-                android:onClick="@{() -> viewModel.onClickSeeAllMovie(MovieType.NON)}"
-                android:text="@string/see_all"
-                android:textColor="@color/brand_color"
-                app:drawableEndCompat="@drawable/ic_arrow_right"
-                app:layout_constraintBottom_toBottomOf="@+id/related_movie_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/related_movie_title" />
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/related_movie_recycler"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingHorizontal="@dimen/radius_medium"
-                app:items="@{viewModel.actorMovies.toData()}"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/related_movie_title"
-                tools:ignore="MissingConstraints"
-                tools:listitem="@layout/item_movie"
-                />
+                >
 
-            <TextView
-                android:id="@+id/over_view_title"
-                style="@style/SemiBold.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/radius_medium"
-                android:layout_marginTop="@dimen/radius_large"
-                android:text="@string/biography"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/related_movie_recycler" />
+                <TextView
+                    android:id="@+id/genres_title"
+                    style="@style/Regular.Small.Secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/gender"
+                    app:layout_constraintEnd_toStartOf="@+id/birthday_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_gender_actor"
+                    style="@style/SemiBold.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@{viewModel.actorDetails.toData().actorGender}"
+                    app:layout_constraintEnd_toEndOf="@+id/genres_title"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintStart_toStartOf="@+id/genres_title"
+                    app:layout_constraintTop_toBottomOf="@+id/genres_title"
+                    tools:text="Male" />
+
+                <TextView
+                    android:id="@+id/birthday_title"
+                    style="@style/Regular.Small.Secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/birthday"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/genres_title"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_birthday_actor"
+                    style="@style/SemiBold.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@{viewModel.actorDetails.toData().actorBirthday}"
+                    app:layout_constraintEnd_toEndOf="@+id/birthday_title"
+                    app:layout_constraintStart_toStartOf="@+id/birthday_title"
+                    app:layout_constraintTop_toBottomOf="@+id/birthday_title"
+                    tools:text="1981-06-13 " />
+
+                <TextView
+                    android:id="@+id/place_of_birth_actor_title"
+                    style="@style/Regular.Small.Secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:text="@string/place_of_birth"
+                    app:layout_constraintEnd_toStartOf="@+id/known_for_actor_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_gender_actor" />
+
+                <TextView
+                    android:id="@+id/text_place_of_birth_actor"
+                    style="@style/SemiBold.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@{viewModel.actorDetails.toData().actorPlaceOfBirth}"
+                    app:layout_constraintEnd_toEndOf="@+id/place_of_birth_actor_title"
+                    app:layout_constraintStart_toStartOf="@+id/place_of_birth_actor_title"
+                    app:layout_constraintTop_toBottomOf="@+id/place_of_birth_actor_title"
+                    tools:text=" Massachusetts, USA " />
+
+                <TextView
+                    android:id="@+id/known_for_actor_title"
+                    style="@style/Regular.Small.Secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:text="@string/konwn_for"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/place_of_birth_actor_title"
+                    app:layout_constraintTop_toBottomOf="@+id/text_birthday_actor" />
 
 
-            <TextView
-                android:id="@+id/over_view"
-                style="@style/Regular.Medium.Secondary"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/spacing_small"
-                android:layout_marginHorizontal="@dimen/spacing_medium"
-                android:text="@{viewModel.actorDetails.toData().actorBiography}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/over_view_title"
-                tools:ignore="MissingClass"
-                tools:text="Krasinski's instincts are very good, and once you've placed the primary action there, then it allows the story instincts are very good, and once you've placed the primary action there, then it allows the story" />
+                <TextView
+                    android:id="@+id/text_known_for_actor"
+                    style="@style/SemiBold.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@{viewModel.actorDetails.toData().knownForDepartment}"
+                    app:layout_constraintEnd_toEndOf="@+id/known_for_actor_title"
+                    app:layout_constraintStart_toStartOf="@+id/known_for_actor_title"
+                    app:layout_constraintTop_toBottomOf="@+id/known_for_actor_title"
+                    tools:text="Acting" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/related_movie_title"
+                    style="@style/SemiBold.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/radius_medium"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:text="@string/movies"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_place_of_birth_actor" />
 
-    </ScrollView>
+
+                <TextView
+                    android:id="@+id/button_see_all"
+                    style="@style/Regular.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_small"
+                    android:onClick="@{() -> viewModel.onClickSeeAllMovie(MovieType.NON)}"
+                    android:text="@string/see_all"
+                    android:textColor="@color/brand_color"
+                    app:drawableEndCompat="@drawable/ic_arrow_right"
+                    app:layout_constraintBottom_toBottomOf="@+id/related_movie_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/related_movie_title" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/related_movie_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/spacing_medium"
+                    app:items="@{viewModel.actorMovies.toData()}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/related_movie_title"
+                    tools:ignore="MissingConstraints"
+                    tools:listitem="@layout/item_movie"
+                    />
+
+                <TextView
+                    android:id="@+id/over_view_title"
+                    style="@style/SemiBold.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/radius_medium"
+                    android:layout_marginTop="@dimen/radius_large"
+                    android:text="@string/biography"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/related_movie_recycler" />
+
+
+                <TextView
+                    android:id="@+id/over_view"
+                    style="@style/Regular.Medium.Secondary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/spacing_small"
+                    android:layout_marginHorizontal="@dimen/spacing_medium"
+                    android:text="@{viewModel.actorDetails.toData().actorBiography}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/over_view_title"
+                    tools:ignore="MissingClass"
+                    tools:text="Krasinski's instincts are very good, and once you've placed the primary action there, then it allows the story instincts are very good, and once you've placed the primary action there, then it allows the story" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
+
 </layout>
