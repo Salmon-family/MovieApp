@@ -7,7 +7,9 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.movieDetails.MovieDetailsViewModel" />
+            type="com.karrar.movieapp.ui.movieDetails.MovieDetailsViewModel"
+            />
+
     </data>
 
     <androidx.recyclerview.widget.RecyclerView
