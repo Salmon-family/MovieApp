@@ -35,7 +35,7 @@ class HomeAdapter(
     }
 
     override fun bind(holder: ItemViewHolder, position: Int) {
-        if (homeItems.isNotEmpty())
+        if (position != -1)
             when (val currentItem = homeItems[position]) {
                 is HomeRecyclerItem.Slider -> {
                     holder.binding.setVariable(
@@ -150,7 +150,7 @@ class HomeAdapter(
                 -> R.layout.list_movie
             }
         }
-        return R.layout.list_movie
+        return -1
     }
 
 }

@@ -83,7 +83,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-
     private fun getTrending() {
         viewModelScope.launch {
             val response = movieRepository.getTrendingMovies2()
@@ -129,7 +128,6 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getTopRatedTvShow() {
-
         viewModelScope.launch {
             val response = seriesRepository.getTopRatedTvShow2()
             if (response.isEmpty()) {
