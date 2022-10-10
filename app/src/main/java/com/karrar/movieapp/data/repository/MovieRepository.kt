@@ -30,7 +30,7 @@ interface MovieRepository {
 
     fun getTrendingMovies(): Flow<State<List<Media>>>
 
-    suspend fun getTrendingMovies2(): List<Media>
+    suspend fun getTrendingMovies2(page:Int = 1): List<Media>
 
     fun searchForActor(query: String): Flow<State<List<Media>>>
 

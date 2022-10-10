@@ -21,7 +21,6 @@
             android:layout_marginHorizontal="@dimen/spacing_small"
             android:overScrollMode="never"
             android:scrollbars="none"
-            app:items="@{viewModel.media.toData()}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

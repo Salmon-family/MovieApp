@@ -3,13 +3,15 @@ package com.karrar.movieapp.ui.allMedia
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentAllMovieBinding
-import com.karrar.movieapp.ui.adapters.MediaAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
@@ -25,8 +27,19 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
     }
 
     private fun setMovieAdapter() {
-        binding.recyclerMedia.adapter =
-            MediaAdapter(mutableListOf(), R.layout.item_media, viewModel)
+//        binding.recyclerMedia.adapter =
+//            MediaAdapter(mutableListOf(), R.layout.item_media, viewModel)
+       val allMediaAdapter = AllMediaAdapter()
+        binding.recyclerMedia.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = allMediaAdapter
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.allMedia.collectLatest { pagingData ->
+                allMediaAdapter.submitData(pagingData)
+            }
+        }
     }
 
     private fun observeEvents() {

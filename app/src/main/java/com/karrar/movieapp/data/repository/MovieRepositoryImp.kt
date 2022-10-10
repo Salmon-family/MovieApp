@@ -47,7 +47,7 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getPopularMovies2(genre: List<Genre>): List<PopularMovie> {
         return wrap2({ movieService.getPopularMovies() },
-            { popularMovieMapper.mapGenreMovie(it.items , genre) }) ?: emptyList()
+            { popularMovieMapper.mapGenreMovie(it.items, genre) }) ?: emptyList()
     }
 
     override suspend fun getMovieGenreList2(): List<Genre> {
@@ -119,7 +119,7 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override fun getTrendingMovies(): Flow<State<List<Media>>> {
-        return wrap({ movieService.getTrendingMovies() }, { response ->
+        return wrap({ movieService.getTrendingMovies(page = 1) }, { response ->
             response.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
@@ -241,8 +241,8 @@ class MovieRepositoryImp @Inject constructor(
         return movieDao.deleteAllWatchedMovies()
     }
 
-    override suspend fun getTrendingMovies2(): List<Media> {
-        return wrap2({ movieService.getTrendingMovies() },
+    override suspend fun getTrendingMovies2(page: Int): List<Media> {
+        return wrap2({ movieService.getTrendingMovies(page = page) },
             { ListMapper(movieMapper).mapList(it.items) }) ?: emptyList()
     }
 

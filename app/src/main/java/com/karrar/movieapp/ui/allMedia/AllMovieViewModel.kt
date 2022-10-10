@@ -4,6 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
@@ -34,6 +38,11 @@ class AllMovieViewModel @Inject constructor(
 
     private val _media = MutableLiveData<State<List<Media?>>>()
     val media = _media.toLiveData()
+
+    val allMedia: Flow<PagingData<Media>> =
+        Pager(config = PagingConfig(pageSize = 15, prefetchDistance = 2),
+            pagingSourceFactory = { AllMediaPagingDataSource(movieRepository) }
+        ).flow.cachedIn(viewModelScope)
 
     private val _backEvent = MutableLiveData<Event<Boolean>>()
     val backEvent = _backEvent.toLiveData()

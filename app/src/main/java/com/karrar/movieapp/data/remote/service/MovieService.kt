@@ -1,18 +1,15 @@
 package com.karrar.movieapp.data.remote.service
 
 import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.account.AccountDto
+import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
+import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.response.login.SessionResponse
-import com.karrar.movieapp.data.remote.response.BaseResponse
-import com.karrar.movieapp.data.remote.response.MovieDto
-import com.karrar.movieapp.data.remote.response.genre.GenreResponse
-import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
-import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
-import com.karrar.movieapp.data.remote.response.movie.RatingDto
-import com.karrar.movieapp.data.remote.response.CreditsDto
-import com.karrar.movieapp.data.remote.response.account.AccountDto
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
+import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
@@ -37,6 +34,7 @@ interface MovieService {
     @GET("trending/movie/{time_window}")
     suspend fun getTrendingMovies(
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
+        @Query("page") page: Int
     ): Response<BaseResponse<MovieDto>>
 
     @GET("trending/person/{time_window}")
@@ -60,7 +58,8 @@ interface MovieService {
     ): Response<BaseResponse<TVShowsDTO>>
 
     @GET("authentication/token/new")
-    suspend fun getRequestToken() : Response<RequestTokenResponse>
+    suspend fun getRequestToken(): Response<RequestTokenResponse>
+
     @GET("genre/movie/list")
     suspend fun getGenreList(): Response<GenreResponse>
 
@@ -68,14 +67,14 @@ interface MovieService {
     @FormUrlEncoded
     @POST("authentication/token/validate_with_login")
     suspend fun validateRequestTokenWithLogin(
-        @FieldMap body:  Map<String,Any>
-    ) : Response<RequestTokenResponse>
+        @FieldMap body: Map<String, Any>
+    ): Response<RequestTokenResponse>
 
     @FormUrlEncoded
     @POST("authentication/session/new")
     suspend fun createSession(
-        @Field("request_token")  requestToken : String
-    ) : Response<SessionResponse>
+        @Field("request_token") requestToken: String
+    ): Response<SessionResponse>
 
     @GET("person/{person_id}")
     suspend fun getActorDetails(
@@ -124,7 +123,7 @@ interface MovieService {
     @POST("movie/{movie_id}/rating")
     suspend fun postRating(
         @Path("movie_id") movieId: Int,
-        @Field ("value") rating: Float,
+        @Field("value") rating: Float,
         @Query("session_id") apiKey: String?,
     ): Response<RatingDto>
 
@@ -148,7 +147,7 @@ interface MovieService {
         @Path("list_id") ListId: Int,
         @Query("session_id") sessionId: String,
         @Field("media_id") movieId: Int,
-    ) : Response<AddMovieDto>
+    ): Response<AddMovieDto>
 
 
     @GET("list/{list_id}")
@@ -172,13 +171,13 @@ interface MovieService {
     suspend fun getAiringToday(): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/top_rated")
-    suspend fun getTopRatedTvShow():Response<BaseResponse<TVShowsDTO>>
+    suspend fun getTopRatedTvShow(): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/popular")
-    suspend fun getPopularTvShow():Response<BaseResponse<TVShowsDTO>>
+    suspend fun getPopularTvShow(): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/latest")
-    suspend fun getLatestTvShow():Response<BaseResponse<TVShowsDTO>>
+    suspend fun getLatestTvShow(): Response<BaseResponse<TVShowsDTO>>
 
     @GET("genre/tv/list")
     suspend fun getGenreTvShowList(): Response<GenreResponse>
