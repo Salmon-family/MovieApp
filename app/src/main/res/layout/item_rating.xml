@@ -5,9 +5,10 @@
     >
 
     <data>
-        <variable
-            name="viewModel"
-            type="com.karrar.movieapp.ui.movieDetails.MovieDetailsViewModel" />
+
+<!--        <variable-->
+<!--            name="viewModel"-->
+<!--            type="com.karrar.movieapp.ui.movieDetails.MovieDetailsViewModel" />-->
 
     </data>
 
@@ -36,7 +37,6 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:isIndicator="false"
             android:progressDrawable="@drawable/rating_custom"
-            android:rating="@={viewModel.ratingValue}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rate_the_movie"

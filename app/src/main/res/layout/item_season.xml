@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.tvShowDetails.SeasonInteractionListener" />
+
+        <variable
+            name="item"
+            type="com.karrar.movieapp.domain.models.Season" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="144dp"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:paddingHorizontal="@dimen/spacing_medium"
+        tools:background="@color/background_color">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_season"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="@dimen/spacing_small"
+            android:backgroundTint="@color/card_background_color"
+            android:onClick="@{() -> listener.onClickSeason(item.seasonNumber)}"
+            app:cardCornerRadius="@dimen/radius_medium"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/image_episode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/image_episode" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_episode"
+            android:layout_width="0dp"
+            android:layout_height="144dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1.6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:posterImage="@{item.imageUrl}"
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
+            tools:background="@color/yellow"
+            tools:src="@drawable/test_2" />
+
+        <TextView
+            android:id="@+id/text_episode_name"
+            style="@style/Regular.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@{item.seasonName}"
+            android:textColor="@color/shade_primary_color"
+            app:layout_constraintStart_toEndOf="@+id/image_episode"
+            app:layout_constraintTop_toTopOf="@+id/card_season"
+            tools:text="Season 2" />
+
+        <TextView
+            android:id="@+id/text_season_year"
+            style="@style/Regular.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:text="@{item.seasonYear}"
+            android:textColor="@color/shade_ternary_color"
+            app:layout_constraintBottom_toBottomOf="@+id/text_episode_name"
+            app:layout_constraintStart_toEndOf="@+id/text_episode_name"
+            app:layout_constraintTop_toTopOf="@+id/text_episode_name"
+            tools:text="2019" />
+
+        <TextView
+            android:id="@+id/text_line"
+            style="@style/Regular.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_too_small"
+            android:text="|"
+            android:textColor="@color/shade_ternary_color"
+            app:layout_constraintBottom_toBottomOf="@+id/text_episode_name"
+            app:layout_constraintStart_toEndOf="@+id/text_season_year"
+            app:layout_constraintTop_toTopOf="@+id/text_episode_name"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/text_episodes_number"
+            style="@style/Regular.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_too_small"
+            android:text="@{@string/total_episodes(String.valueOf(item.episodeCount))}"
+            android:textColor="@color/shade_ternary_color"
+            app:layout_constraintBottom_toBottomOf="@+id/text_episode_name"
+            app:layout_constraintStart_toEndOf="@+id/text_line"
+            app:layout_constraintTop_toTopOf="@+id/text_episode_name"
+            tools:text="8 Episodes" />
+
+        <TextView
+            android:id="@+id/text_season_description"
+            style="@style/Regular.Small"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:ellipsize="end"
+            android:lines="4"
+            android:text="@{item.seasonDescription}"
+            android:textColor="@color/shade_primary_color"
+            app:layout_constraintBottom_toBottomOf="@+id/card_season"
+            app:layout_constraintEnd_toEndOf="@+id/card_season"
+            app:layout_constraintStart_toStartOf="@+id/text_episode_name"
+            app:layout_constraintTop_toBottomOf="@+id/text_episode_name"
+            tools:text="After tracking a potentially suspicious shipment of illegal arms in the Venezuelan jungle, CIA Officer Jack Ryan heads to South America..." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

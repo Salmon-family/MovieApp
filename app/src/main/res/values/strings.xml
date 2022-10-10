@@ -6,7 +6,7 @@
     <string name="latest">Latest</string>
     <string name="popular">Popular</string>
     <string name="tv_shows">TV Shows</string>
-    <string name="search_hint">Search for a movie, tv show, person...</string>
+    <string name="search_hint">Search for a movie, tv show, person…</string>
     <string name="movies_chip">Movies</string>
     <string name="tv_shows_chip">TV Shows</string>
     <string name="actors_label">Actors</string>
@@ -49,7 +49,7 @@
     <string name="profile">Profile</string>
     <string name="play_trailer">Play Trailer</string>
     <string name="duration">%1$s Minutes</string>
-    <string name="reviews">( %1$s Reviews )</string>
+    <string name="reviews">(%1$s reviews)</string>
     <string name="overview">OverView</string>
     <string name="cast">Cast</string>
     <string name="similar_movies">Similar Movies</string>
@@ -60,5 +60,10 @@
     <string name="user_name">"@" %1$s</string>
     <string name="back_button">back button</string>
     <string name="view_all_reviews">View all reviews</string>
+    <string name="episodes">Episodes</string>
+    <string name="seasons">Seasons</string>
+    <string name="submit_toast">Submitted, Thank you for your feedback</string>
+    <string name="total_episodes">%1$s Episodes</string>
+    <string name="m">%1$s m</string>
 
 </resources>
