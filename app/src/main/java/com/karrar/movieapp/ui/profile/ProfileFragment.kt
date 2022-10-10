@@ -19,10 +19,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         super.onViewCreated(view, savedInstanceState)
         observeEvents()
         setTitle(true, getString(R.string.profile))
-        checkProfileIsEmpty()
+        checkHaveAccount()
     }
 
-    private fun checkProfileIsEmpty() {
+    private fun checkHaveAccount() {
         viewModel.sessionId.observe(viewLifecycleOwner) {
             if (it?.isEmpty() == true) {
                 findNavController().navigate(R.id.action_profileFragment_to_loginDialog)
