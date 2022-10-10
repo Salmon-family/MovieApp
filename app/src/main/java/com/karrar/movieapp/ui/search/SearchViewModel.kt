@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.models.MediaInfo
+import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.SearchHistory
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.search.adapters.PersonInteractionListener
@@ -19,8 +19,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val movieRepository: MovieRepository
 ) : BaseViewModel(), MediaSearchInteractionListener, PersonInteractionListener, SearchHistoryInteractionListener{
-    private val _media = MutableLiveData<State<List<MediaInfo>>>()
-    val media: LiveData<State<List<MediaInfo>>> get() = _media
+    private val _media = MutableLiveData<State<List<Media>>>()
+    val media: LiveData<State<List<Media>>> get() = _media
 
     private val _searchHistory = MutableLiveData<List<SearchHistory>>()
     val searchHistory: LiveData<List<SearchHistory>> get() = _searchHistory
@@ -46,16 +46,16 @@ class SearchViewModel @Inject constructor(
                     when(mediaType.value){
                         "movie"  -> searchForMovie(it)
                         "tv" ->  searchForSeries(it)
-                        "person" -> searchForPerson(it)
+                        "person" -> searchForActor(it)
                     }
                 }
             }
         }
     }
 
-    private fun searchForPerson(text: String){
+    private fun searchForActor(text: String){
         viewModelScope.launch {
-            movieRepository.searchForPerson(text).collect{
+            movieRepository.searchForActor(text).collect{
                 _media.postValue(it)
             }
         }
@@ -99,7 +99,7 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             if(mediaType.value != "person" ){
                 mediaType.emit("person")
-                searchForPerson(searchText.value)
+                searchForActor(searchText.value)
             }
         }
     }

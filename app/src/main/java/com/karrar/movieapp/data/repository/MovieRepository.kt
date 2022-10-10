@@ -1,6 +1,7 @@
 package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
+import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
@@ -25,11 +26,11 @@ interface MovieRepository {
 
     fun getTrendingMovies(): Flow<State<List<Media>>>
 
-    fun searchForPerson(query: String): Flow<State<List<MediaInfo>>>
+    fun searchForActor(query: String): Flow<State<List<Media>>>
 
-    fun searchForMovie(query: String): Flow<State<List<MediaInfo>>>
+    fun searchForMovie(query: String): Flow<State<List<Media>>>
 
-    fun searchForSeries(query: String): Flow<State<List<MediaInfo>>>
+    fun searchForSeries(query: String): Flow<State<List<Media>>>
 
     fun getMovieGenreList(): Flow<State<List<Genre>>>
 
@@ -61,7 +62,7 @@ interface MovieRepository {
 
     fun setRating(movieId: Int, value:Float, session_id: String): Flow<State<RatingDto>>
 
-    fun getMovieTrailer(movieId: Int): Flow<State<Trailer>>
+    suspend fun getMovieTrailer(movieId: Int): Flow<State<Trailer>>
 
     fun getAllLists(accountId: Int, sessionId:String): Flow<State<BaseResponse<CreatedListDto>>>
 
@@ -69,6 +70,15 @@ interface MovieRepository {
 
     fun getListDetails(listId: Int): Flow<State<ListDetailsDto>>
 
-    fun getRatedMovie(accountId: Int, session_id: String): Flow<State<BaseResponse<RatedMovie>>>
+    fun getRatedMovie(accountId: Int, sessionId: String): Flow<State<BaseResponse<RatedMovie>>>
 
+    fun getAccountDetails(sessionId: String): Flow<State<Account>>
+
+    fun getRatedMovies(sessionId: String?): Flow<State<List<RatedMovies>>>
+
+    suspend fun insertMovie(movie: WatchHistoryEntity)
+
+    fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>
+
+    suspend fun clearWatchHistory()
 }

@@ -1,6 +1,7 @@
 package com.karrar.movieapp.data.remote.service
 
 import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.account.AccountDto
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
 import com.karrar.movieapp.data.remote.response.genre.GenreResponse
@@ -42,14 +43,14 @@ interface MovieService {
     ): Response<BaseResponse<ActorDto>>
 
     @GET("search/person")
-    suspend fun searchForPerson(
+    suspend fun searchForActor(
         @Query("query") query: String
     ): Response<BaseResponse<ActorDto>>
 
     @GET("search/movie")
     suspend fun searchForMovie(
         @Query("query") query: String
-    ): Response<BaseResponse<TVShowsDTO>>
+    ): Response<BaseResponse<MovieDto>>
 
     @GET("search/tv")
     suspend fun searchForSeries(
@@ -57,7 +58,8 @@ interface MovieService {
     ): Response<BaseResponse<TVShowsDTO>>
 
     @GET("authentication/token/new")
-    suspend fun getRequestToken() : Response<RequestTokenResponse>
+    suspend fun getRequestToken(): Response<RequestTokenResponse>
+
     @GET("genre/movie/list")
     suspend fun getGenreList(): Response<GenreResponse>
 
@@ -65,14 +67,14 @@ interface MovieService {
     @FormUrlEncoded
     @POST("authentication/token/validate_with_login")
     suspend fun validateRequestTokenWithLogin(
-        @FieldMap body:  Map<String,Any>
-    ) : Response<RequestTokenResponse>
+        @FieldMap body: Map<String, Any>
+    ): Response<RequestTokenResponse>
 
     @FormUrlEncoded
     @POST("authentication/session/new")
     suspend fun createSession(
-        @Field("request_token")  requestToken : String
-    ) : Response<SessionResponse>
+        @Field("request_token") requestToken: String
+    ): Response<SessionResponse>
 
     @GET("person/{person_id}")
     suspend fun getActorDetails(
@@ -121,7 +123,7 @@ interface MovieService {
     @POST("movie/{movie_id}/rating")
     suspend fun postRating(
         @Path("movie_id") movieId: Int,
-        @Field ("value") rating: Float,
+        @Field("value") rating: Float,
         @Query("session_id") apiKey: String?,
     ): Response<RatingDto>
 
@@ -145,7 +147,7 @@ interface MovieService {
         @Path("list_id") ListId: Int,
         @Query("session_id") sessionId: String,
         @Field("media_id") movieId: Int,
-    ) : Response<AddMovieDto>
+    ): Response<AddMovieDto>
 
 
     @GET("list/{list_id}")
@@ -169,13 +171,13 @@ interface MovieService {
     suspend fun getAiringToday(): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/top_rated")
-    suspend fun getTopRatedTvShow():Response<BaseResponse<TVShowsDTO>>
+    suspend fun getTopRatedTvShow(): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/popular")
-    suspend fun getPopularTvShow():Response<BaseResponse<TVShowsDTO>>
+    suspend fun getPopularTvShow(): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/latest")
-    suspend fun getLatestTvShow():Response<BaseResponse<TVShowsDTO>>
+    suspend fun getLatestTvShow(): Response<BaseResponse<TVShowsDTO>>
 
     @GET("genre/tv/list")
     suspend fun getGenreTvShowList(): Response<GenreResponse>
@@ -185,6 +187,21 @@ interface MovieService {
 
     @GET("discover/tv")
     suspend fun getAllTvShows(): Response<BaseResponse<TVShowsDTO>>
+
+    @GET("account")
+    suspend fun getAccountDetails(
+        @Query("session_id") sessionId: String?,
+    ): Response<AccountDto>
+
+    @DELETE("authentication/session")
+    suspend fun logout(
+        @Query("session_id") sessionId: String,
+    ): Response<LogoutResponse>
+
+    @GET("account/{account_id}/rated/movies")
+    suspend fun getRatedMovies(
+        @Query("session_id") sessionId: String?,
+    ): Response<BaseResponse<RatedMoviesDto>>
 
     @GET("tv/{tv_id}")
     suspend fun getTvShowDetails(@Path("tv_id") tvShowId: Int): Response<TvShowDetailsDto>

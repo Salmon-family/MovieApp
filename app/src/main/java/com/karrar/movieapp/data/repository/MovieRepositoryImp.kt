@@ -2,12 +2,12 @@ package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
+import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.BaseResponse
 import com.karrar.movieapp.data.remote.response.CreatedListDto
 import com.karrar.movieapp.data.remote.response.ListDetailsDto
-import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
@@ -23,6 +23,7 @@ import com.karrar.movieapp.domain.mappers.PopularMovieMapper
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.PopularMovie
+import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -36,14 +37,16 @@ class MovieRepositoryImp @Inject constructor(
     private val genreMapper: GenreMapper,
     private val movieMapper: MovieMapper,
     private val tvShowsMapper: TVShowMapper,
-    private val personMapper: PersonMapper,
+    private val searchActorMapper: SearchActorMapper,
     private val seriesMapper: SearchSeriesMapper,
     private val movieDao: MovieDao,
     private val searchHistoryMapper: SearchHistoryMapper,
     private val movieDetailsMapper: MovieDetailsMapper,
     private val reviewMapper: ReviewMapper,
     private val trailerMapper: TrailerMapper,
-    private val popularMovieMapper: PopularMovieMapper
+    private val popularMovieMapper: PopularMovieMapper,
+    private val accountMapper: AccountMapper,
+    private val ratedMoviesMapper: RatedMoviesMapper,
 ) : BaseRepository(), MovieRepository {
     override fun getPopularMovies(): Flow<State<List<PopularMovie>>> {
         return flow {
@@ -96,10 +99,10 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun searchForPerson(query: String): Flow<State<List<MediaInfo>>> {
-        return wrap({ movieService.searchForPerson(query) }, { response ->
-            response.items?.map {
-                it.let { personMapper.map(it) }
+    override fun searchForActor(query: String): Flow<State<List<Media>>> {
+        return wrap({ movieService.searchForActor(query) }, { response ->
+            response.items?.filter { it.knownForDepartment == Constants.ACTING }?.map {
+                it.let { searchActorMapper.map(it) }
             } ?: emptyList()
         })
     }
@@ -110,13 +113,13 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun searchForMovie(query: String): Flow<State<List<MediaInfo>>> {
+    override fun searchForMovie(query: String): Flow<State<List<Media>>> {
         return wrap({ movieService.searchForMovie(query) }, { response ->
-            response.items?.map { seriesMapper.map(it) } ?: emptyList()
+            response.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
 
-    override fun searchForSeries(query: String): Flow<State<List<MediaInfo>>> {
+    override fun searchForSeries(query: String): Flow<State<List<Media>>> {
         return wrap({ movieService.searchForSeries(query) }, { response ->
             response.items?.map { seriesMapper.map(it) } ?: emptyList()
         })
@@ -187,7 +190,7 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.postRating(movieId, value, session_id) }
     }
 
-    override fun getMovieTrailer(movieId: Int): Flow<State<Trailer>> {
+    override suspend fun getMovieTrailer(movieId: Int): Flow<State<Trailer>> {
         return wrap({ movieService.getMovieTrailer(movieId) }, {
             trailerMapper.map(it)
         })
@@ -225,5 +228,29 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun deleteSearchItem(item: SearchHistoryEntity) {
         return movieDao.delete(item)
+    }
+
+    override fun getAccountDetails(sessionId: String): Flow<State<Account>> {
+        return wrap({movieService.getAccountDetails(sessionId)}, accountMapper::map)
+    }
+
+    override fun getRatedMovies(sessionId: String?): Flow<State<List<RatedMovies>>> {
+        return wrap({movieService.getRatedMovies(sessionId)}){ response ->
+            response.items?.map {
+                ratedMoviesMapper.map(it)
+            } ?: emptyList()
+        }
+    }
+
+    override suspend fun insertMovie(movie: WatchHistoryEntity) {
+        return movieDao.insert(movie)
+    }
+
+    override fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>> {
+        return movieDao.getAllWatchedMovies()
+    }
+
+    override suspend fun clearWatchHistory() {
+        return movieDao.deleteAllWatchedMovies()
     }
 }

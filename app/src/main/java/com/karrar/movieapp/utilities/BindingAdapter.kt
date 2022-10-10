@@ -133,7 +133,6 @@ fun setVideoId(view: YouTubePlayerView, videoId: String?){
     })
 }
 
-
 @BindingAdapter("app:setGenre")
 fun setGenres(text: TextView, genres: List<GenreDto>?) {
     text.text = genres?.map { it.name }?.joinToString(" , ")
@@ -142,4 +141,18 @@ fun setGenres(text: TextView, genres: List<GenreDto>?) {
 @BindingAdapter("app:setReleaseDate")
 fun setReleaseDate(text: TextView, date: String?) {
     text.text = date?.take(4)
+}
+
+@BindingAdapter("app:convertToHoursPattern")
+fun convertToHoursPattern(text: TextView, duration: Int?) {
+    duration?.let {
+        val hours = duration / 60
+        val minutes = duration % 60
+        "$hours h $minutes min".also { text.text = it }
+    }
+}
+
+@BindingAdapter("app:showWhenListIsEmpty")
+fun <T> showWhenListIsEmpty(text: TextView, list: List<T>?) {
+    text.isVisible = list?.isEmpty() == true
 }

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start">
+
+        <Constraint
+            android:id="@+id/card_movies"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/card_series"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            app:layout_constraintTop_toBottomOf="@id/input_search" />
+
+        <Constraint
+            android:id="@+id/card_series"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_medium"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toEndOf="@id/card_movies"
+            app:layout_constraintEnd_toStartOf="@id/card_actors"
+            app:layout_constraintTop_toBottomOf="@id/input_search"/>
+
+        <Constraint
+            android:id="@+id/card_actors"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/input_search"
+            app:layout_constraintStart_toEndOf="@id/card_series"
+            app:layout_constraintTop_toBottomOf="@id/input_search"/>
+
+        <Constraint
+            android:id="@+id/text_trend_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="@id/card_movies"
+            app:layout_constraintTop_toBottomOf="@id/card_movies"
+            android:elevation="@dimen/spacing_too_small"/>
+
+        <Constraint
+            android:id="@+id/animation_loading"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_animation"
+            app:visibilityMode="ignore" />
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+
+        <Constraint
+            android:id="@+id/card_movies"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/card_series"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            app:layout_constraintTop_toBottomOf="@id/input_search"
+            android:alpha="0"/>
+
+        <Constraint
+            android:id="@+id/card_series"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_medium"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toEndOf="@id/card_movies"
+            app:layout_constraintEnd_toStartOf="@id/card_actors"
+            app:layout_constraintTop_toBottomOf="@id/input_search"
+            android:alpha="0"/>
+
+        <Constraint
+            android:id="@+id/card_actors"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/input_search"
+            app:layout_constraintStart_toEndOf="@id/card_series"
+            app:layout_constraintTop_toBottomOf="@id/input_search"
+            android:alpha="0"/>
+
+        <Constraint
+            android:id="@+id/text_trend_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/card_movies"
+            app:layout_constraintTop_toBottomOf="@id/input_search"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:elevation="@dimen/spacing_too_small"/>
+
+        <Constraint
+            android:id="@+id/animation_loading"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_animation"
+            app:visibilityMode="ignore" />
+
+    </ConstraintSet>
+
+    <Transition
+        app:constraintSetEnd="@id/end"
+        app:constraintSetStart="@+id/start">
+        <OnSwipe
+            app:touchAnchorId="@+id/recycler_trend"
+            app:dragDirection="dragUp" />
+    </Transition>
+</MotionScene>

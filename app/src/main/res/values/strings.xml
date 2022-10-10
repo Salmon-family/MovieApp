@@ -65,5 +65,15 @@
     <string name="submit_toast">Submitted, Thank you for your feedback</string>
     <string name="total_episodes">%1$s Episodes</string>
     <string name="m">%1$s m</string>
-
+    <string name="watch_history">Watch History</string>
+    <string name="rated_movies">My Ratings</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="at">\@</string>
+    <string name="are_you_sure">Are You Sure?</string>
+    <string name="you_re_about_to_sign_out_of_your_account">You’re about to sign out of your account.</string>
+    <string name="cancel">Cancel</string>
+    <string name="logout">Sign Out</string>
+    <string name="this_list_has_no_movies">This list has no movies</string>
+    <string name="zero">\.0</string>
+    <string name="my_ratings">My Ratings</string>
 </resources>

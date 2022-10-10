@@ -9,6 +9,7 @@ import com.karrar.movieapp.utilities.DataStorePreferencesKeys
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import kotlin.math.log
 
 
 class AccountRepositoryImp @Inject constructor(
@@ -45,6 +46,25 @@ class AccountRepositoryImp @Inject constructor(
             } catch (e: Exception) {
                 emit(State.Error(e.message.toString()))
 
+            }
+        }
+    }
+
+    override suspend fun logout(): Flow<State<Boolean>> {
+        return flow {
+            emit(State.Loading)
+            try {
+                getSessionId().collect{
+                    val logout = service.logout(it.toString())
+                    if (logout.isSuccessful){
+                        dataStorePreferences.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
+                        emit(State.Success(true))
+                    } else {
+                        emit(State.Error("There is an error"))
+                    }
+                }
+            } catch (e: Exception) {
+                emit(State.Error(e.message.toString()))
             }
         }
     }
