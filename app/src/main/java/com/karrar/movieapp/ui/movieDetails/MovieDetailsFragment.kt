@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
+import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
@@ -92,7 +93,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
             Navigation.findNavController(binding.root)
                 .navigate(
                     MovieDetailsFragmentDirections.actionMovieDetailFragmentToYoutubePlayerActivity(
-                        it
+                        it, MediaType.MOVIE
                     )
                 )
         })
@@ -110,7 +111,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
             Navigation.findNavController(binding.root)
                 .navigate(
                     MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewFragment(
-                        args.movieId
+                        args.movieId, MediaType.MOVIE
                     )
                 )
         })
@@ -119,7 +120,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
             Navigation.findNavController(binding.root)
                 .navigate(
                     MovieDetailsFragmentDirections.actionMovieDetailFragmentToYoutubePlayerActivity(
-                        args.movieId
+                        args.movieId, MediaType.MOVIE
                     )
                 )
         })
