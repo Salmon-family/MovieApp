@@ -1,6 +1,7 @@
 package com.karrar.movieapp.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,29 +15,18 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
-
     override val layoutIdFragment = R.layout.fragment_home
     override val viewModel: HomeViewModel by viewModels()
-    private lateinit var homeAdapter: HomeAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setTitle(false)
 
-        homeAdapter = HomeAdapter(mutableListOf(), viewModel)
+        val homeAdapter = HomeAdapter(emptyList(), viewModel)
         binding.recyclerView.adapter = homeAdapter
 
         observeEvents()
-        viewModel.successItems().observe(viewLifecycleOwner) { homeAdapter.addItem(it) }
     }
-
-
-    override fun onStop() {
-        super.onStop()
-        viewModel.removeAllHomeItemsMediatorSource()
-    }
-
 
     private fun observeEvents() {
         viewModel.clickSeeAllActorEvent.observe(viewLifecycleOwner, EventObserve {
@@ -76,4 +66,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             )
         )
     }
+
 }

@@ -36,25 +36,16 @@ class MovieRepositoryImp @Inject constructor(
     private val ratedMoviesMapper: RatedMoviesMapper,
     private val createdListsMapper: CreatedListsMapper,
 ) : BaseRepository(), MovieRepository {
-    override fun getPopularMovies(): Flow<State<List<PopularMovie>>> {
-        return flow {
-            emit(State.Loading)
-            try {
-                val responseGenre = movieService.getGenreList().body()?.genres
-                val responseMovie = movieService.getPopularMovies().body()?.items
 
-                if (responseMovie != null && responseGenre != null) {
-                    emit(
-                        State.Success(
-                            popularMovieMapper.mapGenreMovie(responseMovie, responseGenre)
-                        )
-                    )
-                } else
-                    emit(State.Error("Mapping error"))
-            } catch (throwable: Throwable) {
-                emit(State.Error(throwable.message.toString()))
-            }
-        }
+    override suspend fun getPopularMovies2(genre: List<Genre>): List<PopularMovie> {
+        return wrap2({ movieService.getPopularMovies() },
+            { popularMovieMapper.mapGenreMovie(it.items , genre) }) ?: emptyList()
+    }
+
+    override suspend fun getMovieGenreList2(): List<Genre> {
+        return wrap2({ movieService.getGenreList() },
+            { ListMapper(genreMapper).mapList(it.genres) }) ?: emptyList()
+
     }
 
     override fun getTrendingActors(): Flow<State<List<Actor>>> {
@@ -80,7 +71,6 @@ class MovieRepositoryImp @Inject constructor(
             baseResponse.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
-
 
     override fun getTopRatedMovies(): Flow<State<List<Media>>> {
         return wrap({ movieService.getTopRatedMovies() }, { baseResponse ->
@@ -210,7 +200,7 @@ class MovieRepositoryImp @Inject constructor(
 
     override fun getRatedMovie(
         accountId: Int,
-        sessionId: String,
+        sessionId: String
     ): Flow<State<BaseResponse<RatedMovie>>> {
         return wrapWithFlow { movieService.getRatedMovie(accountId, sessionId) }
     }
@@ -255,5 +245,30 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow {
             movieService.createList(sessionId, name)
         }
+    }
+
+    override suspend fun getTrendingMovies2(): List<Media> {
+        return wrap2({ movieService.getTrendingMovies() },
+            { ListMapper(movieMapper).mapList(it.items) }) ?: emptyList()
+    }
+
+    override suspend fun getTrendingActors2(): List<Actor>? {
+        return wrap2({ movieService.getTrendingActors() },
+            { ListMapper(actorMapper).mapList(it.items) })
+    }
+
+    override suspend fun getUpcomingMovies2(): List<Media> {
+        return wrap2({ movieService.getUpcomingMovies() },
+            { ListMapper(movieMapper).mapList(it.items) }) ?: emptyList()
+    }
+
+    override suspend fun getNowPlayingMovies2(): List<Media> {
+        return wrap2({ movieService.getNowPlayingMovies() },
+            { ListMapper(movieMapper).mapList(it.items) }) ?: emptyList()
+    }
+
+    override suspend fun getMovieListByGenreID2(genreID: Int): List<Media> {
+        return wrap2({ movieService.getMovieListByGenre(genreID) },
+            { ListMapper(movieMapper).mapList(it.items) }) ?: emptyList()
     }
 }
