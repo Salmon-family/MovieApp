@@ -2,7 +2,6 @@ package com.karrar.movieapp.ui.home
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MovieType
@@ -16,7 +15,6 @@ import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,7 +50,7 @@ class HomeViewModel @Inject constructor(
 
     private fun updateState(value: Any) {
         if (_failedState.value!! >= Constants.NUM_HOME_REQUEST) {
-            failedState.postValue(UIState.Error)
+            failedState.postValue(UIState.Error(""))
         }
     }
 
@@ -68,6 +66,7 @@ class HomeViewModel @Inject constructor(
         getPopularMovies()
         getMovieListByGenreID(Constants.ADVENTURE_ID, MovieType.ADVENTURE)
         getMovieListByGenreID(Constants.MYSTERY_ID, MovieType.MYSTERY)
+
     }
 
     private fun updateHomeItems(item: HomeRecyclerItem) {
@@ -76,111 +75,120 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getPopularMovies() {
-        viewModelScope.launch {
+        wrapWithState({
             val responseGenre = movieRepository.getMovieGenreList2()
             val responseMovie = movieRepository.getPopularMovies2(responseGenre)
             updateHomeItems(HomeRecyclerItem.Slider(responseMovie))
-        }
+        }, {
+            _failedState.postValue(++counter)
+        })
     }
 
     private fun getTrending() {
-        viewModelScope.launch {
-            val response = movieRepository.getTrendingMovies2()
-            if (response.isEmpty()) {
+        wrapWithState(
+            {
+                updateHomeItems(
+                    HomeRecyclerItem.Trending(
+                        movieRepository.getTrendingMovies2(),
+                        MovieType.TRENDING
+                    )
+                )
+            }, {
                 _failedState.postValue(++counter)
-            } else {
-                updateHomeItems(HomeRecyclerItem.Trending(response, MovieType.TRENDING))
-            }
-        }
+            })
     }
 
     private fun getActors() {
-        viewModelScope.launch {
-            val response = movieRepository.getTrendingActors()
-            if (response.isNullOrEmpty()) {
-                _failedState.postValue(++counter)
-            } else {
-                updateHomeItems(HomeRecyclerItem.Actor(response))
-            }
-        }
+        wrapWithState(
+            { updateHomeItems(HomeRecyclerItem.Actor(movieRepository.getTrendingActors2())) })
     }
 
     private fun getUpcoming() {
-        viewModelScope.launch {
-            val response = movieRepository.getUpcomingMovies2()
-            if (response.isEmpty()) {
+        wrapWithState(
+            {
+                updateHomeItems(
+                    HomeRecyclerItem.Upcoming(
+                        movieRepository.getUpcomingMovies2(),
+                        MovieType.UPCOMING
+                    )
+                )
+            }, {
                 _failedState.postValue(++counter)
-            } else {
-                updateHomeItems(HomeRecyclerItem.Upcoming(response, MovieType.UPCOMING))
-            }
-        }
+            })
     }
 
     private fun getNowStreaming() {
-        viewModelScope.launch {
-            val response = movieRepository.getNowPlayingMovies2()
-            if (response.isEmpty()) {
-                _failedState.postValue(++counter)
-            } else {
-                updateHomeItems(HomeRecyclerItem.NowStreaming(response, MovieType.NOW_STREAMING))
-            }
-        }
+        wrapWithState({
+            updateHomeItems(
+                HomeRecyclerItem.NowStreaming(
+                    movieRepository.getNowPlayingMovies2(),
+                    MovieType.NOW_STREAMING
+                )
+            )
+        }, {
+            _failedState.postValue(++counter)
+        })
     }
 
     private fun getTopRatedTvShow() {
-        viewModelScope.launch {
-            val response = seriesRepository.getTopRatedTvShow2()
-            if (response.isEmpty()) {
-                _failedState.postValue(++counter)
-            } else {
-                updateHomeItems(HomeRecyclerItem.TvShows(response))
-            }
-        }
+        wrapWithState({
+            updateHomeItems(HomeRecyclerItem.TvShows(seriesRepository.getTopRatedTvShow2()))
+        }, {
+            _failedState.postValue(++counter)
+        })
     }
 
     private fun getOnTheAir() {
-        viewModelScope.launch {
-            val response = seriesRepository.getOnTheAir2()
-            if (response.isEmpty()) {
-                _failedState.postValue(++counter)
-            } else {
-                updateHomeItems(HomeRecyclerItem.OnTheAiring(response, MovieType.ON_THE_AIR))
-            }
-        }
+        wrapWithState({
+            updateHomeItems(
+                HomeRecyclerItem.OnTheAiring(
+                    seriesRepository.getOnTheAir2(),
+                    MovieType.ON_THE_AIR
+                )
+            )
+        }, {
+            _failedState.postValue(++counter)
+        })
     }
 
     private fun getAiringToday() {
-        viewModelScope.launch {
-            val response = seriesRepository.getAiringToday2()
-            if (response.isEmpty()) {
-                _failedState.postValue(++counter)
-            } else {
-                updateHomeItems(HomeRecyclerItem.AiringToday(response))
-            }
-        }
+        wrapWithState({
+            updateHomeItems(HomeRecyclerItem.AiringToday(seriesRepository.getAiringToday2()))
+        }, {
+            _failedState.postValue(++counter)
+        })
     }
 
     private fun getMovieListByGenreID(genreID: Int, type: MovieType) {
-        viewModelScope.launch {
-            val movieList =
-                movieRepository.getMovieListByGenreID2(genreID)
-
-            if (movieList.isEmpty()) {
-                _failedState.postValue(++counter)
-            } else {
-                val item = when (type) {
-                    MovieType.MYSTERY -> {
-                        HomeRecyclerItem.Mystery(movieList, type)
-                    }
-
-                    else -> {
-                        HomeRecyclerItem.Adventure(movieList, type)
-                    }
-                }
-                updateHomeItems(item)
+        when (type) {
+            MovieType.MYSTERY -> {
+                wrapWithState({
+                    updateHomeItems(
+                        HomeRecyclerItem.Mystery(
+                            movieRepository.getMovieListByGenreID2(
+                                genreID
+                            ), type
+                        )
+                    )
+                }, {
+                    _failedState.postValue(++counter)
+                })
             }
-
+            else -> {
+                wrapWithState({
+                    updateHomeItems(
+                        HomeRecyclerItem.Adventure(
+                            movieRepository.getMovieListByGenreID2(
+                                genreID
+                            ), type
+                        )
+                    )
+                }, {
+                    _failedState.postValue(++counter)
+                })
+            }
         }
+
     }
 
     override fun onClickMovie(movieId: Int) {
