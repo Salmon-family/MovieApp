@@ -101,8 +101,8 @@
             android:id="@+id/action_profileFragment_to_watchHistoryFragment"
             app:destination="@id/watchHistoryFragment" />
         <action
-            android:id="@+id/action_profileFragment_to_loginDialog"
-            app:destination="@id/loginDialog" />
+            android:id="@+id/action_profileFragment_to_emptyProfileFragment"
+            app:destination="@id/emptyProfileFragment" />
     </fragment>
 
     <fragment
@@ -232,12 +232,12 @@
             app:argType="integer" />
     </activity>
     <dialog
-        android:id="@+id/loginDialog"
-        android:name="com.karrar.movieapp.ui.profile.login.LoginDialog"
-        android:label="LoginDialog"
-        tools:layout="@layout/dialog_login">
+        android:id="@+id/emptyProfileFragment"
+        android:name="com.karrar.movieapp.ui.profile.emptyProfile.EmptyProfileFragment"
+        android:label="EmptyProfileFragment"
+        tools:layout="@layout/fragment_empty_profile">
         <action
-            android:id="@+id/action_loginDialog_to_loginFragment3"
+            android:id="@+id/action_emptyProfileFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </dialog>
 

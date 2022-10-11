@@ -25,7 +25,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     private fun checkHaveAccount() {
         viewModel.sessionId.observe(viewLifecycleOwner) {
             if (it?.isEmpty() == true) {
-                findNavController().navigate(R.id.action_profileFragment_to_loginDialog)
+                findNavController().navigate(R.id.action_profileFragment_to_emptyProfileFragment)
             }
         }
     }
