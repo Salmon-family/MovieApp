@@ -56,20 +56,17 @@ class HomeViewModel @Inject constructor(
 
     init {
         homeItemsLiveData.postValue(UIState.Loading)
-        try {
-            getTrending()
-            getNowStreaming()
-            getUpcoming()
-            getActors()
-            getTopRatedTvShow()
-            getOnTheAir()
-            getAiringToday()
-            getPopularMovies()
-            getMovieListByGenreID(Constants.ADVENTURE_ID, MovieType.ADVENTURE)
-            getMovieListByGenreID(Constants.MYSTERY_ID, MovieType.MYSTERY)
-        } catch (e: Throwable) {
-            homeItemsLiveData.postValue(UIState.Error(e.message.toString()))
-        }
+        getTrending()
+        getNowStreaming()
+        getUpcoming()
+        getActors()
+        getTopRatedTvShow()
+        getOnTheAir()
+        getAiringToday()
+        getPopularMovies()
+        getMovieListByGenreID(Constants.ADVENTURE_ID, MovieType.ADVENTURE)
+        getMovieListByGenreID(Constants.MYSTERY_ID, MovieType.MYSTERY)
+
     }
 
     private fun updateHomeItems(item: HomeRecyclerItem) {
