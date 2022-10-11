@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.myList.SavedListViewModel" />
+            type="com.karrar.movieapp.ui.myList.ListDetailsViewModel" />
     </data>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +19,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    app:items="@{viewModel.listDetailsPublic.toData()}"
+                    app:items="@{viewModel.listDetails.toData()}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

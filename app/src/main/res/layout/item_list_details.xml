@@ -7,6 +7,9 @@
         <variable
             name="item"
             type="com.karrar.movieapp.domain.models.SaveListDetails" />
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.myList.ListDetailsInteractionListener" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -14,7 +17,8 @@
         android:layout_height="100dp"
         android:backgroundTint="@color/background_color"
         app:cardCornerRadius="12dp"
-        android:layout_margin="@dimen/spacing_medium">
+        android:layout_margin="@dimen/spacing_medium"
+        android:onClick="@{()-> listener.onShowListItems(item)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,7 +29,7 @@
                 android:id="@+id/movie_poster"
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:movieImage="@{item.posterPath}"
                 app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
-                android:text="@{item.voteAverage.toString()}"
+                android:text="@{String.valueOf(item.voteAverage)}"
                 android:textColor="@color/yellow"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/filled_star"

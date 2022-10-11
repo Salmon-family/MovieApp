@@ -250,12 +250,15 @@
     </activity>
     <fragment
         android:id="@+id/savedListFragment"
-        android:name="com.karrar.movieapp.ui.myList.SavedListFragment"
+        android:name="com.karrar.movieapp.ui.myList.ListDetailsFragment"
         android:label="SavedListFragment"
-        tools:layout="@layout/fragment_saved_list">
+        tools:layout="@layout/fragment_list_details">
         <argument
             android:name="id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_savedListFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
     </fragment>
 
 </navigation>
