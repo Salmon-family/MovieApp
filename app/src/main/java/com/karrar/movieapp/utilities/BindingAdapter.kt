@@ -1,5 +1,6 @@
 package com.karrar.movieapp.utilities
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,7 +13,9 @@ import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
+import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.models.Genre
+import com.karrar.movieapp.domain.models.MediaDetails
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.utilities.Constants.ALL
@@ -56,12 +59,12 @@ fun <T> showWhenFail2(view: View, state: UIState<T>?) {
 }
 
 @BindingAdapter(value = ["app:showWhenSearch"])
-fun showWhenSearch(view: View, text: String){
+fun showWhenSearch(view: View, text: String) {
     view.isVisible = !text.isNullOrEmpty()
 }
 
 @BindingAdapter(value = ["app:hideWhenSearch"])
-fun hideWhenSearch(view: View, text: String){
+fun hideWhenSearch(view: View, text: String) {
     view.isVisible = text.isNullOrEmpty()
 }
 
@@ -132,13 +135,13 @@ fun bindMovieImageURL(image: ImageView, imageURL: String?) {
 }
 
 @BindingAdapter("app:isVisible")
-fun <T> isVisible(view: View,isVisible :Boolean){
+fun <T> isVisible(view: View, isVisible: Boolean) {
     view.isVisible = isVisible
 
 }
 
 @BindingAdapter("app:setVideoId")
-fun setVideoId(view: YouTubePlayerView, videoId: String?){
+fun setVideoId(view: YouTubePlayerView, videoId: String?) {
     view.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
         override fun onReady(youTubePlayer: YouTubePlayer) {
             videoId?.let { youTubePlayer.loadVideo(it, 0f) }
@@ -176,5 +179,16 @@ fun setOverViewText(view: TextView, text: String) {
         view.text = text
     } else {
         view.text = view.context.getString(R.string.empty_overview_text)
+    }
+}
+
+@BindingAdapter("app:textBasedOnMediaType")
+fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
+    if (mediaDetails?.mediaType == MediaType.MOVIE) {
+        view.text = view.context.getString(R.string.duration, mediaDetails.specialNumber)
+    } else if (mediaDetails?.mediaType == MediaType.TV_SHOW && mediaDetails.specialNumber == 1) {
+        view.text = view.context.getString(R.string.one_season, mediaDetails.specialNumber)
+    } else if (mediaDetails?.mediaType == MediaType.TV_SHOW && mediaDetails.specialNumber > 1) {
+        view.text = view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
     }
 }

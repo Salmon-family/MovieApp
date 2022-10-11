@@ -16,7 +16,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:background="@color/background_color">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imageView"
@@ -26,7 +27,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:movieImage="@{item.movieImage}"
+            app:movieImage="@{item.image}"
             tools:src="@drawable/image" />
 
         <View
@@ -92,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:text="@{item.movieName}"
+            android:text="@{item.name}"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -132,7 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_small"
-            android:text="@{@string/duration(item.duration)}"
+            app:textBasedOnMediaType="@{item}"
             app:layout_constraintBottom_toBottomOf="@+id/line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -220,7 +221,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginEnd="@dimen/spacing_medium"
-            android:text="@{item.overView}"
+            android:text="@{item.overview}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/over_view_title"
             app:layout_constraintTop_toBottomOf="@+id/over_view_title"

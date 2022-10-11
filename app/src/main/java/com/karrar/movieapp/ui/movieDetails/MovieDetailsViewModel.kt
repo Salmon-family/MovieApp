@@ -95,10 +95,10 @@ class MovieDetailsViewModel @Inject constructor(
             movie?.let { movieDetails ->
                 movieRepository.insertMovie(
                     WatchHistoryEntity(
-                        id = movieDetails.movieID,
-                        posterPath = movieDetails.movieImage,
-                        movieTitle = movieDetails.movieName,
-                        movieDuration = movieDetails.duration,
+                        id = movieDetails.id,
+                        posterPath = movieDetails.image,
+                        movieTitle = movieDetails.name,
+                        movieDuration = movieDetails.specialNumber,
                         voteAverage = movieDetails.voteAverage,
                         releaseDate = movieDetails.releaseDate,
                     )

@@ -1,6 +1,6 @@
 package com.karrar.movieapp.domain.models
 
-import com.karrar.movieapp.data.remote.response.SeasonDto
+import com.karrar.movieapp.domain.enums.MediaType
 
 data class TvShowDetails(
     val tvShowId: Int,
@@ -8,20 +8,22 @@ data class TvShowDetails(
     val tvShowName: String,
     val tvShowReleaseDate: String,
     val tvShowGenres: String,
-    val tvShowDuration: Int,
+    val tvShowSeasonsNumber: Int,
     val tvShowReview: Int,
     val tvShowVoteAverage: String,
     val tvShowOverview: String,
-    val tvShowSeasons: List<Season>
+    val tvShowSeasons: List<Season>,
+    val tvShowType: MediaType
 ) : MediaDetails(
     tvShowId,
     tvShowImage,
     tvShowName,
     tvShowReleaseDate,
     tvShowGenres,
-    tvShowDuration,
+    tvShowSeasonsNumber,
     tvShowReview,
     tvShowVoteAverage,
     tvShowOverview,
-    tvShowSeasons
+    tvShowSeasons,
+    tvShowType
 )
