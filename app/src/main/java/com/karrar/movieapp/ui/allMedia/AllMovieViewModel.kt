@@ -2,9 +2,6 @@ package com.karrar.movieapp.ui.allMedia
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MovieType
@@ -18,10 +15,6 @@ import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -69,52 +62,38 @@ class AllMovieViewModel @Inject constructor(
 
     private fun getTypeMovies() {
         _media.postValue(UIState.Loading)
-        val request = when (type) {
-            MovieType.TRENDING -> {
-                viewModelScope.launch {
+        wrapWithState({
+            _media.postValue(UIState.Loading)
+            val request = when (type) {
+                MovieType.TRENDING -> {
                     movieRepository.getTrendingMovies2()
                 }
-            }
-            MovieType.UPCOMING -> {
-                viewModelScope.launch {
+                MovieType.UPCOMING -> {
                     movieRepository.getUpcomingMovies2()
                 }
-            }
 
-            MovieType.MYSTERY -> {
-                viewModelScope.launch {
+                MovieType.MYSTERY -> {
                     movieRepository.getMovieListByGenreID2(Constants.MYSTERY_ID)
                 }
-            }
 
-            MovieType.ADVENTURE -> {
-                viewModelScope.launch {
+                MovieType.ADVENTURE -> {
                     movieRepository.getMovieListByGenreID2(Constants.ADVENTURE_ID)
                 }
-            }
 
-            MovieType.NOW_STREAMING -> {
-                viewModelScope.launch {
+                MovieType.NOW_STREAMING -> {
                     movieRepository.getNowPlayingMovies2()
                 }
-            }
 
-            MovieType.ON_THE_AIR -> {
-                viewModelScope.launch {
+                else -> {
                     seriesRepository.getOnTheAir2()
                 }
             }
+            _media.postValue(Success(request))
 
-            else -> {
-                throw Throwable("Error")
-            }
-        }
-        wrapWithState({
-            // here is the problem
-//            _media.postValue(UIState.Success(request))
         }, {
             _media.postValue(UIState.Error(it.message.toString()))
         })
+
     }
 
     override fun onClickMedia(mediaId: Int) {

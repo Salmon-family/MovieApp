@@ -21,13 +21,12 @@ class ActorViewModel @Inject constructor(
     private val state: SavedStateHandle,
 ) : BaseViewModel(), MovieInteractionListener {
 
-    private val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
-    val actorId = args.id
+    val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
 
     private val _actorDetails = MutableLiveData<UIState<ActorDetails>>()
     val actorDetails = _actorDetails.toLiveData()
 
-    private val _actorMovies = MutableLiveData<UIState<List<Media?>>>()
+    private val _actorMovies = MutableLiveData<List<Media>>()
     val actorMovies = _actorMovies.toLiveData()
 
     private val _backEvent = MutableLiveData<Event<Boolean>>()
@@ -46,16 +45,15 @@ class ActorViewModel @Inject constructor(
     private fun getActorDetails() {
         _actorDetails.postValue(UIState.Loading)
         wrapWithState({
-            val result = movieRepository.getActorDetails(actorId)
+            val result = movieRepository.getActorDetails(args.id)
             _actorDetails.postValue(UIState.Success(result))
         }, {
             _actorDetails.postValue(UIState.Error(it.message.toString()))
         })
+
         wrapWithState({
-            val result = movieRepository.getActorMovies(actorId)
-            _actorMovies.postValue(UIState.Success(result))
-        }, {
-            _actorMovies.postValue(UIState.Error(it.message.toString()))
+            val result = movieRepository.getActorMovies(args.id)
+            _actorMovies.postValue(result)
         })
     }
 

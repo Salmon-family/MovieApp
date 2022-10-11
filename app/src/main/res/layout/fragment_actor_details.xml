@@ -38,9 +38,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/actor_image"
             app:layout_constraintEnd_toEndOf="@+id/actor_image"
             app:layout_constraintStart_toStartOf="@+id/actor_image"
-            app:layout_constraintTop_toTopOf="@+id/actor_image"
-
-            />
+            app:layout_constraintTop_toTopOf="@+id/actor_image" />
 
         <ImageView
             android:id="@+id/back_button"
@@ -53,7 +51,6 @@
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <TextView
             android:id="@+id/text_name_actor"
@@ -71,7 +68,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:overScrollMode="never"
-            app:layout_constraintTop_toBottomOf="@+id/actor_image">
+            app:layout_constraintTop_toBottomOf="@+id/actor_image"
+            app:showWhenSuccess="@{viewModel.actorDetails}">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/details"
@@ -87,9 +85,12 @@
                     known_for_actor_title,
                     related_movie_title,
                     button_see_all,
+                    birthday_title,
                     related_movie_recycler,
                     over_view_title,
                     over_view,
+                    genres_title,
+                    place_of_birth_actor_title,
                     text_known_for_actor,"
                     app:showWhenSuccess="@{viewModel.actorDetails}" />
 
@@ -227,7 +228,7 @@
                     android:clipToPadding="false"
                     android:orientation="horizontal"
                     android:paddingHorizontal="@dimen/spacing_medium"
-                    app:items="@{viewModel.actorMovies.toData()}"
+                    app:items="@{viewModel.actorMovies}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -263,10 +264,38 @@
                     tools:text="Krasinski's instincts are very good, and once you've placed the primary action there, then it allows the story instincts are very good, and once you've placed the primary action there, then it allows the story" />
 
 
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animation_lost_connection"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lottie_autoPlay="true"
+                    app:lottie_rawRes="@raw/lost_internet_animation" />
+
+                <TextView
+                    android:id="@+id/description_lost_connection"
+                    style="@style/Regular.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:gravity="center"
+                    android:text="@{viewModel.actorDetails.toString()}"
+                    android:textColor="@color/brand_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/animation_lost_connection" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/group_failed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:showWhenFail="@{viewModel.actorDetails}"
+                    app:constraint_referenced_ids="description_lost_connection,animation_lost_connection" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
-
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 

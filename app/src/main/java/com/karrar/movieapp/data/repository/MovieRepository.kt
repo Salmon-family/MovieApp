@@ -42,7 +42,7 @@ interface MovieRepository {
 
     suspend fun getMovieListByGenreID2(genreID: Int): List<Media>
 
-    suspend fun getActorDetails(actorId: Int): ActorDetails?
+    suspend fun getActorDetails(actorId: Int): ActorDetails
 
     suspend fun insertSearchItem(item: SearchHistoryEntity)
 
