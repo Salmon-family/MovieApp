@@ -96,7 +96,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getActors() {
         viewModelScope.launch {
-            val response = movieRepository.getTrendingActors2()
+            val response = movieRepository.getTrendingActors()
             if (response.isNullOrEmpty()) {
                 _failedState.postValue(++counter)
             } else {

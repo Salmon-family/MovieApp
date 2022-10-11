@@ -4,35 +4,33 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.ActorDetails
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ActorViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
-    private val state: SavedStateHandle
-) : ViewModel(), MovieInteractionListener {
+    private val state: SavedStateHandle,
+) : BaseViewModel(), MovieInteractionListener {
 
     private val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
     val actorId = args.id
 
-    private val _actorDetails = MutableLiveData<State<ActorDetails>>()
+    private val _actorDetails = MutableLiveData<UIState<ActorDetails?>>()
     val actorDetails = _actorDetails.toLiveData()
 
-    private val _actorMovies = MutableLiveData<State<List<Media?>>>()
+    private val _actorMovies = MutableLiveData<UIState<List<Media?>>>()
     val actorMovies = _actorMovies.toLiveData()
 
     private val _backEvent = MutableLiveData<Event<Boolean>>()
@@ -49,15 +47,9 @@ class ActorViewModel @Inject constructor(
     }
 
     private fun getActorDetails() {
-        _actorDetails.postValue(State.Loading)
-
-        collectResponse(movieRepository.getActorDetails(actorId)) {
-            _actorDetails.postValue(it)
-        }
-
-        collectResponse(movieRepository.getActorMovies(actorId)) {
-            _actorMovies.postValue(it)
-        }
+        _actorDetails.postValue(UIState.Loading)
+        wrapWithUIState({movieRepository.getActorDetails(actorId)}, _actorDetails)
+        wrapWithUIState({movieRepository.getActorMovies(actorId)}, _actorMovies)
     }
 
     fun onClickBack() {
@@ -70,15 +62,6 @@ class ActorViewModel @Inject constructor(
 
     override fun onClickSeeAllMovie(movieType: MovieType) {
         _seeAllMovies.postValue(Event(true))
-    }
-
-    private fun <T> collectResponse(flow: Flow<State<T>>, function: (State<T>) -> Unit) {
-        viewModelScope.launch {
-            flow.flowOn(Dispatchers.IO)
-                .collect { state ->
-                    function(state)
-                }
-        }
     }
 
 }

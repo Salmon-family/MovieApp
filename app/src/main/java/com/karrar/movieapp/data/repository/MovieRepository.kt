@@ -42,7 +42,7 @@ interface MovieRepository {
 
     suspend fun getMovieListByGenreID2(genreID: Int): List<Media>
 
-    fun getActorDetails(actorId: Int): Flow<State<ActorDetails>>
+    suspend fun getActorDetails(actorId: Int): ActorDetails?
 
     suspend fun insertSearchItem(item: SearchHistoryEntity)
 
@@ -50,11 +50,9 @@ interface MovieRepository {
 
     fun getAllSearchHistory(): Flow<List<SearchHistory>>
 
-    fun getTrendingActors(): Flow<State<List<Actor>>>
+    suspend fun getTrendingActors(): List<Actor>?
 
-    suspend fun getTrendingActors2(): List<Actor>?
-
-    fun getActorMovies(actorId: Int): Flow<State<List<Media>>>
+    suspend fun getActorMovies(actorId: Int): List<Media>
 
     fun getDailyTrending(): Flow<State<List<Media>>>
 

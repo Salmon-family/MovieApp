@@ -9,7 +9,9 @@ import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
+import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
@@ -45,7 +47,7 @@ class AllMovieViewModel @Inject constructor(
     init {
         when (type) {
             MovieType.NON -> {
-                getActorMoviesById()
+//                getActorMoviesById()
             }
 
             else -> {
@@ -54,12 +56,12 @@ class AllMovieViewModel @Inject constructor(
         }
     }
 
-    private fun getActorMoviesById() {
-        _media.postValue(State.Loading)
-        collectResponse(movieRepository.getActorMovies(actorId)) {
-            _media.postValue(it)
-        }
-    }
+//    private fun getActorMoviesById() {
+//        _media.postValue(State.Loading)
+//        collectResponse(movieRepository.getActorMovies(actorId)) {
+//            _media.postValue(it)
+//        }
+//    }
 
     private fun getTypeMovies() {
         _media.postValue(State.Loading)
