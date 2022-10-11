@@ -1,7 +1,7 @@
 package com.karrar.movieapp.ui.actors
 
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.ui.UIState
@@ -11,7 +11,6 @@ import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,7 +29,12 @@ class ActorsViewModel @Inject constructor(private val movieRepository: MovieRepo
 
     private fun getActors() {
         _trendingActors.postValue(UIState.Loading)
-        wrapWithUIState({ movieRepository.getTrendingActors() }, _trendingActors)
+        wrapWithState({
+            val result = movieRepository.getTrendingActors()
+            _trendingActors.postValue(UIState.Success(result))
+        }, {
+            _trendingActors.postValue(UIState.Error)
+        })
     }
 
     override fun onClickActor(actorID: Int) {

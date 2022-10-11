@@ -2,8 +2,6 @@ package com.karrar.movieapp.ui.actorDetails
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.ActorDetails
@@ -15,7 +13,6 @@ import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,7 +24,7 @@ class ActorViewModel @Inject constructor(
     private val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
     val actorId = args.id
 
-    private val _actorDetails = MutableLiveData<UIState<ActorDetails?>>()
+    private val _actorDetails = MutableLiveData<UIState<ActorDetails>>()
     val actorDetails = _actorDetails.toLiveData()
 
     private val _actorMovies = MutableLiveData<UIState<List<Media?>>>()
@@ -48,8 +45,18 @@ class ActorViewModel @Inject constructor(
 
     private fun getActorDetails() {
         _actorDetails.postValue(UIState.Loading)
-        wrapWithUIState({movieRepository.getActorDetails(actorId)}, _actorDetails)
-        wrapWithUIState({movieRepository.getActorMovies(actorId)}, _actorMovies)
+        wrapWithState({
+            val result = movieRepository.getActorDetails(actorId)
+            _actorDetails.postValue(UIState.Success(result))
+        }, {
+            _actorDetails.postValue(UIState.Error)
+        })
+        wrapWithState({
+            val result = movieRepository.getActorMovies(actorId)
+            _actorMovies.postValue(UIState.Success(result))
+        }, {
+            _actorMovies.postValue(UIState.Error)
+        })
     }
 
     fun onClickBack() {
