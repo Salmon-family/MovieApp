@@ -73,7 +73,7 @@ class MyListViewModel @Inject constructor(
 
     private fun addList(createdLists: CreatedList) {
         val oldList = _createdList.value?.toMutableList()
-        oldList?.add(1,createdLists)
+        oldList?.add(0,createdLists)
         _createdList.postValue(oldList)
 
     }
