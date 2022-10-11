@@ -2,6 +2,7 @@ package com.karrar.movieapp.ui.search
 
 import android.content.Context
 import android.os.Bundle
+import android.text.InputType
 import android.transition.ChangeTransform
 import android.transition.TransitionInflater
 import android.view.LayoutInflater

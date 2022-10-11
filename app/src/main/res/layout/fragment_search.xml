@@ -50,7 +50,7 @@
             android:textCursorDrawable="@color/brand_color"
             android:transitionName="search_box"
             android:focusable="true"
-            android:focusedByDefault="true">
+            android:focusableInTouchMode="true">
             <requestFocus/>
         </EditText>
 

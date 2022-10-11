@@ -10,6 +10,7 @@ import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.search.adapters.PersonInteractionListener
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
+import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -45,9 +46,9 @@ class SearchViewModel @Inject constructor(
                     getAllSearchHistory()
                 } else {
                     when(mediaType.value){
-                        "movie"  -> searchForMovie(it)
-                        "tv" ->  searchForSeries(it)
-                        "person" -> searchForActor(it)
+                        Constants.MOVIE  -> searchForMovie(it)
+                        Constants.TV_SHOWS ->  searchForSeries(it)
+                        Constants.PERSON -> searchForActor(it)
                     }
                 }
             }
@@ -68,8 +69,8 @@ class SearchViewModel @Inject constructor(
 
     fun onClickMovies(){
         viewModelScope.launch {
-            if(mediaType.value != "movie" ){
-                mediaType.emit("movie")
+            if(mediaType.value != Constants.MOVIE ){
+                mediaType.emit(Constants.MOVIE)
                 searchForMovie(searchText.value)
             }
         }
@@ -77,8 +78,8 @@ class SearchViewModel @Inject constructor(
 
     fun onClickSeries(){
         viewModelScope.launch {
-            if(mediaType.value != "tv" ){
-                mediaType.emit("tv")
+            if(mediaType.value != Constants.TV_SHOWS ){
+                mediaType.emit(Constants.TV_SHOWS)
                 searchForSeries(searchText.value)
             }
         }
@@ -86,8 +87,8 @@ class SearchViewModel @Inject constructor(
 
     fun onClickActors(){
         viewModelScope.launch {
-            if(mediaType.value != "person" ){
-                mediaType.emit("person")
+            if(mediaType.value != Constants.PERSON ){
+                mediaType.emit(Constants.PERSON)
                 searchForActor(searchText.value)
             }
         }
