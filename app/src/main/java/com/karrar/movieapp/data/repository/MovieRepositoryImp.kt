@@ -12,7 +12,6 @@ import com.karrar.movieapp.domain.mappers.*
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -39,12 +38,12 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getPopularMovies2(genre: List<Genre>): List<PopularMovie> {
         return wrap2({ movieService.getPopularMovies() },
-            { popularMovieMapper.mapGenreMovie(it.items, genre) }) ?: emptyList()
+            { popularMovieMapper.mapGenreMovie(it.items , genre) })
     }
 
     override suspend fun getMovieGenreList2(): List<Genre> {
         return wrap2({ movieService.getGenreList() },
-            { ListMapper(genreMapper).mapList(it.genres) }) ?: emptyList()
+            { ListMapper(genreMapper).mapList(it.genres) })
 
     }
 
@@ -248,22 +247,22 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getTrendingMovies2(): List<Media> {
         return wrap2({ movieService.getTrendingMovies() },
-            { ListMapper(movieMapper).mapList(it.items) }) ?: emptyList()
+            { ListMapper(movieMapper).mapList(it.items) })
     }
 
-    override suspend fun getTrendingActors2(): List<Actor>? {
+    override suspend fun getTrendingActors2(): List<Actor> {
         return wrap2({ movieService.getTrendingActors() },
             { ListMapper(actorMapper).mapList(it.items) })
     }
 
     override suspend fun getUpcomingMovies2(): List<Media> {
         return wrap2({ movieService.getUpcomingMovies() },
-            { ListMapper(movieMapper).mapList(it.items) }) ?: emptyList()
+            { ListMapper(movieMapper).mapList(it.items) })
     }
 
     override suspend fun getNowPlayingMovies2(): List<Media> {
         return wrap2({ movieService.getNowPlayingMovies() },
-            { ListMapper(movieMapper).mapList(it.items) }) ?: emptyList()
+            { ListMapper(movieMapper).mapList(it.items) })
     }
 
     override suspend fun getMovieListByGenreID2(genreID: Int): List<Media> {
