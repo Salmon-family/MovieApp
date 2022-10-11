@@ -11,9 +11,15 @@ interface SeriesRepository {
 
     fun getOnTheAir(): Flow<State<List<Media>>>
 
+    suspend fun getOnTheAir2(): List<Media>
+
     fun getAiringToday(): Flow<State<List<Media>>>
 
+    suspend fun getAiringToday2(): List<Media>
+
     fun getTopRatedTvShow(): Flow<State<List<Media>>>
+
+    suspend fun getTopRatedTvShow2(): List<Media>
 
     fun getPopularTvShow(): Flow<State<List<Media>>>
 

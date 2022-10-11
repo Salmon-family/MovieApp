@@ -203,6 +203,16 @@ interface MovieService {
         @Query("session_id") sessionId: String?,
     ): Response<BaseResponse<RatedMoviesDto>>
 
+
+    @FormUrlEncoded
+    @POST("list")
+    suspend fun createList(
+        @Query("session_id") session_id: String,
+        @Field("name") name: String,
+        @Field("description") description:String = ""
+    ) : Response<AddListResponse>
+}
+
     @GET("tv/{tv_id}")
     suspend fun getTvShowDetails(@Path("tv_id") tvShowId: Int): Response<TvShowDetailsDto>
 

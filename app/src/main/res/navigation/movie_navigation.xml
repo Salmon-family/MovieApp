@@ -111,9 +111,13 @@
 
     <fragment
         android:id="@+id/myListFragment"
-        android:name="com.karrar.movieapp.ui.MyListFragment"
+        android:name="com.karrar.movieapp.ui.myList.MyListFragment"
         android:label="My List"
-        tools:layout="@layout/fragment_my_list" />
+        tools:layout="@layout/fragment_my_list" >
+        <action
+            android:id="@+id/action_myListFragment_to_createSavedList"
+            app:destination="@id/createSavedList" />
+    </fragment>
 
     <fragment
         android:id="@+id/categoryFragment"
@@ -219,6 +223,13 @@
         <action
             android:id="@+id/action_logoutDialog_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/createSavedList"
+        android:name="com.karrar.movieapp.ui.myList.CreateListDialog"
+        android:label="Logout"
+        tools:layout="@layout/fragment_create_list_dialog">
+
     </dialog>
 
     <fragment

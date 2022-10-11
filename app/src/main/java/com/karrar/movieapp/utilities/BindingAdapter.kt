@@ -13,6 +13,7 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.domain.models.Genre
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
@@ -28,6 +29,12 @@ fun <T> showWhenSuccess(view: View, state: State<T>?) {
     view.isVisible = state is State.Success
 }
 
+@BindingAdapter("app:showWhenSuccess")
+fun <T> showWhenSuccess2(view: View, state: UIState<T>?) {
+    view.isVisible = state is UIState.Success
+}
+
+
 @BindingAdapter(value = ["app:showWhenLoading"])
 fun <T> showWhenLoading(view: View, state: State<T>?) {
     view.isVisible = (state is State.Loading)
@@ -41,6 +48,11 @@ fun <T> hideWhenLoading(view: View, state: State<T>?) {
 @BindingAdapter("app:showWhenFail")
 fun <T> showWhenFail(view: View, state: State<T>?) {
     view.isVisible = state is State.Error
+}
+
+@BindingAdapter("app:showWhenFail")
+fun <T> showWhenFail2(view: View, state: UIState<T>?) {
+    view.isVisible = state is UIState.Error
 }
 
 @BindingAdapter(value = ["app:showWhenSearch"])
@@ -66,6 +78,7 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
 @BindingAdapter(value = ["app:items"])
 fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
     (view.adapter as BaseAdapter<T>?)?.setItems(items ?: emptyList())
+    view.scrollToPosition(0)
 }
 
 @BindingAdapter(value = ["app:usePagerSnapHelper"])
