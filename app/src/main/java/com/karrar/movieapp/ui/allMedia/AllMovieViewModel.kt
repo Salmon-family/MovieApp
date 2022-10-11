@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.karrar.movieapp.data.remote.State
+import com.karrar.movieapp.data.repository.AllMediaPagingDataSource
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MovieType
@@ -36,13 +36,10 @@ class AllMovieViewModel @Inject constructor(
     private val actorId = args.id
     val type = args.type
 
-    private val _media = MutableLiveData<State<List<Media?>>>()
-    val media = _media.toLiveData()
-
     val allMedia: Flow<PagingData<Media>> =
-        Pager(config = PagingConfig(pageSize = 15, prefetchDistance = 2),
+        Pager(config = PagingConfig(pageSize = 100, prefetchDistance = 3 , enablePlaceholders = true),
             pagingSourceFactory = { AllMediaPagingDataSource(movieRepository,seriesRepository,type) }
-        ).flow.cachedIn(viewModelScope)
+        ).flow
 
     private val _backEvent = MutableLiveData<Event<Boolean>>()
     val backEvent = _backEvent.toLiveData()
@@ -51,69 +48,20 @@ class AllMovieViewModel @Inject constructor(
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
     val clickMovieEvent = _clickMovieEvent.toLiveData()
 
-    init {
-        when (type) {
-            MovieType.NON -> {
-                getActorMoviesById()
-            }
+//    init {
+//        when (type) {
+//            MovieType.NON -> {
+//                getActorMoviesById()
+//            }
+//        }
+//    }
 
-            else -> {
-                getTypeMovies()
-            }
-        }
-    }
-
-    private fun getActorMoviesById() {
-        _media.postValue(State.Loading)
-        collectResponse(movieRepository.getActorMovies(actorId)) {
-            _media.postValue(it)
-        }
-    }
-
-    private fun getTypeMovies() {
-        _media.postValue(State.Loading)
-        val request = when (type) {
-            MovieType.TRENDING -> {
-                movieRepository.getTrendingMovies()
-            }
-
-            MovieType.UPCOMING -> {
-                movieRepository.getUpcomingMovies()
-            }
-
-            MovieType.MYSTERY -> {
-                movieRepository.getMovieListByGenreID(Constants.MYSTERY_ID)
-            }
-
-            MovieType.ADVENTURE -> {
-                movieRepository.getMovieListByGenreID(Constants.ADVENTURE_ID)
-            }
-
-            MovieType.NOW_STREAMING -> {
-                movieRepository.getNowPlayingMovies()
-            }
-
-            MovieType.ON_THE_AIR -> {
-                seriesRepository.getOnTheAir()
-            }
-
-            else -> {
-                throw Throwable("Error")
-            }
-        }
-        collectResponse(request) {
-            _media.postValue(it)
-        }
-    }
-
-    private fun <T> collectResponse(flow: Flow<State<T>>, function: (State<T>) -> Unit) {
-        viewModelScope.launch {
-            flow.flowOn(Dispatchers.IO)
-                .collect { state ->
-                    function(state)
-                }
-        }
-    }
+//    private fun getActorMoviesById() {
+//        _media.postValue(State.Loading)
+//        collectResponse(movieRepository.getActorMovies(actorId)) {
+//            _media.postValue(it)
+//        }
+//    }
 
     override fun onClickMedia(mediaId: Int) {
         _clickMovieEvent.postEvent(mediaId)

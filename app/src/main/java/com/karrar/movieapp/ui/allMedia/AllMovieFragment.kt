@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentAllMovieBinding
 import com.karrar.movieapp.ui.base.BaseFragment
@@ -20,19 +19,15 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setTitle(true, viewModel.type.value)
         setMovieAdapter()
         observeEvents()
     }
 
     private fun setMovieAdapter() {
-//        binding.recyclerMedia.adapter =
-//            MediaAdapter(mutableListOf(), R.layout.item_media, viewModel)
-       val allMediaAdapter = AllMediaAdapter()
-        binding.recyclerMedia.apply {
-            adapter = allMediaAdapter
-        }
+        val allMediaAdapter = AllMediaAdapter(viewModel)
+        binding.recyclerMedia.adapter =
+            allMediaAdapter.withLoadStateFooter(MediaLoadStateAdapter(allMediaAdapter::retry))
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.allMedia.collectLatest { pagingData ->
@@ -59,4 +54,5 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
     private fun removeFragment() {
         findNavController().popBackStack()
     }
+
 }

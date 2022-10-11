@@ -1,6 +1,7 @@
-package com.karrar.movieapp.ui.allMedia
+package com.karrar.movieapp.data.repository
 
 import android.content.Context
+import androidx.paging.LoadStateAdapter
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.karrar.movieapp.data.repository.MovieRepository
@@ -27,6 +28,7 @@ class AllMediaPagingDataSource(
                 MovieType.ON_THE_AIR -> seriesRepository.getOnTheAir2(pageNumber)
                 MovieType.NON -> repository.getTrendingMovies2(pageNumber)
             }
+
 
             LoadResult.Page(
                 data = response,

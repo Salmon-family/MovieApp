@@ -5,31 +5,17 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.ItemMediaBinding
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.ui.adapters.MediaInteractionListener
+import com.karrar.movieapp.ui.base.BaseInteractionListener
+import com.karrar.movieapp.ui.base.BasePagingAdapter
 import javax.inject.Inject
 
-class AllMediaAdapter @Inject constructor() :
-    PagingDataAdapter<Media, AllMediaAdapter.MediaViewHolder>(MediaComparator) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        MediaViewHolder(
-            ItemMediaBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
-        )
-
-    override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it) }
-    }
-
-    inner class MediaViewHolder(private val binding: ItemMediaBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(media: Media) = with(binding) {
-            item = media
-//            listener =
-        }
-    }
+class AllMediaAdapter(listener: MediaInteractionListener) :
+    BasePagingAdapter<Media>(MediaComparator, listener) {
+    override val layoutID: Int = R.layout.item_media
 
     object MediaComparator : DiffUtil.ItemCallback<Media>() {
         override fun areItemsTheSame(oldItem: Media, newItem: Media) =
@@ -38,4 +24,5 @@ class AllMediaAdapter @Inject constructor() :
         override fun areContentsTheSame(oldItem: Media, newItem: Media) =
             oldItem == newItem
     }
+
 }

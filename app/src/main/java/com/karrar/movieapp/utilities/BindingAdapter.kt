@@ -14,6 +14,7 @@ import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.UIState
+import com.karrar.movieapp.ui.allMedia.AllMediaAdapter
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
@@ -23,6 +24,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.squareup.picasso.Picasso
+import java.util.concurrent.Flow
 
 @BindingAdapter("app:showWhenSuccess")
 fun <T> showWhenSuccess(view: View, state: State<T>?) {
