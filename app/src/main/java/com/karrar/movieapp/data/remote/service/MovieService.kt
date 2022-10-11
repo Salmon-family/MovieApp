@@ -206,6 +206,15 @@ interface MovieService {
     suspend fun getRatedMovies(
         @Query("session_id") sessionId: String?,
     ): Response<BaseResponse<RatedMoviesDto>>
+
+
+    @FormUrlEncoded
+    @POST("list")
+    suspend fun createList(
+        @Query("session_id") session_id: String,
+        @Field("name") name: String,
+        @Field("description") description:String = ""
+    ) : Response<AddListResponse>
 }
 
 

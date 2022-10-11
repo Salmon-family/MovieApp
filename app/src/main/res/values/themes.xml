@@ -17,6 +17,7 @@
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 
+
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal" >
         <item name="android:background">@drawable/bottom_sheet_corners</item>
     </style>
@@ -93,7 +94,7 @@
 
     <style name="Login" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="android:textColorHint">@color/shade_secondary_color</item>
-        <item name="boxBackgroundColor">@color/card_background_color</item>
+        <item name="boxBackgroundColor">@color/text_field_background_color</item>
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">0dp</item>
         <item name="boxCornerRadiusTopStart">@dimen/radius_small</item>
@@ -107,6 +108,8 @@
         <item name="errorEnabled">true</item>
 
     </style>
+
+
 
 
     <style name="Theme.MovieApp.SplashScreen" parent="Theme.SplashScreen.IconBackground">
@@ -155,6 +158,7 @@
 
     <style name="Regular.Small.Primary">
         <item name="android:textColor">@color/shade_primary_color</item>
+
     </style>
 
 
