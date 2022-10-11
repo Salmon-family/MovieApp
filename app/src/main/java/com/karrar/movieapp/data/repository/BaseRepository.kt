@@ -7,7 +7,10 @@ import retrofit2.Response
 
 abstract class BaseRepository {
 
-    protected fun <I, O> wrap(function: suspend () -> Response<I>, mapper: (I) -> O): Flow<State<O>> {
+    protected fun <I, O> wrap(
+        function: suspend () -> Response<I>,
+        mapper: (I) -> O
+    ): Flow<State<O>> {
         return flow {
             emit(State.Loading)
             try {
@@ -40,21 +43,15 @@ abstract class BaseRepository {
         }
     }
 
-
     suspend fun <I, O> wrap2(
         function: suspend () -> Response<I>,
         mapper: (I) -> O
-    ): O? {
-        return try {
-            val response = function()
-            if (response.isSuccessful) {
-                val items = response.body()?.let { mapper(it) }
-                items!!
-            } else {
-                null
-            }
-        } catch (e: Exception) {
-            null
+    ): O {
+        val response = function()
+        return if (response.isSuccessful) {
+            response.body()?.let { mapper(it) } ?: throw Throwable()
+        } else {
+            throw Throwable("response is not successful")
         }
     }
 }
