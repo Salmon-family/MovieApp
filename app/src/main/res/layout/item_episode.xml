@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.data.remote.response.episode.EpisodeDto" />
+            type="com.karrar.movieapp.domain.models.Episode" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +25,7 @@
             app:layout_constraintDimensionRatio="1:0.6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:posterImage="@{item.stillPath}"
+            app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Small"
             tools:src="@drawable/test_4" />
 
@@ -38,7 +38,7 @@
             android:layout_marginEnd="@dimen/spacing_medium"
             android:ellipsize="end"
             android:lines="1"
-            android:text="@{item.name}"
+            android:text="@{item.episodeName}"
             app:layout_constraintEnd_toStartOf="@+id/text_episode_duration"
             app:layout_constraintStart_toEndOf="@+id/image_episode"
             app:layout_constraintTop_toTopOf="@+id/image_episode"
@@ -49,7 +49,7 @@
             style="@style/Regular.Small.Primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{@string/m(String.valueOf(item.runtime))}"
+            android:text="@{@string/m(String.valueOf(item.episodeDuration))}"
             app:layout_constraintBottom_toBottomOf="@+id/text_episode_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_episode_name"
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_small"
-            android:text="@{@string/reviews(String.valueOf(item.voteCount))}"
+            android:text="@{@string/reviews(String.valueOf(item.episodeTotalReviews))}"
             app:layout_constraintBottom_toBottomOf="@+id/image_episode"
             app:layout_constraintStart_toEndOf="@+id/text_stars"
             tools:text="(128 reviews)" />
@@ -72,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_medium"
-            android:text="@{String.valueOf(item.voteAverage)}"
+            android:text="@{String.valueOf(item.episodeRate)}"
             android:textColor="@color/yellow"
             app:layout_constraintBottom_toBottomOf="@+id/text_review"
             app:layout_constraintEnd_toStartOf="@+id/text_review"
@@ -100,7 +100,7 @@
             style="@style/Regular.Small.ternary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.airDate}"
+            android:text="@{item.episodeDate}"
             app:layout_constraintBottom_toBottomOf="@+id/text_review"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_review"
@@ -113,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_medium"
-            android:text="@{item.overview}"
+            android:text="@{item.episodeDescription}"
             app:animDuration="500"
             app:collapsedLines="2"
             app:ellipsizeTextColor="@color/brand_color"

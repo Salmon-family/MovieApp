@@ -6,10 +6,8 @@ import androidx.lifecycle.SavedStateHandle
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.repository.SeriesRepository
-import com.karrar.movieapp.domain.mappers.SeasonMapper
 import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.domain.models.Review
-import com.karrar.movieapp.domain.models.Season
 import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
@@ -19,11 +17,9 @@ import com.karrar.movieapp.utilities.postEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-
 @HiltViewModel
 class TvShowDetailsViewModel @Inject constructor(
     private val seriesRepository: SeriesRepository,
-    private val seasonMapper: SeasonMapper,
     state: SavedStateHandle
 ) : BaseViewModel(), ActorsInteractionListener, SeasonInteractionListener,
     DetailInteractionListener {

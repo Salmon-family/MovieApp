@@ -10,7 +10,7 @@ data class SeasonDto(
     @SerializedName("episode_count")
     val episodeCount: Int? = null,
     @SerializedName("episodes")
-    val episodes: List<EpisodeDto?>? = null,
+    val episodes: List<EpisodeDto>? = null,
     @SerializedName("_id")
     val idString: String? = null,
     @SerializedName("id")

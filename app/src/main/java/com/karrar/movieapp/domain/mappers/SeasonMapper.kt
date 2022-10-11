@@ -5,7 +5,9 @@ import com.karrar.movieapp.domain.models.Season
 import com.karrar.movieapp.utilities.Constants
 import javax.inject.Inject
 
-class SeasonMapper @Inject constructor() : Mapper<SeasonDto, Season> {
+class SeasonMapper @Inject constructor(
+    private val episodeMapper: EpisodeMapper
+) : Mapper<SeasonDto, Season> {
     override fun map(input: SeasonDto): Season {
         return Season(
             input.id ?: 0,
@@ -15,7 +17,9 @@ class SeasonMapper @Inject constructor() : Mapper<SeasonDto, Season> {
             input.seasonNumber ?: 0,
             input.episodeCount ?: 0,
             input.overview ?: "",
-            input.episodes ?: emptyList()
+            input.episodes?.map {
+                episodeMapper.map(it)
+            } ?: emptyList()
         )
     }
 }

@@ -211,7 +211,6 @@ interface MovieService {
         @Field("name") name: String,
         @Field("description") description:String = ""
     ) : Response<AddListResponse>
-}
 
     @GET("tv/{tv_id}")
     suspend fun getTvShowDetails(@Path("tv_id") tvShowId: Int): Response<TvShowDetailsDto>

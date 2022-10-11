@@ -15,7 +15,7 @@ class TvShowDetailsMapper @Inject constructor(
             Constants.IMAGE_BASE_PATH + input.posterPath,
             input.name ?: "",
             input.firstAirDate?.take(4) ?: "unknown",
-            input.genres?.map { it?.name }?.joinToString(" , ") ?: "unknown",
+            input.genres?.map { it?.name }?.joinToString(", ") ?: "unknown",
             input.episodeRunTime?.get(0) ?: 0,
             input.voteCount ?: 0,
             input.voteAverage.toString().take(3),
