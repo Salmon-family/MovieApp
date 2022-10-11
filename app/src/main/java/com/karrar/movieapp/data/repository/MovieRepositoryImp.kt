@@ -4,25 +4,12 @@ import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.response.AddMovieDto
-import com.karrar.movieapp.data.remote.response.BaseResponse
-import com.karrar.movieapp.data.remote.response.CreatedListDto
-import com.karrar.movieapp.data.remote.response.ListDetailsDto
+import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.*
 import com.karrar.movieapp.domain.models.*
-import com.karrar.movieapp.domain.mappers.ActorDetailsMapper
-import com.karrar.movieapp.domain.models.ActorDetails
-import com.karrar.movieapp.domain.mappers.ActorMapper
-import com.karrar.movieapp.domain.models.Actor
-import com.karrar.movieapp.domain.mappers.GenreMapper
-import com.karrar.movieapp.domain.mappers.MovieMapper
-import com.karrar.movieapp.domain.mappers.PopularMovieMapper
-import com.karrar.movieapp.domain.models.Genre
-import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.domain.models.PopularMovie
 import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -47,6 +34,7 @@ class MovieRepositoryImp @Inject constructor(
     private val popularMovieMapper: PopularMovieMapper,
     private val accountMapper: AccountMapper,
     private val ratedMoviesMapper: RatedMoviesMapper,
+    private val createdListsMapper: CreatedListsMapper,
 ) : BaseRepository(), MovieRepository {
     override fun getPopularMovies(): Flow<State<List<PopularMovie>>> {
         return flow {
@@ -92,6 +80,7 @@ class MovieRepositoryImp @Inject constructor(
             baseResponse.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
+
 
     override fun getTopRatedMovies(): Flow<State<List<Media>>> {
         return wrap({ movieService.getTopRatedMovies() }, { baseResponse ->
@@ -199,9 +188,13 @@ class MovieRepositoryImp @Inject constructor(
     override fun getAllLists(
         accountId: Int,
         sessionId: String,
-    ): Flow<State<BaseResponse<CreatedListDto>>> {
-        return wrapWithFlow { movieService.getCreatedLists(accountId, sessionId) }
+    ): Flow<State<List<CreatedList>>> {
+        return wrap({ movieService.getCreatedLists(accountId, sessionId) }) { baseResponse ->
+            baseResponse.items?.map { createdListsMapper.map(it) } ?: emptyList()
+
+        }
     }
+
 
     override fun addMovieToList(
         sessionId: String,
@@ -217,7 +210,7 @@ class MovieRepositoryImp @Inject constructor(
 
     override fun getRatedMovie(
         accountId: Int,
-        sessionId: String
+        sessionId: String,
     ): Flow<State<BaseResponse<RatedMovie>>> {
         return wrapWithFlow { movieService.getRatedMovie(accountId, sessionId) }
     }
@@ -231,16 +224,17 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override fun getAccountDetails(sessionId: String): Flow<State<Account>> {
-        return wrap({movieService.getAccountDetails(sessionId)}, accountMapper::map)
+        return wrap({ movieService.getAccountDetails(sessionId) }, accountMapper::map)
     }
 
     override fun getRatedMovies(sessionId: String?): Flow<State<List<RatedMovies>>> {
-        return wrap({movieService.getRatedMovies(sessionId)}){ response ->
+        return wrap({ movieService.getRatedMovies(sessionId) }) { response ->
             response.items?.map {
                 ratedMoviesMapper.map(it)
             } ?: emptyList()
         }
     }
+
 
     override suspend fun insertMovie(movie: WatchHistoryEntity) {
         return movieDao.insert(movie)
@@ -252,5 +246,14 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun clearWatchHistory() {
         return movieDao.deleteAllWatchedMovies()
+    }
+
+    override fun createList(
+        sessionId: String,
+        name: String,
+    ): Flow<State<AddListResponse>> {
+        return wrapWithFlow {
+            movieService.createList(sessionId, name)
+        }
     }
 }
