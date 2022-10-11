@@ -1,6 +1,7 @@
 package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.remote.State
+import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.GenreMapper
 import com.karrar.movieapp.domain.mappers.ListMapper
@@ -62,22 +63,21 @@ class SeriesRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getTVShowsGenreList(): Flow<State<List<Genre>>> {
-        return wrap({ service.getGenreTvShowList() }, { response ->
-            response.genres?.map { genreMapper.map(it) } ?: emptyList()
-        })
+    override suspend fun getTVShowsGenreList(): List<Genre> {
+        return wrap2({ service.getGenreTvShowList() },
+            { ListMapper(genreMapper).mapList(it.genres) }) ?: emptyList()
     }
 
-    override fun getTvShowsByGenreID(genreId: Int): Flow<State<List<Media>>> {
-        return wrap({ service.getTvListByGenre(genreId) }, { response ->
-            response.items?.map { mediaMapper.map(it) } ?: emptyList()
-        })
+    override suspend fun getTvShowsByGenreID(genreId: Int): List<Media> {
+        return wrap2({ service.getTvListByGenre(genreId) }, {
+            ListMapper(mediaMapper).mapList(it.items)
+        }) ?: emptyList()
     }
 
-    override fun getAllTvShows(): Flow<State<List<Media>>> {
-        return wrap({ service.getAllTvShows() }, { response ->
-            response.items?.map { mediaMapper.map(it) } ?: emptyList()
-        })
+    override suspend fun getAllTvShows(): List<Media> {
+        return wrap2({ service.getAllTvShows() }, {
+            ListMapper(mediaMapper).mapList(it.items)
+        }) ?: emptyList()
     }
 
 }

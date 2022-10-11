@@ -58,7 +58,7 @@ interface MovieRepository {
 
     fun getDailyTrending(): Flow<State<List<Media>>>
 
-    fun getAllMovies(): Flow<State<List<Media>>>
+    suspend fun getAllMovies(): List<Media>
 
     fun getMovieDetails(movieId: Int): Flow<State<MovieDetails>>
 

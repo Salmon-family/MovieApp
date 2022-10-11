@@ -97,7 +97,7 @@ fun setGenre(textView: TextView, genreList: List<Genre>?) {
 @BindingAdapter("app:setGenres", "app:genresId", "app:listener", "app:firstChipSelection")
 fun <T> setGenresChips(
     view: ChipGroup,
-    chipList: State<List<Genre>>?,
+    chipList: List<Genre>?,
     categoryId: Int?,
     listener: T,
     isFirstChipSelected: Boolean?
@@ -105,13 +105,13 @@ fun <T> setGenresChips(
     val allMedia = Genre(FIRST_CATEGORY_ID, ALL)
     when (categoryId) {
         MOVIE_CATEGORIES_ID -> {
-            chipList?.toData()?.let {
+            chipList?.let {
                 view.addView(view.createChip(allMedia, listener))
                 it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
             }
         }
         TV_CATEGORIES_ID -> {
-            chipList?.toData()?.let {
+            chipList?.let {
                 view.addView(view.createChip(allMedia, listener))
                 it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
             }

@@ -47,7 +47,7 @@
                         app:genresId="@{viewModel.categoryTypeId}"
                         app:listener="@{viewModel}"
                         app:selectionRequired="true"
-                        app:setGenres="@{viewModel.categories}"
+                        app:setGenres="@{viewModel.categories.toData()}"
                         app:singleLine="true"
                         app:singleSelection="true" />
 
