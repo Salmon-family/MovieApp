@@ -136,7 +136,7 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getAllMovies(): List<Media> {
         return wrap2({ movieService.getAllMovies() }, {
-            ListMapper(movieMapper).mapList(it.items) }) ?: emptyList()
+            ListMapper(movieMapper).mapList(it.items) })
     }
 
 
@@ -268,6 +268,6 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getMovieListByGenreID2(genreID: Int): List<Media> {
         return wrap2({ movieService.getMovieListByGenre(genreID) },
-            { ListMapper(movieMapper).mapList(it.items) }) ?: emptyList()
+            { ListMapper(movieMapper).mapList(it.items) })
     }
 }

@@ -65,19 +65,19 @@ class SeriesRepositoryImp @Inject constructor(
 
     override suspend fun getTVShowsGenreList(): List<Genre> {
         return wrap2({ service.getGenreTvShowList() },
-            { ListMapper(genreMapper).mapList(it.genres) }) ?: emptyList()
+            { ListMapper(genreMapper).mapList(it.genres) })
     }
 
     override suspend fun getTvShowsByGenreID(genreId: Int): List<Media> {
         return wrap2({ service.getTvListByGenre(genreId) }, {
             ListMapper(mediaMapper).mapList(it.items)
-        }) ?: emptyList()
+        })
     }
 
     override suspend fun getAllTvShows(): List<Media> {
         return wrap2({ service.getAllTvShows() }, {
             ListMapper(mediaMapper).mapList(it.items)
-        }) ?: emptyList()
+        })
     }
 
 }

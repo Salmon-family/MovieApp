@@ -8,6 +8,7 @@ import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
+import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
@@ -24,7 +25,7 @@ class CategoryViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     private val seriesRepository: SeriesRepository,
     state: SavedStateHandle
-) : ViewModel(), MediaInteractionListener, CategoryInteractionListener {
+) : BaseViewModel(), MediaInteractionListener, CategoryInteractionListener {
 
     private val args = CategoryFragmentArgs.fromSavedStateHandle(state)
 
@@ -48,18 +49,14 @@ class CategoryViewModel @Inject constructor(
     private fun setCategoryType() {
         _categories.postValue(UIState.Loading)
         when (categoryTypeId) {
-            MOVIE_CATEGORIES_ID ->
-                viewModelScope.launch {
-                    _categories.postValue(UIState.Success(movieRepository.getMovieGenreList2()))
-                }
-//                collectResponse(movieRepository.getMovieGenreList()) { _categories.postValue(it) }
-            TV_CATEGORIES_ID -> {
-                viewModelScope.launch {
-                    _categories.postValue(UIState.Success(seriesRepository.getTVShowsGenreList()))
-                }
-            }
-
-//                collectResponse(seriesRepository.getTVShowsGenreList()) { _categories.postValue(it) }
+            MOVIE_CATEGORIES_ID -> wrapWithState({
+                val response = movieRepository.getMovieGenreList2()
+                _categories.postValue(UIState.Success(response))
+            }, {})
+            TV_CATEGORIES_ID -> wrapWithState({
+                val response = seriesRepository.getTVShowsGenreList()
+                _categories.postValue(UIState.Success(response))
+            }, {})
         }
     }
 
@@ -78,40 +75,37 @@ class CategoryViewModel @Inject constructor(
 
     private fun setAllMediaList() {
         when (categoryTypeId) {
-            MOVIE_CATEGORIES_ID ->
-                viewModelScope.launch {
-                    _mediaList.postValue(UIState.Success(movieRepository.getAllMovies()))
-                }
-//                collectResponse(movieRepository.getAllMovies()) { _mediaList.postValue(it) }
-            TV_CATEGORIES_ID ->
-                viewModelScope.launch {
-                    _mediaList.postValue(UIState.Success(seriesRepository.getAllTvShows()))
-                }
-//                collectResponse(seriesRepository.getAllTvShows()) { _mediaList.postValue(it) }
+            MOVIE_CATEGORIES_ID -> wrapWithState({
+                val response = movieRepository.getAllMovies()
+                _mediaList.postValue(UIState.Success(response))
+            }, {})
+            TV_CATEGORIES_ID -> wrapWithState({
+                val response = seriesRepository.getAllTvShows()
+                _mediaList.postValue(UIState.Success(response))
+            }, {})
+
         }
     }
 
     private fun setMediaList(id: Int) {
         _categories.postValue(UIState.Loading)
         when (categoryTypeId) {
-            MOVIE_CATEGORIES_ID ->
-                viewModelScope.launch {
-                    _mediaList.postValue(UIState.Success(movieRepository.getMovieListByGenreID2(id)))
-                }
-//                collectResponse(movieRepository.getMovieListByGenreID(id)) { _mediaList.postValue(it) }
-            TV_CATEGORIES_ID ->
-                viewModelScope.launch {
-                    _mediaList.postValue(UIState.Success(seriesRepository.getTvShowsByGenreID(id)))
-                }
-//                collectResponse(seriesRepository.getTvShowsByGenreID(id)) { _mediaList.postValue(it) }
+            MOVIE_CATEGORIES_ID -> wrapWithState({
+                val response = movieRepository.getMovieListByGenreID2(id)
+                _mediaList.postValue(UIState.Success(response))
+            }, {})
+            TV_CATEGORIES_ID -> wrapWithState({
+                val response = seriesRepository.getTvShowsByGenreID(id)
+                _mediaList.postValue(UIState.Success(response))
+            }, {})
+
         }
     }
-
-
-    private fun <T> collectResponse(flow: Flow<State<T>>, function: (State<T>) -> Unit) {
-        viewModelScope.launch {
-            flow.flowOn(Dispatchers.IO).collect { function(it) }
-        }
-    }
-
 }
+
+
+//    private fun <T> collectResponse(flow: Flow<State<T>>, function: (State<T>) -> Unit) {
+//        viewModelScope.launch {
+//            flow.flowOn(Dispatchers.IO).collect { function(it) }
+//        }
+//    }
