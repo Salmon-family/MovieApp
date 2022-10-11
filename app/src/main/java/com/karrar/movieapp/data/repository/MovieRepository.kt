@@ -50,7 +50,7 @@ interface MovieRepository {
 
     fun getAllSearchHistory(): Flow<List<SearchHistory>>
 
-    suspend fun getTrendingActors(): List<Actor>?
+    suspend fun getTrendingActors(): List<Actor>
 
     suspend fun getActorMovies(actorId: Int): List<Media>
 

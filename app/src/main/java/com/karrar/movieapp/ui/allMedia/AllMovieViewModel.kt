@@ -10,6 +10,7 @@ import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.UIState
+import com.karrar.movieapp.ui.UIState.Success
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Constants
@@ -28,13 +29,13 @@ class AllMovieViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     private val seriesRepository: SeriesRepository,
     private val state: SavedStateHandle
-) : ViewModel(), MediaInteractionListener {
+) : BaseViewModel(), MediaInteractionListener {
 
     private val args = AllMovieFragmentArgs.fromSavedStateHandle(state)
     private val actorId = args.id
     val type = args.type
 
-    private val _media = MutableLiveData<State<List<Media?>>>()
+    private val _media = MutableLiveData<UIState<List<Media>>>()
     val media = _media.toLiveData()
 
     private val _backEvent = MutableLiveData<Event<Boolean>>()
@@ -47,7 +48,7 @@ class AllMovieViewModel @Inject constructor(
     init {
         when (type) {
             MovieType.NON -> {
-//                getActorMoviesById()
+                getActorMoviesById()
             }
 
             else -> {
@@ -56,56 +57,64 @@ class AllMovieViewModel @Inject constructor(
         }
     }
 
-//    private fun getActorMoviesById() {
-//        _media.postValue(State.Loading)
-//        collectResponse(movieRepository.getActorMovies(actorId)) {
-//            _media.postValue(it)
-//        }
-//    }
+    private fun getActorMoviesById() {
+        _media.postValue(UIState.Loading)
+        wrapWithState({
+            val result = movieRepository.getActorMovies(actorId)
+            _media.postValue(Success(result))
+        }, {
+            _media.postValue(UIState.Error(it.message.toString()))
+        })
+    }
 
     private fun getTypeMovies() {
-        _media.postValue(State.Loading)
+        _media.postValue(UIState.Loading)
         val request = when (type) {
             MovieType.TRENDING -> {
-                movieRepository.getTrendingMovies()
+                viewModelScope.launch {
+                    movieRepository.getTrendingMovies2()
+                }
             }
-
             MovieType.UPCOMING -> {
-                movieRepository.getUpcomingMovies()
+                viewModelScope.launch {
+                    movieRepository.getUpcomingMovies2()
+                }
             }
 
             MovieType.MYSTERY -> {
-                movieRepository.getMovieListByGenreID(Constants.MYSTERY_ID)
+                viewModelScope.launch {
+                    movieRepository.getMovieListByGenreID2(Constants.MYSTERY_ID)
+                }
             }
 
             MovieType.ADVENTURE -> {
-                movieRepository.getMovieListByGenreID(Constants.ADVENTURE_ID)
+                viewModelScope.launch {
+                    movieRepository.getMovieListByGenreID2(Constants.ADVENTURE_ID)
+                }
             }
 
             MovieType.NOW_STREAMING -> {
-                movieRepository.getNowPlayingMovies()
+                viewModelScope.launch {
+                    movieRepository.getNowPlayingMovies2()
+                }
             }
 
             MovieType.ON_THE_AIR -> {
-                seriesRepository.getOnTheAir()
+                viewModelScope.launch {
+                    seriesRepository.getOnTheAir2()
+                }
             }
 
             else -> {
                 throw Throwable("Error")
             }
         }
-        collectResponse(request) {
-            _media.postValue(it)
-        }
-    }
-
-    private fun <T> collectResponse(flow: Flow<State<T>>, function: (State<T>) -> Unit) {
-        viewModelScope.launch {
-            flow.flowOn(Dispatchers.IO)
-                .collect { state ->
-                    function(state)
-                }
-        }
+        wrapWithState({
+            // here is the problem
+//            _media.postValue(UIState.Success(request))
+        }, {
+            _media.postValue(UIState.Error(it.message.toString()))
+        })
     }
 
     override fun onClickMedia(mediaId: Int) {

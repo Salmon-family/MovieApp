@@ -49,13 +49,13 @@ class ActorViewModel @Inject constructor(
             val result = movieRepository.getActorDetails(actorId)
             _actorDetails.postValue(UIState.Success(result))
         }, {
-            _actorDetails.postValue(UIState.Error)
+            _actorDetails.postValue(UIState.Error(it.message.toString()))
         })
         wrapWithState({
             val result = movieRepository.getActorMovies(actorId)
             _actorMovies.postValue(UIState.Success(result))
         }, {
-            _actorMovies.postValue(UIState.Error)
+            _actorMovies.postValue(UIState.Error(it.message.toString()))
         })
     }
 

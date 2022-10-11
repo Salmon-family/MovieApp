@@ -33,7 +33,7 @@ class ActorsViewModel @Inject constructor(private val movieRepository: MovieRepo
             val result = movieRepository.getTrendingActors()
             _trendingActors.postValue(UIState.Success(result))
         }, {
-            _trendingActors.postValue(UIState.Error)
+            _trendingActors.postValue(UIState.Error(it.message.toString()))
         })
     }
 
