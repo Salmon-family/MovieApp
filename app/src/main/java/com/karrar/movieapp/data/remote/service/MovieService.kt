@@ -40,6 +40,7 @@ interface MovieService {
     @GET("trending/person/{time_window}")
     suspend fun getTrendingActors(
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
+        @Query("page") page: Int
     ): Response<BaseResponse<ActorDto>>
 
     @GET("search/person")

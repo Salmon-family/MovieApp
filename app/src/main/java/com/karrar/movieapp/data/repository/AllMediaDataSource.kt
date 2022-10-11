@@ -1,20 +1,18 @@
 package com.karrar.movieapp.data.repository
 
-import android.content.Context
-import androidx.paging.LoadStateAdapter
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.utilities.Constants
+import javax.inject.Inject
 
-class AllMediaPagingDataSource(
+class AllMediaDataSource @Inject constructor(
     private val repository: MovieRepository,
-    private val seriesRepository: SeriesRepository,
-    private val type: MovieType
+    private val seriesRepository: SeriesRepository
 ) : PagingSource<Int, Media>() {
+
+    var type: MovieType = MovieType.NON
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Media> {
         val pageNumber = params.key ?: 1
@@ -23,10 +21,17 @@ class AllMediaPagingDataSource(
                 MovieType.TRENDING -> repository.getTrendingMovies2(pageNumber)
                 MovieType.UPCOMING -> repository.getUpcomingMovies2(pageNumber)
                 MovieType.NOW_STREAMING -> repository.getNowPlayingMovies2(pageNumber)
-                MovieType.MYSTERY ->  repository.getMovieListByGenreID2(Constants.MYSTERY_ID ,pageNumber)
-                MovieType.ADVENTURE -> repository.getMovieListByGenreID2(Constants.ADVENTURE_ID,pageNumber)
+                MovieType.MYSTERY -> repository.getMovieListByGenreID2(
+                    Constants.MYSTERY_ID,
+                    pageNumber
+                )
+                MovieType.ADVENTURE -> repository.getMovieListByGenreID2(
+                    Constants.ADVENTURE_ID,
+                    pageNumber
+                )
                 MovieType.ON_THE_AIR -> seriesRepository.getOnTheAir2(pageNumber)
-                MovieType.NON -> repository.getTrendingMovies2(pageNumber)
+                MovieType.NON -> seriesRepository.getOnTheAir2(pageNumber)
+                MovieType.ACTOR -> repository.getTrendingMovies2(pageNumber)
             }
 
 

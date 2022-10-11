@@ -3,13 +3,17 @@ package com.karrar.movieapp.ui.actors
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentActorsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.adapters.ActorAdapter
+import com.karrar.movieapp.ui.allMedia.AllMediaAdapter
+import com.karrar.movieapp.ui.allMedia.MediaLoadStateAdapter
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
@@ -18,13 +22,19 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setTitle(true, resources.getString(R.string.actors))
-
-        val actorsAdapter = ActorAdapter(mutableListOf(), R.layout.item_cast, viewModel)
-        binding.recyclerViewActors.adapter = actorsAdapter
-
+        setAdapter()
         observeEvents()
+    }
+
+    private fun setAdapter(){
+        val actorsAdapter = ActorsAdapter(viewModel)
+        binding.recyclerViewActors.adapter = actorsAdapter
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.trendingActors.collectLatest { pagingData ->
+                actorsAdapter.submitData(pagingData)
+            }
+        }
     }
 
     private fun observeEvents() {

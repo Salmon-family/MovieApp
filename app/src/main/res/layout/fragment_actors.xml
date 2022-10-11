@@ -20,13 +20,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/spacing_small"
-            app:items="@{viewModel.trendingActors.toData()}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenSuccess="@{viewModel.trendingActors}"
             app:spanCount="3"
             tools:listitem="@layout/item_actor_search" />
 
@@ -40,8 +38,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading="@{viewModel.trendingActors}" />
+            app:lottie_rawRes="@raw/loading_animation" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_lost_connection"
@@ -52,8 +49,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
-            app:lottie_rawRes="@raw/lost_internet_animation"
-            app:showWhenFail="@{viewModel.trendingActors}" />
+            app:lottie_rawRes="@raw/lost_internet_animation" />
 
         <TextView
             android:id="@+id/title_lost_connection"
@@ -83,8 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
-            app:constraint_referenced_ids="animation_lost_connection,description_lost_connection,title_lost_connection"
-            app:showWhenFail="@{viewModel.trendingActors}" />
+            app:constraint_referenced_ids="animation_lost_connection,description_lost_connection,title_lost_connection" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
