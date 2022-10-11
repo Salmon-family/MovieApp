@@ -63,7 +63,7 @@ class MyListViewModel @Inject constructor(
             it.toData()?.let { item ->
                 if (item.success == true)
                     addList(CreatedList(item.listId ?: 0, 0, listName.value.toString()))
-                    listName.postValue(null)
+                listName.postValue(null)
             }
 
 
@@ -72,6 +72,9 @@ class MyListViewModel @Inject constructor(
     }
 
     private fun addList(createdLists: CreatedList) {
-        _createdList.value?.add(0,createdLists)
+        val oldList = _createdList.value?.toMutableList()
+        oldList?.add(1,createdLists)
+        _createdList.postValue(oldList)
+
     }
 }

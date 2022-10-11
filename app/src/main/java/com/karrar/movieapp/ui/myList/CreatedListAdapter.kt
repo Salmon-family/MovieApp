@@ -8,10 +8,6 @@ import com.karrar.movieapp.ui.base.BaseInteractionListener
 class CreatedListAdapter(items: List<CreatedList>, listener: CreatedListInteractionListener) :
     BaseAdapter<CreatedList>(items, listener) {
     override val layoutID: Int = R.layout.item_saved_list
-    override fun areItemsSame(oldItem: CreatedList, newItem: CreatedList): Boolean {
-        return super.areItemsSame(oldItem, newItem)
-
-    }
 }
 
 interface CreatedListInteractionListener : BaseInteractionListener
