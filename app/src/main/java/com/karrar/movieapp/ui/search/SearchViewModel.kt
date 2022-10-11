@@ -6,6 +6,7 @@ import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.SearchHistory
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.search.adapters.PersonInteractionListener
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
@@ -19,8 +20,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val movieRepository: MovieRepository
 ) : BaseViewModel(), MediaSearchInteractionListener, PersonInteractionListener, SearchHistoryInteractionListener{
-    private val _media = MutableLiveData<State<List<Media>>>()
-    val media: LiveData<State<List<Media>>> get() = _media
+    private val _media = MutableLiveData<UIState<List<Media>>>()
+    val media: LiveData<UIState<List<Media>>> get() = _media
 
     private val _searchHistory = MutableLiveData<List<SearchHistory>>()
     val searchHistory: LiveData<List<SearchHistory>> get() = _searchHistory
@@ -54,27 +55,15 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun searchForActor(text: String){
-        viewModelScope.launch {
-            movieRepository.searchForActor(text).collect{
-                _media.postValue(it)
-            }
-        }
+        wrapWithUIState({movieRepository.searchForActor(text)}, _media)
     }
 
     private fun searchForMovie(text: String){
-        viewModelScope.launch {
-            movieRepository.searchForMovie(text).collect{
-                _media.postValue(it)
-            }
-        }
+        wrapWithUIState({movieRepository.searchForMovie(text)}, _media)
     }
 
     private fun searchForSeries(text: String){
-        viewModelScope.launch {
-            movieRepository.searchForSeries(text).collect{
-                _media.postValue(it)
-            }
-        }
+        wrapWithUIState({movieRepository.searchForSeries(text)}, _media)
     }
 
     fun onClickMovies(){

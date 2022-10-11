@@ -13,6 +13,7 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.domain.models.Genre
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
@@ -155,4 +156,24 @@ fun convertToHoursPattern(text: TextView, duration: Int?) {
 @BindingAdapter("app:showWhenListIsEmpty")
 fun <T> showWhenListIsEmpty(text: TextView, list: List<T>?) {
     text.isVisible = list?.isEmpty() == true
+}
+
+@BindingAdapter("app:showWhenSuccess2")
+fun <T> showWhenSuccess2(view: View, state: UIState<T>?) {
+    view.isVisible = state is UIState.Success
+}
+
+@BindingAdapter(value = ["app:showWhenLoading2"])
+fun <T> showWhenLoading2(view: View, state: UIState<T>?) {
+    view.isVisible = (state is UIState.Loading)
+}
+
+@BindingAdapter("app:showWhenFail2")
+fun <T> showWhenFail2(view: View, state: UIState<T>?) {
+    view.isVisible = state is UIState.Error
+}
+
+@BindingAdapter(value = ["app:hideWhenLoading2"])
+fun <T> hideWhenLoading2(view: View, state: UIState<T>?) {
+    view.isVisible = state !is UIState.Loading
 }

@@ -1,8 +1,10 @@
 package com.karrar.movieapp.ui.base
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.remote.State
+import com.karrar.movieapp.ui.UIState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -19,4 +21,15 @@ abstract class BaseViewModel:ViewModel() {
         }
     }
 
+    fun <I> wrapWithUIState(function: suspend () -> I?, data: MutableLiveData<UIState<I>>) {
+        viewModelScope.launch {
+            data.postValue(UIState.Loading)
+            val items = function()
+            if (items == null) {
+                data.postValue(UIState.Error)
+            } else {
+                data.postValue(UIState.Success(items))
+            }
+        }
+    }
 }

@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.ui.UIState
+import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,9 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ExploringViewModel @Inject constructor(
     private val movieRepository: MovieRepository
-): ViewModel(), TrendInteractionListener{
-    private val _trend = MutableLiveData<State<List<Media>>>()
-    val trend: LiveData<State<List<Media>>> get() = _trend
+): BaseViewModel(), TrendInteractionListener{
+    private val _trend = MutableLiveData<UIState<List<Media>>>()
+    val trend: LiveData<UIState<List<Media>>> get() = _trend
 
     private val _clickSearchEvent = MutableLiveData<Event<Boolean>>()
     var clickSearchEvent: LiveData<Event<Boolean>> = _clickSearchEvent
@@ -42,11 +44,7 @@ class ExploringViewModel @Inject constructor(
     }
 
     private fun getDailyTrending(){
-        viewModelScope.launch {
-            movieRepository.getDailyTrending().collect{
-                _trend.postValue(it)
-            }
-        }
+        wrapWithUIState({movieRepository.getDailyTrending()}, _trend)
     }
 
     override fun onClickTrend(trendID: Int, trendType: String) {
