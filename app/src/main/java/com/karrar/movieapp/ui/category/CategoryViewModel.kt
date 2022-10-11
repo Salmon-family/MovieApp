@@ -1,7 +1,6 @@
 package com.karrar.movieapp.ui.category
 
 import androidx.lifecycle.*
-import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.models.Genre
@@ -14,10 +13,6 @@ import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -78,11 +73,15 @@ class CategoryViewModel @Inject constructor(
             MOVIE_CATEGORIES_ID -> wrapWithState({
                 val response = movieRepository.getAllMovies()
                 _mediaList.postValue(UIState.Success(response))
-            }, {})
+            }, {
+                _mediaList.postValue(UIState.Error(it.message ?: ""))
+            })
             TV_CATEGORIES_ID -> wrapWithState({
                 val response = seriesRepository.getAllTvShows()
                 _mediaList.postValue(UIState.Success(response))
-            }, {})
+            }, {
+                _mediaList.postValue(UIState.Error(it.message ?: ""))
+            })
 
         }
     }
@@ -102,10 +101,3 @@ class CategoryViewModel @Inject constructor(
         }
     }
 }
-
-
-//    private fun <T> collectResponse(flow: Flow<State<T>>, function: (State<T>) -> Unit) {
-//        viewModelScope.launch {
-//            flow.flowOn(Dispatchers.IO).collect { function(it) }
-//        }
-//    }
