@@ -39,12 +39,12 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getPopularMovies2(genre: List<Genre>): List<PopularMovie> {
         return wrap2({ movieService.getPopularMovies() },
-            { popularMovieMapper.mapGenreMovie(it.items , genre) }) ?: emptyList()
+            { popularMovieMapper.mapGenreMovie(it.items , genre) })
     }
 
     override suspend fun getMovieGenreList2(): List<Genre> {
         return wrap2({ movieService.getGenreList() },
-            { ListMapper(genreMapper).mapList(it.genres) }) ?: emptyList()
+            { ListMapper(genreMapper).mapList(it.genres) })
 
     }
 
