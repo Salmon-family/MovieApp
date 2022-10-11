@@ -143,7 +143,7 @@ class MovieRepositoryImp @Inject constructor(
     }
 
 
-    override suspend fun getMovieDetails(movieId: Int): MovieDetails? {
+    override suspend fun getMovieDetails(movieId: Int): MovieDetails {
         return wrap2({ movieService.getMovieDetails(movieId) },
             {
                 movieDetailsMapper.map(it)

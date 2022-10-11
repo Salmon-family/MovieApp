@@ -60,7 +60,7 @@ interface MovieRepository {
 
     fun getAllMovies(): Flow<State<List<Media>>>
 
-   suspend fun getMovieDetails(movieId: Int): MovieDetails?
+   suspend fun getMovieDetails(movieId: Int): MovieDetails
 
     suspend fun getMovieCast(movieId: Int): List<Actor>
 

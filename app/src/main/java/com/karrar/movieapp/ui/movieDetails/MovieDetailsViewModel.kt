@@ -78,66 +78,68 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun getRatedMovie(movieId: Int) {
-        collectResponse(
-            accountRepository.getSessionId().flatMapLatest {
-                movieRepository.getRatedMovie(
-                    0,
-                    it.toString()
-                )
-            }
-
-        ) {
-            if (it is State.Success) {
-                checkIfMovieRated(it.toData()?.items, movieId)
-                updateDetailItems(DetailItem.Rating(this))
-
-            }
-        }
+//        collectResponse(
+//            accountRepository.getSessionId().flatMapLatest {
+//                movieRepository.getRatedMovie(
+//                    0,
+//                    it.toString()
+//                )
+//            }
+//
+//        ) {
+//            if (it is State.Success) {
+//                checkIfMovieRated(it.toData()?.items, movieId)
+//                updateDetailItems(DetailItem.Rating(this))
+//
+//            }
+//        }
     }
 
     private fun getMovieReviews(movieId: Int) {
-        viewModelScope.launch {
+        wrapWithState({
             val response = movieRepository.getMovieReviews(movieId)
-            if (response.isNotEmpty()) {
-                response.take(3).forEach {
-                    updateDetailItems(DetailItem.Comment(it))
-                }
-                if (response.isNotEmpty())
-                    updateDetailItems(DetailItem.ReviewText)
-
-                if (response.count() > 3)
-                    updateDetailItems(DetailItem.SeeAllReviewsButton)
+            response.take(3).forEach {
+                updateDetailItems(DetailItem.Comment(it))
             }
+            updateDetailItems(DetailItem.ReviewText)
 
-        }
+            if (response.count() > 3)
+                updateDetailItems(DetailItem.SeeAllReviewsButton)
+        },
+            {
+
+        })
+
     }
 
     private fun getSimilarMovie(movieId: Int) {
-        viewModelScope.launch {
+        wrapWithState({
             val response = movieRepository.getSimilarMovie(movieId)
-            if (response.isNotEmpty())
-                updateDetailItems(DetailItem.SimilarMovies(response))
-        }
+            updateDetailItems(DetailItem.SimilarMovies(response))
+        },
+            {
+
+            })
     }
 
     private fun getMovieCast(movieId: Int) {
-        viewModelScope.launch {
+        wrapWithState({
             val response = movieRepository.getMovieCast(movieId)
-            if (response.isNotEmpty())
-                updateDetailItems(DetailItem.Cast(response))
-        }
-
+            updateDetailItems(DetailItem.Cast(response))
+        })
     }
 
     private fun getMovieDetails(movieId: Int) {
-        viewModelScope.launch {
-            val response = movieRepository.getMovieDetails(movieId)
-            response?.let {
-                updateDetailItems(DetailItem.Header(response))
-                insertMovieToWatchHistory(response)
-            }
-        }
+            wrapWithState(
+                {
+                    val response = movieRepository.getMovieDetails(movieId)
+                    updateDetailItems(DetailItem.Header(response))
+                    insertMovieToWatchHistory(response)
+                })
     }
+
+
+
 
     private fun insertMovieToWatchHistory(movie: MovieDetails?) {
         viewModelScope.launch {
@@ -167,23 +169,23 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     fun onAddRating(movie_id: Int, value: Float) {
-        if (_check.value != value) {
-            collectResponse(
-                accountRepository.getSessionId().flatMapLatest {
-                    movieRepository.setRating(
-                        movie_id, value,
-                        it.toString()
-                    )
-                }
-
-            )
-            {
-                if (it is State.Success) {
-                    messageAppear.postValue(Event(true))
-                    _check.postValue(value)
-                }
-            }
-        }
+//        if (_check.value != value) {
+//            collectResponse(
+//                accountRepository.getSessionId().flatMapLatest {
+//                    movieRepository.setRating(
+//                        movie_id, value,
+//                        it.toString()
+//                    )
+//                }
+//
+//            )
+//            {
+//                if (it is State.Success) {
+//                    messageAppear.postValue(Event(true))
+//                    _check.postValue(value)
+//                }
+//            }
+//        }
     }
 
     private fun updateDetailItems(item: DetailItem) {

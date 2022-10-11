@@ -44,17 +44,12 @@ abstract class BaseRepository {
     suspend fun <I, O> wrap2(
         function: suspend () -> Response<I>,
         mapper: (I) -> O
-    ): O? {
-        return try {
-            val response = function()
-            if (response.isSuccessful) {
-                val items = response.body()?.let { mapper(it) }
-                items!!
+    ): O {
+        val response = function()
+            return if (response.isSuccessful) {
+                response.body()?.let { mapper(it) } ?: throw Throwable()
             } else {
-                null
+                throw Throwable("response is not successful")
             }
-        } catch (e: Exception) {
-            null
-        }
     }
 }

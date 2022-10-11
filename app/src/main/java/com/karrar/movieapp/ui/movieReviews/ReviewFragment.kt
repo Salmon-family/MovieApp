@@ -13,13 +13,11 @@ import dagger.hilt.android.AndroidEntryPoint
 class ReviewFragment : BaseFragment<FragmentReviewBinding>() {
     override val layoutIdFragment: Int = R.layout.fragment_review
     override val viewModel: ReviewViewModel by viewModels()
-    private val args: ReviewFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.commentReviewAdapter.adapter = ReviewAdapter(emptyList(), viewModel)
-        viewModel.getAllReviews(args.movieId)
 
     }
 
