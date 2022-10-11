@@ -50,7 +50,7 @@ class MovieRepositoryImp @Inject constructor(
 
     }
 
-    override suspend fun getActorDetails(actorId: Int): ActorDetails? {
+    override suspend fun getActorDetails(actorId: Int): ActorDetails {
         return wrap2({ movieService.getActorDetails(actorId) }, { actorDetailsMapper.map(it) })
     }
 
@@ -249,7 +249,7 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMapper).mapList(it.items) }) ?: emptyList()
     }
 
-    override suspend fun getTrendingActors(): List<Actor>? {
+    override suspend fun getTrendingActors(): List<Actor> {
         return wrap2({ movieService.getTrendingActors() },
             { ListMapper(actorMapper).mapList(it.items) })
     }
