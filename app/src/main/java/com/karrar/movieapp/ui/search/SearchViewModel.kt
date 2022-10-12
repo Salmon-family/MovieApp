@@ -38,7 +38,7 @@ class SearchViewModel @Inject constructor(
     var clickBackEvent: LiveData<Event<Boolean>> = _clickBackEvent
 
     val searchText = MutableStateFlow("")
-    val mediaType = MutableStateFlow("movie")
+    val mediaType = MutableStateFlow(Constants.MOVIE)
 
     init {
         viewModelScope.launch {
