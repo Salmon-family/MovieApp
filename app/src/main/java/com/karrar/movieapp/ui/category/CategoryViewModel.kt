@@ -24,11 +24,11 @@ class CategoryViewModel @Inject constructor(
 
     val args = CategoryFragmentArgs.fromSavedStateHandle(state)
 
-    private val _categories = MutableLiveData<UIState<List<Genre>>?>()
-    val categories: LiveData<UIState<List<Genre>>?> = _categories
+    private val _categories = MutableLiveData<UIState<List<Genre>>>()
+    val categories: LiveData<UIState<List<Genre>>> = _categories
 
-    private val _mediaList = MutableLiveData<UIState<List<Media>>?>()
-    val mediaList: LiveData<UIState<List<Media>>?> = _mediaList
+    private val _mediaList = MutableLiveData<UIState<List<Media>>>()
+    val mediaList: LiveData<UIState<List<Media>>> = _mediaList
 
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
     var clickMovieEvent: LiveData<Event<Int>> = _clickMovieEvent
@@ -98,6 +98,8 @@ class CategoryViewModel @Inject constructor(
                     _mediaList.postValue(UIState.Success(response))
                 }
             }
-        }, {})
+        }, {
+            _mediaList.postValue(UIState.Error(it.message.toString()))
+        })
     }
 }
