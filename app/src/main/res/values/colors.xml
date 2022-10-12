@@ -18,6 +18,8 @@
     <color name="yellow">#FDB92C</color>
     <color name="colorDisabled">#66E82627</color>
 
-    <color name="white">#FFFFFF</color>
+
+    <color name="white_primary">#FFFFFF</color>
+    <color name="white_secondary">#99FFFFFF</color>
 
 </resources>
