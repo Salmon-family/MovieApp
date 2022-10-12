@@ -10,6 +10,7 @@ import com.karrar.movieapp.domain.models.CreatedList
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.checkIfExist
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
@@ -22,7 +23,8 @@ class SaveMovieViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
 ) : BaseViewModel(), SaveListInteractionListener {
 
-    var list = MutableLiveData<State<List<CreatedList>>>()
+     private val _savedList = MutableLiveData<State<List<CreatedList>>>()
+    val savedList = _savedList.toLiveData()
 
 
     private val _clickListEvent = MutableLiveData<Event<Int>>()
@@ -36,19 +38,19 @@ class SaveMovieViewModel @Inject constructor(
             accountRepository.getSessionId().flatMapLatest {
                 movieRepository.getAllLists(0, it.toString())
             }.collect {
-                list.postValue(it)
+                _savedList.postValue(it)
             }
         }
 
     }
 
-    fun checkMovie(movie_id: Int) {
+    fun checkMovie(movieId: Int) {
         collectResponse(movieRepository
             .getListDetails(_clickListEvent.value!!.peekContent())) {
             if (it.toData()
-                    ?.checkIfExist(movie_id) == true
+                    ?.checkIfExist(movieId) == true
             ) _message.postValue("Fail: this movie is already on the list")
-            if (it.toData()?.checkIfExist(movie_id) == false) addMovieToList(movie_id)
+            if (it.toData()?.checkIfExist(movieId) == false) addMovieToList(movieId)
         }
     }
 
@@ -71,8 +73,8 @@ class SaveMovieViewModel @Inject constructor(
     }
 
 
-    override fun onClickList(list_id: Int) {
-        _clickListEvent.postValue(Event(list_id))
+    override fun onClickList(listId: Int) {
+        _clickListEvent.postValue(Event(listId))
     }
 
 

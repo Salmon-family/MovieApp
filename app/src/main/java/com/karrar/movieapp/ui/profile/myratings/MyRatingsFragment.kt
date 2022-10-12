@@ -9,6 +9,7 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMyRatingsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.EventObserve
+import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,16 +19,16 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = RatedMoviesAdapter(mutableListOf(), viewModel)
+        val adapter = RatedMoviesAdapter(emptyList(), viewModel)
         binding.recyclerViewRatedMovies.adapter = adapter
         observeEvents()
         setTitle(true, getString(R.string.my_ratings))
     }
 
     private fun observeEvents() {
-        viewModel.clickMovieEvent.observe(viewLifecycleOwner, EventObserve { movieId ->
+        viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner){ movieId ->
             findNavController().navigate(MyRatingsFragmentDirections.actionRatedMoviesFragmentToMovieDetailFragment(
                 movieId))
-        })
+        }
     }
 }
