@@ -102,7 +102,7 @@ fun setGenre(textView: TextView, genreList: List<Genre>?) {
 @BindingAdapter("app:setGenres", "app:genresId", "app:listener", "app:firstChipSelection")
 fun <T> setGenresChips(
     view: ChipGroup,
-    chipList: State<List<Genre>>?,
+    chipList: UIState<List<Genre>>?,
     categoryId: Int?,
     listener: T,
     isFirstChipSelected: Boolean?
