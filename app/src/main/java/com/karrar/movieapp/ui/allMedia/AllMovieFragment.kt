@@ -2,6 +2,7 @@ package com.karrar.movieapp.ui.allMedia
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,7 +16,6 @@ import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
@@ -33,18 +33,6 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
         val allMediaAdapter = AllMediaAdapter(viewModel)
         val footerAdapter = MediaLoadStateAdapter(allMediaAdapter::retry)
 
-        lifecycleScope.launch {
-            allMediaAdapter.loadStateFlow.collect { loadState ->
-                val isListEmpty =
-                    loadState.refresh is LoadState.NotLoading && allMediaAdapter.itemCount == 0
-                if (isListEmpty) {
-                    viewModel.allMediaState.postValue(UIState.Error(""))
-                } else {
-                    viewModel.allMediaState.postValue(UIState.Success(true))
-                }
-            }
-        }
-
         binding.recyclerMedia.adapter =
             allMediaAdapter.withLoadStateFooter(footerAdapter)
 
@@ -61,11 +49,31 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
             }
         }
 
+        allMediaAdapter.addLoadStateListener { loadState ->
+            // show empty list
+            if (loadState.refresh is LoadState.Loading ||
+                loadState.append is LoadState.Loading
+            )
+                viewModel.allMediaState.postValue(UIState.Loading)
+            else {
+                viewModel.allMediaState.postValue(UIState.Success(true))
+                // If we have an error, show a toast
+                val errorState = when {
+                    loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                    loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+                    else -> null
+                }
+                errorState?.let {
+                    viewModel.allMediaState.postValue(UIState.Error(it.error.toString()))
+                }
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.allMedia.collectLatest { pagingData ->
-
                 allMediaAdapter.submitData(pagingData)
             }
+
         }
     }
 

@@ -32,7 +32,6 @@ class MediaLoadStateAdapter(private val retry: () -> Unit) :
                 progress.isVisible = loadState is LoadState.Loading
                 buttonRetry.isVisible = loadState is LoadState.Error
                 textInternetConnection.isVisible = loadState is LoadState.Error
-
             }
         }
     }

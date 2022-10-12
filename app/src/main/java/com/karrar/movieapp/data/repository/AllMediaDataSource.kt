@@ -2,9 +2,9 @@ package com.karrar.movieapp.data.repository
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import androidx.paging.RemoteMediator
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.utilities.Constants
 import javax.inject.Inject
 
@@ -18,6 +18,7 @@ class AllMediaDataSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Media> {
         val pageNumber = params.key ?: 1
         return try {
+
             val response = when (type) {
                 MovieType.TRENDING -> repository.getTrendingMovies2(pageNumber)
                 MovieType.UPCOMING -> repository.getUpcomingMovies2(pageNumber)
@@ -28,10 +29,15 @@ class AllMediaDataSource @Inject constructor(
                 MovieType.ADVENTURE -> {
                     repository.getMovieListByGenreID2(Constants.ADVENTURE_ID, pageNumber)
                 }
-                MovieType.ON_THE_AIR ->{ seriesRepository.getOnTheAir2(pageNumber)}
+                MovieType.ON_THE_AIR -> {
+                    seriesRepository.getOnTheAir2(pageNumber)
+                }
                 MovieType.NON -> {
-                    if (pageNumber ==1){ repository.getActorMovies2(actorID) }
-                    else{ emptyList() }
+                    if (pageNumber == 1) {
+                        repository.getActorMovies2(actorID)
+                    } else {
+                        emptyList()
+                    }
                 }
             }
 

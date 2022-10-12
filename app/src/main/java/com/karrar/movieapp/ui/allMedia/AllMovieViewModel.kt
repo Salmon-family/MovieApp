@@ -49,6 +49,7 @@ class AllMovieViewModel @Inject constructor(
 //        }
     }
 
+
     override fun onClickMedia(mediaId: Int) {
         _clickMovieEvent.postEvent(mediaId)
     }
