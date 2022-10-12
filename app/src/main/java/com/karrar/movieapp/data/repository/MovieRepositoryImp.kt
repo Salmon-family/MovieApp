@@ -4,7 +4,10 @@ import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.AddListResponse
+import com.karrar.movieapp.data.remote.response.AddMovieDto
+import com.karrar.movieapp.data.remote.response.BaseResponse
+import com.karrar.movieapp.data.remote.response.ListDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
@@ -12,7 +15,6 @@ import com.karrar.movieapp.domain.mappers.*
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -38,7 +40,7 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getPopularMovies2(genre: List<Genre>): List<PopularMovie> {
         return wrap2({ movieService.getPopularMovies() },
-            { popularMovieMapper.mapGenreMovie(it.items , genre) })
+            { popularMovieMapper.mapGenreMovie(it.items, genre) })
     }
 
     override suspend fun getMovieGenreList2(): List<Genre> {
@@ -199,7 +201,7 @@ class MovieRepositoryImp @Inject constructor(
 
     override fun getRatedMovie(
         accountId: Int,
-        sessionId: String
+        sessionId: String,
     ): Flow<State<BaseResponse<RatedMovie>>> {
         return wrapWithFlow { movieService.getRatedMovie(accountId, sessionId) }
     }
@@ -212,12 +214,9 @@ class MovieRepositoryImp @Inject constructor(
         return movieDao.delete(item)
     }
 
-    override fun getRatedMovies(sessionId: String?): Flow<State<List<RatedMovies>>> {
-        return wrap({ movieService.getRatedMovies(sessionId) }) { response ->
-            response.items?.map {
-                ratedMoviesMapper.map(it)
-            } ?: emptyList()
-        }
+    override suspend fun getRatedMovies(sessionId: String?): List<RatedMovies> {
+        return wrap2({ movieService.getRatedMovies(sessionId) },
+            { ListMapper(ratedMoviesMapper).mapList(it.items) })
     }
 
 

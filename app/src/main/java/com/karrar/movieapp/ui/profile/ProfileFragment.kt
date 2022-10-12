@@ -20,13 +20,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         super.onViewCreated(view, savedInstanceState)
         observeEvents()
         setTitle(true, getString(R.string.profile))
-
-        viewModel.sessionId.observe(viewLifecycleOwner) {
-            Log.d("sessionId", "onViewCreated: $it")
-        }
-        viewModel.profileDetails.observe(viewLifecycleOwner) {
-            Log.i("ProfileFragment", "onViewCreated: ${it.toData()}")
-        }
     }
 
     private fun observeEvents() {

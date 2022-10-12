@@ -3,6 +3,7 @@ package com.karrar.movieapp.ui.profile
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Account
@@ -12,6 +13,8 @@ import com.karrar.movieapp.ui.login.toLiveData
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,8 +22,6 @@ class ProfileViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
 ) :
     BaseViewModel() {
-
-    val sessionId = accountRepository.getSessionId().asLiveData()
 
     private val _profileDetails = MutableLiveData<UIState<Account>>()
     val profileDetails = _profileDetails.toLiveData()
@@ -44,15 +45,17 @@ class ProfileViewModel @Inject constructor(
 
     private fun getProfileDetails(){
         _profileDetails.postValue(UIState.Loading)
-        Log.d("ProfileViewModel", "getProfileDetails: 1")
-        wrapWithState({
-            Log.d("ProfileViewModel", "getProfileDetails: 2")
-            val result = accountRepository.getAccountDetails(sessionId.toString())
-            Log.i("ProfileViewModel", "getProfileDetails: $result")
-            _profileDetails.postValue(UIState.Success(result))
-        },{
-            _profileDetails.postValue(UIState.Error(it.message.toString()))
-        })
+
+        viewModelScope.launch {
+            accountRepository.getSessionId().collect { sectionId ->
+                wrapWithState({
+                    val result = accountRepository.getAccountDetails(sectionId.toString())
+                    _profileDetails.postValue(UIState.Success(result))
+                }, {
+                    _profileDetails.postValue(UIState.Error(it.message.toString()))
+                })
+            }
+        }
     }
 
 

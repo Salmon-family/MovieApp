@@ -80,7 +80,7 @@ interface MovieRepository {
 
     fun getRatedMovie(accountId: Int, sessionId: String): Flow<State<BaseResponse<RatedMovie>>>
 
-    fun getRatedMovies(sessionId: String?): Flow<State<List<RatedMovies>>>
+    suspend fun getRatedMovies(sessionId: String?): List<RatedMovies>
 
     suspend fun insertMovie(movie: WatchHistoryEntity)
 
