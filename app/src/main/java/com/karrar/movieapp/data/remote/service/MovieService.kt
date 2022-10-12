@@ -157,7 +157,7 @@ interface MovieService {
 
     @GET("account/{account_id}/rated/movies")
     suspend fun getRatedMovie(
-        @Path("account_id") listId: Int,
+        @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
     ): Response<BaseResponse<RatedMoviesDto>>
 
@@ -202,7 +202,7 @@ interface MovieService {
     @FormUrlEncoded
     @POST("list")
     suspend fun createList(
-        @Query("session_id") session_id: String,
+        @Query("session_id") sessionId: String,
         @Field("name") name: String,
         @Field("description") description:String = ""
     ) : Response<AddListResponse>
