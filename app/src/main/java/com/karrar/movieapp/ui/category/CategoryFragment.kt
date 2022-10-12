@@ -21,7 +21,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val title = if (viewModel.categoryTypeId == Constants.TV_CATEGORIES_ID) {
+        val title = if (viewModel.args.mediaId == Constants.TV_CATEGORIES_ID) {
             resources.getString(R.string.title_tv_shows)
         } else {
             resources.getString(R.string.movies)
