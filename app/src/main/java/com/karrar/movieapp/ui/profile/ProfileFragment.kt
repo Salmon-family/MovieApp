@@ -1,6 +1,7 @@
 package com.karrar.movieapp.ui.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -19,6 +20,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         super.onViewCreated(view, savedInstanceState)
         observeEvents()
         setTitle(true, getString(R.string.profile))
+
+        viewModel.sessionId.observe(viewLifecycleOwner) {
+            Log.d("sessionId", "onViewCreated: $it")
+        }
+        viewModel.profileDetails.observe(viewLifecycleOwner) {
+            Log.i("ProfileFragment", "onViewCreated: ${it.toData()}")
+        }
     }
 
     private fun observeEvents() {

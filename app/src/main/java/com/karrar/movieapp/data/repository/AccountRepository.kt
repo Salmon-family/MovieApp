@@ -1,6 +1,7 @@
 package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.remote.State
+import com.karrar.movieapp.domain.models.Account
 import kotlinx.coroutines.flow.Flow
 
 interface AccountRepository {
@@ -11,5 +12,7 @@ interface AccountRepository {
     ): Flow<State<Boolean>>
 
     suspend fun logout(): Flow<State<Boolean>>
+
+    suspend fun getAccountDetails(sessionId: String): Account
 }
 

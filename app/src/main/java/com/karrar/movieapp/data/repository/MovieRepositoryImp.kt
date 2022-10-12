@@ -32,7 +32,6 @@ class MovieRepositoryImp @Inject constructor(
     private val reviewMapper: ReviewMapper,
     private val trailerMapper: TrailerMapper,
     private val popularMovieMapper: PopularMovieMapper,
-    private val accountMapper: AccountMapper,
     private val ratedMoviesMapper: RatedMoviesMapper,
     private val createdListsMapper: CreatedListsMapper,
 ) : BaseRepository(), MovieRepository {
@@ -211,10 +210,6 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun deleteSearchItem(item: SearchHistoryEntity) {
         return movieDao.delete(item)
-    }
-
-    override fun getAccountDetails(sessionId: String): Flow<State<Account>> {
-        return wrap({ movieService.getAccountDetails(sessionId) }, accountMapper::map)
     }
 
     override fun getRatedMovies(sessionId: String?): Flow<State<List<RatedMovies>>> {
