@@ -15,8 +15,6 @@ class AllMediaDataSource @Inject constructor(
     var type: MovieType = MovieType.NON
     var actorID = 0
 
-
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Media> {
         val pageNumber = params.key ?: 1
         return try {

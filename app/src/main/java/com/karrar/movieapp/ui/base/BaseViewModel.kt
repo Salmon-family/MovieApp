@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel:ViewModel() {
 
-    val config = PagingConfig(pageSize = 100, prefetchDistance = 3 , enablePlaceholders = true)
+    val config = PagingConfig(pageSize = 100, prefetchDistance = 5 , enablePlaceholders = true)
 
     fun <T> collectResponse(flow: Flow<State<T>>, function: (State<T>) -> Unit) {
         viewModelScope.launch {

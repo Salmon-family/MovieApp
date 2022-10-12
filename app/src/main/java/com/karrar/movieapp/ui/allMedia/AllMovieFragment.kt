@@ -5,14 +5,17 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentAllMovieBinding
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.MediaLoadStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
@@ -28,20 +31,39 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
 
     private fun setMovieAdapter() {
         val allMediaAdapter = AllMediaAdapter(viewModel)
-        val mediaLoadStateAdapter = MediaLoadStateAdapter(allMediaAdapter::retry)
-        binding.recyclerMedia.adapter = allMediaAdapter.withLoadStateFooter(mediaLoadStateAdapter)
+        val footerAdapter = MediaLoadStateAdapter(allMediaAdapter::retry)
+
+        lifecycleScope.launch {
+            allMediaAdapter.loadStateFlow.collect { loadState ->
+                val isListEmpty =
+                    loadState.refresh is LoadState.NotLoading && allMediaAdapter.itemCount == 0
+                if (isListEmpty) {
+                    viewModel.allMediaState.postValue(UIState.Error(""))
+                } else {
+                    viewModel.allMediaState.postValue(UIState.Success(true))
+                }
+            }
+        }
+
+        binding.recyclerMedia.adapter =
+            allMediaAdapter.withLoadStateFooter(footerAdapter)
 
         val mManager = binding.recyclerMedia.layoutManager as GridLayoutManager
         mManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return if ((position == allMediaAdapter.itemCount)
-                    && mediaLoadStateAdapter.itemCount > 0
-                ) { mManager.spanCount } else { 1 }
+                    && footerAdapter.itemCount > 0
+                ) {
+                    mManager.spanCount
+                } else {
+                    1
+                }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.allMedia.collectLatest { pagingData ->
+
                 allMediaAdapter.submitData(pagingData)
             }
         }
