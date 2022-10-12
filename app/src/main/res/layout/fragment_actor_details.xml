@@ -42,7 +42,6 @@
             app:layout_constraintStart_toStartOf="@+id/actor_image"
             app:layout_constraintTop_toTopOf="@+id/actor_image"
             app:layout_constraintBottom_toBottomOf="@+id/actor_image"
-
             />
 
         <ImageView
@@ -55,7 +54,9 @@
             android:onClick="@{() -> viewModel.onClickBack()}"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/shade_primary_color"
+            />
 
 
         <TextView
@@ -82,6 +83,7 @@
                 android:id="@+id/details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/background_color"
                 >
 
                 <TextView
