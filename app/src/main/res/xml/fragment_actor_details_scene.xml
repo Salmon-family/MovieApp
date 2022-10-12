@@ -22,6 +22,43 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
+        <Constraint
+            android:id="@+id/view_bottom_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="364dp"
+            app:visibilityMode="ignore"
+            android:background="@drawable/shape_shadow"
+            app:layout_constraintBottom_toBottomOf="@+id/actor_image"
+            app:layout_constraintEnd_toEndOf="@+id/actor_image"
+            app:layout_constraintStart_toStartOf="@+id/actor_image"
+            app:layout_constraintTop_toTopOf="@+id/actor_image" />
+
+        <Constraint
+            android:id="@+id/animation_lost_connection"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:lottie_autoPlay="true"
+            app:visibilityMode="ignore"
+            app:lottie_rawRes="@raw/lost_internet_animation" />
+
+        <Constraint
+            android:id="@+id/description_lost_connection"
+            style="@style/Regular.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:gravity="center"
+            app:visibilityMode="ignore"
+            android:textColor="@color/brand_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/animation_lost_connection" />
+
+
 
     </ConstraintSet>
 
@@ -47,7 +84,41 @@
 
             />
 
+        <Constraint
+            android:id="@+id/view_bottom_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="364dp"
+            app:visibilityMode="ignore"
+            android:background="@drawable/shape_shadow"
+            app:layout_constraintBottom_toBottomOf="@+id/actor_image"
+            app:layout_constraintEnd_toEndOf="@+id/actor_image"
+            app:layout_constraintStart_toStartOf="@+id/actor_image"
+            app:layout_constraintTop_toTopOf="@+id/actor_image" />
 
+        <Constraint
+            android:id="@+id/animation_lost_connection"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:lottie_autoPlay="true"
+            app:visibilityMode="ignore"
+            app:lottie_rawRes="@raw/lost_internet_animation" />
+
+        <Constraint
+            android:id="@+id/description_lost_connection"
+            style="@style/Regular.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:gravity="center"
+            app:visibilityMode="ignore"
+            android:textColor="@color/brand_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/animation_lost_connection" />
 
 
     </ConstraintSet>
