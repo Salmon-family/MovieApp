@@ -26,11 +26,11 @@ interface MovieRepository {
 
     fun getTrendingMovies(): Flow<State<List<Media>>>
 
-    suspend fun searchForActor(query: String): List<Media>?
+    suspend fun searchForActor(query: String): List<Media>
 
-    suspend fun searchForMovie(query: String): List<Media>?
+    suspend fun searchForMovie(query: String): List<Media>
 
-    suspend fun searchForSeries(query: String): List<Media>?
+    suspend fun searchForSeries(query: String): List<Media>
 
     fun getMovieGenreList(): Flow<State<List<Genre>>>
 
@@ -48,7 +48,7 @@ interface MovieRepository {
 
     fun getActorMovies(actorId: Int): Flow<State<List<Media>>>
 
-    suspend fun getDailyTrending(): List<Media>?
+    suspend fun getDailyTrending(): List<Media>
 
     fun getAllMovies(): Flow<State<List<Media>>>
 

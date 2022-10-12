@@ -20,16 +20,15 @@ abstract class BaseViewModel:ViewModel() {
                 }
         }
     }
-
-    fun <I> wrapWithUIState(function: suspend () -> I?, data: MutableLiveData<UIState<I>>) {
+    
+    fun wrapWithState(function: suspend () -> Unit, errorFunction: (e: Throwable) -> Unit = {}) {
         viewModelScope.launch {
-            data.postValue(UIState.Loading)
-            val items = function()
-            if (items == null) {
-                data.postValue(UIState.Error)
-            } else {
-                data.postValue(UIState.Success(items))
+            try {
+                function()
+            } catch (e: Throwable) {
+                errorFunction(e)
             }
         }
+
     }
 }

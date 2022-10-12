@@ -14,7 +14,7 @@ object Constants {
 
     const val MOVIE ="movie"
     const val TV_SHOWS ="tv"
-    const val ACTOR ="actor"
+    const val ACTOR ="person"
     const val PERSON = "person"
     const val ACTING = "Acting"
 }

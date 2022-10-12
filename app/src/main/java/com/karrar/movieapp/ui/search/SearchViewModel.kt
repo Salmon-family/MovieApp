@@ -12,6 +12,7 @@ import com.karrar.movieapp.ui.search.adapters.PersonInteractionListener
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.postEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -48,7 +49,7 @@ class SearchViewModel @Inject constructor(
                     when(mediaType.value){
                         Constants.MOVIE  -> searchForMovie(it)
                         Constants.TV_SHOWS ->  searchForSeries(it)
-                        Constants.PERSON -> searchForActor(it)
+                        Constants.ACTOR -> searchForActor(it)
                     }
                 }
             }
@@ -56,15 +57,33 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun searchForActor(text: String){
-        wrapWithUIState({movieRepository.searchForActor(text)}, _media)
+        _media.postValue(UIState.Loading)
+        wrapWithState({
+            val response = movieRepository.searchForActor(text)
+            _media.postValue(UIState.Success(response))
+        },{
+            _media.postValue(UIState.Error)
+        })
     }
 
     private fun searchForMovie(text: String){
-        wrapWithUIState({movieRepository.searchForMovie(text)}, _media)
+        _media.postValue(UIState.Loading)
+        wrapWithState({
+            val response = movieRepository.searchForMovie(text)
+            _media.postValue(UIState.Success(response))
+        },{
+            _media.postValue(UIState.Error)
+        })
     }
 
     private fun searchForSeries(text: String){
-        wrapWithUIState({movieRepository.searchForSeries(text)}, _media)
+        _media.postValue(UIState.Loading)
+        wrapWithState({
+            val response = movieRepository.searchForSeries(text)
+            _media.postValue(UIState.Success(response))
+        },{
+            _media.postValue(UIState.Error)
+        })
     }
 
     fun onClickMovies(){
@@ -87,7 +106,7 @@ class SearchViewModel @Inject constructor(
 
     fun onClickActors(){
         viewModelScope.launch {
-            if(mediaType.value != Constants.PERSON ){
+            if(mediaType.value != Constants.ACTOR ){
                 mediaType.emit(Constants.PERSON)
                 searchForActor(searchText.value)
             }
@@ -104,12 +123,12 @@ class SearchViewModel @Inject constructor(
 
     override fun onClickMedia(mediaID: Int, name: String) {
         saveSearchResult(mediaID, name)
-        _clickMediaEvent.postValue(Event(mediaID))
+        _clickMediaEvent.postEvent(mediaID)
     }
 
     override fun onClickPerson(personID: Int, name: String) {
         saveSearchResult(personID, name)
-        _clickActorEvent.postValue(Event(personID))
+        _clickActorEvent.postEvent(personID)
     }
 
     private fun saveSearchResult(id: Int, name: String){
@@ -130,6 +149,6 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onClickBack(){
-        _clickBackEvent.postValue(Event(true))
+        _clickBackEvent.postEvent(true)
     }
 }

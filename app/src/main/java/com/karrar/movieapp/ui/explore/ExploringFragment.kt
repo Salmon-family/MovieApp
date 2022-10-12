@@ -82,7 +82,7 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
                     findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToMovieDetailFragment(mediaId))
                 }
                 Constants.TV_SHOWS -> {}
-                Constants.PERSON -> {}
+                Constants.ACTOR -> {}
             }
         })
     }

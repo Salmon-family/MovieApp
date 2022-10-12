@@ -99,7 +99,7 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override suspend fun searchForActor(query: String): List<Media>? {
+    override suspend fun searchForActor(query: String): List<Media> {
         return wrap2({ movieService.searchForActor(query) }, { response ->
             response.items?.filter { it.knownForDepartment == Constants.ACTING }?.map {
                 it.let { searchActorMapper.map(it) }
@@ -113,13 +113,13 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override suspend fun searchForMovie(query: String): List<Media>? {
+    override suspend fun searchForMovie(query: String): List<Media> {
         return wrap2({ movieService.searchForMovie(query) }, { response ->
             response.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
 
-    override suspend fun searchForSeries(query: String): List<Media>? {
+    override suspend fun searchForSeries(query: String): List<Media> {
         return wrap2({ movieService.searchForSeries(query) }, { response ->
             response.items?.map { seriesMapper.map(it) } ?: emptyList()
         })
@@ -149,7 +149,7 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override suspend fun getDailyTrending(): List<Media>? {
+    override suspend fun getDailyTrending(): List<Media> {
         return wrap2({ movieService.getDailyTrending() }, { response ->
             response.items?.map { tvShowsMapper.map(it) } ?: emptyList()
         })
