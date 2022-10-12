@@ -19,15 +19,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         super.onViewCreated(view, savedInstanceState)
         observeEvents()
         setTitle(true, getString(R.string.profile))
-        checkHaveAccount()
-    }
-
-    private fun checkHaveAccount() {
-        viewModel.sessionId.observe(viewLifecycleOwner) {
-            if (it?.isEmpty() == true) {
-                findNavController().navigate(R.id.action_profileFragment_to_emptyProfileFragment)
-            }
-        }
     }
 
     private fun observeEvents() {
@@ -41,6 +32,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
         viewModel.clickWatchHistoryEvent.observe(viewLifecycleOwner, EventObserve {
             findNavController().navigate(R.id.action_profileFragment_to_watchHistoryFragment)
+        })
+
+        viewModel.clickLoginEvent.observe(viewLifecycleOwner, EventObserve {
+            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
         })
     }
 }

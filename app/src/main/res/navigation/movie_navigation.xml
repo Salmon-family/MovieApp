@@ -103,6 +103,9 @@
         <action
             android:id="@+id/action_profileFragment_to_emptyProfileFragment"
             app:destination="@id/emptyProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment

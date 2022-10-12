@@ -30,6 +30,9 @@ class ProfileViewModel @Inject constructor(
     private val _clickWatchHistoryEvent = MutableLiveData<Event<Boolean>>()
     val clickWatchHistoryEvent = _clickWatchHistoryEvent.toLiveData()
 
+    private val _clickLoginEvent = MutableLiveData<Event<Boolean>>()
+    val clickLoginEvent = _clickLoginEvent.toLiveData()
+
 
     val profileDetails = accountRepository.getSessionId().flatMapConcat { sessionId ->
         movieRepository.getAccountDetails(sessionId.toString())
@@ -47,6 +50,10 @@ class ProfileViewModel @Inject constructor(
 
     fun onClickWatchHistory() {
         _clickWatchHistoryEvent.postEvent(true)
+    }
+
+    fun onClickLogin() {
+        _clickLoginEvent.postEvent(true)
     }
 
 }

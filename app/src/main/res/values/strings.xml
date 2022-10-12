@@ -73,4 +73,5 @@
     <string name="my_ratings">My Ratings</string>
     <string name="you_do_not_have_an_account">You do not have an account</string>
     <string name="you_can_register_or_create_an_account_via_the_login_page">You can register or create an account via the login page</string>
+    <string name="you_must_be_logged_in_to_see_the_profile">You must be logged in to see the profile</string>
 </resources>
