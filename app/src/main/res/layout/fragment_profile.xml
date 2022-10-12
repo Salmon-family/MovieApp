@@ -27,7 +27,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:posterImage="@{viewModel.profileDetails.toData().avatarPath}"
             app:shapeAppearanceOverlay="@style/Circle"
-            tools:src="@drawable/actor" />
+            tools:src="@drawable/actor"
+            app:tint="@color/shade_primary_color"
+            />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_name_actor"
@@ -35,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
+            android:textColor="@color/shade_primary_color"
             android:text="@{viewModel.profileDetails.toData().name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +64,9 @@
             android:layout_marginTop="56dp"
             android:src="@drawable/ic_play_outlined"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_username" />
+            app:layout_constraintTop_toBottomOf="@+id/text_username"
+            app:tint="@color/shade_primary_color"
+            />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_watch_history"
@@ -96,7 +101,9 @@
             android:src="@drawable/ic_star_outlined"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/first_divider"
-            app:tint="@color/white" />
+            app:tint="@color/shade_primary_color"
+
+            />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_rated_movies"
@@ -130,7 +137,9 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:src="@drawable/ic_logout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/second_divider" />
+            app:layout_constraintTop_toBottomOf="@+id/second_divider"
+            app:tint="@color/shade_secondary_color"
+            />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_sign_out"
@@ -140,7 +149,7 @@
             android:layout_marginStart="@dimen/spacing_medium"
             android:onClick="@{() -> viewModel.onClickLogout()}"
             android:text="@string/sign_out"
-            android:textColor="@color/shade_ternary_color"
+            android:textColor="@color/shade_secondary_color"
             app:layout_constraintBottom_toBottomOf="@id/icon_sign_out"
             app:layout_constraintStart_toEndOf="@id/icon_sign_out"
             app:layout_constraintTop_toTopOf="@id/icon_sign_out" />
