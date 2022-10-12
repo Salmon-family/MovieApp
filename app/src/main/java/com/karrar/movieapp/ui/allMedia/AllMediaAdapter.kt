@@ -6,7 +6,7 @@ import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BasePagingAdapter
 
-class AllMediaAdapter(listener: MediaInteractionListener) :
+open class AllMediaAdapter(listener: MediaInteractionListener) :
     BasePagingAdapter<Media>(MediaComparator, listener) {
     override val layoutID: Int = R.layout.item_media
 

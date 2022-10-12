@@ -89,7 +89,7 @@ class HomeViewModel @Inject constructor(
             {
                 updateHomeItems(
                     HomeRecyclerItem.Trending(
-                        movieRepository.getTrendingMovies2(),
+                        movieRepository.getTrendingMovies2(1),
                         MovieType.TRENDING
                     )
                 )
@@ -100,7 +100,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getActors() {
         wrapWithState(
-            { updateHomeItems(HomeRecyclerItem.Actor(movieRepository.getTrendingActors2())) })
+            { updateHomeItems(HomeRecyclerItem.Actor(movieRepository.getTrendingActors2(1))) })
     }
 
     private fun getUpcoming() {
@@ -108,7 +108,7 @@ class HomeViewModel @Inject constructor(
             {
                 updateHomeItems(
                     HomeRecyclerItem.Upcoming(
-                        movieRepository.getUpcomingMovies2(),
+                        movieRepository.getUpcomingMovies2(1),
                         MovieType.UPCOMING
                     )
                 )
@@ -121,7 +121,7 @@ class HomeViewModel @Inject constructor(
         wrapWithState({
             updateHomeItems(
                 HomeRecyclerItem.NowStreaming(
-                    movieRepository.getNowPlayingMovies2(),
+                    movieRepository.getNowPlayingMovies2(1),
                     MovieType.NOW_STREAMING
                 )
             )
@@ -166,8 +166,8 @@ class HomeViewModel @Inject constructor(
                     updateHomeItems(
                         HomeRecyclerItem.Mystery(
                             movieRepository.getMovieListByGenreID2(
-                                genreID
-                            ), type
+                                genreID,
+                            1), type
                         )
                     )
                 }, {
@@ -179,8 +179,8 @@ class HomeViewModel @Inject constructor(
                     updateHomeItems(
                         HomeRecyclerItem.Adventure(
                             movieRepository.getMovieListByGenreID2(
-                                genreID
-                            ), type
+                                genreID,
+                            1), type
                         )
                     )
                 }, {

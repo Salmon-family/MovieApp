@@ -8,9 +8,6 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentActorsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.adapters.ActorAdapter
-import com.karrar.movieapp.ui.allMedia.AllMediaAdapter
-import com.karrar.movieapp.ui.allMedia.MediaLoadStateAdapter
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

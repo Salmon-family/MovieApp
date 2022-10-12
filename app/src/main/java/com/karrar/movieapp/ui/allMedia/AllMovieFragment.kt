@@ -5,8 +5,10 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentAllMovieBinding
+import com.karrar.movieapp.ui.adapters.MediaLoadStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,15 +21,24 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTitle(true, viewModel.type.value)
+        setTitle(true, viewModel.args.type.value)
         setMovieAdapter()
         observeEvents()
     }
 
     private fun setMovieAdapter() {
         val allMediaAdapter = AllMediaAdapter(viewModel)
-        binding.recyclerMedia.adapter =
-            allMediaAdapter.withLoadStateFooter(MediaLoadStateAdapter(allMediaAdapter::retry))
+        val mediaLoadStateAdapter = MediaLoadStateAdapter(allMediaAdapter::retry)
+        binding.recyclerMedia.adapter = allMediaAdapter.withLoadStateFooter(mediaLoadStateAdapter)
+
+        val mManager = binding.recyclerMedia.layoutManager as GridLayoutManager
+        mManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if ((position == allMediaAdapter.itemCount)
+                    && mediaLoadStateAdapter.itemCount > 0
+                ) { mManager.spanCount } else { 1 }
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.allMedia.collectLatest { pagingData ->

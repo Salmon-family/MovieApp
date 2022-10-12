@@ -2,8 +2,10 @@ package com.karrar.movieapp.ui.actors
 
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.karrar.movieapp.data.repository.ActorDataSource
 import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
@@ -21,9 +23,7 @@ class ActorsViewModel @Inject constructor(
 ) : BaseViewModel(), ActorsInteractionListener {
 
     val trendingActors: Flow<PagingData<Actor>> =
-        Pager(config = config,
-            pagingSourceFactory = { dataSource }
-        ).flow
+        Pager(config = config, pagingSourceFactory = { dataSource }).flow.cachedIn(viewModelScope)
 
     private val _clickActorEvent = MutableLiveData<Event<Int>>()
     val clickActorEvent = _clickActorEvent.toLiveData()

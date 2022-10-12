@@ -7,6 +7,5 @@ enum class MovieType(val value :String) {
     UPCOMING("Upcoming"),
     MYSTERY("Mystery"),
     ADVENTURE("Adventure"),
-    ACTOR("Actor"),
     NON("")
 }
