@@ -1,20 +1,15 @@
 package com.karrar.movieapp.ui.profile
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.repository.AccountRepository
-import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Account
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.login.toLiveData
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

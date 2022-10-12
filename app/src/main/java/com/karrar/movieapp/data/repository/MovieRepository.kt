@@ -79,9 +79,6 @@ interface MovieRepository {
 
     suspend fun getRatedMovie(accountId: Int, sessionId: String): List<RatedMovies>
 
-    fun getAccountDetails(sessionId: String): Flow<State<Account>>
-
-
     suspend fun insertMovie(movie: WatchHistoryEntity)
 
     fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>
