@@ -52,7 +52,7 @@ interface MovieRepository {
 
     fun getTrendingActors(): Flow<State<List<Actor>>>
 
-    suspend fun getTrendingActors2(): List<Actor>?
+    suspend fun getTrendingActors2(): List<Actor>
 
     fun getActorMovies(actorId: Int): Flow<State<List<Media>>>
 
