@@ -167,7 +167,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading2="@{viewModel.media}" />
+            app:showWhenLoading="@{viewModel.media}" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_error"
@@ -180,7 +180,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/lost_connection"
-            app:showWhenFail2="@{viewModel.media}" />
+            app:showWhenFail="@{viewModel.media}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

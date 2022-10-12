@@ -62,7 +62,7 @@ class SearchViewModel @Inject constructor(
             val response = movieRepository.searchForActor(text)
             _media.postValue(UIState.Success(response))
         },{
-            _media.postValue(UIState.Error)
+            _media.postValue(UIState.Error(""))
         })
     }
 
@@ -72,7 +72,7 @@ class SearchViewModel @Inject constructor(
             val response = movieRepository.searchForMovie(text)
             _media.postValue(UIState.Success(response))
         },{
-            _media.postValue(UIState.Error)
+            _media.postValue(UIState.Error(""))
         })
     }
 
@@ -82,7 +82,7 @@ class SearchViewModel @Inject constructor(
             val response = movieRepository.searchForSeries(text)
             _media.postValue(UIState.Success(response))
         },{
-            _media.postValue(UIState.Error)
+            _media.postValue(UIState.Error(""))
         })
     }
 

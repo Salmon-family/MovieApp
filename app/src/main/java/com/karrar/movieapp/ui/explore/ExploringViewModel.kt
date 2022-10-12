@@ -50,7 +50,7 @@ class ExploringViewModel @Inject constructor(
             val response = movieRepository.getDailyTrending()
             _trend.postValue(UIState.Success(response))
         },{
-            _trend.postValue(UIState.Error)
+            _trend.postValue(UIState.Error(""))
         })
     }
 

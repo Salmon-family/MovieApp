@@ -176,7 +176,7 @@
             app:layout_constraintEnd_toEndOf="@id/input_search"
             app:layout_constraintStart_toStartOf="@id/input_search"
             app:layout_constraintTop_toBottomOf="@id/text_trend_label"
-            app:showWhenSuccess2="@{viewModel.trend}"
+            app:showWhenSuccess="@{viewModel.trend}"
             app:spanCount="2"
             tools:listitem="@layout/item_trend" />
 
@@ -191,7 +191,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading2="@{viewModel.trend}" />
+            app:showWhenLoading="@{viewModel.trend}" />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>
