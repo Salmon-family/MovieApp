@@ -49,7 +49,10 @@
             android:paddingStart="@dimen/spacing_small"
             android:textCursorDrawable="@color/brand_color"
             android:transitionName="search_box"
-            android:focusableInTouchMode="true"/>
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+            <requestFocus/>
+        </EditText>
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group_media_type"
@@ -134,7 +137,7 @@
             app:items="@{viewModel.media.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
-            app:hideWhenLoading="@{viewModel.media}"
+            app:hideWhenLoading2="@{viewModel.media}"
             app:showWhenSearch="@{viewModel.searchText}"/>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -164,7 +167,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading="@{viewModel.media}" />
+            app:showWhenLoading2="@{viewModel.media}" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_error"
@@ -177,7 +180,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/lost_connection"
-            app:showWhenFail="@{viewModel.media}" />
+            app:showWhenFail2="@{viewModel.media}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -7,7 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.ui.UIState
+import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.postEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -16,9 +19,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ExploringViewModel @Inject constructor(
     private val movieRepository: MovieRepository
-): ViewModel(), TrendInteractionListener{
-    private val _trend = MutableLiveData<State<List<Media>>>()
-    val trend: LiveData<State<List<Media>>> get() = _trend
+): BaseViewModel(), TrendInteractionListener{
+    private val _trend = MutableLiveData<UIState<List<Media>>>()
+    val trend: LiveData<UIState<List<Media>>> get() = _trend
 
     private val _clickSearchEvent = MutableLiveData<Event<Boolean>>()
     var clickSearchEvent: LiveData<Event<Boolean>> = _clickSearchEvent
@@ -42,11 +45,13 @@ class ExploringViewModel @Inject constructor(
     }
 
     private fun getDailyTrending(){
-        viewModelScope.launch {
-            movieRepository.getDailyTrending().collect{
-                _trend.postValue(it)
-            }
-        }
+        _trend.postValue(UIState.Loading)
+        wrapWithState({
+            val response = movieRepository.getDailyTrending()
+            _trend.postValue(UIState.Success(response))
+        },{
+            _trend.postValue(UIState.Error)
+        })
     }
 
     override fun onClickTrend(trendID: Int, trendType: String) {
@@ -55,18 +60,18 @@ class ExploringViewModel @Inject constructor(
     }
 
     fun onClickSearch(){
-        _clickSearchEvent.postValue(Event(true))
+        _clickSearchEvent.postEvent(true)
     }
 
     fun onClickMovies(){
-        _clickMoviesEvent.postValue(Event(true))
+        _clickMoviesEvent.postEvent(true)
     }
 
     fun onClickSeries(){
-        _clickSeriesEvent.postValue(Event(true))
+        _clickSeriesEvent.postEvent(true)
     }
 
     fun onClickActors(){
-        _clickActorsEvent.postValue(Event(true))
+        _clickActorsEvent.postEvent(true)
     }
 }

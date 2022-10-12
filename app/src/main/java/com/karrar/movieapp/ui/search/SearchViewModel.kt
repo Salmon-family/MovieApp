@@ -6,10 +6,13 @@ import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.SearchHistory
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.search.adapters.PersonInteractionListener
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
+import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.postEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -19,8 +22,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val movieRepository: MovieRepository
 ) : BaseViewModel(), MediaSearchInteractionListener, PersonInteractionListener, SearchHistoryInteractionListener{
-    private val _media = MutableLiveData<State<List<Media>>>()
-    val media: LiveData<State<List<Media>>> get() = _media
+    private val _media = MutableLiveData<UIState<List<Media>>>()
+    val media: LiveData<UIState<List<Media>>> get() = _media
 
     private val _searchHistory = MutableLiveData<List<SearchHistory>>()
     val searchHistory: LiveData<List<SearchHistory>> get() = _searchHistory
@@ -35,7 +38,7 @@ class SearchViewModel @Inject constructor(
     var clickBackEvent: LiveData<Event<Boolean>> = _clickBackEvent
 
     val searchText = MutableStateFlow("")
-    val mediaType = MutableStateFlow("movie")
+    val mediaType = MutableStateFlow(Constants.MOVIE)
 
     init {
         viewModelScope.launch {
@@ -44,9 +47,9 @@ class SearchViewModel @Inject constructor(
                     getAllSearchHistory()
                 } else {
                     when(mediaType.value){
-                        "movie"  -> searchForMovie(it)
-                        "tv" ->  searchForSeries(it)
-                        "person" -> searchForActor(it)
+                        Constants.MOVIE  -> searchForMovie(it)
+                        Constants.TV_SHOWS ->  searchForSeries(it)
+                        Constants.ACTOR -> searchForActor(it)
                     }
                 }
             }
@@ -54,33 +57,39 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun searchForActor(text: String){
-        viewModelScope.launch {
-            movieRepository.searchForActor(text).collect{
-                _media.postValue(it)
-            }
-        }
+        _media.postValue(UIState.Loading)
+        wrapWithState({
+            val response = movieRepository.searchForActor(text)
+            _media.postValue(UIState.Success(response))
+        },{
+            _media.postValue(UIState.Error)
+        })
     }
 
     private fun searchForMovie(text: String){
-        viewModelScope.launch {
-            movieRepository.searchForMovie(text).collect{
-                _media.postValue(it)
-            }
-        }
+        _media.postValue(UIState.Loading)
+        wrapWithState({
+            val response = movieRepository.searchForMovie(text)
+            _media.postValue(UIState.Success(response))
+        },{
+            _media.postValue(UIState.Error)
+        })
     }
 
     private fun searchForSeries(text: String){
-        viewModelScope.launch {
-            movieRepository.searchForSeries(text).collect{
-                _media.postValue(it)
-            }
-        }
+        _media.postValue(UIState.Loading)
+        wrapWithState({
+            val response = movieRepository.searchForSeries(text)
+            _media.postValue(UIState.Success(response))
+        },{
+            _media.postValue(UIState.Error)
+        })
     }
 
     fun onClickMovies(){
         viewModelScope.launch {
-            if(mediaType.value != "movie" ){
-                mediaType.emit("movie")
+            if(mediaType.value != Constants.MOVIE ){
+                mediaType.emit(Constants.MOVIE)
                 searchForMovie(searchText.value)
             }
         }
@@ -88,8 +97,8 @@ class SearchViewModel @Inject constructor(
 
     fun onClickSeries(){
         viewModelScope.launch {
-            if(mediaType.value != "tv" ){
-                mediaType.emit("tv")
+            if(mediaType.value != Constants.TV_SHOWS ){
+                mediaType.emit(Constants.TV_SHOWS)
                 searchForSeries(searchText.value)
             }
         }
@@ -97,8 +106,8 @@ class SearchViewModel @Inject constructor(
 
     fun onClickActors(){
         viewModelScope.launch {
-            if(mediaType.value != "person" ){
-                mediaType.emit("person")
+            if(mediaType.value != Constants.ACTOR ){
+                mediaType.emit(Constants.PERSON)
                 searchForActor(searchText.value)
             }
         }
@@ -114,12 +123,12 @@ class SearchViewModel @Inject constructor(
 
     override fun onClickMedia(mediaID: Int, name: String) {
         saveSearchResult(mediaID, name)
-        _clickMediaEvent.postValue(Event(mediaID))
+        _clickMediaEvent.postEvent(mediaID)
     }
 
     override fun onClickPerson(personID: Int, name: String) {
         saveSearchResult(personID, name)
-        _clickActorEvent.postValue(Event(personID))
+        _clickActorEvent.postEvent(personID)
     }
 
     private fun saveSearchResult(id: Int, name: String){
@@ -140,6 +149,6 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onClickBack(){
-        _clickBackEvent.postValue(Event(true))
+        _clickBackEvent.postEvent(true)
     }
 }
