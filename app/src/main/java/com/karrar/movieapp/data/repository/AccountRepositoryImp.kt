@@ -5,6 +5,8 @@ import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.login.ErrorResponse
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.DataClassParser
+import com.karrar.movieapp.domain.mappers.AccountMapper
+import com.karrar.movieapp.domain.models.Account
 import com.karrar.movieapp.utilities.DataStorePreferencesKeys
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,7 +18,8 @@ class AccountRepositoryImp @Inject constructor(
     private val service: MovieService,
     private val dataStorePreferences: DataStorePreferences,
     private val dataClassParser: DataClassParser,
-) : AccountRepository {
+    private val accountMapper: AccountMapper,
+    ) : AccountRepository, BaseRepository() {
     override fun getSessionId(): Flow<String?> {
         return dataStorePreferences.readString(DataStorePreferencesKeys.SESSION_ID_KEY)
     }
@@ -67,6 +70,10 @@ class AccountRepositoryImp @Inject constructor(
                 emit(State.Error(e.message.toString()))
             }
         }
+    }
+
+    override suspend fun getAccountDetails(sessionId: String): Account {
+        return wrap2({ service.getAccountDetails(sessionId) }, { accountMapper.map(it) })
     }
 
     private suspend fun getRequestToken(): String? {

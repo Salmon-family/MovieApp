@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.profile.myratings
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.repository.AccountRepository
@@ -40,8 +41,10 @@ class MyRatingsViewModel @Inject constructor(
                 wrapWithState({
                     val response = movieRepository.getRatedMovie(0, it.toString())
                     _ratedMovies.postValue(UIState.Success(response))
-                }
-                )
+                },
+                    {
+                    _ratedMovies.postValue(UIState.Error(it.message.toString()))
+                })
             }
         }
     }
