@@ -32,6 +32,16 @@
             app:layout_constraintBottom_toBottomOf="@+id/actor_image"
             />
 
+        <Constraint
+            android:id="@+id/view_bottom_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="364dp"
+            app:layout_constraintEnd_toEndOf="@+id/actor_image"
+            app:layout_constraintStart_toStartOf="@+id/actor_image"
+            app:layout_constraintTop_toTopOf="@+id/actor_image"
+            app:layout_constraintBottom_toBottomOf="@+id/actor_image"
+            />
+
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -53,6 +63,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+
             />
 
         <Constraint
@@ -65,8 +76,6 @@
             app:layout_constraintTop_toTopOf="@+id/actor_image"
             app:layout_constraintBottom_toBottomOf="@+id/actor_image"
             />
-
-
 
 
     </ConstraintSet>
