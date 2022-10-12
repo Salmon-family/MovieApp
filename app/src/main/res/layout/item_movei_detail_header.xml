@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_small"
             android:onClick="@{() -> listener.onClickPlayTrailer()}"
-
+            android:textColor="@color/white_primary"
             android:text="@string/play_trailer"
             android:textAllCaps="false"
             app:cornerRadius="@dimen/spacing_large"

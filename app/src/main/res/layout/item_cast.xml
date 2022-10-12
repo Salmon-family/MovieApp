@@ -14,48 +14,42 @@
             type="com.karrar.movieapp.ui.adapters.ActorsInteractionListener" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/spacing_small"
         android:layout_marginStart="@dimen/spacing_medium"
         android:backgroundTint="@color/background_color"
-        android:onClick="@{() -> listener.onClickActor(item.actorID)}">
+        android:onClick="@{() -> listener.onClickActor(item.actorID)}"
+        >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/cast_image"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:movieImage="@{item.actorImage}"
+            app:shapeAppearanceOverlay="@style/Circle"
+            tools:srcCompat="@drawable/image" />
 
-            >
+        <TextView
+            android:id="@+id/cast_name"
+            style="@style/Regular.Small.Secondary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:lines="2"
+            android:text="@{item.actorName}"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@+id/cast_image"
+            app:layout_constraintStart_toStartOf="@+id/cast_image"
+            app:layout_constraintTop_toBottomOf="@+id/cast_image"
+            tools:text="Debora Caprioglio" />
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/cast_image"
-                android:layout_width="84dp"
-                android:layout_height="84dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:movieImage="@{item.actorImage}"
-                app:shapeAppearanceOverlay="@style/Circle"
-                tools:srcCompat="@drawable/image" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/cast_name"
-                style="@style/Regular.Small.Secondary"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:ellipsize="end"
-                android:lines="2"
-                android:text="@{item.actorName}"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="@+id/cast_image"
-                app:layout_constraintStart_toStartOf="@+id/cast_image"
-                app:layout_constraintTop_toBottomOf="@+id/cast_image"
-                tools:text="Debora Caprioglio" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
 </layout>
