@@ -87,7 +87,6 @@ class CategoryViewModel @Inject constructor(
     }
 
     private fun setMediaList(id: Int) {
-        _mediaList.postValue(UIState.Loading)
         wrapWithState({
             when (args.mediaId) {
                 MOVIE_CATEGORIES_ID -> {
