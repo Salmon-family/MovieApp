@@ -10,6 +10,7 @@ import com.karrar.movieapp.databinding.FragmentLoginBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.EventObserve
+import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -24,13 +25,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
 
     private fun observeEvents() {
-        viewModel.loginEvent.observe(viewLifecycleOwner, EventObserve {
+        viewModel.loginEvent.observeEvent(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-        })
+        }
 
-        viewModel.signUpEvent.observe(viewLifecycleOwner, EventObserve {
+        viewModel.signUpEvent.observeEvent(viewLifecycleOwner) {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TMDB_SIGNUP_URL))
             startActivity(browserIntent)
-        })
+        }
     }
 }
