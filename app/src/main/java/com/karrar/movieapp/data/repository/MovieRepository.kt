@@ -4,7 +4,6 @@ import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
-import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.domain.models.*
@@ -82,7 +81,6 @@ interface MovieRepository {
 
     fun getAccountDetails(sessionId: String): Flow<State<Account>>
 
-    fun getRatedMovies(sessionId: String?): Flow<State<List<RatedMovies>>>
 
     suspend fun insertMovie(movie: WatchHistoryEntity)
 

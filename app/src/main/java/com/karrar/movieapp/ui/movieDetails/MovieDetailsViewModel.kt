@@ -5,7 +5,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.enums.MovieType
