@@ -78,7 +78,7 @@ interface MovieRepository {
 
     fun getListDetails(listId: Int): Flow<State<ListDetailsDto>>
 
-    fun getRatedMovie(accountId: Int, sessionId: String): Flow<State<BaseResponse<RatedMovie>>>
+    suspend fun getRatedMovie(accountId: Int, sessionId: String): List<RatedMovies>
 
     fun getAccountDetails(sessionId: String): Flow<State<Account>>
 

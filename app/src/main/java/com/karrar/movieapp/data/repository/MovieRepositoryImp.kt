@@ -203,11 +203,13 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.getList(listId) }
     }
 
-    override fun getRatedMovie(
+    override suspend fun getRatedMovie(
         accountId: Int,
         sessionId: String,
-    ): Flow<State<BaseResponse<RatedMovie>>> {
-        return wrapWithFlow { movieService.getRatedMovie(accountId, sessionId) }
+    ): List<RatedMovies>{
+        return wrap2( { movieService.getRatedMovie(accountId, sessionId) },{
+            it.items?.map { ratedMoviesMapper.map(it) } ?: emptyList()
+        })
     }
 
     override suspend fun insertSearchItem(item: SearchHistoryEntity) {

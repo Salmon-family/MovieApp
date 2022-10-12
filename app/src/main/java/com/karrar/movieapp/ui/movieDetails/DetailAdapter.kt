@@ -1,10 +1,8 @@
 package com.karrar.movieapp.ui.movieDetails
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.DiffUtil
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
 import com.karrar.movieapp.ui.adapters.ActorAdapter
@@ -12,9 +10,7 @@ import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieAdapter
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseAdapter
-import com.karrar.movieapp.ui.base.BaseDiffUtil
 import com.karrar.movieapp.ui.base.BaseInteractionListener
-import com.karrar.movieapp.ui.home.HomeRecyclerItem
 
 class DetailAdapter(
     private var items: List<DetailItem>,

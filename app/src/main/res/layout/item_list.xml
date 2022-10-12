@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.data.remote.response.CreatedListDto"
+            type="com.karrar.movieapp.domain.models.CreatedList"
             />
 
         <variable

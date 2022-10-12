@@ -160,7 +160,7 @@ interface MovieService {
     suspend fun getRatedMovie(
         @Path("account_id") listId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<RatedMovie>>
+    ): Response<BaseResponse<RatedMoviesDto>>
 
     /**
      *          TV Show Services ...
