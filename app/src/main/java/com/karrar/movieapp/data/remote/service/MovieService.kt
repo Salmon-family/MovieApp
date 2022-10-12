@@ -12,7 +12,6 @@ import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.response.CreditsDto
 import com.karrar.movieapp.data.remote.response.account.AccountDto
-import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
@@ -158,9 +157,9 @@ interface MovieService {
 
     @GET("account/{account_id}/rated/movies")
     suspend fun getRatedMovie(
-        @Path("account_id") listId: Int,
+        @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<RatedMovie>>
+    ): Response<BaseResponse<RatedMoviesDto>>
 
     /**
      *          TV Show Services ...
@@ -199,16 +198,11 @@ interface MovieService {
         @Query("session_id") sessionId: String,
     ): Response<LogoutResponse>
 
-    @GET("account/{account_id}/rated/movies")
-    suspend fun getRatedMovies(
-        @Query("session_id") sessionId: String?,
-    ): Response<BaseResponse<RatedMoviesDto>>
-
 
     @FormUrlEncoded
     @POST("list")
     suspend fun createList(
-        @Query("session_id") session_id: String,
+        @Query("session_id") sessionId: String,
         @Field("name") name: String,
         @Field("description") description:String = ""
     ) : Response<AddListResponse>

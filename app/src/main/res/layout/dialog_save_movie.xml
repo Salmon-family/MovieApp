@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="590dp"
             android:orientation="vertical"
-            app:items="@{viewModel.list.toData()}"
+            app:items="@{viewModel.savedList.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

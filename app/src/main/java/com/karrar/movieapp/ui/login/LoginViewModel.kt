@@ -5,13 +5,12 @@ import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.FormFiledValidator
+import com.karrar.movieapp.utilities.postEvent
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-fun <T> MutableLiveData<T>.toLiveData(): LiveData<T> {
-    return this
-}
 
 
 @HiltViewModel
@@ -90,7 +89,7 @@ class LoginViewModel @Inject constructor(
 
     private fun onLoginSuccessfully() {
         _loginRequestState.postValue(State.Success(true))
-        _loginEvent.postValue(Event(true))
+        _loginEvent.postEvent(true)
         resetForm()
 
     }

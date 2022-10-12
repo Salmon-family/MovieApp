@@ -31,6 +31,7 @@ class SaveMovieDialog : BaseDialogFragment<DialogSaveMovieBinding>() {
 
         viewModel.message.observe(viewLifecycleOwner){
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            dismiss()
         }
     }
 

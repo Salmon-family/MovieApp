@@ -8,6 +8,7 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentProfileBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.EventObserve
+import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,20 +23,20 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun observeEvents() {
-        viewModel.clickRatedMoviesEvent.observe(viewLifecycleOwner, EventObserve {
+        viewModel.clickRatedMoviesEvent.observeEvent(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_profileFragment_to_ratedMoviesFragment)
-        })
+        }
 
-        viewModel.clickDialogLogoutEvent.observe(viewLifecycleOwner, EventObserve {
+        viewModel.clickDialogLogoutEvent.observeEvent(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_profileFragment_to_logoutDialog)
-        })
+        }
 
-        viewModel.clickWatchHistoryEvent.observe(viewLifecycleOwner, EventObserve {
+        viewModel.clickWatchHistoryEvent.observeEvent(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_profileFragment_to_watchHistoryFragment)
-        })
+        }
 
-        viewModel.clickLoginEvent.observe(viewLifecycleOwner, EventObserve {
+        viewModel.clickLoginEvent.observeEvent(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
-        })
+        }
     }
 }

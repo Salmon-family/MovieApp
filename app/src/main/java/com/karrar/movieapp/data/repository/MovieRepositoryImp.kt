@@ -4,15 +4,15 @@ import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.response.*
-import com.karrar.movieapp.data.remote.response.movie.RatedMovie
+import com.karrar.movieapp.data.remote.response.AddListResponse
+import com.karrar.movieapp.data.remote.response.AddMovieDto
+import com.karrar.movieapp.data.remote.response.ListDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.*
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -39,7 +39,7 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getPopularMovies2(genre: List<Genre>): List<PopularMovie> {
         return wrap2({ movieService.getPopularMovies() },
-            { popularMovieMapper.mapGenreMovie(it.items , genre) })
+            { popularMovieMapper.mapGenreMovie(it.items, genre) })
     }
 
     override suspend fun getMovieGenreList2(): List<Genre> {
@@ -141,28 +141,31 @@ class MovieRepositoryImp @Inject constructor(
     }
 
 
-    override fun getMovieDetails(movieId: Int): Flow<State<MovieDetails>> {
-        return wrap({ movieService.getMovieDetails(movieId) }, { response ->
-            movieDetailsMapper.map(response)
-        })
+    override suspend fun getMovieDetails(movieId: Int): MovieDetails {
+        return wrap2({ movieService.getMovieDetails(movieId) },
+            {
+                movieDetailsMapper.map(it)
+            }
+        )
     }
 
-    override fun getMovieCast(movieId: Int): Flow<State<List<Actor>>> {
-        return wrap({ movieService.getMovieCast(movieId) }, { response ->
-            response.cast?.map { actorMapper.map(it) } ?: emptyList()
-        })
+    override suspend fun getMovieCast(movieId: Int): List<Actor> {
+        return wrap2({ movieService.getMovieCast(movieId) },
+            { response ->
+                response.cast?.map { actorMapper.map(it) }
+            }) ?: emptyList()
     }
 
-    override fun getSimilarMovie(movieId: Int): Flow<State<List<Media>>> {
-        return wrap({ movieService.getSimilarMovie(movieId) }, { response ->
-            response.items?.map { movieMapper.map(it) } ?: emptyList()
-        })
+    override suspend fun getSimilarMovie(movieId: Int): List<Media> {
+        return wrap2({ movieService.getSimilarMovie(movieId) }, { response ->
+            response.items?.map { movieMapper.map(it) }
+        }) ?: emptyList()
     }
 
-    override fun getMovieReviews(movieId: Int): Flow<State<List<Review>>> {
-        return wrap({ movieService.getMovieReviews(movieId) }, { response ->
-            response.items?.map { reviewMapper.map(it) } ?: emptyList()
-        })
+    override suspend fun getMovieReviews(movieId: Int): List<Review> {
+        return wrap2({ movieService.getMovieReviews(movieId) }, { response ->
+            response.items?.map { reviewMapper.map(it) }
+        }) ?: emptyList()
     }
 
     override fun setRating(movieId: Int, value: Float, session_id: String): Flow<State<RatingDto>> {
@@ -198,11 +201,13 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.getList(listId) }
     }
 
-    override fun getRatedMovie(
+    override suspend fun getRatedMovie(
         accountId: Int,
-        sessionId: String
-    ): Flow<State<BaseResponse<RatedMovie>>> {
-        return wrapWithFlow { movieService.getRatedMovie(accountId, sessionId) }
+        sessionId: String,
+    ): List<RatedMovies> {
+        return wrap2({ movieService.getRatedMovie(accountId, sessionId) }, {
+            it.items?.map { ratedMoviesMapper.map(it) } ?: emptyList()
+        })
     }
 
     override suspend fun insertSearchItem(item: SearchHistoryEntity) {
@@ -215,14 +220,6 @@ class MovieRepositoryImp @Inject constructor(
 
     override fun getAccountDetails(sessionId: String): Flow<State<Account>> {
         return wrap({ movieService.getAccountDetails(sessionId) }, accountMapper::map)
-    }
-
-    override fun getRatedMovies(sessionId: String?): Flow<State<List<RatedMovies>>> {
-        return wrap({ movieService.getRatedMovies(sessionId) }) { response ->
-            response.items?.map {
-                ratedMoviesMapper.map(it)
-            } ?: emptyList()
-        }
     }
 
 

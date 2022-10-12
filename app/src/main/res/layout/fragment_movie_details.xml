@@ -18,6 +18,8 @@
         android:layout_height="match_parent"
         android:background="@color/background_color"
         android:overScrollMode="never"
+        app:showWhenSuccess="@{viewModel.detailItemsLiveData}"
+        app:items="@{viewModel.detailItemsLiveData.toData()}"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:spanCount="1"
         />
