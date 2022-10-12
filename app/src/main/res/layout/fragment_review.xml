@@ -24,7 +24,6 @@
             android:orientation="vertical"
             app:items="@{viewModel.movieReviews.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,6 +33,7 @@
 <!--        <include-->
 <!--            android:id="@+id/loading"-->
 <!--            layout="@layout/loading"-->
+<!--            app:showWhenLoading="@{viewModel.movieReviews}"-->
 <!--            app:showWhenLoading="@{viewModel.movieReviews}"-->
 <!--            tools:visibility="gone" />-->
 

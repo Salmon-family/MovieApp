@@ -60,13 +60,13 @@ interface MovieRepository {
 
     fun getAllMovies(): Flow<State<List<Media>>>
 
-    fun getMovieDetails(movieId: Int): Flow<State<MovieDetails>>
+   suspend fun getMovieDetails(movieId: Int): MovieDetails?
 
-    fun getMovieCast(movieId: Int): Flow<State<List<Actor>>>
+    suspend fun getMovieCast(movieId: Int): List<Actor>
 
-    fun getSimilarMovie(movieId: Int): Flow<State<List<Media>>>
+    suspend fun getSimilarMovie(movieId: Int): List<Media>
 
-    fun getMovieReviews(movieId: Int): Flow<State<List<Review>>>
+    suspend fun getMovieReviews(movieId: Int): List<Review>
 
     fun setRating(movieId: Int, value:Float, session_id: String): Flow<State<RatingDto>>
 

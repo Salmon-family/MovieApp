@@ -5,13 +5,11 @@ import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.FormFiledValidator
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-fun <T> MutableLiveData<T>.toLiveData(): LiveData<T> {
-    return this
-}
 
 
 @HiltViewModel
