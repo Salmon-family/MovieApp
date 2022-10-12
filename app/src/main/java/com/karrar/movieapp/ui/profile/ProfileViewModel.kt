@@ -38,8 +38,6 @@ class ProfileViewModel @Inject constructor(
         movieRepository.getAccountDetails(sessionId.toString())
     }.asLiveData()
 
-    val sessionId = accountRepository.getSessionId().asLiveData()
-
     fun onClickRatedMovies() {
         _clickRatedMoviesEvent.postEvent(true)
     }
