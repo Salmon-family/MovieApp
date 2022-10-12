@@ -3,23 +3,23 @@ package com.karrar.movieapp.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class ListDetailsDto(
+data class MyListsDto(
     @SerializedName("created_by")
-    val createdBy: String? = null,
+    val createdBy: String?,
     @SerializedName("description")
-    val description: String? = null,
+    val description: String?,
     @SerializedName("favorite_count")
-    val favoriteCount: Int? = null,
+    val favoriteCount: Int?,
     @SerializedName("id")
-    val id: String? = null,
+    val id: String?,
     @SerializedName("iso_639_1")
-    val iso6391: String? = null,
+    val iso6391: String?,
     @SerializedName("item_count")
-    val itemCount: Int? = null,
+    val itemCount: Int?,
     @SerializedName("items")
-    val items: List<ListItem?>? = null,
+    val items: List<ListItems>?,
     @SerializedName("name")
-    val name: String? = null,
+    val name: String?,
     @SerializedName("poster_path")
-    val posterPath: String? = null
+    val posterPath: Any?
 )

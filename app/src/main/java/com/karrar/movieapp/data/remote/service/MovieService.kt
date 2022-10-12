@@ -154,7 +154,7 @@ interface MovieService {
     @GET("list/{list_id}")
     suspend fun getList(
         @Path("list_id") listId: Int,
-    ): Response<ListDetailsDto>
+    ): Response<MyListsDto>
 
     @GET("account/{account_id}/rated/movies")
     suspend fun getRatedMovie(

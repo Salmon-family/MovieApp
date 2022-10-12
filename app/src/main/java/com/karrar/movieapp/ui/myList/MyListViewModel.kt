@@ -1,16 +1,22 @@
 package com.karrar.movieapp.ui.myList
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.CreatedList
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.login.toLiveData
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,10 +25,8 @@ class MyListViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
 ) : BaseViewModel(), CreatedListInteractionListener {
 
-    private val _createdList = MutableLiveData<MutableList<CreatedList>?>()
+    private val _createdList = MutableLiveData<UIState<MutableList<CreatedList>?>>()
     val createdList = _createdList.toLiveData()
-
-
 
     val listName = MutableLiveData("")
 
@@ -42,15 +46,13 @@ class MyListViewModel @Inject constructor(
     }
 
     private fun initCreatedList() {
-        collectResponse(
-            accountRepository.getSessionId().flatMapLatest {
-                movieRepository.getAllLists(0, it.toString())
-            }
-
-        ) { items ->
-            items.toData()?.let {
-                _createdList.postValue(it.toMutableList())
-
+        viewModelScope.launch {
+            accountRepository.getSessionId().collectLatest {
+                wrapWithState({
+                    Log.d("sessionId :",it.toString())
+                    val response = movieRepository.getAllLists(0, it.toString()).toMutableList()
+                    _createdList.postValue(UIState.Success(response))
+                })
             }
         }
     }
@@ -77,9 +79,9 @@ class MyListViewModel @Inject constructor(
     }
 
     private fun addList(createdLists: CreatedList) {
-        val oldList = _createdList.value?.toMutableList()
-        oldList?.add(0,createdLists)
-        _createdList.postValue(oldList)
+        val oldList = _createdList.value?.toData()?.toMutableList()
+        oldList?.add(0, createdLists)
+        _createdList.postValue(UIState.Success(oldList))
 
     }
 

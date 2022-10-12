@@ -1,6 +1,7 @@
 package com.karrar.movieapp.ui.myList
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -33,6 +34,7 @@ class MyListFragment : BaseFragment<FragmentMyListBinding>() {
                 MyListFragmentDirections.actionMyListFragmentToSavedListFragment(it)
             findNavController().navigate(action)
         })
+
     }
 
     private fun navigateToCreateListDialog() {

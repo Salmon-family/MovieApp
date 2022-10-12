@@ -1,6 +1,7 @@
 package com.karrar.movieapp.ui.myList
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,7 +15,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ListDetailsFragment : BaseFragment<FragmentListDetailsBinding>() {
     override val layoutIdFragment = R.layout.fragment_list_details
-    private val arguments: ListDetailsFragmentArgs by navArgs()
     override val viewModel: ListDetailsViewModel by viewModels()
     lateinit var listDetailsAdapter: ListDetailsAdapter
 
@@ -26,11 +26,28 @@ class ListDetailsFragment : BaseFragment<FragmentListDetailsBinding>() {
     }
 
     private fun observeEvents() {
-        viewModel.itemId.observe(viewLifecycleOwner,EventObserve{
-            findNavController().navigate(
-                ListDetailsFragmentDirections.actionSavedListFragmentToMovieDetailFragment(it)
-            )
+        viewModel.mediaType.observe(viewLifecycleOwner, EventObserve {
+            if (it == "movie") {
+                viewModel.itemId.observe(viewLifecycleOwner, EventObserve { id->
+                    navigateToMovieDetails(id)
+                })
+            } else {
+                viewModel.itemId.observe(viewLifecycleOwner, EventObserve { id->
+                           navigateToTvShowDetails(id)
+                })
+            }
+
         })
-     }
+    }
+
+    private fun navigateToMovieDetails(id: Int) {
+        findNavController().navigate(
+            ListDetailsFragmentDirections.actionSavedListFragmentToMovieDetailFragment(id)
+        )
+    }
+
+    private fun navigateToTvShowDetails(id : Int) {
+        TODO("Not yet implemented")
+    }
 
 }

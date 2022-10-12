@@ -12,7 +12,6 @@ import com.karrar.movieapp.domain.mappers.*
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -35,6 +34,7 @@ class MovieRepositoryImp @Inject constructor(
     private val accountMapper: AccountMapper,
     private val ratedMoviesMapper: RatedMoviesMapper,
     private val createdListsMapper: CreatedListsMapper,
+    private val saveListDetailsMapper: SaveListDetailsMapper
 ) : BaseRepository(), MovieRepository {
 
     override suspend fun getPopularMovies2(genre: List<Genre>): List<PopularMovie> {
@@ -176,15 +176,14 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getAllLists(
+    override suspend fun getAllLists(
         accountId: Int,
         sessionId: String,
-    ): Flow<State<List<CreatedList>>> {
-        return wrap({ movieService.getCreatedLists(accountId, sessionId) }) { baseResponse ->
-            baseResponse.items?.map { createdListsMapper.map(it) } ?: emptyList()
-
+    ): List<CreatedList> {
+        return wrap2({ movieService.getCreatedLists(accountId, sessionId) }, {
+              ListMapper(createdListsMapper).mapList(it.items)})
         }
-    }
+
 
 
     override fun addMovieToList(
@@ -195,7 +194,7 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.addMovieToList(listId, sessionId, movieId) }
     }
 
-    override fun getListDetails(listId: Int): Flow<State<ListDetailsDto>> {
+    override fun getListDetails(listId: Int): Flow<State<MyListsDto>> {
         return wrapWithFlow { movieService.getList(listId) }
     }
 
@@ -273,9 +272,10 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMapper).mapList(it.items) }) ?: emptyList()
     }
 
-    override fun getSavedListDetails(listId: String): Flow<State<List<SaveListDetails>>> {
-        return wrap(
+    override suspend fun getSavedListDetails(listId: String): List<SaveListDetails> {
+        return wrap2(
             { movieService.getList(listId.toInt()) },
-            { it.items?.map { saveListDetailsMapper.map(it!!) } ?: emptyList() })
+            { ListMapper(saveListDetailsMapper).mapList(it.items) })
+
     }
 }
