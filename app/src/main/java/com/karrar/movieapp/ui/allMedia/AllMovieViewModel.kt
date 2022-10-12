@@ -14,6 +14,8 @@ import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,7 +28,6 @@ class AllMovieViewModel @Inject constructor(
 
     val allMedia: Flow<PagingData<Media>> =
         Pager(config = config, pagingSourceFactory = { dataSource }).flow.cachedIn(viewModelScope)
-    val list = MutableLiveData<PagingData<Media>>()
 
     private val _backEvent = MutableLiveData<Event<Boolean>>()
     val backEvent = _backEvent.toLiveData()
@@ -34,21 +35,13 @@ class AllMovieViewModel @Inject constructor(
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
     val clickMovieEvent = _clickMovieEvent.toLiveData()
 
-     val allMediaState = MutableLiveData<UIState<Boolean>>()
-//    val allMediaState = _allMediaState.toLiveData()
+    private val _allMediaState = MutableLiveData<UIState<Boolean>>(UIState.Success(true))
+    val allMediaState = _allMediaState.toLiveData()
 
     init {
         dataSource.type = args.type
         dataSource.actorID = args.id
-
-//        viewModelScope.launch {
-//            allMedia.collectLatest {
-//                i
-//                list.postValue(it)
-//            }
-//        }
     }
-
 
     override fun onClickMedia(mediaId: Int) {
         _clickMovieEvent.postEvent(mediaId)
