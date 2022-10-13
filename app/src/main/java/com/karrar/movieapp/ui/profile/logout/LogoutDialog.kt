@@ -28,7 +28,8 @@ class LogoutDialog : BaseDialog<DialogLogoutBinding>() {
 
     private fun observeEvents() {
         viewModel.clickLoginEvent.observeEvent(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_logoutDialog_to_loginFragment)
+            findNavController().navigate(LogoutDialogDirections.actionLogoutDialogToHomeFragment())
+
         }
 
         viewModel.closeDialogEvent.observeEvent(viewLifecycleOwner) {

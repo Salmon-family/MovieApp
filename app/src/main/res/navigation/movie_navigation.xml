@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -208,8 +208,8 @@
         android:label="Logout"
         tools:layout="@layout/dialog_logout">
         <action
-            android:id="@+id/action_logoutDialog_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_logoutDialog_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </dialog>
     <dialog
         android:id="@+id/createSavedList"
