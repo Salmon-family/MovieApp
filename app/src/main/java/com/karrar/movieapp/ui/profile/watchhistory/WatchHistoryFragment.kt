@@ -8,6 +8,7 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentWatchHistoryBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.EventObserve
+import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,17 +18,15 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.recyclerViewWatchHistory.adapter = WatchHistoryAdapter(
-            mutableListOf(), viewModel
-        )
+        binding.recyclerViewWatchHistory.adapter = WatchHistoryAdapter(emptyList(), viewModel)
         observeEvents()
         setTitle(true, getString(R.string.watch_history))
     }
 
     private fun observeEvents() {
-        viewModel.clickMovieEvent.observe(viewLifecycleOwner, EventObserve { movieId ->
+        viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner) { movieId ->
             findNavController().navigate(WatchHistoryFragmentDirections.actionWatchHistoryFragmentToMovieDetailFragment(
                 movieId))
-        })
+        }
     }
 }

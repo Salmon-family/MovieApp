@@ -1,10 +1,8 @@
 package com.karrar.movieapp.ui.base
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.ui.UIState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -31,4 +29,5 @@ abstract class BaseViewModel:ViewModel() {
         }
 
     }
+
 }

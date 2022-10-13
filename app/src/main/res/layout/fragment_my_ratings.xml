@@ -39,7 +39,8 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading="@{viewModel.ratedMovies}" />
+            android:visibility="gone"
+             />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_lost_connection"
@@ -51,7 +52,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_rawRes="@raw/lost_connection"
-            app:showWhenFail="@{viewModel.ratedMovies}" />
+            android:visibility="gone"
+             />
 
         <TextView
             android:id="@+id/title_lost_connection"

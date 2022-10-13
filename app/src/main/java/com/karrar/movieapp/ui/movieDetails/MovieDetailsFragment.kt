@@ -4,13 +4,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.EventObserve
+import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -28,45 +27,11 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         observeEvents()
         setTitle(false)
 
-        detailAdapter = DetailAdapter(mutableListOf(DetailItem.Rating(viewModel)), viewModel)
+        detailAdapter = DetailAdapter(emptyList(), viewModel)
         binding.recyclerView.adapter = detailAdapter
 
 
-        viewModel.movieDetails.observe(viewLifecycleOwner) {
-            it.toData()?.let {
-                detailAdapter.addItem(DetailItem.Header(it))
-
-            }
-        }
-        viewModel.movieCast.observe(viewLifecycleOwner) { item ->
-            item.toData()?.let {
-                detailAdapter.addItem(DetailItem.Cast(it))
-
-            }
-        }
-        viewModel.similarMovie.observe(viewLifecycleOwner) {
-            it.toData()?.let {
-                detailAdapter.addItem(DetailItem.SimilarMovies(it))
-
-            }
-        }
-
-        viewModel.movieReviews.observe(viewLifecycleOwner) {
-            it.toData()?.let { items ->
-                items.take(3).forEach { item ->
-                    detailAdapter.addItem(DetailItem.Comment(item))
-                }
-
-                if (items.isNotEmpty())
-                    detailAdapter.addItem(DetailItem.ReviewText)
-
-                if (items.count() > 3)
-                    detailAdapter.addItem(DetailItem.SeeAllReviewsButton)
-
-            }
-        }
-
-        viewModel.messageAppear.observe(viewLifecycleOwner, EventObserve {
+        viewModel.messageAppear.observeEvent(viewLifecycleOwner) {
             if (it) {
                 Toast.makeText(
                     context,
@@ -75,7 +40,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
                 )
                     .show()
             }
-        })
+        }
 
         viewModel.ratingValue.observe(viewLifecycleOwner) {
             it?.let {
@@ -86,56 +51,46 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     }
 
     private fun observeEvents() {
-
-        viewModel.clickMovieEvent.observe(viewLifecycleOwner, EventObserve {
+        viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner) {
             viewModelStore.clear()
-            Navigation.findNavController(binding.root)
-                .navigate(
-                    MovieDetailsFragmentDirections.actionMovieDetailsFragment(
-                        it
-                    )
-                )
-        })
-
-        viewModel.clickCastEvent.observe(viewLifecycleOwner, EventObserve {
-            Navigation.findNavController(binding.root)
+            findNavController().navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragment(
+                it))
+        }
+        viewModel.clickCastEvent.observeEvent(viewLifecycleOwner) {
+            findNavController()
                 .navigate(
                     MovieDetailsFragmentDirections.actionMovieDetailFragmentToActorDetailsFragment(
                         it
                     )
                 )
-        })
-
-        viewModel.clickReviewsEvent.observe(viewLifecycleOwner, EventObserve {
-            Navigation.findNavController(binding.root)
+        }
+        viewModel.clickReviewsEvent.observeEvent(viewLifecycleOwner) {
+            findNavController()
                 .navigate(
                     MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewFragment(
                         args.movieId
                     )
                 )
-        })
+        }
 
-        viewModel.clickPlayTrailerEvent.observe(viewLifecycleOwner, EventObserve {
-            Navigation.findNavController(binding.root)
-                .navigate(
-                    MovieDetailsFragmentDirections.actionMovieDetailFragmentToYoutubePlayerActivity(
-                        args.movieId
-                    )
-                )
-        })
+        viewModel.clickPlayTrailerEvent.observeEvent(viewLifecycleOwner) {
+            findNavController().navigate(MovieDetailsFragmentDirections.actionMovieDetailFragmentToYoutubePlayerActivity(
+                args.movieId)
+            )
+        }
 
-        viewModel.clickSaveEvent.observe(viewLifecycleOwner, EventObserve {
-            Navigation.findNavController(binding.root)
+        viewModel.clickSaveEvent.observeEvent(viewLifecycleOwner) {
+            findNavController()
                 .navigate(
                     MovieDetailsFragmentDirections.actionMovieDetailsFragmentToSaveMovieDialog(
                         args.movieId
                     )
                 )
-        })
+        }
 
-        viewModel.clickBackEvent.observe(viewLifecycleOwner, EventObserve {
+        viewModel.clickBackEvent.observeEvent(viewLifecycleOwner) {
             findNavController().navigateUp()
-        })
+        }
 
     }
 
