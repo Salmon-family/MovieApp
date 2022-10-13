@@ -34,6 +34,7 @@ class MovieRepositoryImp @Inject constructor(
     private val popularMovieMapper: PopularMovieMapper,
     private val ratedMoviesMapper: RatedMoviesMapper,
     private val createdListsMapper: CreatedListsMapper,
+    private val saveListDetailsMapper: SaveListDetailsMapper
 ) : BaseRepository(), MovieRepository {
 
     override suspend fun getPopularMovies2(genres: List<Genre>): List<PopularMovie> {
@@ -158,15 +159,14 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getAllLists(
+    override suspend fun getAllLists(
         accountId: Int,
         sessionId: String,
-    ): Flow<State<List<CreatedList>>> {
-        return wrap({ movieService.getCreatedLists(accountId, sessionId) }) { baseResponse ->
-            baseResponse.items?.map { createdListsMapper.map(it) } ?: emptyList()
-
+    ): List<CreatedList> {
+        return wrap2({ movieService.getCreatedLists(accountId, sessionId) }, {
+              ListMapper(createdListsMapper).mapList(it.items)})
         }
-    }
+
 
 
     override fun addMovieToList(
@@ -177,7 +177,7 @@ class MovieRepositoryImp @Inject constructor(
         return wrapWithFlow { movieService.addMovieToList(listId, sessionId, movieId) }
     }
 
-    override fun getListDetails(listId: Int): Flow<State<ListDetailsDto>> {
+    override fun getListDetails(listId: Int): Flow<State<MyListsDto>> {
         return wrapWithFlow { movieService.getList(listId) }
     }
 
@@ -257,5 +257,12 @@ class MovieRepositoryImp @Inject constructor(
                     cast
                 })
             })
+    }
+
+    override suspend fun getSavedListDetails(listId: String): List<SaveListDetails> {
+        return wrap2(
+            { movieService.getList(listId.toInt()) },
+            { ListMapper(saveListDetailsMapper).mapList(it.items) })
+
     }
 }

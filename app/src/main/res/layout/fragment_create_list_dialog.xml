@@ -6,20 +6,19 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.myList.MyListViewModel" />
+            type="com.karrar.movieapp.ui.myList.MyListsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/card_background_color"
-        >
+        android:background="@drawable/bottom_sheet_corners"
+        android:paddingVertical="@dimen/spacing_large">
+
         <TextView
             android:id="@+id/primary_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
-
             android:fontFamily="@font/plus_jakarta_sans_semibold"
             android:text="Create a new list"
             android:textColor="@color/shade_primary_color"
@@ -41,34 +40,36 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/primary_text" />
 
-
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password"
+            android:id="@+id/list_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:hint="@string/list_name"
             android:layout_marginTop="@dimen/spacing_large"
+            android:hint="@string/list_name"
+            app:hintTextColor="@color/shade_secondary_color"
+            android:textColorHint="@color/shade_secondary_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5"
-            >
+            app:layout_constraintTop_toBottomOf="@+id/textView5">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:inputType="text"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:fontFamily="@font/plus_jakarta_sans_regular"
+                android:maxLength="60"
                 android:maxLines="1"
                 android:text="@={viewModel.listName}"
-                android:textColor="@color/shade_secondary_color" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:textColor="@color/shade_primary_color" />
 
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
             android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_large"
             android:backgroundTint="@color/brand_color"
             android:fontFamily="@font/plus_jakarta_sans_semibold"
             android:onClick="@{()->viewModel.onClickAddList()}"
@@ -79,11 +80,7 @@
             app:cornerRadius="@dimen/spacing_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password" />
+            app:layout_constraintTop_toBottomOf="@+id/list_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
 </layout>
 

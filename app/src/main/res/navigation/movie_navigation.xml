@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_myListFragment"
+            app:destination="@id/myListFragment" />
     </fragment>
 
     <fragment
@@ -107,12 +110,15 @@
 
     <fragment
         android:id="@+id/myListFragment"
-        android:name="com.karrar.movieapp.ui.myList.MyListFragment"
+        android:name="com.karrar.movieapp.ui.myList.MyListsFragment"
         android:label="My List"
-        tools:layout="@layout/fragment_my_list" >
+        tools:layout="@layout/fragment_my_lists" >
         <action
             android:id="@+id/action_myListFragment_to_createSavedList"
             app:destination="@id/createSavedList" />
+        <action
+            android:id="@+id/action_myListFragment_to_savedListFragment"
+            app:destination="@id/listDetailsFragment" />
     </fragment>
 
     <fragment
@@ -242,5 +248,20 @@
             android:name="movie_id"
             app:argType="integer" />
     </activity>
+    <fragment
+        android:id="@+id/listDetailsFragment"
+        android:name="com.karrar.movieapp.ui.myList.ListDetailsFragment"
+        tools:layout="@layout/fragment_list_details">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_savedListFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+        <argument
+            android:name="listName"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 
 </navigation>
