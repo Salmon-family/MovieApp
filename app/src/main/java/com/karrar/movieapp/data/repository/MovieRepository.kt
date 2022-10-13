@@ -67,7 +67,7 @@ interface MovieRepository {
 
     fun setRating(movieId: Int, value:Float, session_id: String): Flow<State<RatingDto>>
 
-    suspend fun getMovieTrailer(movieId: Int): Flow<State<Trailer>>
+    suspend fun getMovieTrailer(movieId: Int): Trailer
 
     fun getAllLists(accountId: Int, sessionId:String): Flow<State<List<CreatedList>>>
 

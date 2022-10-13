@@ -8,7 +8,7 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentCategoryBinding
 import com.karrar.movieapp.ui.adapters.MediaAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.Constants
+import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +21,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val title = if (viewModel.args.mediaId == Constants.TV_CATEGORIES_ID) {
+        val title = if (viewModel.args.mediaId == TV_CATEGORIES_ID) {
             resources.getString(R.string.title_tv_shows)
         } else {
             resources.getString(R.string.movies)
@@ -35,7 +35,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     private fun observeEvents() {
         viewModel.clickMovieEvent.observe(viewLifecycleOwner, EventObserve {
-            if (viewModel.categoryTypeId == TV_CATEGORIES_ID) {
+            if (viewModel.args.mediaId == TV_CATEGORIES_ID) {
                 navigateToTvShowDetails(it)
             } else {
                 navigateToMovieDetails(it)
@@ -49,7 +49,8 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     }
 
     private fun navigateToTvShowDetails(tvShowId: Int) {
-        val action = CategoryFragmentDirections.actionCategoryFragmentToTvShowDetailsFragment(tvShowId)
+        val action =
+            CategoryFragmentDirections.actionCategoryFragmentToTvShowDetailsFragment(tvShowId)
         findNavController().navigate(action)
     }
 

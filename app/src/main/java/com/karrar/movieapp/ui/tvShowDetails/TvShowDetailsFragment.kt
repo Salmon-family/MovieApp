@@ -10,7 +10,6 @@ import com.karrar.movieapp.databinding.FragmentTvShowDetailsBinding
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.movieDetails.DetailAdapter
-import com.karrar.movieapp.ui.movieDetails.DetailItem
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,31 +33,13 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
     }
 
     private fun setDetailAdapter() {
-        detailAdapter = DetailAdapter(mutableListOf(DetailItem.Rating(viewModel)), viewModel)
+        detailAdapter = DetailAdapter(emptyList(), viewModel)
         binding.recyclerView.adapter = detailAdapter
-
-        viewModel.tvShowDetails.observe(viewLifecycleOwner) { state ->
-            state.toData()?.let {
-                detailAdapter.addItem(DetailItem.Header(it))
-                detailAdapter.addItem(DetailItem.Seasons(it.seasons))
-            }
-        }
-        viewModel.tvShowCast.observe(viewLifecycleOwner) { state ->
-            state.toData()?.let { detailAdapter.addItem(DetailItem.Cast(it)) }
-        }
-
-        viewModel.tvShowReviews.observe(viewLifecycleOwner) {
-            it.toData()?.let { items ->
-                items.take(3).forEach { detailAdapter.addItem(DetailItem.Comment(it)) }
-                if (items.isNotEmpty()) detailAdapter.addItem(DetailItem.ReviewText)
-                if (items.count() > 3) detailAdapter.addItem(DetailItem.SeeAllReviewsButton)
-            }
-        }
     }
 
     private fun addRating() {
         viewModel.ratingValue.observe(viewLifecycleOwner) {
-            it?.let { viewModel.onAddRating(it) }
+            it?.let { viewModel.onAddRating(viewModel.args.tvShowId, it) }
         }
 
         viewModel.messageAppear.observe(viewLifecycleOwner, EventObserve {
@@ -69,7 +50,6 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
     }
 
     private fun observeEvents() {
-
         viewModel.clickPlayTrailerEvent.observe(viewLifecycleOwner, EventObserve {
             viewModelStore.clear()
             val action =

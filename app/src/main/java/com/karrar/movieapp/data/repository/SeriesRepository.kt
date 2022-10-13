@@ -1,8 +1,7 @@
 package com.karrar.movieapp.data.repository
 
+import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.response.BaseResponse
-import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
@@ -29,20 +28,22 @@ interface SeriesRepository {
 
     suspend fun getTvShowsByGenreID(genreId: Int): List<Media>
 
-    suspend fun getAllTvShows():List<Media>
+    suspend fun getAllTvShows(): List<Media>
 
-    fun getTvShowDetails(tvShowId: Int): Flow<State<TvShowDetails>>
+    suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails
 
-    fun getTvShowCast(tvShowId: Int): Flow<State<List<Actor>>>
+    suspend fun getTvShowCast(tvShowId: Int): List<Actor>
 
-    fun getTvShowReviews(tvShowId: Int): Flow<State<List<Review>>>
+    suspend fun getTvShowReviews(tvShowId: Int): List<Review>
 
     fun setRating(tvShowId: Int, value: Float, sessionId: String): Flow<State<RatingDto>>
 
-    fun getRatedTvShow(accountId: Int, sessionId: String): Flow<State<BaseResponse<RatedMovie>>>
+    suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<RatedMovies>
 
     fun getSeasonDetails(tvShowId: Int, seasonId: Int): Flow<State<Season>>
 
-    fun getTvShowTrailer(tvShowId: Int): Flow<State<Trailer>>
+    suspend fun getTvShowTrailer(tvShowId: Int): Trailer
+
+    suspend fun insertTvShow(tvShow: WatchHistoryEntity)
 
 }

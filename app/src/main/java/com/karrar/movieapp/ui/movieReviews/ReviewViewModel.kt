@@ -26,7 +26,7 @@ class ReviewViewModel @Inject constructor(
     val movieReviews = _movieReviews.toLiveData()
 
     init {
-        getAllReviews(args.movieId)
+        getAllReviews(args.mediaId)
     }
 
     private fun getAllReviews(movie_id: Int) {

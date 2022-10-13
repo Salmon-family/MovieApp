@@ -8,7 +8,6 @@ import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.response.login.SessionResponse
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
-import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
@@ -220,7 +219,7 @@ interface MovieService {
     suspend fun getRatedTvShow(
         @Path("account_id") listId: Int,
         @Query("session_id") sessionId: String,
-    ): Response<BaseResponse<RatedMovie>>
+    ): Response<BaseResponse<RatedMoviesDto>>
 
     @GET("tv/{tv_id}/season/{season_number}")
     suspend fun getSeasonDetails(

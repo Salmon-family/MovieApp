@@ -1,18 +1,12 @@
 package com.karrar.movieapp.data.repository
 
+import com.karrar.movieapp.data.local.database.daos.MovieDao
+import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.response.BaseResponse
-import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
-import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.*
 import com.karrar.movieapp.domain.models.*
-import com.karrar.movieapp.domain.mappers.GenreMapper
-import com.karrar.movieapp.domain.mappers.ListMapper
-import com.karrar.movieapp.domain.mappers.TVShowMapper
-import com.karrar.movieapp.domain.models.Genre
-import com.karrar.movieapp.domain.models.Media
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -24,7 +18,9 @@ class SeriesRepositoryImp @Inject constructor(
     private val actorMapper: ActorMapper,
     private val reviewMapper: ReviewMapper,
     private val seasonMapper: SeasonMapper,
-    private val trailerMapper: TrailerMapper
+    private val trailerMapper: TrailerMapper,
+    private val ratedMoviesMapper: RatedMoviesMapper,
+    private val movieDao: MovieDao
 ) : BaseRepository(), SeriesRepository {
 
     override fun getOnTheAir(): Flow<State<List<Media>>> {
@@ -90,20 +86,20 @@ class SeriesRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getTvShowDetails(tvShowId: Int): Flow<State<TvShowDetails>> {
-        return wrap({ service.getTvShowDetails(tvShowId) }, { response ->
+    override suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails {
+        return wrap2({ service.getTvShowDetails(tvShowId) }, { response ->
             tvShowDetailsMapper.map(response)
         })
     }
 
-    override fun getTvShowCast(tvShowId: Int): Flow<State<List<Actor>>> {
-        return wrap({ service.getTvShowCast(tvShowId) }, { response ->
+    override suspend fun getTvShowCast(tvShowId: Int): List<Actor> {
+        return wrap2({ service.getTvShowCast(tvShowId) }, { response ->
             response.cast?.map { actorMapper.map(it) } ?: emptyList()
         })
     }
 
-    override fun getTvShowReviews(tvShowId: Int): Flow<State<List<Review>>> {
-        return wrap({ service.getTvShowReviews(tvShowId) }, { response ->
+    override suspend fun getTvShowReviews(tvShowId: Int): List<Review> {
+        return wrap2({ service.getTvShowReviews(tvShowId) }, { response ->
             response.items?.map { reviewMapper.map(it) } ?: emptyList()
         })
     }
@@ -112,11 +108,10 @@ class SeriesRepositoryImp @Inject constructor(
         return wrapWithFlow { service.postRating(tvShowId, value, sessionId) }
     }
 
-    override fun getRatedTvShow(
-        accountId: Int,
-        sessionId: String
-    ): Flow<State<BaseResponse<RatedMovie>>> {
-        return wrapWithFlow { service.getRatedTvShow(accountId, sessionId) }
+    override suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<RatedMovies> {
+        return wrap2({ service.getRatedTvShow(accountId, sessionId) }, { baseResponse ->
+            baseResponse.items?.map { ratedMoviesMapper.map(it) } ?: emptyList()
+        })
     }
 
     override fun getSeasonDetails(tvShowId: Int, seasonId: Int): Flow<State<Season>> {
@@ -125,10 +120,14 @@ class SeriesRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getTvShowTrailer(tvShowId: Int): Flow<State<Trailer>> {
-        return wrap({ service.getTvShowTrailer(tvShowId) }, { response ->
+    override suspend fun getTvShowTrailer(tvShowId: Int): Trailer {
+        return wrap2({ service.getTvShowTrailer(tvShowId) }, { response ->
             trailerMapper.map(response)
         })
+    }
+
+    override suspend fun insertTvShow(tvShow: WatchHistoryEntity) {
+            return movieDao.insert(tvShow)
     }
 
 }
