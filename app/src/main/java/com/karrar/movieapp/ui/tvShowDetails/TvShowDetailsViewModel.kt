@@ -17,6 +17,7 @@ import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
 import com.karrar.movieapp.ui.movieDetails.DetailItem
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
@@ -34,25 +35,22 @@ class TvShowDetailsViewModel @Inject constructor(
     val args = TvShowDetailsFragmentArgs.fromSavedStateHandle(state)
 
     private var _tvShowDetails = MutableLiveData<State<TvShowDetails>>()
-    val tvShowDetails: LiveData<State<TvShowDetails>> = _tvShowDetails
+    val tvShowDetails: LiveData<State<TvShowDetails>> = _tvShowDetails.toLiveData()
 
     private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
-    var clickBackEvent: LiveData<Event<Boolean>> = _clickBackEvent
+    var clickBackEvent = _clickBackEvent.toLiveData()
 
     private val _clickCastEvent = MutableLiveData<Event<Int>>()
-    var clickCastEvent: LiveData<Event<Int>> = _clickCastEvent
+    var clickCastEvent = _clickCastEvent.toLiveData()
 
-    private val _clickPlayTrailerEvent = MutableLiveData<Event<Int>>()
-    var clickPlayTrailerEvent: LiveData<Event<Int>> = _clickPlayTrailerEvent
+    private val _clickPlayTrailerEvent = MutableLiveData<Event<Boolean>>()
+    var clickPlayTrailerEvent = _clickPlayTrailerEvent.toLiveData()
 
-    private val _clickReviewsEvent = MutableLiveData<Event<Int>>()
-    var clickReviewsEvent: LiveData<Event<Int>> = _clickReviewsEvent
-
-    private val _clickSaveEvent = MutableLiveData<Event<Int>>()
-    var clickSaveEvent: LiveData<Event<Int>> = _clickSaveEvent
+    private val _clickReviewsEvent = MutableLiveData<Event<Boolean>>()
+    var clickReviewsEvent = _clickReviewsEvent.toLiveData()
 
     private val _clickEpisodeEvent = MutableLiveData<Event<Int>>()
-    val clickEpisodeEvent: LiveData<Event<Int>> = _clickEpisodeEvent
+    val clickEpisodeEvent = _clickEpisodeEvent.toLiveData()
 
     private val _check = MutableLiveData<Float?>()
 
@@ -69,14 +67,12 @@ class TvShowDetailsViewModel @Inject constructor(
     }
 
     private fun getAllDetails(tvShowId: Int) {
-
         detailItemsLiveData.postValue(UIState.Loading)
         getTvShowDetails(tvShowId)
         getTvShowCast(tvShowId)
         getSeasons(tvShowId)
         getRatedTvShows(tvShowId)
         getTvShowReviews(tvShowId)
-
     }
 
     private fun getTvShowDetails(tvShowId: Int) {
@@ -125,10 +121,12 @@ class TvShowDetailsViewModel @Inject constructor(
         })
     }
 
+
     private fun updateDetailItems(item: DetailItem) {
         detailItems.add(item)
         detailItemsLiveData.postValue(UIState.Success(detailItems))
     }
+
 
     private fun insertMovieToWatchHistory(tvShow: TvShowDetails?) {
         viewModelScope.launch {
@@ -162,8 +160,7 @@ class TvShowDetailsViewModel @Inject constructor(
             collectResponse(
                 accountRepository.getSessionId().flatMapLatest {
                     seriesRepository.setRating(tvShowId, value, it.toString())
-                })
-            {
+                }) {
                 if (it is State.Success) {
                     messageAppear.postValue(Event(true))
                     _check.postValue(value)
@@ -173,12 +170,10 @@ class TvShowDetailsViewModel @Inject constructor(
     }
 
 
-    override fun onClickSave() {
-        _clickSaveEvent.postValue(Event(args.tvShowId))
-    }
+    override fun onClickSave() {}
 
     override fun onClickPlayTrailer() {
-        _clickPlayTrailerEvent.postValue(Event(args.tvShowId))
+        _clickPlayTrailerEvent.postValue(Event(true))
     }
 
     override fun onclickBack() {
@@ -186,7 +181,7 @@ class TvShowDetailsViewModel @Inject constructor(
     }
 
     override fun onclickViewReviews() {
-        _clickReviewsEvent.postValue(Event(args.tvShowId))
+        _clickReviewsEvent.postValue(Event(true))
     }
 
     override fun onClickActor(actorID: Int) {

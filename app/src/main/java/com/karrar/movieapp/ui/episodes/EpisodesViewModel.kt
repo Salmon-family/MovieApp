@@ -31,9 +31,7 @@ class EpisodesViewModel @Inject constructor(
         wrapWithState({
             val response = seriesRepository.getSeasonDetails(tvShowId, seasonNumber)
             _seasonDetails.postValue(UIState.Success(response))
-        }, {
-            _seasonDetails.postValue(UIState.Error(""))
-        })
+        }, {})
     }
 
 }

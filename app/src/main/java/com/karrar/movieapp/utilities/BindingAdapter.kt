@@ -202,10 +202,7 @@ fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
     }
 }
 
-@BindingAdapter("app:saveToListVisibility")
-fun setSaveToListVisibility(view: View, mediaType: MediaType?) {
-    when (mediaType) {
-        MediaType.MOVIE -> view.isVisible = true
-        else -> view.isVisible = false
-    }
+@BindingAdapter("app:hideIfNotTypeOfMovie")
+fun hideIfNotTypeOfMovie(view: View, mediaType: MediaType?) {
+    if (mediaType != MediaType.MOVIE) view.isVisible = false
 }
