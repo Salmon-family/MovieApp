@@ -28,6 +28,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:lottie_autoPlay="true"
+            app:lottie_loop="true"
             app:showWhenFail="@{viewModel.actorDetails}"
             app:lottie_rawRes="@raw/lost_internet_animation" />
 
@@ -39,7 +40,7 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:gravity="center"
             app:showWhenFail="@{viewModel.actorDetails}"
-            android:text="@{viewModel.actorDetails.toString()}"
+            android:text="@string/description"
             android:textColor="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
