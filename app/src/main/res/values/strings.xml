@@ -6,7 +6,7 @@
     <string name="latest">Latest</string>
     <string name="popular">Popular</string>
     <string name="tv_shows">TV Shows</string>
-    <string name="search_hint">Search for a movie, tv show, person...</string>
+    <string name="search_hint">Search for a movie, tv show, person…</string>
     <string name="movies_chip">Movies</string>
     <string name="tv_shows_chip">TV Shows</string>
     <string name="actors_label">Actors</string>
@@ -48,9 +48,9 @@
     <string name="myList">My Lists</string>
     <string name="profile">Profile</string>
     <string name="play_trailer">Play Trailer</string>
-    <string name="duration">%1$s Minutes</string>
-    <string name="reviews">( %1$s Reviews )</string>
-    <string name="overview">OverView</string>
+    <string name="duration">%1$d Minutes</string>
+    <string name="reviews">(%1$s reviews)</string>
+    <string name="overview">Overview</string>
     <string name="cast">Cast</string>
     <string name="similar_movies">Similar Movies</string>
     <string name="rate_the_movie">Rate The Movie</string>
@@ -60,6 +60,11 @@
     <string name="user_name">"@" %1$s</string>
     <string name="back_button">back button</string>
     <string name="view_all_reviews">View all reviews</string>
+    <string name="episodes">Episodes</string>
+    <string name="seasons">Seasons</string>
+    <string name="submit_toast">Submitted, Thank you for your feedback</string>
+    <string name="total_episodes">%1$s Episodes</string>
+    <string name="m">%1$s m</string>
     <string name="watch_history">Watch History</string>
     <string name="rated_movies">My Ratings</string>
     <string name="sign_out">Sign Out</string>
@@ -77,6 +82,9 @@
     <string name="create">Create</string>
     <string name="list_name">List Name</string>
     <string name="explore_some_movies_on_home_or_search_and_then_create_your_movie_list">Explore some movies on “Home” or “Search” and then create your movie list.</string>
+    <string name="empty_overview_text">This season has no description.</string>
+    <string name="one_season">%1$d Season</string>
+    <string name="more_than_one_season">%1$d Seasons</string>
     <string name="you_must_be_logged_in_to_see_the_profile">You must be logged in to see the profile</string>
     <string name="new_list">New List</string>
 </resources>

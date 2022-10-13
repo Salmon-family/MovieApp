@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.movieDetails
+package com.karrar.movieapp.ui.tvShowDetails
 
 import android.os.Bundle
 import android.view.View
@@ -7,19 +7,20 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
-import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
+import com.karrar.movieapp.databinding.FragmentTvShowDetailsBinding
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.movieDetails.DetailAdapter
 import com.karrar.movieapp.utilities.EventObserve
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
+class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
 
-    override val layoutIdFragment = R.layout.fragment_movie_details
-    override val viewModel: MovieDetailsViewModel by viewModels()
-    private val args: MovieDetailsFragmentArgs by navArgs()
+    override val layoutIdFragment = R.layout.fragment_tv_show_details
+    override val viewModel: TvShowDetailsViewModel by viewModels()
+    private val args: TvShowDetailsFragmentArgs by navArgs()
     private lateinit var detailAdapter: DetailAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,7 +42,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
 
     private fun addRating() {
         viewModel.ratingValue.observe(viewLifecycleOwner) {
-            it?.let { viewModel.onAddRating(args.movieId, it) }
+            it?.let { viewModel.onAddRating(args.tvShowId, it) }
         }
 
         viewModel.messageAppear.observe(viewLifecycleOwner, EventObserve {
@@ -53,52 +54,46 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
 
 
     private fun observeEvents() {
-        viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner) {
-            viewModelStore.clear()
-            navigateToMovie(it)
+        viewModel.clickPlayTrailerEvent.observeEvent(viewLifecycleOwner) {
+            navigateToTrailer()
         }
-
-        viewModel.clickPlayTrailerEvent.observeEvent(viewLifecycleOwner) { navigateToTrailer() }
 
         viewModel.clickCastEvent.observeEvent(viewLifecycleOwner) { navigateToCast(it) }
 
         viewModel.clickReviewsEvent.observeEvent(viewLifecycleOwner) { navigateToReviews() }
 
-        viewModel.clickSaveEvent.observeEvent(viewLifecycleOwner) { navigateToSave() }
+        viewModel.clickEpisodeEvent.observeEvent(viewLifecycleOwner) { navigateToEpisodes(it) }
 
         viewModel.clickBackEvent.observeEvent(viewLifecycleOwner) { goBack() }
     }
 
     private fun navigateToTrailer() {
         val action =
-            MovieDetailsFragmentDirections.actionMovieDetailFragmentToYoutubePlayerActivity(
-                args.movieId, MediaType.MOVIE
+            TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToYoutubePlayerActivity(
+                args.tvShowId, MediaType.TV_SHOW
             )
-        findNavController().navigate(action)
-    }
-
-    private fun navigateToMovie(movieId: Int) {
-        val action = MovieDetailsFragmentDirections.actionMovieDetailsFragment(movieId)
         findNavController().navigate(action)
     }
 
     private fun navigateToCast(castId: Int) {
         val action =
-            MovieDetailsFragmentDirections.actionMovieDetailFragmentToActorDetailsFragment(castId)
+            TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToActorDetailsFragment(castId)
         findNavController().navigate(action)
     }
 
     private fun navigateToReviews() {
-        val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewFragment(
-            args.movieId, MediaType.MOVIE
-        )
+        val action =
+            TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewFragment(
+                args.tvShowId, MediaType.TV_SHOW
+            )
         findNavController().navigate(action)
     }
 
-    private fun navigateToSave() {
-        val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToSaveMovieDialog(
-            args.movieId
-        )
+    private fun navigateToEpisodes(seasonNumber: Int) {
+        val action =
+            TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(
+                args.tvShowId, seasonNumber
+            )
         findNavController().navigate(action)
     }
 

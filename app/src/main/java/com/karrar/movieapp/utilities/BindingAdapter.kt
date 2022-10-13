@@ -12,7 +12,9 @@ import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
+import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.models.Genre
+import com.karrar.movieapp.domain.models.MediaDetails
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.utilities.Constants.ALL
@@ -178,4 +180,28 @@ fun <T> showWhenListIsEmpty(text: TextView, list: List<T>?) {
 @BindingAdapter(value = ["app:hideWhenLoading2"])
 fun <T> hideWhenLoading2(view: View, state: UIState<T>?) {
     view.isVisible = state !is UIState.Loading
+}
+
+@BindingAdapter("app:overviewText")
+fun setOverViewText(view: TextView, text: String) {
+    if (text.isNotEmpty()) {
+        view.text = text
+    } else {
+        view.text = view.context.getString(R.string.empty_overview_text)
+    }
+}
+
+@BindingAdapter("app:textBasedOnMediaType")
+fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
+    mediaDetails?.let {
+        when(mediaDetails.mediaType){
+            MediaType.MOVIE ->  view.text = view.context.getString(R.string.duration, mediaDetails.specialNumber)
+            MediaType.TV_SHOW -> view.text = view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
+        }
+    }
+}
+
+@BindingAdapter("app:hideIfNotTypeOfMovie")
+fun hideIfNotTypeOfMovie(view: View, mediaType: MediaType?) {
+    if (mediaType != MediaType.MOVIE) view.isVisible = false
 }

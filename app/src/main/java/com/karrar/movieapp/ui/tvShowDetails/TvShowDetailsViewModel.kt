@@ -1,20 +1,22 @@
-package com.karrar.movieapp.ui.movieDetails
+package com.karrar.movieapp.ui.tvShowDetails
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.AccountRepository
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.enums.MovieType
-import com.karrar.movieapp.domain.models.MovieDetails
+import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.models.RatedMovies
+import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
-import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.MediaDetailsViewModel
+import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
+import com.karrar.movieapp.ui.movieDetails.DetailItem
 import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -22,25 +24,21 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
-class MovieDetailsViewModel @Inject constructor(
-    private val movieRepository: MovieRepository,
+class TvShowDetailsViewModel @Inject constructor(
+    private val seriesRepository: SeriesRepository,
     private val accountRepository: AccountRepository,
-    state: SavedStateHandle,
-) : MediaDetailsViewModel(), ActorsInteractionListener, MovieInteractionListener,
+    state: SavedStateHandle
+) : MediaDetailsViewModel(), ActorsInteractionListener, SeasonInteractionListener,
     DetailInteractionListener {
 
-    private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
+    val args = TvShowDetailsFragmentArgs.fromSavedStateHandle(state)
 
-    private var _movieDetails = MutableLiveData<State<MovieDetails>>()
-    val movieDetails = _movieDetails.toLiveData()
+    private var _tvShowDetails = MutableLiveData<State<TvShowDetails>>()
+    val tvShowDetails: LiveData<State<TvShowDetails>> = _tvShowDetails.toLiveData()
 
     private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
     var clickBackEvent = _clickBackEvent.toLiveData()
-
-    private val _clickMovieEvent = MutableLiveData<Event<Int>>()
-    val clickMovieEvent = _clickMovieEvent.toLiveData()
 
     private val _clickCastEvent = MutableLiveData<Event<Int>>()
     var clickCastEvent = _clickCastEvent.toLiveData()
@@ -51,10 +49,10 @@ class MovieDetailsViewModel @Inject constructor(
     private val _clickReviewsEvent = MutableLiveData<Event<Boolean>>()
     var clickReviewsEvent = _clickReviewsEvent.toLiveData()
 
-    private val _clickSaveEvent = MutableLiveData<Event<Boolean>>()
-    var clickSaveEvent = _clickSaveEvent.toLiveData()
+    private val _clickEpisodeEvent = MutableLiveData<Event<Int>>()
+    val clickEpisodeEvent = _clickEpisodeEvent.toLiveData()
 
-    private val _check = MutableLiveData<Float>()
+    private val _check = MutableLiveData<Float?>()
 
     val messageAppear = MutableLiveData(Event(false))
 
@@ -63,59 +61,61 @@ class MovieDetailsViewModel @Inject constructor(
     val detailItemsLiveData = MutableLiveData<UIState<List<DetailItem>>>()
     private val detailItems = mutableListOf<DetailItem>()
 
+
     init {
-        getAllDetails(args.movieId)
+        getAllDetails(args.tvShowId)
     }
 
-    private fun getAllDetails(movieId: Int) {
+    private fun getAllDetails(tvShowId: Int) {
         detailItemsLiveData.postValue(UIState.Loading)
-        getMovieDetails(movieId)
-        getMovieCast(movieId)
-        getSimilarMovie(movieId)
-        getRatedMovie(movieId)
-        getMovieReviews(movieId)
+        getTvShowDetails(tvShowId)
+        getTvShowCast(tvShowId)
+        getSeasons(tvShowId)
+        getRatedTvShows(tvShowId)
+        getTvShowReviews(tvShowId)
     }
 
-    private fun getMovieDetails(movieId: Int) {
+    private fun getTvShowDetails(tvShowId: Int) {
         wrapWithState(
             {
-                val response = movieRepository.getMovieDetails(movieId)
+                val response = seriesRepository.getTvShowDetails(tvShowId)
                 updateDetailItems(DetailItem.Header(response))
                 insertMovieToWatchHistory(response)
+            },
+            {
+                detailItemsLiveData.postValue(UIState.Error("error"))
             })
     }
 
-    private fun getMovieCast(movieId: Int) {
+    private fun getTvShowCast(tvShowId: Int) {
         wrapWithState({
-            val response = movieRepository.getMovieCast(movieId)
+            val response = seriesRepository.getTvShowCast(tvShowId)
             updateDetailItems(DetailItem.Cast(response))
         })
     }
 
-    private fun getSimilarMovie(movieId: Int) {
-        wrapWithState(
-            {
-                val response = movieRepository.getSimilarMovie(movieId)
-                updateDetailItems(DetailItem.SimilarMovies(response))
-            }
-        )
+    private fun getSeasons(tvShowId: Int) {
+        wrapWithState({
+            val response = seriesRepository.getTvShowDetails(tvShowId).seasons
+            updateDetailItems(DetailItem.Seasons(response))
+        })
     }
 
-    private fun getRatedMovie(movieId: Int) {
+    private fun getRatedTvShows(tvShowId: Int) {
         viewModelScope.launch {
             accountRepository.getSessionId().collectLatest {
                 wrapWithState({
-                    val response = movieRepository.getRatedMovie(0, it.toString())
-                    checkIfMovieRated(response, movieId)
-                    updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
+                    val response = seriesRepository.getRatedTvShow(0, it.toString())
+                    checkIfTvShowRated(response, tvShowId)
+                    updateDetailItems(DetailItem.Rating(this@TvShowDetailsViewModel))
                 })
             }
         }
     }
 
-    private fun getMovieReviews(movieId: Int) {
+    private fun getTvShowReviews(tvShowId: Int) {
         wrapWithState({
-            val response = movieRepository.getMovieReviews(movieId)
+            val response = seriesRepository.getTvShowReviews(tvShowId)
             if (response.isNotEmpty()) {
                 response.take(3).forEach { updateDetailItems(DetailItem.Comment(it)) }
                 updateDetailItems(DetailItem.ReviewText)
@@ -125,25 +125,31 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
 
-    private fun insertMovieToWatchHistory(movie: MovieDetails?) {
+    private fun updateDetailItems(item: DetailItem) {
+        detailItems.add(item)
+        detailItemsLiveData.postValue(UIState.Success(detailItems))
+    }
+
+
+    private fun insertMovieToWatchHistory(tvShow: TvShowDetails?) {
         viewModelScope.launch {
-            movie?.let { movieDetails ->
-                movieRepository.insertMovie(
+            tvShow?.let { tvShowDetails ->
+                seriesRepository.insertTvShow(
                     WatchHistoryEntity(
-                        id = movieDetails.id,
-                        posterPath = movieDetails.image,
-                        movieTitle = movieDetails.name,
-                        movieDuration = movieDetails.specialNumber,
-                        voteAverage = movieDetails.voteAverage,
-                        releaseDate = movieDetails.releaseDate,
+                        id = tvShowDetails.id,
+                        posterPath = tvShowDetails.image,
+                        movieTitle = tvShowDetails.name,
+                        movieDuration = tvShowDetails.specialNumber,
+                        voteAverage = tvShowDetails.voteAverage,
+                        releaseDate = tvShowDetails.releaseDate,
                     )
                 )
             }
         }
     }
 
-    private fun checkIfMovieRated(items: List<RatedMovies>?, movie_id: Int) {
-        val item = items?.firstOrNull { it.id == movie_id }
+    private fun checkIfTvShowRated(items: List<RatedMovies>?, tvShowId: Int) {
+        val item = items?.firstOrNull { it.id == tvShowId }
         item?.let {
             if (it.rating != ratingValue.value) {
                 _check.postValue(it.rating)
@@ -152,13 +158,12 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    fun onAddRating(movie_id: Int, value: Float) {
+    fun onAddRating(tvShowId: Int, value: Float) {
         if (_check.value != value) {
             collectResponse(
                 accountRepository.getSessionId().flatMapLatest {
-                    movieRepository.setRating(movie_id, value, it.toString())
-                }
-            ) {
+                    seriesRepository.setRating(tvShowId, value, it.toString())
+                }) {
                 if (it is State.Success) {
                     messageAppear.postValue(Event(true))
                     _check.postValue(value)
@@ -167,14 +172,8 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun updateDetailItems(item: DetailItem) {
-        detailItems.add(item)
-        detailItemsLiveData.postValue(UIState.Success(detailItems))
-    }
 
-    override fun onClickSave() {
-        _clickSaveEvent.postValue(Event(true))
-    }
+    override fun onClickSave() {}
 
     override fun onClickPlayTrailer() {
         _clickPlayTrailerEvent.postValue(Event(true))
@@ -188,14 +187,12 @@ class MovieDetailsViewModel @Inject constructor(
         _clickReviewsEvent.postValue(Event(true))
     }
 
-    override fun onClickMovie(movieId: Int) {
-        _clickMovieEvent.postValue(Event(movieId))
-    }
-
-    override fun onClickSeeAllMovie(movieType: MovieType) {}
-
     override fun onClickActor(actorID: Int) {
         _clickCastEvent.postValue(Event(actorID))
+    }
+
+    override fun onClickSeason(seasonNumber: Int) {
+        _clickEpisodeEvent.postEvent(seasonNumber)
     }
 
 }
