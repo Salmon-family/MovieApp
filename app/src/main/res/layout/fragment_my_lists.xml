@@ -63,10 +63,11 @@
             android:layout_margin="16dp"
             android:onClick="@{()->viewModel.onCreateList()}"
             app:backgroundTint="@color/brand_color"
-            app:tint="@color/shade_primary_color"
+            app:tint="@color/white_primary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_baseline_add_24" />
+            app:srcCompat="@drawable/ic_baseline_add_24"
+             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

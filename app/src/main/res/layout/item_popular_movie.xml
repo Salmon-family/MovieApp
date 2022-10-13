@@ -20,17 +20,6 @@
         android:paddingVertical="@dimen/spacing_small">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/gradient"
-            android:elevation="1dp"
-            app:layout_constraintBottom_toBottomOf="@+id/image_movie"
-            app:layout_constraintEnd_toEndOf="@id/image_movie"
-            app:layout_constraintStart_toStartOf="@id/image_movie"
-            app:layout_constraintTop_toTopOf="@id/image_movie"
-            app:shapeAppearanceOverlay="@style/CardCorners.BottomMedium" />
-
-        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_movie"
             android:layout_width="@dimen/media_card_popular_movie"
             android:layout_height="0dp"
@@ -42,6 +31,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/gradient"
+            app:layout_constraintBottom_toBottomOf="@+id/image_movie"
+            app:layout_constraintEnd_toEndOf="@id/image_movie"
+            app:layout_constraintStart_toStartOf="@id/image_movie"
+            app:layout_constraintTop_toTopOf="@id/image_movie"
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
+            />
+
 
         <TextView
             android:id="@+id/text_movie_title"
@@ -56,7 +57,7 @@
             android:paddingStart="0dp"
             android:paddingEnd="@dimen/spacing_medium"
             android:text="@{item.title}"
-            android:textColor="@color/shade_primary_color"
+            android:textColor="@color/white_primary"
             app:layout_constraintBottom_toTopOf="@+id/text_category"
             app:layout_constraintStart_toStartOf="@+id/image_movie" />
 
@@ -82,7 +83,7 @@
             android:layout_marginVertical="@dimen/spacing_small"
             android:elevation="2dp"
             android:gravity="start"
-            android:textColor="@color/shade_secondary_color"
+            android:textColor="@color/white_secondary"
             app:genre="@{item.genre}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

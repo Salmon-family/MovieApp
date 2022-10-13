@@ -27,7 +27,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:posterImage="@{viewModel.profileDetails.toData().avatarPath}"
             app:shapeAppearanceOverlay="@style/Circle"
-            tools:src="@drawable/actor" />
+            tools:src="@drawable/actor"
+            app:tint="@color/shade_primary_color"
+            />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_name_actor"
@@ -35,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
+            android:textColor="@color/shade_primary_color"
             android:text="@{viewModel.profileDetails.toData().name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

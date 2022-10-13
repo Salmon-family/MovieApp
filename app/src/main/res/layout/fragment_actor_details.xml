@@ -79,7 +79,9 @@
             android:onClick="@{() -> viewModel.onClickBack()}"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/shade_primary_color"
+            />
 
         <TextView
             android:id="@+id/text_name_actor"
@@ -103,7 +105,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/details"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/background_color">
 
                 <androidx.constraintlayout.widget.Group
                     android:layout_width="wrap_content"

@@ -51,7 +51,8 @@
             android:padding="@dimen/spacing_small"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/shade_primary_color" />
 
 
         <ImageButton
@@ -76,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_small"
             android:onClick="@{() -> listener.onClickPlayTrailer()}"
-
+            android:textColor="@color/white_primary"
             android:text="@string/play_trailer"
             android:textAllCaps="false"
             app:cornerRadius="@dimen/spacing_large"

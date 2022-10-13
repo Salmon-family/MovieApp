@@ -78,4 +78,5 @@
     <string name="list_name">List Name</string>
     <string name="explore_some_movies_on_home_or_search_and_then_create_your_movie_list">Explore some movies on “Home” or “Search” and then create your movie list.</string>
     <string name="you_must_be_logged_in_to_see_the_profile">You must be logged in to see the profile</string>
+    <string name="new_list">New List</string>
 </resources>
