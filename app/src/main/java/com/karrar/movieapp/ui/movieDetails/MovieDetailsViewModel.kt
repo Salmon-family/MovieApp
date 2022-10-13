@@ -85,10 +85,7 @@ class MovieDetailsViewModel @Inject constructor(
                     val response = movieRepository.getRatedMovie(0, it.toString())
                     checkIfMovieRated(response, movieId)
                     updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
-                },
-                    {
-                        updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
-                    }
+                }
                 )
             }
         }
@@ -97,11 +94,12 @@ class MovieDetailsViewModel @Inject constructor(
     private fun getMovieReviews(movieId: Int) {
         wrapWithState({
             val response = movieRepository.getMovieReviews(movieId)
-            response.take(3).forEach {
-                updateDetailItems(DetailItem.Comment(it))
+            if (response.isNotEmpty()){
+                response.take(3).forEach {
+                    updateDetailItems(DetailItem.Comment(it))
+                }
+                updateDetailItems(DetailItem.ReviewText)
             }
-            updateDetailItems(DetailItem.ReviewText)
-
             if (response.count() > 3)
                 updateDetailItems(DetailItem.SeeAllReviewsButton)
         })

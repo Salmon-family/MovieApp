@@ -32,15 +32,4 @@ abstract class BaseViewModel:ViewModel() {
 
     }
 
-    fun wrapWithState(function: suspend () -> Unit, errorFunction: (e: Throwable) -> Unit = {}) {
-        viewModelScope.launch {
-
-            try {
-                function()
-            } catch (e: Throwable) {
-                errorFunction(e)
-            }
-        }
-
-    }
 }
