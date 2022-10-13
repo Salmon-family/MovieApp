@@ -31,8 +31,6 @@ interface MovieRepository {
 
     suspend fun searchForMovie(query: String): List<Media>
 
-    suspend fun searchForSeries(query: String): List<Media>
-
     fun getMovieGenreList(): Flow<State<List<Genre>>>
 
     suspend fun getMovieGenreList2(): List<Genre>

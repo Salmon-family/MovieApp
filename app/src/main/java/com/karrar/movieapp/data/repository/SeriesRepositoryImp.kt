@@ -5,6 +5,7 @@ import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.GenreMapper
 import com.karrar.movieapp.domain.mappers.ListMapper
+import com.karrar.movieapp.domain.mappers.SearchSeriesMapper
 import com.karrar.movieapp.domain.mappers.TVShowMapper
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Media
@@ -14,7 +15,8 @@ import javax.inject.Inject
 class SeriesRepositoryImp @Inject constructor(
     private val service: MovieService,
     private val mediaMapper: TVShowMapper,
-    private val genreMapper: GenreMapper
+    private val genreMapper: GenreMapper,
+    private val seriesMapper: SearchSeriesMapper
 ) : BaseRepository(), SeriesRepository {
 
     override fun getOnTheAir(): Flow<State<List<Media>>> {
@@ -77,6 +79,12 @@ class SeriesRepositoryImp @Inject constructor(
     override suspend fun getAllTvShows(): List<Media> {
         return wrap2({ service.getAllTvShows() }, {
             ListMapper(mediaMapper).mapList(it.items)
+        })
+    }
+
+    override suspend fun searchForSeries(query: String): List<Media> {
+        return wrap2({ service.searchForSeries(query) }, { response ->
+            response.items?.map { seriesMapper.map(it) } ?: emptyList()
         })
     }
 

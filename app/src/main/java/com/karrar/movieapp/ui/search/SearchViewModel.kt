@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
+import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.SearchHistory
 import com.karrar.movieapp.ui.UIState
@@ -20,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val movieRepository: MovieRepository,
+    private val seriesRepository: SeriesRepository
 ) : BaseViewModel(), MediaSearchInteractionListener, PersonInteractionListener, SearchHistoryInteractionListener{
     private val _media = MutableLiveData<UIState<List<Media>>>()
     val media: LiveData<UIState<List<Media>>> get() = _media
@@ -79,7 +81,7 @@ class SearchViewModel @Inject constructor(
     private fun searchForSeries(text: String){
         _media.postValue(UIState.Loading)
         wrapWithState({
-            val response = movieRepository.searchForSeries(text)
+            val response = seriesRepository.searchForSeries(text)
             _media.postValue(UIState.Success(response))
         },{
             _media.postValue(UIState.Error(""))

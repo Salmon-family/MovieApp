@@ -25,7 +25,6 @@ class MovieRepositoryImp @Inject constructor(
     private val movieMapper: MovieMapper,
     private val tvShowsMapper: TVShowMapper,
     private val searchActorMapper: SearchActorMapper,
-    private val seriesMapper: SearchSeriesMapper,
     private val movieDao: MovieDao,
     private val searchHistoryMapper: SearchHistoryMapper,
     private val movieDetailsMapper: MovieDetailsMapper,
@@ -76,12 +75,6 @@ class MovieRepositoryImp @Inject constructor(
     override suspend fun searchForMovie(query: String): List<Media> {
         return wrap2({ movieService.searchForMovie(query) }, { response ->
             response.items?.map { movieMapper.map(it) } ?: emptyList()
-        })
-    }
-
-    override suspend fun searchForSeries(query: String): List<Media> {
-        return wrap2({ movieService.searchForSeries(query) }, { response ->
-            response.items?.map { seriesMapper.map(it) } ?: emptyList()
         })
     }
 

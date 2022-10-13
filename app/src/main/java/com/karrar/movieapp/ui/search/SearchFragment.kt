@@ -54,13 +54,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun observeEvents() {
-        navigateToMovieDetails()
-        navigateToSeriesDetails()
-        navigateToActorDetails()
-        backToExplore()
-    }
-
-    private fun navigateToMovieDetails() {
         if (viewModel.mediaType.value == Constants.MOVIE) {
             viewModel.clickMediaEvent.observe(viewLifecycleOwner, EventObserve {
                 findNavController().navigate(
@@ -70,20 +63,21 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 )
             })
         }
-    }
 
-    private fun navigateToSeriesDetails() {
         if (viewModel.mediaType.value == Constants.TV_SHOWS) {
-        }
-    }
 
-    private fun navigateToActorDetails() {
+        }
+
         viewModel.clickActorEvent.observe(viewLifecycleOwner, EventObserve { actorID ->
             findNavController().navigate(
                 SearchFragmentDirections.actionSearchFragmentToActorDetailsFragment(
                     actorID
                 )
             )
+        })
+
+        viewModel.clickBackEvent.observe(viewLifecycleOwner, EventObserve {
+            findNavController().popBackStack()
         })
     }
 
@@ -100,11 +94,5 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             adapter = PersonAdapter(mutableListOf(), viewModel)
             layoutManager = GridLayoutManager(this@SearchFragment.context, 3)
         }
-    }
-
-    private fun backToExplore() {
-        viewModel.clickBackEvent.observe(viewLifecycleOwner, EventObserve {
-            findNavController().popBackStack()
-        })
     }
 }

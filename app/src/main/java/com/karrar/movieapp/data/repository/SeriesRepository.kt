@@ -29,4 +29,5 @@ interface SeriesRepository {
 
     suspend fun getAllTvShows():List<Media>
 
+    suspend fun searchForSeries(query: String): List<Media>
 }
