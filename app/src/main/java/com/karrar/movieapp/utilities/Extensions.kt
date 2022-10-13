@@ -16,6 +16,7 @@ import com.karrar.movieapp.databinding.ChipItemCategoryBinding
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.category.CategoryInteractionListener
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 fun <T> MutableLiveData<T>.toLiveData(): LiveData<T> {
@@ -67,6 +68,14 @@ fun DialogFragment.setWidthPercent(percentage: Int) {
     val percentWidth = rect.width() * percent
     dialog?.window?.setLayout(percentWidth.toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
     dialog?.setCanceledOnTouchOutside(false)
+}
+
+fun <T> LifecycleOwner.collectLast(flow: Flow<T>, action: suspend (T) -> Unit) {
+    lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.STARTED) {
+            flow.collectLatest(action)
+        }
+    }
 }
 
 fun <T> LifecycleOwner.collect(flow: Flow<T>, action: suspend (T) -> Unit) {

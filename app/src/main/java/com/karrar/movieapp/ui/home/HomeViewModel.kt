@@ -100,7 +100,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getActors() {
         wrapWithState(
-            { updateHomeItems(HomeRecyclerItem.Actor(movieRepository.getTrendingActors2(1))) })
+            { updateHomeItems(HomeRecyclerItem.Actor(movieRepository.getTrendingActors2())) })
     }
 
     private fun getUpcoming() {

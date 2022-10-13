@@ -3,7 +3,10 @@ package com.karrar.movieapp.ui.allMedia
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.paging.*
+import androidx.paging.LoadState
+import androidx.paging.Pager
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.karrar.movieapp.data.repository.AllMediaDataSource
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.UIState
@@ -14,8 +17,6 @@ import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,7 +36,7 @@ class AllMovieViewModel @Inject constructor(
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
     val clickMovieEvent = _clickMovieEvent.toLiveData()
 
-     val _allMediaState = MutableLiveData<UIState<Boolean>>(UIState.Success(true))
+    private val _allMediaState = MutableLiveData<UIState<Boolean>>(UIState.Loading)
     val allMediaState = _allMediaState.toLiveData()
 
     init {
@@ -47,4 +48,15 @@ class AllMovieViewModel @Inject constructor(
         _clickMovieEvent.postEvent(mediaId)
     }
 
+    fun setErrorUiState(loadState: LoadState) {
+        val result = if (loadState is LoadState.Error) {
+            loadState.error.message ?: "Error"
+        } else null
+
+        if (!result.isNullOrBlank()) {
+            _allMediaState.postValue(UIState.Error(result))
+        }else{
+            _allMediaState.postValue(UIState.Success(true))
+        }
+    }
 }

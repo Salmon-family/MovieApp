@@ -3,26 +3,26 @@ package com.karrar.movieapp.ui.allMedia
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentAllMovieBinding
-import com.karrar.movieapp.ui.UIState
+import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.adapters.MediaLoadStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.EventObserve
 import com.karrar.movieapp.utilities.collect
+import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
-class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
+class AllMovieFragment() : BaseFragment<FragmentAllMovieBinding>() {
     override val layoutIdFragment = R.layout.fragment_all_movie
     override val viewModel: AllMovieViewModel by viewModels()
+    private val allMediaAdapter: AllMediaAdapter by lazy { AllMediaAdapter(viewModel) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,18 +32,18 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
     }
 
     private fun setMovieAdapter() {
-        val allMediaAdapter = AllMediaAdapter(viewModel)
         val footerAdapter = MediaLoadStateAdapter(allMediaAdapter::retry)
+        binding.recyclerMedia.adapter = allMediaAdapter.withLoadStateFooter(footerAdapter)
+        setSnapSize(footerAdapter)
 
         collect(flow = allMediaAdapter.loadStateFlow
-            .distinctUntilChangedBy { it.source.refresh }
-            .map { it.refresh },
-            action = ::setErrorUiState
-        )
+            .distinctUntilChangedBy { it.source.refresh }.map { it.refresh },
+            action = { viewModel.setErrorUiState(it) })
 
-        binding.recyclerMedia.adapter =
-            allMediaAdapter.withLoadStateFooter(footerAdapter)
+        collectLast(viewModel.allMedia, ::setAllMedia)
+    }
 
+    private fun setSnapSize(footerAdapter: MediaLoadStateAdapter) {
         val mManager = binding.recyclerMedia.layoutManager as GridLayoutManager
         mManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -56,21 +56,10 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
                 }
             }
         }
-
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.allMedia.collectLatest { pagingData ->
-                allMediaAdapter.submitData(pagingData)
-            }
-        }
     }
 
-    private fun setErrorUiState(loadState: LoadState) {
-        val result = if (loadState is LoadState.Error) {
-            loadState.error.localizedMessage ?: "Error"
-        } else null
-
-        if (!result.isNullOrBlank())
-            viewModel._allMediaState.postValue(UIState.Error(result))
+    private suspend fun setAllMedia(itemsPagingData: PagingData<Media>) {
+        allMediaAdapter.submitData(itemsPagingData)
     }
 
     private fun observeEvents() {

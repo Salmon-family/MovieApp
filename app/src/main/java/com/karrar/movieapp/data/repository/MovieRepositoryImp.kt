@@ -51,7 +51,7 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override fun getTrendingActors(): Flow<State<List<Actor>>> {
-        return wrap({ movieService.getTrendingActors(page = 1) }) { response ->
+        return wrap({ movieService.getTrendingActors() }) { response ->
             response.items?.map { actorMapper.map(it) } ?: emptyList()
         }
     }
@@ -254,8 +254,8 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMapper).mapList(it.items) })
     }
 
-    override suspend fun getTrendingActors2(page: Int): List<Actor> {
-        return wrap2({ movieService.getTrendingActors(page = page) },
+    override suspend fun getTrendingActors2(): List<Actor> {
+        return wrap2({ movieService.getTrendingActors() },
             { ListMapper(actorMapper).mapList(it.items) })
     }
 
