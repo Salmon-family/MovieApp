@@ -107,7 +107,7 @@ fun setGenre(textView: TextView, genreList: List<Genre>?) {
 @BindingAdapter("app:setGenres", "app:genresId", "app:listener", "app:firstChipSelection")
 fun <T> setGenresChips(
     view: ChipGroup,
-    chipList: State<List<Genre>>?,
+    chipList: UIState<List<Genre>>?,
     categoryId: Int?,
     listener: T,
     isFirstChipSelected: Boolean?
@@ -180,7 +180,7 @@ fun <T> showWhenListIsEmpty(text: TextView, list: List<T>?) {
     text.isVisible = list?.isEmpty() == true
 }
 
-@BindingAdapter(value = ["app:hideWhenLoading2"])
+@BindingAdapter(value = ["app:hideWhenLoading"])
 fun <T> hideWhenLoading2(view: View, state: UIState<T>?) {
     view.isVisible = state !is UIState.Loading
 }

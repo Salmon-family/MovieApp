@@ -90,7 +90,7 @@ class CategoryViewModel @Inject constructor(
         wrapWithState({
             when (args.mediaId) {
                 MOVIE_CATEGORIES_ID -> {
-                    val response = movieRepository.getMovieListByGenreID2(id)
+                    val response = movieRepository.getMovieListByGenreID2(id,1)
                     _mediaList.postValue(UIState.Success(response))
                 }
                 TV_CATEGORIES_ID -> {

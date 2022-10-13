@@ -137,7 +137,7 @@
             app:items="@{viewModel.media.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
-            app:hideWhenLoading2="@{viewModel.media}"
+            app:hideWhenLoading="@{viewModel.media}"
             app:showWhenSearch="@{viewModel.searchText}"/>
 
         <androidx.recyclerview.widget.RecyclerView

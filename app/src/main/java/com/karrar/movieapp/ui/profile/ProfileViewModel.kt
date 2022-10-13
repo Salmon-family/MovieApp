@@ -16,8 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
-) :
-    BaseViewModel() {
+) : BaseViewModel() {
 
     private val _profileDetails = MutableLiveData<UIState<Account>>()
     val profileDetails = _profileDetails.toLiveData()
