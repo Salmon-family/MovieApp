@@ -13,7 +13,7 @@ import com.karrar.movieapp.domain.models.RatedMovies
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
-import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.base.MediaDetailsViewModel
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,14 +28,13 @@ class MovieDetailsViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     private val accountRepository: AccountRepository,
     state: SavedStateHandle,
-) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener,
+) : MediaDetailsViewModel(), ActorsInteractionListener, MovieInteractionListener,
     DetailInteractionListener {
 
     private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
 
     private var _movieDetails = MutableLiveData<State<MovieDetails>>()
     val movieDetails = _movieDetails.toLiveData()
-
 
     private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
     var clickBackEvent = _clickBackEvent.toLiveData()
@@ -59,7 +58,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     val messageAppear = MutableLiveData(Event(false))
 
-    var ratingValue = MutableLiveData<Float>()
+    override var ratingValue: MutableLiveData<Float>  = MutableLiveData<Float>()
 
     val detailItemsLiveData = MutableLiveData<UIState<List<DetailItem>>>()
     private val detailItems = mutableListOf<DetailItem>()
@@ -94,7 +93,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun getMovieReviews(movieId: Int) {
         wrapWithState({
             val response = movieRepository.getMovieReviews(movieId)
-            if (response.isNotEmpty()){
+            if (response.isNotEmpty()) {
                 response.take(3).forEach {
                     updateDetailItems(DetailItem.Comment(it))
                 }

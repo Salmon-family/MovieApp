@@ -12,7 +12,7 @@ import com.karrar.movieapp.domain.models.RatedMovies
 import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
-import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.base.MediaDetailsViewModel
 import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
 import com.karrar.movieapp.ui.movieDetails.DetailItem
 import com.karrar.movieapp.utilities.Event
@@ -28,7 +28,7 @@ class TvShowDetailsViewModel @Inject constructor(
     private val seriesRepository: SeriesRepository,
     private val accountRepository: AccountRepository,
     state: SavedStateHandle
-) : BaseViewModel(), ActorsInteractionListener, SeasonInteractionListener,
+) : MediaDetailsViewModel(), ActorsInteractionListener, SeasonInteractionListener,
     DetailInteractionListener {
 
     val args = TvShowDetailsFragmentArgs.fromSavedStateHandle(state)
@@ -58,7 +58,7 @@ class TvShowDetailsViewModel @Inject constructor(
 
     val messageAppear = MutableLiveData(Event(false))
 
-    var ratingValue = MutableLiveData<Float?>()
+    override var ratingValue = MutableLiveData<Float>()
 
     val detailItemsLiveData = MutableLiveData<UIState<List<DetailItem>>>()
     private val detailItems = mutableListOf<DetailItem>()

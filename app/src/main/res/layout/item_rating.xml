@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
-<!--        <variable-->
-<!--            name="viewModel"-->
-<!--            type="com.karrar.movieapp.ui.movieDetails.MovieDetailsViewModel" />-->
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.base.MediaDetailsViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
 
         <TextView
             android:id="@+id/rate_the_movie"
@@ -26,8 +23,7 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:text="@string/rate_the_movie"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <RatingBar
             android:id="@+id/rating_bar"
@@ -39,8 +35,9 @@
             android:progressDrawable="@drawable/rating_custom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rate_the_movie"
-             />
+            android:rating="@={viewModel.ratingValue}"
+            app:layout_constraintTop_toBottomOf="@+id/rate_the_movie" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
