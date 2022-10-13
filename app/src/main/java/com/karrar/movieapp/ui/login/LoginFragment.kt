@@ -26,7 +26,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private fun observeEvents() {
         viewModel.loginEvent.observeEvent(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            findNavController().popBackStack()
         }
 
         viewModel.signUpEvent.observeEvent(viewLifecycleOwner) {

@@ -3,10 +3,10 @@ package com.karrar.movieapp.ui.movieDetails.saveMovie
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.CreatedList
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.checkIfExist
@@ -23,7 +23,7 @@ class SaveMovieViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
 ) : BaseViewModel(), SaveListInteractionListener {
 
-     private val _savedList = MutableLiveData<State<List<CreatedList>>>()
+     private val _savedList = MutableLiveData<UIState<List<CreatedList>>>()
     val savedList = _savedList.toLiveData()
 
 
@@ -34,14 +34,19 @@ class SaveMovieViewModel @Inject constructor(
     var message: LiveData<String> = _message
 
     init {
-        viewModelScope.launch {
-            accountRepository.getSessionId().flatMapLatest {
-                movieRepository.getAllLists(0, it.toString())
-            }.collect {
-                _savedList.postValue(it)
-            }
-        }
+        getCreatedLists()
+    }
 
+    private fun getCreatedLists() {
+        wrapWithState({
+            accountRepository.getSessionId().collect {
+                val response = movieRepository.getAllLists(0, it.toString())
+                _savedList.postValue(UIState.Success(response))
+            }
+        },
+            {
+                _savedList.postValue(UIState.Error("error"))
+            })
     }
 
     fun checkMovie(movieId: Int) {

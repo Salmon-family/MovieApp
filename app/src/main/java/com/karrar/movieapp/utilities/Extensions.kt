@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.*
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
-import com.karrar.movieapp.data.remote.response.ListDetailsDto
+import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.ResultDto
 import com.karrar.movieapp.databinding.ChipItemCategoryBinding
 import com.karrar.movieapp.domain.models.Genre
@@ -52,7 +52,7 @@ fun List<ResultDto?>.getKey(): String? =
     }.toString()
 
 
-fun ListDetailsDto.checkIfExist(movie_id: Int): Boolean {
+fun MyListsDto.checkIfExist(movie_id: Int): Boolean {
     this.items?.map {
         if (it?.id == movie_id){
             return true

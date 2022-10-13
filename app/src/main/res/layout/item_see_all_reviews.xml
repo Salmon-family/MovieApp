@@ -22,6 +22,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:text="@string/view_all_reviews"
+            android:textColor="@color/white_primary"
             android:textAllCaps="false"
             app:cornerRadius="@dimen/radius_small"
             tools:text="Play Trailer" />

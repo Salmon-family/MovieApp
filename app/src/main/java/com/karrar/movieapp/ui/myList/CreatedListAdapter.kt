@@ -10,4 +10,6 @@ class CreatedListAdapter(items: List<CreatedList>, listener: CreatedListInteract
     override val layoutID: Int = R.layout.item_saved_list
 }
 
-interface CreatedListInteractionListener : BaseInteractionListener
+interface CreatedListInteractionListener : BaseInteractionListener{
+    fun onListClick(item: CreatedList)
+}

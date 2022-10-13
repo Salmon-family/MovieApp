@@ -1,6 +1,7 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
+import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.models.MovieDetails
 import com.karrar.movieapp.utilities.Constants
 import javax.inject.Inject
@@ -16,7 +17,8 @@ class MovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsDto, MovieDe
             input.runtime ?: 0,
             input.voteCount ?: 0,
             input.voteAverage.toString().take(3),
-            input.overview ?: ""
+            input.overview ?: "",
+            MediaType.MOVIE
         )
     }
 }

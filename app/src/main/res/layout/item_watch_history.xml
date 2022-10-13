@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_medium"
+        app:cardElevation="0dp"
         android:layout_marginTop="@dimen/spacing_medium"
         android:onClick="@{() -> listener.onClickMovie(item.id)}"
         app:cardCornerRadius="@dimen/radius_small">
@@ -43,14 +44,15 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_title_movie"
                 style="@style/Regular.Small"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:layout_marginVertical="@dimen/spacing_small"
                 android:ellipsize="end"
-                android:lines="1"
+                android:lines="2"
                 android:maxLength="72"
                 android:text="@{item.movieTitle}"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image_movie"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="The Mandalorian" />

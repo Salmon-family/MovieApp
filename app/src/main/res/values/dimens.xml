@@ -6,6 +6,7 @@
     <dimen name="spacing_medium">16dp</dimen>
     <dimen name="spacing_small">8dp</dimen>
     <dimen name="spacing_too_small">4dp</dimen>
+    <dimen name="season_card_width">88dp</dimen>
 
     <!--  layout -->
     <dimen name="spacing_actor">72dp</dimen>

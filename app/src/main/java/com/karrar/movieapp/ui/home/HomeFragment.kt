@@ -1,7 +1,6 @@
 package com.karrar.movieapp.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -46,7 +45,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         })
 
         viewModel.clickSeriesEvent.observe(viewLifecycleOwner, EventObserve { seriesID ->
-            navigateToMovieDetails(seriesID)
+            navigateToTvShowDetails(seriesID)
         })
 
         viewModel.clickSeeAllMovieEvent.observe(viewLifecycleOwner, EventObserve { typeMovieID ->
@@ -65,6 +64,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 movieID
             )
         )
+    }
+
+    private fun navigateToTvShowDetails(tvShowId: Int) {
+        val action = HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(tvShowId)
+        findNavController().navigate(action)
     }
 
 }

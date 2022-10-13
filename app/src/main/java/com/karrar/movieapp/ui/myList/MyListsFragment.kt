@@ -5,19 +5,19 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
-import com.karrar.movieapp.databinding.FragmentMyListBinding
+import com.karrar.movieapp.databinding.FragmentMyListsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MyListFragment : BaseFragment<FragmentMyListBinding>() {
-    override val layoutIdFragment: Int = R.layout.fragment_my_list
-    override val viewModel: MyListViewModel by activityViewModels()
+class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
+    override val layoutIdFragment: Int = R.layout.fragment_my_lists
+    override val viewModel: MyListsViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTitle(true)
+        setTitle(true,getString(R.string.myList))
         binding.savedList.adapter = CreatedListAdapter(emptyList(), viewModel)
         observeEvents()
 
@@ -27,11 +27,16 @@ class MyListFragment : BaseFragment<FragmentMyListBinding>() {
         viewModel.isButtonClicked.observeEvent(viewLifecycleOwner) {
             navigateToCreateListDialog()
         }
+
+        viewModel.item.observeEvent(viewLifecycleOwner){
+            val action = MyListsFragmentDirections.actionMyListFragmentToSavedListFragment(it.id, it.name)
+            findNavController().navigate(action)
+        }
     }
 
     private fun navigateToCreateListDialog() {
         findNavController().navigate(
-            MyListFragmentDirections.actionMyListFragmentToCreateSavedList()
+            MyListsFragmentDirections.actionMyListFragmentToCreateSavedList()
         )
     }
 }

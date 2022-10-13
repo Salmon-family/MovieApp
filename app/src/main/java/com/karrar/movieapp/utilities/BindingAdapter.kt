@@ -5,7 +5,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -16,7 +15,6 @@ import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
-import com.karrar.movieapp.ui.base.BasePagingAdapter
 import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
@@ -25,9 +23,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @BindingAdapter("app:showWhenSuccess")
 fun <T> showWhenSuccess(view: View, state: State<T>?) {
@@ -180,7 +175,31 @@ fun <T> showWhenListIsEmpty(text: TextView, list: List<T>?) {
     text.isVisible = list?.isEmpty() == true
 }
 
-@BindingAdapter(value = ["app:hideWhenLoading"])
+@BindingAdapter(value = ["app:hideWhenLoading2"])
 fun <T> hideWhenLoading2(view: View, state: UIState<T>?) {
     view.isVisible = state !is UIState.Loading
+}
+
+@BindingAdapter("app:overviewText")
+fun setOverViewText(view: TextView, text: String) {
+    if (text.isNotEmpty()) {
+        view.text = text
+    } else {
+        view.text = view.context.getString(R.string.empty_overview_text)
+    }
+}
+
+@BindingAdapter("app:textBasedOnMediaType")
+fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
+    mediaDetails?.let {
+        when(mediaDetails.mediaType){
+            MediaType.MOVIE ->  view.text = view.context.getString(R.string.duration, mediaDetails.specialNumber)
+            MediaType.TV_SHOW -> view.text = view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
+        }
+    }
+}
+
+@BindingAdapter("app:hideIfNotTypeOfMovie")
+fun hideIfNotTypeOfMovie(view: View, mediaType: MediaType?) {
+    if (mediaType != MediaType.MOVIE) view.isVisible = false
 }

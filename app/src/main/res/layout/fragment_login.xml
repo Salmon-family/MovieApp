@@ -96,7 +96,7 @@
             android:onClick="@{()->viewModel.onClickLogin()}"
             android:text="@string/login"
             android:textAppearance="@style/SemiBold.Medium"
-            android:textColor="@color/shade_secondary_color"
+            android:textColor="@color/white_primary"
             app:backgroundTint="@color/color_states_material_button"
             app:cornerRadius="@dimen/radius_small"
             app:layout_constraintEnd_toEndOf="parent"

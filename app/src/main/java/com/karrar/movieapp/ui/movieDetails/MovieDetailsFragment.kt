@@ -8,10 +8,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
+import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.utilities.EventObserve
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
@@ -21,77 +22,88 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     private val args: MovieDetailsFragmentArgs by navArgs()
     private lateinit var detailAdapter: DetailAdapter
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeEvents()
+
         setTitle(false)
 
+        setDetailAdapter()
+        addRating()
+        observeEvents()
+    }
+
+
+    private fun setDetailAdapter() {
         detailAdapter = DetailAdapter(emptyList(), viewModel)
         binding.recyclerView.adapter = detailAdapter
-
-
-        viewModel.messageAppear.observeEvent(viewLifecycleOwner) {
-            if (it) {
-                Toast.makeText(
-                    context,
-                    "Submitted, Thank you for your feedback",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
-        }
-
-        viewModel.ratingValue.observe(viewLifecycleOwner) {
-            it?.let {
-                viewModel.onAddRating(args.movieId, it)
-            }
-        }
-
     }
+
+
+    private fun addRating() {
+        viewModel.ratingValue.observe(viewLifecycleOwner) {
+            it?.let { viewModel.onAddRating(args.movieId, it) }
+        }
+
+        viewModel.messageAppear.observe(viewLifecycleOwner, EventObserve {
+            val toast =
+                Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT)
+            if (it) toast.show()
+        })
+    }
+
 
     private fun observeEvents() {
         viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner) {
             viewModelStore.clear()
-            findNavController().navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragment(
-                it))
-        }
-        viewModel.clickCastEvent.observeEvent(viewLifecycleOwner) {
-            findNavController()
-                .navigate(
-                    MovieDetailsFragmentDirections.actionMovieDetailFragmentToActorDetailsFragment(
-                        it
-                    )
-                )
-        }
-        viewModel.clickReviewsEvent.observeEvent(viewLifecycleOwner) {
-            findNavController()
-                .navigate(
-                    MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewFragment(
-                        args.movieId
-                    )
-                )
+            navigateToMovie(it)
         }
 
-        viewModel.clickPlayTrailerEvent.observeEvent(viewLifecycleOwner) {
-            findNavController().navigate(MovieDetailsFragmentDirections.actionMovieDetailFragmentToYoutubePlayerActivity(
-                args.movieId)
+        viewModel.clickPlayTrailerEvent.observeEvent(viewLifecycleOwner) { navigateToTrailer() }
+
+        viewModel.clickCastEvent.observeEvent(viewLifecycleOwner) { navigateToCast(it) }
+
+        viewModel.clickReviewsEvent.observeEvent(viewLifecycleOwner) { navigateToReviews() }
+
+        viewModel.clickSaveEvent.observeEvent(viewLifecycleOwner) { navigateToSave() }
+
+        viewModel.clickBackEvent.observeEvent(viewLifecycleOwner) { goBack() }
+    }
+
+    private fun navigateToTrailer() {
+        val action =
+            MovieDetailsFragmentDirections.actionMovieDetailFragmentToYoutubePlayerActivity(
+                args.movieId, MediaType.MOVIE
             )
-        }
+        findNavController().navigate(action)
+    }
 
-        viewModel.clickSaveEvent.observeEvent(viewLifecycleOwner) {
-            findNavController()
-                .navigate(
-                    MovieDetailsFragmentDirections.actionMovieDetailsFragmentToSaveMovieDialog(
-                        args.movieId
-                    )
-                )
-        }
+    private fun navigateToMovie(movieId: Int) {
+        val action = MovieDetailsFragmentDirections.actionMovieDetailsFragment(movieId)
+        findNavController().navigate(action)
+    }
 
-        viewModel.clickBackEvent.observeEvent(viewLifecycleOwner) {
-            findNavController().navigateUp()
-        }
+    private fun navigateToCast(castId: Int) {
+        val action =
+            MovieDetailsFragmentDirections.actionMovieDetailFragmentToActorDetailsFragment(castId)
+        findNavController().navigate(action)
+    }
 
+    private fun navigateToReviews() {
+        val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewFragment(
+            args.movieId, MediaType.MOVIE
+        )
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToSave() {
+        val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToSaveMovieDialog(
+            args.movieId
+        )
+        findNavController().navigate(action)
+    }
+
+    private fun goBack() {
+        findNavController().navigateUp()
     }
 
 }

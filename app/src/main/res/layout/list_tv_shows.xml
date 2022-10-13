@@ -47,24 +47,26 @@
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/image_latest"
-            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
+            />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/gradient"
-            android:elevation="1dp"
             app:layout_constraintBottom_toBottomOf="@+id/image_top_rated"
             app:layout_constraintEnd_toEndOf="@id/image_top_rated"
             app:layout_constraintStart_toStartOf="@id/image_top_rated"
             app:layout_constraintTop_toTopOf="@id/image_top_rated"
-            app:shapeAppearanceOverlay="@style/CardCorners.BottomMedium" />
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
+            />
 
         <TextView
             android:id="@+id/text_top_rated"
             style="@style/SemiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white_primary"
             android:layout_margin="@dimen/spacing_medium"
             android:elevation="2dp"
             android:text="@string/top_rated"
@@ -91,12 +93,12 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/gradient"
-            android:elevation="1dp"
             app:layout_constraintBottom_toBottomOf="@+id/image_latest"
             app:layout_constraintEnd_toEndOf="@id/image_latest"
             app:layout_constraintStart_toStartOf="@id/image_latest"
             app:layout_constraintTop_toTopOf="@id/image_latest"
-            app:shapeAppearanceOverlay="@style/CardCorners.BottomMedium" />
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
+            />
 
         <TextView
             android:id="@+id/text_latest"
@@ -104,6 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_small"
+            android:textColor="@color/white_primary"
             android:elevation="2dp"
             android:text="@string/latest"
             app:layout_constraintBottom_toBottomOf="@+id/image_latest"
@@ -129,12 +132,12 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/gradient"
-            android:elevation="1dp"
             app:layout_constraintBottom_toBottomOf="@+id/image_popular"
             app:layout_constraintEnd_toEndOf="@id/image_popular"
             app:layout_constraintStart_toStartOf="@id/image_popular"
             app:layout_constraintTop_toTopOf="@id/image_popular"
-            app:shapeAppearanceOverlay="@style/CardCorners.BottomMedium" />
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
+            />
 
         <TextView
             android:id="@+id/text_popular"
@@ -142,6 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_small"
+            android:textColor="@color/white_primary"
             android:elevation="2dp"
             android:text="@string/popular"
             app:layout_constraintBottom_toBottomOf="@+id/image_popular"
