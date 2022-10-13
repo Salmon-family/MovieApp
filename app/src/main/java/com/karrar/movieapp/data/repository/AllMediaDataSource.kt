@@ -4,16 +4,25 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.utilities.Constants
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import javax.inject.Inject
 
-class AllMediaDataSource @Inject constructor(
+
+//where should I put this interface ?!!!
+@AssistedFactory
+interface AllMediaFactory {
+    fun create(actorID: Int, type: MovieType): AllMediaDataSource
+}
+
+class AllMediaDataSource @AssistedInject constructor(
     private val repository: MovieRepository,
-    private val seriesRepository: SeriesRepository
+    private val seriesRepository: SeriesRepository,
+    @Assisted private val type: MovieType,
+    @Assisted private val actorID: Int
 ) : PagingSource<Int, Media>() {
-    var type: MovieType = MovieType.NON
-    var actorID = 0
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Media> {
         val pageNumber = params.key ?: 1
