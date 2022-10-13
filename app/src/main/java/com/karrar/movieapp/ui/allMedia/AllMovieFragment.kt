@@ -5,14 +5,19 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentAllMovieBinding
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.MediaLoadStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.EventObserve
+import com.karrar.movieapp.utilities.collect
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
 class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
@@ -29,6 +34,12 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
     private fun setMovieAdapter() {
         val allMediaAdapter = AllMediaAdapter(viewModel)
         val footerAdapter = MediaLoadStateAdapter(allMediaAdapter::retry)
+
+        collect(flow = allMediaAdapter.loadStateFlow
+            .distinctUntilChangedBy { it.source.refresh }
+            .map { it.refresh },
+            action = ::setErrorUiState
+        )
 
         binding.recyclerMedia.adapter =
             allMediaAdapter.withLoadStateFooter(footerAdapter)
@@ -51,6 +62,15 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
                 allMediaAdapter.submitData(pagingData)
             }
         }
+    }
+
+    private fun setErrorUiState(loadState: LoadState) {
+        val result = if (loadState is LoadState.Error) {
+            loadState.error.localizedMessage ?: "Error"
+        } else null
+
+        if (!result.isNullOrBlank())
+            viewModel._allMediaState.postValue(UIState.Error(result))
     }
 
     private fun observeEvents() {

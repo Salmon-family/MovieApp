@@ -14,7 +14,13 @@ class MediaLoadStateAdapter(private val retry: () -> Unit) :
     LoadStateAdapter<MediaLoadStateAdapter.LoadStateViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState) =
-        LoadStateViewHolder(ItemLoadStateBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        LoadStateViewHolder(
+            ItemLoadStateBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) =
         holder.bind(loadState)
@@ -27,11 +33,13 @@ class MediaLoadStateAdapter(private val retry: () -> Unit) :
                 retry.invoke()
             }
         }
+
         fun bind(loadState: LoadState) {
             binding.apply {
                 progress.isVisible = loadState is LoadState.Loading
                 buttonRetry.isVisible = loadState is LoadState.Error
-                textInternetConnection.isVisible = loadState is LoadState.Error
+                textInternetConnection.isVisible =
+                    loadState is LoadState.Error
             }
         }
     }

@@ -35,7 +35,7 @@ class AllMovieViewModel @Inject constructor(
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
     val clickMovieEvent = _clickMovieEvent.toLiveData()
 
-    private val _allMediaState = MutableLiveData<UIState<Boolean>>(UIState.Success(true))
+     val _allMediaState = MutableLiveData<UIState<Boolean>>(UIState.Success(true))
     val allMediaState = _allMediaState.toLiveData()
 
     init {
