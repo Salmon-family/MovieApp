@@ -55,6 +55,11 @@ class HomeViewModel @Inject constructor(
     }
 
     init {
+        getData()
+    }
+
+    fun getData() {
+        resetFailedState()
         homeItemsLiveData.postValue(UIState.Loading)
         getTrending()
         getNowStreaming()
@@ -66,7 +71,11 @@ class HomeViewModel @Inject constructor(
         getPopularMovies()
         getMovieListByGenreID(Constants.ADVENTURE_ID, MovieType.ADVENTURE)
         getMovieListByGenreID(Constants.MYSTERY_ID, MovieType.MYSTERY)
+    }
 
+    private fun resetFailedState(){
+        counter = 0
+        failedState.postValue(UIState.Loading)
     }
 
     private fun updateHomeItems(item: HomeRecyclerItem) {
@@ -167,7 +176,8 @@ class HomeViewModel @Inject constructor(
                         HomeRecyclerItem.Mystery(
                             movieRepository.getMovieListByGenreID2(
                                 genreID,
-                            1), type
+                                1
+                            ), type
                         )
                     )
                 }, {
@@ -180,7 +190,8 @@ class HomeViewModel @Inject constructor(
                         HomeRecyclerItem.Adventure(
                             movieRepository.getMovieListByGenreID2(
                                 genreID,
-                            1), type
+                                1
+                            ), type
                         )
                     )
                 }, {
