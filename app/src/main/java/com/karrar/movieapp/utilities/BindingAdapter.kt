@@ -193,12 +193,11 @@ fun setOverViewText(view: TextView, text: String) {
 
 @BindingAdapter("app:textBasedOnMediaType")
 fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
-    if (mediaDetails?.mediaType == MediaType.MOVIE) {
-        view.text = view.context.getString(R.string.duration, mediaDetails.specialNumber)
-    } else if (mediaDetails?.mediaType == MediaType.TV_SHOW && mediaDetails.specialNumber == 1) {
-        view.text = view.context.getString(R.string.one_season, mediaDetails.specialNumber)
-    } else if (mediaDetails?.mediaType == MediaType.TV_SHOW && mediaDetails.specialNumber > 1) {
-        view.text = view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
+    mediaDetails?.let {
+        when(mediaDetails.mediaType){
+            MediaType.MOVIE ->  view.text = view.context.getString(R.string.duration, mediaDetails.specialNumber)
+            MediaType.TV_SHOW -> view.text = view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
+        }
     }
 }
 

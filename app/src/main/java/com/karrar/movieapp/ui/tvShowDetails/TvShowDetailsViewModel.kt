@@ -81,6 +81,9 @@ class TvShowDetailsViewModel @Inject constructor(
                 val response = seriesRepository.getTvShowDetails(tvShowId)
                 updateDetailItems(DetailItem.Header(response))
                 insertMovieToWatchHistory(response)
+            },
+            {
+                detailItemsLiveData.postValue(UIState.Error("error"))
             })
     }
 
