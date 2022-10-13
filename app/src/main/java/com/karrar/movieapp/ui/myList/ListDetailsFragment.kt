@@ -13,13 +13,16 @@ import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ListDetailsFragment : BaseFragment<FragmentListDetailsBinding>() {
+class ListDetailsFragment() : BaseFragment<FragmentListDetailsBinding>() {
     override val layoutIdFragment = R.layout.fragment_list_details
     override val viewModel: ListDetailsViewModel by viewModels()
     lateinit var listDetailsAdapter: ListDetailsAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.itemName.observe(viewLifecycleOwner,EventObserve{
+            setTitle(true,it)
+        })
         listDetailsAdapter = ListDetailsAdapter(mutableListOf(), viewModel)
         binding.lists.adapter = listDetailsAdapter
         observeEvents()

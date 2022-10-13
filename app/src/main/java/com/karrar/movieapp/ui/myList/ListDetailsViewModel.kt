@@ -1,9 +1,11 @@
 package com.karrar.movieapp.ui.myList
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.SaveListDetails
 import com.karrar.movieapp.ui.UIState
+import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +16,7 @@ import javax.inject.Inject
 class ListDetailsViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     saveStateHandle: SavedStateHandle
-) : ViewModel(), ListDetailsInteractionListener {
+) : BaseViewModel(), ListDetailsInteractionListener {
     private val args = ListDetailsFragmentArgs.fromSavedStateHandle(saveStateHandle)
 
 
@@ -22,16 +24,26 @@ class ListDetailsViewModel @Inject constructor(
     private val _itemId = MutableLiveData<Event<Int>>()
     val itemId: LiveData<Event<Int>>
         get() = _itemId
+
     private val _mediaType = MutableLiveData<Event<String>>()
     val mediaType : LiveData<Event<String>>
     get() = _mediaType
+    private val _itemName= MutableLiveData<Event<String>>()
+    val itemName: LiveData<Event<String>>
+        get() = _itemName
     init {
+        _itemName.postValue(Event(args.listName.toString()))
         getListDetailsById(args.id.toString())
     }
     private fun getListDetailsById(id: String) {
+        listDetails.postValue(UIState.Loading)
          viewModelScope.launch{
-            listDetails.postValue(UIState.Success(movieRepository.getSavedListDetails(id)))
-         }
+             wrapWithState({
+                 listDetails.postValue(UIState.Success(movieRepository.getSavedListDetails(id)))
+             },{
+                 listDetails.postValue(UIState.Error(it.message.toString()))
+             })
+          }
     }
 
     override fun onShowListItems(item: SaveListDetails) {

@@ -39,7 +39,10 @@ fun <T> showWhenSuccess2(view: View, state: UIState<T>?) {
 fun <T> showWhenLoading(view: View, state: State<T>?) {
     view.isVisible = (state is State.Loading)
 }
-
+@BindingAdapter(value = ["app:showWhenLoading2"])
+fun <T> showWhenLoading2(view: View, state: UIState<T>?) {
+    view.isVisible = (state is UIState.Loading)
+}
 @BindingAdapter(value = ["app:hideWhenLoading"])
 fun <T> hideWhenLoading(view: View, state: State<T>?) {
     view.isVisible = state !is State.Loading
@@ -50,7 +53,7 @@ fun <T> showWhenFail(view: View, state: State<T>?) {
     view.isVisible = state is State.Error
 }
 
-@BindingAdapter("app:showWhenFail")
+@BindingAdapter("app:showWhenFail2")
 fun <T> showWhenFail2(view: View, state: UIState<T>?) {
     view.isVisible = state is UIState.Error
 }

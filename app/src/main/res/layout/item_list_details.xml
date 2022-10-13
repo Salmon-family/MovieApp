@@ -17,7 +17,8 @@
         android:layout_height="100dp"
         android:backgroundTint="@color/background_color"
         app:cardCornerRadius="12dp"
-        android:layout_margin="@dimen/spacing_medium"
+        android:layout_marginHorizontal="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/spacing_medium"
         android:onClick="@{()-> listener.onShowListItems(item)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,7 +35,6 @@
                 app:movieImage="@{item.posterPath}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
@@ -51,7 +51,6 @@
                 android:text="@{item.title}"
                 android:textColor="@color/shade_primary_color"
                 android:textSize="16sp"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/movie_poster"
                 app:layout_constraintTop_toTopOf="parent"

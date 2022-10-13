@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MyListViewModel @Inject constructor(
+class MyListsViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     private val accountRepository: AccountRepository,
 ) : BaseViewModel(), CreatedListInteractionListener {
@@ -39,6 +39,10 @@ class MyListViewModel @Inject constructor(
     private val _itemId = MutableLiveData<Event<Int>>()
     val itemId: LiveData<Event<Int>>
         get() = _itemId
+    private val _itemName= MutableLiveData<Event<String>>()
+    val itemName: LiveData<Event<String>>
+        get() = _itemName
+
 
 
     init {
@@ -48,10 +52,12 @@ class MyListViewModel @Inject constructor(
     private fun initCreatedList() {
         viewModelScope.launch {
             accountRepository.getSessionId().collectLatest {
+                _createdList.postValue(UIState.Loading)
                 wrapWithState({
-                    Log.d("sessionId :",it.toString())
                     val response = movieRepository.getAllLists(0, it.toString()).toMutableList()
                     _createdList.postValue(UIState.Success(response))
+                },{
+                    _createdList.postValue(UIState.Error(it.message.toString()))
                 })
             }
         }
@@ -86,6 +92,7 @@ class MyListViewModel @Inject constructor(
     }
 
     override fun onShowListItems(item: CreatedList) {
+        _itemName.postValue(Event(item.name!!))
         _itemId.postValue(Event(item.id!!))
     }
 }
