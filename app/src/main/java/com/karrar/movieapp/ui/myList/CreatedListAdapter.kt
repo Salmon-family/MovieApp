@@ -11,5 +11,5 @@ class CreatedListAdapter(items: List<CreatedList>, listener: CreatedListInteract
 }
 
 interface CreatedListInteractionListener : BaseInteractionListener{
-    fun onShowListItems(item: CreatedList)
+    fun onListClick(item: CreatedList)
 }

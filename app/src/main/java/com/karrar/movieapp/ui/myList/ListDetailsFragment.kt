@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentListDetailsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.EventObserve
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,21 +17,20 @@ import dagger.hilt.android.AndroidEntryPoint
 class ListDetailsFragment() : BaseFragment<FragmentListDetailsBinding>() {
     override val layoutIdFragment = R.layout.fragment_list_details
     override val viewModel: ListDetailsViewModel by viewModels()
-    lateinit var listDetailsAdapter: ListDetailsAdapter
+    private val args : ListDetailsFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.itemName.observe(viewLifecycleOwner,EventObserve{
-            setTitle(true,it)
-        })
-        listDetailsAdapter = ListDetailsAdapter(mutableListOf(), viewModel)
-        binding.lists.adapter = listDetailsAdapter
+
+        setTitle(true, args.listName)
+
+        binding.lists.adapter = ListDetailsAdapter(mutableListOf(), viewModel)
         observeEvents()
     }
 
     private fun observeEvents() {
         viewModel.mediaType.observe(viewLifecycleOwner, EventObserve {
-            if (it == "movie") {
+            if (it == Constants.MOVIE) {
                 viewModel.itemId.observe(viewLifecycleOwner, EventObserve { id->
                     navigateToMovieDetails(id)
                 })

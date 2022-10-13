@@ -17,8 +17,8 @@ class ListDetailsViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     saveStateHandle: SavedStateHandle
 ) : BaseViewModel(), ListDetailsInteractionListener {
-    private val args = ListDetailsFragmentArgs.fromSavedStateHandle(saveStateHandle)
 
+    private val args = ListDetailsFragmentArgs.fromSavedStateHandle(saveStateHandle)
 
     val listDetails = MutableLiveData<UIState<List<SaveListDetails>>>()
     private val _itemId = MutableLiveData<Event<Int>>()
@@ -28,13 +28,11 @@ class ListDetailsViewModel @Inject constructor(
     private val _mediaType = MutableLiveData<Event<String>>()
     val mediaType : LiveData<Event<String>>
     get() = _mediaType
-    private val _itemName= MutableLiveData<Event<String>>()
-    val itemName: LiveData<Event<String>>
-        get() = _itemName
+
     init {
-        _itemName.postValue(Event(args.listName.toString()))
         getListDetailsById(args.id.toString())
     }
+
     private fun getListDetailsById(id: String) {
         listDetails.postValue(UIState.Loading)
          viewModelScope.launch{
@@ -46,9 +44,9 @@ class ListDetailsViewModel @Inject constructor(
           }
     }
 
-    override fun onShowListItems(item: SaveListDetails) {
+    override fun onItemClick(item: SaveListDetails) {
         _mediaType.postValue(Event(item.mediaType!!))
-        _itemId.postValue(Event(item.id!!))
+        _itemId.postValue(Event(item.id))
     }
 
 }

@@ -19,7 +19,7 @@
         app:cardCornerRadius="12dp"
         android:layout_marginHorizontal="@dimen/spacing_medium"
         android:layout_marginTop="@dimen/spacing_medium"
-        android:onClick="@{()-> listener.onShowListItems(item)}">
+        android:onClick="@{()-> listener.onItemClick(item)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -20,7 +20,7 @@
         android:layout_marginHorizontal="@dimen/spacing_medium"
         android:layout_marginVertical="@dimen/spacing_small"
         app:cardCornerRadius="@dimen/radius_small"
-        android:onClick="@{()->listener.onShowListItems(item)}">
+        android:onClick="@{()->listener.onListClick(item)}">
 
 
     <androidx.appcompat.widget.LinearLayoutCompat

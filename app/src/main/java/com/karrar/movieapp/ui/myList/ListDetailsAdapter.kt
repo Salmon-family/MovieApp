@@ -14,6 +14,6 @@ class ListDetailsAdapter(
 }
 interface ListDetailsInteractionListener : BaseInteractionListener {
 
-    fun onShowListItems(item: SaveListDetails)
+    fun onItemClick(item: SaveListDetails)
 
 }

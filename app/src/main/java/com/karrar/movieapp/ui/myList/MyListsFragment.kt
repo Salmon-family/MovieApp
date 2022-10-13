@@ -1,14 +1,12 @@
 package com.karrar.movieapp.ui.myList
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMyListsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.EventObserve
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,13 +27,11 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
         viewModel.isButtonClicked.observeEvent(viewLifecycleOwner) {
             navigateToCreateListDialog()
         }
-            viewModel.itemId.observe(viewLifecycleOwner,EventObserve{ id ->
-                viewModel.itemName.observe(viewLifecycleOwner,EventObserve{ listName ->
-                    val action =
-                        MyListsFragmentDirections.actionMyListFragmentToSavedListFragment(id,listName)
-                    findNavController().navigate(action)
-                })
-            })
+
+        viewModel.item.observeEvent(viewLifecycleOwner){
+            val action = MyListsFragmentDirections.actionMyListFragmentToSavedListFragment(it.id, it.name)
+            findNavController().navigate(action)
+        }
     }
 
     private fun navigateToCreateListDialog() {
