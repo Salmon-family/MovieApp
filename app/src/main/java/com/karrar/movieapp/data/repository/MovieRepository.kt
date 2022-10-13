@@ -4,7 +4,6 @@ import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.*
-import com.karrar.movieapp.data.remote.response.movie.RatedMovie
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.domain.models.*
@@ -28,11 +27,11 @@ interface MovieRepository {
 
     suspend fun getTrendingMovies2(): List<Media>
 
-    fun searchForActor(query: String): Flow<State<List<Media>>>
+    suspend fun searchForActor(query: String): List<Media>
 
-    fun searchForMovie(query: String): Flow<State<List<Media>>>
+    suspend fun searchForMovie(query: String): List<Media>
 
-    fun searchForSeries(query: String): Flow<State<List<Media>>>
+    suspend fun searchForSeries(query: String): List<Media>
 
     fun getMovieGenreList(): Flow<State<List<Genre>>>
 
@@ -42,7 +41,7 @@ interface MovieRepository {
 
     suspend fun getMovieListByGenreID2(genreID: Int): List<Media>
 
-    fun getActorDetails(actorId: Int): Flow<State<ActorDetails>>
+    suspend fun getActorDetails(actorId: Int): ActorDetails
 
     suspend fun insertSearchItem(item: SearchHistoryEntity)
 
@@ -50,23 +49,21 @@ interface MovieRepository {
 
     fun getAllSearchHistory(): Flow<List<SearchHistory>>
 
-    fun getTrendingActors(): Flow<State<List<Actor>>>
+    suspend fun getTrendingActors(): List<Actor>
 
-    suspend fun getTrendingActors2(): List<Actor>
+    suspend fun getActorMovies(actorId: Int): List<Media>
 
-    fun getActorMovies(actorId: Int): Flow<State<List<Media>>>
+    suspend fun getDailyTrending(): List<Media>
 
-    fun getDailyTrending(): Flow<State<List<Media>>>
+    suspend fun getAllMovies(): List<Media>
 
-    fun getAllMovies(): Flow<State<List<Media>>>
+   suspend fun getMovieDetails(movieId: Int): MovieDetails
 
-    fun getMovieDetails(movieId: Int): Flow<State<MovieDetails>>
+    suspend fun getMovieCast(movieId: Int): List<Actor>
 
-    fun getMovieCast(movieId: Int): Flow<State<List<Actor>>>
+    suspend fun getSimilarMovie(movieId: Int): List<Media>
 
-    fun getSimilarMovie(movieId: Int): Flow<State<List<Media>>>
-
-    fun getMovieReviews(movieId: Int): Flow<State<List<Review>>>
+    suspend fun getMovieReviews(movieId: Int): List<Review>
 
     fun setRating(movieId: Int, value:Float, session_id: String): Flow<State<RatingDto>>
 
@@ -78,11 +75,7 @@ interface MovieRepository {
 
     fun getListDetails(listId: Int): Flow<State<ListDetailsDto>>
 
-    fun getRatedMovie(accountId: Int, sessionId: String): Flow<State<BaseResponse<RatedMovie>>>
-
-    fun getAccountDetails(sessionId: String): Flow<State<Account>>
-
-    fun getRatedMovies(sessionId: String?): Flow<State<List<RatedMovies>>>
+    suspend fun getRatedMovie(accountId: Int, sessionId: String): List<RatedMovies>
 
     suspend fun insertMovie(movie: WatchHistoryEntity)
 
@@ -90,8 +83,5 @@ interface MovieRepository {
 
     suspend fun clearWatchHistory()
 
-    fun createList(
-        sessionId: String,
-        name: String,
-    ): Flow<State<AddListResponse>>
+    fun createList(sessionId: String, name: String): Flow<State<AddListResponse>>
 }

@@ -42,7 +42,7 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
         Navigation.findNavController(binding.root)
             .navigate(
                 ActorDetailsFragmentDirections.actionActorDetailsFragmentToAllMovieOfActorFragment(
-                    viewModel.actorId,
+                    viewModel.args.id,
                     MovieType.NON
                 )
             )

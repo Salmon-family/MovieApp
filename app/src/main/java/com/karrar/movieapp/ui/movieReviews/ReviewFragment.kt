@@ -16,7 +16,8 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.commentReviewAdapter.adapter = ReviewAdapter(mutableListOf(), viewModel)
+        binding.commentReviewAdapter.adapter = ReviewAdapter(emptyList(), viewModel)
+
     }
 
 }

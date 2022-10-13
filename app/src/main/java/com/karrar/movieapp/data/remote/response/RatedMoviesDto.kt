@@ -22,7 +22,7 @@ data class RatedMoviesDto(
     @SerializedName("poster_path")
     val posterPath: String? = null,
     @SerializedName("rating")
-    val rating: Int? = null,
+    val rating: Float? = null,
     @SerializedName("release_date")
     val releaseDate: String? = null,
     @SerializedName("title")

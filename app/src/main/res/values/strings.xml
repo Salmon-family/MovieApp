@@ -85,4 +85,5 @@
     <string name="empty_overview_text">This season has no description.</string>
     <string name="one_season">%1$d Season</string>
     <string name="more_than_one_season">%1$d Seasons</string>
+    <string name="you_must_be_logged_in_to_see_the_profile">You must be logged in to see the profile</string>
 </resources>

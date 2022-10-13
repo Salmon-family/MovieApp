@@ -1,17 +1,24 @@
 package com.karrar.movieapp.ui.movieDetails
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.response.movie.RatedMovie
+import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.enums.MovieType
-import com.karrar.movieapp.domain.models.*
+import com.karrar.movieapp.domain.models.MovieDetails
+import com.karrar.movieapp.domain.models.RatedMovies
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
-import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,40 +26,34 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
-    state: SavedStateHandle
-) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener , DetailInteractionListener {
+    private val accountRepository: AccountRepository,
+    state: SavedStateHandle,
+) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener,
+    DetailInteractionListener {
 
     private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
 
     private var _movieDetails = MutableLiveData<State<MovieDetails>>()
-    val movieDetails: LiveData<State<MovieDetails>> = _movieDetails
+    val movieDetails = _movieDetails.toLiveData()
 
-    private var _movieCast = MutableLiveData<State<List<Actor>>>()
-    val movieCast: LiveData<State<List<Actor>>> = _movieCast
-
-    private var _similarMovie = MutableLiveData<State<List<Media>>>()
-    val similarMovie: LiveData<State<List<Media>>> = _similarMovie
-
-    private var _movieReviews = MutableLiveData<State<List<Review>>>()
-    val movieReviews: LiveData<State<List<Review>>> = _movieReviews
 
     private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
-    var clickBackEvent: LiveData<Event<Boolean>> = _clickBackEvent
+    var clickBackEvent = _clickBackEvent.toLiveData()
 
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
-    var clickMovieEvent: LiveData<Event<Int>> = _clickMovieEvent
+    val clickMovieEvent = _clickMovieEvent.toLiveData()
 
     private val _clickCastEvent = MutableLiveData<Event<Int>>()
-    var clickCastEvent: LiveData<Event<Int>> = _clickCastEvent
+    var clickCastEvent = _clickCastEvent.toLiveData()
 
     private val _clickPlayTrailerEvent = MutableLiveData<Event<Boolean>>()
-    var clickPlayTrailerEvent: LiveData<Event<Boolean>> = _clickPlayTrailerEvent
+    var clickPlayTrailerEvent = _clickPlayTrailerEvent.toLiveData()
 
     private val _clickReviewsEvent = MutableLiveData<Event<Boolean>>()
-    var clickReviewsEvent: LiveData<Event<Boolean>> = _clickReviewsEvent
+    var clickReviewsEvent = _clickReviewsEvent.toLiveData()
 
     private val _clickSaveEvent = MutableLiveData<Event<Boolean>>()
-    var clickSaveEvent: LiveData<Event<Boolean>> = _clickSaveEvent
+    var clickSaveEvent = _clickSaveEvent.toLiveData()
 
     private val _check = MutableLiveData<Float>()
 
@@ -60,35 +61,76 @@ class MovieDetailsViewModel @Inject constructor(
 
     var ratingValue = MutableLiveData<Float>()
 
+    val detailItemsLiveData = MutableLiveData<UIState<List<DetailItem>>>()
+    private val detailItems = mutableListOf<DetailItem>()
+
     init {
         getAllDetails(args.movieId)
     }
 
-    fun getAllDetails(movie_id: Int) {
-
-        collectResponse(movieRepository.getMovieDetails(movie_id)) {
-            _movieDetails.postValue(it)
-            insertMovieToWatchHistory(it.toData())
-        }
-        collectResponse(movieRepository.getMovieCast(movie_id)) {
-            _movieCast.postValue(it)
-        }
-        collectResponse(movieRepository.getSimilarMovie(movie_id)) {
-            _similarMovie.postValue(it)
-        }
-        collectResponse(movieRepository.getMovieReviews(movie_id)) {
-            _movieReviews.postValue(it)
-        }
-        collectResponse(
-            movieRepository.getRatedMovie(
-                14012083,
-                "1d92e6a329c67e2e5e0486a0a93d5980711535b1"
-            )
-        ) {
-            checkIfMovieRated(it.toData()?.items, movie_id)
-        }
+    private fun getAllDetails(movieId: Int) {
+        detailItemsLiveData.postValue(UIState.Loading)
+        getMovieDetails(movieId)
+        getMovieCast(movieId)
+        getSimilarMovie(movieId)
+        getRatedMovie(movieId)
+        getMovieReviews(movieId)
 
     }
+
+    private fun getRatedMovie(movieId: Int) {
+        viewModelScope.launch {
+            accountRepository.getSessionId().collectLatest {
+                wrapWithState({
+                    val response = movieRepository.getRatedMovie(0, it.toString())
+                    checkIfMovieRated(response, movieId)
+                    updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
+                }
+                )
+            }
+        }
+    }
+
+    private fun getMovieReviews(movieId: Int) {
+        wrapWithState({
+            val response = movieRepository.getMovieReviews(movieId)
+            if (response.isNotEmpty()){
+                response.take(3).forEach {
+                    updateDetailItems(DetailItem.Comment(it))
+                }
+                updateDetailItems(DetailItem.ReviewText)
+            }
+            if (response.count() > 3)
+                updateDetailItems(DetailItem.SeeAllReviewsButton)
+        })
+
+    }
+
+    private fun getSimilarMovie(movieId: Int) {
+        wrapWithState(
+            {
+                val response = movieRepository.getSimilarMovie(movieId)
+                updateDetailItems(DetailItem.SimilarMovies(response))
+            },
+        )
+    }
+
+    private fun getMovieCast(movieId: Int) {
+        wrapWithState({
+            val response = movieRepository.getMovieCast(movieId)
+            updateDetailItems(DetailItem.Cast(response))
+        })
+    }
+
+    private fun getMovieDetails(movieId: Int) {
+        wrapWithState(
+            {
+                val response = movieRepository.getMovieDetails(movieId)
+                updateDetailItems(DetailItem.Header(response))
+                insertMovieToWatchHistory(response)
+            })
+    }
+
 
     private fun insertMovieToWatchHistory(movie: MovieDetails?) {
         viewModelScope.launch {
@@ -107,7 +149,7 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun checkIfMovieRated(items: List<RatedMovie>?, movie_id: Int) {
+    private fun checkIfMovieRated(items: List<RatedMovies>?, movie_id: Int) {
         val item = items?.firstOrNull { it.id == movie_id }
         item?.let {
             if (it.rating != ratingValue.value) {
@@ -120,10 +162,13 @@ class MovieDetailsViewModel @Inject constructor(
     fun onAddRating(movie_id: Int, value: Float) {
         if (_check.value != value) {
             collectResponse(
-                movieRepository.setRating(
-                    movie_id, value,
-                    "1d92e6a329c67e2e5e0486a0a93d5980711535b1"
-                )
+                accountRepository.getSessionId().flatMapLatest {
+                    movieRepository.setRating(
+                        movie_id, value,
+                        it.toString()
+                    )
+                }
+
             )
             {
                 if (it is State.Success) {
@@ -134,8 +179,12 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+    private fun updateDetailItems(item: DetailItem) {
+        detailItems.add(item)
+        detailItemsLiveData.postValue(UIState.Success(detailItems))
+    }
 
-   override fun onClickSave() {
+    override fun onClickSave() {
         _clickSaveEvent.postValue(Event(true))
     }
 

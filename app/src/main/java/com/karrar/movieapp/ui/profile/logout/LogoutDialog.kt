@@ -10,6 +10,7 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.DialogLogoutBinding
 import com.karrar.movieapp.ui.base.BaseDialog
 import com.karrar.movieapp.utilities.EventObserve
+import com.karrar.movieapp.utilities.observeEvent
 import com.karrar.movieapp.utilities.setWidthPercent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,12 +27,12 @@ class LogoutDialog : BaseDialog<DialogLogoutBinding>() {
     }
 
     private fun observeEvents() {
-        viewModel.clickLoginEvent.observe(viewLifecycleOwner, EventObserve {
+        viewModel.clickLoginEvent.observeEvent(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_logoutDialog_to_loginFragment)
-        })
+        }
 
-        viewModel.closeDialogEvent.observe(viewLifecycleOwner, EventObserve {
+        viewModel.closeDialogEvent.observeEvent(viewLifecycleOwner) {
             dismiss()
-        })
+        }
     }
 }

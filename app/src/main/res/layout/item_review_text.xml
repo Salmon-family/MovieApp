@@ -15,6 +15,7 @@
             style="@style/SemiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginStart="@dimen/spacing_medium"
             android:text="@string/reviews_comment"
             app:layout_constraintStart_toStartOf="parent"

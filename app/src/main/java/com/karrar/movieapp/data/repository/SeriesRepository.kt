@@ -25,11 +25,11 @@ interface SeriesRepository {
 
     fun getLatestTvShows(): Flow<State<List<Media>>>
 
-    fun getTVShowsGenreList(): Flow<State<List<Genre>>>
+    suspend fun getTVShowsGenreList(): List<Genre>
 
-    fun getTvShowsByGenreID(genreId: Int): Flow<State<List<Media>>>
+    suspend fun getTvShowsByGenreID(genreId: Int): List<Media>
 
-    fun getAllTvShows(): Flow<State<List<Media>>>
+    suspend fun getAllTvShows():List<Media>
 
     fun getTvShowDetails(tvShowId: Int): Flow<State<TvShowDetails>>
 

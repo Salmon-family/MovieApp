@@ -1,10 +1,8 @@
 package com.karrar.movieapp.ui.movieDetails
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.DiffUtil
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
 import com.karrar.movieapp.ui.adapters.ActorAdapter
@@ -12,13 +10,12 @@ import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieAdapter
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseAdapter
-import com.karrar.movieapp.ui.base.BaseDiffUtil
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.tvShowDetails.SeasonAdapter
 import com.karrar.movieapp.ui.tvShowDetails.SeasonInteractionListener
 
 class DetailAdapter(
-    private val items: MutableList<DetailItem>,
+    private var items: List<DetailItem>,
     private val listener: BaseInteractionListener,
 ) : BaseAdapter<DetailItem>(items, listener) {
     override val layoutID: Int = 0
@@ -84,18 +81,9 @@ class DetailAdapter(
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun addItem(newItem: DetailItem) {
-        val newItems = items.apply {
-            add(newItem)
-            sortBy {
-                it.priority
-            }
-        }
-        val diffResult =
-            DiffUtil.calculateDiff(BaseDiffUtil(items, newItems, ::areItemsSame, ::areContentSame))
-        diffResult.dispatchUpdatesTo(this)
-        notifyDataSetChanged()
+    override fun setItems(newItems: List<DetailItem>) {
+        items = newItems.sortedBy { it.priority }
+        super.setItems(items)
     }
 
     override fun areItemsSame(oldItem: DetailItem, newItem: DetailItem): Boolean {
