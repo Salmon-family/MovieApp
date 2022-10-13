@@ -15,18 +15,14 @@ interface SeriesRepository {
 
     suspend fun getAiringToday2(): List<Media>
 
-    fun getTopRatedTvShow(): Flow<State<List<Media>>>
-
     suspend fun getTopRatedTvShow2(): List<Media>
 
-    fun getPopularTvShow(): Flow<State<List<Media>>>
-
-    fun getLatestTvShows(): Flow<State<List<Media>>>
+    suspend fun getPopularTvShow(): List<Media>
 
     suspend fun getTVShowsGenreList(): List<Genre>
 
     suspend fun getTvShowsByGenreID(genreId: Int): List<Media>
 
-    suspend fun getAllTvShows():List<Media>
+    suspend fun getAllTvShows(): List<Media>
 
 }

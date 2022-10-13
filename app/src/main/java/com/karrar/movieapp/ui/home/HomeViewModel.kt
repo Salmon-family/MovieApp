@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MovieType
+import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
@@ -73,7 +74,7 @@ class HomeViewModel @Inject constructor(
         getMovieListByGenreID(Constants.MYSTERY_ID, MovieType.MYSTERY)
     }
 
-    private fun resetFailedState(){
+    private fun resetFailedState() {
         counter = 0
         failedState.postValue(UIState.Loading)
     }
@@ -140,8 +141,12 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getTopRatedTvShow() {
+        val tvShowList = mutableListOf<Media>()
         wrapWithState({
-            updateHomeItems(HomeRecyclerItem.TvShows(seriesRepository.getTopRatedTvShow2()))
+            tvShowList.add(seriesRepository.getTopRatedTvShow2().first())
+            tvShowList.add(seriesRepository.getAiringToday2().first())
+            tvShowList.add(seriesRepository.getPopularTvShow().first())
+            updateHomeItems(HomeRecyclerItem.TvShows(tvShowList))
         }, {
             _failedState.postValue(++counter)
         })

@@ -180,9 +180,6 @@ interface MovieService {
     @GET("tv/popular")
     suspend fun getPopularTvShow():Response<BaseResponse<TVShowsDTO>>
 
-    @GET("tv/latest")
-    suspend fun getLatestTvShow():Response<BaseResponse<TVShowsDTO>>
-
     @GET("genre/tv/list")
     suspend fun getGenreTvShowList(): Response<GenreResponse>
 

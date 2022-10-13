@@ -10,8 +10,8 @@ import com.karrar.movieapp.databinding.ItemLoadStateBinding
 import dagger.hilt.android.scopes.FragmentScoped
 
 @FragmentScoped
-class MediaLoadStateAdapter(private val retry: () -> Unit) :
-    LoadStateAdapter<MediaLoadStateAdapter.LoadStateViewHolder>() {
+class LoadUIStateAdapter(private val retry: () -> Unit) :
+    LoadStateAdapter<LoadUIStateAdapter.LoadStateViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState) =
         LoadStateViewHolder(

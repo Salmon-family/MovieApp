@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentAllMovieBinding
 import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.ui.adapters.MediaLoadStateAdapter
+import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.EventObserve
 import com.karrar.movieapp.utilities.collect
@@ -32,7 +32,7 @@ class AllMovieFragment() : BaseFragment<FragmentAllMovieBinding>() {
     }
 
     private fun setMovieAdapter() {
-        val footerAdapter = MediaLoadStateAdapter(allMediaAdapter::retry)
+        val footerAdapter = LoadUIStateAdapter(allMediaAdapter::retry)
         binding.recyclerMedia.adapter = allMediaAdapter.withLoadStateFooter(footerAdapter)
         setSnapSize(footerAdapter)
 
@@ -43,7 +43,7 @@ class AllMovieFragment() : BaseFragment<FragmentAllMovieBinding>() {
         collectLast(viewModel.allMedia, ::setAllMedia)
     }
 
-    private fun setSnapSize(footerAdapter: MediaLoadStateAdapter) {
+    private fun setSnapSize(footerAdapter: LoadUIStateAdapter) {
         val mManager = binding.recyclerMedia.layoutManager as GridLayoutManager
         mManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {

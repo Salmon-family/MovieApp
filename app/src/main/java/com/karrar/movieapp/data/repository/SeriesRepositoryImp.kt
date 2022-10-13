@@ -1,7 +1,6 @@
 package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.GenreMapper
 import com.karrar.movieapp.domain.mappers.ListMapper
@@ -40,28 +39,17 @@ class SeriesRepositoryImp @Inject constructor(
             { ListMapper(mediaMapper).mapList(it.items) }) ?: emptyList()
     }
 
-    override fun getTopRatedTvShow(): Flow<State<List<Media>>> {
-        return wrap({ service.getTopRatedTvShow() }, { response ->
-            response.items?.map { mediaMapper.map(it) } ?: emptyList()
-        })
-    }
 
     override suspend fun getTopRatedTvShow2(): List<Media> {
         return wrap2({ service.getTopRatedTvShow() },
-            { ListMapper(mediaMapper).mapList(it.items) }) ?: emptyList()
+            { ListMapper(mediaMapper).mapList(it.items) })
     }
 
-    override fun getPopularTvShow(): Flow<State<List<Media>>> {
-        return wrap({ service.getPopularTvShow() }, { response ->
-            response.items?.map { mediaMapper.map(it) } ?: emptyList()
-        })
+    override suspend fun getPopularTvShow(): List<Media> {
+        return wrap2({ service.getPopularTvShow() },
+            { ListMapper(mediaMapper).mapList(it.items) })
     }
 
-    override fun getLatestTvShows(): Flow<State<List<Media>>> {
-        return wrap({ service.getLatestTvShow() }, { response ->
-            response.items?.map { mediaMapper.map(it) } ?: emptyList()
-        })
-    }
 
     override suspend fun getTVShowsGenreList(): List<Genre> {
         return wrap2({ service.getGenreTvShowList() },
