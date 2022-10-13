@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
-class AllMovieFragment() : BaseFragment<FragmentAllMovieBinding>() {
+class AllMovieFragment: BaseFragment<FragmentAllMovieBinding>() {
     override val layoutIdFragment = R.layout.fragment_all_movie
     override val viewModel: AllMovieViewModel by viewModels()
     private val allMediaAdapter: AllMediaAdapter by lazy { AllMediaAdapter(viewModel) }
@@ -36,9 +36,8 @@ class AllMovieFragment() : BaseFragment<FragmentAllMovieBinding>() {
         binding.recyclerMedia.adapter = allMediaAdapter.withLoadStateFooter(footerAdapter)
         setSnapSize(footerAdapter)
 
-        collect(flow = allMediaAdapter.loadStateFlow
-            .distinctUntilChangedBy { it.source.refresh }.map { it.refresh },
-            action = { viewModel.setErrorUiState(it) })
+        collect(flow = allMediaAdapter.loadStateFlow,
+            action = { viewModel.setErrorUiState(it.source.refresh) })
 
         collectLast(viewModel.allMedia, ::setAllMedia)
     }

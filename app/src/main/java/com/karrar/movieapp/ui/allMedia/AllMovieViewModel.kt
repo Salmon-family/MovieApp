@@ -47,14 +47,11 @@ class AllMovieViewModel @Inject constructor(
     }
 
     fun setErrorUiState(loadState: LoadState) {
-        val result = if (loadState is LoadState.Error) {
-            loadState.error.message ?: "Error"
-        } else null
-
-        if (!result.isNullOrBlank()) {
-            _allMediaState.postValue(UIState.Error(result))
-        } else {
-            _allMediaState.postValue(UIState.Success(true))
+        when (loadState) {
+            is LoadState.Error, null -> _allMediaState.postValue(UIState.Error(""))
+            else -> {
+                _allMediaState.postValue(UIState.Success(true))
+            }
         }
     }
 }
