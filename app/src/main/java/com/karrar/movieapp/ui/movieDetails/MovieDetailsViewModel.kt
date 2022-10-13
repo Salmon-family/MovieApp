@@ -58,7 +58,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     val messageAppear = MutableLiveData(Event(false))
 
-    override var ratingValue: MutableLiveData<Float>  = MutableLiveData<Float>()
+    override var ratingValue = MutableLiveData<Float>()
 
     val detailItemsLiveData = MutableLiveData<UIState<List<DetailItem>>>()
     private val detailItems = mutableListOf<DetailItem>()

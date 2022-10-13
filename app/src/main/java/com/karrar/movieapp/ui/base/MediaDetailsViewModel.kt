@@ -5,4 +5,5 @@ import androidx.lifecycle.MutableLiveData
 abstract class MediaDetailsViewModel : BaseViewModel() {
 
     abstract var ratingValue: MutableLiveData<Float>
+
 }

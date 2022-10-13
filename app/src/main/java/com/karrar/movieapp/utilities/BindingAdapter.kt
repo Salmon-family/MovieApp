@@ -201,3 +201,11 @@ fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
         view.text = view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
     }
 }
+
+@BindingAdapter("app:saveToListVisibility")
+fun setSaveToListVisibility(view: View, mediaType: MediaType?) {
+    when (mediaType) {
+        MediaType.MOVIE -> view.isVisible = true
+        else -> view.isVisible = false
+    }
+}
