@@ -47,24 +47,6 @@ class MovieRepositoryImp @Inject constructor(
 
     }
 
-    override fun getTrendingActors(): Flow<State<List<Actor>>> {
-        return wrap({ movieService.getTrendingActors() }) { response ->
-            response.items?.map { actorMapper.map(it) } ?: emptyList()
-        }
-    }
-
-    override fun getActorDetails(actorId: Int): Flow<State<ActorDetails>> {
-        return wrap({ movieService.getActorDetails(actorId) }, { actorDetailsMapper.map(it) })
-    }
-
-    override fun getActorMovies(actorId: Int): Flow<State<List<Media>>> {
-        return wrap({ movieService.getActorMovies(actorId) }, { actorMoviesDto ->
-            actorMoviesDto.cast?.mapNotNull { cast ->
-                cast?.let { movieMapper.map(it) }
-            } ?: emptyList()
-        })
-    }
-
     override fun getUpcomingMovies(): Flow<State<List<Media>>> {
         return wrap({ movieService.getUpcomingMovies() }, { baseResponse ->
             baseResponse.items?.map { movieMapper.map(it) } ?: emptyList()
@@ -243,7 +225,7 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMapper).mapList(it.items) })
     }
 
-    override suspend fun getTrendingActors2(): List<Actor> {
+    override suspend fun getTrendingActors(): List<Actor> {
         return wrap2({ movieService.getTrendingActors() },
             { ListMapper(actorMapper).mapList(it.items) })
     }
@@ -261,5 +243,19 @@ class MovieRepositoryImp @Inject constructor(
     override suspend fun getMovieListByGenreID2(genreID: Int): List<Media> {
         return wrap2({ movieService.getMovieListByGenre(genreID) },
             { ListMapper(movieMapper).mapList(it.items) })
+    }
+
+
+    override suspend fun getActorDetails(actorId: Int): ActorDetails {
+        return wrap2({ movieService.getActorDetails(actorId) }, { actorDetailsMapper.map(it) })
+    }
+
+    override suspend fun getActorMovies(actorId: Int): List<Media> {
+        return wrap2({ movieService.getActorMovies(actorId) },
+            {
+                ListMapper(movieMapper).mapList(it.cast?.mapNotNull { cast ->
+                    cast
+                })
+            })
     }
 }
