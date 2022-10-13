@@ -66,12 +66,12 @@ fun <T> showWhenFail2(view: View, state: UIState<T>?) {
 }
 
 @BindingAdapter(value = ["app:showWhenSearch"])
-fun showWhenSearch(view: View, text: String) {
+fun showWhenSearch(view: View, text: String){
     view.isVisible = !text.isNullOrEmpty()
 }
 
 @BindingAdapter(value = ["app:hideWhenSearch"])
-fun hideWhenSearch(view: View, text: String) {
+fun hideWhenSearch(view: View, text: String){
     view.isVisible = text.isNullOrEmpty()
 }
 
@@ -142,13 +142,13 @@ fun bindMovieImageURL(image: ImageView, imageURL: String?) {
 }
 
 @BindingAdapter("app:isVisible")
-fun <T> isVisible(view: View, isVisible: Boolean) {
+fun <T> isVisible(view: View,isVisible :Boolean){
     view.isVisible = isVisible
 
 }
 
 @BindingAdapter("app:setVideoId")
-fun setVideoId(view: YouTubePlayerView, videoId: String?) {
+fun setVideoId(view: YouTubePlayerView, videoId: String?){
     view.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
         override fun onReady(youTubePlayer: YouTubePlayer) {
             videoId?.let { youTubePlayer.loadVideo(it, 0f) }
@@ -178,4 +178,9 @@ fun convertToHoursPattern(text: TextView, duration: Int?) {
 @BindingAdapter("app:showWhenListIsEmpty")
 fun <T> showWhenListIsEmpty(text: TextView, list: List<T>?) {
     text.isVisible = list?.isEmpty() == true
+}
+
+@BindingAdapter(value = ["app:hideWhenLoading2"])
+fun <T> hideWhenLoading2(view: View, state: UIState<T>?) {
+    view.isVisible = state !is UIState.Loading
 }

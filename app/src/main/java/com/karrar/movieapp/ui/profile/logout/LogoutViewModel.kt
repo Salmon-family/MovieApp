@@ -34,7 +34,7 @@ class LogoutViewModel @Inject constructor(private val accountRepository: Account
     }
 
     fun onCloseDialog() {
-        _closeDialogEvent.postValue(Event(true))
+        _closeDialogEvent.postEvent(true)
     }
 
     private fun logoutEvent(state: State<Boolean>) {

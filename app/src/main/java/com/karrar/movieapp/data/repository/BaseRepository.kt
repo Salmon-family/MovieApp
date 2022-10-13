@@ -47,11 +47,11 @@ abstract class BaseRepository {
         function: suspend () -> Response<I>,
         mapper: (I) -> O
     ): O {
-        val response = function()
-        return if (response.isSuccessful) {
-            response.body()?.let { mapper(it) } ?: throw Throwable()
-        } else {
-            throw Throwable("response is not successful")
-        }
+            val response = function()
+            return if (response.isSuccessful) {
+                response.body()?.let { mapper(it) } ?: throw Throwable()
+            } else {
+                throw Throwable("response is not successful")
+            }
     }
 }
