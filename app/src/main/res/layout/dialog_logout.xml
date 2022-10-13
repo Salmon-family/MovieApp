@@ -68,7 +68,6 @@
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:paddingHorizontal="@dimen/spacing_small"
                 android:paddingVertical="@dimen/spacing_small"
-                android:textColor="@color/white"
                 android:onClick="@{() -> viewModel.onCloseDialog()}"
                 android:text="@string/cancel"
                 app:hideWhenLoading="@{viewModel.requestState}"

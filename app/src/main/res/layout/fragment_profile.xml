@@ -94,7 +94,6 @@
             android:onClick="@{() -> viewModel.onClickRatedMovies()}"
             android:paddingVertical="@dimen/spacing_medium"
             android:text="@string/rated_movies"
-            app:drawableTint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_watch_history" />
@@ -164,7 +163,7 @@
             android:onClick="@{() -> viewModel.onClickLogin()}"
             android:text="@string/login"
             android:textAppearance="@style/SemiBold.Medium"
-            android:textColor="@color/shade_secondary_color"
+            android:textColor="@color/white_primary"
             android:visibility="gone"
             app:backgroundTint="@color/color_states_material_button"
             app:cornerRadius="@dimen/radius_small"
