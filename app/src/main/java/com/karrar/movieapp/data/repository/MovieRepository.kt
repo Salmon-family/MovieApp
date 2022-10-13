@@ -82,11 +82,6 @@ interface MovieRepository {
 
     suspend fun clearWatchHistory()
 
-    fun createList(
-        sessionId: String,
-        name: String,
-    ): Flow<State<AddListResponse>>
-
     suspend fun getSavedListDetails(listId: String): List<SaveListDetails>
 
     fun createList(sessionId: String, name: String): Flow<State<AddListResponse>>

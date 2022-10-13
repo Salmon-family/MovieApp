@@ -41,7 +41,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading2="@{viewModel.createdList}" />
+            app:showWhenLoading="@{viewModel.createdList}" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_lost_connection"
@@ -54,7 +54,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/lost_internet_animation"
-            app:showWhenFail2="@{viewModel.createdList}" />
+            app:showWhenFail="@{viewModel.createdList}" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button"

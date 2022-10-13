@@ -6,7 +6,7 @@ import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.AddListResponse
 import com.karrar.movieapp.data.remote.response.AddMovieDto
-import com.karrar.movieapp.data.remote.response.ListDetailsDto
+import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.*
@@ -211,10 +211,7 @@ class MovieRepositoryImp @Inject constructor(
         return movieDao.deleteAllWatchedMovies()
     }
 
-    override fun createList(
-        sessionId: String,
-        name: String,
-    ): Flow<State<AddListResponse>> {
+    override fun createList(sessionId: String, name: String): Flow<State<AddListResponse>> {
         return wrapWithFlow {
             movieService.createList(sessionId, name)
         }
