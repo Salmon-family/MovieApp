@@ -114,8 +114,8 @@ class SeriesRepositoryImp @Inject constructor(
         })
     }
 
-    override fun getSeasonDetails(tvShowId: Int, seasonId: Int): Flow<State<Season>> {
-        return wrap({ service.getSeasonDetails(tvShowId, seasonId) }, { response ->
+    override suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): Season {
+        return wrap2({ service.getSeasonDetails(tvShowId, seasonId) }, { response ->
             seasonMapper.map(response)
         })
     }

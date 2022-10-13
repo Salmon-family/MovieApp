@@ -40,7 +40,7 @@ interface SeriesRepository {
 
     suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<RatedMovies>
 
-    fun getSeasonDetails(tvShowId: Int, seasonId: Int): Flow<State<Season>>
+    suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): Season
 
     suspend fun getTvShowTrailer(tvShowId: Int): Trailer
 
