@@ -14,7 +14,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class YoutubePlayerViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
@@ -26,23 +25,24 @@ class YoutubePlayerViewModel @Inject constructor(
 
     private var _movieTrailer = MutableLiveData<UIState<Trailer>>()
     val movieTrailer: LiveData<UIState<Trailer>> = _movieTrailer
+    
 
     init {
         getMovieTrailer(args.movieId)
     }
 
     private fun getMovieTrailer(movie_id: Int) {
-        UIState.Loading
+        _movieTrailer.postValue(UIState.Loading)
         viewModelScope.launch {
             when (args.type) {
                 MediaType.MOVIE -> wrapWithState({
                     val response = movieRepository.getMovieTrailer(movie_id)
                     _movieTrailer.postValue(UIState.Success(response))
-                })
+                }, {_movieTrailer.postValue(UIState.Error(""))})
                 MediaType.TV_SHOW -> wrapWithState({
                     val response = seriesRepository.getTvShowTrailer(movie_id)
                     _movieTrailer.postValue(UIState.Success(response))
-                })
+                }, { _movieTrailer.postValue(UIState.Error("")) })
             }
         }
     }
