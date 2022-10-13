@@ -1,9 +1,9 @@
 package com.karrar.movieapp.domain.mappers
 
+import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.models.TvShowDetails
-import com.karrar.movieapp.utilities.Constants
 import javax.inject.Inject
 
 class TvShowDetailsMapper @Inject constructor(
@@ -13,7 +13,7 @@ class TvShowDetailsMapper @Inject constructor(
     override fun map(input: TvShowDetailsDto): TvShowDetails {
         return TvShowDetails(
             input.id ?: 0,
-            Constants.IMAGE_BASE_PATH + input.posterPath,
+            BuildConfig.IMAGE_BASE_PATH + input.posterPath,
             input.name ?: "",
             input.firstAirDate?.take(4) ?: "unknown",
             input.genres?.map { it?.name }?.joinToString(", ") ?: "unknown",
