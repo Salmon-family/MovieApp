@@ -20,8 +20,7 @@ class ReviewViewModel @Inject constructor(
     state: SavedStateHandle
 ) : BaseViewModel(), BaseInteractionListener {
 
-    private val args =
-        com.karrar.movieapp.ui.movieReviews.ReviewFragmentArgs.fromSavedStateHandle(state)
+    private val args = ReviewFragmentArgs.fromSavedStateHandle(state)
 
     private var _movieReviews = MutableLiveData<UIState<List<Review>>>()
     val movieReviews = _movieReviews.toLiveData()

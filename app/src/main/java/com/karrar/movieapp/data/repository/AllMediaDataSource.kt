@@ -8,7 +8,6 @@ import com.karrar.movieapp.utilities.Constants
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import javax.inject.Inject
 
 
 //where should I put this interface ?!!!
@@ -29,21 +28,21 @@ class AllMediaDataSource @AssistedInject constructor(
         return try {
 
             val response = when (type) {
-                MovieType.TRENDING -> repository.getTrendingMovies2(pageNumber)
-                MovieType.UPCOMING -> repository.getUpcomingMovies2(pageNumber)
-                MovieType.NOW_STREAMING -> repository.getNowPlayingMovies2(pageNumber)
+                MovieType.TRENDING -> repository.getTrendingMovies(pageNumber)
+                MovieType.UPCOMING -> repository.getUpcomingMovies(pageNumber)
+                MovieType.NOW_STREAMING -> repository.getNowPlayingMovies(pageNumber)
                 MovieType.MYSTERY -> {
-                    repository.getMovieListByGenreID2(Constants.MYSTERY_ID, pageNumber)
+                    repository.getMovieListByGenreID(Constants.MYSTERY_ID, pageNumber)
                 }
                 MovieType.ADVENTURE -> {
-                    repository.getMovieListByGenreID2(Constants.ADVENTURE_ID, pageNumber)
+                    repository.getMovieListByGenreID(Constants.ADVENTURE_ID, pageNumber)
                 }
                 MovieType.ON_THE_AIR -> {
-                    seriesRepository.getOnTheAir2(pageNumber)
+                    seriesRepository.getOnTheAir(pageNumber)
                 }
                 MovieType.NON -> {
                     if (pageNumber == 1) {
-                        repository.getActorMovies2(actorID)
+                        repository.getActorMovies(actorID)
                     } else {
                         emptyList()
                     }

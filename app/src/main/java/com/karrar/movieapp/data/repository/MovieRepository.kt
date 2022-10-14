@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
-    suspend fun getPopularMovies2(genres: List<Genre>): List<PopularMovie>
+    suspend fun getPopularMovies(genres: List<Genre>): List<PopularMovie>
 
-    suspend fun getUpcomingMovies2(page: Int): List<Media>
+    suspend fun getUpcomingMovies(page: Int = 1): List<Media>
 
-    suspend fun getNowPlayingMovies2(page: Int): List<Media>
+    suspend fun getNowPlayingMovies(page: Int = 1): List<Media>
 
-    suspend fun getTrendingMovies2(page: Int = 1): List<Media>
+    suspend fun getTrendingMovies(page: Int = 1): List<Media>
 
     suspend fun searchForActor(query: String): List<Media>
 
@@ -25,9 +25,9 @@ interface MovieRepository {
 
     suspend fun searchForSeries(query: String): List<Media>
 
-    suspend fun getMovieGenreList2(): List<Genre>
+    suspend fun getMovieGenreList(): List<Genre>
 
-    suspend fun getMovieListByGenreID2(genreID: Int, page: Int): List<Media>
+    suspend fun getMovieListByGenreID(genreID: Int, page: Int): List<Media>
 
     suspend fun getActorDetails(actorId: Int): ActorDetails
 
@@ -74,6 +74,4 @@ interface MovieRepository {
     suspend fun getSavedListDetails(listId: String): List<SaveListDetails>
 
     suspend fun createList(sessionId: String, name: String): AddListResponse
-
-    suspend fun getActorMovies2(actorId: Int): List<Media>
 }

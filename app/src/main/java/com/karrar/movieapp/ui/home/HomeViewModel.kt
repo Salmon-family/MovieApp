@@ -86,8 +86,8 @@ class HomeViewModel @Inject constructor(
 
     private fun getPopularMovies() {
         wrapWithState({
-            val responseGenre = movieRepository.getMovieGenreList2()
-            val responseMovie = movieRepository.getPopularMovies2(responseGenre)
+            val responseGenre = movieRepository.getMovieGenreList()
+            val responseMovie = movieRepository.getPopularMovies(responseGenre)
             updateHomeItems(HomeRecyclerItem.Slider(responseMovie))
         }, {
             _failedState.postValue(++counter)
@@ -99,7 +99,7 @@ class HomeViewModel @Inject constructor(
             {
                 updateHomeItems(
                     HomeRecyclerItem.Trending(
-                        movieRepository.getTrendingMovies2(1),
+                        movieRepository.getTrendingMovies(1),
                         MovieType.TRENDING
                     )
                 )
@@ -118,7 +118,7 @@ class HomeViewModel @Inject constructor(
             {
                 updateHomeItems(
                     HomeRecyclerItem.Upcoming(
-                        movieRepository.getUpcomingMovies2(1),
+                        movieRepository.getUpcomingMovies(1),
                         MovieType.UPCOMING
                     )
                 )
@@ -131,7 +131,7 @@ class HomeViewModel @Inject constructor(
         wrapWithState({
             updateHomeItems(
                 HomeRecyclerItem.NowStreaming(
-                    movieRepository.getNowPlayingMovies2(1),
+                    movieRepository.getNowPlayingMovies(1),
                     MovieType.NOW_STREAMING
                 )
             )
@@ -143,8 +143,8 @@ class HomeViewModel @Inject constructor(
     private fun getTopRatedTvShow() {
         val tvShowList = mutableListOf<Media>()
         wrapWithState({
-            tvShowList.add(seriesRepository.getTopRatedTvShow2().first())
-            tvShowList.add(seriesRepository.getAiringToday2().first())
+            tvShowList.add(seriesRepository.getTopRatedTvShow().first())
+            tvShowList.add(seriesRepository.getAiringToday().first())
             tvShowList.add(seriesRepository.getPopularTvShow().first())
             updateHomeItems(HomeRecyclerItem.TvShows(tvShowList))
         }, {
@@ -156,7 +156,7 @@ class HomeViewModel @Inject constructor(
         wrapWithState({
             updateHomeItems(
                 HomeRecyclerItem.OnTheAiring(
-                    seriesRepository.getOnTheAir2(),
+                    seriesRepository.getOnTheAir(),
                     MovieType.ON_THE_AIR
                 )
             )
@@ -167,7 +167,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getAiringToday() {
         wrapWithState({
-            updateHomeItems(HomeRecyclerItem.AiringToday(seriesRepository.getAiringToday2()))
+            updateHomeItems(HomeRecyclerItem.AiringToday(seriesRepository.getAiringToday()))
         }, {
             _failedState.postValue(++counter)
         })
@@ -179,7 +179,7 @@ class HomeViewModel @Inject constructor(
                 wrapWithState({
                     updateHomeItems(
                         HomeRecyclerItem.Mystery(
-                            movieRepository.getMovieListByGenreID2(
+                            movieRepository.getMovieListByGenreID(
                                 genreID,
                                 1
                             ), type
@@ -193,7 +193,7 @@ class HomeViewModel @Inject constructor(
                 wrapWithState({
                     updateHomeItems(
                         HomeRecyclerItem.Adventure(
-                            movieRepository.getMovieListByGenreID2(
+                            movieRepository.getMovieListByGenreID(
                                 genreID,
                                 1
                             ), type

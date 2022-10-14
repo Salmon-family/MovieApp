@@ -4,7 +4,7 @@ import retrofit2.Response
 
 abstract class BaseRepository {
 
-    suspend fun <I, O> wrap2(
+    protected suspend fun <I, O> wrap(
         function: suspend () -> Response<I>,
         mapper: (I) -> O
     ): O {

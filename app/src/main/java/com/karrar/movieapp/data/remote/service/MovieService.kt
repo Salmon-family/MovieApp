@@ -142,9 +142,6 @@ interface MovieService {
         @Query("session_id") sessionId: String
     ): Response<BaseResponse<RatedMoviesDto>>
 
-    /**
-     *          TV Show Services ...
-     * */
     @GET("tv/on_the_air")
     suspend fun getOnTheAir(@Query("page") page: Int): Response<BaseResponse<TVShowsDTO>>
 

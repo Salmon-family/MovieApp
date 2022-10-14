@@ -72,7 +72,7 @@ class AccountRepositoryImp @Inject constructor(
     }
 
     override suspend fun getAccountDetails(sessionId: String): Account {
-        return wrap2({ service.getAccountDetails(sessionId) }, { accountMapper.map(it) })
+        return wrap({ service.getAccountDetails(sessionId) }, { accountMapper.map(it) })
     }
 
     private suspend fun getRequestToken(): String? {

@@ -16,8 +16,7 @@ class EpisodesViewModel @Inject constructor(
     state: SavedStateHandle
 ) : BaseViewModel(), EpisodesInteractionListener {
 
-    private val args =
-        com.karrar.movieapp.ui.episodes.EpisodesFragmentArgs.fromSavedStateHandle(state)
+    private val args = EpisodesFragmentArgs.fromSavedStateHandle(state)
 
     private var _seasonDetails = MutableLiveData<UIState<Season>>()
     val seasonDetails: LiveData<UIState<Season>> = _seasonDetails

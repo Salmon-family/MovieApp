@@ -6,11 +6,11 @@ import com.karrar.movieapp.domain.models.*
 
 interface SeriesRepository {
 
-    suspend fun getOnTheAir2(page: Int = 1): List<Media>
+    suspend fun getOnTheAir(page: Int = 1): List<Media>
 
-    suspend fun getAiringToday2(): List<Media>
+    suspend fun getAiringToday(): List<Media>
 
-    suspend fun getTopRatedTvShow2(): List<Media>
+    suspend fun getTopRatedTvShow(): List<Media>
 
     suspend fun getPopularTvShow(): List<Media>
 
