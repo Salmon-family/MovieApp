@@ -13,15 +13,6 @@ abstract class BaseViewModel : ViewModel() {
 
     val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
 
-    fun <T> collectResponse(flow: Flow<UIState<T>>, function: (UIState<T>) -> Unit) {
-        viewModelScope.launch {
-            flow.flowOn(Dispatchers.IO)
-                .collect { state ->
-                    function(state)
-                }
-        }
-    }
-
     fun wrapWithState(function: suspend () -> Unit, errorFunction: (e: Throwable) -> Unit = {}) {
         viewModelScope.launch {
             try {
