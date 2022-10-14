@@ -11,7 +11,7 @@ class TVShowMapper @Inject constructor() : Mapper<TVShowsDTO, Media> {
         return Media(
             input.id ?: 0,
             BuildConfig.IMAGE_BASE_PATH + input.posterPath,
-            Constants.MOVIE,
+            Constants.TV_SHOWS,
             input.originalName ?: "",
             input.firstAirDate?.substringBefore('-') ?: "",
             input.voteAverage?.toFloat() ?: 0F,

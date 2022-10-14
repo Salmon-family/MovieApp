@@ -30,9 +30,7 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setTitle(true,resources.getString(R.string.explore_label))
-
         observeEvents()
         binding.recyclerTrend.adapter = TrendAdapter(mutableListOf(), viewModel)
     }
@@ -81,7 +79,9 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
                 Constants.MOVIE -> {
                     findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToMovieDetailFragment(mediaId))
                 }
-                Constants.TV_SHOWS -> {}
+                Constants.TV_SHOWS -> {
+                    findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToTvShowDetailsFragment(mediaId))
+                }
                 Constants.ACTOR -> {}
             }
         })
