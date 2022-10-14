@@ -54,7 +54,10 @@ class AllMovieViewModel @Inject constructor(
     }
 
     override fun onClickMedia(mediaId: Int) {
-        if (args.type == AllMediaType.ON_THE_AIR) {
+        if (args.type == AllMediaType.ON_THE_AIR
+            || args.type == AllMediaType.POPULAR
+            || args.type == AllMediaType.AIRING_TODAY
+            || args.type == AllMediaType.TOP_RATED) {
             _clickSeriesEvent.postEvent(mediaId)
         } else {
             _clickMovieEvent.postEvent(mediaId)
