@@ -7,7 +7,6 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentWatchHistoryBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.EventObserve
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,8 +24,16 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
 
     private fun observeEvents() {
         viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner) { movieId ->
-            findNavController().navigate(WatchHistoryFragmentDirections.actionWatchHistoryFragmentToMovieDetailFragment(
-                movieId))
+            findNavController().navigate(
+                WatchHistoryFragmentDirections.actionWatchHistoryFragmentToMovieDetailFragment(
+                    movieId
+                )
+            )
+        }
+
+        viewModel.clickTVShowEvent.observeEvent(viewLifecycleOwner) { tvShowID ->
+            findNavController().navigate(
+                WatchHistoryFragmentDirections.actionWatchHistoryFragmentToTvShowDetailsFragment(tvShowID))
         }
     }
 }

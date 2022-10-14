@@ -262,6 +262,9 @@
         <action
             android:id="@+id/action_watchHistoryFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_watchHistoryFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
     </fragment>
 
     <activity

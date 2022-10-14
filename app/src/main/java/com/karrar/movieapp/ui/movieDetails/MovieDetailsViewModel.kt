@@ -141,6 +141,7 @@ class MovieDetailsViewModel @Inject constructor(
                         movieDuration = movieDetails.specialNumber,
                         voteAverage = movieDetails.voteAverage,
                         releaseDate = movieDetails.releaseDate,
+                        mediaType = Constants.MOVIE
                     )
                 )
             }

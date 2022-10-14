@@ -11,4 +11,5 @@ class WatchHistoryEntity(
     var voteAverage: String,
     var releaseDate: String,
     var movieDuration: Int,
+    var mediaType:String
 )

@@ -13,6 +13,7 @@ import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.MediaDetailsViewModel
 import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
 import com.karrar.movieapp.ui.movieDetails.DetailItem
+import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
@@ -143,6 +144,7 @@ class TvShowDetailsViewModel @Inject constructor(
                         movieDuration = tvShowDetails.specialNumber,
                         voteAverage = tvShowDetails.voteAverage,
                         releaseDate = tvShowDetails.releaseDate,
+                        mediaType = Constants.TV_SHOWS
                     )
                 )
             }

@@ -5,8 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.ui.UIState
-import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
@@ -22,15 +21,23 @@ class WatchHistoryViewModel @Inject constructor(
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
     val clickMovieEvent = _clickMovieEvent.toLiveData()
 
+    private val _clickTVShowEvent = MutableLiveData<Event<Int>>()
+    val clickTVShowEvent = _clickTVShowEvent.toLiveData()
+
     private val _watchHistory = MutableLiveData<List<WatchHistoryEntity>>()
     val watchHistory = _watchHistory.toLiveData()
 
-    override fun onClickMovie(movieID: Int) {
+    override fun onClickMovie(mediaID: Int) {
         _watchHistory.value?.let { it ->
-            val item = it.find { it.id == movieID }
-//            item.type
+            val item = it.find { it.id == mediaID }
+            item?.let {
+                if (it.mediaType == Constants.MOVIE) {
+                    _clickMovieEvent.postEvent(mediaID)
+                } else {
+                    _clickTVShowEvent.postEvent(mediaID)
+                }
+            }
         }
-        _clickMovieEvent.postEvent(movieID)
     }
 
     init {
