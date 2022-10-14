@@ -31,12 +31,12 @@
                 <HorizontalScrollView
                     android:id="@+id/horizontalScrollView"
                     android:layout_width="match_parent"
-                    android:scrollbars="none"
                     android:layout_height="@dimen/chip_height"
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:clipToPadding="false"
                     android:overScrollMode="never"
                     android:paddingHorizontal="@dimen/spacing_medium"
+                    android:scrollbars="none"
                     tools:background="@color/brand_color">
 
                     <com.google.android.material.chip.ChipGroup
@@ -73,6 +73,27 @@
             app:spanCount="3"
             tools:itemCount="15"
             tools:listitem="@layout/item_media" />
+
+
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:loading="@{viewModel.categories}" />
+
+        <include
+            android:id="@+id/error"
+            layout="@layout/error"
+            app:error="@{viewModel.categories}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:viewModel="@{viewModel}" />
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

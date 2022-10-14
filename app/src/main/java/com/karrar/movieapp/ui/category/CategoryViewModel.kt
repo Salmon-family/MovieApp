@@ -1,6 +1,8 @@
 package com.karrar.movieapp.ui.category
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.models.Genre
@@ -34,10 +36,13 @@ class CategoryViewModel @Inject constructor(
     var clickMovieEvent: LiveData<Event<Int>> = _clickMovieEvent
 
     init {
+        getData()
+    }
+
+    override fun getData() {
         setCategoryType()
         setAllMediaList()
     }
-
 
     private fun setCategoryType() {
         _categories.postValue(UIState.Loading)
@@ -52,14 +57,14 @@ class CategoryViewModel @Inject constructor(
                     _categories.postValue(UIState.Success(response))
                 }
             }
-        }, {})
+        }, {
+            _categories.postValue(UIState.Error(""))
+        })
     }
-
 
     override fun onClickMedia(mediaId: Int) {
         _clickMovieEvent.postValue(Event(mediaId))
     }
-
 
     override fun onClickCategory(categoryId: Int) {
         when (categoryId) {
@@ -90,7 +95,7 @@ class CategoryViewModel @Inject constructor(
         wrapWithState({
             when (args.mediaId) {
                 MOVIE_CATEGORIES_ID -> {
-                    val response = movieRepository.getMovieListByGenreID(id,1)
+                    val response = movieRepository.getMovieListByGenreID(id, 1)
                     _mediaList.postValue(UIState.Success(response))
                 }
                 TV_CATEGORIES_ID -> {
@@ -102,4 +107,5 @@ class CategoryViewModel @Inject constructor(
             _mediaList.postValue(UIState.Error(it.message.toString()))
         })
     }
+
 }

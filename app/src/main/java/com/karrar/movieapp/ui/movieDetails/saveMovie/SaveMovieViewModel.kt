@@ -31,42 +31,41 @@ class SaveMovieViewModel @Inject constructor(
     var message: LiveData<String> = _message
 
     init {
-        getCreatedLists()
+        getData()
     }
 
-    private fun getCreatedLists() {
+    override fun getData() {
         wrapWithState({
             accountRepository.getSessionId().collect {
                 val response = movieRepository.getAllLists(0, it.toString())
                 _savedList.postValue(UIState.Success(response))
             }
-        },
-            {
-                _savedList.postValue(UIState.Error("error"))
-            })
+        }, { _savedList.postValue(UIState.Error("error")) })
     }
 
     fun checkMovie(movieId: Int) {
         wrapWithState({
             val result = movieRepository.getListDetails(_clickListEvent.value!!.peekContent())
-            if (result.checkIfExist(movieId))
+            if (result.checkIfExist(movieId) === true) {
                 _message.postValue("Fail: this movie is already on the list")
-            if (!result.checkIfExist(movieId))
-                addMovieToList(movieId)
+            }
+            if (!result.checkIfExist(movieId)) addMovieToList(movieId)
         })
     }
 
 
     private fun addMovieToList(movieId: Int) {
-        wrapWithState({
-            val result = accountRepository.getSessionId()
-            movieRepository.addMovieToList(
-                result.toString(),
-                _clickListEvent.value?.peekContent() ?: 0,
-                movieId
-            )
-            _message.postValue("Susses: The movie has been added")
-        })
+        wrapWithState(
+            {
+                accountRepository.getSessionId().collect {
+                    movieRepository.addMovieToList(
+                        it.toString(),
+                        _clickListEvent.value?.peekContent() ?: 0,
+                        movieId
+                    )
+                    _message.postValue("Susses: The movie has been added")
+                }
+            })
     }
 
     override fun onClickList(listId: Int) {

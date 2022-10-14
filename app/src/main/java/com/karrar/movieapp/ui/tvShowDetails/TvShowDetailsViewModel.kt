@@ -55,6 +55,9 @@ class TvShowDetailsViewModel @Inject constructor(
     val messageAppear = MutableLiveData(Event(false))
 
     override var ratingValue = MutableLiveData<Float>()
+    override fun getData() {
+        TODO("Not yet implemented")
+    }
 
     val detailItemsLiveData = MutableLiveData<UIState<List<DetailItem>>>()
     private val detailItems = mutableListOf<DetailItem>()

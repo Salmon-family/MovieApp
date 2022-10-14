@@ -57,6 +57,7 @@ class HomeViewModel @Inject constructor(
     private fun updateState(value: Any) {
         if (_failedState.value!! >= Constants.NUM_HOME_REQUEST) {
             failedState.postValue(UIState.Error(""))
+            homeItemsLiveData.postValue(UIState.Error(""))
         }
     }
 
@@ -64,7 +65,7 @@ class HomeViewModel @Inject constructor(
         getData()
     }
 
-    fun getData() {
+    override fun getData() {
         resetFailedState()
         homeItemsLiveData.postValue(UIState.Loading)
         getTrending()
@@ -228,5 +229,6 @@ class HomeViewModel @Inject constructor(
     override fun onClickSeeTVShow(type: AllMediaType) {
         _clickSeeAllTVShowsEvent.postEvent(type)
     }
+
 
 }

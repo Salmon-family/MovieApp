@@ -33,4 +33,6 @@ abstract class BaseViewModel : ViewModel() {
 
     }
 
+    abstract fun getData()
+
 }

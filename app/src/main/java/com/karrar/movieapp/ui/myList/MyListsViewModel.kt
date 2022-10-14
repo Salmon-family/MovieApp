@@ -89,4 +89,8 @@ class MyListsViewModel @Inject constructor(
     override fun onListClick(item: CreatedList) {
         _item.postValue(Event(item))
     }
+
+    override fun getData() {
+        TODO("Not yet implemented")
+    }
 }

@@ -39,10 +39,10 @@ class ActorViewModel @Inject constructor(
     val clickMovieEvent = _clickMovieEvent.toLiveData()
 
     init {
-        getActorDetails()
+        getData()
     }
 
-    private fun getActorDetails() {
+    override fun getData() {
         _actorDetails.postValue(UIState.Loading)
         wrapWithState({
             val result = movieRepository.getActorDetails(args.id)
@@ -57,6 +57,7 @@ class ActorViewModel @Inject constructor(
         })
     }
 
+
     fun onClickBack() {
         _backEvent.postValue(Event(true))
     }
@@ -68,5 +69,6 @@ class ActorViewModel @Inject constructor(
     override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
         _seeAllMovies.postValue(Event(true))
     }
+
 
 }

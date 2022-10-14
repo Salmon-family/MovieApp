@@ -150,4 +150,8 @@ class SearchViewModel @Inject constructor(
     fun onClickBack(){
         _clickBackEvent.postEvent(true)
     }
+
+    override fun getData() {
+        TODO("Not yet implemented")
+    }
 }

@@ -72,4 +72,8 @@ class ProfileViewModel @Inject constructor(
     fun onClickLogin() {
         _clickLoginEvent.postEvent(true)
     }
+
+    override fun getData() {
+        TODO("Not yet implemented")
+    }
 }

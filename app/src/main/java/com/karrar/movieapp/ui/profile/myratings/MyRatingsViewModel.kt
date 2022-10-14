@@ -53,4 +53,8 @@ class MyRatingsViewModel @Inject constructor(
         _clickMovieEvent.postEvent(movieId)
     }
 
+    override fun getData() {
+        TODO("Not yet implemented")
+    }
+
 }

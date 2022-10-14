@@ -49,5 +49,9 @@ class ListDetailsViewModel @Inject constructor(
         _itemId.postValue(Event(item.id))
     }
 
+    override fun getData() {
+        TODO("Not yet implemented")
+    }
+
 }
 

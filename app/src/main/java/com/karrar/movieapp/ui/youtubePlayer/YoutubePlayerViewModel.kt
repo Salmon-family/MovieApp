@@ -44,4 +44,8 @@ class YoutubePlayerViewModel @Inject constructor(
         }, {})
     }
 
+    override fun getData() {
+        TODO("Not yet implemented")
+    }
+
 }

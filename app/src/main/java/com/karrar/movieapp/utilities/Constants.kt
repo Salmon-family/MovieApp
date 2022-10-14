@@ -1,5 +1,7 @@
 package com.karrar.movieapp.utilities
 
+import com.karrar.movieapp.ui.UIState
+
 object Constants {
     const val IMAGE_BASE_PATH = "https://image.tmdb.org/t/p/w780"
     const val MAX_NUMBER_AIRING_TODAY = 6
@@ -16,6 +18,7 @@ object Constants {
     const val PERSON = "person"
     const val ACTING = "Acting"
     const val NUM_HOME_REQUEST = 9
+    const val  SUCCESS_REQUEST = 1
 }
 
 object DataStorePreferencesKeys{

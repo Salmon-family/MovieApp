@@ -36,4 +36,8 @@ class EpisodesViewModel @Inject constructor(
         })
     }
 
+    override fun getData() {
+        TODO("Not yet implemented")
+    }
+
 }

@@ -197,5 +197,24 @@
             app:lottie_rawRes="@raw/loading_animation"
             app:showWhenLoading="@{viewModel.trend}" />
 
+<!--        <include-->
+<!--            android:id="@+id/loading"-->
+<!--            layout="@layout/loading"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:loading="@{viewModel.trend}" />-->
+
+<!--        <include-->
+<!--            android:id="@+id/error"-->
+<!--            layout="@layout/error"-->
+<!--            app:error="@{viewModel.trend}"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:viewModel="@{viewModel}" />-->
+
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

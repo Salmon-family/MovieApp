@@ -37,6 +37,10 @@ class ActorsViewModel @Inject constructor(
         _clickActorEvent.postEvent(actorID)
     }
 
+    override fun getData() {
+
+    }
+
     fun setErrorUiState(loadState: LoadState) {
         val result = if (loadState is LoadState.Error) {
             loadState.error.message ?: "Error"
@@ -48,4 +52,5 @@ class ActorsViewModel @Inject constructor(
             _actorsState.postValue(UIState.Success(true))
         }
     }
+
 }

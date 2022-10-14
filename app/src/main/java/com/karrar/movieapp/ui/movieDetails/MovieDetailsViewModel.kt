@@ -13,6 +13,7 @@ import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.MediaDetailsViewModel
+import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -62,8 +63,13 @@ class MovieDetailsViewModel @Inject constructor(
     private val detailItems = mutableListOf<DetailItem>()
 
     init {
+        getData()
+    }
+
+    override fun getData() {
         getAllDetails(args.movieId)
     }
+
 
     private fun getAllDetails(movieId: Int) {
         detailItemsLiveData.postValue(UIState.Loading)
@@ -80,6 +86,8 @@ class MovieDetailsViewModel @Inject constructor(
                 val response = movieRepository.getMovieDetails(movieId)
                 updateDetailItems(DetailItem.Header(response))
                 insertMovieToWatchHistory(response)
+            }, {
+                detailItemsLiveData.postValue(UIState.Error(""))
             })
     }
 
@@ -122,7 +130,6 @@ class MovieDetailsViewModel @Inject constructor(
         })
     }
 
-
     private fun insertMovieToWatchHistory(movie: MovieDetails?) {
         viewModelScope.launch {
             movie?.let { movieDetails ->
@@ -152,16 +159,17 @@ class MovieDetailsViewModel @Inject constructor(
 
     fun onAddRating(movie_id: Int, value: Float) {
         if (_check.value != value) {
-//            collectResponse(
-//                accountRepository.getSessionId().flatMapLatest {
-//                    movieRepository.setRating(movie_id, value, it.toString())
-//                }
-//            ) {
-//                if (it is State.Success) {
-//                    messageAppear.postValue(Event(true))
-//                    _check.postValue(value)
-//                }
-//            }
+            wrapWithState({
+                accountRepository.getSessionId().collect {
+                    val response = movieRepository.setRating(movie_id, value, it.toString())
+                    if (response.statusCode != null
+                        && response.statusCode == Constants.SUCCESS_REQUEST
+                    ) {
+                        messageAppear.postValue(Event(true))
+                        _check.postValue(value)
+                    }
+                }
+            })
         }
     }
 

@@ -63,4 +63,8 @@ class AllMovieViewModel @Inject constructor(
             }
         }
     }
+
+    override fun getData() {
+        TODO("Not yet implemented")
+    }
 }

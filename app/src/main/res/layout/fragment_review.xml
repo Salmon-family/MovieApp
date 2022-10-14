@@ -22,6 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:overScrollMode="never"
+            android:scrollbars="none"
             app:items="@{viewModel.movieReviews.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,18 +32,24 @@
             app:showWhenSuccess="@{viewModel.movieReviews}"
             tools:listitem="@layout/item_movie_review" />
 
-<!--        <include-->
-<!--            android:id="@+id/loading"-->
-<!--            layout="@layout/loading"-->
-<!--            app:showWhenLoading="@{viewModel.movieReviews}"-->
-<!--            app:showWhenLoading="@{viewModel.movieReviews}"-->
-<!--            tools:visibility="gone" />-->
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:loading="@{viewModel.movieReviews}" />
 
-<!--        <include-->
-<!--            android:id="@+id/error"-->
-<!--            layout="@layout/error"-->
-<!--            app:showWhenFail="@{viewModel.movieReviews}"-->
-<!--            tools:visibility="gone" />-->
+        <include
+            android:id="@+id/error"
+            layout="@layout/error"
+            app:error="@{viewModel.movieReviews}"
+            app:viewModel="@{viewModel}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
