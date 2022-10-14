@@ -19,6 +19,9 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "API_KEY", localProperties['apiKey']
+        buildConfigField "String", "BASE_URL", "\"https://api.themoviedb.org/3/\""
+        buildConfigField "String", "IMAGE_BASE_PATH", "\"https://image.tmdb.org/t/p/w500\""
+        buildConfigField "String", "TMDB_SIGNUP_URL", "\"https://www.themoviedb.org/signup\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

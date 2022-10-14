@@ -1,6 +1,7 @@
 package com.karrar.movieapp.di
 
 import com.google.gson.Gson
+import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.AuthInterceptor
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.utilities.Constants
@@ -27,7 +28,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(client: OkHttpClient, gsonConverterFactory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .client(client)
             .addConverterFactory(gsonConverterFactory)
             .build()
