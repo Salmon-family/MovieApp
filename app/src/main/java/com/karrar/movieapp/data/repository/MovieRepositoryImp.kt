@@ -6,7 +6,7 @@ import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.AddListResponse
 import com.karrar.movieapp.data.remote.response.AddMovieDto
-import com.karrar.movieapp.data.remote.response.ListDetailsDto
+import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.*
@@ -34,6 +34,7 @@ class MovieRepositoryImp @Inject constructor(
     private val popularMovieMapper: PopularMovieMapper,
     private val ratedMoviesMapper: RatedMoviesMapper,
     private val createdListsMapper: CreatedListsMapper,
+    private val saveListDetailsMapper: SaveListDetailsMapper
 ) : BaseRepository(), MovieRepository {
 
     override suspend fun getPopularMovies2(genres: List<Genre>): List<PopularMovie> {
@@ -48,7 +49,7 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override fun getUpcomingMovies(): Flow<State<List<Media>>> {
-        return wrap({ movieService.getUpcomingMovies() }, { baseResponse ->
+        return wrap({ movieService.getUpcomingMovies(1) }, { baseResponse ->
             baseResponse.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
@@ -68,7 +69,7 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override fun getNowPlayingMovies(): Flow<State<List<Media>>> {
-        return wrap({ movieService.getNowPlayingMovies() }, { response ->
+        return wrap({ movieService.getNowPlayingMovies(1) }, { response ->
             response.items?.map { movieMapper.map(it) } ?: emptyList()
         })
     }
@@ -267,6 +268,5 @@ class MovieRepositoryImp @Inject constructor(
         return wrap2(
             { movieService.getList(listId.toInt()) },
             { ListMapper(saveListDetailsMapper).mapList(it.items) })
-
     }
 }
