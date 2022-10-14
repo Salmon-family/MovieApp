@@ -1,27 +1,26 @@
 package com.karrar.movieapp.data.repository
 
-import com.karrar.movieapp.data.local.DataStorePreferences
 import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.login.ErrorResponse
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.DataClassParser
+import com.karrar.movieapp.data.local.DataStore
 import com.karrar.movieapp.domain.mappers.AccountMapper
 import com.karrar.movieapp.domain.models.Account
 import com.karrar.movieapp.utilities.DataStorePreferencesKeys
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
-import kotlin.math.log
 
 
 class AccountRepositoryImp @Inject constructor(
     private val service: MovieService,
-    private val dataStorePreferences: DataStorePreferences,
+    private val dataStore: DataStore,
     private val dataClassParser: DataClassParser,
     private val accountMapper: AccountMapper,
     ) : AccountRepository, BaseRepository() {
     override fun getSessionId(): Flow<String?> {
-        return dataStorePreferences.readString(DataStorePreferencesKeys.SESSION_ID_KEY)
+        return dataStore.readString(DataStorePreferencesKeys.SESSION_ID_KEY)
     }
     override suspend fun loginWithUserNameANdPassword(
         userName: String,
@@ -60,7 +59,7 @@ class AccountRepositoryImp @Inject constructor(
                 getSessionId().collect{
                     val logout = service.logout(it.toString())
                     if (logout.isSuccessful){
-                        dataStorePreferences.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
+                        dataStore.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
                         emit(State.Success(true))
                     } else {
                         emit(State.Error("There is an error"))
@@ -89,7 +88,7 @@ class AccountRepositoryImp @Inject constructor(
     }
 
     private suspend fun saveSessionId(sessionId: String) {
-        dataStorePreferences.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, sessionId)
+        dataStore.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, sessionId)
     }
 
 }
