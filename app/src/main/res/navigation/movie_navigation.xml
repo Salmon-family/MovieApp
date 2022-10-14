@@ -35,7 +35,9 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_loginFragment_to_myListFragment"
             app:destination="@id/myListFragment" />
@@ -109,14 +111,16 @@
             app:destination="@id/watchHistoryFragment" />
         <action
             android:id="@+id/action_profileFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment
         android:id="@+id/myListFragment"
         android:name="com.karrar.movieapp.ui.myList.MyListsFragment"
         android:label="My List"
-        tools:layout="@layout/fragment_my_lists" >
+        tools:layout="@layout/fragment_my_lists">
         <action
             android:id="@+id/action_myListFragment_to_createSavedList"
             app:destination="@id/createSavedList" />
@@ -228,7 +232,9 @@
         tools:layout="@layout/dialog_logout">
         <action
             android:id="@+id/action_logoutDialog_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
     </dialog>
     <dialog
         android:id="@+id/createSavedList"
