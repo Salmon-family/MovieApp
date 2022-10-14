@@ -164,15 +164,16 @@ class TvShowDetailsViewModel @Inject constructor(
     fun onAddRating(tvShowId: Int, value: Float) {
         if (_check.value != value) {
             wrapWithState({
-                val sessionId = accountRepository.getSessionId()
-                val result = seriesRepository.setRating(tvShowId, value, sessionId.toString())
-                result.statusCode?.let {
-                    if (it == 1) {
-                        messageAppear.postValue(Event(true))
+                accountRepository.getSessionId().collect {
+                    val response = seriesRepository.setRating(tvShowId, value, it.toString())
+                    if (response.statusCode != null
+                        && response.statusCode == Constants.SUCCESS_REQUEST
+                    ) {
                         _check.postValue(value)
                     }
                 }
             })
+            messageAppear.postValue(Event(true))
         }
     }
 

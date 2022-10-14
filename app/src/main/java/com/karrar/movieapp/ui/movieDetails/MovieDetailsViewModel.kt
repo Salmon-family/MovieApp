@@ -166,11 +166,11 @@ class MovieDetailsViewModel @Inject constructor(
                     if (response.statusCode != null
                         && response.statusCode == Constants.SUCCESS_REQUEST
                     ) {
-                        messageAppear.postValue(Event(true))
                         _check.postValue(value)
                     }
                 }
             })
+            messageAppear.postValue(Event(true))
         }
     }
 
