@@ -11,12 +11,10 @@ import com.karrar.movieapp.databinding.FragmentAllMovieBinding
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.EventObserve
 import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
+import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.distinctUntilChangedBy
-import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
 class AllMovieFragment: BaseFragment<FragmentAllMovieBinding>() {
@@ -62,19 +60,16 @@ class AllMovieFragment: BaseFragment<FragmentAllMovieBinding>() {
     }
 
     private fun observeEvents() {
-        viewModel.backEvent.observe(viewLifecycleOwner, EventObserve { removeFragment() })
-        viewModel.clickMovieEvent.observe(
-            viewLifecycleOwner,
-            EventObserve { movieID -> seeMovieDetails(movieID) })
+        viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner) {movieID ->
+            findNavController().navigate(AllMovieFragmentDirections.actionAllMovieFragmentToMovieDetailFragment(movieID))
+        }
+        viewModel.clickSeriesEvent.observeEvent(viewLifecycleOwner) {seriesID ->
+            findNavController().navigate(AllMovieFragmentDirections.actionAllMovieFragmentToTvShowDetailsFragment(seriesID))
+        }
+
+        viewModel.backEvent.observeEvent(viewLifecycleOwner) {removeFragment()  }
     }
 
-    private fun seeMovieDetails(movieID: Int) {
-        findNavController().navigate(
-            AllMovieFragmentDirections.actionAllMovieFragmentToMovieDetailFragment(
-                movieID
-            )
-        )
-    }
 
     private fun removeFragment() {
         findNavController().popBackStack()

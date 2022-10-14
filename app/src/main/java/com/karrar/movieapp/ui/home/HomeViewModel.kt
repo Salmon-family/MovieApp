@@ -10,6 +10,7 @@ import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.adapters.TVShowInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
@@ -23,7 +24,7 @@ class HomeViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     private val seriesRepository: SeriesRepository
 ) : BaseViewModel(), HomeInteractionListener, ActorsInteractionListener, MovieInteractionListener,
-    MediaInteractionListener {
+    MediaInteractionListener, TVShowInteractionListener {
 
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
     val clickMovieEvent = _clickMovieEvent.toLiveData()
@@ -89,9 +90,7 @@ class HomeViewModel @Inject constructor(
             val responseGenre = movieRepository.getMovieGenreList()
             val responseMovie = movieRepository.getPopularMovies(responseGenre)
             updateHomeItems(HomeRecyclerItem.Slider(responseMovie))
-        }, {
-            _failedState.postValue(++counter)
-        })
+        }, { _failedState.postValue(++counter) })
     }
 
     private fun getTrending() {
@@ -99,18 +98,16 @@ class HomeViewModel @Inject constructor(
             {
                 updateHomeItems(
                     HomeRecyclerItem.Trending(
-                        movieRepository.getTrendingMovies(1),
+                        movieRepository.getTrendingMovies(),
                         MovieType.TRENDING
                     )
                 )
-            }, {
-                _failedState.postValue(++counter)
-            })
+            },
+            { _failedState.postValue(++counter) })
     }
 
     private fun getActors() {
-        wrapWithState(
-            { updateHomeItems(HomeRecyclerItem.Actor(movieRepository.getTrendingActors())) })
+        wrapWithState({ updateHomeItems(HomeRecyclerItem.Actor(movieRepository.getTrendingActors())) })
     }
 
     private fun getUpcoming() {
@@ -118,26 +115,24 @@ class HomeViewModel @Inject constructor(
             {
                 updateHomeItems(
                     HomeRecyclerItem.Upcoming(
-                        movieRepository.getUpcomingMovies(1),
+                        movieRepository.getUpcomingMovies(),
                         MovieType.UPCOMING
                     )
                 )
-            }, {
-                _failedState.postValue(++counter)
-            })
+            },
+            { _failedState.postValue(++counter) })
     }
 
     private fun getNowStreaming() {
         wrapWithState({
             updateHomeItems(
                 HomeRecyclerItem.NowStreaming(
-                    movieRepository.getNowPlayingMovies(1),
+                    movieRepository.getNowPlayingMovies(),
                     MovieType.NOW_STREAMING
                 )
             )
-        }, {
-            _failedState.postValue(++counter)
-        })
+        },
+            { _failedState.postValue(++counter) })
     }
 
     private fun getTopRatedTvShow() {
@@ -147,9 +142,8 @@ class HomeViewModel @Inject constructor(
             tvShowList.add(seriesRepository.getAiringToday().first())
             tvShowList.add(seriesRepository.getPopularTvShow().first())
             updateHomeItems(HomeRecyclerItem.TvShows(tvShowList))
-        }, {
-            _failedState.postValue(++counter)
-        })
+        },
+            { _failedState.postValue(++counter) })
     }
 
     private fun getOnTheAir() {
@@ -160,17 +154,15 @@ class HomeViewModel @Inject constructor(
                     MovieType.ON_THE_AIR
                 )
             )
-        }, {
-            _failedState.postValue(++counter)
-        })
+        },
+            { _failedState.postValue(++counter) })
     }
 
     private fun getAiringToday() {
         wrapWithState({
             updateHomeItems(HomeRecyclerItem.AiringToday(seriesRepository.getAiringToday()))
-        }, {
-            _failedState.postValue(++counter)
-        })
+        },
+            { _failedState.postValue(++counter) })
     }
 
     private fun getMovieListByGenreID(genreID: Int, type: MovieType) {
@@ -180,28 +172,24 @@ class HomeViewModel @Inject constructor(
                     updateHomeItems(
                         HomeRecyclerItem.Mystery(
                             movieRepository.getMovieListByGenreID(
-                                genreID,
-                                1
+                                genreID = genreID
                             ), type
                         )
                     )
-                }, {
-                    _failedState.postValue(++counter)
-                })
+                },
+                    { _failedState.postValue(++counter) })
             }
             else -> {
                 wrapWithState({
                     updateHomeItems(
                         HomeRecyclerItem.Adventure(
                             movieRepository.getMovieListByGenreID(
-                                genreID,
-                                1
+                                genreID = genreID
                             ), type
                         )
                     )
-                }, {
-                    _failedState.postValue(++counter)
-                })
+                },
+                    { _failedState.postValue(++counter) })
             }
         }
 
@@ -225,6 +213,14 @@ class HomeViewModel @Inject constructor(
 
     override fun onClickMedia(mediaId: Int) {
         _clickSeriesEvent.postEvent(mediaId)
+    }
+
+    override fun onClickTVShow(tVShowID: Int) {
+        _clickSeriesEvent.postEvent(tVShowID)
+    }
+
+    override fun onClickSeeTVShow() {
+        _clickSeeAllMovieEvent.postEvent(MovieType.ON_THE_AIR)
     }
 
 }

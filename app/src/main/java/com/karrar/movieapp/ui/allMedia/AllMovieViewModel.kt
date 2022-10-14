@@ -8,6 +8,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.karrar.movieapp.data.repository.AllMediaFactory
+import com.karrar.movieapp.domain.enums.MovieType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
@@ -42,8 +43,15 @@ class AllMovieViewModel @Inject constructor(
     private val _allMediaState = MutableLiveData<UIState<Boolean>>(UIState.Loading)
     val allMediaState = _allMediaState.toLiveData()
 
+    private val _clickSeriesEvent = MutableLiveData<Event<Int>>()
+    val clickSeriesEvent = _clickSeriesEvent.toLiveData()
+
     override fun onClickMedia(mediaId: Int) {
-        _clickMovieEvent.postEvent(mediaId)
+        if (args.type == MovieType.ON_THE_AIR) {
+            _clickSeriesEvent.postEvent(mediaId)
+        } else {
+            _clickMovieEvent.postEvent(mediaId)
+        }
     }
 
     fun setErrorUiState(loadState: LoadState) {

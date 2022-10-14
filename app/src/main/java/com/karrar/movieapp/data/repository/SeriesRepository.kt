@@ -6,6 +6,8 @@ import com.karrar.movieapp.domain.models.*
 
 interface SeriesRepository {
 
+    suspend fun getTVShowsGenreList(): List<Genre>
+
     suspend fun getOnTheAir(page: Int = 1): List<Media>
 
     suspend fun getAiringToday(): List<Media>
@@ -13,8 +15,6 @@ interface SeriesRepository {
     suspend fun getTopRatedTvShow(): List<Media>
 
     suspend fun getPopularTvShow(): List<Media>
-
-    suspend fun getTVShowsGenreList(): List<Genre>
 
     suspend fun getTvShowsByGenreID(genreId: Int): List<Media>
 

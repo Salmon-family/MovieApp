@@ -10,16 +10,21 @@ import javax.inject.Inject
 
 class SeriesRepositoryImp @Inject constructor(
     private val service: MovieService,
-    private val mediaMapper: TVShowMapper,
+    private val movieDao: MovieDao,
     private val genreMapper: GenreMapper,
+    private val mediaMapper: TVShowMapper,
     private val tvShowDetailsMapper: TvShowDetailsMapper,
     private val actorMapper: ActorMapper,
     private val reviewMapper: ReviewMapper,
     private val seasonMapper: SeasonMapper,
     private val trailerMapper: TrailerMapper,
-    private val ratedMoviesMapper: RatedMoviesMapper,
-    private val movieDao: MovieDao
+    private val ratedMoviesMapper: RatedMoviesMapper
 ) : BaseRepository(), SeriesRepository {
+
+    override suspend fun getTVShowsGenreList(): List<Genre> {
+        return wrap({ service.getGenreTvShowList() },
+            { ListMapper(genreMapper).mapList(it.genres) })
+    }
 
     override suspend fun getOnTheAir(page: Int): List<Media> {
         return wrap({ service.getOnTheAir(page) },
@@ -40,11 +45,6 @@ class SeriesRepositoryImp @Inject constructor(
     override suspend fun getPopularTvShow(): List<Media> {
         return wrap({ service.getPopularTvShow() },
             { ListMapper(mediaMapper).mapList(it.items) })
-    }
-
-    override suspend fun getTVShowsGenreList(): List<Genre> {
-        return wrap({ service.getGenreTvShowList() },
-            { ListMapper(genreMapper).mapList(it.genres) })
     }
 
     override suspend fun getTvShowsByGenreID(genreId: Int): List<Media> {
@@ -95,5 +95,4 @@ class SeriesRepositoryImp @Inject constructor(
     override suspend fun insertTvShow(tvShow: WatchHistoryEntity) {
         return movieDao.insert(tvShow)
     }
-
 }
