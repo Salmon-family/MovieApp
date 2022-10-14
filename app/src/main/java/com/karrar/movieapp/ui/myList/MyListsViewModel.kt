@@ -65,18 +65,18 @@ class MyListsViewModel @Inject constructor(
 
 
     fun onClickAddList() {
-        collectResponse(accountRepository.getSessionId().flatMapLatest {
-            movieRepository.createList(it.toString(), listName.value.toString())
-        }) {
-            it.toData()?.let { item ->
-                if (item.success == true)
-                    addList(CreatedList(item.listId ?: 0, 0, listName.value.toString()))
-                listName.postValue(null)
-            }
-
-
-        }
-        _onCLickAddEvent.postEvent(true)
+//        collectResponse(accountRepository.getSessionId().flatMapLatest {
+//            movieRepository.createList(it.toString(), listName.value.toString())
+//        }) {
+//            it.toData()?.let { item ->
+//                if (item.success == true)
+//                    addList(CreatedList(item.listId ?: 0, 0, listName.value.toString()))
+//                listName.postValue(null)
+//            }
+//
+//
+//        }
+//        _onCLickAddEvent.postEvent(true)
     }
 
     private fun addList(createdLists: CreatedList) {

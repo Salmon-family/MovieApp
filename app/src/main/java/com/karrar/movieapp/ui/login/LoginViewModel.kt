@@ -1,8 +1,8 @@
 package com.karrar.movieapp.ui.login
 
 import androidx.lifecycle.*
-import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.AccountRepository
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.FormFiledValidator
 import com.karrar.movieapp.utilities.postEvent
@@ -10,8 +10,6 @@ import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -28,7 +26,7 @@ class LoginViewModel @Inject constructor(
     private val _userNameHelperText = MutableLiveData("")
     val userNameHelperText = _userNameHelperText.toLiveData()
 
-    private val _loginRequestState = MutableLiveData<State<Boolean>>()
+    private val _loginRequestState = MutableLiveData<UIState<Boolean>>()
     val loginRequestState = _loginRequestState.toLiveData()
 
     private val _loginEvent = MutableLiveData<Event<Boolean>>()
@@ -49,9 +47,7 @@ class LoginViewModel @Inject constructor(
 
     fun onClickLogin() {
         login()
-
     }
-
 
     private fun checkPasswordValidation(password: String?) {
         val passwordFieldState = textValidation.validatePasswordFiledState(password.toString())
@@ -79,23 +75,23 @@ class LoginViewModel @Inject constructor(
             accountRepository.loginWithUserNameANdPassword(userName.value.toString(),
                 password.value.toString()).collect {
                 when (it) {
-                    is State.Error -> onLoginError(it.message)
-                    State.Loading -> _loginRequestState.postValue(it)
-                    is State.Success -> onLoginSuccessfully()
+                    is UIState.Error -> onLoginError(it.message)
+                    UIState.Loading -> _loginRequestState.postValue(it)
+                    is UIState.Success -> onLoginSuccessfully()
                 }
             }
         }
     }
 
     private fun onLoginSuccessfully() {
-        _loginRequestState.postValue(State.Success(true))
+        _loginRequestState.postValue(UIState.Success(true))
         _loginEvent.postEvent(true)
         resetForm()
 
     }
 
     private fun onLoginError(message: String) {
-        _loginRequestState.postValue(State.Error(message))
+        _loginRequestState.postValue(UIState.Error(message))
         _passwordHelperText.postValue(message)
 
     }

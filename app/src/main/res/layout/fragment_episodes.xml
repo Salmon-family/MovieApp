@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.episodes.EpisodesViewModel" />
+            type="com.karrar.movieapp.ui.tvShowDetails.episodes.EpisodesViewModel" />
     </data>
 
     <androidx.recyclerview.widget.RecyclerView

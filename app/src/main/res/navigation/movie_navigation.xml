@@ -200,7 +200,7 @@
 
     <fragment
         android:id="@+id/reviewFragment"
-        android:name="com.karrar.movieapp.ui.movieReviews.ReviewFragment"
+        android:name="com.karrar.movieapp.ui.movieDetails.movieReviews.ReviewFragment"
         android:label="ReviewFragment"
         tools:layout="@layout/fragment_review">
         <argument
@@ -288,7 +288,7 @@
 
     <fragment
         android:id="@+id/episodesFragment"
-        android:name="com.karrar.movieapp.ui.episodes.EpisodesFragment"
+        android:name="com.karrar.movieapp.ui.tvShowDetails.episodes.EpisodesFragment"
         android:label="EpisodesFragment"
         tools:layout="@layout/fragment_episodes">
         <argument

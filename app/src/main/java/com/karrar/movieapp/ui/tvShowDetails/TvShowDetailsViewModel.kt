@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.models.RatedMovies
@@ -20,7 +19,6 @@ import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,8 +32,8 @@ class TvShowDetailsViewModel @Inject constructor(
 
     val args = TvShowDetailsFragmentArgs.fromSavedStateHandle(state)
 
-    private var _tvShowDetails = MutableLiveData<State<TvShowDetails>>()
-    val tvShowDetails: LiveData<State<TvShowDetails>> = _tvShowDetails.toLiveData()
+    private var _tvShowDetails = MutableLiveData<UIState<TvShowDetails>>()
+    val tvShowDetails: LiveData<UIState<TvShowDetails>> = _tvShowDetails.toLiveData()
 
     private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
     var clickBackEvent = _clickBackEvent.toLiveData()
@@ -160,15 +158,16 @@ class TvShowDetailsViewModel @Inject constructor(
 
     fun onAddRating(tvShowId: Int, value: Float) {
         if (_check.value != value) {
-            collectResponse(
-                accountRepository.getSessionId().flatMapLatest {
-                    seriesRepository.setRating(tvShowId, value, it.toString())
-                }) {
-                if (it is State.Success) {
-                    messageAppear.postValue(Event(true))
-                    _check.postValue(value)
+            wrapWithState({
+                val sessionId = accountRepository.getSessionId()
+                val result = seriesRepository.setRating(tvShowId, value, sessionId.toString())
+                result.statusCode?.let {
+                    if (it == 1) {
+                        messageAppear.postValue(Event(true))
+                        _check.postValue(value)
+                    }
                 }
-            }
+            })
         }
     }
 

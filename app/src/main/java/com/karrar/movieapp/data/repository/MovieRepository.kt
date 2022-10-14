@@ -2,27 +2,20 @@ package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.remote.State
-import com.karrar.movieapp.data.remote.response.*
-import com.karrar.movieapp.domain.models.*
+import com.karrar.movieapp.data.remote.response.AddListResponse
+import com.karrar.movieapp.data.remote.response.AddMovieDto
+import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
+import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
     suspend fun getPopularMovies2(genres: List<Genre>): List<PopularMovie>
 
-    fun getUpcomingMovies(): Flow<State<List<Media>>>
-
     suspend fun getUpcomingMovies2(page: Int): List<Media>
 
-    fun getTopRatedMovies(): Flow<State<List<Media>>>
-
-    fun getNowPlayingMovies(): Flow<State<List<Media>>>
-
     suspend fun getNowPlayingMovies2(page: Int): List<Media>
-
-    fun getTrendingMovies(): Flow<State<List<Media>>>
 
     suspend fun getTrendingMovies2(page: Int = 1): List<Media>
 
@@ -32,11 +25,7 @@ interface MovieRepository {
 
     suspend fun searchForSeries(query: String): List<Media>
 
-    fun getMovieGenreList(): Flow<State<List<Genre>>>
-
     suspend fun getMovieGenreList2(): List<Genre>
-
-    fun getMovieListByGenreID(genreID: Int): Flow<State<List<Media>>>
 
     suspend fun getMovieListByGenreID2(genreID: Int, page: Int): List<Media>
 
@@ -64,15 +53,15 @@ interface MovieRepository {
 
     suspend fun getMovieReviews(movieId: Int): List<Review>
 
-    fun setRating(movieId: Int, value:Float, session_id: String): Flow<State<RatingDto>>
+    suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto
 
     suspend fun getMovieTrailer(movieId: Int): Trailer
 
-    suspend fun getAllLists(accountId: Int, sessionId:String): List<CreatedList>
+    suspend fun getAllLists(accountId: Int, sessionId: String): List<CreatedList>
 
-    fun addMovieToList(sessionId: String, listId: Int, movieId: Int): Flow<State<AddMovieDto>>
+    suspend fun addMovieToList(sessionId: String, listId: Int, movieId: Int): AddMovieDto
 
-    fun getListDetails(listId: Int): Flow<State<MyListsDto>>
+    suspend fun getListDetails(listId: Int): MyListsDto
 
     suspend fun getRatedMovie(accountId: Int, sessionId: String): List<RatedMovies>
 
@@ -84,7 +73,7 @@ interface MovieRepository {
 
     suspend fun getSavedListDetails(listId: String): List<SaveListDetails>
 
-    fun createList(sessionId: String, name: String): Flow<State<AddListResponse>>
+    suspend fun createList(sessionId: String, name: String): AddListResponse
 
     suspend fun getActorMovies2(actorId: Int): List<Media>
 }

@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.enums.MovieType
@@ -18,7 +17,6 @@ import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,7 +31,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
 
-    private var _movieDetails = MutableLiveData<State<MovieDetails>>()
+    private var _movieDetails = MutableLiveData<UIState<MovieDetails>>()
     val movieDetails = _movieDetails.toLiveData()
 
     private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
@@ -154,16 +152,16 @@ class MovieDetailsViewModel @Inject constructor(
 
     fun onAddRating(movie_id: Int, value: Float) {
         if (_check.value != value) {
-            collectResponse(
-                accountRepository.getSessionId().flatMapLatest {
-                    movieRepository.setRating(movie_id, value, it.toString())
-                }
-            ) {
-                if (it is State.Success) {
-                    messageAppear.postValue(Event(true))
-                    _check.postValue(value)
-                }
-            }
+//            collectResponse(
+//                accountRepository.getSessionId().flatMapLatest {
+//                    movieRepository.setRating(movie_id, value, it.toString())
+//                }
+//            ) {
+//                if (it is State.Success) {
+//                    messageAppear.postValue(Event(true))
+//                    _check.postValue(value)
+//                }
+//            }
         }
     }
 

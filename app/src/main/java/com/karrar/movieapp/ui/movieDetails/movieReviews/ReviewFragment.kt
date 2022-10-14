@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.movieReviews
+package com.karrar.movieapp.ui.movieDetails.movieReviews
 
 import android.os.Bundle
 import android.view.View

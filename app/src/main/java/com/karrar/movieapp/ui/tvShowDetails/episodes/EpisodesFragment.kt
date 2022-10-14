@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.episodes
+package com.karrar.movieapp.ui.tvShowDetails.episodes
 
 import android.os.Bundle
 import android.view.View

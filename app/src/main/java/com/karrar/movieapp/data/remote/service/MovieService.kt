@@ -16,7 +16,6 @@ import com.karrar.movieapp.domain.enums.TrendingTimeWindow
 import retrofit2.Response
 import retrofit2.http.*
 
-
 interface MovieService {
 
     @GET("movie/popular")
@@ -67,25 +66,17 @@ interface MovieService {
     @JvmSuppressWildcards
     @FormUrlEncoded
     @POST("authentication/token/validate_with_login")
-    suspend fun validateRequestTokenWithLogin(
-        @FieldMap body: Map<String, Any>
-    ): Response<RequestTokenResponse>
+    suspend fun validateRequestTokenWithLogin(@FieldMap body: Map<String, Any>): Response<RequestTokenResponse>
 
     @FormUrlEncoded
     @POST("authentication/session/new")
-    suspend fun createSession(
-        @Field("request_token") requestToken: String
-    ): Response<SessionResponse>
+    suspend fun createSession(@Field("request_token") requestToken: String): Response<SessionResponse>
 
     @GET("person/{person_id}")
-    suspend fun getActorDetails(
-        @Path("person_id") actorId: Int,
-    ): Response<ActorDto>
+    suspend fun getActorDetails(@Path("person_id") actorId: Int): Response<ActorDto>
 
     @GET("person/{person_id}/movie_credits")
-    suspend fun getActorMovies(
-        @Path("person_id") actorId: Int,
-    ): Response<ActorMoviesDto>
+    suspend fun getActorMovies(@Path("person_id") actorId: Int): Response<ActorMoviesDto>
 
     @GET("discover/movie")
     suspend fun getMovieListByGenre(
@@ -99,42 +90,31 @@ interface MovieService {
     suspend fun getAllMovies(): Response<BaseResponse<MovieDto>>
 
     @GET("movie/{movie_id}")
-    suspend fun getMovieDetails(
-        @Path("movie_id") movieId: Int,
-    ): Response<MovieDetailsDto>
+    suspend fun getMovieDetails(@Path("movie_id") movieId: Int): Response<MovieDetailsDto>
 
 
     @GET("movie/{movie_id}/credits")
-    suspend fun getMovieCast(
-        @Path("movie_id") movieId: Int,
-    ): Response<CreditsDto>
+    suspend fun getMovieCast(@Path("movie_id") movieId: Int): Response<CreditsDto>
 
 
     @GET("movie/{movie_id}/similar")
-    suspend fun getSimilarMovie(
-        @Path("movie_id") movieId: Int,
-    ): Response<BaseResponse<MovieDto>>
+    suspend fun getSimilarMovie(@Path("movie_id") movieId: Int): Response<BaseResponse<MovieDto>>
 
 
     @GET("movie/{movie_id}/reviews")
-    suspend fun getMovieReviews(
-        @Path("movie_id") movieId: Int,
-    ): Response<BaseResponse<ReviewsDto>>
-
+    suspend fun getMovieReviews(@Path("movie_id") movieId: Int): Response<BaseResponse<ReviewsDto>>
 
     @FormUrlEncoded
     @POST("movie/{movie_id}/rating")
     suspend fun postRating(
         @Path("movie_id") movieId: Int,
         @Field("value") rating: Float,
-        @Query("session_id") apiKey: String?,
+        @Query("session_id") apiKey: String?
     ): Response<RatingDto>
 
 
     @GET("movie/{movie_id}/videos")
-    suspend fun getMovieTrailer(
-        @Path("movie_id") movieId: Int,
-    ): Response<TrailerDto>
+    suspend fun getMovieTrailer(@Path("movie_id") movieId: Int): Response<TrailerDto>
 
 
     @GET("account/{account_id}/lists")
@@ -149,19 +129,17 @@ interface MovieService {
     suspend fun addMovieToList(
         @Path("list_id") ListId: Int,
         @Query("session_id") sessionId: String,
-        @Field("media_id") movieId: Int,
+        @Field("media_id") movieId: Int
     ): Response<AddMovieDto>
 
 
     @GET("list/{list_id}")
-    suspend fun getList(
-        @Path("list_id") listId: Int,
-    ): Response<MyListsDto>
+    suspend fun getList(@Path("list_id") listId: Int): Response<MyListsDto>
 
     @GET("account/{account_id}/rated/movies")
     suspend fun getRatedMovie(
         @Path("account_id") accountId: Int,
-        @Query("session_id") sessionId: String,
+        @Query("session_id") sessionId: String
     ): Response<BaseResponse<RatedMoviesDto>>
 
     /**
@@ -192,14 +170,10 @@ interface MovieService {
     suspend fun getAllTvShows(): Response<BaseResponse<TVShowsDTO>>
 
     @GET("account")
-    suspend fun getAccountDetails(
-        @Query("session_id") sessionId: String?,
-    ): Response<AccountDto>
+    suspend fun getAccountDetails(@Query("session_id") sessionId: String?): Response<AccountDto>
 
     @DELETE("authentication/session")
-    suspend fun logout(
-        @Query("session_id") sessionId: String,
-    ): Response<LogoutResponse>
+    suspend fun logout(@Query("session_id") sessionId: String): Response<LogoutResponse>
 
 
     @FormUrlEncoded
@@ -222,7 +196,7 @@ interface MovieService {
     @GET("account/{account_id}/rated/tv")
     suspend fun getRatedTvShow(
         @Path("account_id") listId: Int,
-        @Query("session_id") sessionId: String,
+        @Query("session_id") sessionId: String
     ): Response<BaseResponse<RatedMoviesDto>>
 
     @GET("tv/{tv_id}/season/{season_number}")
@@ -232,8 +206,6 @@ interface MovieService {
     ): Response<SeasonDto>
 
     @GET("tv/{tv_id}/videos")
-    suspend fun getTvShowTrailer(
-        @Path("tv_id") tvShowId: Int,
-    ): Response<TrailerDto>
+    suspend fun getTvShowTrailer(@Path("tv_id") tvShowId: Int): Response<TrailerDto>
 
 }

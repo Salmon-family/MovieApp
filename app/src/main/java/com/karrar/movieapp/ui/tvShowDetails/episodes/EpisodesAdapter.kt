@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.episodes
+package com.karrar.movieapp.ui.tvShowDetails.episodes
 
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.models.Episode

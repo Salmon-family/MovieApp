@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.movieReviews
+package com.karrar.movieapp.ui.movieDetails.movieReviews
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -20,7 +20,8 @@ class ReviewViewModel @Inject constructor(
     state: SavedStateHandle
 ) : BaseViewModel(), BaseInteractionListener {
 
-    private val args = ReviewFragmentArgs.fromSavedStateHandle(state)
+    private val args =
+        com.karrar.movieapp.ui.movieReviews.ReviewFragmentArgs.fromSavedStateHandle(state)
 
     private var _movieReviews = MutableLiveData<UIState<List<Review>>>()
     val movieReviews = _movieReviews.toLiveData()

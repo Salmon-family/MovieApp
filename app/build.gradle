@@ -84,7 +84,6 @@ dependencies {
 
     implementation "androidx.compose.material3:material3:1.0.0-alpha14"
     implementation "androidx.compose.material3:material3-window-size-class:1.0.0-alpha14"
-    implementation 'com.google.android.material:material:1.0.0'
     //data store preferences
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 

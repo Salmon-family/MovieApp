@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
-import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.models.Genre
@@ -26,20 +25,10 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.squareup.picasso.Picasso
 
-@BindingAdapter("app:showWhenSuccess")
-fun <T> showWhenSuccess(view: View, state: State<T>?) {
-    view.isVisible = state is State.Success
-}
 
 @BindingAdapter("app:showWhenSuccess")
 fun <T> showWhenSuccess2(view: View, state: UIState<T>?) {
     view.isVisible = state is UIState.Success
-}
-
-
-@BindingAdapter(value = ["app:showWhenLoading"])
-fun <T> showWhenLoading(view: View, state: State<T>?) {
-    view.isVisible = (state is State.Loading)
 }
 
 @BindingAdapter(value = ["app:showWhenLoading"])
@@ -48,13 +37,8 @@ fun <T> showWhenLoading2(view: View, state: UIState<T>?) {
 }
 
 @BindingAdapter(value = ["app:hideWhenLoading"])
-fun <T> hideWhenLoading(view: View, state: State<T>?) {
-    view.isVisible = state !is State.Loading
-}
-
-@BindingAdapter("app:showWhenFail")
-fun <T> showWhenFail(view: View, state: State<T>?) {
-    view.isVisible = state is State.Error
+fun <T> hideWhenLoading(view: View, state: UIState<T>?) {
+    view.isVisible = state !is UIState.Loading
 }
 
 @BindingAdapter("app:showWhenFail")
@@ -128,16 +112,6 @@ fun <T> setGenresChips(
     if (isFirstChipSelected == true) view.getChildAt(FIRST_CATEGORY_ID)?.id?.let { view.check(it) }
 }
 
-@BindingAdapter("app:movieImage")
-fun bindMovieImageURL(image: ImageView, imageURL: String?) {
-    imageURL?.let {
-        Picasso.get()
-            .load(imageURL)
-            .error(R.mipmap.ic_launcher)
-            .into(image)
-    }
-}
-
 @BindingAdapter("app:isVisible")
 fun <T> isVisible(view: View,isVisible :Boolean){
     view.isVisible = isVisible
@@ -175,11 +149,6 @@ fun convertToHoursPattern(text: TextView, duration: Int?) {
 @BindingAdapter("app:showWhenListIsEmpty")
 fun <T> showWhenListIsEmpty(text: TextView, list: List<T>?) {
     text.isVisible = list?.isEmpty() == true
-}
-
-@BindingAdapter(value = ["app:hideWhenLoading2"])
-fun <T> hideWhenLoading2(view: View, state: UIState<T>?) {
-    view.isVisible = state !is UIState.Loading
 }
 
 @BindingAdapter("app:overviewText")
