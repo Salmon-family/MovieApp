@@ -33,12 +33,15 @@ class ActorsViewModel @Inject constructor(
     private val _clickActorEvent = MutableLiveData<Event<Int>>()
     val clickActorEvent = _clickActorEvent.toLiveData()
 
+    private val _clickRetryEvent = MutableLiveData<Event<Boolean>>()
+    val clickRetryEvent = _clickRetryEvent.toLiveData()
+
     override fun onClickActor(actorID: Int) {
         _clickActorEvent.postEvent(actorID)
     }
 
     override fun getData() {
-
+        _clickRetryEvent.postEvent(true)
     }
 
     fun setErrorUiState(loadState: LoadState) {

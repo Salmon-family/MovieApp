@@ -75,8 +75,11 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
                 )
             )
         }
-
         viewModel.backEvent.observeEvent(viewLifecycleOwner) { removeFragment() }
+
+        viewModel.clickRetryEvent.observeEvent(viewLifecycleOwner) {
+            if (it) { allMediaAdapter.retry() }
+        }
     }
 
 
