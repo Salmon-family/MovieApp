@@ -10,7 +10,7 @@ import com.karrar.movieapp.ui.base.BasePagingAdapter
 class ActorsAdapter(listener: ActorsInteractionListener) :
     BasePagingAdapter<Actor>(ActorComparator, listener) {
 
-    override val layoutID: Int = R.layout.item_cast
+    override val layoutID: Int = R.layout.item_actor
 
     object ActorComparator : DiffUtil.ItemCallback<Actor>() {
         override fun areItemsTheSame(oldItem: Actor, newItem: Actor) =

@@ -12,7 +12,7 @@
             type="com.karrar.movieapp.ui.search.adapters.PersonInteractionListener" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_medium"
         android:layout_marginHorizontal="@dimen/spacing_medium"
