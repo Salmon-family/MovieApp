@@ -56,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
+            android:ellipsize="end"
             android:text="@{item.seasonName}"
             android:textColor="@color/shade_primary_color"
             app:layout_constraintStart_toEndOf="@+id/image_episode"
@@ -91,12 +92,13 @@
         <TextView
             android:id="@+id/text_episodes_number"
             style="@style/Regular.Small"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_too_small"
             android:text="@{@string/total_episodes(String.valueOf(item.episodeCount))}"
             android:textColor="@color/shade_ternary_color"
             app:layout_constraintBottom_toBottomOf="@+id/text_episode_name"
+            app:layout_constraintEnd_toEndOf="@+id/card_season"
             app:layout_constraintStart_toEndOf="@+id/text_line"
             app:layout_constraintTop_toTopOf="@+id/text_episode_name"
             tools:text="8 Episodes" />
