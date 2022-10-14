@@ -122,7 +122,6 @@
                 android:id="@+id/details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:showWhenSuccess="@{viewModel.actorDetails}"
                 android:background="@color/background_color">
 
                 <TextView
@@ -132,6 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="@string/gender"
+                    app:showWhenSuccess="@{viewModel.actorDetails}"
                     app:layout_constraintEnd_toStartOf="@+id/birthday_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -156,6 +156,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="@string/birthday"
+                    app:showWhenSuccess="@{viewModel.actorDetails}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/genres_title"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -177,6 +178,7 @@
                     style="@style/Regular.Small.Secondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:showWhenSuccess="@{viewModel.actorDetails}"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/place_of_birth"
                     app:layout_constraintEnd_toStartOf="@+id/known_for_actor_title"
@@ -203,6 +205,7 @@
                     style="@style/Regular.Small.Secondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:showWhenSuccess="@{viewModel.actorDetails}"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/konwn_for"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -229,6 +232,7 @@
                     style="@style/SemiBold.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:showWhenSuccess="@{viewModel.actorDetails}"
                     android:layout_marginStart="@dimen/radius_medium"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/movies"
@@ -244,6 +248,7 @@
                     android:layout_marginEnd="@dimen/spacing_small"
                     android:onClick="@{() -> viewModel.onClickSeeAllMovie(MovieType.NON)}"
                     android:text="@string/see_all"
+                    app:showWhenSuccess="@{viewModel.actorDetails}"
                     android:textColor="@color/brand_color"
                     app:drawableEndCompat="@drawable/ic_arrow_right"
                     app:layout_constraintBottom_toBottomOf="@+id/related_movie_title"
@@ -275,6 +280,7 @@
                     android:layout_marginStart="@dimen/radius_medium"
                     android:layout_marginTop="@dimen/radius_large"
                     android:text="@string/biography"
+                    app:showWhenSuccess="@{viewModel.actorDetails}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/related_movie_recycler" />
 
