@@ -6,6 +6,7 @@
         <item name="colorPrimaryVariant">@color/background_color</item>
 
         <item name="actionBarTheme">@style/MyTheme</item>
+        <item name="textInputStyle">@style/Login</item>
         <item name="android:statusBarColor">@color/background_color</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>

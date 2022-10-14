@@ -6,7 +6,8 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.actors.ActorsViewModel" />
+            type="com.karrar.movieapp.ui.actors.ActorsViewModel"
+            />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,13 +21,15 @@
             android:layout_height="match_parent"
             android:padding="@dimen/spacing_small"
             android:clipToPadding="false"
+            android:paddingVertical="@dimen/spacing_small"
+            android:paddingHorizontal="@dimen/spacing_small"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:showWhenSuccess="@{viewModel.actorsState}"
-            app:spanCount="3" />
+            app:spanCount="4" />
 
         <include
             android:id="@+id/loading"

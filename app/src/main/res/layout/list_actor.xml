@@ -53,6 +53,8 @@
             android:orientation="horizontal"
             android:overScrollMode="never"
             android:scrollbars="none"
+            android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/spacing_small"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
