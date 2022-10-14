@@ -20,7 +20,6 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
         setTitle(true,getString(R.string.myList))
         binding.savedList.adapter = CreatedListAdapter(emptyList(), viewModel)
         observeEvents()
-
     }
 
     private fun observeEvents() {

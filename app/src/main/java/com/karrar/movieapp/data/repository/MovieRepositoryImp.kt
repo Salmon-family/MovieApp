@@ -225,7 +225,7 @@ class MovieRepositoryImp @Inject constructor(
         return movieDao.insert(movie)
     }
 
-    override fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>> {
+    override suspend fun getAllWatchedMovies(): List<WatchHistoryEntity> {
         return movieDao.getAllWatchedMovies()
     }
 }

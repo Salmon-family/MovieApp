@@ -1,6 +1,5 @@
 package com.karrar.movieapp.ui.tvShowDetails
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -33,7 +32,7 @@ class TvShowDetailsViewModel @Inject constructor(
     val args = TvShowDetailsFragmentArgs.fromSavedStateHandle(state)
 
     private var _tvShowDetails = MutableLiveData<UIState<TvShowDetails>>()
-    val tvShowDetails: LiveData<UIState<TvShowDetails>> = _tvShowDetails.toLiveData()
+    val tvShowDetails = _tvShowDetails.toLiveData()
 
     private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
     var clickBackEvent = _clickBackEvent.toLiveData()
@@ -55,15 +54,16 @@ class TvShowDetailsViewModel @Inject constructor(
     val messageAppear = MutableLiveData(Event(false))
 
     override var ratingValue = MutableLiveData<Float>()
-    override fun getData() {
-        TODO("Not yet implemented")
-    }
 
     val detailItemsLiveData = MutableLiveData<UIState<List<DetailItem>>>()
     private val detailItems = mutableListOf<DetailItem>()
 
 
     init {
+        getData()
+    }
+
+    override fun getData() {
         getAllDetails(args.tvShowId)
     }
 

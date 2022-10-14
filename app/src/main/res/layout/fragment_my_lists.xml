@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.myList.MyListsViewModel" />
@@ -18,43 +19,38 @@
             android:id="@+id/saved_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
             android:orientation="vertical"
-            app:items="@{viewModel.createdList.toData()}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:overScrollMode="never"
             android:paddingTop="@dimen/spacing_small"
             android:paddingBottom="80dp"
-            android:overScrollMode="never"
-            android:clipToPadding="false"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_saved_list" />
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_loading"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
+            app:items="@{viewModel.createdList.toData()}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading="@{viewModel.createdList}" />
+            app:showWhenSuccess="@{viewModel.createdList}"
+            tools:listitem="@layout/item_saved_list" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_lost_connection"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            android:layout_marginTop="214dp"
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/lost_internet_animation"
-            app:showWhenFail="@{viewModel.createdList}" />
+            app:loading="@{viewModel.createdList}" />
+
+        <include
+            android:id="@+id/error"
+            layout="@layout/error"
+            app:error="@{viewModel.createdList}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:viewModel="@{viewModel}" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button"
@@ -63,11 +59,10 @@
             android:layout_margin="16dp"
             android:onClick="@{()->viewModel.onCreateList()}"
             app:backgroundTint="@color/brand_color"
-            app:tint="@color/white_primary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_baseline_add_24"
-             />
+            app:tint="@color/white_primary" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

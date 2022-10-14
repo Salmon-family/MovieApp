@@ -284,6 +284,9 @@
             android:name="listName"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_listDetailsFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
     </fragment>
 
     <fragment

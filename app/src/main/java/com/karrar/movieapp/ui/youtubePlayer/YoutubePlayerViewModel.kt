@@ -9,6 +9,7 @@ import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.models.Trailer
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -22,30 +23,28 @@ class YoutubePlayerViewModel @Inject constructor(
     private val args = YoutubePlayerActivityArgs.fromSavedStateHandle(state)
 
     private var _movieTrailer = MutableLiveData<UIState<Trailer>>()
-    val movieTrailer: LiveData<UIState<Trailer>> = _movieTrailer
+    val movieTrailer = _movieTrailer.toLiveData()
 
     init {
-        getMovieTrailer(args.movieId)
+        getData()
     }
 
-    private fun getMovieTrailer(movie_id: Int) {
+    override fun getData() {
         _movieTrailer.postValue(UIState.Loading)
         wrapWithState({
             when (args.type) {
                 MediaType.MOVIE -> {
-                    val response = movieRepository.getMovieTrailer(movie_id)
+                    val response = movieRepository.getMovieTrailer(args.movieId)
                     _movieTrailer.postValue(UIState.Success(response))
                 }
                 MediaType.TV_SHOW -> {
-                    val response = seriesRepository.getTvShowTrailer(movie_id)
+                    val response = seriesRepository.getTvShowTrailer(args.movieId)
                     _movieTrailer.postValue(UIState.Success(response))
                 }
             }
-        }, {})
-    }
-
-    override fun getData() {
-        TODO("Not yet implemented")
+        },{
+            _movieTrailer.postValue(UIState.Error(""))
+        })
     }
 
 }

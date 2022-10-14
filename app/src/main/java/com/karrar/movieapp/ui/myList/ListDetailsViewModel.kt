@@ -1,7 +1,9 @@
 package com.karrar.movieapp.ui.myList
 
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.SaveListDetails
 import com.karrar.movieapp.ui.UIState
@@ -26,32 +28,27 @@ class ListDetailsViewModel @Inject constructor(
         get() = _itemId
 
     private val _mediaType = MutableLiveData<Event<String>>()
-    val mediaType : LiveData<Event<String>>
-    get() = _mediaType
+    val mediaType: LiveData<Event<String>>
+        get() = _mediaType
 
     init {
-        getListDetailsById(args.id.toString())
+        getData()
     }
 
-    private fun getListDetailsById(id: String) {
+    override fun getData() {
         listDetails.postValue(UIState.Loading)
-         viewModelScope.launch{
-             wrapWithState({
-                 listDetails.postValue(UIState.Success(movieRepository.getSavedListDetails(id)))
-             },{
-                 listDetails.postValue(UIState.Error(it.message.toString()))
-             })
-          }
+        viewModelScope.launch {
+            wrapWithState({
+                listDetails.postValue(UIState.Success(movieRepository.getSavedListDetails(args.id.toString())))
+            }, {
+                listDetails.postValue(UIState.Error(it.message.toString()))
+            })
+        }
     }
 
     override fun onItemClick(item: SaveListDetails) {
         _mediaType.postValue(Event(item.mediaType!!))
         _itemId.postValue(Event(item.id))
     }
-
-    override fun getData() {
-        TODO("Not yet implemented")
-    }
-
 }
 
