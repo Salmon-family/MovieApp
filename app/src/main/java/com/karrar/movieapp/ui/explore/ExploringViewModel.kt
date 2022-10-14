@@ -6,6 +6,7 @@ import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
@@ -37,6 +38,9 @@ class ExploringViewModel @Inject constructor(
     private val _clickTrendEvent = MutableLiveData<Event<Int>>()
     var clickTrendEvent = _clickTrendEvent.toLiveData()
 
+    private val _clickTrendTVShowEvent = MutableLiveData<Event<Int>>()
+    var clickTrendTVShowEvent = _clickTrendTVShowEvent.toLiveData()
+
     val mediaType = MutableStateFlow("")
 
     init {
@@ -54,7 +58,11 @@ class ExploringViewModel @Inject constructor(
     }
 
     override fun onClickTrend(trendID: Int, trendType: String) {
-        _clickTrendEvent.postValue(Event(trendID))
+        if (trendType == Constants.MOVIE) {
+            _clickTrendEvent.postValue(Event(trendID))
+        }else{
+            _clickTrendTVShowEvent.postValue(Event(trendID))
+        }
         viewModelScope.launch { mediaType.emit(trendType) }
     }
 

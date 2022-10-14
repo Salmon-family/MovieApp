@@ -36,6 +36,7 @@ class MovieRepositoryImp @Inject constructor(
     private val searchActorMapper: SearchActorMapper,
     private val seriesMapper: SearchSeriesMapper,
     private val searchHistoryMapper: SearchHistoryMapper,
+    private val itemListMapper:ItemListMapper,
 
     private val createdListsMapper: CreatedListsMapper,
     private val saveListDetailsMapper: SaveListDetailsMapper
@@ -63,7 +64,7 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getDailyTrending(): List<Media> {
         return wrap({ movieService.getDailyTrending() },
-            { ListMapper(tvShowsMapper).mapList(it.items) })
+            { ListMapper(itemListMapper).mapList(it.items) })
     }
 
     override suspend fun getUpcomingMovies(page: Int): List<Media> {

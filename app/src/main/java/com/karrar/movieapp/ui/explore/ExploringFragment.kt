@@ -14,6 +14,7 @@ import com.karrar.movieapp.databinding.FragmentExploringBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.EventObserve
+import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
@@ -65,6 +66,12 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
                 Constants.TV_CATEGORIES_ID
             ))
         })
+
+        viewModel.clickTrendTVShowEvent.observeEvent(viewLifecycleOwner){
+            findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToTvShowDetailsFragment(
+                it
+            ))
+        }
     }
 
     private fun navigateToActors(){

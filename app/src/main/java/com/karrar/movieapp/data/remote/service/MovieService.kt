@@ -84,7 +84,7 @@ interface MovieService {
         @Query("page") page: Int): Response<BaseResponse<MovieDto>>
 
     @GET("trending/all/day")
-    suspend fun getDailyTrending(): Response<BaseResponse<TVShowsDTO>>
+    suspend fun getDailyTrending(): Response<BaseResponse<ListItem>>
 
     @GET("discover/movie")
     suspend fun getAllMovies(): Response<BaseResponse<MovieDto>>
