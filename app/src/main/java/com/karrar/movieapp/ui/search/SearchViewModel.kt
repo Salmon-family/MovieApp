@@ -1,8 +1,8 @@
 package com.karrar.movieapp.ui.search
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
-import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.SearchHistory
@@ -13,42 +13,50 @@ import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val movieRepository: MovieRepository
-) : BaseViewModel(), MediaSearchInteractionListener, PersonInteractionListener, SearchHistoryInteractionListener{
+) : BaseViewModel(), MediaSearchInteractionListener, PersonInteractionListener,
+    SearchHistoryInteractionListener {
+
     private val _media = MutableLiveData<UIState<List<Media>>>()
-    val media: LiveData<UIState<List<Media>>> get() = _media
+    val media = _media.toLiveData()
 
     private val _searchHistory = MutableLiveData<List<SearchHistory>>()
-    val searchHistory: LiveData<List<SearchHistory>> get() = _searchHistory
+    val searchHistory = _searchHistory.toLiveData()
 
     private val _clickMediaEvent = MutableLiveData<Event<Int>>()
-    var clickMediaEvent: LiveData<Event<Int>> = _clickMediaEvent
+    var clickMediaEvent = _clickMediaEvent.toLiveData()
 
     private val _clickActorEvent = MutableLiveData<Event<Int>>()
-    var clickActorEvent: LiveData<Event<Int>> = _clickActorEvent
+    var clickActorEvent = _clickActorEvent.toLiveData()
 
     private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
-    var clickBackEvent: LiveData<Event<Boolean>> = _clickBackEvent
+    var clickBackEvent = _clickBackEvent.toLiveData()
 
     val searchText = MutableStateFlow("")
     val mediaType = MutableStateFlow(Constants.MOVIE)
 
     init {
+        getData()
+    }
+
+    override fun getData() {
         viewModelScope.launch {
-            searchText.debounce(1000).collect{
+            searchText.debounce(1000).collect {
                 if (searchText.value.isNullOrEmpty()) {
                     getAllSearchHistory()
                 } else {
-                    when(mediaType.value){
-                        Constants.MOVIE  -> searchForMovie(it)
-                        Constants.TV_SHOWS ->  searchForSeries(it)
+                    when (mediaType.value) {
+                        Constants.MOVIE -> searchForMovie(it)
+                        Constants.TV_SHOWS -> searchForSeries(it)
                         Constants.ACTOR -> searchForActor(it)
                     }
                 }
@@ -56,66 +64,66 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun searchForActor(text: String){
+    private fun searchForActor(text: String) {
         _media.postValue(UIState.Loading)
         wrapWithState({
             val response = movieRepository.searchForActor(text)
             _media.postValue(UIState.Success(response))
-        },{
+        }, {
             _media.postValue(UIState.Error(""))
         })
     }
 
-    private fun searchForMovie(text: String){
+    private fun searchForMovie(text: String) {
         _media.postValue(UIState.Loading)
         wrapWithState({
             val response = movieRepository.searchForMovie(text)
             _media.postValue(UIState.Success(response))
-        },{
+        }, {
             _media.postValue(UIState.Error(""))
         })
     }
 
-    private fun searchForSeries(text: String){
+    private fun searchForSeries(text: String) {
         _media.postValue(UIState.Loading)
         wrapWithState({
             val response = movieRepository.searchForSeries(text)
             _media.postValue(UIState.Success(response))
-        },{
+        }, {
             _media.postValue(UIState.Error(""))
         })
     }
 
-    fun onClickMovies(){
+    fun onClickMovies() {
         viewModelScope.launch {
-            if(mediaType.value != Constants.MOVIE ){
+            if (mediaType.value != Constants.MOVIE) {
                 mediaType.emit(Constants.MOVIE)
                 searchForMovie(searchText.value)
             }
         }
     }
 
-    fun onClickSeries(){
+    fun onClickSeries() {
         viewModelScope.launch {
-            if(mediaType.value != Constants.TV_SHOWS ){
+            if (mediaType.value != Constants.TV_SHOWS) {
                 mediaType.emit(Constants.TV_SHOWS)
                 searchForSeries(searchText.value)
             }
         }
     }
 
-    fun onClickActors(){
+    fun onClickActors() {
         viewModelScope.launch {
-            if(mediaType.value != Constants.ACTOR ){
+            if (mediaType.value != Constants.ACTOR) {
                 mediaType.emit(Constants.PERSON)
                 searchForActor(searchText.value)
             }
         }
     }
 
-    fun getAllSearchHistory(){
+    fun getAllSearchHistory() {
         viewModelScope.launch {
-            movieRepository.getAllSearchHistory().collect{
+            movieRepository.getAllSearchHistory().collect {
                 _searchHistory.postValue(it)
             }
         }
@@ -131,7 +139,7 @@ class SearchViewModel @Inject constructor(
         _clickActorEvent.postEvent(personID)
     }
 
-    private fun saveSearchResult(id: Int, name: String){
+    private fun saveSearchResult(id: Int, name: String) {
         viewModelScope.launch {
             movieRepository.insertSearchItem(
                 SearchHistoryEntity(
@@ -148,7 +156,8 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun onClickBack(){
+    fun onClickBack() {
         _clickBackEvent.postEvent(true)
     }
+
 }

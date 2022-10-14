@@ -24,20 +24,16 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setTitle(false)
-
         setDetailAdapter()
         addRating()
         observeEvents()
     }
 
-
     private fun setDetailAdapter() {
         detailAdapter = DetailAdapter(emptyList(), viewModel)
         binding.recyclerView.adapter = detailAdapter
     }
-
 
     private fun addRating() {
         viewModel.ratingValue.observe(viewLifecycleOwner) {

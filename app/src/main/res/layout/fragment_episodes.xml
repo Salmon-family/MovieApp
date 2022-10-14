@@ -7,20 +7,44 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.episodes.EpisodesViewModel" />
+            type="com.karrar.movieapp.ui.tvShowDetails.episodes.EpisodesViewModel" />
     </data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background_color"
-        android:orientation="vertical"
-        android:overScrollMode="never"
-        android:paddingTop="@dimen/spacing_small"
-        android:scrollbars="none"
-        app:items="@{viewModel.seasonDetails.toData().episodes}"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_episode" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background_color"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:paddingTop="@dimen/spacing_small"
+            android:scrollbars="none"
+            app:items="@{viewModel.seasonDetails.toData().episodes}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_episode" />
+
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:loading="@{viewModel.seasonDetails}" />
+
+        <include
+            android:id="@+id/error"
+            layout="@layout/error"
+            app:error="@{viewModel.seasonDetails}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:viewModel="@{viewModel}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

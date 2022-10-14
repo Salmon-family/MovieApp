@@ -2,14 +2,9 @@ package com.karrar.movieapp.ui.search
 
 import android.content.Context
 import android.os.Bundle
-import android.text.InputType
 import android.transition.ChangeTransform
-import android.transition.TransitionInflater
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.core.content.getSystemService
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -36,8 +31,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         sharedElementEnterTransition = ChangeTransform()
         setTitle(false)
 
-        val inputMethodManager = binding.inputSearch.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.showSoftInput(binding.inputSearch,InputMethodManager.SHOW_IMPLICIT)
+        val inputMethodManager =
+            binding.inputSearch.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(binding.inputSearch, InputMethodManager.SHOW_IMPLICIT)
 
         observeEvents()
 
@@ -74,6 +70,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private fun navigateToSeriesDetails() {
         if (viewModel.mediaType.value == Constants.TV_SHOWS) {
+            viewModel.clickMediaEvent.observe(viewLifecycleOwner, EventObserve {
+                findNavController().navigate(
+                    SearchFragmentDirections.actionSearchFragmentToTvShowDetailsFragment(
+                        it
+                    )
+                )
+            })
         }
     }
 

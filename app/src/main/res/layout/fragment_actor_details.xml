@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.karrar.movieapp.domain.enums.MovieType" />
+        <import type="com.karrar.movieapp.domain.enums.HomeItemsType" />
 
         <variable
             name="viewModel"
@@ -23,14 +23,14 @@
             android:id="@+id/animation_lost_connection"
             android:layout_width="128dp"
             android:layout_height="128dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:showWhenFail="@{viewModel.actorDetails}"
-            app:lottie_rawRes="@raw/lost_internet_animation" />
+            app:lottie_rawRes="@raw/lost_internet_animation"
+            app:showWhenFail="@{viewModel.actorDetails}" />
 
         <TextView
             android:id="@+id/description_lost_connection"
@@ -39,12 +39,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
             android:gravity="center"
-            app:showWhenFail="@{viewModel.actorDetails}"
             android:text="@string/description"
             android:textColor="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/animation_lost_connection" />
+            app:layout_constraintTop_toBottomOf="@id/animation_lost_connection"
+            app:showWhenFail="@{viewModel.actorDetails}" />
 
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -62,12 +62,12 @@
             android:id="@+id/view_bottom_shadow"
             android:layout_width="match_parent"
             android:layout_height="364dp"
-            app:showWhenSuccess="@{viewModel.actorDetails}"
             android:background="@drawable/shape_shadow"
             app:layout_constraintBottom_toBottomOf="@+id/actor_image"
             app:layout_constraintEnd_toEndOf="@+id/actor_image"
             app:layout_constraintStart_toStartOf="@+id/actor_image"
-            app:layout_constraintTop_toTopOf="@+id/actor_image" />
+            app:layout_constraintTop_toTopOf="@+id/actor_image"
+            app:showWhenSuccess="@{viewModel.actorDetails}" />
 
         <ImageView
             android:id="@+id/back_button"
@@ -80,8 +80,7 @@
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/shade_primary_color"
-            />
+            app:tint="@color/shade_primary_color" />
 
         <TextView
             android:id="@+id/text_name_actor"
@@ -243,7 +242,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_small"
-                    android:onClick="@{() -> viewModel.onClickSeeAllMovie(MovieType.NON)}"
+                    android:onClick="@{() -> viewModel.onClickSeeAllMovie(HomeItemsType.NON)}"
                     android:text="@string/see_all"
                     android:textColor="@color/brand_color"
                     app:drawableEndCompat="@drawable/ic_arrow_right"

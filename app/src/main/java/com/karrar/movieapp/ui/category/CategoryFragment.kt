@@ -20,17 +20,9 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val title = if (viewModel.args.mediaId == TV_CATEGORIES_ID) {
-            resources.getString(R.string.title_tv_shows)
-        } else {
-            resources.getString(R.string.movies)
-        }
-        setTitle(true, title)
-
+        setTitle(true, getTitle())
         setMediaAdapter()
         observeEvents()
-
     }
 
     private fun observeEvents() {
@@ -60,4 +52,11 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
             MediaAdapter(mutableListOf(), R.layout.item_media, viewModel)
     }
 
+    private fun getTitle(): String {
+        return if (viewModel.args.mediaId == TV_CATEGORIES_ID) {
+            resources.getString(R.string.title_tv_shows)
+        } else {
+            resources.getString(R.string.movies)
+        }
+    }
 }

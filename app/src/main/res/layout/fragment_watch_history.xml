@@ -38,5 +38,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:showWhenListIsEmpty="@{viewModel.watchHistory}" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

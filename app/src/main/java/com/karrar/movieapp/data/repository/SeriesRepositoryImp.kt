@@ -2,121 +2,97 @@ package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.*
 import com.karrar.movieapp.domain.models.*
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SeriesRepositoryImp @Inject constructor(
     private val service: MovieService,
-    private val mediaMapper: TVShowMapper,
+    private val movieDao: MovieDao,
     private val genreMapper: GenreMapper,
+    private val mediaMapper: TVShowMapper,
     private val tvShowDetailsMapper: TvShowDetailsMapper,
     private val actorMapper: ActorMapper,
     private val reviewMapper: ReviewMapper,
     private val seasonMapper: SeasonMapper,
     private val trailerMapper: TrailerMapper,
-    private val ratedMoviesMapper: RatedMoviesMapper,
-    private val movieDao: MovieDao
+    private val ratedMoviesMapper: RatedMoviesMapper
 ) : BaseRepository(), SeriesRepository {
 
-    override fun getOnTheAir(): Flow<State<List<Media>>> {
-        return wrap({ service.getOnTheAir(1) }, { response ->
-            response.items?.map { mediaMapper.map(it) } ?: emptyList()
-        })
-    }
-
-    override suspend fun getOnTheAir2(page: Int): List<Media> {
-        return wrap2({ service.getOnTheAir(page) },
-            { ListMapper(mediaMapper).mapList(it.items) }) ?: emptyList()
-
-    }
-
-    override fun getAiringToday(): Flow<State<List<Media>>> {
-        return wrap({ service.getAiringToday() }, { response ->
-            response.items?.map { mediaMapper.map(it) } ?: emptyList()
-        })
-    }
-
-    override suspend fun getAiringToday2(): List<Media> {
-        return wrap2({ service.getAiringToday() },
-            { ListMapper(mediaMapper).mapList(it.items) }) ?: emptyList()
-    }
-
-
-    override suspend fun getTopRatedTvShow2(): List<Media> {
-        return wrap2({ service.getTopRatedTvShow() },
-            { ListMapper(mediaMapper).mapList(it.items) })
-    }
-
-    override suspend fun getPopularTvShow(): List<Media> {
-        return wrap2({ service.getPopularTvShow() },
-            { ListMapper(mediaMapper).mapList(it.items) })
-    }
-
-
     override suspend fun getTVShowsGenreList(): List<Genre> {
-        return wrap2({ service.getGenreTvShowList() },
+        return wrap({ service.getGenreTvShowList() },
             { ListMapper(genreMapper).mapList(it.genres) })
     }
 
+    override suspend fun getOnTheAir(page: Int): List<Media> {
+        return wrap({ service.getOnTheAir(page) },
+            { ListMapper(mediaMapper).mapList(it.items) })
+    }
+
+    override suspend fun getAiringToday(page: Int): List<Media> {
+        return wrap({ service.getAiringToday(page) },
+            { ListMapper(mediaMapper).mapList(it.items) })
+    }
+
+
+    override suspend fun getTopRatedTvShow(page: Int): List<Media> {
+        return wrap({ service.getTopRatedTvShow(page) },
+            { ListMapper(mediaMapper).mapList(it.items) })
+    }
+
+    override suspend fun getPopularTvShow(page: Int): List<Media> {
+        return wrap({ service.getPopularTvShow(page) },
+            { ListMapper(mediaMapper).mapList(it.items) })
+    }
+
     override suspend fun getTvShowsByGenreID(genreId: Int): List<Media> {
-        return wrap2({ service.getTvListByGenre(genreId) }, {
-            ListMapper(mediaMapper).mapList(it.items)
-        })
+        return wrap({ service.getTvListByGenre(genreId) },
+            { ListMapper(mediaMapper).mapList(it.items) })
     }
 
     override suspend fun getAllTvShows(): List<Media> {
-        return wrap2({ service.getAllTvShows() }, {
+        return wrap({ service.getAllTvShows() }, {
             ListMapper(mediaMapper).mapList(it.items)
         })
     }
 
     override suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails {
-        return wrap2({ service.getTvShowDetails(tvShowId) }, { response ->
+        return wrap({ service.getTvShowDetails(tvShowId) }, { response ->
             tvShowDetailsMapper.map(response)
         })
     }
 
     override suspend fun getTvShowCast(tvShowId: Int): List<Actor> {
-        return wrap2({ service.getTvShowCast(tvShowId) }, { response ->
-            response.cast?.map { actorMapper.map(it) } ?: emptyList()
-        })
+        return wrap({ service.getTvShowCast(tvShowId) },
+            { ListMapper(actorMapper).mapList(it.cast) })
     }
 
     override suspend fun getTvShowReviews(tvShowId: Int): List<Review> {
-        return wrap2({ service.getTvShowReviews(tvShowId) }, { response ->
-            response.items?.map { reviewMapper.map(it) } ?: emptyList()
-        })
+        return wrap({ service.getTvShowReviews(tvShowId) },
+            { ListMapper(reviewMapper).mapList(it.items) })
     }
 
-    override fun setRating(tvShowId: Int, value: Float, sessionId: String): Flow<State<RatingDto>> {
-        return wrapWithFlow { service.postRating(tvShowId, value, sessionId) }
+    override suspend fun setRating(tvShowId: Int, value: Float, sessionId: String): RatingDto {
+        return wrap({ service.postRating(tvShowId, value, sessionId) }, { it })
     }
 
     override suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<RatedMovies> {
-        return wrap2({ service.getRatedTvShow(accountId, sessionId) }, { baseResponse ->
-            baseResponse.items?.map { ratedMoviesMapper.map(it) } ?: emptyList()
-        })
+        return wrap({ service.getRatedTvShow(accountId, sessionId) },
+            { ListMapper(ratedMoviesMapper).mapList(it.items) })
     }
 
     override suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): Season {
-        return wrap2({ service.getSeasonDetails(tvShowId, seasonId) }, { response ->
-            seasonMapper.map(response)
-        })
+        return wrap({ service.getSeasonDetails(tvShowId, seasonId) },
+            { seasonMapper.map(it) })
     }
 
     override suspend fun getTvShowTrailer(tvShowId: Int): Trailer {
-        return wrap2({ service.getTvShowTrailer(tvShowId) }, { response ->
-            trailerMapper.map(response)
-        })
+        return wrap({ service.getTvShowTrailer(tvShowId) }, { trailerMapper.map(it) })
     }
 
     override suspend fun insertTvShow(tvShow: WatchHistoryEntity) {
-            return movieDao.insert(tvShow)
+        return movieDao.insert(tvShow)
     }
-
 }

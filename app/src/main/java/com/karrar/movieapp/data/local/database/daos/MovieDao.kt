@@ -31,7 +31,7 @@ interface MovieDao {
     suspend fun insert(item: WatchHistoryEntity)
 
     @Query("SELECT * FROM WATCH_HISTORY_TABLE")
-    fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>
+    suspend fun getAllWatchedMovies(): List<WatchHistoryEntity>
 
     @Query("DELETE FROM WATCH_HISTORY_TABLE")
     suspend fun deleteAllWatchedMovies()

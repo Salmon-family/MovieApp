@@ -14,6 +14,7 @@ import com.karrar.movieapp.databinding.FragmentExploringBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.EventObserve
+import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
@@ -30,9 +31,7 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setTitle(true,resources.getString(R.string.explore_label))
-
         observeEvents()
         binding.recyclerTrend.adapter = TrendAdapter(mutableListOf(), viewModel)
     }
@@ -67,6 +66,12 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
                 Constants.TV_CATEGORIES_ID
             ))
         })
+
+        viewModel.clickTrendTVShowEvent.observeEvent(viewLifecycleOwner){
+            findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToTvShowDetailsFragment(
+                it
+            ))
+        }
     }
 
     private fun navigateToActors(){
@@ -81,7 +86,9 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
                 Constants.MOVIE -> {
                     findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToMovieDetailFragment(mediaId))
                 }
-                Constants.TV_SHOWS -> {}
+                Constants.TV_SHOWS -> {
+                    findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToTvShowDetailsFragment(mediaId))
+                }
                 Constants.ACTOR -> {}
             }
         })

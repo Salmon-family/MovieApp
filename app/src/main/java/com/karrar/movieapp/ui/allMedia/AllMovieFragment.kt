@@ -8,25 +8,24 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentAllMovieBinding
+import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.EventObserve
 import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
+import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.distinctUntilChangedBy
-import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
-class AllMovieFragment: BaseFragment<FragmentAllMovieBinding>() {
+class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
     override val layoutIdFragment = R.layout.fragment_all_movie
     override val viewModel: AllMovieViewModel by viewModels()
     private val allMediaAdapter: AllMediaAdapter by lazy { AllMediaAdapter(viewModel) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTitle(true, viewModel.args.type.value)
+        setTitle(true, getTitle(viewModel.args.type))
         setMovieAdapter()
         observeEvents()
     }
@@ -62,22 +61,45 @@ class AllMovieFragment: BaseFragment<FragmentAllMovieBinding>() {
     }
 
     private fun observeEvents() {
-        viewModel.backEvent.observe(viewLifecycleOwner, EventObserve { removeFragment() })
-        viewModel.clickMovieEvent.observe(
-            viewLifecycleOwner,
-            EventObserve { movieID -> seeMovieDetails(movieID) })
+        viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner) { movieID ->
+            findNavController().navigate(
+                AllMovieFragmentDirections.actionAllMovieFragmentToMovieDetailFragment(
+                    movieID
+                )
+            )
+        }
+        viewModel.clickSeriesEvent.observeEvent(viewLifecycleOwner) { seriesID ->
+            findNavController().navigate(
+                AllMovieFragmentDirections.actionAllMovieFragmentToTvShowDetailsFragment(
+                    seriesID
+                )
+            )
+        }
+        viewModel.backEvent.observeEvent(viewLifecycleOwner) { removeFragment() }
+
+        viewModel.clickRetryEvent.observeEvent(viewLifecycleOwner) {
+            if (it) { allMediaAdapter.retry() }
+        }
     }
 
-    private fun seeMovieDetails(movieID: Int) {
-        findNavController().navigate(
-            AllMovieFragmentDirections.actionAllMovieFragmentToMovieDetailFragment(
-                movieID
-            )
-        )
-    }
 
     private fun removeFragment() {
         findNavController().popBackStack()
+    }
+
+    private fun getTitle(type: AllMediaType): String {
+        return when (type) {
+            AllMediaType.ON_THE_AIR -> resources.getString(R.string.title_on_air)
+            AllMediaType.AIRING_TODAY -> resources.getString(R.string.title_airing_today)
+            AllMediaType.POPULAR -> resources.getString(R.string.popular)
+            AllMediaType.TOP_RATED -> resources.getString(R.string.title_top_rated_tv_show)
+            AllMediaType.TRENDING -> resources.getString(R.string.title_trending)
+            AllMediaType.NOW_STREAMING -> resources.getString(R.string.title_streaming)
+            AllMediaType.UPCOMING -> resources.getString(R.string.title_upcoming)
+            AllMediaType.MYSTERY -> resources.getString(R.string.title_mystery)
+            AllMediaType.ADVENTURE -> resources.getString(R.string.title_adventure)
+            AllMediaType.NON -> ""
+        }
     }
 
 }

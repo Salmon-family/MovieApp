@@ -1,12 +1,12 @@
-package com.karrar.movieapp.ui.episodes
+package com.karrar.movieapp.ui.tvShowDetails.episodes
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.models.Season
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -19,21 +19,22 @@ class EpisodesViewModel @Inject constructor(
     private val args = EpisodesFragmentArgs.fromSavedStateHandle(state)
 
     private var _seasonDetails = MutableLiveData<UIState<Season>>()
-    val seasonDetails: LiveData<UIState<Season>> = _seasonDetails
+    val seasonDetails = _seasonDetails.toLiveData()
 
 
     init {
-        getAllDetails(args.tvShowId, args.seasonNumber)
+        getData()
     }
 
-    private fun getAllDetails(tvShowId: Int, seasonNumber: Int) {
+    override fun getData() {
         _seasonDetails.postValue(UIState.Loading)
         wrapWithState({
-            val response = seriesRepository.getSeasonDetails(tvShowId, seasonNumber)
+            val response = seriesRepository.getSeasonDetails(args.tvShowId, args.seasonNumber)
             _seasonDetails.postValue(UIState.Success(response))
         }, {
             _seasonDetails.postValue(UIState.Error("error"))
         })
     }
+
 
 }

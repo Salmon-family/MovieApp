@@ -1,17 +1,16 @@
 package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.local.DataStorePreferences
-import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.login.ErrorResponse
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.DataClassParser
 import com.karrar.movieapp.domain.mappers.AccountMapper
 import com.karrar.movieapp.domain.models.Account
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.utilities.DataStorePreferencesKeys
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
-import kotlin.math.log
 
 
 class AccountRepositoryImp @Inject constructor(
@@ -26,9 +25,9 @@ class AccountRepositoryImp @Inject constructor(
     override suspend fun loginWithUserNameANdPassword(
         userName: String,
         password: String,
-    ): Flow<State<Boolean>> {
+    ): Flow<UIState<Boolean>> {
         return flow {
-            emit(State.Loading)
+            emit(UIState.Loading)
             try {
                 val token = getRequestToken().toString()
                 val body = mapOf<String, Any>(
@@ -39,41 +38,41 @@ class AccountRepositoryImp @Inject constructor(
                 val validateRequestTokenWithLogin = service.validateRequestTokenWithLogin(body)
                 if (validateRequestTokenWithLogin.isSuccessful) {
                     validateRequestTokenWithLogin.body()?.requestToken?.let { createSession(it) }
-                    emit(State.Success(true))
+                    emit(UIState.Success(true))
                 } else {
                     val errorResponse =
                         dataClassParser.parseFromJson(validateRequestTokenWithLogin.errorBody()
                             ?.string(), ErrorResponse::class.java)
-                    emit(State.Error(errorResponse.statusMessage.toString()))
+                    emit(UIState.Error(errorResponse.statusMessage.toString()))
                 }
             } catch (e: Exception) {
-                emit(State.Error(e.message.toString()))
+                emit(UIState.Error(e.message.toString()))
 
             }
         }
     }
 
-    override suspend fun logout(): Flow<State<Boolean>> {
+    override suspend fun logout(): Flow<UIState<Boolean>> {
         return flow {
-            emit(State.Loading)
+            emit(UIState.Loading)
             try {
                 getSessionId().collect{
                     val logout = service.logout(it.toString())
                     if (logout.isSuccessful){
                         dataStorePreferences.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
-                        emit(State.Success(true))
+                        emit(UIState.Success(true))
                     } else {
-                        emit(State.Error("There is an error"))
+                        emit(UIState.Error("There is an error"))
                     }
                 }
             } catch (e: Exception) {
-                emit(State.Error(e.message.toString()))
+                emit(UIState.Error(e.message.toString()))
             }
         }
     }
 
     override suspend fun getAccountDetails(sessionId: String): Account {
-        return wrap2({ service.getAccountDetails(sessionId) }, { accountMapper.map(it) })
+        return wrap({ service.getAccountDetails(sessionId) }, { accountMapper.map(it) })
     }
 
     private suspend fun getRequestToken(): String? {

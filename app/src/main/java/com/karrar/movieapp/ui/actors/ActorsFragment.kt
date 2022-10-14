@@ -11,12 +11,10 @@ import com.karrar.movieapp.databinding.FragmentActorsBinding
 import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.EventObserve
 import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
+import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.distinctUntilChangedBy
-import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
 class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
@@ -37,9 +35,8 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
 
         setSnapSize(footerAdapter)
 
-        collect(flow = actorsAdapter.loadStateFlow
-            .distinctUntilChangedBy { it.source.refresh }.map { it.refresh },
-            action = { viewModel.setErrorUiState(it) })
+        collect(flow = actorsAdapter.loadStateFlow,
+            action = { viewModel.setErrorUiState(it.source.refresh) })
 
         collectLast(viewModel.trendingActors, ::setAllActors)
     }
@@ -64,13 +61,13 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
     }
 
     private fun observeEvents() {
-        viewModel.clickActorEvent.observe(viewLifecycleOwner, EventObserve { actorID ->
+        viewModel.clickActorEvent.observeEvent(viewLifecycleOwner){ actorID ->
             findNavController()
-                .navigate(
-                    ActorsFragmentDirections.actionActorsFragmentToActorDetailsFragment(
-                        actorID
-                    )
-                )
-        })
+                .navigate(ActorsFragmentDirections.actionActorsFragmentToActorDetailsFragment(actorID))
+        }
+
+        viewModel.clickRetryEvent.observeEvent(viewLifecycleOwner) {
+            if (it) { actorsAdapter.retry() }
+        }
     }
 }

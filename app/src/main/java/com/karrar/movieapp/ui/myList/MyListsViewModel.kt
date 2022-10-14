@@ -2,7 +2,6 @@ package com.karrar.movieapp.ui.myList
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.CreatedList
@@ -13,8 +12,6 @@ import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,43 +36,35 @@ class MyListsViewModel @Inject constructor(
         get() = _item
 
 
-
     init {
-        initCreatedList()
+        getData()
     }
 
-    private fun initCreatedList() {
-        viewModelScope.launch {
-            accountRepository.getSessionId().collectLatest {
+    override fun getData() {
+        wrapWithState({
+            accountRepository.getSessionId().collect {
                 _createdList.postValue(UIState.Loading)
-                wrapWithState({
-                    val response = movieRepository.getAllLists(0, it.toString()).toMutableList()
-                    _createdList.postValue(UIState.Success(response))
-                },{
-                    _createdList.postValue(UIState.Error(it.message.toString()))
-                })
+                val response = movieRepository.getAllLists(0, it.toString()).toMutableList()
+                _createdList.postValue(UIState.Success(response))
             }
-        }
+        }, {
+            _createdList.postValue(UIState.Error(it.message.toString()))
+        })
     }
-
 
     fun onCreateList() {
         _isCreateButtonClicked.postEvent(true)
     }
 
-
     fun onClickAddList() {
-        collectResponse(accountRepository.getSessionId().flatMapLatest {
-            movieRepository.createList(it.toString(), listName.value.toString())
-        }) {
-            it.toData()?.let { item ->
+        wrapWithState({
+            accountRepository.getSessionId().collect {
+                val item = movieRepository.createList(it.toString(), listName.value.toString())
                 if (item.success == true)
                     addList(CreatedList(item.listId ?: 0, 0, listName.value.toString()))
                 listName.postValue(null)
             }
-
-
-        }
+        })
         _onCLickAddEvent.postEvent(true)
     }
 

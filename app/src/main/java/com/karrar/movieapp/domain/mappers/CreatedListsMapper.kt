@@ -9,8 +9,6 @@ class CreatedListsMapper @Inject constructor() : Mapper<CreatedListDto, CreatedL
         return CreatedList(
             id = input.id ?: 0,
             name = input.name ?: "unknown",
-            itemCount = input.itemCount ?: 0,
-
-            )
+            itemCount = input.itemCount ?: 0,)
     }
 }

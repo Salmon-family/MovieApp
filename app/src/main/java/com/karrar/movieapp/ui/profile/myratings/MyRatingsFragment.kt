@@ -27,8 +27,7 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
 
     private fun observeEvents() {
         viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner){ movieId ->
-            findNavController().navigate(MyRatingsFragmentDirections.actionRatedMoviesFragmentToMovieDetailFragment(
-                movieId))
+            findNavController().navigate(MyRatingsFragmentDirections.actionRatedMoviesFragmentToMovieDetailFragment(movieId))
         }
     }
 }

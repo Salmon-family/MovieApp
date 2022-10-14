@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.search.SearchViewModel" />
@@ -18,128 +19,129 @@
             android:id="@+id/imagw_back_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow_left"
-            app:layout_constraintTop_toTopOf="@id/input_search"
-            app:layout_constraintBottom_toBottomOf="@id/input_search"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="@dimen/spacing_medium"
             android:onClick="@{() -> viewModel.onClickBack()}"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintBottom_toBottomOf="@id/input_search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/input_search"
             app:tint="@color/shade_primary_color" />
 
         <EditText
-            android:text="@={viewModel.searchText}"
             android:id="@+id/input_search"
+            style="@style/Regular.Medium"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imagw_back_arrow"
             android:layout_marginStart="@dimen/spacing_small"
-            android:layout_marginEnd="@dimen/spacing_medium"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_medium"
             android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="@dimen/spacing_small"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/search_hint"
             android:inputType="text"
             android:maxLines="1"
-            android:hint="@string/search_hint"
-            android:textColorHint="@color/shade_ternary_color"
-            android:textColor="@color/shade_primary_color"
-            style="@style/Regular.Medium"
-            android:drawableStart="@drawable/ic_search"
-            app:drawableTint="@color/brand_color"
-            android:drawablePadding="@dimen/spacing_small"
             android:paddingStart="@dimen/spacing_small"
+            android:text="@={viewModel.searchText}"
+            android:textColor="@color/shade_primary_color"
+            android:textColorHint="@color/shade_ternary_color"
             android:textCursorDrawable="@color/brand_color"
             android:transitionName="search_box"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
-            <requestFocus/>
+            app:drawableTint="@color/brand_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imagw_back_arrow"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <requestFocus />
         </EditText>
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group_media_type"
+            style="@style/Widget.Material3.ChipGroup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:checkedChip="@id/chip_movie"
-            style="@style/Widget.Material3.ChipGroup"
-            app:layout_constraintTop_toBottomOf="@id/input_search"
-            app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
-            app:selectionRequired="true"
-            app:singleSelection="true"
             android:layout_marginTop="@dimen/spacing_medium"
+            app:checkedChip="@id/chip_movie"
             app:chipSpacingHorizontal="12dp"
-            app:showWhenSearch="@{viewModel.searchText}">
+            app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
+            app:layout_constraintTop_toBottomOf="@id/input_search"
+            app:selectionRequired="true"
+            app:showWhenSearch="@{viewModel.searchText}"
+            app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_movie"
+                style="@style/Chip.Regular.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Chip.Regular.Small"
-                android:textColor="@color/chip_text"
-                android:paddingVertical="6dp"
+                android:onClick="@{() -> viewModel.onClickMovies()}"
                 android:paddingHorizontal="@dimen/spacing_medium"
-                app:checkedIconEnabled="false"
-                app:chipCornerRadius="@dimen/spacing_small"
+                android:paddingVertical="6dp"
                 android:text="@string/movies_chip"
-                android:onClick="@{() -> viewModel.onClickMovies()}"/>
+                android:textColor="@color/chip_text"
+                app:checkedIconEnabled="false"
+                app:chipCornerRadius="@dimen/spacing_small" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_series"
+                style="@style/Chip.Regular.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Chip.Regular.Small"
-                android:textColor="@color/chip_text"
-                android:paddingVertical="6dp"
+                android:onClick="@{() -> viewModel.onClickSeries()}"
                 android:paddingHorizontal="@dimen/spacing_medium"
-                app:checkedIconEnabled="false"
-                app:chipCornerRadius="@dimen/spacing_small"
+                android:paddingVertical="6dp"
                 android:text="@string/tv_shows_chip"
-                android:onClick="@{() -> viewModel.onClickSeries()}"/>
+                android:textColor="@color/chip_text"
+                app:checkedIconEnabled="false"
+                app:chipCornerRadius="@dimen/spacing_small" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_actors"
+                style="@style/Chip.Regular.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Chip.Regular.Small"
-                android:textColor="@color/chip_text"
-                android:paddingVertical="6dp"
+                android:onClick="@{() -> viewModel.onClickActors()}"
                 android:paddingHorizontal="@dimen/spacing_medium"
-                app:checkedIconEnabled="false"
-                app:chipCornerRadius="@dimen/spacing_small"
+                android:paddingVertical="6dp"
                 android:text="@string/actors_label"
-                android:onClick="@{() -> viewModel.onClickActors()}"/>
+                android:textColor="@color/chip_text"
+                app:checkedIconEnabled="false"
+                app:chipCornerRadius="@dimen/spacing_small" />
         </com.google.android.material.chip.ChipGroup>
 
         <TextView
             android:id="@+id/text_search_label"
+            style="@style/SemiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/input_search"
-            app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
             android:layout_marginTop="@dimen/spacing_medium"
-            style="@style/SemiBold.Medium"
-            android:textColor="@color/shade_primary_color"
-            android:text="@string/history_label"
             android:drawablePadding="@dimen/spacing_small"
             android:gravity="center"
+            android:text="@string/history_label"
+            android:textColor="@color/shade_primary_color"
             app:drawableStartCompat="@drawable/ic_history"
-            app:hideWhenSearch="@{viewModel.searchText}"/>
+            app:hideWhenSearch="@{viewModel.searchText}"
+            app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
+            app:layout_constraintTop_toBottomOf="@id/input_search" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_media"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/chip_group_media_type"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
-            app:layout_constraintEnd_toEndOf="@id/input_search"
-            android:paddingVertical="@dimen/spacing_small"
             android:clipToPadding="false"
-            tools:listitem="@layout/item_media_search"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/spacing_small"
+            app:hideWhenLoading="@{viewModel.media}"
             app:items="@{viewModel.media.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"
-            app:hideWhenLoading2="@{viewModel.media}"
-            app:showWhenSearch="@{viewModel.searchText}"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/input_search"
+            app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
+            app:layout_constraintTop_toBottomOf="@id/chip_group_media_type"
+            app:showWhenSearch="@{viewModel.searchText}"
+            tools:listitem="@layout/item_media_search" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_search_history"
@@ -147,7 +149,9 @@
             android:layout_height="0dp"
             android:clipToPadding="false"
             android:orientation="vertical"
+            android:overScrollMode="never"
             android:paddingVertical="@dimen/spacing_too_small"
+            android:scrollbars="none"
             app:hideWhenSearch="@{viewModel.searchText}"
             app:items="@{viewModel.searchHistory}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -159,31 +163,25 @@
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/item_search_history" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_loading"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading="@{viewModel.media}" />
+            app:loading="@{viewModel.media}" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_error"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
+        <include
+            android:id="@+id/error"
+            layout="@layout/error"
+            app:error="@{viewModel.media}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/lost_connection"
-            app:showWhenFail="@{viewModel.media}" />
+            app:viewModel="@{viewModel}" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

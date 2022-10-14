@@ -3,8 +3,8 @@ package com.karrar.movieapp.ui.profile.logout
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.repository.AccountRepository
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
@@ -21,7 +21,7 @@ class LogoutViewModel @Inject constructor(private val accountRepository: Account
     private val _closeDialogEvent = MutableLiveData<Event<Boolean>>()
     val closeDialogEvent = _closeDialogEvent.toLiveData()
 
-    private val _requestState = MutableLiveData<State<Boolean>>()
+    private val _requestState = MutableLiveData<UIState<Boolean>>()
     val requestState = _requestState.toLiveData()
 
     fun onLogout() {
@@ -37,8 +37,8 @@ class LogoutViewModel @Inject constructor(private val accountRepository: Account
         _closeDialogEvent.postEvent(true)
     }
 
-    private fun logoutEvent(state: State<Boolean>) {
-        if (state is State.Success){
+    private fun logoutEvent(state: UIState<Boolean>) {
+        if (state is UIState.Success){
             _clickLoginEvent.postEvent(true)
         }
     }

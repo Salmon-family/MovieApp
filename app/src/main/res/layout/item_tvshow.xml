@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <import type="com.karrar.movieapp.domain.enums.HomeItemsType" />
-
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.adapters.MediaInteractionListener" />
+            type="com.karrar.movieapp.ui.home.adapter.TVShowInteractionListener" />
 
         <variable
             name="item"
             type="com.karrar.movieapp.domain.models.Media" />
 
+        <variable
+            name="type"
+            type="com.karrar.movieapp.domain.enums.HomeItemsType" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_small">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="0dp"
+            android:layout_width="@dimen/media_card_width"
             android:layout_height="0dp"
-            android:background="@color/yellow"
-            android:onClick="@{()->listener.onClickMedia(item.mediaID)}"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:onClick="@{()->listener.onClickTVShow(item.mediaID)}"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1.4"
@@ -33,8 +34,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:posterImage="@{item.mediaImage}"
-            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
-
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
+            tools:background="@color/yellow" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
-

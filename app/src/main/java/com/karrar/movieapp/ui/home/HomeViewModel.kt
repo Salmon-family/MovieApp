@@ -4,13 +4,15 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
-import com.karrar.movieapp.domain.enums.MovieType
+import com.karrar.movieapp.domain.enums.AllMediaType
+import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.home.adapter.TVShowInteractionListener
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
@@ -23,7 +25,7 @@ class HomeViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     private val seriesRepository: SeriesRepository
 ) : BaseViewModel(), HomeInteractionListener, ActorsInteractionListener, MovieInteractionListener,
-    MediaInteractionListener {
+    MediaInteractionListener, TVShowInteractionListener {
 
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
     val clickMovieEvent = _clickMovieEvent.toLiveData()
@@ -34,8 +36,11 @@ class HomeViewModel @Inject constructor(
     private val _clickSeriesEvent = MutableLiveData<Event<Int>>()
     val clickSeriesEvent = _clickSeriesEvent.toLiveData()
 
-    private val _clickSeeAllMovieEvent = MutableLiveData<Event<MovieType>>()
+    private val _clickSeeAllMovieEvent = MutableLiveData<Event<AllMediaType>>()
     val clickSeeAllMovieEvent = _clickSeeAllMovieEvent.toLiveData()
+
+    private val _clickSeeAllTVShowsEvent = MutableLiveData<Event<AllMediaType>>()
+    val clickSeeAllTVShowsEvent = _clickSeeAllTVShowsEvent.toLiveData()
 
     private val _clickSeeAllActorEvent = MutableLiveData<Event<Boolean>>()
     val clickSeeAllActorEvent = _clickSeeAllActorEvent.toLiveData()
@@ -52,6 +57,7 @@ class HomeViewModel @Inject constructor(
     private fun updateState(value: Any) {
         if (_failedState.value!! >= Constants.NUM_HOME_REQUEST) {
             failedState.postValue(UIState.Error(""))
+            homeItemsLiveData.postValue(UIState.Error(""))
         }
     }
 
@@ -59,7 +65,7 @@ class HomeViewModel @Inject constructor(
         getData()
     }
 
-    fun getData() {
+    override fun getData() {
         resetFailedState()
         homeItemsLiveData.postValue(UIState.Loading)
         getTrending()
@@ -70,8 +76,8 @@ class HomeViewModel @Inject constructor(
         getOnTheAir()
         getAiringToday()
         getPopularMovies()
-        getMovieListByGenreID(Constants.ADVENTURE_ID, MovieType.ADVENTURE)
-        getMovieListByGenreID(Constants.MYSTERY_ID, MovieType.MYSTERY)
+        getMovieListByGenreID(Constants.ADVENTURE_ID, HomeItemsType.ADVENTURE)
+        getMovieListByGenreID(Constants.MYSTERY_ID, HomeItemsType.MYSTERY)
     }
 
     private fun resetFailedState() {
@@ -86,12 +92,10 @@ class HomeViewModel @Inject constructor(
 
     private fun getPopularMovies() {
         wrapWithState({
-            val responseGenre = movieRepository.getMovieGenreList2()
-            val responseMovie = movieRepository.getPopularMovies2(responseGenre)
+            val responseGenre = movieRepository.getMovieGenreList()
+            val responseMovie = movieRepository.getPopularMovies(responseGenre)
             updateHomeItems(HomeRecyclerItem.Slider(responseMovie))
-        }, {
-            _failedState.postValue(++counter)
-        })
+        }, { _failedState.postValue(++counter) })
     }
 
     private fun getTrending() {
@@ -99,18 +103,15 @@ class HomeViewModel @Inject constructor(
             {
                 updateHomeItems(
                     HomeRecyclerItem.Trending(
-                        movieRepository.getTrendingMovies2(1),
-                        MovieType.TRENDING
+                        movieRepository.getTrendingMovies(),
+                        HomeItemsType.TRENDING
                     )
                 )
-            }, {
-                _failedState.postValue(++counter)
-            })
+            }, { _failedState.postValue(++counter) })
     }
 
     private fun getActors() {
-        wrapWithState(
-            { updateHomeItems(HomeRecyclerItem.Actor(movieRepository.getTrendingActors())) })
+        wrapWithState({ updateHomeItems(HomeRecyclerItem.Actor(movieRepository.getTrendingActors())) })
     }
 
     private fun getUpcoming() {
@@ -118,90 +119,75 @@ class HomeViewModel @Inject constructor(
             {
                 updateHomeItems(
                     HomeRecyclerItem.Upcoming(
-                        movieRepository.getUpcomingMovies2(1),
-                        MovieType.UPCOMING
+                        movieRepository.getUpcomingMovies(),
+                        HomeItemsType.UPCOMING
                     )
                 )
-            }, {
-                _failedState.postValue(++counter)
-            })
+            },
+            { _failedState.postValue(++counter) })
     }
 
     private fun getNowStreaming() {
         wrapWithState({
             updateHomeItems(
                 HomeRecyclerItem.NowStreaming(
-                    movieRepository.getNowPlayingMovies2(1),
-                    MovieType.NOW_STREAMING
+                    movieRepository.getNowPlayingMovies(),
+                    HomeItemsType.NOW_STREAMING
                 )
             )
-        }, {
-            _failedState.postValue(++counter)
-        })
+        }, { _failedState.postValue(++counter) })
     }
 
     private fun getTopRatedTvShow() {
         val tvShowList = mutableListOf<Media>()
         wrapWithState({
-            tvShowList.add(seriesRepository.getTopRatedTvShow2().first())
-            tvShowList.add(seriesRepository.getAiringToday2().first())
+            tvShowList.add(seriesRepository.getTopRatedTvShow().first())
+            tvShowList.add(seriesRepository.getAiringToday().first())
             tvShowList.add(seriesRepository.getPopularTvShow().first())
             updateHomeItems(HomeRecyclerItem.TvShows(tvShowList))
-        }, {
-            _failedState.postValue(++counter)
-        })
+        }, { _failedState.postValue(++counter) })
     }
 
     private fun getOnTheAir() {
         wrapWithState({
             updateHomeItems(
                 HomeRecyclerItem.OnTheAiring(
-                    seriesRepository.getOnTheAir2(),
-                    MovieType.ON_THE_AIR
+                    seriesRepository.getOnTheAir(),
+                    HomeItemsType.ON_THE_AIR
                 )
             )
-        }, {
-            _failedState.postValue(++counter)
-        })
+        }, { _failedState.postValue(++counter) })
     }
 
     private fun getAiringToday() {
         wrapWithState({
-            updateHomeItems(HomeRecyclerItem.AiringToday(seriesRepository.getAiringToday2()))
-        }, {
-            _failedState.postValue(++counter)
-        })
+            updateHomeItems(HomeRecyclerItem.AiringToday(seriesRepository.getAiringToday()))
+        }, { _failedState.postValue(++counter) })
     }
 
-    private fun getMovieListByGenreID(genreID: Int, type: MovieType) {
+    private fun getMovieListByGenreID(genreID: Int, type: HomeItemsType) {
         when (type) {
-            MovieType.MYSTERY -> {
+            HomeItemsType.MYSTERY -> {
                 wrapWithState({
                     updateHomeItems(
                         HomeRecyclerItem.Mystery(
-                            movieRepository.getMovieListByGenreID2(
-                                genreID,
-                                1
-                            ), type
+                            movieRepository.getMovieListByGenreID(genreID = genreID),
+                            type
                         )
                     )
-                }, {
-                    _failedState.postValue(++counter)
-                })
+                }, { _failedState.postValue(++counter) })
             }
             else -> {
                 wrapWithState({
                     updateHomeItems(
                         HomeRecyclerItem.Adventure(
-                            movieRepository.getMovieListByGenreID2(
-                                genreID,
-                                1
-                            ), type
+                            movieRepository.getMovieListByGenreID(
+                                genreID = genreID
+                            ),
+                            type
                         )
                     )
-                }, {
-                    _failedState.postValue(++counter)
-                })
+                }, { _failedState.postValue(++counter) })
             }
         }
 
@@ -215,8 +201,17 @@ class HomeViewModel @Inject constructor(
         _clickActorEvent.postEvent(actorID)
     }
 
-    override fun onClickSeeAllMovie(movieType: MovieType) {
-        _clickSeeAllMovieEvent.postEvent(movieType)
+    override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
+        val type = when (homeItemsType) {
+            HomeItemsType.ON_THE_AIR -> AllMediaType.ON_THE_AIR
+            HomeItemsType.TRENDING -> AllMediaType.TRENDING
+            HomeItemsType.NOW_STREAMING -> AllMediaType.NOW_STREAMING
+            HomeItemsType.UPCOMING -> AllMediaType.UPCOMING
+            HomeItemsType.MYSTERY -> AllMediaType.MYSTERY
+            HomeItemsType.ADVENTURE -> AllMediaType.ADVENTURE
+            HomeItemsType.NON -> AllMediaType.NON
+        }
+        _clickSeeAllMovieEvent.postEvent(type)
     }
 
     override fun onClickSeeAllActors() {
@@ -226,5 +221,14 @@ class HomeViewModel @Inject constructor(
     override fun onClickMedia(mediaId: Int) {
         _clickSeriesEvent.postEvent(mediaId)
     }
+
+    override fun onClickTVShow(tVShowID: Int) {
+        _clickSeriesEvent.postEvent(tVShowID)
+    }
+
+    override fun onClickSeeTVShow(type: AllMediaType) {
+        _clickSeeAllTVShowsEvent.postEvent(type)
+    }
+
 
 }

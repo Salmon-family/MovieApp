@@ -31,7 +31,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:movieImage="@{item.actorImage}"
+            app:posterImage="@{item.actorImage}"
             app:shapeAppearanceOverlay="@style/Circle"
             tools:srcCompat="@drawable/image" />
 

@@ -3,7 +3,7 @@ package com.karrar.movieapp.ui.actorDetails
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.enums.MovieType
+import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.ActorDetails
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.UIState
@@ -39,10 +39,10 @@ class ActorViewModel @Inject constructor(
     val clickMovieEvent = _clickMovieEvent.toLiveData()
 
     init {
-        getActorDetails()
+        getData()
     }
 
-    private fun getActorDetails() {
+    override fun getData() {
         _actorDetails.postValue(UIState.Loading)
         wrapWithState({
             val result = movieRepository.getActorDetails(args.id)
@@ -57,6 +57,7 @@ class ActorViewModel @Inject constructor(
         })
     }
 
+
     fun onClickBack() {
         _backEvent.postValue(Event(true))
     }
@@ -65,8 +66,9 @@ class ActorViewModel @Inject constructor(
         _clickMovieEvent.postEvent(movieId)
     }
 
-    override fun onClickSeeAllMovie(movieType: MovieType) {
+    override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
         _seeAllMovies.postValue(Event(true))
     }
+
 
 }

@@ -54,9 +54,7 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
 
 
     private fun observeEvents() {
-        viewModel.clickPlayTrailerEvent.observeEvent(viewLifecycleOwner) {
-            navigateToTrailer()
-        }
+        viewModel.clickPlayTrailerEvent.observeEvent(viewLifecycleOwner) { navigateToTrailer() }
 
         viewModel.clickCastEvent.observeEvent(viewLifecycleOwner) { navigateToCast(it) }
 

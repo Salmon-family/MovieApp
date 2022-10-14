@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.episodes
+package com.karrar.movieapp.ui.tvShowDetails.episodes
 
 import android.os.Bundle
 import android.view.View
@@ -16,7 +16,6 @@ class EpisodesFragment : BaseFragment<FragmentEpisodesBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setTitle(true, getString(R.string.episodes))
         setEpisodesAdapter()
     }

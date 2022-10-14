@@ -6,9 +6,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentHomeBinding
+import com.karrar.movieapp.domain.enums.HomeItemsType
+import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.adapters.HomeAdapter
-import com.karrar.movieapp.utilities.EventObserve
+import com.karrar.movieapp.ui.home.adapter.HomeAdapter
+import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -20,55 +22,47 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
-
-        val homeAdapter = HomeAdapter(emptyList(), viewModel)
-        binding.recyclerView.adapter = homeAdapter
-
+        setAdapter()
         observeEvents()
     }
 
+    private fun setAdapter(){
+        val homeAdapter = HomeAdapter(emptyList(), viewModel)
+        binding.recyclerView.adapter = homeAdapter
+    }
+
     private fun observeEvents() {
-        viewModel.clickSeeAllActorEvent.observe(viewLifecycleOwner, EventObserve {
+        viewModel.clickSeeAllActorEvent.observeEvent(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_homeFragment_to_actorsFragment)
-        })
+        }
 
-        viewModel.clickActorEvent.observe(viewLifecycleOwner, EventObserve { actorID ->
-            findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToActorDetailsFragment(
-                    actorID
-                )
-            )
-        })
+        viewModel.clickActorEvent.observeEvent(viewLifecycleOwner) {actorID ->
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToActorDetailsFragment(actorID))
+        }
 
-        viewModel.clickMovieEvent.observe(viewLifecycleOwner, EventObserve { movieID ->
+        viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner) {movieID ->
             navigateToMovieDetails(movieID)
-        })
+        }
 
-        viewModel.clickSeriesEvent.observe(viewLifecycleOwner, EventObserve { seriesID ->
+        viewModel.clickSeriesEvent.observeEvent(viewLifecycleOwner) {seriesID ->
             navigateToTvShowDetails(seriesID)
-        })
+        }
 
-        viewModel.clickSeeAllMovieEvent.observe(viewLifecycleOwner, EventObserve { typeMovieID ->
-            findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(
-                    -1,
-                    typeMovieID
-                )
-            )
-        })
+        viewModel.clickSeeAllMovieEvent.observeEvent(viewLifecycleOwner) {typeMovieID ->
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(-1, typeMovieID))
+        }
+
+        viewModel.clickSeeAllTVShowsEvent.observeEvent(viewLifecycleOwner) {typeTVShow ->
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(-1,typeTVShow))
+        }
     }
 
     private fun navigateToMovieDetails(movieID: Int) {
-        findNavController().navigate(
-            HomeFragmentDirections.actionHomeFragmentToMovieDetailFragment(
-                movieID
-            )
-        )
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMovieDetailFragment(movieID))
     }
 
     private fun navigateToTvShowDetails(tvShowId: Int) {
-        val action = HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(tvShowId)
-        findNavController().navigate(action)
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(tvShowId))
     }
 
 }

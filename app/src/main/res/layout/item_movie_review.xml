@@ -14,21 +14,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/spacing_small"
         android:paddingHorizontal="@dimen/spacing_medium"
-        >
+        android:paddingTop="@dimen/spacing_small">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/user_image"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:scaleType="centerCrop"
-            app:movieImage="@{item.user.userImage}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:posterImage="@{item.user.userImage}"
             app:shapeAppearanceOverlay="@style/Circle"
-            tools:srcCompat="@drawable/image"
-            />
+            tools:srcCompat="@drawable/image" />
 
         <TextView
             android:id="@+id/name"
@@ -40,15 +38,14 @@
             android:textColor="@color/shade_primary_color"
             app:layout_constraintStart_toEndOf="@+id/user_image"
             app:layout_constraintTop_toTopOf="@+id/user_image"
-            tools:text="Elizabeth Jones"
-            />
+            tools:text="Elizabeth Jones" />
 
         <TextView
             android:id="@+id/user_name"
             style="@style/Regular.Small.ternary"
-            android:text="@{@string/user_name(item.user.userName)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{@string/user_name(item.user.userName)}"
             app:layout_constraintStart_toStartOf="@+id/name"
             app:layout_constraintTop_toBottomOf="@+id/name"
             tools:text="e_jones" />
@@ -59,15 +56,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:collapsedLines="5"
-            app:animDuration="500"
-            app:readMoreText="Read more"
-            app:readLessText="Read less"
-            app:ellipsizeTextColor="@color/brand_color"
             android:text="@{item.content}"
+            app:animDuration="500"
+            app:collapsedLines="5"
+            app:ellipsizeTextColor="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_name"
+            app:readLessText="Read less"
+            app:readMoreText="Read more"
             tools:text="Krasinski's instincts are very good, and once you've placed the primary action there, then it allows the story instincts are very good, and once you've placed the primary action there, then it allows the story" />
 
 
@@ -77,12 +74,12 @@
             android:layout_height="32dp"
             android:layout_marginTop="16dp"
             android:isIndicator="true"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
             android:progressDrawable="@drawable/rating_custom"
             android:rating="@{item.user.rating}"
-            android:transformPivotX="0dp"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             android:stepSize="0.5"
+            android:transformPivotX="0dp"
             app:layout_constraintStart_toStartOf="@+id/comment"
             app:layout_constraintTop_toBottomOf="@+id/comment" />
 

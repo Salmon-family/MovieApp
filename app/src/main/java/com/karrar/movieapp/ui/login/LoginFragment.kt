@@ -21,6 +21,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override fun onStart() {
         super.onStart()
         observeEvents()
+        setTitle(false)
     }
 
 

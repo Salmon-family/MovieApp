@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.movieReviews
+package com.karrar.movieapp.ui.movieDetails.movieReviews
 
 import android.os.Bundle
 import android.view.View
@@ -16,9 +16,7 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(true, getString(R.string.review))
-
         binding.commentReviewAdapter.adapter = ReviewAdapter(emptyList(), viewModel)
-
     }
 
 }

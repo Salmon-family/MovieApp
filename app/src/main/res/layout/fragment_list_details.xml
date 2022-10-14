@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.myList.ListDetailsViewModel" />
@@ -27,31 +28,37 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_list_details" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_loading"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading="@{viewModel.listDetails}" />
+            app:loading="@{viewModel.listDetails}" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_lost_connection"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            android:layout_marginTop="214dp"
+        <include
+            android:id="@+id/error"
+            layout="@layout/error"
+            app:error="@{viewModel.listDetails}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/lost_internet_animation"
-            app:showWhenFail="@{viewModel.listDetails}"/>
+            app:viewModel="@{viewModel}" />
+
+        <TextView
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/this_list_has_no_movies"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showWhenListIsEmpty="@{viewModel.listDetails.toData()}" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
