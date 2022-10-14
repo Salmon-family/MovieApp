@@ -23,22 +23,24 @@ interface MovieService {
     suspend fun getPopularMovies(): Response<BaseResponse<MovieDto>>
 
     @GET("movie/upcoming")
-    suspend fun getUpcomingMovies(): Response<BaseResponse<MovieDto>>
+    suspend fun getUpcomingMovies(@Query("page") page: Int): Response<BaseResponse<MovieDto>>
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovies(): Response<BaseResponse<MovieDto>>
 
     @GET("movie/now_playing")
-    suspend fun getNowPlayingMovies(): Response<BaseResponse<MovieDto>>
+    suspend fun getNowPlayingMovies(@Query("page") page: Int): Response<BaseResponse<MovieDto>>
 
     @GET("trending/movie/{time_window}")
     suspend fun getTrendingMovies(
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
+        @Query("page") page: Int
     ): Response<BaseResponse<MovieDto>>
 
     @GET("trending/person/{time_window}")
     suspend fun getTrendingActors(
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
+        @Query("page") page: Int = 1
     ): Response<BaseResponse<ActorDto>>
 
     @GET("search/person")
@@ -86,7 +88,9 @@ interface MovieService {
     ): Response<ActorMoviesDto>
 
     @GET("discover/movie")
-    suspend fun getMovieListByGenre(@Query("with_genres") genreID: Int): Response<BaseResponse<MovieDto>>
+    suspend fun getMovieListByGenre(
+        @Query("with_genres") genreID: Int,
+        @Query("page") page: Int): Response<BaseResponse<MovieDto>>
 
     @GET("trending/all/day")
     suspend fun getDailyTrending(): Response<BaseResponse<TVShowsDTO>>
@@ -164,7 +168,7 @@ interface MovieService {
      *          TV Show Services ...
      * */
     @GET("tv/on_the_air")
-    suspend fun getOnTheAir(): Response<BaseResponse<TVShowsDTO>>
+    suspend fun getOnTheAir(@Query("page") page: Int): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/airing_today")
     suspend fun getAiringToday(): Response<BaseResponse<TVShowsDTO>>

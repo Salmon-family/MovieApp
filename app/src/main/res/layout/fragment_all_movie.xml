@@ -19,30 +19,56 @@
             android:id="@+id/recycler_media"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:layout_marginVertical="@dimen/spacing_small"
+            android:clipToPadding="false"
             android:overScrollMode="never"
+            android:padding="@dimen/spacing_medium"
             android:scrollbars="none"
-            app:items="@{viewModel.media.toData()}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:showWhenSuccess="@{viewModel.media}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showWhenSuccess="@{viewModel.allMediaState}"
             app:spanCount="3"
-            tools:itemCount="15"
             tools:listitem="@layout/item_media_search" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_loading"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_animation"
+            app:showWhenLoading="@{viewModel.allMediaState}" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_lost_connection"
             android:layout_width="128dp"
             android:layout_height="128dp"
-            android:layout_marginTop="214dp"
+            android:layout_marginBottom="@dimen/spacing_small"
+            app:layout_constraintBottom_toTopOf="@+id/title_lost_connection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
+            app:lottie_loop="true"
             app:lottie_rawRes="@raw/lost_internet_animation" />
+
+        <TextView
+            android:id="@+id/title_lost_connection"
+            style="@style/SemiBold.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_extra_large"
+            android:text="@string/oops"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/animation_lost_connection"
+            app:layout_constraintStart_toStartOf="@id/animation_lost_connection"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/description_lost_connection"
@@ -51,18 +77,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
             android:gravity="center"
+            android:text="@string/description"
             android:textColor="@color/brand_color"
-            android:text="@{viewModel.media.toString()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/animation_lost_connection" />
+            app:layout_constraintTop_toBottomOf="@id/title_lost_connection" />
 
         <androidx.constraintlayout.widget.Group
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
-            app:constraint_referenced_ids="animation_lost_connection,description_lost_connection"
-            app:showWhenFail="@{viewModel.media}" />
+            app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection"
+            app:showWhenFail="@{viewModel.allMediaState}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

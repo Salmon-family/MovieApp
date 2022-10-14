@@ -24,13 +24,13 @@ class SeriesRepositoryImp @Inject constructor(
 ) : BaseRepository(), SeriesRepository {
 
     override fun getOnTheAir(): Flow<State<List<Media>>> {
-        return wrap({ service.getOnTheAir() }, { response ->
+        return wrap({ service.getOnTheAir(1) }, { response ->
             response.items?.map { mediaMapper.map(it) } ?: emptyList()
         })
     }
 
-    override suspend fun getOnTheAir2(): List<Media> {
-        return wrap2({ service.getOnTheAir() },
+    override suspend fun getOnTheAir2(page: Int): List<Media> {
+        return wrap2({ service.getOnTheAir(page) },
             { ListMapper(mediaMapper).mapList(it.items) }) ?: emptyList()
 
     }
@@ -46,28 +46,17 @@ class SeriesRepositoryImp @Inject constructor(
             { ListMapper(mediaMapper).mapList(it.items) }) ?: emptyList()
     }
 
-    override fun getTopRatedTvShow(): Flow<State<List<Media>>> {
-        return wrap({ service.getTopRatedTvShow() }, { response ->
-            response.items?.map { mediaMapper.map(it) } ?: emptyList()
-        })
-    }
 
     override suspend fun getTopRatedTvShow2(): List<Media> {
         return wrap2({ service.getTopRatedTvShow() },
-            { ListMapper(mediaMapper).mapList(it.items) }) ?: emptyList()
+            { ListMapper(mediaMapper).mapList(it.items) })
     }
 
-    override fun getPopularTvShow(): Flow<State<List<Media>>> {
-        return wrap({ service.getPopularTvShow() }, { response ->
-            response.items?.map { mediaMapper.map(it) } ?: emptyList()
-        })
+    override suspend fun getPopularTvShow(): List<Media> {
+        return wrap2({ service.getPopularTvShow() },
+            { ListMapper(mediaMapper).mapList(it.items) })
     }
 
-    override fun getLatestTvShows(): Flow<State<List<Media>>> {
-        return wrap({ service.getLatestTvShow() }, { response ->
-            response.items?.map { mediaMapper.map(it) } ?: emptyList()
-        })
-    }
 
     override suspend fun getTVShowsGenreList(): List<Genre> {
         return wrap2({ service.getGenreTvShowList() },
