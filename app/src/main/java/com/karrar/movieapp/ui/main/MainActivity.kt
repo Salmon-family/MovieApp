@@ -3,8 +3,8 @@ package com.karrar.movieapp.ui.main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         setNavigationController()
+
+        setBottomNavigationVisibility()
     }
 
     private fun setNavigationController() {
@@ -39,6 +41,12 @@ class MainActivity : AppCompatActivity() {
             NavigationUI.onNavDestinationSelected(item, navController)
             navController.popBackStack(item.itemId, inclusive = false)
             true
+        }
+    }
+
+    private fun setBottomNavigationVisibility(){
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.bottomNavigation.isVisible = destination.id != R.id.loginFragment
         }
     }
 
