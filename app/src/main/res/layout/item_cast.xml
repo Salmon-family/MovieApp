@@ -18,22 +18,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/spacing_small"
-        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginHorizontal="@dimen/spacing_small"
         android:backgroundTint="@color/background_color"
         android:onClick="@{() -> listener.onClickActor(item.actorID)}"
         >
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/cast_image"
-            android:layout_width="84dp"
-            android:layout_height="84dp"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
             android:scaleType="centerCrop"
+            android:background="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:movieImage="@{item.actorImage}"
+            app:posterImage="@{item.actorImage}"
             app:shapeAppearanceOverlay="@style/Circle"
-            tools:srcCompat="@drawable/image" />
+            tools:srcCompat="@drawable/image"
+            />
 
         <TextView
             android:id="@+id/cast_name"

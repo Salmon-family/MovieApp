@@ -20,10 +20,10 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_actor"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
             android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="1:1"
+            android:background="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,21 +33,21 @@
             android:onClick="@{() -> listener.onClickPerson(item.mediaID, item.mediaName)}"/>
 
         <TextView
-            android:id="@+id/text_name_actor"
-            style="@style/SemiBold.Medium"
-            android:textColor="@color/shade_primary_color"
+            android:id="@+id/cast_name"
+            style="@style/Regular.Small.Secondary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
-            android:gravity="center"
-            android:lines="1"
-            android:maxLength="72"
+            android:lines="2"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_actor"
-            tools:text="Bird"
-            android:text="@{item.mediaName}" />
+            android:text="@{item.mediaName}"
+            tools:text="Debora Caprioglio"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 

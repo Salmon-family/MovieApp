@@ -50,7 +50,6 @@
                 android:layout_marginVertical="@dimen/spacing_small"
                 android:ellipsize="end"
                 android:lines="2"
-                android:maxLength="72"
                 android:text="@{item.movieTitle}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image_movie"
