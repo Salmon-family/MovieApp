@@ -75,7 +75,7 @@ class SeriesRepositoryImp @Inject constructor(
     }
 
     override suspend fun setRating(tvShowId: Int, value: Float, sessionId: String): RatingDto {
-        return wrap({ service.postRating(tvShowId, value, sessionId) }, { it })
+        return wrap({ service.postTvShowRating(tvShowId, value, sessionId) }, { it })
     }
 
     override suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<RatedMovies> {

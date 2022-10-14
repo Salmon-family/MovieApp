@@ -11,7 +11,6 @@ import com.karrar.movieapp.databinding.FragmentTvShowDetailsBinding
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.movieDetails.DetailAdapter
-import com.karrar.movieapp.utilities.EventObserve
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,11 +44,11 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
             it?.let { viewModel.onAddRating(args.tvShowId, it) }
         }
 
-        viewModel.messageAppear.observe(viewLifecycleOwner, EventObserve {
+        viewModel.messageAppear.observeEvent(viewLifecycleOwner) {
             val toast =
                 Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT)
             if (it) toast.show()
-        })
+        }
     }
 
 

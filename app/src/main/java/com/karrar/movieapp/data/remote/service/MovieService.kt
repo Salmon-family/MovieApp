@@ -112,6 +112,14 @@ interface MovieService {
         @Query("session_id") apiKey: String?
     ): Response<RatingDto>
 
+    @FormUrlEncoded
+    @POST("tv/{tv_id}/rating")
+    suspend fun postTvShowRating(
+        @Path("tv_id") tvShowId: Int,
+        @Field("value") rating: Float,
+        @Query("session_id") apiKey: String?
+    ): Response<RatingDto>
+
 
     @GET("movie/{movie_id}/videos")
     suspend fun getMovieTrailer(@Path("movie_id") movieId: Int): Response<TrailerDto>
