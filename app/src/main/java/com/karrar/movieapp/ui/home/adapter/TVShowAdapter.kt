@@ -1,7 +1,7 @@
-package com.karrar.movieapp.ui.adapters
+package com.karrar.movieapp.ui.home.adapter
 
 import com.karrar.movieapp.R
-import com.karrar.movieapp.domain.enums.MovieType
+import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
@@ -13,6 +13,6 @@ class TVShowAdapter(items: List<Media>,val listener: TVShowInteractionListener) 
 
 interface TVShowInteractionListener : BaseInteractionListener {
     fun onClickTVShow(tVShowID: Int)
-    fun onClickSeeTVShow()
+    fun onClickSeeTVShow(type: AllMediaType)
 }
 

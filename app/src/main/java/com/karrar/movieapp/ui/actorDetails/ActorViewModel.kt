@@ -3,7 +3,7 @@ package com.karrar.movieapp.ui.actorDetails
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.enums.MovieType
+import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.ActorDetails
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.UIState
@@ -65,7 +65,7 @@ class ActorViewModel @Inject constructor(
         _clickMovieEvent.postEvent(movieId)
     }
 
-    override fun onClickSeeAllMovie(movieType: MovieType) {
+    override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
         _seeAllMovies.postValue(Event(true))
     }
 

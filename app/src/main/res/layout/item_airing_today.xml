@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="com.karrar.movieapp.domain.enums.MovieType" />
+        <import type="com.karrar.movieapp.domain.enums.HomeItemsType" />
 
         <variable
             name="listener"

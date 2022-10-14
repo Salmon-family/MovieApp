@@ -151,7 +151,7 @@
             app:argType="integer" />
         <argument
             android:name="type"
-            app:argType="com.karrar.movieapp.domain.enums.MovieType" />
+            app:argType="com.karrar.movieapp.domain.enums.AllMediaType" />
         <action
             android:id="@+id/action_allMovieFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />

@@ -4,25 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="com.karrar.movieapp.domain.enums.AllMediaType"/>
+
         <variable
             name="topRated"
             type="com.karrar.movieapp.domain.models.Media" />
+
         <variable
             name="latest"
             type="com.karrar.movieapp.domain.models.Media" />
+
         <variable
             name="popular"
             type="com.karrar.movieapp.domain.models.Media" />
 
-
-
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.home.adapter.TVShowInteractionListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:background="@color/background_color"
-        android:background="@android:color/transparent">
+        android:background="@android:color/transparent"
+        tools:background="@color/background_color">
 
         <TextView
             android:id="@+id/text_tvShow_title"
@@ -41,35 +47,34 @@
             android:layout_marginStart="@dimen/spacing_medium"
             android:background="@color/brand_color"
             android:scaleType="centerCrop"
-            app:posterImage="@{topRated.mediaImage}"
             app:layout_constraintBottom_toBottomOf="@+id/image_popular"
             app:layout_constraintEnd_toStartOf="@+id/image_latest"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/image_latest"
-            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
-            />
+            app:posterImage="@{topRated.mediaImage}"
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/gradient"
+            android:onClick="@{() -> listener.onClickSeeTVShow(AllMediaType.TOP_RATED)}"
             app:layout_constraintBottom_toBottomOf="@+id/image_top_rated"
             app:layout_constraintEnd_toEndOf="@id/image_top_rated"
             app:layout_constraintStart_toStartOf="@id/image_top_rated"
             app:layout_constraintTop_toTopOf="@id/image_top_rated"
-            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
-            />
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
         <TextView
             android:id="@+id/text_top_rated"
             style="@style/SemiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white_primary"
             android:layout_margin="@dimen/spacing_medium"
             android:elevation="2dp"
             android:text="@string/top_rated"
+            android:textColor="@color/white_primary"
             app:layout_constraintBottom_toBottomOf="@+id/image_top_rated"
             app:layout_constraintStart_toStartOf="@+id/image_top_rated" />
 
@@ -81,12 +86,12 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:background="@color/brand_color"
             android:scaleType="centerCrop"
-            app:posterImage="@{latest.mediaImage}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@+id/image_top_rated"
             app:layout_constraintTop_toBottomOf="@+id/text_tvShow_title"
+            app:posterImage="@{latest.mediaImage}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -96,9 +101,9 @@
             app:layout_constraintBottom_toBottomOf="@+id/image_latest"
             app:layout_constraintEnd_toEndOf="@id/image_latest"
             app:layout_constraintStart_toStartOf="@id/image_latest"
+            android:onClick="@{() -> listener.onClickSeeTVShow(AllMediaType.AIRING_TODAY)}"
             app:layout_constraintTop_toTopOf="@id/image_latest"
-            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
-            />
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
         <TextView
             android:id="@+id/text_latest"
@@ -106,9 +111,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_small"
-            android:textColor="@color/white_primary"
             android:elevation="2dp"
             android:text="@string/latest"
+            android:textColor="@color/white_primary"
             app:layout_constraintBottom_toBottomOf="@+id/image_latest"
             app:layout_constraintStart_toStartOf="@+id/image_latest" />
 
@@ -120,24 +125,24 @@
             android:layout_marginBottom="@dimen/spacing_medium"
             android:background="@color/brand_color"
             android:scaleType="centerCrop"
-            app:posterImage="@{popular.mediaImage}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@+id/image_latest"
             app:layout_constraintStart_toStartOf="@+id/image_latest"
             app:layout_constraintTop_toBottomOf="@+id/image_latest"
+            app:posterImage="@{popular.mediaImage}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:onClick="@{() -> listener.onClickSeeTVShow(AllMediaType.POPULAR)}"
             android:background="@drawable/gradient"
             app:layout_constraintBottom_toBottomOf="@+id/image_popular"
             app:layout_constraintEnd_toEndOf="@id/image_popular"
             app:layout_constraintStart_toStartOf="@id/image_popular"
             app:layout_constraintTop_toTopOf="@id/image_popular"
-            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
-            />
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
         <TextView
             android:id="@+id/text_popular"
@@ -145,9 +150,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_small"
-            android:textColor="@color/white_primary"
             android:elevation="2dp"
             android:text="@string/popular"
+            android:textColor="@color/white_primary"
             app:layout_constraintBottom_toBottomOf="@+id/image_popular"
             app:layout_constraintStart_toStartOf="@+id/image_popular" />
 

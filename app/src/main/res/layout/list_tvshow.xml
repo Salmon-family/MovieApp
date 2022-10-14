@@ -5,13 +5,15 @@
 
     <data>
 
+        <import type="com.karrar.movieapp.domain.enums.AllMediaType"/>
+
         <variable
             name="adapterRecycler"
-            type="com.karrar.movieapp.ui.adapters.TVShowAdapter" />
+            type="com.karrar.movieapp.ui.home.adapter.TVShowAdapter" />
 
         <variable
             name="movieType"
-            type="com.karrar.movieapp.domain.enums.MovieType" />
+            type="com.karrar.movieapp.domain.enums.HomeItemsType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_small"
-            android:onClick="@{() -> adapterRecycler.listener.onClickSeeTVShow()}"
+            android:onClick="@{() -> adapterRecycler.listener.onClickSeeTVShow(AllMediaType.ON_THE_AIR)}"
             android:text="@string/see_all"
             android:textColor="@color/brand_color"
             app:drawableEndCompat="@drawable/ic_arrow_right"

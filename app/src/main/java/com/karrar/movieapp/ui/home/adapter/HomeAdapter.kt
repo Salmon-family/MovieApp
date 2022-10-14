@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
-import com.karrar.movieapp.domain.enums.MovieType
+import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.adapters.*
 import com.karrar.movieapp.ui.base.BaseAdapter
@@ -48,6 +48,7 @@ class HomeAdapter(
                         setVariable(BR.topRated, currentItem.items.first())
                         setVariable(BR.popular, currentItem.items[1])
                         setVariable(BR.latest, currentItem.items.last())
+                        setVariable(BR.listener, listener as TVShowInteractionListener)
                     }
                 }
 
@@ -111,7 +112,7 @@ class HomeAdapter(
             }
     }
 
-    private fun bindMovie(holder: ItemViewHolder, items: List<Media>, type: MovieType) {
+    private fun bindMovie(holder: ItemViewHolder, items: List<Media>, type: HomeItemsType) {
         holder.binding.run {
             setVariable(
                 BR.adapterRecycler,

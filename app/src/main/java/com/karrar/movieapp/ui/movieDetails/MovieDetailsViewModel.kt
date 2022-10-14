@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.enums.MovieType
+import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.MovieDetails
 import com.karrar.movieapp.domain.models.RatedMovies
 import com.karrar.movieapp.ui.UIState
@@ -190,7 +190,7 @@ class MovieDetailsViewModel @Inject constructor(
         _clickMovieEvent.postValue(Event(movieId))
     }
 
-    override fun onClickSeeAllMovie(movieType: MovieType) {}
+    override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {}
 
     override fun onClickActor(actorID: Int) {
         _clickCastEvent.postValue(Event(actorID))

@@ -8,7 +8,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.karrar.movieapp.data.repository.AllMediaFactory
-import com.karrar.movieapp.domain.enums.MovieType
+import com.karrar.movieapp.domain.enums.AllMediaType
+import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
@@ -29,7 +30,7 @@ class AllMovieViewModel @Inject constructor(
 
     @Inject
     lateinit var myFactory: AllMediaFactory
-    private val dataSource by lazy { myFactory.create(args.id, args.type) }
+    private val dataSource by lazy { myFactory.create(actorID = args.id, type = args.type) }
 
     val allMedia: Flow<PagingData<Media>> =
         Pager(config = config, pagingSourceFactory = { dataSource }).flow.cachedIn(viewModelScope)
@@ -47,7 +48,7 @@ class AllMovieViewModel @Inject constructor(
     val clickSeriesEvent = _clickSeriesEvent.toLiveData()
 
     override fun onClickMedia(mediaId: Int) {
-        if (args.type == MovieType.ON_THE_AIR) {
+        if (args.type == AllMediaType.ON_THE_AIR) {
             _clickSeriesEvent.postEvent(mediaId)
         } else {
             _clickMovieEvent.postEvent(mediaId)

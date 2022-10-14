@@ -1,6 +1,6 @@
 package com.karrar.movieapp.domain.enums
 
-enum class MovieType(val value :String) {
+enum class HomeItemsType(val value :String) {
     ON_THE_AIR("On the air"),
     TRENDING("Trending"),
     NOW_STREAMING("Now streaming"),

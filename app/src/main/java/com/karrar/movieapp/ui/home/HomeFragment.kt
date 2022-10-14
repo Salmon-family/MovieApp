@@ -6,6 +6,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentHomeBinding
+import com.karrar.movieapp.domain.enums.HomeItemsType
+import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
 import com.karrar.movieapp.utilities.observeEvent
@@ -48,6 +50,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         viewModel.clickSeeAllMovieEvent.observeEvent(viewLifecycleOwner) {typeMovieID ->
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(-1, typeMovieID))
+        }
+
+        viewModel.clickSeeAllTVShowsEvent.observeEvent(viewLifecycleOwner) {typeTVShow ->
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(-1,typeTVShow))
         }
     }
 

@@ -10,11 +10,11 @@ interface SeriesRepository {
 
     suspend fun getOnTheAir(page: Int = 1): List<Media>
 
-    suspend fun getAiringToday(): List<Media>
+    suspend fun getAiringToday(page: Int = 1): List<Media>
 
-    suspend fun getTopRatedTvShow(): List<Media>
+    suspend fun getTopRatedTvShow(page: Int = 1): List<Media>
 
-    suspend fun getPopularTvShow(): List<Media>
+    suspend fun getPopularTvShow(page: Int = 1): List<Media>
 
     suspend fun getTvShowsByGenreID(genreId: Int): List<Media>
 

@@ -146,13 +146,13 @@ interface MovieService {
     suspend fun getOnTheAir(@Query("page") page: Int): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/airing_today")
-    suspend fun getAiringToday(): Response<BaseResponse<TVShowsDTO>>
+    suspend fun getAiringToday(@Query("page")page: Int): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/top_rated")
-    suspend fun getTopRatedTvShow(): Response<BaseResponse<TVShowsDTO>>
+    suspend fun getTopRatedTvShow(@Query("page")page: Int): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/popular")
-    suspend fun getPopularTvShow(): Response<BaseResponse<TVShowsDTO>>
+    suspend fun getPopularTvShow(@Query("page")page: Int): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/latest")
     suspend fun getLatestTvShow(): Response<BaseResponse<TVShowsDTO>>

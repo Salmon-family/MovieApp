@@ -31,19 +31,19 @@ class SeriesRepositoryImp @Inject constructor(
             { ListMapper(mediaMapper).mapList(it.items) })
     }
 
-    override suspend fun getAiringToday(): List<Media> {
-        return wrap({ service.getAiringToday() },
+    override suspend fun getAiringToday(page: Int): List<Media> {
+        return wrap({ service.getAiringToday(page) },
             { ListMapper(mediaMapper).mapList(it.items) })
     }
 
 
-    override suspend fun getTopRatedTvShow(): List<Media> {
-        return wrap({ service.getTopRatedTvShow() },
+    override suspend fun getTopRatedTvShow(page: Int): List<Media> {
+        return wrap({ service.getTopRatedTvShow(page) },
             { ListMapper(mediaMapper).mapList(it.items) })
     }
 
-    override suspend fun getPopularTvShow(): List<Media> {
-        return wrap({ service.getPopularTvShow() },
+    override suspend fun getPopularTvShow(page: Int): List<Media> {
+        return wrap({ service.getPopularTvShow(page) },
             { ListMapper(mediaMapper).mapList(it.items) })
     }
 
