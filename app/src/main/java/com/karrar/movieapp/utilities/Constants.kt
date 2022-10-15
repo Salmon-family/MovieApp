@@ -19,6 +19,9 @@ object Constants {
     const val ACTING = "Acting"
     const val NUM_HOME_REQUEST = 9
     const val  SUCCESS_REQUEST = 1
+
+    const val REQUEST_KEY = "requestKey"
+    const val BUNDLE_KEY = "bundleKey"
 }
 
 object DataStorePreferencesKeys{
