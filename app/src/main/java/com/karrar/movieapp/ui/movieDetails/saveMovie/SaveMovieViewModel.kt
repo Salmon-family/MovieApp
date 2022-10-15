@@ -2,6 +2,7 @@ package com.karrar.movieapp.ui.movieDetails.saveMovie
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.CreatedList
@@ -11,6 +12,7 @@ import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.checkIfExist
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -30,23 +32,29 @@ class SaveMovieViewModel @Inject constructor(
     private val _message = MutableLiveData<String>()
     var message: LiveData<String> = _message
 
+    private var sessionId = ""
+
+
     init {
-        getData()
+
+        viewModelScope.launch {
+            sessionId = accountRepository.getSessionId()
+            getData()
+        }
     }
 
     override fun getData() {
         wrapWithState({
-            accountRepository.getSessionId().collect {
-                val response = movieRepository.getAllLists(0, it.toString())
-                _savedList.postValue(UIState.Success(response))
-            }
+            val response = movieRepository.getAllLists(0, sessionId)
+            _savedList.postValue(UIState.Success(response))
+
         }, { _savedList.postValue(UIState.Error("error")) })
     }
 
     fun checkMovie(movieId: Int) {
         wrapWithState({
             val result = movieRepository.getListDetails(_clickListEvent.value!!.peekContent())
-            if (result.checkIfExist(movieId) === true) {
+            if (result.checkIfExist(movieId)) {
                 _message.postValue("Fail: this movie is already on the list")
             }
             if (!result.checkIfExist(movieId)) addMovieToList(movieId)
@@ -57,14 +65,14 @@ class SaveMovieViewModel @Inject constructor(
     private fun addMovieToList(movieId: Int) {
         wrapWithState(
             {
-                accountRepository.getSessionId().collect {
-                    movieRepository.addMovieToList(
-                        it.toString(),
-                        _clickListEvent.value?.peekContent() ?: 0,
-                        movieId
-                    )
-                    _message.postValue("Susses: The movie has been added")
-                }
+
+                movieRepository.addMovieToList(
+                    sessionId,
+                    _clickListEvent.value?.peekContent() ?: 0,
+                    movieId
+                )
+                _message.postValue("Susses: The movie has been added")
+
             })
     }
 

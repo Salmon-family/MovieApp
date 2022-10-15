@@ -6,7 +6,9 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.karrar.movieapp.utilities.DataStorePreferencesKeys
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 
 class DataStorePreferences (context: Context) {
@@ -31,10 +33,8 @@ class DataStorePreferences (context: Context) {
         }
     }
 
-    fun readString(key: String): Flow<String?> {
-        return prefDataStore.data.map { preferences ->
-            preferences[stringPreferencesKey(key)]
-        }
+    suspend fun readString(key: String): String? {
+        return prefDataStore.data.firstOrNull()?.get(stringPreferencesKey(key))
     }
 
     companion object {

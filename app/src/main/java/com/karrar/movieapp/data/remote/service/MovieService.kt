@@ -64,9 +64,8 @@ interface MovieService {
     suspend fun getGenreList(): Response<GenreResponse>
 
     @JvmSuppressWildcards
-    @FormUrlEncoded
     @POST("authentication/token/validate_with_login")
-    suspend fun validateRequestTokenWithLogin(@FieldMap body: Map<String, Any>): Response<RequestTokenResponse>
+    suspend fun validateRequestTokenWithLogin(@Body body: HashMap<String, Any>): Response<RequestTokenResponse>
 
     @FormUrlEncoded
     @POST("authentication/session/new")

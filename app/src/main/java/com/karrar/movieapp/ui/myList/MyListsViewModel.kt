@@ -2,6 +2,7 @@ package com.karrar.movieapp.ui.myList
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.CreatedList
@@ -11,7 +12,7 @@ import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,18 +36,23 @@ class MyListsViewModel @Inject constructor(
     val item: LiveData<Event<CreatedList>>
         get() = _item
 
+    private var sessionId = ""
+
 
     init {
-        getData()
+        viewModelScope.launch {
+            sessionId = accountRepository.getSessionId()
+            getData()
+        }
     }
 
     override fun getData() {
         wrapWithState({
-            accountRepository.getSessionId().collect {
-                _createdList.postValue(UIState.Loading)
-                val response = movieRepository.getAllLists(0, it.toString()).toMutableList()
-                _createdList.postValue(UIState.Success(response))
-            }
+            _createdList.postValue(UIState.Loading)
+            val response =
+                movieRepository.getAllLists(0, sessionId).toMutableList()
+            _createdList.postValue(UIState.Success(response))
+
         }, {
             _createdList.postValue(UIState.Error(it.message.toString()))
         })
@@ -58,12 +64,13 @@ class MyListsViewModel @Inject constructor(
 
     fun onClickAddList() {
         wrapWithState({
-            accountRepository.getSessionId().collect {
-                val item = movieRepository.createList(it.toString(), listName.value.toString())
-                if (item.success == true)
-                    addList(CreatedList(item.listId ?: 0, 0, listName.value.toString()))
-                listName.postValue(null)
-            }
+
+            val item =
+                movieRepository.createList(sessionId, listName.value.toString())
+            if (item.success == true)
+                addList(CreatedList(item.listId ?: 0, 0, listName.value.toString()))
+            listName.postValue(null)
+
         })
         _onCLickAddEvent.postEvent(true)
     }

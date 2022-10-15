@@ -1,7 +1,7 @@
 package com.karrar.movieapp.di
 
 import com.karrar.movieapp.data.local.AppConfiguration
-import com.karrar.movieapp.data.local.AppConfigurator
+import com.karrar.movieapp.data.local.AppConfigurationImp
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,5 +15,5 @@ abstract class AppConfigurationModule {
 
     @Singleton
     @Binds
-    abstract fun bindAppConfiguration(appConfigurator: AppConfigurator) :AppConfiguration
+    abstract fun bindAppConfiguration(appConfigurator: AppConfigurationImp) :AppConfiguration
 }

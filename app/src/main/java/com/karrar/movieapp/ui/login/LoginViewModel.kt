@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.login
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.ui.UIState
@@ -71,9 +72,9 @@ class LoginViewModel @Inject constructor(
 
 
     private fun login() {
+        Log.e("DEVFALAH", password.value.toString())
         viewModelScope.launch {
-            accountRepository.loginWithUserNameANdPassword(userName.value.toString(),
-                password.value.toString()).collect {
+            accountRepository.loginWithUserNameANdPassword(userName.value.toString(),password.value.toString()).collect {
                 when (it) {
                     is UIState.Error -> onLoginError(it.message)
                     UIState.Loading -> _loginRequestState.postValue(it)

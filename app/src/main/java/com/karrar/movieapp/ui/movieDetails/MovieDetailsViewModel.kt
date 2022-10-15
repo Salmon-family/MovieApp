@@ -17,7 +17,6 @@ import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -61,9 +60,14 @@ class MovieDetailsViewModel @Inject constructor(
 
     val detailItemsLiveData = MutableLiveData<UIState<List<DetailItem>>>()
     private val detailItems = mutableListOf<DetailItem>()
+    private var sessionId = ""
 
     init {
-        getData()
+
+        viewModelScope.launch {
+            sessionId = accountRepository.getSessionId()
+            getData()
+        }
     }
 
     override fun getData() {
@@ -109,13 +113,13 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getRatedMovie(movieId: Int) {
         viewModelScope.launch {
-            accountRepository.getSessionId().collectLatest {
-                wrapWithState({
-                    val response = movieRepository.getRatedMovie(0, it.toString())
-                    checkIfMovieRated(response, movieId)
-                    updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
-                })
-            }
+
+            wrapWithState({
+                val response = movieRepository.getRatedMovie(0, sessionId)
+                checkIfMovieRated(response, movieId)
+                updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
+            })
+
         }
     }
 
@@ -161,14 +165,13 @@ class MovieDetailsViewModel @Inject constructor(
     fun onAddRating(movie_id: Int, value: Float) {
         if (_check.value != value) {
             wrapWithState({
-                accountRepository.getSessionId().collect {
-                    val response = movieRepository.setRating(movie_id, value, it.toString())
-                    if (response.statusCode != null
-                        && response.statusCode == Constants.SUCCESS_REQUEST
-                    ) {
-                        _check.postValue(value)
-                    }
+                val response = movieRepository.setRating(movie_id, value, sessionId)
+                if (response.statusCode != null
+                    && response.statusCode == Constants.SUCCESS_REQUEST
+                ) {
+                    _check.postValue(value)
                 }
+
             })
             messageAppear.postValue(Event(true))
         }

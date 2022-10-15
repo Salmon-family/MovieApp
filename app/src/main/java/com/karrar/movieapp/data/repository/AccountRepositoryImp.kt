@@ -1,13 +1,12 @@
 package com.karrar.movieapp.data.repository
 
-import com.karrar.movieapp.data.remote.response.login.ErrorResponse
-import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.DataClassParser
 import com.karrar.movieapp.data.local.AppConfiguration
+import com.karrar.movieapp.data.remote.response.login.ErrorResponse
+import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.AccountMapper
 import com.karrar.movieapp.domain.models.Account
 import com.karrar.movieapp.ui.UIState
-import com.karrar.movieapp.utilities.DataStorePreferencesKeys
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -18,10 +17,11 @@ class AccountRepositoryImp @Inject constructor(
     private val appConfiguration: AppConfiguration,
     private val dataClassParser: DataClassParser,
     private val accountMapper: AccountMapper,
-    ) : AccountRepository, BaseRepository() {
-    override fun getSessionId(): Flow<String?> {
-        return appConfiguration.readString(DataStorePreferencesKeys.SESSION_ID_KEY)
+) : AccountRepository, BaseRepository() {
+    override suspend fun getSessionId(): String {
+        return appConfiguration.getSessionId()
     }
+
     override suspend fun loginWithUserNameANdPassword(
         userName: String,
         password: String,
@@ -30,11 +30,12 @@ class AccountRepositoryImp @Inject constructor(
             emit(UIState.Loading)
             try {
                 val token = getRequestToken().toString()
-                val body = mapOf<String, Any>(
+                val body = hashMapOf<String, Any>(
                     "username" to userName,
                     "password" to password,
                     "request_token" to token,
-                ).toMap()
+                )
+
                 val validateRequestTokenWithLogin = service.validateRequestTokenWithLogin(body)
                 if (validateRequestTokenWithLogin.isSuccessful) {
                     validateRequestTokenWithLogin.body()?.requestToken?.let { createSession(it) }
@@ -56,15 +57,15 @@ class AccountRepositoryImp @Inject constructor(
         return flow {
             emit(UIState.Loading)
             try {
-                getSessionId().collect{
-                    val logout = service.logout(it.toString())
-                    if (logout.isSuccessful){
-                        appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
-                        emit(UIState.Success(true))
-                    } else {
-                        emit(UIState.Error("There is an error"))
-                    }
+                val sessionId = getSessionId()
+                val logout = service.logout(sessionId)
+                if (logout.isSuccessful) {
+                    appConfiguration.saveSessionId("")
+                    emit(UIState.Success(true))
+                } else {
+                    emit(UIState.Error("There is an error"))
                 }
+
             } catch (e: Exception) {
                 emit(UIState.Error(e.message.toString()))
             }
@@ -88,7 +89,7 @@ class AccountRepositoryImp @Inject constructor(
     }
 
     private suspend fun saveSessionId(sessionId: String) {
-        appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, sessionId)
+        appConfiguration.saveSessionId(sessionId)
     }
 
 }
