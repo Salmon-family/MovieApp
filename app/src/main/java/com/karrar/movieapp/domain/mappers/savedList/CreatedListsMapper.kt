@@ -1,6 +1,7 @@
-package com.karrar.movieapp.domain.mappers
+package com.karrar.movieapp.domain.mappers.savedList
 
 import com.karrar.movieapp.data.remote.response.CreatedListDto
+import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.CreatedList
 import javax.inject.Inject
 

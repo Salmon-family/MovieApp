@@ -9,7 +9,7 @@ class ListMapper<I, O>(private val mapper: Mapper<I, O>) : Mapper<List<I>, List<
         } ?: emptyList()
     }
 
-    fun mapNullItem(input: List<I?>): List<O> {
+    private fun mapNullItem(input: List<I?>): List<O> {
         return input.mapNotNull {
             it?.let {
                 mapper.map(it)

@@ -1,6 +1,7 @@
-package com.karrar.movieapp.domain.mappers
+package com.karrar.movieapp.domain.mappers.search
 
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
+import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.SearchHistory
 import javax.inject.Inject
 
