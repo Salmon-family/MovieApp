@@ -6,17 +6,17 @@ import javax.inject.Inject
 
 interface AppConfiguration {
 
-    fun readString(key: String): Flow<String?>
+    fun getSessionId(key: String): Flow<String?>
 
-    suspend fun writeString(key: String, value: String)
+    suspend fun saveSessionId(key: String, value: String)
 }
 
 class AppConfigurator @Inject constructor(private val dataStorePreferences: DataStorePreferences) :AppConfiguration{
-    override fun readString(key: String): Flow<String?> {
+    override fun getSessionId(key: String): Flow<String?> {
         return dataStorePreferences.readString(key)
     }
 
-    override suspend fun writeString(key: String, value: String) {
+    override suspend fun saveSessionId(key: String, value: String) {
         dataStorePreferences.writeString(key,value)
     }
 }
