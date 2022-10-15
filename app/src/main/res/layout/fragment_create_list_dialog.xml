@@ -59,7 +59,7 @@
                 android:fontFamily="@font/plus_jakarta_sans_regular"
                 android:maxLength="15"
                 android:maxLines="1"
-                android:textCursorDrawable="@drawable/color_cursor"
+                android:textCursorDrawable="@color/brand_color"
                 android:text="@={viewModel.listName}"
                 android:textColor="@color/shade_primary_color" />
 

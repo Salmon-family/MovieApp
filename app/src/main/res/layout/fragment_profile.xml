@@ -10,170 +10,173 @@
             type="com.karrar.movieapp.ui.profile.ProfileViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background_color">
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/image_actor"
-            android:layout_width="0dp"
-            android:layout_height="128dp"
-            android:layout_marginTop="50dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:posterImage="@{viewModel.profileDetails.toData().avatarPath}"
-            app:shapeAppearanceOverlay="@style/Circle"
-            tools:src="@drawable/actor"
-            />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_name_actor"
-            style="@style/SemiBold.Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:textColor="@color/shade_primary_color"
-            android:text="@{viewModel.profileDetails.toData().name}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image_actor"
-            tools:text="Captain America" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_username"
-            style="@style/Regular.Medium.Secondary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@{@string/at + viewModel.profileDetails.toData().username}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_name_actor"
-            tools:text="\@captn.ameri" />
-
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_watch_history"
-            style="@style/SemiBold.Medium"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_extra_large"
-            android:drawableStart="@drawable/ic_play_outlined"
-            android:drawablePadding="@dimen/spacing_medium"
-            android:onClick="@{() -> viewModel.onClickWatchHistory()}"
-            android:paddingVertical="@dimen/spacing_medium"
-            android:text="@string/watch_history"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_username" />
+            android:layout_height="0dp"
+            android:background="@color/background_color">
 
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/first_divider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            app:dividerColor="@color/shade_quaternary_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_watch_history" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_actor"
+                android:layout_width="0dp"
+                android:layout_height="128dp"
+                android:layout_marginTop="50dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:posterImage="@{viewModel.profileDetails.toData().avatarPath}"
+                app:shapeAppearanceOverlay="@style/Circle"
+                tools:src="@drawable/actor"
+                />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_rated_movies"
-            style="@style/SemiBold.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:drawableStart="@drawable/ic_star_outlined"
-            android:drawablePadding="@dimen/spacing_medium"
-            android:onClick="@{() -> viewModel.onClickRatedMovies()}"
-            android:paddingVertical="@dimen/spacing_medium"
-            android:text="@string/rated_movies"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_watch_history" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_name_actor"
+                style="@style/SemiBold.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:textColor="@color/shade_primary_color"
+                android:text="@{viewModel.profileDetails.toData().name}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image_actor"
+                tools:text="Captain America" />
 
-
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/second_divider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            app:dividerColor="@color/shade_quaternary_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_rated_movies" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_username"
+                style="@style/Regular.Medium.Secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@{@string/at + viewModel.profileDetails.toData().username}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_name_actor"
+                tools:text="\@captn.ameri" />
 
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_sign_out"
-            style="@style/SemiBold.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:drawableStart="@drawable/ic_logout"
-            android:drawablePadding="@dimen/spacing_medium"
-            android:onClick="@{() -> viewModel.onClickLogout()}"
-            android:paddingVertical="@dimen/spacing_medium"
-            android:text="@string/sign_out"
-            android:textColor="@color/shade_ternary_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_rated_movies"
-            tools:ignore="MissingConstraints" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_watch_history"
+                style="@style/SemiBold.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_extra_large"
+                android:drawableStart="@drawable/ic_play_outlined"
+                android:drawablePadding="@dimen/spacing_medium"
+                android:onClick="@{() -> viewModel.onClickWatchHistory()}"
+                android:paddingVertical="@dimen/spacing_medium"
+                android:text="@string/watch_history"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_username" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading="@{viewModel.profileDetails}"
-            tools:visibility="gone" />
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/first_divider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                app:dividerColor="@color/shade_quaternary_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_watch_history" />
 
-        <TextView
-            android:id="@+id/text_message_wrong"
-            style="@style/SemiBold.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/you_must_be_logged_in_to_see_the_profile"
-            android:visibility="gone"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_rated_movies"
+                style="@style/SemiBold.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:drawableStart="@drawable/ic_star_outlined"
+                android:drawablePadding="@dimen/spacing_medium"
+                android:onClick="@{() -> viewModel.onClickRatedMovies()}"
+                android:paddingVertical="@dimen/spacing_medium"
+                android:text="@string/rated_movies"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_watch_history" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_nav_login"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:gravity="center"
-            android:onClick="@{() -> viewModel.onClickLogin()}"
-            android:text="@string/login"
-            android:textAppearance="@style/SemiBold.Medium"
-            android:textColor="@color/white_primary"
-            android:visibility="gone"
-            app:backgroundTint="@color/color_states_material_button"
-            app:cornerRadius="@dimen/radius_small"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_message_wrong" />
 
-        <androidx.constraintlayout.widget.Group
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="text_watch_history,
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/second_divider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                app:dividerColor="@color/shade_quaternary_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_rated_movies" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_sign_out"
+                style="@style/SemiBold.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:drawableStart="@drawable/ic_logout"
+                android:drawablePadding="@dimen/spacing_medium"
+                android:onClick="@{() -> viewModel.onClickLogout()}"
+                android:paddingVertical="@dimen/spacing_medium"
+                android:text="@string/sign_out"
+                android:textColor="@color/shade_ternary_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_rated_movies"
+                tools:ignore="MissingConstraints" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading_animation"
+                app:showWhenLoading="@{viewModel.profileDetails}"
+                tools:visibility="gone" />
+
+            <TextView
+                android:id="@+id/text_message_wrong"
+                style="@style/SemiBold.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/you_must_be_logged_in_to_see_the_profile"
+                android:visibility="gone"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_nav_login"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:gravity="center"
+                android:onClick="@{() -> viewModel.onClickLogin()}"
+                android:text="@string/login"
+                android:textAppearance="@style/SemiBold.Medium"
+                android:textColor="@color/white_primary"
+                android:visibility="gone"
+                app:backgroundTint="@color/color_states_material_button"
+                app:cornerRadius="@dimen/radius_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_message_wrong" />
+
+            <androidx.constraintlayout.widget.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="text_watch_history,
             text_rated_movies,
             text_sign_out,
             first_divider,
@@ -181,15 +184,16 @@
             image_actor,
             text_name_actor,
             text_username,"
-            app:showWhenSuccess="@{viewModel.profileDetails}" />
+                app:showWhenSuccess="@{viewModel.profileDetails}" />
 
-        <androidx.constraintlayout.widget.Group
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="
+            <androidx.constraintlayout.widget.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="
             text_message_wrong,
             button_nav_login,"
-            app:showWhenFail="@{viewModel.profileDetails}" />
+                app:showWhenFail="@{viewModel.profileDetails}" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

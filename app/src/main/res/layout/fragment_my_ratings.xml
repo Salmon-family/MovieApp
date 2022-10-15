@@ -23,6 +23,7 @@
             android:overScrollMode="never"
             android:paddingVertical="@dimen/spacing_small"
             android:scrollbars="none"
+            android:paddingBottom="@dimen/spacing_medium"
             app:items="@{viewModel.ratedMovies.toData()}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
