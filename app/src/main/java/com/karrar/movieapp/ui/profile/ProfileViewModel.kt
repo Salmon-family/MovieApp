@@ -45,14 +45,14 @@ class ProfileViewModel @Inject constructor(
         _profileDetails.postValue(UIState.Loading)
 
         viewModelScope.launch {
-            accountRepository.getSessionId().collect { sectionId ->
+                val sessionId = accountRepository.getSessionId()
                 wrapWithState({
-                    val result = accountRepository.getAccountDetails(sectionId.toString())
+                    val result = accountRepository.getAccountDetails(sessionId)
                     _profileDetails.postValue(UIState.Success(result))
                 }, {
                     _profileDetails.postValue(UIState.Error(it.message.toString()))
                 })
-            }
+
         }
     }
 

@@ -12,6 +12,7 @@ import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
@@ -46,16 +47,16 @@ class MyListsViewModel @Inject constructor(
 
     private fun initCreatedList() {
         viewModelScope.launch {
-            accountRepository.getSessionId().collectLatest {
+                val sessionId = accountRepository.getSessionId()
                 _createdList.postValue(UIState.Loading)
                 wrapWithState({
-                    val response = movieRepository.getAllLists(0, it.toString()).toMutableList()
+                    val response = movieRepository.getAllLists(0, sessionId).toMutableList()
                     _createdList.postValue(UIState.Success(response))
                 },{
                     _createdList.postValue(UIState.Error(it.message.toString()))
                 })
             }
-        }
+
     }
 
 
@@ -65,17 +66,18 @@ class MyListsViewModel @Inject constructor(
 
 
     fun onClickAddList() {
-        collectResponse(accountRepository.getSessionId().flatMapLatest {
-            movieRepository.createList(it.toString(), listName.value.toString())
-        }) {
-            it.toData()?.let { item ->
-                if (item.success == true)
-                    addList(CreatedList(item.listId ?: 0, 0, listName.value.toString()))
-                listName.postValue(null)
+        viewModelScope.launch {
+            val sessionId = accountRepository.getSessionId()
+                movieRepository.createList(sessionId, listName.value.toString())
+                    .collect{
+                it.toData()?.let { item ->
+                    if (item.success == true)
+                        addList(CreatedList(item.listId ?: 0, 0, listName.value.toString()))
+                    listName.postValue(null)
+                }
             }
-
-
         }
+
         _onCLickAddEvent.postEvent(true)
     }
 

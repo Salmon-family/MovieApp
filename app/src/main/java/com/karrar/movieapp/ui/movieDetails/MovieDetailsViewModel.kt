@@ -17,6 +17,7 @@ import com.karrar.movieapp.ui.base.MediaDetailsViewModel
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
@@ -103,13 +104,13 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getRatedMovie(movieId: Int) {
         viewModelScope.launch {
-            accountRepository.getSessionId().collectLatest {
                 wrapWithState({
-                    val response = movieRepository.getRatedMovie(0, it.toString())
+                    val sessionId = accountRepository.getSessionId()
+                    val response = movieRepository.getRatedMovie(0, sessionId)
                     checkIfMovieRated(response, movieId)
                     updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
                 })
-            }
+
         }
     }
 
@@ -154,16 +155,16 @@ class MovieDetailsViewModel @Inject constructor(
 
     fun onAddRating(movie_id: Int, value: Float) {
         if (_check.value != value) {
-            collectResponse(
-                accountRepository.getSessionId().flatMapLatest {
-                    movieRepository.setRating(movie_id, value, it.toString())
-                }
-            ) {
-                if (it is State.Success) {
-                    messageAppear.postValue(Event(true))
-                    _check.postValue(value)
+            viewModelScope.launch {
+                val sessionId = accountRepository.getSessionId()
+                movieRepository.setRating(movie_id, value, sessionId).collect{
+                    if (it is State.Success) {
+                        messageAppear.postValue(Event(true))
+                        _check.postValue(value)
+                    }
                 }
             }
+
         }
     }
 

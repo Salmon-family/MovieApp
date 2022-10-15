@@ -39,10 +39,10 @@ class SaveMovieViewModel @Inject constructor(
 
     private fun getCreatedLists() {
         wrapWithState({
-            accountRepository.getSessionId().collect {
-                val response = movieRepository.getAllLists(0, it.toString())
+                val sessionId = accountRepository.getSessionId()
+                val response = movieRepository.getAllLists(0, sessionId)
                 _savedList.postValue(UIState.Success(response))
-            }
+
         },
             {
                 _savedList.postValue(UIState.Error("error"))
@@ -63,13 +63,14 @@ class SaveMovieViewModel @Inject constructor(
     private fun addMovieToList(movieId: Int) {
 
         viewModelScope.launch {
-            accountRepository.getSessionId().flatMapLatest {
+            val sessionId = accountRepository.getSessionId()
+
                 movieRepository.addMovieToList(
-                    it.toString(),
+                    sessionId,
                     _clickListEvent.value?.peekContent() ?: 0,
                     movieId
                 )
-            }.collect {
+            .collect {
                 _message.postValue("Susses: The movie has been added")
 
             }

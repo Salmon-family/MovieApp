@@ -7,7 +7,10 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 
 class DataStorePreferences (context: Context) {
     private val Context.preferencesDataStore: DataStore<androidx.datastore.preferences.core.Preferences> by preferencesDataStore(PREFERENCES_FILE_NAME)
@@ -31,10 +34,8 @@ class DataStorePreferences (context: Context) {
         }
     }
 
-    fun readString(key: String): Flow<String?> {
-        return prefDataStore.data.map { preferences ->
-            preferences[stringPreferencesKey(key)]
-        }
+    suspend fun readString(key: String): String?{
+        return prefDataStore.data.firstOrNull()?.get(stringPreferencesKey(key))
     }
 
     companion object {

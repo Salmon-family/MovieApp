@@ -37,15 +37,16 @@ class MyRatingsViewModel @Inject constructor(
     private fun getRatedMovie() {
         _ratedMovies.postValue(UIState.Loading)
         viewModelScope.launch {
-            accountRepository.getSessionId().collectLatest {
+            val sessionId = accountRepository.getSessionId()
+
                 wrapWithState({
-                    val response = movieRepository.getRatedMovie(0, it.toString())
+                    val response = movieRepository.getRatedMovie(0, sessionId)
                     _ratedMovies.postValue(UIState.Success(response))
                 },
                     {
                     _ratedMovies.postValue(UIState.Error(it.message.toString()))
                 })
-            }
+
         }
     }
 

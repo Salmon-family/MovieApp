@@ -103,13 +103,14 @@ class TvShowDetailsViewModel @Inject constructor(
 
     private fun getRatedTvShows(tvShowId: Int) {
         viewModelScope.launch {
-            accountRepository.getSessionId().collectLatest {
+
                 wrapWithState({
-                    val response = seriesRepository.getRatedTvShow(0, it.toString())
+                    val sessionId = accountRepository.getSessionId()
+                    val response = seriesRepository.getRatedTvShow(0, sessionId.toString())
                     checkIfTvShowRated(response, tvShowId)
                     updateDetailItems(DetailItem.Rating(this@TvShowDetailsViewModel))
                 })
-            }
+
         }
     }
 
@@ -160,18 +161,19 @@ class TvShowDetailsViewModel @Inject constructor(
 
     fun onAddRating(tvShowId: Int, value: Float) {
         if (_check.value != value) {
-            collectResponse(
-                accountRepository.getSessionId().flatMapLatest {
-                    seriesRepository.setRating(tvShowId, value, it.toString())
-                }) {
-                if (it is State.Success) {
-                    messageAppear.postValue(Event(true))
-                    _check.postValue(value)
-                }
+            viewModelScope.launch {
+                val sessionId = accountRepository.getSessionId()
+                seriesRepository.setRating(tvShowId, value, sessionId)
+                    .collect {
+                        if (it is State.Success) {
+                            messageAppear.postValue(Event(true))
+                            _check.postValue(value)
+                        }
+                    }
+
             }
         }
     }
-
 
     override fun onClickSave() {}
 
