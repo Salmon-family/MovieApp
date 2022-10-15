@@ -8,7 +8,8 @@ import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.domain.mappers.*
+import com.karrar.movieapp.domain.mappers.ListMapper
+import com.karrar.movieapp.domain.mappers.MovieMappersContainer
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
@@ -18,68 +19,48 @@ import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
-    private val genreMapper: GenreMapper,
     private val movieDao: MovieDao,
-
-    private val movieMapper: MovieMapper,
-    private val popularMovieMapper: PopularMovieMapper,
-
-    private val movieDetailsMapper: MovieDetailsMapper,
-    private val reviewMapper: ReviewMapper,
-    private val trailerMapper: TrailerMapper,
-    private val ratedMoviesMapper: RatedMoviesMapper,
-
-    private val actorDetailsMapper: ActorDetailsMapper,
-    private val actorMapper: ActorMapper,
-    private val tvShowsMapper: TVShowMapper,
-
-    private val searchActorMapper: SearchActorMapper,
-    private val seriesMapper: SearchSeriesMapper,
-    private val searchHistoryMapper: SearchHistoryMapper,
-    private val itemListMapper:ItemListMapper,
-
-    private val createdListsMapper: CreatedListsMapper,
-    private val saveListDetailsMapper: SaveListDetailsMapper
-) : BaseRepository(), MovieRepository {
+    private val movieMappersContainer: MovieMappersContainer,
+    ) : BaseRepository(), MovieRepository {
 
     override suspend fun getMovieGenreList(): List<Genre> {
         return wrap({ movieService.getGenreList() },
-            { ListMapper(genreMapper).mapList(it.genres) })
+            { ListMapper(movieMappersContainer.genreMapper).mapList(it.genres) })
     }
 
     override suspend fun getAllMovies(): List<Media> {
         return wrap({ movieService.getAllMovies() },
-            { ListMapper(movieMapper).mapList(it.items) })
+            { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
     }
 
     override suspend fun getPopularMovies(genres: List<Genre>): List<PopularMovie> {
         return wrap({ movieService.getPopularMovies() },
-            { popularMovieMapper.mapGenreMovie(it.items, genres) })
+            { movieMappersContainer.popularMovieMapper.mapGenreMovie(it.items, genres) })
     }
 
     override suspend fun getTrendingMovies(page: Int): List<Media> {
         return wrap({ movieService.getTrendingMovies(page = page) },
-            { ListMapper(movieMapper).mapList(it.items) })
+            { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
     }
 
     override suspend fun getDailyTrending(): List<Media> {
         return wrap({ movieService.getDailyTrending() },
-            { ListMapper(itemListMapper).mapList(it.items) })
+            { ListMapper(movieMappersContainer.itemListMapper).mapList(it.items) })
     }
 
     override suspend fun getUpcomingMovies(page: Int): List<Media> {
         return wrap({ movieService.getUpcomingMovies(page = page) },
-            { ListMapper(movieMapper).mapList(it.items) })
+            { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
     }
 
     override suspend fun getNowPlayingMovies(page: Int): List<Media> {
         return wrap({ movieService.getNowPlayingMovies(page = page) },
-            { ListMapper(movieMapper).mapList(it.items) })
+            { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
     }
 
     override suspend fun getMovieListByGenreID(genreID: Int, page: Int): List<Media> {
         return wrap({ movieService.getMovieListByGenre(genreID = genreID, page = page) },
-            { ListMapper(movieMapper).mapList(it.items) })
+            { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
     }
 
     /**
@@ -87,29 +68,31 @@ class MovieRepositoryImp @Inject constructor(
      * */
 
     override suspend fun getMovieDetails(movieId: Int): MovieDetails {
-        return wrap({ movieService.getMovieDetails(movieId) }, { movieDetailsMapper.map(it) })
+        return wrap({ movieService.getMovieDetails(movieId) },
+            { movieMappersContainer.movieDetailsMapper.map(it) })
     }
 
     override suspend fun getMovieCast(movieId: Int): List<Actor> {
         return wrap({ movieService.getMovieCast(movieId) }, { response ->
-            ListMapper(actorMapper).mapList(response.cast)
+            ListMapper(movieMappersContainer.actorMapper).mapList(response.cast)
         })
     }
 
     override suspend fun getSimilarMovie(movieId: Int): List<Media> {
         return wrap({ movieService.getSimilarMovie(movieId) }, { response ->
-            ListMapper(movieMapper).mapList(response.items)
+            ListMapper(movieMappersContainer.movieMapper).mapList(response.items)
         })
     }
 
     override suspend fun getMovieReviews(movieId: Int): List<Review> {
         return wrap({ movieService.getMovieReviews(movieId) }, { response ->
-            ListMapper(reviewMapper).mapList(response.items)
+            ListMapper(movieMappersContainer.reviewMapper).mapList(response.items)
         })
     }
 
     override suspend fun getMovieTrailer(movieId: Int): Trailer {
-        return wrap({ movieService.getMovieTrailer(movieId) }, { trailerMapper.map(it) })
+        return wrap({ movieService.getMovieTrailer(movieId) },
+            { movieMappersContainer.trailerMapper.map(it) })
     }
 
     override suspend fun getRatedMovie(
@@ -117,7 +100,7 @@ class MovieRepositoryImp @Inject constructor(
         sessionId: String,
     ): List<RatedMovies> {
         return wrap({ movieService.getRatedMovie(accountId, sessionId) }, { response ->
-            ListMapper(ratedMoviesMapper).mapList(response.items)
+            ListMapper(movieMappersContainer.ratedMoviesMapper).mapList(response.items)
         })
     }
 
@@ -130,16 +113,17 @@ class MovieRepositoryImp @Inject constructor(
      * */
     override suspend fun getTrendingActors(): List<Actor> {
         return wrap({ movieService.getTrendingActors() },
-            { ListMapper(actorMapper).mapList(it.items) })
+            { ListMapper(movieMappersContainer.actorMapper).mapList(it.items) })
     }
 
     override suspend fun getActorDetails(actorId: Int): ActorDetails {
-        return wrap({ movieService.getActorDetails(actorId) }, { actorDetailsMapper.map(it) })
+        return wrap({ movieService.getActorDetails(actorId) },
+            { movieMappersContainer.actorDetailsMapper.map(it) })
     }
 
     override suspend fun getActorMovies(actorId: Int): List<Media> {
         return wrap({ movieService.getActorMovies(actorId) },
-            { ListMapper(movieMapper).mapList(it.cast) })
+            { ListMapper(movieMappersContainer.movieMapper).mapList(it.cast) })
     }
 
     /**
@@ -151,7 +135,7 @@ class MovieRepositoryImp @Inject constructor(
         sessionId: String,
     ): List<CreatedList> {
         return wrap({ movieService.getCreatedLists(accountId, sessionId) },
-            { ListMapper(createdListsMapper).mapList(it.items) })
+            { ListMapper(movieMappersContainer.createdListsMapper).mapList(it.items) })
     }
 
     override suspend fun getListDetails(listId: Int): MyListsDto {
@@ -160,7 +144,7 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getSavedListDetails(listId: String): List<SaveListDetails> {
         return wrap({ movieService.getList(listId.toInt()) },
-            { ListMapper(saveListDetailsMapper).mapList(it.items) })
+            { ListMapper(movieMappersContainer.saveListDetailsMapper).mapList(it.items) })
     }
 
     override suspend fun createList(
@@ -185,13 +169,13 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun searchForMovie(query: String): List<Media> {
         return wrap({ movieService.searchForMovie(query) }, { response ->
-            ListMapper(movieMapper).mapList(response.items)
+            ListMapper(movieMappersContainer.movieMapper).mapList(response.items)
         })
     }
 
     override suspend fun searchForSeries(query: String): List<Media> {
         return wrap({ movieService.searchForSeries(query) }, { response ->
-            ListMapper(seriesMapper).mapList(response.items)
+            ListMapper(movieMappersContainer.seriesMapper).mapList(response.items)
         })
     }
 
@@ -199,14 +183,14 @@ class MovieRepositoryImp @Inject constructor(
     override suspend fun searchForActor(query: String): List<Media> {
         return wrap({ movieService.searchForActor(query) }, { response ->
             response.items?.filter { it.knownForDepartment == Constants.ACTING }?.map {
-                it.let { searchActorMapper.map(it) }
+                it.let { movieMappersContainer.searchActorMapper.map(it) }
             } ?: emptyList()
         })
     }
 
     override fun getAllSearchHistory(): Flow<List<SearchHistory>> {
         return movieDao.getAllSearchHistory().map { response ->
-            response.map { searchHistoryMapper.map(it) }
+            response.map { movieMappersContainer.searchHistoryMapper.map(it) }
         }
     }
 

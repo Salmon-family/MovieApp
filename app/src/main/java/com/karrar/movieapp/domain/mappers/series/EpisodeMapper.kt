@@ -1,7 +1,8 @@
-package com.karrar.movieapp.domain.mappers
+package com.karrar.movieapp.domain.mappers.series
 
 import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.episode.EpisodeDto
+import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.Episode
 import javax.inject.Inject
 

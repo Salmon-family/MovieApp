@@ -4,7 +4,7 @@ import com.karrar.movieapp.data.remote.response.login.ErrorResponse
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.DataClassParser
 import com.karrar.movieapp.data.local.AppConfiguration
-import com.karrar.movieapp.domain.mappers.AccountMapper
+import com.karrar.movieapp.domain.mappers.account.AccountMapper
 import com.karrar.movieapp.domain.models.Account
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.utilities.DataStorePreferencesKeys

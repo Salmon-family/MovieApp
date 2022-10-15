@@ -1,8 +1,9 @@
-package com.karrar.movieapp.domain.mappers
+package com.karrar.movieapp.domain.mappers.series
 
 import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
 import com.karrar.movieapp.domain.enums.MediaType
+import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.TvShowDetails
 import javax.inject.Inject
 

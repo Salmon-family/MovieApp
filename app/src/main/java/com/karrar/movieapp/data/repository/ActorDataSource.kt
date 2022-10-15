@@ -1,10 +1,9 @@
 package com.karrar.movieapp.data.repository
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.domain.mappers.ActorMapper
+import com.karrar.movieapp.domain.mappers.actor.ActorMapper
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.models.Actor
 import javax.inject.Inject
