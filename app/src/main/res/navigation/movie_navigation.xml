@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.karrar.movieapp.ui.home.HomeFragment"
-        android:label=""
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_actorsFragment"
@@ -31,7 +30,6 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.karrar.movieapp.ui.login.LoginFragment"
-        android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
@@ -46,7 +44,6 @@
     <fragment
         android:id="@+id/actorDetailsFragment"
         android:name="com.karrar.movieapp.ui.actorDetails.ActorDetailsFragment"
-        android:label="ActorDetailsFragment"
         tools:layout="@layout/fragment_actor_details">
         <argument
             android:name="id"
@@ -62,7 +59,6 @@
     <fragment
         android:id="@+id/actorsFragment"
         android:name="com.karrar.movieapp.ui.actors.ActorsFragment"
-        android:label="Actors"
         tools:layout="@layout/fragment_actors">
         <action
             android:id="@+id/action_actorsFragment_to_actorDetailsFragment"
@@ -72,7 +68,6 @@
     <fragment
         android:id="@+id/movieDetailFragment"
         android:name="com.karrar.movieapp.ui.movieDetails.MovieDetailsFragment"
-        android:label="fragment_detail"
         tools:layout="@layout/fragment_movie_details">
         <argument
             android:name="movie_id"
@@ -98,7 +93,6 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.karrar.movieapp.ui.profile.ProfileFragment"
-        android:label="Profile"
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_logoutDialog"
@@ -119,7 +113,6 @@
     <fragment
         android:id="@+id/myListFragment"
         android:name="com.karrar.movieapp.ui.myList.MyListsFragment"
-        android:label="My List"
         tools:layout="@layout/fragment_my_lists">
         <action
             android:id="@+id/action_myListFragment_to_createSavedList"
@@ -132,7 +125,6 @@
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.karrar.movieapp.ui.category.CategoryFragment"
-        android:label="CategoryFragment"
         tools:layout="@layout/fragment_category">
         <argument
             android:name="mediaId"
@@ -148,7 +140,6 @@
     <fragment
         android:id="@+id/allMovieFragment"
         android:name="com.karrar.movieapp.ui.allMedia.AllMovieFragment"
-        android:label="AllMovieFragment"
         tools:layout="@layout/fragment_all_movie">
         <argument
             android:name="id"
@@ -167,7 +158,6 @@
     <fragment
         android:id="@+id/exploringFragment"
         android:name="com.karrar.movieapp.ui.explore.ExploringFragment"
-        android:label="ExploringFragment"
         tools:layout="@layout/fragment_exploring">
         <action
             android:id="@+id/action_exploringFragment_to_searchFragment"
@@ -189,7 +179,6 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.karrar.movieapp.ui.search.SearchFragment"
-        android:label="SearchFragment"
         tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_movieDetailFragment"
@@ -205,7 +194,6 @@
     <fragment
         android:id="@+id/reviewFragment"
         android:name="com.karrar.movieapp.ui.movieDetails.movieReviews.ReviewFragment"
-        android:label="ReviewFragment"
         tools:layout="@layout/fragment_review">
         <argument
             android:name="mediaId"
@@ -218,7 +206,6 @@
     <dialog
         android:id="@+id/saveMovieDialog"
         android:name="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveMovieDialog"
-        android:label="SaveMovieDialog"
         tools:layout="@layout/dialog_save_movie">
         <argument
             android:name="movie_id"
@@ -228,7 +215,6 @@
     <dialog
         android:id="@+id/logoutDialog"
         android:name="com.karrar.movieapp.ui.profile.logout.LogoutDialog"
-        android:label="Logout"
         tools:layout="@layout/dialog_logout">
         <action
             android:id="@+id/action_logoutDialog_to_homeFragment"
@@ -239,7 +225,6 @@
     <dialog
         android:id="@+id/createSavedList"
         android:name="com.karrar.movieapp.ui.myList.CreateListDialog"
-        android:label="Logout"
         tools:layout="@layout/fragment_create_list_dialog">
 
     </dialog>
@@ -247,7 +232,6 @@
     <fragment
         android:id="@+id/ratedMoviesFragment"
         android:name="com.karrar.movieapp.ui.profile.myratings.MyRatingsFragment"
-        android:label="My Ratings"
         tools:layout="@layout/fragment_my_ratings">
         <action
             android:id="@+id/action_ratedMoviesFragment_to_movieDetailFragment"
@@ -257,7 +241,6 @@
     <fragment
         android:id="@+id/watchHistoryFragment"
         android:name="com.karrar.movieapp.ui.profile.watchhistory.WatchHistoryFragment"
-        android:label="History"
         tools:layout="@layout/fragment_watch_history">
         <action
             android:id="@+id/action_watchHistoryFragment_to_movieDetailFragment"
@@ -270,7 +253,6 @@
     <activity
         android:id="@+id/youtubePlayerActivity"
         android:name="com.karrar.movieapp.ui.youtubePlayer.YoutubePlayerActivity"
-        android:label="YoutubePlayerActivity"
         tools:layout="@layout/activity_youtube_player">
         <argument
             android:name="movie_id"
@@ -301,7 +283,6 @@
     <fragment
         android:id="@+id/episodesFragment"
         android:name="com.karrar.movieapp.ui.tvShowDetails.episodes.EpisodesFragment"
-        android:label="EpisodesFragment"
         tools:layout="@layout/fragment_episodes">
         <argument
             android:name="tvShowId"
@@ -314,7 +295,6 @@
     <fragment
         android:id="@+id/tvShowDetailsFragment"
         android:name="com.karrar.movieapp.ui.tvShowDetails.TvShowDetailsFragment"
-        android:label="TvShowDetailsFragment"
         tools:layout="@layout/fragment_tv_show_details">
         <argument
             android:name="tvShowId"
