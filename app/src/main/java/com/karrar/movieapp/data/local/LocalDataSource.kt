@@ -4,14 +4,14 @@ package com.karrar.movieapp.data.local
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-interface LocalDataStore {
+interface LocalDataSource {
 
     fun readString(key: String): Flow<String?>
 
     suspend fun writeString(key: String, value: String)
 }
 
-class LocalDataStoreImp @Inject constructor(private val dataStorePreferences: DataStorePreferences) :LocalDataStore{
+class LocalDataSourceImp @Inject constructor(private val dataStorePreferences: DataStorePreferences) :LocalDataSource{
     override fun readString(key: String): Flow<String?> {
         return dataStorePreferences.readString(key)
     }

@@ -4,7 +4,7 @@ import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.login.ErrorResponse
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.DataClassParser
-import com.karrar.movieapp.data.local.LocalDataStore
+import com.karrar.movieapp.data.local.LocalDataSource
 import com.karrar.movieapp.domain.mappers.AccountMapper
 import com.karrar.movieapp.domain.models.Account
 import com.karrar.movieapp.utilities.DataStorePreferencesKeys
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class AccountRepositoryImp @Inject constructor(
     private val service: MovieService,
-    private val dataStore: LocalDataStore,
+    private val dataStore: LocalDataSource,
     private val dataClassParser: DataClassParser,
     private val accountMapper: AccountMapper,
     ) : AccountRepository, BaseRepository() {
