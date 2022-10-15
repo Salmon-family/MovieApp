@@ -1,22 +1,23 @@
 package com.karrar.movieapp.data.local
 
 
-import kotlinx.coroutines.flow.Flow
+import com.karrar.movieapp.utilities.DataStorePreferencesKeys
 import javax.inject.Inject
 
 interface AppConfiguration {
 
-    fun getSessionId(key: String): Flow<String?>
+    suspend fun getSessionId(): String
 
-    suspend fun saveSessionId(key: String, value: String)
+    suspend fun saveSessionId(value: String)
 }
 
-class AppConfigurator @Inject constructor(private val dataStorePreferences: DataStorePreferences) :AppConfiguration{
-    override fun getSessionId(key: String): Flow<String?> {
-        return dataStorePreferences.readString(key)
+class AppConfigurationImp @Inject constructor(private val dataStorePreferences: DataStorePreferences) :
+    AppConfiguration {
+    override suspend fun getSessionId(): String {
+        return dataStorePreferences.readString(DataStorePreferencesKeys.SESSION_ID_KEY) ?: ""
     }
 
-    override suspend fun saveSessionId(key: String, value: String) {
-        dataStorePreferences.writeString(key,value)
+    override suspend fun saveSessionId(value: String) {
+        dataStorePreferences.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, value)
     }
 }
