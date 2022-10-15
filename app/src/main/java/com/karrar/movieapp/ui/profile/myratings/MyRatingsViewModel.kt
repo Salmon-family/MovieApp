@@ -26,13 +26,14 @@ class MyRatingsViewModel @Inject constructor(
 
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
     val clickMovieEvent = _clickMovieEvent.toLiveData()
-    private val sessionId = MutableLiveData<String>()
+    private var sessionId = ""
 
 
     init {
-        getData()
+
         viewModelScope.launch {
-            sessionId.postValue(accountRepository.getSessionId())
+            sessionId = accountRepository.getSessionId()
+            getData()
         }
 
     }
@@ -42,7 +43,7 @@ class MyRatingsViewModel @Inject constructor(
         wrapWithState({
 
 
-            val response = movieRepository.getRatedMovie(0, sessionId.value.toString())
+            val response = movieRepository.getRatedMovie(0, sessionId)
             _ratedMovies.postValue(UIState.Success(response))
         }, { _ratedMovies.postValue(UIState.Error(it.message.toString())) })
     }
