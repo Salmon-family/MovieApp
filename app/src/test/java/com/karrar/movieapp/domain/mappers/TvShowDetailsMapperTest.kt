@@ -4,6 +4,8 @@ import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.SeasonDto
 import com.karrar.movieapp.data.remote.response.tvShow.CreatedByDto
 import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
+import com.karrar.movieapp.domain.enums.MediaType
+import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.utilities.Constants
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
@@ -80,20 +82,21 @@ internal class TvShowDetailsMapperTest {
         // when map is called
         val tvShowDetails = tvShowMapper.map(tvShowsDetailsDTO)
 
-        // then the result should be a Media object with the same values
-        assertEquals(tvShowsDetailsDTO.id, tvShowDetails.id)
-        assertEquals(BuildConfig.IMAGE_BASE_PATH + tvShowsDetailsDTO.posterPath,
-            tvShowDetails.image)
-        assertEquals(tvShowsDetailsDTO.name, tvShowDetails.name)
-        assertEquals(tvShowsDetailsDTO.firstAirDate?.take(4), tvShowDetails.tvShowReleaseDate)
-        assertEquals(tvShowsDetailsDTO.genres?.map { it?.name }?.joinToString(", "),
-            tvShowDetails.genres)
-        assertEquals(tvShowsDetailsDTO.numberOfSeasons, tvShowDetails.tvShowSeasonsNumber)
-        assertEquals(tvShowsDetailsDTO.voteCount, tvShowDetails.tvShowReview)
-        assertEquals(tvShowsDetailsDTO.voteAverage.toString().take(3), tvShowDetails.voteAverage)
-        assertEquals(tvShowsDetailsDTO.overview, tvShowDetails.overview)
-        assertEquals(tvShowsDetailsDTO.season?.map { seasonMapper.map(it) }, tvShowDetails.seasons)
-        assertEquals(Constants.TV_SHOWS, tvShowDetails.mediaType.value)
+        val expected = TvShowDetails(
+            tvShowId = tvShowDetails.id,
+            tvShowName = tvShowDetails.name,
+            tvShowImage = tvShowDetails.tvShowImage,
+            tvShowGenres = tvShowDetails.tvShowGenres,
+            tvShowOverview = tvShowDetails.tvShowOverview,
+            tvShowReleaseDate = tvShowDetails.tvShowReleaseDate,
+            tvShowReview = tvShowDetails.tvShowReview,
+            tvShowSeasons = tvShowDetails.tvShowSeasons,
+            tvShowSeasonsNumber = tvShowDetails.tvShowSeasonsNumber,
+            tvShowType = MediaType.TV_SHOW,
+            tvShowVoteAverage = tvShowDetails.tvShowVoteAverage,
+        )
 
+        // then the result should be a Media object with the same values
+        assertEquals(expected, tvShowDetails)
     }
 }

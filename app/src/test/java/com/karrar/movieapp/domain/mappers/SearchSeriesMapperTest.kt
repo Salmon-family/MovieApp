@@ -1,7 +1,7 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
+import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.utilities.Constants
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
@@ -41,12 +41,15 @@ internal class SearchSeriesMapperTest {
         // when map function is called
         val searchSeries = searchSeriesMapper.map(searchSeriesDTO)
 
+        val expected = Media(
+            mediaID = searchSeries.mediaID,
+            mediaImage = searchSeries.mediaImage,
+            mediaType = Constants.TV_SHOWS,
+            mediaName = searchSeries.mediaName,
+            mediaDate = searchSeries.mediaDate,
+            mediaRate = searchSeries.mediaRate
+        )
         // then return SearchSeriesMapper object with the same values
-        assertEquals(searchSeriesDTO.id, searchSeries.mediaID)
-        assertEquals(searchSeriesDTO.originalName, searchSeries.mediaName)
-        assertEquals(BuildConfig.IMAGE_BASE_PATH + searchSeriesDTO.posterPath, searchSeries.mediaImage)
-        assertEquals(searchSeriesDTO.firstAirDate, searchSeries.mediaDate)
-        assertEquals(searchSeriesDTO.voteAverage, searchSeries.mediaRate.toDouble())
-        assertEquals(Constants.TV_SHOWS, searchSeries.mediaType)
+        assertEquals(expected, searchSeries)
     }
 }

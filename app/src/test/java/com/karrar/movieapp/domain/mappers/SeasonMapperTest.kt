@@ -1,7 +1,7 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.SeasonDto
+import com.karrar.movieapp.domain.models.Season
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 
@@ -37,15 +37,18 @@ internal class SeasonMapperTest {
         // when map function is called
         val season = seasonMapper.map(seasonDTO)
 
-        // then return SeasonMapper object with the same values
-        assertEquals(seasonDTO.id, season.seasonId)
-        assertEquals(BuildConfig.IMAGE_BASE_PATH + seasonDTO.posterPath, season.imageUrl)
-        assertEquals(seasonDTO.name, season.seasonName)
-        assertEquals(seasonDTO.airDate?.take(4), season.seasonYear)
-        assertEquals(seasonDTO.seasonNumber, season.seasonNumber)
-        assertEquals(seasonDTO.episodeCount, season.episodeCount)
-        assertEquals(seasonDTO.overview, season.seasonDescription)
-        assertEquals(seasonDTO.episodes, season.episodes)
+        val expected = Season(
+            seasonId = season.seasonId,
+            seasonName = season.seasonName,
+            seasonNumber = season.seasonNumber,
+            seasonDescription = season.seasonDescription,
+            seasonYear = season.seasonYear,
+            episodeCount = season.episodeCount,
+            imageUrl = season.imageUrl,
+            episodes = season.episodes
+        )
 
+        // then return SeasonMapper object with the same values
+        assertEquals(expected, season)
     }
 }
