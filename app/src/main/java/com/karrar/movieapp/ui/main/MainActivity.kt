@@ -3,7 +3,6 @@ package com.karrar.movieapp.ui.main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         setNavigationController()
 
-        setBottomNavigationVisibility()
+
     }
 
     private fun setNavigationController() {
@@ -44,15 +43,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setBottomNavigationVisibility(){
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.bottomNavigation.isVisible = destination.id != R.id.loginFragment
-        }
-    }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
+
     override fun onResume() {
         super.onResume()
         val appBarConfiguration = AppBarConfiguration(
@@ -62,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.myListFragment,
                 R.id.profileFragment,
 
-            )
+                )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
     }

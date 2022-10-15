@@ -28,20 +28,7 @@
 
     </fragment>
 
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.karrar.movieapp.ui.login.LoginFragment"
-        android:label="LoginFragment"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true"/>
-        <action
-            android:id="@+id/action_loginFragment_to_myListFragment"
-            app:destination="@id/myListFragment" />
-    </fragment>
+
 
     <fragment
         android:id="@+id/actorDetailsFragment"
@@ -110,10 +97,9 @@
             android:id="@+id/action_profileFragment_to_watchHistoryFragment"
             app:destination="@id/watchHistoryFragment" />
         <action
-            android:id="@+id/action_profileFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:popUpTo="@id/profileFragment"
-            app:popUpToInclusive="true"/>
+            android:id="@+id/action_profileFragment_to_loginActivity"
+            app:destination="@id/loginActivity" />
+
     </fragment>
 
     <fragment
@@ -335,5 +321,9 @@
             android:id="@+id/action_tvShowDetailFragment_to_youtubePlayerActivity"
             app:destination="@id/youtubePlayerActivity" />
     </fragment>
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.karrar.movieapp.ui.login.LoginActivity"
+        android:label="LoginActivity" />
 
 </navigation>

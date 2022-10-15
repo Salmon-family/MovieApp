@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
 import com.karrar.movieapp.BR
 
 abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity() {
@@ -13,7 +14,7 @@ abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity() {
     private lateinit var _binding: VDB
     protected val binding get() = _binding
 
-    protected abstract val viewModel: BaseViewModel
+    protected abstract val viewModel: ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -17,7 +17,13 @@
         android:theme="@style/Theme.MovieApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"
@@ -28,7 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.youtubePlayer.YoutubePlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
