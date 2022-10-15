@@ -40,16 +40,15 @@ class MyListsViewModel @Inject constructor(
 
 
     init {
-        getData()
         viewModelScope.launch {
             sessionId = accountRepository.getSessionId()
+            getData()
         }
 
     }
 
     override fun getData() {
         wrapWithState({
-
             _createdList.postValue(UIState.Loading)
             val response =
                 movieRepository.getAllLists(0, sessionId).toMutableList()
@@ -66,7 +65,6 @@ class MyListsViewModel @Inject constructor(
 
     fun onClickAddList() {
         wrapWithState({
-
             val item =
                 movieRepository.createList(sessionId, listName.value.toString())
             if (item.success == true)
