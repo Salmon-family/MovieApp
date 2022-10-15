@@ -33,7 +33,6 @@ abstract class BaseFragment<VDB : ViewDataBinding> : Fragment() {
         }
     }
 
-    @SuppressLint("RestrictedApi")
     protected fun setTitle(visibility: Boolean, title: String? = null) {
         if (visibility) {
             (activity as AppCompatActivity).supportActionBar?.show()
@@ -43,8 +42,6 @@ abstract class BaseFragment<VDB : ViewDataBinding> : Fragment() {
         } else {
             (activity as AppCompatActivity).supportActionBar?.hide()
         }
-
-        (activity as AppCompatActivity).supportActionBar?.setShowHideAnimationEnabled(false)
     }
 
 }
