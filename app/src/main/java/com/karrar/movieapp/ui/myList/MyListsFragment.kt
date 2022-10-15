@@ -25,7 +25,7 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
 
         setFragmentResultListener(Constants.REQUEST_KEY) { _, bundle ->
             val isUpdated = bundle.getBoolean(Constants.BUNDLE_KEY)
-            if (isUpdated) viewModel.getData()
+            if (isUpdated) viewModel.updateData()
         }
 
     }

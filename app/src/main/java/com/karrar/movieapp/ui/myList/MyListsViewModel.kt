@@ -11,7 +11,6 @@ import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,9 +40,13 @@ class MyListsViewModel @Inject constructor(
     }
 
     override fun getData() {
+        _createdList.postValue(UIState.Loading)
+        updateData()
+    }
+
+    fun updateData() {
         wrapWithState({
             accountRepository.getSessionId().collect {
-                _createdList.postValue(UIState.Loading)
                 val response = movieRepository.getAllLists(0, it.toString()).toMutableList()
                 _createdList.postValue(UIState.Success(response))
             }
