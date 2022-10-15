@@ -30,7 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:posterImage="@{viewModel.profileDetails.toData().avatarPath}"
                 app:shapeAppearanceOverlay="@style/Circle"
-                tools:src="@drawable/actor"
+                tools:background="@drawable/actor"
                 />
 
             <com.google.android.material.textview.MaterialTextView
