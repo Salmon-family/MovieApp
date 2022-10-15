@@ -4,7 +4,7 @@ import com.karrar.movieapp.data.remote.State
 import com.karrar.movieapp.data.remote.response.login.ErrorResponse
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.DataClassParser
-import com.karrar.movieapp.data.local.LocalDataSource
+import com.karrar.movieapp.data.local.AppConfiguration
 import com.karrar.movieapp.domain.mappers.AccountMapper
 import com.karrar.movieapp.domain.models.Account
 import com.karrar.movieapp.utilities.DataStorePreferencesKeys
@@ -15,12 +15,12 @@ import javax.inject.Inject
 
 class AccountRepositoryImp @Inject constructor(
     private val service: MovieService,
-    private val dataStore: LocalDataSource,
+    private val appConfiguration: AppConfiguration,
     private val dataClassParser: DataClassParser,
     private val accountMapper: AccountMapper,
     ) : AccountRepository, BaseRepository() {
     override fun getSessionId(): Flow<String?> {
-        return dataStore.readString(DataStorePreferencesKeys.SESSION_ID_KEY)
+        return appConfiguration.readString(DataStorePreferencesKeys.SESSION_ID_KEY)
     }
     override suspend fun loginWithUserNameANdPassword(
         userName: String,
@@ -59,7 +59,7 @@ class AccountRepositoryImp @Inject constructor(
                 getSessionId().collect{
                     val logout = service.logout(it.toString())
                     if (logout.isSuccessful){
-                        dataStore.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
+                        appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
                         emit(State.Success(true))
                     } else {
                         emit(State.Error("There is an error"))
@@ -88,7 +88,7 @@ class AccountRepositoryImp @Inject constructor(
     }
 
     private suspend fun saveSessionId(sessionId: String) {
-        dataStore.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, sessionId)
+        appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, sessionId)
     }
 
 }
