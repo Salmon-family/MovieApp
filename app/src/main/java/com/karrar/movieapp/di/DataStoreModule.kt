@@ -1,7 +1,7 @@
 package com.karrar.movieapp.di
 
-import com.karrar.movieapp.data.local.DataStore
-import com.karrar.movieapp.data.local.DataStoreImp
+import com.karrar.movieapp.data.local.AppConfiguration
+import com.karrar.movieapp.data.local.AppConfigurator
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,5 +15,5 @@ abstract class DataStoreModule {
 
     @Singleton
     @Binds
-    abstract fun bindDataStore(dataStoreImp: DataStoreImp) :DataStore
+    abstract fun bindDataStore(dataStoreImp: AppConfigurator) :AppConfiguration
 }
