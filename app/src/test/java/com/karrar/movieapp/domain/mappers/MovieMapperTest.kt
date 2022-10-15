@@ -1,8 +1,7 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.MovieDto
-import com.karrar.movieapp.utilities.Constants
+import com.karrar.movieapp.domain.models.Media
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -41,13 +40,19 @@ internal class MovieMapperTest {
         // when map is called
         val result = movieMapper.map(movieDTO)
 
+        // expected
+        val expectedMedia = Media(
+            mediaID = result.mediaID,
+            mediaImage = result.mediaImage,
+            mediaType = result.mediaType,
+            mediaName = result.mediaName,
+            mediaDate = result.mediaDate,
+            mediaRate = result.mediaRate
+        )
+
         // then the result should be a Media object with the same values
-        assertEquals(movieDTO.id, result.mediaID)
-        assertEquals(BuildConfig.IMAGE_BASE_PATH + movieDTO.posterPath, result.mediaImage)
-        assertEquals(Constants.MOVIE,result.mediaType)
-        assertEquals(movieDTO.originalTitle, result.mediaName)
-        assertEquals(movieDTO.releaseDate, result.mediaDate)
-        assertEquals(movieDTO.voteAverage, result.mediaRate.toDouble())
+        assertEquals(expectedMedia, result)
+
     }
 
 }

@@ -1,6 +1,7 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.data.remote.response.CreatedListDto
+import com.karrar.movieapp.domain.models.CreatedList
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -33,9 +34,14 @@ internal class CreatedListsMapperTest {
         // when map is called
         val result = createdListsMapper.map(movieDTO)
 
+        // expected
+        val expectedList = CreatedList(
+            id = result.id,
+            itemCount = result.itemCount,
+            name = result.name
+        )
+
         // then the result should be a Create List object with the same values
-        assertEquals(movieDTO.id, result.id)
-        assertEquals(movieDTO.itemCount, result.itemCount)
-        assertEquals(movieDTO.name, result.name)
+        assertEquals(expectedList, result)
     }
 }

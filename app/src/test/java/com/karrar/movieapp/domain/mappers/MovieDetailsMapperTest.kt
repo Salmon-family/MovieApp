@@ -1,16 +1,14 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.SpokenLanguageDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
-import com.karrar.movieapp.utilities.Constants
+import com.karrar.movieapp.domain.models.MovieDetails
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import java.util.*
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class MovieDetailsMapperTest {
@@ -53,19 +51,21 @@ internal class MovieDetailsMapperTest {
         // when map is called
         val result = movieDetailsMapper.map(movieDetailsDto)
 
-        // then the result should be a Movie Details object with the same values
-        assertEquals(movieDetailsDto.id, result.movieId)
-        assertEquals(BuildConfig.IMAGE_BASE_PATH + movieDetailsDto.posterPath, result.movieImage)
-        assertEquals(movieDetailsDto.title, result.movieName)
-        assertEquals(movieDetailsDto.releaseDate, result.movieReleaseDate)
-        assertEquals(
-            movieDetailsDto.genres?.map { it?.name }?.joinToString(" , "),
-            result.movieGenres
+        // expected
+        val expectedGenre = MovieDetails(
+            movieId = result.movieId,
+            movieImage = result.movieImage,
+            movieName = result.movieName,
+            movieReleaseDate = result.movieReleaseDate,
+            movieGenres = result.movieGenres,
+            movieDuration = result.movieDuration,
+            movieReview = result.movieReview,
+            movieVoteAverage = result.movieVoteAverage,
+            movieOverview = result.movieOverview,
+            movieType = result.movieType,
         )
-        assertEquals(movieDetailsDto.runtime, result.movieDuration)
-        assertEquals(movieDetailsDto.voteCount, result.movieReview)
-        assertEquals(movieDetailsDto.voteAverage.toString(), result.movieVoteAverage)
-        assertEquals(movieDetailsDto.overview, result.movieOverview)
-        assertEquals(Constants.MOVIE, result.movieType.toString().lowercase(Locale.getDefault()))
+
+        // then the result should be a Movie Details object with the same values
+        assertEquals(expectedGenre, result)
     }
 }

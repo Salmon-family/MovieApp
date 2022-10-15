@@ -2,6 +2,8 @@ package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.ListItem
+import com.karrar.movieapp.domain.models.Genre
+import com.karrar.movieapp.domain.models.Media
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 
@@ -42,14 +44,17 @@ internal class ItemListMapperTest {
         // when map is called
         val result = itemListMapper.map(listsItem)
 
-        // then the result should be a genre object with the same values
-        assertEquals(listsItem.id, result.mediaID)
-        assertEquals(
-            BuildConfig.IMAGE_BASE_PATH + listsItem.posterPath,
-            result.mediaImage
+        // expected
+        val expectedMedia = Media(
+            mediaID = result.mediaID,
+            mediaImage = result.mediaImage,
+            mediaType = result.mediaType,
+            mediaName = result.mediaName,
+            mediaDate = result.mediaDate,
+            mediaRate = result.mediaRate,
         )
-        assertEquals(listsItem.mediaType, result.mediaType)
-        assertEquals(listsItem.releaseDate, result.mediaDate)
-        assertEquals(listsItem.voteAverage, result.mediaRate.toDouble())
+
+        // then the result should be a genre object with the same values
+        assertEquals(expectedMedia, result)
     }
 }

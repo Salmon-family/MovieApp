@@ -1,8 +1,8 @@
 package com.karrar.movieapp.domain.mappers
 
 
-import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.RatedMoviesDto
+import com.karrar.movieapp.domain.models.RatedMovies
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -31,7 +31,7 @@ internal class RatedMoviesMapperTest {
             overview = "overview",
             popularity = 1.0,
             posterPath = "posterPath",
-            releaseDate = "rele",
+            releaseDate = "releaseDate",
             title = "title",
             video = true,
             voteAverage = 1.0,
@@ -40,14 +40,17 @@ internal class RatedMoviesMapperTest {
         // when map is called
         val result = ratedMoviesMapper.map(ratedMoviesDto)
 
-        // then the result should be a Movie rated object with the same values
-        assertEquals(ratedMoviesDto.id, result.id)
-        assertEquals(ratedMoviesDto.title, result.title)
-        assertEquals(
-            BuildConfig.IMAGE_BASE_PATH + ratedMoviesDto.posterPath,
-            result.posterPath
+        // expected
+        val expectedRatedMovie = RatedMovies(
+            id = result.id,
+            title = result.title,
+            posterPath = result.posterPath,
+            rating = result.rating,
+            releaseDate = result.releaseDate,
         )
-        assertEquals(ratedMoviesDto.rating, result.rating)
-        assertEquals(ratedMoviesDto.releaseDate, result.releaseDate)
+
+        // then the result should be a Movie rated object with the same values
+        assertEquals(expectedRatedMovie, result)
+
     }
 }
