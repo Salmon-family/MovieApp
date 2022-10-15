@@ -5,7 +5,7 @@ import com.karrar.movieapp.domain.models.Account
 import kotlinx.coroutines.flow.Flow
 
 interface AccountRepository {
-    fun getSessionId(): Flow<String?>
+    suspend fun getSessionId(): String
     suspend fun loginWithUserNameANdPassword(
         userName: String,
         password: String,

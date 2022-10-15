@@ -19,8 +19,8 @@ class AccountRepositoryImp @Inject constructor(
     private val dataClassParser: DataClassParser,
     private val accountMapper: AccountMapper,
     ) : AccountRepository, BaseRepository() {
-    override fun getSessionId(): Flow<String?> {
-        return appConfiguration.getSessionId(DataStorePreferencesKeys.SESSION_ID_KEY)
+    override suspend fun getSessionId(): String {
+        return appConfiguration.getSessionId()
     }
     override suspend fun loginWithUserNameANdPassword(
         userName: String,
@@ -56,15 +56,15 @@ class AccountRepositoryImp @Inject constructor(
         return flow {
             emit(State.Loading)
             try {
-                getSessionId().collect{
-                    val logout = service.logout(it.toString())
+                    val sessionId = getSessionId()
+                    val logout = service.logout(sessionId.toString())
                     if (logout.isSuccessful){
-                        appConfiguration.saveSessionId(DataStorePreferencesKeys.SESSION_ID_KEY, "")
+                        appConfiguration.saveSessionId("")
                         emit(State.Success(true))
                     } else {
                         emit(State.Error("There is an error"))
                     }
-                }
+
             } catch (e: Exception) {
                 emit(State.Error(e.message.toString()))
             }
@@ -88,7 +88,7 @@ class AccountRepositoryImp @Inject constructor(
     }
 
     private suspend fun saveSessionId(sessionId: String) {
-        appConfiguration.saveSessionId(DataStorePreferencesKeys.SESSION_ID_KEY, sessionId)
+        appConfiguration.saveSessionId(sessionId)
     }
 
 }
