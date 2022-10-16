@@ -32,13 +32,13 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
 
     private fun observeEvents() {
         viewModel.backEvent.observe(viewLifecycleOwner, EventObserve { removeFragment() })
-        viewModel.seeAllMovies.observe(viewLifecycleOwner, EventObserve { navigateToAllMoviesActor() })
+        viewModel.seeAllMovies.observe(viewLifecycleOwner, EventObserve { navigateToActorMovies() })
         viewModel.clickMovieEvent.observe(
             viewLifecycleOwner,
             EventObserve { movieID -> seeMovieDetails(movieID) })
     }
 
-    private fun navigateToAllMoviesActor() {
+    private fun navigateToActorMovies() {
         Navigation.findNavController(binding.root)
             .navigate(
                 ActorDetailsFragmentDirections.actionActorDetailsFragmentToAllMovieOfActorFragment(
