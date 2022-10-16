@@ -88,7 +88,7 @@
     <string name="more_than_one_season">%1$d Seasons</string>
     <string name="internet_connection">There is no internet connection.</string>
     <string name="retry">Retry</string>
-    <string name="you_must_be_logged_in_to_see_the_profile">You must be logged in to see the profile</string>
+    <string name="you_must_be_logged_in_to_see_the_profile">You must be logged in to see the profile and use additional features.</string>
     <string name="new_list">New List</string>
     <string name="log_in">Log In</string>
 </resources>

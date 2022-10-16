@@ -43,10 +43,5 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
         }
 
-        viewModel.signUpEvent.observeEvent(viewLifecycleOwner) {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.TMDB_SIGNUP_URL))
-            startActivity(browserIntent)
-        }
-
     }
 }

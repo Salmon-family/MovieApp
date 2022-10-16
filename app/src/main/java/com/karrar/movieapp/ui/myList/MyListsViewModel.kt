@@ -41,9 +41,9 @@ class MyListsViewModel @Inject constructor(
     }
 
     override fun getData() {
+        _createdList.postValue(UIState.Loading)
         wrapWithState({
             accountRepository.getSessionId().collect {
-                _createdList.postValue(UIState.Loading)
                 val response = movieRepository.getAllLists(0, it.toString()).toMutableList()
                 _createdList.postValue(UIState.Success(response))
             }

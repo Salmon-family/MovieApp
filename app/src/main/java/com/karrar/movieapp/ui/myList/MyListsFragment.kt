@@ -1,8 +1,10 @@
 package com.karrar.movieapp.ui.myList
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMyListsBinding
@@ -13,13 +15,16 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
     override val layoutIdFragment: Int = R.layout.fragment_my_lists
-    override val viewModel: MyListsViewModel by activityViewModels()
+    override val viewModel: MyListsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(true,getString(R.string.myList))
         binding.savedList.adapter = CreatedListAdapter(emptyList(), viewModel)
         observeEvents()
+        viewModel.createdList.observe(viewLifecycleOwner){
+            Log.i("kkk", it.toString())
+        }
     }
 
     private fun observeEvents() {

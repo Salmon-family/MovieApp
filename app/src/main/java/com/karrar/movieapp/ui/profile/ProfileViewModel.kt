@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.profile
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.domain.models.Account
@@ -19,40 +20,25 @@ class ProfileViewModel @Inject constructor(
     private val _profileDetails = MutableLiveData<UIState<Account>>()
     val profileDetails = _profileDetails.toLiveData()
 
-    private val _signUpEvent = MutableLiveData<Event<Boolean>>()
-    val signUpEvent = _signUpEvent.toLiveData()
-
     private val _clickLoginEvent = MutableLiveData<Event<Boolean>>()
-
     val clickLoginEvent = _clickLoginEvent.toLiveData()
 
     private val _clickRatedMoviesEvent = MutableLiveData<Event<Boolean>>()
-
     val clickRatedMoviesEvent = _clickRatedMoviesEvent.toLiveData()
 
     private val _clickDialogLogoutEvent = MutableLiveData<Event<Boolean>>()
-
     val clickDialogLogoutEvent = _clickDialogLogoutEvent.toLiveData()
 
     private val _clickWatchHistoryEvent = MutableLiveData<Event<Boolean>>()
-
     val clickWatchHistoryEvent = _clickWatchHistoryEvent.toLiveData()
 
+
     init {
-        getProfileDetails()
+        getData()
     }
 
     override fun getData() {
-        getProfileDetails()
-    }
-
-    fun onClickSignUp() {
-        _signUpEvent.postValue(Event(true))
-    }
-
-    private fun getProfileDetails() {
         _profileDetails.postValue(UIState.Loading)
-
         wrapWithState({
             accountRepository.getSessionId().collect { sectionId ->
                 val result = accountRepository.getAccountDetails(sectionId.toString())
@@ -60,7 +46,6 @@ class ProfileViewModel @Inject constructor(
             }
         }, { _profileDetails.postValue(UIState.Error(it.message.toString())) })
     }
-
 
     fun onClickRatedMovies() {
         _clickRatedMoviesEvent.postEvent(true)
