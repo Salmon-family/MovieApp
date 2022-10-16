@@ -139,25 +139,50 @@
             app:showWhenLoading="@{viewModel.profileDetails}"
             tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/text_message_wrong"
-            style="@style/SemiBold.Medium"
+        <ImageView
+            android:id="@+id/vector_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/you_must_be_logged_in_to_see_the_profile"
-            android:visibility="gone"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="32dp"
+            android:src="@drawable/log_in"
+            app:layout_constraintBottom_toTopOf="@+id/button_nav_login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_message_wrong_title"
+            style="@style/SemiBold.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:text="@string/log_in"
+            android:textColor="@color/brand_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vector_image"
+            />
+
+        <TextView
+            android:id="@+id/text_message_wrong"
+            android:textAppearance="@style/Regular.Medium.Secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/you_must_be_logged_in_to_see_the_profile"
+            android:textColor="@color/shade_secondary_color"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/text_message_wrong_title"
+            app:layout_constraintStart_toStartOf="@+id/text_message_wrong_title"
+            app:layout_constraintTop_toBottomOf="@id/text_message_wrong_title" />
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_nav_login"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginHorizontal="@dimen/spacing_large"
+            android:layout_marginBottom="@dimen/spacing_small"
             android:gravity="center"
             android:onClick="@{() -> viewModel.onClickLogin()}"
             android:text="@string/login"
@@ -166,9 +191,35 @@
             android:visibility="gone"
             app:backgroundTint="@color/color_states_material_button"
             app:cornerRadius="@dimen/radius_small"
+            app:layout_constraintBottom_toTopOf="@+id/materialTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_message_wrong" />
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/don_t_have_an_account"
+            android:textAppearance="@style/Regular.Medium.Primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.42"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/sign_up"
+            android:onClick="@{()->viewModel.onClickSignUp()}"
+            android:textAppearance="@style/Regular.Medium.Primary"
+            android:textColor="@color/brand_color"
+            app:layout_constraintBottom_toBottomOf="@+id/materialTextView"
+            app:layout_constraintStart_toEndOf="@+id/materialTextView"
+            app:layout_constraintTop_toTopOf="@+id/materialTextView"
+            />
 
         <androidx.constraintlayout.widget.Group
             android:layout_width="wrap_content"
@@ -188,8 +239,13 @@
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="
             text_message_wrong,
+            vector_image,
+            text_message_wrong_title,
+            sign_up,
+            materialTextView,
             button_nav_login,"
-            app:showWhenFail="@{viewModel.profileDetails}" />
+            app:showWhenFail="@{viewModel.profileDetails}"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

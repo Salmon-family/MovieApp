@@ -19,6 +19,9 @@ class ProfileViewModel @Inject constructor(
     private val _profileDetails = MutableLiveData<UIState<Account>>()
     val profileDetails = _profileDetails.toLiveData()
 
+    private val _signUpEvent = MutableLiveData<Event<Boolean>>()
+    val signUpEvent = _signUpEvent.toLiveData()
+
     private val _clickLoginEvent = MutableLiveData<Event<Boolean>>()
 
     val clickLoginEvent = _clickLoginEvent.toLiveData()
@@ -41,6 +44,10 @@ class ProfileViewModel @Inject constructor(
 
     override fun getData() {
         getProfileDetails()
+    }
+
+    fun onClickSignUp() {
+        _signUpEvent.postValue(Event(true))
     }
 
     private fun getProfileDetails() {

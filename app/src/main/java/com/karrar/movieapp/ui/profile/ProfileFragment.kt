@@ -1,10 +1,13 @@
 package com.karrar.movieapp.ui.profile
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentProfileBinding
 import com.karrar.movieapp.ui.base.BaseFragment
@@ -39,5 +42,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         viewModel.clickLoginEvent.observeEvent(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
         }
+
+        viewModel.signUpEvent.observeEvent(viewLifecycleOwner) {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.TMDB_SIGNUP_URL))
+            startActivity(browserIntent)
+        }
+
     }
 }
