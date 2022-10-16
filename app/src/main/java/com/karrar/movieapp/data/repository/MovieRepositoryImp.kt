@@ -1,5 +1,6 @@
 package com.karrar.movieapp.data.repository
 
+import androidx.paging.*
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
@@ -8,12 +9,12 @@ import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
+import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.MovieMappersContainer
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 
@@ -21,7 +22,9 @@ class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     private val movieDao: MovieDao,
     private val movieMappersContainer: MovieMappersContainer,
-    ) : BaseRepository(), MovieRepository {
+    private val mediaDataSourceContainer: MediaDataSourceContainer,
+    private val actorDataSource: ActorDataSource
+) : BaseRepository(), MovieRepository {
 
     override suspend fun getMovieGenreList(): List<Genre> {
         return wrap({ movieService.getGenreList() },
@@ -213,4 +216,40 @@ class MovieRepositoryImp @Inject constructor(
     override suspend fun getAllWatchedMovies(): List<WatchHistoryEntity> {
         return movieDao.getAllWatchedMovies()
     }
+
+    override suspend fun getMediaData(type: AllMediaType, actorId: Int): Pager<Int, Media> {
+        val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
+        val pagingSourceFactory = when (type) {
+            AllMediaType.ON_THE_AIR, AllMediaType.LATEST -> mediaDataSourceContainer.onTheAirTvShowDataSource
+            AllMediaType.AIRING_TODAY -> mediaDataSourceContainer.airingTodayTvShowDataSource
+            AllMediaType.POPULAR -> mediaDataSourceContainer.popularTvShowDataSource
+            AllMediaType.TOP_RATED -> mediaDataSourceContainer.topRatedTvShowDataSource
+            AllMediaType.TRENDING -> mediaDataSourceContainer.trendingMovieDataSource
+            AllMediaType.NOW_STREAMING -> mediaDataSourceContainer.nowStreamingMovieMovieDataSource
+            AllMediaType.UPCOMING -> mediaDataSourceContainer.upcomingMovieMovieDataSource
+            AllMediaType.MYSTERY -> {
+                val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
+                dataSource.setGenre(Constants.MYSTERY_ID)
+                dataSource
+            }
+            AllMediaType.ADVENTURE -> {
+                val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
+                dataSource.setGenre(Constants.ADVENTURE_ID)
+                dataSource
+            }
+            AllMediaType.NON -> {
+                val dataSource = mediaDataSourceContainer.actorMovieDataSource
+                dataSource.setMovieActorID(actorId)
+                dataSource
+            }
+        }
+        return Pager(config = config, pagingSourceFactory = { pagingSourceFactory })
+    }
+
+    override suspend fun getActorData(): Pager<Int, Actor> {
+        val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
+
+        return Pager(config = config, pagingSourceFactory = { actorDataSource })
+    }
+
 }

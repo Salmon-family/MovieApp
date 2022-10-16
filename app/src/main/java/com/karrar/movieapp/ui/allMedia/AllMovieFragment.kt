@@ -78,10 +78,11 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
         viewModel.backEvent.observeEvent(viewLifecycleOwner) { removeFragment() }
 
         viewModel.clickRetryEvent.observeEvent(viewLifecycleOwner) {
-            if (it) { allMediaAdapter.retry() }
+            if (it) {
+                allMediaAdapter.retry()
+            }
         }
     }
-
 
     private fun removeFragment() {
         findNavController().popBackStack()
@@ -91,6 +92,7 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
         return when (type) {
             AllMediaType.ON_THE_AIR -> resources.getString(R.string.title_on_air)
             AllMediaType.AIRING_TODAY -> resources.getString(R.string.title_airing_today)
+            AllMediaType.LATEST -> resources.getString(R.string.latest)
             AllMediaType.POPULAR -> resources.getString(R.string.popular)
             AllMediaType.TOP_RATED -> resources.getString(R.string.title_top_rated_tv_show)
             AllMediaType.TRENDING -> resources.getString(R.string.title_trending)

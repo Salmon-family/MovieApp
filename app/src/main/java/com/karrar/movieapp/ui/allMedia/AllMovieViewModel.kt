@@ -4,11 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
-import androidx.paging.Pager
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.karrar.movieapp.data.repository.AllMediaFactory
+import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.enums.AllMediaType
+import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
@@ -18,21 +17,18 @@ import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AllMovieViewModel @Inject constructor(
-    private val state: SavedStateHandle
+    private val state: SavedStateHandle,
+    private val movieRepository: MovieRepository
 ) : BaseViewModel(), MediaInteractionListener {
 
     val args = AllMovieFragmentArgs.fromSavedStateHandle(state)
 
-    @Inject
-    lateinit var myFactory: AllMediaFactory
-    private val dataSource by lazy { myFactory.create(actorID = args.id, type = args.type) }
-
-    val allMedia: Flow<PagingData<Media>> =
-        Pager(config = config, pagingSourceFactory = { dataSource }).flow.cachedIn(viewModelScope)
+    lateinit var allMedia : Flow<PagingData<Media>>
 
     private val _backEvent = MutableLiveData<Event<Boolean>>()
     val backEvent = _backEvent.toLiveData()
@@ -49,6 +45,12 @@ class AllMovieViewModel @Inject constructor(
     private val _clickRetryEvent = MutableLiveData<Event<Boolean>>()
     val clickRetryEvent = _clickRetryEvent.toLiveData()
 
+    init {
+        viewModelScope.launch{
+            allMedia = movieRepository.getMediaData(args.type, args.id).flow
+        }
+    }
+
     override fun getData() {
         _clickRetryEvent.postEvent(true)
     }
@@ -57,7 +59,9 @@ class AllMovieViewModel @Inject constructor(
         if (args.type == AllMediaType.ON_THE_AIR
             || args.type == AllMediaType.POPULAR
             || args.type == AllMediaType.AIRING_TODAY
-            || args.type == AllMediaType.TOP_RATED) {
+            || args.type == AllMediaType.TOP_RATED
+            || args.type == AllMediaType.LATEST
+        ) {
             _clickSeriesEvent.postEvent(mediaId)
         } else {
             _clickMovieEvent.postEvent(mediaId)

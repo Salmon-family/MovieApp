@@ -101,7 +101,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/image_latest"
             app:layout_constraintEnd_toEndOf="@id/image_latest"
             app:layout_constraintStart_toStartOf="@id/image_latest"
-            android:onClick="@{() -> listener.onClickSeeTVShow(AllMediaType.AIRING_TODAY)}"
+            android:onClick="@{() -> listener.onClickSeeTVShow(AllMediaType.LATEST)}"
             app:layout_constraintTop_toTopOf="@id/image_latest"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 

@@ -1,11 +1,13 @@
 package com.karrar.movieapp.data.repository
 
+import androidx.paging.Pager
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.response.AddListResponse
 import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
+import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
 
@@ -77,5 +79,9 @@ interface MovieRepository {
     suspend fun insertMovie(movie: WatchHistoryEntity)
 
     suspend fun getAllWatchedMovies(): List<WatchHistoryEntity>
+
+    suspend fun getMediaData(type: AllMediaType, actorId: Int): Pager<Int, Media>
+
+    suspend fun getActorData(): Pager<Int, Actor>
 
 }
