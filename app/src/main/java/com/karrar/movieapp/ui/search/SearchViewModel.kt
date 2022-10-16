@@ -50,10 +50,9 @@ class SearchViewModel @Inject constructor(
 
     override fun getData() {
         viewModelScope.launch {
+            getAllSearchHistory()
             searchText.debounce(1000).collect {
-                if (searchText.value.isNullOrEmpty()) {
-                    getAllSearchHistory()
-                } else {
+                if (searchText.value.isNotBlank()) {
                     when (mediaType.value) {
                         Constants.MOVIE -> searchForMovie(it)
                         Constants.TV_SHOWS -> searchForSeries(it)

@@ -48,12 +48,19 @@ fun <T> showWhenFail2(view: View, state: UIState<T>?) {
 
 @BindingAdapter(value = ["app:showWhenSearch"])
 fun showWhenSearch(view: View, text: String){
-    view.isVisible = !text.isNullOrEmpty()
+    view.isVisible = text.isNotBlank()
 }
 
 @BindingAdapter(value = ["app:hideWhenSearch"])
 fun hideWhenSearch(view: View, text: String){
-    view.isVisible = text.isNullOrEmpty()
+    view.isVisible = text.isBlank()
+}
+
+@BindingAdapter(value = ["app:hideWhenBlankSearch"])
+fun hideWhenBlankSearch(view: View, text: String){
+    if(text.isBlank()){
+        view.visibility = View.INVISIBLE
+    }
 }
 
 @BindingAdapter("app:posterImage")
@@ -147,8 +154,8 @@ fun convertToHoursPattern(text: TextView, duration: Int?) {
 }
 
 @BindingAdapter("app:showWhenListIsEmpty")
-fun <T> showWhenListIsEmpty(text: TextView, list: List<T>?) {
-    text.isVisible = list?.isEmpty() == true
+fun <T> showWhenListIsEmpty(view: View, list: List<T>?) {
+    view.isVisible = list?.isEmpty() == true
 }
 
 @BindingAdapter("app:overviewText")
