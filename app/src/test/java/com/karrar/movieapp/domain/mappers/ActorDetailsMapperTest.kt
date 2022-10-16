@@ -36,7 +36,6 @@ internal class ActorDetailsMapperTest {
             adult = true,
             homepage = "homepage",
             imdbId = "imdbId",
-
         )
 
         // when map function is called
