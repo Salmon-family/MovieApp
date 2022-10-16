@@ -48,7 +48,7 @@
             android:text="@={viewModel.searchText}"
             android:textColor="@color/shade_primary_color"
             android:textColorHint="@color/shade_ternary_color"
-            android:textCursorDrawable="@color/brand_color"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:transitionName="search_box"
             app:drawableTint="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
