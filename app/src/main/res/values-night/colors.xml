@@ -14,5 +14,5 @@
     <color name="shade_ternary_color">#61FFFFFF</color>
     <color name="shade_quaternary_color">#29FFFFFF</color>
 
-
+    <color name="profile_background">#99FFFFFF</color>
 </resources>
