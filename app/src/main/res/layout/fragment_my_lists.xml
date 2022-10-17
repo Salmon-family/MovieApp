@@ -43,17 +43,6 @@
             app:loading="@{viewModel.createdList}"
             />
 
-<!--        <include-->
-<!--            android:id="@+id/error"-->
-<!--            layout="@layout/error"-->
-<!--            app:error="@{viewModel.createdList}"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:viewModel="@{viewModel}"-->
-<!--            />-->
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button"
             android:layout_width="wrap_content"
@@ -85,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
-            android:src="@drawable/log_in"
+            android:src="@drawable/list_vector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -104,21 +93,21 @@
             app:layout_constraintTop_toBottomOf="@id/vector_image"
             />
 
+
         <TextView
             android:id="@+id/text_message_wrong"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginHorizontal="@dimen/spacing_extra_large"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@string/you_must_be_logged_in_to_use_list_features"
             android:textAlignment="center"
-            android:text="@string/you_must_be_logged_in_to_see_the_profile"
             android:textAppearance="@style/Regular.Medium.Secondary"
             android:textColor="@color/shade_secondary_color"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_message_wrong_title" />
-
 
         <androidx.constraintlayout.widget.Group
             android:layout_width="wrap_content"

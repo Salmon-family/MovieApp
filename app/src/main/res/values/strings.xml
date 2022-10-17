@@ -91,4 +91,5 @@
     <string name="you_must_be_logged_in_to_see_the_profile">You must be logged in to see the profile and use additional features.</string>
     <string name="new_list">New List</string>
     <string name="log_in">Log In</string>
+    <string name="you_must_be_logged_in_to_use_list_features">You must be logged in to use lists feature.</string>
 </resources>
