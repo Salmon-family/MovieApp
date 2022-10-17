@@ -101,7 +101,7 @@ fun PopularMovieAdapter.automaticLoop(recycler: RecyclerView, timer: Long) {
 
         override fun run() {
             if (count < this@automaticLoop.itemCount) {
-                recycler.scrollToPosition(count.plus(1))
+                recycler.scrollToPosition(count++)
                 handler.postDelayed(this, timer)
 
                 if (count == this@automaticLoop.itemCount) {

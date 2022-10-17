@@ -81,7 +81,7 @@ fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
 
 @BindingAdapter(value = ["app:usePagerSnapHelper"])
 fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, adapter: PopularMovieAdapter) {
-    adapter.automaticLoop(recycler, 3000L)
+    adapter.automaticLoop(recycler, 2000L)
     PagerSnapHelper().attachToRecyclerView(recycler)
 }
 
