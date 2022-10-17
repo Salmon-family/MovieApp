@@ -13,61 +13,42 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bottom_sheet_corners"
-        android:paddingTop="@dimen/spacing_large">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_sheet_corners">
 
-        <TextView
-            android:id="@+id/dialog_text"
-            style="@style/SemiBold.Large"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save to"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/save_to"
+            style="@style/SemiBold.Large"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="HardcodedText,SpUsage" />
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/shade_quaternary_color"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_text" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_play_trailer"
-            style="@style/SemiBold.Medium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_small"
-            android:paddingVertical="@dimen/spacing_small"
-            android:paddingStart="@dimen/spacing_medium"
-            android:paddingEnd="250dp"
-            android:text="@string/new_list"
-            android:textAllCaps="false"
-            app:backgroundTint="@color/card_background_color"
-            app:icon="@drawable/new_list_ic"
-            app:iconTint="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view"
-            app:rippleColor="@color/brand_color"
-            tools:text="New List" />
+            android:layout_marginTop="@dimen/spacing_medium"/>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            android:layout_marginTop="@dimen/spacing_small"/>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/save_list_adapter"
             android:layout_width="match_parent"
-            android:layout_height="590dp"
-            android:layout_marginVertical="@dimen/spacing_small"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             app:items="@{viewModel.savedList.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_play_trailer"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:paddingBottom="@dimen/spacing_medium"
+            android:clipToPadding="false"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/item_list" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
