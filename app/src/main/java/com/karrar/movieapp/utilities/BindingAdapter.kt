@@ -16,6 +16,7 @@ import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.MediaDetails
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.ui.home.adapter.PopularMovieAdapter
 import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
@@ -23,7 +24,6 @@ import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-import com.squareup.picasso.Picasso
 
 
 @BindingAdapter("app:showWhenSuccess")
@@ -47,18 +47,18 @@ fun <T> showWhenFail2(view: View, state: UIState<T>?) {
 }
 
 @BindingAdapter(value = ["app:showWhenSearch"])
-fun showWhenSearch(view: View, text: String){
+fun showWhenSearch(view: View, text: String) {
     view.isVisible = text.isNotBlank()
 }
 
 @BindingAdapter(value = ["app:hideWhenSearch"])
-fun hideWhenSearch(view: View, text: String){
+fun hideWhenSearch(view: View, text: String) {
     view.isVisible = text.isBlank()
 }
 
 @BindingAdapter(value = ["app:hideWhenBlankSearch"])
-fun hideWhenBlankSearch(view: View, text: String){
-    if(text.isBlank()){
+fun hideWhenBlankSearch(view: View, text: String) {
+    if (text.isBlank()) {
         view.visibility = View.INVISIBLE
     }
 }
@@ -80,9 +80,9 @@ fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
 }
 
 @BindingAdapter(value = ["app:usePagerSnapHelper"])
-fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolean = false) {
-    if (useSnapHelper)
-        PagerSnapHelper().attachToRecyclerView(recycler)
+fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, adapter: PopularMovieAdapter) {
+    adapter.automaticLoop(recycler, 3000L)
+    PagerSnapHelper().attachToRecyclerView(recycler)
 }
 
 @BindingAdapter("app:genre")
@@ -120,13 +120,13 @@ fun <T> setGenresChips(
 }
 
 @BindingAdapter("app:isVisible")
-fun <T> isVisible(view: View,isVisible :Boolean){
+fun <T> isVisible(view: View, isVisible: Boolean) {
     view.isVisible = isVisible
 
 }
 
 @BindingAdapter("app:setVideoId")
-fun setVideoId(view: YouTubePlayerView, videoId: String?){
+fun setVideoId(view: YouTubePlayerView, videoId: String?) {
     view.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
         override fun onReady(youTubePlayer: YouTubePlayer) {
             videoId?.let { youTubePlayer.loadVideo(it, 0f) }
@@ -170,9 +170,11 @@ fun setOverViewText(view: TextView, text: String) {
 @BindingAdapter("app:textBasedOnMediaType")
 fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
     mediaDetails?.let {
-        when(mediaDetails.mediaType){
-            MediaType.MOVIE ->  view.text = view.context.getString(R.string.duration, mediaDetails.specialNumber)
-            MediaType.TV_SHOW -> view.text = view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
+        when (mediaDetails.mediaType) {
+            MediaType.MOVIE -> view.text =
+                view.context.getString(R.string.duration, mediaDetails.specialNumber)
+            MediaType.TV_SHOW -> view.text =
+                view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
         }
     }
 }

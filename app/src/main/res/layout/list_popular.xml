@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="adapterRecycler"
             type="com.karrar.movieapp.ui.home.adapter.PopularMovieAdapter" />
@@ -14,16 +15,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_popular_movie"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="@dimen/spacing_small"
-        android:layout_height="wrap_content"
-        app:usePagerSnapHelper="@{true}"
         android:adapter="@{adapterRecycler}"
-        android:orientation="horizontal"
-        android:overScrollMode="never"
-        tools:listitem="@layout/item_popular_movie"
-        android:scrollbars="none"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        />
+        app:usePagerSnapHelper="@{adapterRecycler}"
+        tools:listitem="@layout/item_popular_movie" />
 
 </layout>
