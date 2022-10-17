@@ -1,5 +1,6 @@
 package com.karrar.movieapp.domain.mappers
 
+import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.review.AuthorDetailsDto
 import com.karrar.movieapp.domain.models.User
@@ -33,10 +34,10 @@ internal class UserMapperTest {
         val user = userMapper.map(actorDetailsDto)
 
         val expected = User(
-            userName = user.userName,
-            userImage = user.userImage,
-            name = user.name,
-            rating = user.rating
+            userName = "username",
+            userImage = BuildConfig.IMAGE_BASE_PATH + "avatarPath",
+            name = "name",
+            rating = 0.5.toFloat()
         )
 
         // then return UserMapper object with the same values

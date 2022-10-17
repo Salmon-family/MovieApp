@@ -1,6 +1,7 @@
 package com.karrar.movieapp.domain.mappers
 
 
+import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.episode.EpisodeDto
 import com.karrar.movieapp.domain.models.Episode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -29,21 +30,26 @@ internal class EpisodeMapperTest {
             overview = "overview",
             stillPath = "stillPath",
             voteAverage = 1.0,
-            voteCount = 1
+            voteCount = 1,
+            seasonNumber = 1,
+            crew = emptyList(),
+            productionCode = "productionCode",
+            runtime = 1,
+            showId = 1,
         )
 
         // when map function is called
         val episode = episodeMapper.map(episodeDTO)
 
         val expected = Episode(
-            episodeId = episode.episodeId,
-            episodeName = episode.episodeName,
-            episodeDescription = episode.episodeDescription,
-            imageUrl = episode.imageUrl,
-            episodeDate = episode.episodeDate,
-            episodeDuration = episode.episodeDuration,
-            episodeRate = episode.episodeRate,
-            episodeTotalReviews = episode.episodeTotalReviews
+            episodeId = 1,
+            episodeName = "name",
+            episodeDescription = "overview",
+            imageUrl = BuildConfig.IMAGE_BASE_PATH + "stillPath",
+            episodeDate = "airDate",
+            episodeDuration = "airD",
+            episodeRate = 1.0,
+            episodeTotalReviews = "1",
         )
 
         // then return EpisodeMapper object with the same values

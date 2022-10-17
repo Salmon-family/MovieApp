@@ -30,8 +30,8 @@ internal class GenreMapperTest {
         val genre = genreMapper.map(genreDTO)
 
         val expected = Genre(
-            genreID = genre.genreID,
-            genreName = genre.genreName
+            genreID = 1,
+            genreName = "name"
         )
 
         // then return GenreMapper object with the same values

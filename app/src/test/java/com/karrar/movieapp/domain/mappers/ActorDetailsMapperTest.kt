@@ -1,5 +1,6 @@
 package com.karrar.movieapp.domain.mappers
 
+import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
 import com.karrar.movieapp.domain.models.ActorDetails
@@ -42,14 +43,14 @@ internal class ActorDetailsMapperTest {
         val actorDetails = actorDetailsMapper.map(actorDTO)
 
         val expected = ActorDetails(
-            actorID = actorDetails.actorID,
-            actorName = actorDetails.actorName,
-            actorImage = actorDetails.actorImage,
-            actorBiography = actorDetails.actorBiography,
-            actorBirthday = actorDetails.actorBirthday,
-            actorPlaceOfBirth = actorDetails.actorPlaceOfBirth,
-            actorGender = actorDetails.actorGender,
-            knownForDepartment = actorDetails.knownForDepartment,
+            actorID = 1,
+            actorName = "name",
+            actorImage = BuildConfig.IMAGE_BASE_PATH + "profilePath",
+            actorBiography = "biography",
+            actorBirthday = "birthday",
+            actorPlaceOfBirth = "placeOfBirth",
+            actorGender = "Female",
+            knownForDepartment = "knownForDepartment",
         )
 
         // then return ActorDetailsMapper object with the same values

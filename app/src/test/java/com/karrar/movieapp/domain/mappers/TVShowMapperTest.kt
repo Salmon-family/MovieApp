@@ -1,5 +1,6 @@
 package com.karrar.movieapp.domain.mappers
 
+import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.utilities.Constants
@@ -32,20 +33,20 @@ internal class TVShowMapperTest {
             originalName = "originalName",
             overview = "overview",
             popularity = 1.0,
-            posterPath = "/AeyiuQUUs78bPkz18FY3AzNFF8b.jpg",
-            voteAverage = 3.990000009536743,
+            posterPath = "posterPath",
+            voteAverage = 1.0,
             voteCount = 1
         )
         // when map is called
         val tvShows = tvShowMapper.map(tvShowsDTO)
 
         val expected = Media(
-            mediaID = tvShows.mediaID,
-            mediaImage = tvShows.mediaImage,
+            mediaID = 1,
+            mediaImage = BuildConfig.IMAGE_BASE_PATH + "posterPath",
             mediaType = Constants.TV_SHOWS,
-            mediaName = tvShows.mediaName,
-            mediaDate = tvShows.mediaDate,
-            mediaRate = tvShows.mediaRate
+            mediaName = "originalName",
+            mediaDate = "firstAirDate",
+            mediaRate = 1.0.toFloat()
         )
 
         // then the result should be a Media object with the same values

@@ -1,10 +1,10 @@
 package com.karrar.movieapp.domain.mappers
 
+import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.domain.models.Actor
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
-
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
@@ -42,9 +42,9 @@ internal class ActorMapperTest {
         val actor = actorMapper.map(actorDTO)
 
         val expected = Actor(
-            actorID = actor.actorID,
-            actorName = actor.actorName,
-            actorImage = actor.actorImage
+            actorID = 1,
+            actorName = "name",
+            actorImage = BuildConfig.IMAGE_BASE_PATH + "profilePath",
         )
 
         // then return ActorMapper object with the same values

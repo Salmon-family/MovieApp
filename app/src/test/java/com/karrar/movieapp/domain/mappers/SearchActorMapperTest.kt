@@ -1,5 +1,6 @@
 package com.karrar.movieapp.domain.mappers
 
+import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.utilities.Constants
@@ -43,12 +44,12 @@ internal class SearchActorMapperTest {
         val searchActor = searchActorMapper.map(searchActorDTO)
 
         val expected = Media(
-            mediaID = searchActor.mediaID,
-            mediaImage = searchActor.mediaImage,
-            mediaType = Constants.ACTOR,
-            mediaName = searchActor.mediaName,
-            mediaDate = searchActor.mediaDate,
-            mediaRate = searchActor.mediaRate
+            mediaID =  1,
+            mediaImage = BuildConfig.IMAGE_BASE_PATH + "profilePath",
+            mediaType = "person",
+            mediaName = "name",
+            mediaDate = "",
+            mediaRate = 0.0.toFloat(),
         )
 
         // then return SearchActorMapper object with the same values

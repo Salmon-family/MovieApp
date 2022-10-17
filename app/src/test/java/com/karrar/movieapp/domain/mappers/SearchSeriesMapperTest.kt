@@ -1,11 +1,10 @@
 package com.karrar.movieapp.domain.mappers
 
+import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.utilities.Constants
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
-
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
@@ -42,12 +41,12 @@ internal class SearchSeriesMapperTest {
         val searchSeries = searchSeriesMapper.map(searchSeriesDTO)
 
         val expected = Media(
-            mediaID = searchSeries.mediaID,
-            mediaImage = searchSeries.mediaImage,
-            mediaType = Constants.TV_SHOWS,
-            mediaName = searchSeries.mediaName,
-            mediaDate = searchSeries.mediaDate,
-            mediaRate = searchSeries.mediaRate
+            mediaID = 1,
+            mediaImage = BuildConfig.IMAGE_BASE_PATH + "backdropPath",
+            mediaType = "tv",
+            mediaName = "originalName",
+            mediaDate = "firstAirDate",
+            mediaRate = 1.0.toFloat()
         )
         // then return SearchSeriesMapper object with the same values
         assertEquals(expected, searchSeries)

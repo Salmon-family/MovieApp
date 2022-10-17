@@ -1,5 +1,6 @@
 package com.karrar.movieapp.domain.mappers
 
+import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.account.AccountDto
 import com.karrar.movieapp.data.remote.response.account.Avatar
 import com.karrar.movieapp.data.remote.response.account.Gravatar
@@ -40,9 +41,9 @@ internal class AccountMapperTest {
         val account = AccountMapper().map(accountDTO)
 
         val expected = Account(
-            name = account.name,
-            username = account.username,
-            avatarPath = account.avatarPath,
+            name = "name",
+            username = "username",
+            avatarPath = BuildConfig.IMAGE_BASE_PATH + null,
         )
 
         // then return AccountMapper object with the same values

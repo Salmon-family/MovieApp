@@ -5,6 +5,7 @@ import com.karrar.movieapp.data.remote.response.SeasonDto
 import com.karrar.movieapp.data.remote.response.tvShow.CreatedByDto
 import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
 import com.karrar.movieapp.domain.enums.MediaType
+import com.karrar.movieapp.domain.models.Season
 import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.utilities.Constants
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -83,17 +84,28 @@ internal class TvShowDetailsMapperTest {
         val tvShowDetails = tvShowMapper.map(tvShowsDetailsDTO)
 
         val expected = TvShowDetails(
-            tvShowId = tvShowDetails.id,
-            tvShowName = tvShowDetails.name,
-            tvShowImage = tvShowDetails.tvShowImage,
-            tvShowGenres = tvShowDetails.tvShowGenres,
-            tvShowOverview = tvShowDetails.tvShowOverview,
-            tvShowReleaseDate = tvShowDetails.tvShowReleaseDate,
-            tvShowReview = tvShowDetails.tvShowReview,
-            tvShowSeasons = tvShowDetails.tvShowSeasons,
-            tvShowSeasonsNumber = tvShowDetails.tvShowSeasonsNumber,
+            tvShowId = 1,
+            tvShowName = "name",
+            tvShowImage = BuildConfig.IMAGE_BASE_PATH + "posterPath",
+            tvShowGenres = "",
+            tvShowOverview = "overview",
+            tvShowReleaseDate = "firs",
+            tvShowSeasons = listOf(
+                Season(
+                    seasonId = 1,
+                    seasonName = "name",
+                    imageUrl = BuildConfig.IMAGE_BASE_PATH + "posterPath",
+                    seasonNumber = 1,
+                    episodeCount = 1,
+                    seasonYear = "airD",
+                    seasonDescription = "overview",
+                    episodes = listOf()
+                )
+            ),
+            tvShowReview = 1,
+            tvShowSeasonsNumber = 1,
             tvShowType = MediaType.TV_SHOW,
-            tvShowVoteAverage = tvShowDetails.tvShowVoteAverage,
+            tvShowVoteAverage = "1.0",
         )
 
         // then the result should be a Media object with the same values
