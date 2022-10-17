@@ -48,7 +48,7 @@
             android:text="@={viewModel.searchText}"
             android:textColor="@color/shade_primary_color"
             android:textColorHint="@color/shade_ternary_color"
-            android:textCursorDrawable="@color/brand_color"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:transitionName="search_box"
             app:drawableTint="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
@@ -183,6 +183,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:viewModel="@{viewModel}" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/no_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/no_result"
+            app:showWhenListIsEmpty="@{viewModel.media.toData()}"
+            app:hideWhenBlankSearch="@{viewModel.searchText}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

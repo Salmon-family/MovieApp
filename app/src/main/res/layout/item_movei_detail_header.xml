@@ -47,13 +47,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:background="@drawable/back_icon_shape"
             android:layout_marginTop="16dp"
             android:onClick="@{() -> listener.onclickBack()}"
             android:padding="@dimen/spacing_small"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/shade_primary_color" />
+            app:tint="@color/background_color" />
 
 
         <ImageButton
@@ -84,6 +85,7 @@
             android:textAllCaps="false"
             app:cornerRadius="@dimen/spacing_large"
             app:icon="@drawable/ic_play_filled"
+            app:iconTint="@color/white_primary"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

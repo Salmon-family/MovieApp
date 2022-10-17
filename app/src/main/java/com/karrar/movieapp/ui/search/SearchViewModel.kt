@@ -8,6 +8,7 @@ import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.SearchHistory
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.search.adapters.MediaSearchInteractionListener
 import com.karrar.movieapp.ui.search.adapters.PersonInteractionListener
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
 import com.karrar.movieapp.utilities.Constants
@@ -32,7 +33,7 @@ class SearchViewModel @Inject constructor(
     private val _searchHistory = MutableLiveData<List<SearchHistory>>()
     val searchHistory = _searchHistory.toLiveData()
 
-    private val _clickMediaEvent = MutableLiveData<Event<Int>>()
+    private val _clickMediaEvent = MutableLiveData<Event<Media>>()
     var clickMediaEvent = _clickMediaEvent.toLiveData()
 
     private val _clickActorEvent = MutableLiveData<Event<Int>>()
@@ -50,10 +51,9 @@ class SearchViewModel @Inject constructor(
 
     override fun getData() {
         viewModelScope.launch {
+            getAllSearchHistory()
             searchText.debounce(1000).collect {
-                if (searchText.value.isNullOrEmpty()) {
-                    getAllSearchHistory()
-                } else {
+                if (searchText.value.isNotBlank()) {
                     when (mediaType.value) {
                         Constants.MOVIE -> searchForMovie(it)
                         Constants.TV_SHOWS -> searchForSeries(it)
@@ -121,7 +121,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun getAllSearchHistory() {
+    private fun getAllSearchHistory() {
         viewModelScope.launch {
             movieRepository.getAllSearchHistory().collect {
                 _searchHistory.postValue(it)
@@ -129,9 +129,9 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    override fun onClickMedia(mediaID: Int, name: String) {
-        saveSearchResult(mediaID, name)
-        _clickMediaEvent.postEvent(mediaID)
+    override fun onClickMedia(media: Media) {
+        saveSearchResult(media.mediaID, media.mediaName)
+        _clickMediaEvent.postEvent(media)
     }
 
     override fun onClickPerson(personID: Int, name: String) {

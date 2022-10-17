@@ -76,6 +76,6 @@ interface MovieRepository {
 
     suspend fun insertMovie(movie: WatchHistoryEntity)
 
-    suspend fun getAllWatchedMovies(): List<WatchHistoryEntity>
+    fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>
 
 }
