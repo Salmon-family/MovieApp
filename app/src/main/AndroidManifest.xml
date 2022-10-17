@@ -32,7 +32,7 @@
 
         <activity
             android:name=".ui.youtubePlayer.YoutubePlayerActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
