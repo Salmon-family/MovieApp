@@ -21,7 +21,9 @@
         app:cardCornerRadius="@dimen/radius_large"
         app:cardBackgroundColor="@color/background_color"
         android:layout_marginHorizontal="@dimen/spacing_small"
-        android:layout_marginVertical="@dimen/spacing_too_small" >
+        android:layout_marginVertical="@dimen/spacing_too_small"
+        app:cardElevation="0dp"
+        >
 
         <TextView
             android:id="@+id/list_name"
