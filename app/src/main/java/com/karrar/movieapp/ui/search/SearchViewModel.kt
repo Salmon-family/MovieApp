@@ -2,6 +2,9 @@ package com.karrar.movieapp.ui.search
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Media
@@ -9,13 +12,14 @@ import com.karrar.movieapp.domain.models.SearchHistory
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.search.adapters.MediaSearchInteractionListener
-import com.karrar.movieapp.ui.search.adapters.PersonInteractionListener
+import com.karrar.movieapp.ui.search.adapters.ActorSearchInteractionListener
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
@@ -24,11 +28,13 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val movieRepository: MovieRepository
-) : BaseViewModel(), MediaSearchInteractionListener, PersonInteractionListener,
+) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener,
     SearchHistoryInteractionListener {
 
-    private val _media = MutableLiveData<UIState<List<Media>>>()
-    val media = _media.toLiveData()
+    lateinit var media: Flow<PagingData<Media>>
+
+    private val _mediaState = MutableLiveData<UIState<Boolean>>(UIState.Loading)
+    val mediaState = _mediaState.toLiveData()
 
     private val _searchHistory = MutableLiveData<List<SearchHistory>>()
     val searchHistory = _searchHistory.toLiveData()
@@ -42,15 +48,15 @@ class SearchViewModel @Inject constructor(
     private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
     var clickBackEvent = _clickBackEvent.toLiveData()
 
+    private val _clickRetryEvent = MutableLiveData<Event<Boolean>>()
+    val clickRetryEvent = _clickRetryEvent.toLiveData()
+
     val searchText = MutableStateFlow("")
     val mediaType = MutableStateFlow(Constants.MOVIE)
 
     init {
-        getData()
-    }
-
-    override fun getData() {
         viewModelScope.launch {
+            media = movieRepository.searchForMovie(searchText.value).flow.cachedIn(viewModelScope)
             getAllSearchHistory()
             searchText.debounce(1000).collect {
                 if (searchText.value.isNotBlank()) {
@@ -64,34 +70,26 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    override fun getData() {
+        _clickRetryEvent.postEvent(true)
+    }
+
     private fun searchForActor(text: String) {
-        _media.postValue(UIState.Loading)
-        wrapWithState({
-            val response = movieRepository.searchForActor(text)
-            _media.postValue(UIState.Success(response))
-        }, {
-            _media.postValue(UIState.Error(""))
-        })
+        viewModelScope.launch {
+            media = movieRepository.searchForActor(text).flow.cachedIn(viewModelScope)
+        }
     }
 
     private fun searchForMovie(text: String) {
-        _media.postValue(UIState.Loading)
-        wrapWithState({
-            val response = movieRepository.searchForMovie(text)
-            _media.postValue(UIState.Success(response))
-        }, {
-            _media.postValue(UIState.Error(""))
-        })
+        viewModelScope.launch {
+            media = movieRepository.searchForMovie(text).flow.cachedIn(viewModelScope)
+        }
     }
 
     private fun searchForSeries(text: String) {
-        _media.postValue(UIState.Loading)
-        wrapWithState({
-            val response = movieRepository.searchForSeries(text)
-            _media.postValue(UIState.Success(response))
-        }, {
-            _media.postValue(UIState.Error(""))
-        })
+        viewModelScope.launch {
+            media = movieRepository.searchForSeries(text).flow.cachedIn(viewModelScope)
+        }
     }
 
     fun onClickMovies() {
@@ -160,4 +158,15 @@ class SearchViewModel @Inject constructor(
         _clickBackEvent.postEvent(true)
     }
 
+    fun setErrorUiState(loadState: LoadState) {
+        val result = if (loadState is LoadState.Error) {
+            loadState.error.message ?: "Error"
+        } else null
+
+        if (!result.isNullOrBlank()) {
+            _mediaState.postValue(UIState.Error(result))
+        } else {
+            _mediaState.postValue(UIState.Success(true))
+        }
+    }
 }

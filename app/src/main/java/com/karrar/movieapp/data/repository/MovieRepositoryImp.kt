@@ -1,5 +1,7 @@
 package com.karrar.movieapp.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
@@ -21,6 +23,7 @@ class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     private val movieDao: MovieDao,
     private val movieMappersContainer: MovieMappersContainer,
+    private val searchDataSourceContainer: SearchDataSourceContainer
     ) : BaseRepository(), MovieRepository {
 
     override suspend fun getMovieGenreList(): List<Genre> {
@@ -167,25 +170,26 @@ class MovieRepositoryImp @Inject constructor(
      * searching
      * */
 
-    override suspend fun searchForMovie(query: String): List<Media> {
-        return wrap({ movieService.searchForMovie(query) }, { response ->
-            ListMapper(movieMappersContainer.movieMapper).mapList(response.items)
-        })
+    override suspend fun searchForMovie(query: String): Pager<Int,Media> {
+        val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
+        val dataSource = searchDataSourceContainer.movieSearchDataSource
+        dataSource.setSearchText(query)
+        return Pager(config = config, pagingSourceFactory = {dataSource})
     }
 
-    override suspend fun searchForSeries(query: String): List<Media> {
-        return wrap({ movieService.searchForSeries(query) }, { response ->
-            ListMapper(movieMappersContainer.seriesMapper).mapList(response.items)
-        })
+    override suspend fun searchForSeries(query: String): Pager<Int,Media> {
+        val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
+        val dataSource = searchDataSourceContainer.seriesSearchDataSource
+        dataSource.setSearchText(query)
+        return Pager(config = config, pagingSourceFactory = {dataSource})
     }
 
     //should remove empty list ...
-    override suspend fun searchForActor(query: String): List<Media> {
-        return wrap({ movieService.searchForActor(query) }, { response ->
-            response.items?.filter { it.knownForDepartment == Constants.ACTING }?.map {
-                it.let { movieMappersContainer.searchActorMapper.map(it) }
-            } ?: emptyList()
-        })
+    override suspend fun searchForActor(query: String): Pager<Int,Media> {
+        val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
+        val dataSource = searchDataSourceContainer.actorSearchDataSource
+        dataSource.setSearchText(query)
+        return Pager(config = config, pagingSourceFactory = {dataSource})
     }
 
     override fun getAllSearchHistory(): Flow<List<SearchHistory>> {

@@ -133,8 +133,8 @@
             android:layout_height="0dp"
             android:clipToPadding="false"
             android:paddingVertical="@dimen/spacing_small"
-            app:hideWhenLoading="@{viewModel.media}"
-            app:items="@{viewModel.media.toData()}"
+            app:hideWhenLoading="@{viewModel.mediaState}"
+
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
             app:showWhenSearch="@{viewModel.searchText}"
@@ -171,12 +171,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.media}" />
+            app:loading="@{viewModel.mediaState}" />
 
         <include
             android:id="@+id/error"
             layout="@layout/error"
-            app:error="@{viewModel.media}"
+            app:error="@{viewModel.mediaState}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -194,7 +194,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/no_result"
-            app:showWhenListIsEmpty="@{viewModel.media.toData()}"
+
             app:hideWhenBlankSearch="@{viewModel.searchText}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
