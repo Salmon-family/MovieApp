@@ -1,5 +1,6 @@
 package com.karrar.movieapp.utilities
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -24,6 +25,13 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.squareup.picasso.Picasso
+
+
+@BindingAdapter("app:isLogIN")
+fun <T> isLogIN(view: View, value:Boolean) {
+    if (value)
+        view.isVisible = false
+}
 
 
 @BindingAdapter("app:showWhenSuccess")

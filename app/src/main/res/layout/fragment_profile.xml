@@ -176,7 +176,6 @@
             android:text="@string/you_must_be_logged_in_to_see_the_profile"
             android:textAppearance="@style/Regular.Medium.Secondary"
             android:textColor="@color/shade_secondary_color"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_message_wrong_title" />
@@ -193,7 +192,6 @@
             android:text="@string/login"
             android:textAppearance="@style/SemiBold.Medium"
             android:textColor="@color/white_primary"
-            android:visibility="gone"
             app:backgroundTint="@color/color_states_material_button"
             app:cornerRadius="@dimen/radius_small"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -212,7 +210,8 @@
             image_actor,
             text_name_actor,
             text_username,"
-            app:showWhenSuccess="@{viewModel.profileDetails}" />
+            app:showWhenSuccess="@{viewModel.profileDetails}"
+            />
 
         <androidx.constraintlayout.widget.Group
             android:layout_width="wrap_content"
@@ -222,7 +221,27 @@
             vector_image,
             text_message_wrong_title,
             button_nav_login,"
-            app:showWhenFail="@{viewModel.profileDetails}"
+            app:isLogIN="@{viewModel.isLogIn()}"
+            />
+
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:loading="@{viewModel.profileDetails}"
+            />
+
+        <include
+            android:id="@+id/error"
+            layout="@layout/error"
+            app:error="@{viewModel.profileDetails}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

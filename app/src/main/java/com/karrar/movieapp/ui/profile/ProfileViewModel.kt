@@ -32,6 +32,8 @@ class ProfileViewModel @Inject constructor(
     private val _clickWatchHistoryEvent = MutableLiveData<Event<Boolean>>()
     val clickWatchHistoryEvent = _clickWatchHistoryEvent.toLiveData()
 
+    private val _isLogIn = MutableLiveData<Boolean>()
+    val isLogIn = _isLogIn.toLiveData()
 
     init {
         getData()
@@ -41,11 +43,23 @@ class ProfileViewModel @Inject constructor(
         _profileDetails.postValue(UIState.Loading)
         wrapWithState({
             accountRepository.getSessionId().collect { sectionId ->
+                checkIfLogIn(sectionId)
                 val result = accountRepository.getAccountDetails(sectionId.toString())
                 _profileDetails.postValue(UIState.Success(result))
             }
-        }, { _profileDetails.postValue(UIState.Error(it.message.toString())) })
+        }, {
+            Log.i("ddd", it.message.toString())
+            _profileDetails.postValue(UIState.Error(it.message.toString())) })
     }
+
+
+    private fun checkIfLogIn(sectionId: String?) {
+        if (sectionId == "")
+            _isLogIn.postValue(false)
+        else
+            _isLogIn.postValue(true)
+    }
+
 
     fun onClickRatedMovies() {
         _clickRatedMoviesEvent.postEvent(true)

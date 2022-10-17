@@ -1,17 +1,12 @@
 package com.karrar.movieapp.ui.profile
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentProfileBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.EventObserve
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,6 +19,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         super.onViewCreated(view, savedInstanceState)
         observeEvents()
         setTitle(true, getString(R.string.profile))
+//        viewModel.isLogIn.observe(viewLifecycleOwner){
+//            Log.i("aaa", it.toString())
+//        }
     }
 
     private fun observeEvents() {
