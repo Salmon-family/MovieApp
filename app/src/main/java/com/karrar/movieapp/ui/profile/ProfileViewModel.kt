@@ -47,9 +47,8 @@ class ProfileViewModel @Inject constructor(
                 val result = accountRepository.getAccountDetails(sectionId.toString())
                 _profileDetails.postValue(UIState.Success(result))
             }
-        }, {
-            Log.i("ddd", it.message.toString())
-            _profileDetails.postValue(UIState.Error(it.message.toString())) })
+        }, { _profileDetails.postValue(UIState.Error(it.message.toString()))
+        })
     }
 
 

@@ -35,6 +35,9 @@ class MyListsViewModel @Inject constructor(
     val item: LiveData<Event<CreatedList>>
         get() = _item
 
+    private val _isLogIn = MutableLiveData<Boolean>()
+    val isLogIn = _isLogIn.toLiveData()
+
 
     init {
         getData()
@@ -43,13 +46,21 @@ class MyListsViewModel @Inject constructor(
     override fun getData() {
         _createdList.postValue(UIState.Loading)
         wrapWithState({
-            accountRepository.getSessionId().collect {
-                val response = movieRepository.getAllLists(0, it.toString()).toMutableList()
+            accountRepository.getSessionId().collect { sectionId ->
+                checkIfLogIn(sectionId)
+                val response = movieRepository.getAllLists(0, sectionId.toString()).toMutableList()
                 _createdList.postValue(UIState.Success(response))
             }
         }, {
             _createdList.postValue(UIState.Error(it.message.toString()))
         })
+    }
+
+    private fun checkIfLogIn(sectionId: String?) {
+        if (sectionId == "")
+            _isLogIn.postValue(false)
+        else
+            _isLogIn.postValue(true)
     }
 
     fun onCreateList() {

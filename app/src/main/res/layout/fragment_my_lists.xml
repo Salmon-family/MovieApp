@@ -34,15 +34,6 @@
             app:showWhenSuccess="@{viewModel.createdList}"
             tools:listitem="@layout/item_saved_list" />
 
-        <include
-            android:id="@+id/loading"
-            layout="@layout/loading"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.createdList}"
-            />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button"
@@ -126,9 +117,18 @@
             text_message_wrong,
             vector_image,
             text_message_wrong_title,"
-            app:showWhenFail="@{viewModel.createdList}"
+            app:isLogIN="@{viewModel.isLogIn}"
             />
 
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:loading="@{viewModel.createdList}"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
