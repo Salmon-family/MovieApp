@@ -1,7 +1,9 @@
 package com.karrar.movieapp.domain.mappers
 
+import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.utilities.Constants.MOVIE
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -42,12 +44,12 @@ internal class MovieMapperTest {
 
         // expected
         val expectedMedia = Media(
-            mediaID = result.mediaID,
-            mediaImage = result.mediaImage,
-            mediaType = result.mediaType,
-            mediaName = result.mediaName,
-            mediaDate = result.mediaDate,
-            mediaRate = result.mediaRate
+            mediaID = 1,
+            mediaImage = BuildConfig.IMAGE_BASE_PATH + "posterPath",
+            mediaType = MOVIE,
+            mediaName = "originalTitle",
+            mediaDate = "releaseDate",
+            mediaRate = 1F
         )
 
         // then the result should be a Media object with the same values

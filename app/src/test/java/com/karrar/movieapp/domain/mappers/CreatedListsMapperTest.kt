@@ -35,9 +35,9 @@ internal class CreatedListsMapperTest {
 
         // expected
         val expectedList = CreatedList(
-            id = result.id,
-            itemCount = result.itemCount,
-            name = result.name
+            id = 1,
+            itemCount = 1,
+            name = "name"
         )
 
         // then the result should be a Create List object with the same values

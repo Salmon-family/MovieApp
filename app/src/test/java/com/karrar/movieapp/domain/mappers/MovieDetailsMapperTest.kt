@@ -1,9 +1,12 @@
 package com.karrar.movieapp.domain.mappers
 
+import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.SpokenLanguageDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
+import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.models.MovieDetails
+import com.karrar.movieapp.utilities.Constants
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 
@@ -37,7 +40,7 @@ internal class MovieDetailsMapperTest {
             overview = "overview",
             popularity = 1.0,
             posterPath = "posterPath",
-            releaseDate = "rele",
+            releaseDate = "releaseDate",
             revenue = 1,
             runtime = 1,
             spokenLanguages = listOf(SpokenLanguageDto(iso6391 = "iso6391", name = "name")),
@@ -53,16 +56,16 @@ internal class MovieDetailsMapperTest {
 
         // expected
         val expectedGenre = MovieDetails(
-            movieId = result.movieId,
-            movieImage = result.movieImage,
-            movieName = result.movieName,
-            movieReleaseDate = result.movieReleaseDate,
-            movieGenres = result.movieGenres,
-            movieDuration = result.movieDuration,
-            movieReview = result.movieReview,
-            movieVoteAverage = result.movieVoteAverage,
-            movieOverview = result.movieOverview,
-            movieType = result.movieType,
+            movieId = 1,
+            movieImage = BuildConfig.IMAGE_BASE_PATH + "posterPath",
+            movieName = "title",
+            movieReleaseDate = "rele",
+            movieGenres = "Drama",
+            movieDuration = 1,
+            movieReview = 1,
+            movieVoteAverage = "1.0",
+            movieOverview = "overview",
+            movieType = MediaType.MOVIE,
         )
 
         // then the result should be a Movie Details object with the same values

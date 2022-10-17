@@ -1,9 +1,11 @@
 package com.karrar.movieapp.domain.mappers
 
+import android.provider.SyncStateContract.Constants
 import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.ListItem
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.utilities.Constants.MOVIE
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 
@@ -34,7 +36,7 @@ internal class ItemListMapperTest {
             overview = "overview",
             popularity = 1.0,
             posterPath = "posterPath",
-            releaseDate = "rele",
+            releaseDate = "releaseDate",
             title = "title",
             video = true,
             voteAverage = 1.0,
@@ -46,12 +48,12 @@ internal class ItemListMapperTest {
 
         // expected
         val expectedMedia = Media(
-            mediaID = result.mediaID,
-            mediaImage = result.mediaImage,
-            mediaType = result.mediaType,
-            mediaName = result.mediaName,
-            mediaDate = result.mediaDate,
-            mediaRate = result.mediaRate,
+            mediaID = 1,
+            mediaImage = BuildConfig.IMAGE_BASE_PATH  + "posterPath",
+            mediaType = "mediaType",
+            mediaName = "originalLanguage",
+            mediaDate = "releaseDate",
+            mediaRate = 1F,
         )
 
         // then the result should be a genre object with the same values
