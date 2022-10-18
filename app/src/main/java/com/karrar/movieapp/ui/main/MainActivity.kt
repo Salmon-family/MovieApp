@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity() {
                     binding.bottomNavigation.isVisible = false
                 }
             }
-
         }
     }
 
