@@ -87,7 +87,7 @@ interface MovieService {
     suspend fun getDailyTrending(): Response<BaseResponse<ListItem>>
 
     @GET("discover/movie")
-    suspend fun getAllMovies(): Response<BaseResponse<MovieDto>>
+    suspend fun getAllMovies(@Query("page") page: Int): Response<BaseResponse<MovieDto>>
 
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(@Path("movie_id") movieId: Int): Response<MovieDetailsDto>
@@ -172,7 +172,7 @@ interface MovieService {
     suspend fun getTvListByGenre(@Query("with_genres") genreId: Int): Response<BaseResponse<TVShowsDTO>>
 
     @GET("discover/tv")
-    suspend fun getAllTvShows(): Response<BaseResponse<TVShowsDTO>>
+    suspend fun getAllTvShows(@Query("page")page: Int): Response<BaseResponse<TVShowsDTO>>
 
     @GET("account")
     suspend fun getAccountDetails(@Query("session_id") sessionId: String?): Response<AccountDto>

@@ -67,11 +67,9 @@
             android:paddingHorizontal="@dimen/spacing_small"
             android:paddingTop="@dimen/spacing_medium"
             android:scrollbars="none"
-            app:items="@{viewModel.mediaList.toData()}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:spanCount="3"
-            tools:itemCount="15"
             tools:listitem="@layout/item_media" />
 
 
@@ -82,12 +80,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.categories}" />
+            app:loading="@{viewModel.allMediaState}" />
 
         <include
             android:id="@+id/error"
             layout="@layout/error"
-            app:error="@{viewModel.categories}"
+            app:error="@{viewModel.allMediaState}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

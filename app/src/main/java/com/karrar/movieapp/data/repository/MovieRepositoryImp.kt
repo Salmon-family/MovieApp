@@ -11,6 +11,7 @@ import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.mappers.ListMapper
+import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
 import com.karrar.movieapp.domain.mappers.MovieMappersContainer
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
@@ -29,11 +30,6 @@ class MovieRepositoryImp @Inject constructor(
     override suspend fun getMovieGenreList(): List<Genre> {
         return wrap({ movieService.getGenreList() },
             { ListMapper(movieMappersContainer.genreMapper).mapList(it.genres) })
-    }
-
-    override suspend fun getAllMovies(): List<Media> {
-        return wrap({ movieService.getAllMovies() },
-            { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
     }
 
     override suspend fun getPopularMovies(genres: List<Genre>): List<PopularMovie> {
@@ -218,7 +214,6 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override suspend fun getMediaData(type: AllMediaType, actorId: Int): Pager<Int, Media> {
-        val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
         val pagingSourceFactory = when (type) {
             AllMediaType.ON_THE_AIR, AllMediaType.LATEST -> mediaDataSourceContainer.onTheAirTvShowDataSource
             AllMediaType.AIRING_TODAY -> mediaDataSourceContainer.airingTodayTvShowDataSource
@@ -247,9 +242,28 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override suspend fun getActorData(): Pager<Int, Actor> {
-        val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
-
         return Pager(config = config, pagingSourceFactory = { actorDataSource })
+    }
+
+    override  fun getAllMedia(mediaType: Int): Flow<PagingData<Media>> {
+        return Pager(
+            config = config,
+            pagingSourceFactory = {
+                val dataSource = mediaDataSourceContainer.allMediaDataSource
+                dataSource.setTypeMedia(mediaType)
+                dataSource
+            }).flow
+    }
+
+    override  fun getMovieByGenre(genreID: Int): Flow<PagingData<Media>> {
+        return Pager(
+            config = config,
+            pagingSourceFactory = {
+                val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
+                dataSource.setGenre(genreID)
+                dataSource
+            }
+        ).flow
     }
 
 }

@@ -1,8 +1,11 @@
 package com.karrar.movieapp.data.repository
 
+import androidx.paging.PagingConfig
 import retrofit2.Response
 
 abstract class BaseRepository {
+
+    val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
 
     protected suspend fun <I, O> wrap(
         function: suspend () -> Response<I>,
