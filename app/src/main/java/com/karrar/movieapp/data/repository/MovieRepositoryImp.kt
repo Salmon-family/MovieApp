@@ -224,12 +224,12 @@ class MovieRepositoryImp @Inject constructor(
             AllMediaType.UPCOMING -> mediaDataSourceContainer.upcomingMovieMovieDataSource
             AllMediaType.MYSTERY -> {
                 val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
-                dataSource.setGenre(Constants.MYSTERY_ID)
+                dataSource.setGenre(Constants.MYSTERY_ID,Constants.MOVIE_CATEGORIES_ID)
                 dataSource
             }
             AllMediaType.ADVENTURE -> {
                 val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
-                dataSource.setGenre(Constants.ADVENTURE_ID)
+                dataSource.setGenre(Constants.ADVENTURE_ID,Constants.MOVIE_CATEGORIES_ID)
                 dataSource
             }
             AllMediaType.NON -> {
@@ -245,7 +245,7 @@ class MovieRepositoryImp @Inject constructor(
         return Pager(config = config, pagingSourceFactory = { actorDataSource })
     }
 
-    override  fun getAllMedia(mediaType: Int): Flow<PagingData<Media>> {
+    override fun getAllMedia(mediaType: Int): Flow<PagingData<Media>> {
         return Pager(
             config = config,
             pagingSourceFactory = {
@@ -255,12 +255,12 @@ class MovieRepositoryImp @Inject constructor(
             }).flow
     }
 
-    override  fun getMovieByGenre(genreID: Int): Flow<PagingData<Media>> {
+    override fun getMediaByGenre(genreID: Int, mediaType: Int): Flow<PagingData<Media>> {
         return Pager(
             config = config,
             pagingSourceFactory = {
                 val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
-                dataSource.setGenre(genreID)
+                dataSource.setGenre(genreID, mediaType)
                 dataSource
             }
         ).flow

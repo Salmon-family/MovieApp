@@ -169,7 +169,9 @@ interface MovieService {
     suspend fun getGenreTvShowList(): Response<GenreResponse>
 
     @GET("discover/tv")
-    suspend fun getTvListByGenre(@Query("with_genres") genreId: Int): Response<BaseResponse<TVShowsDTO>>
+    suspend fun getTvListByGenre(
+        @Query("with_genres") genreId: Int,
+        @Query("page") page: Int): Response<BaseResponse<TVShowsDTO>>
 
     @GET("discover/tv")
     suspend fun getAllTvShows(@Query("page")page: Int): Response<BaseResponse<TVShowsDTO>>

@@ -7,7 +7,6 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
-import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.UIState
@@ -27,7 +26,6 @@ import javax.inject.Inject
 class CategoryViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     private val seriesRepository: SeriesRepository,
-    private val mediaDataSourceContainer: MediaDataSourceContainer,
     state: SavedStateHandle
 ) : BaseViewModel(), MediaInteractionListener, CategoryInteractionListener {
 
@@ -45,59 +43,40 @@ class CategoryViewModel @Inject constructor(
     private val _clickRetryEvent = MutableLiveData<Event<Boolean>>()
     val clickRetryEvent = _clickRetryEvent.toLiveData()
 
-    private val _clickCategoryEvent = MutableLiveData<Int>()
-    val clickCategoryEvent = _clickCategoryEvent.toLiveData()
-
+    private val _selectedCategory = MutableLiveData(FIRST_CATEGORY_ID)
+    val selectedCategory = _selectedCategory.toLiveData()
 
     init {
         getData()
     }
 
     override fun getData() {
-        getDataWithID(-1)
+        setCategoryType()
         _clickRetryEvent.postEvent(true)
     }
 
-    fun getDataWithID(id: Int) {
-        setCategoryType()
-        setAllMediaList(id)
-    }
-
     fun setAllMediaList(genre: Int): Flow<PagingData<Media>> {
-        return if (genre == -1) {
-            movieRepository.getMovieByGenre(12)
+        return if (genre == FIRST_CATEGORY_ID) {
+            movieRepository.getAllMedia(args.mediaId)
         } else {
-            movieRepository.getMovieByGenre(genre)
-        }
-    }
-
-    private fun setMediaList(id: Int) {
-        when (args.mediaId) {
-            MOVIE_CATEGORIES_ID -> {
-                _clickCategoryEvent.postValue(id)
-                setAllMediaList(id)
-            }
-            TV_CATEGORIES_ID -> {
-//                val response = seriesRepository.getTvShowsByGenreID(id)
-//                viewModelScope.launch {
-//                    allMedia = movieRepository.getMediaData().flow
-//                }
-            }
+            movieRepository.getMediaByGenre(genre, args.mediaId)
         }
     }
 
     private fun setCategoryType() {
         wrapWithState({
-            when (args.mediaId) {
+            val response = when (args.mediaId) {
                 MOVIE_CATEGORIES_ID -> {
-                    val response = movieRepository.getMovieGenreList()
-                    _categories.postValue(response)
+                    movieRepository.getMovieGenreList()
                 }
                 TV_CATEGORIES_ID -> {
-                    val response = seriesRepository.getTVShowsGenreList()
-                    _categories.postValue(response)
+                    seriesRepository.getTVShowsGenreList()
+                }
+                else -> {
+                    throw Throwable("There is no MOVIE_CATEGORIES_ID ")
                 }
             }
+            _categories.postValue(response)
         })
     }
 
@@ -106,10 +85,7 @@ class CategoryViewModel @Inject constructor(
     }
 
     override fun onClickCategory(categoryId: Int) {
-        when (categoryId) {
-            FIRST_CATEGORY_ID -> setAllMediaList(-1)
-            else -> setMediaList(categoryId)
-        }
+        _selectedCategory.postValue(categoryId)
     }
 
     fun setErrorUiState(loadState: LoadState) {

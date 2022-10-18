@@ -85,6 +85,6 @@ interface MovieRepository {
 
     fun getAllMedia(mediaType: Int): Flow<PagingData<Media>>
 
-    fun getMovieByGenre(genreID: Int): Flow<PagingData<Media>>
+    fun getMediaByGenre(genreID: Int, mediaType: Int): Flow<PagingData<Media>>
 
 }

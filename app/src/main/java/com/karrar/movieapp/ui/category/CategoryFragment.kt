@@ -3,23 +3,19 @@ package com.karrar.movieapp.ui.category
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentCategoryBinding
-import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.allMedia.AllMediaAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import com.karrar.movieapp.utilities.EventObserve
 import com.karrar.movieapp.utilities.collect
+import com.karrar.movieapp.utilities.collectLast
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
@@ -43,16 +39,17 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         collect(flow = allMediaAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it.source.refresh) })
 
-        viewModel.clickCategoryEvent.observe(viewLifecycleOwner) {
-//            viewModelStore.clear()
-            lifecycleScope.launch {
-                viewModel.setAllMediaList(it!!).collectLatest {
-                    allMediaAdapter.submitData(it)
-                }
+        getDataByCategory()
+    }
+
+    private fun getDataByCategory() {
+        viewModel.selectedCategory.observe(viewLifecycleOwner) { categoryId ->
+            categoryId?.let {
+                collectLast(viewModel.setAllMediaList(categoryId))
+                { allMediaAdapter.submitData(it) }
             }
         }
     }
-
 
     private fun setSnapSize(footerAdapter: LoadUIStateAdapter) {
         val mManager = binding.recyclerMedia.layoutManager as GridLayoutManager
@@ -67,13 +64,6 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
                 }
             }
         }
-    }
-
-
-    private suspend fun setAllMedia(itemsPagingData: PagingData<Media>) {
-//        allMediaAdapter.submitData(lifecycle, PagingData.empty())
-        allMediaAdapter.submitData(lifecycle, itemsPagingData)
-//        allMediaAdapter.submitData(itemsPagingData)
     }
 
     private fun observeEvents() {
