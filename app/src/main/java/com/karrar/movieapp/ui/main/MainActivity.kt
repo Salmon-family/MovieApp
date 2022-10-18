@@ -8,7 +8,6 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -21,8 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController
-    private lateinit var navHostFragment: NavHostFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,10 +56,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setNavigationController(navController: NavController) {
-        navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        this.navController = navHostFragment.navController
-
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             NavigationUI.onNavDestinationSelected(item, navController)
             navController.popBackStack(item.itemId, inclusive = false)
