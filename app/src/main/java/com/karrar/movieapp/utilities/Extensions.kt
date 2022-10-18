@@ -8,12 +8,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.*
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.ResultDto
 import com.karrar.movieapp.databinding.ChipItemCategoryBinding
 import com.karrar.movieapp.domain.models.Genre
+import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
+import com.karrar.movieapp.ui.base.BasePagingAdapter
 import com.karrar.movieapp.ui.category.CategoryInteractionListener
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -22,11 +25,15 @@ import kotlinx.coroutines.launch
 fun <T> MutableLiveData<T>.toLiveData(): LiveData<T> {
     return this
 }
+
 fun <T> MutableLiveData<Event<T>>.postEvent(content: T) {
     postValue(Event(content))
 }
 
-inline fun <T> LiveData<Event<T>>.observeEvent(owner: LifecycleOwner, crossinline onEventUnhandledContent: (T) -> Unit) {
+inline fun <T> LiveData<Event<T>>.observeEvent(
+    owner: LifecycleOwner,
+    crossinline onEventUnhandledContent: (T) -> Unit
+) {
     observe(owner) { it?.getContentIfNotHandled()?.let(onEventUnhandledContent) }
 }
 
@@ -52,7 +59,7 @@ fun List<ResultDto?>.getKey(): String? =
 
 fun MyListsDto.checkIfExist(movie_id: Int): Boolean {
     this.items?.map {
-        if (it?.id == movie_id){
+        if (it?.id == movie_id) {
             return true
         }
     }
@@ -82,6 +89,20 @@ fun <T> LifecycleOwner.collect(flow: Flow<T>, action: suspend (T) -> Unit) {
             flow.collect {
                 action.invoke(it)
             }
+        }
+    }
+}
+
+fun <T : Any> GridLayoutManager.setSpanSize(
+    footerAdapter: LoadUIStateAdapter,
+    adapter: BasePagingAdapter<T>,
+    spanCount: Int
+) {
+    this.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int {
+            return if ((position == adapter.itemCount)
+                && footerAdapter.itemCount > 0
+            ) { spanCount } else { 1 }
         }
     }
 }
