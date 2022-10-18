@@ -2,15 +2,12 @@ package com.karrar.movieapp.utilities
 
 import android.content.res.Resources
 import android.graphics.Rect
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.*
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.response.MyListsDto
@@ -18,7 +15,6 @@ import com.karrar.movieapp.data.remote.response.trailerVideosDto.ResultDto
 import com.karrar.movieapp.databinding.ChipItemCategoryBinding
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.category.CategoryInteractionListener
-import com.karrar.movieapp.ui.home.adapter.PopularMovieAdapter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -92,23 +88,4 @@ fun <T> LifecycleOwner.collect(flow: Flow<T>, action: suspend (T) -> Unit) {
             }
         }
     }
-}
-
-fun PopularMovieAdapter.automaticLoop(recycler: RecyclerView, timer: Long) {
-    val handler = Handler(Looper.getMainLooper())
-    val runnable = object : Runnable {
-        var count = 0
-
-        override fun run() {
-            if (count < this@automaticLoop.itemCount) {
-                recycler.scrollToPosition(count++)
-                handler.postDelayed(this, timer)
-
-                if (count == this@automaticLoop.itemCount) {
-                    count = 0
-                }
-            }
-        }
-    }
-    handler.postDelayed(runnable, timer)
 }

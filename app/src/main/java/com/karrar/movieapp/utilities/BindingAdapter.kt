@@ -7,7 +7,9 @@ import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
 import coil.load
+import com.bekawestberg.loopinglayout.library.LoopingLayoutManager
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
@@ -80,9 +82,18 @@ fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
 }
 
 @BindingAdapter(value = ["app:usePagerSnapHelper"])
-fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, adapter: PopularMovieAdapter) {
-    adapter.automaticLoop(recycler, 2000L)
-    PagerSnapHelper().attachToRecyclerView(recycler)
+fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolean = false) {
+    recycler.apply {
+        layoutManager = LoopingLayoutManager(
+            recycler.context,
+            LoopingLayoutManager.HORIZONTAL,
+            false
+        )
+
+        setHasFixedSize(true)
+    }
+    if (useSnapHelper)
+        PagerSnapHelper().attachToRecyclerView(recycler)
 }
 
 @BindingAdapter("app:genre")
