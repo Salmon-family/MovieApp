@@ -14,6 +14,7 @@ import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
 import com.karrar.movieapp.utilities.observeEvent
+import com.karrar.movieapp.utilities.setSpanSize
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,7 +34,8 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
         val footerAdapter = LoadUIStateAdapter(actorsAdapter::retry)
         binding.recyclerViewActors.adapter = actorsAdapter.withLoadStateFooter(footerAdapter)
 
-        setSnapSize(footerAdapter)
+        val mManager = binding.recyclerViewActors.layoutManager as GridLayoutManager
+        mManager.setSpanSize(footerAdapter, actorsAdapter, mManager.spanCount)
 
         collect(flow = actorsAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it.source.refresh) })
@@ -41,20 +43,6 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
         collectLast(viewModel.trendingActors, ::setAllActors)
     }
 
-    private fun setSnapSize(footerAdapter: LoadUIStateAdapter) {
-        val mManager = binding.recyclerViewActors.layoutManager as GridLayoutManager
-        mManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if ((position == actorsAdapter.itemCount)
-                    && footerAdapter.itemCount > 0
-                ) {
-                    mManager.spanCount
-                } else {
-                    1
-                }
-            }
-        }
-    }
 
     private suspend fun setAllActors(itemsPagingData: PagingData<Actor>) {
         actorsAdapter.submitData(itemsPagingData)

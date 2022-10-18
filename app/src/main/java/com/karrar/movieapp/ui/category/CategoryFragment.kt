@@ -3,18 +3,17 @@ package com.karrar.movieapp.ui.category
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentCategoryBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.allMedia.AllMediaAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.utilities.*
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
-import com.karrar.movieapp.utilities.EventObserve
-import com.karrar.movieapp.utilities.collect
-import com.karrar.movieapp.utilities.collectLast
-import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,7 +33,9 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     private fun setMediaAdapter() {
         val footerAdapter = LoadUIStateAdapter(allMediaAdapter::retry)
         binding.recyclerMedia.adapter = allMediaAdapter.withLoadStateFooter(footerAdapter)
-        setSnapSize(footerAdapter)
+
+        val mManager = binding.recyclerMedia.layoutManager as GridLayoutManager
+        mManager.setSpanSize(footerAdapter, allMediaAdapter, mManager.spanCount)
 
         collect(flow = allMediaAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it.source.refresh) })
@@ -44,24 +45,10 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     private fun getDataByCategory() {
         viewModel.selectedCategory.observe(viewLifecycleOwner) { categoryId ->
+            allMediaAdapter.submitData(lifecycle, PagingData.empty())
             categoryId?.let {
                 collectLast(viewModel.setAllMediaList(categoryId))
                 { allMediaAdapter.submitData(it) }
-            }
-        }
-    }
-
-    private fun setSnapSize(footerAdapter: LoadUIStateAdapter) {
-        val mManager = binding.recyclerMedia.layoutManager as GridLayoutManager
-        mManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if ((position == allMediaAdapter.itemCount)
-                    && footerAdapter.itemCount > 0
-                ) {
-                    mManager.spanCount
-                } else {
-                    1
-                }
             }
         }
     }

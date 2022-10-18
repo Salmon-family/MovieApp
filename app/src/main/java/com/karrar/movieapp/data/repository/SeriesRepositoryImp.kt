@@ -41,11 +41,6 @@ class SeriesRepositoryImp @Inject constructor(
             { ListMapper(seriesMapperContainer.mediaMapper).mapList(it.items) })
     }
 
-    override suspend fun getTvShowsByGenreID(genreId: Int): List<Media> {
-        return wrap({ service.getTvListByGenre(genreId) },
-            { ListMapper(seriesMapperContainer.mediaMapper).mapList(it.items) })
-    }
-
     override suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails {
         return wrap({ service.getTvShowDetails(tvShowId) }, { response ->
             seriesMapperContainer.tvShowDetailsMapper.map(response)
