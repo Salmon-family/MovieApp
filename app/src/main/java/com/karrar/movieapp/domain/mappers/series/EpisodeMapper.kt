@@ -12,7 +12,7 @@ class EpisodeMapper @Inject constructor() : Mapper<EpisodeDto, Episode> {
             input.id ?: 0,
             BuildConfig.IMAGE_BASE_PATH + input.stillPath,
             input.name ?: "",
-            input.airDate?.take(4) ?: "",
+            input.runtime ?: 0,
             input.airDate ?: "",
             input.voteAverage ?: 0.0,
             input.voteCount.toString(),
