@@ -116,7 +116,7 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/line"
-            app:setReleaseDate="@{item.releaseDate}"
+            android:text="@{item.releaseDate}"
             tools:text="2014" />
 
         <View

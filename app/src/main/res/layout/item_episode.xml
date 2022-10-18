@@ -49,7 +49,7 @@
             style="@style/Regular.Small.Primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:convertToHoursPattern="@{Integer.valueOf(item.episodeDuration)}"
+            app:convertToHoursPattern="@{item.episodeDuration}"
             app:layout_constraintBottom_toBottomOf="@+id/text_episode_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_episode_name"
@@ -114,15 +114,15 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_medium"
             android:text="@{item.episodeDescription}"
-            app:animDuration="500"
             app:collapsedLines="2"
+            app:animDuration="500"
             app:ellipsizeTextColor="@color/brand_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_episode"
-            app:readLessText="Read less"
             app:readMoreText="Read more"
+            app:readLessText=""
             tools:text="Jack Ryan searches for the truth behind Venezuela's transactions with various World Powers. James Greer, about to get sidelined from his new post in Russia, joins Jack in Venezuela and the two find themselves in the midst of a Venezuelan leader's re-election effort." />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

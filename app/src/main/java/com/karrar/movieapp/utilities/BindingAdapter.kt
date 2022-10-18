@@ -23,7 +23,6 @@ import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-import com.squareup.picasso.Picasso
 
 
 @BindingAdapter("app:showWhenSuccess")
@@ -145,11 +144,17 @@ fun setReleaseDate(text: TextView, date: String?) {
 }
 
 @BindingAdapter("app:convertToHoursPattern")
-fun convertToHoursPattern(text: TextView, duration: Int?) {
-    duration?.let {
-        val hours = duration / 60
-        val minutes = duration % 60
-        "$hours h $minutes min".also { text.text = it }
+fun convertToHoursPattern(view: TextView, duration: Int) {
+    duration.let {
+        val hours = (duration / 60).toString()
+        val minutes = (duration % 60).toString()
+        if (hours == "0") {
+            view.text = view.context.getString(R.string.minutes_pattern, minutes)
+        } else if (minutes == "0") {
+            view.text = view.context.getString(R.string.hours_pattern, hours)
+        } else {
+            view.text = view.context.getString(R.string.hours_minutes_pattern, hours, minutes)
+        }
     }
 }
 
@@ -171,9 +176,21 @@ fun setOverViewText(view: TextView, text: String) {
 fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
     mediaDetails?.let {
         when(mediaDetails.mediaType){
-            MediaType.MOVIE ->  view.text = view.context.getString(R.string.duration, mediaDetails.specialNumber)
+            MediaType.MOVIE ->  setDuration(view, mediaDetails.specialNumber)
             MediaType.TV_SHOW -> view.text = view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
         }
+    }
+}
+
+fun setDuration(view: TextView, duration: Int?) {
+    val hours = duration?.div(60)
+    val minutes = duration?.rem(60)
+    if (hours == 0) {
+        view.text = view.context.getString(R.string.minutes_pattern, minutes.toString())
+    } else if (minutes == 0) {
+        view.text = view.context.getString(R.string.hours_pattern, hours.toString())
+    } else {
+        view.text = view.context.getString(R.string.hours_minutes_pattern, hours.toString(), minutes.toString())
     }
 }
 
