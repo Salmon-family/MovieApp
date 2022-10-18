@@ -16,23 +16,17 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_sheet_corners">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/save_to"
-            style="@style/SemiBold.Large"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/spacing_medium"/>
-
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            android:layout_marginTop="@dimen/spacing_small"/>
+            app:title="@string/save_to"
+            app:showWhenSuccess="@{viewModel.savedList}"
+            app:titleTextColor="@color/shade_primary_color"
+            app:titleCentered="true"/>
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -44,12 +38,42 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
             android:layout_marginTop="@dimen/spacing_medium"
             android:paddingBottom="@dimen/spacing_medium"
             android:clipToPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/item_list" />
+
+        <TextView
+            android:id="@+id/text_message_wrong"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/you_must_be_logged_in_to_save_a_movie"
+            android:visibility="gone"
+            android:layout_marginVertical="@dimen/spacing_large"
+            app:showWhenFail="@{viewModel.savedList}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_message_empty_list"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/this_list_has_no_lists"
+            android:visibility="gone"
+            android:layout_marginVertical="@dimen/spacing_large"
+            app:showWhenListIsEmpty="@{viewModel.savedList.toData()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

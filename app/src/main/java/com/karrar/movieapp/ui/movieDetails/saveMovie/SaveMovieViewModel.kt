@@ -46,7 +46,7 @@ class SaveMovieViewModel @Inject constructor(
     fun checkMovie(movieId: Int) {
         wrapWithState({
             val result = movieRepository.getListDetails(_clickListEvent.value!!.peekContent())
-            if (result.checkIfExist(movieId) === true) {
+            if (result.checkIfExist(movieId)) {
                 _message.postValue("Fail: this movie is already on the list")
             }
             if (!result.checkIfExist(movieId)) addMovieToList(movieId)
