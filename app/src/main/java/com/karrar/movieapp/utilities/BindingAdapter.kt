@@ -163,6 +163,11 @@ fun <T> showWhenListIsEmpty(view: View, list: List<T>?) {
     view.isVisible = list?.isEmpty() == true
 }
 
+@BindingAdapter("app:showWhenListIsNotEmpty")
+fun <T> showWhenListIsNotEmpty(view: View, list: List<T>?) {
+    view.isVisible = list?.isNotEmpty() == true
+}
+
 @BindingAdapter("app:overviewText")
 fun setOverViewText(view: TextView, text: String) {
     if (text.isNotEmpty()) {

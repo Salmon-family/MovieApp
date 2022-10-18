@@ -24,7 +24,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:title="@string/save_to"
-            app:showWhenSuccess="@{viewModel.savedList}"
+            android:visibility="gone"
+            app:showWhenListIsNotEmpty="@{viewModel.savedList.toData()}"
             app:titleTextColor="@color/shade_primary_color"
             app:titleCentered="true"/>
 
