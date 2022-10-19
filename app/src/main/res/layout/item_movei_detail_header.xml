@@ -114,7 +114,6 @@
             app:layout_constraintEnd_toStartOf="@+id/line"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/line"
             android:text="@{item.releaseDate}"
             tools:text="2014" />
@@ -125,9 +124,9 @@
             android:layout_height="16dp"
             android:layout_marginTop="@dimen/spacing_medium"
             android:background="@color/shade_ternary_color"
-            app:layout_constraintEnd_toStartOf="@+id/duration"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/release_date"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movie_name" />
 
         <TextView
@@ -137,7 +136,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_small"
             app:layout_constraintBottom_toBottomOf="@+id/line"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/line"
             app:layout_constraintTop_toTopOf="@+id/line"
