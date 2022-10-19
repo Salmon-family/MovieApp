@@ -13,7 +13,7 @@ class MovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsDto, MovieDe
             input.id ?: 0,
             BuildConfig.IMAGE_BASE_PATH + input.posterPath,
             input.title ?: "",
-            input.releaseDate?.take(4) ?: "unknown",
+            input.releaseDate ?: "unknown",
             input.genres?.map { it?.name }?.joinToString(" , ") ?: "unknown",
             input.runtime ?: 0,
             input.voteCount ?: 0,

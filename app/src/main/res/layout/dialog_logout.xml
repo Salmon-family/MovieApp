@@ -27,7 +27,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:text="@string/are_you_sure"
-                app:hideWhenLoading="@{viewModel.requestState}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -39,7 +38,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:text="@string/you_re_about_to_sign_out_of_your_account"
-                app:hideWhenLoading="@{viewModel.requestState}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_confirmation" />
@@ -56,7 +54,6 @@
                 android:paddingVertical="@dimen/spacing_small"
                 android:text="@string/logout"
                 android:textColor="@color/brand_color"
-                app:hideWhenLoading="@{viewModel.requestState}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_confirmation_message" />
@@ -72,24 +69,9 @@
                 android:paddingHorizontal="@dimen/spacing_small"
                 android:paddingVertical="@dimen/spacing_small"
                 android:text="@string/cancel"
-                app:hideWhenLoading="@{viewModel.requestState}"
                 app:layout_constraintBottom_toBottomOf="@+id/text_sign_out_action"
                 app:layout_constraintEnd_toStartOf="@+id/text_sign_out_action"
                 app:layout_constraintTop_toTopOf="@+id/text_sign_out_action" />
-
-
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/spacing_medium"
-                android:indeterminate="true"
-                app:indicatorColor="@color/brand_color"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:showWhenLoading="@{viewModel.requestState}"
-                app:trackColor="@color/shade_secondary_color" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

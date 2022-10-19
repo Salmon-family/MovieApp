@@ -15,19 +15,15 @@ import javax.inject.Inject
 @HiltViewModel
 class LogoutViewModel @Inject constructor(private val accountRepository: AccountRepository) :
     ViewModel() {
-    private val _clickLoginEvent = MutableLiveData<Event<Boolean>>()
-    val clickLoginEvent = _clickLoginEvent.toLiveData()
+    private val _clickLogoutEvent = MutableLiveData<Event<Boolean>>()
+    val clickLoginEvent = _clickLogoutEvent.toLiveData()
 
     private val _closeDialogEvent = MutableLiveData<Event<Boolean>>()
     val closeDialogEvent = _closeDialogEvent.toLiveData()
 
-    private val _requestState = MutableLiveData<UIState<Boolean>>()
-    val requestState = _requestState.toLiveData()
-
     fun onLogout() {
         viewModelScope.launch {
             accountRepository.logout().collect {
-                _requestState.postValue(it)
                 logoutEvent(it)
             }
         }
@@ -38,8 +34,8 @@ class LogoutViewModel @Inject constructor(private val accountRepository: Account
     }
 
     private fun logoutEvent(state: UIState<Boolean>) {
-        if (state is UIState.Success){
-            _clickLoginEvent.postEvent(true)
+        if (state is UIState.Success || state is UIState.Error) {
+            _clickLogoutEvent.postEvent(true)
         }
     }
 }

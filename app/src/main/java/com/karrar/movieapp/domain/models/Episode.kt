@@ -4,7 +4,7 @@ data class Episode(
     val episodeId: Int,
     val imageUrl: String,
     val episodeName: String,
-    val episodeDuration: String,
+    val episodeDuration: Int,
     val episodeDate: String,
     val episodeRate: Double,
     val episodeTotalReviews: String,
