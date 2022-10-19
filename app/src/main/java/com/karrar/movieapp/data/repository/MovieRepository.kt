@@ -1,6 +1,7 @@
 package com.karrar.movieapp.data.repository
 
 import androidx.paging.Pager
+import androidx.paging.PagingData
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.response.AddListResponse
@@ -61,11 +62,11 @@ interface MovieRepository {
     suspend fun addMovieToList(sessionId: String, listId: Int, movieId: Int): AddMovieDto
 
 
-    suspend fun searchForMovie(query: String): Pager<Int,Media>
+    fun searchForMovie(query: String): Flow<PagingData<Media>>
 
-    suspend fun searchForSeries(query: String): Pager<Int,Media>
+    fun searchForSeries(query: String): Flow<PagingData<Media>>
 
-    suspend fun searchForActor(query: String): Pager<Int,Media>
+    fun searchForActor(query: String): Flow<PagingData<Media>>
 
     fun getAllSearchHistory(): Flow<List<SearchHistory>>
 

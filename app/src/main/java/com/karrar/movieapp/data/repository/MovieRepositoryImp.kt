@@ -2,6 +2,7 @@ package com.karrar.movieapp.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
@@ -170,26 +171,26 @@ class MovieRepositoryImp @Inject constructor(
      * searching
      * */
 
-    override suspend fun searchForMovie(query: String): Pager<Int,Media> {
+    override fun searchForMovie(query: String): Flow<PagingData<Media>> {
         val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
         val dataSource = searchDataSourceContainer.movieSearchDataSource
         dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource})
+        return Pager(config = config, pagingSourceFactory = {dataSource}).flow
     }
 
-    override suspend fun searchForSeries(query: String): Pager<Int,Media> {
+    override fun searchForSeries(query: String): Flow<PagingData<Media>> {
         val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
         val dataSource = searchDataSourceContainer.seriesSearchDataSource
         dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource})
+        return Pager(config = config, pagingSourceFactory = {dataSource}).flow
     }
 
     //should remove empty list ...
-    override suspend fun searchForActor(query: String): Pager<Int,Media> {
+    override fun searchForActor(query: String): Flow<PagingData<Media>> {
         val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
         val dataSource = searchDataSourceContainer.actorSearchDataSource
         dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource})
+        return Pager(config = config, pagingSourceFactory = {dataSource}).flow
     }
 
     override fun getAllSearchHistory(): Flow<List<SearchHistory>> {

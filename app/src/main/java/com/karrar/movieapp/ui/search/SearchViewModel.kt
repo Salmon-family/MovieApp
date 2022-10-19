@@ -2,9 +2,7 @@ package com.karrar.movieapp.ui.search
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.paging.LoadState
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
+import androidx.paging.*
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Media
@@ -21,7 +19,6 @@ import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,9 +28,7 @@ class SearchViewModel @Inject constructor(
 ) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener,
     SearchHistoryInteractionListener {
 
-    lateinit var media: Flow<PagingData<Media>>
-
-    private val _mediaState = MutableLiveData<UIState<Boolean>>(UIState.Loading)
+    private val _mediaState = MutableLiveData<UIState<Boolean>>()
     val mediaState = _mediaState.toLiveData()
 
     private val _searchHistory = MutableLiveData<List<SearchHistory>>()
@@ -56,17 +51,7 @@ class SearchViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            media = movieRepository.searchForMovie(searchText.value).flow.cachedIn(viewModelScope)
             getAllSearchHistory()
-            searchText.debounce(1000).collect {
-                if (searchText.value.isNotBlank()) {
-                    when (mediaType.value) {
-                        Constants.MOVIE -> searchForMovie(it)
-                        Constants.TV_SHOWS -> searchForSeries(it)
-                        Constants.ACTOR -> searchForActor(it)
-                    }
-                }
-            }
         }
     }
 
@@ -74,29 +59,22 @@ class SearchViewModel @Inject constructor(
         _clickRetryEvent.postEvent(true)
     }
 
-    private fun searchForActor(text: String) {
-        viewModelScope.launch {
-            media = movieRepository.searchForActor(text).flow.cachedIn(viewModelScope)
-        }
+    fun searchForActor(text: String): Flow<PagingData<Media>> {
+        return movieRepository.searchForActor(text)
     }
 
-    private fun searchForMovie(text: String) {
-        viewModelScope.launch {
-            media = movieRepository.searchForMovie(text).flow.cachedIn(viewModelScope)
-        }
+    fun searchForMovie(text: String): Flow<PagingData<Media>> {
+        return movieRepository.searchForMovie(text)
     }
 
-    private fun searchForSeries(text: String) {
-        viewModelScope.launch {
-            media = movieRepository.searchForSeries(text).flow.cachedIn(viewModelScope)
-        }
+    fun searchForSeries(text: String): Flow<PagingData<Media>> {
+        return movieRepository.searchForSeries(text)
     }
 
     fun onClickMovies() {
         viewModelScope.launch {
             if (mediaType.value != Constants.MOVIE) {
                 mediaType.emit(Constants.MOVIE)
-                searchForMovie(searchText.value)
             }
         }
     }
@@ -105,7 +83,6 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             if (mediaType.value != Constants.TV_SHOWS) {
                 mediaType.emit(Constants.TV_SHOWS)
-                searchForSeries(searchText.value)
             }
         }
     }
@@ -114,7 +91,6 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             if (mediaType.value != Constants.ACTOR) {
                 mediaType.emit(Constants.PERSON)
-                searchForActor(searchText.value)
             }
         }
     }
@@ -158,15 +134,13 @@ class SearchViewModel @Inject constructor(
         _clickBackEvent.postEvent(true)
     }
 
-    fun setErrorUiState(loadState: LoadState) {
-        val result = if (loadState is LoadState.Error) {
-            loadState.error.message ?: "Error"
-        } else null
-
-        if (!result.isNullOrBlank()) {
-            _mediaState.postValue(UIState.Error(result))
-        } else {
-            _mediaState.postValue(UIState.Success(true))
+    fun setUiState(loadState: LoadState) {
+        when (loadState) {
+            is LoadState.Loading -> _mediaState.postValue(UIState.Loading)
+            is LoadState.Error -> _mediaState.postValue(UIState.Error(""))
+            else -> {
+                _mediaState.postValue(UIState.Success(true))
+            }
         }
     }
 }

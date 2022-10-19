@@ -8,14 +8,14 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentSearchBinding
-import com.karrar.movieapp.domain.models.Actor
-import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.search.adapters.MediaSearchAdapter
@@ -26,13 +26,15 @@ import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     override val layoutIdFragment: Int = R.layout.fragment_search
     override val viewModel: SearchViewModel by viewModels()
-    private val mediaSearchAdapter by lazy {MediaSearchAdapter(viewModel)}
+    private val mediaSearchAdapter by lazy { MediaSearchAdapter(viewModel) }
     private val actorSearchAdapter by lazy { ActorSearchAdapter(viewModel) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,8 +118,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.recyclerMedia.layoutManager = LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
 
         collect(flow = mediaSearchAdapter.loadStateFlow,
-                action = {viewModel.setErrorUiState(it.source.refresh)})
-        collectLast(viewModel.media, ::setAllMedia)
+                action = {viewModel.setUiState(it.source.refresh)})
+
+        getSearchResults()
     }
 
     private fun bindActors() {
@@ -128,17 +131,35 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         setSpanSize(footerAdapter)
 
         collect(flow = actorSearchAdapter.loadStateFlow,
-                action = {viewModel.setErrorUiState(it.source.refresh)})
+                action = {viewModel.setUiState(it.source.refresh)})
 
-        collectLast(viewModel.media, ::setAllActors)
+        getSearchResults()
     }
 
-    private suspend fun setAllMedia(itemsPagingData: PagingData<Media>){
-        mediaSearchAdapter.submitData(itemsPagingData)
-    }
-
-    private suspend fun setAllActors(itemsPagingData: PagingData<Media>){
-        actorSearchAdapter.submitData(itemsPagingData)
+    private fun getSearchResults(){
+        lifecycleScope.launch {
+            viewModel.searchText.debounce(1000).collect{ search ->
+                if (search.isNotBlank()) {
+                    when (viewModel.mediaType.value) {
+                        Constants.MOVIE -> {
+                            mediaSearchAdapter.submitData(lifecycle, PagingData.empty())
+                            collectLast(viewModel.searchForMovie(search))
+                            {mediaSearchAdapter.submitData(it)}
+                        }
+                        Constants.TV_SHOWS -> {
+                            mediaSearchAdapter.submitData(lifecycle, PagingData.empty())
+                            collectLast(viewModel.searchForSeries(search))
+                            {mediaSearchAdapter.submitData(it)}
+                        }
+                        Constants.ACTOR -> {
+                            actorSearchAdapter.submitData(lifecycle, PagingData.empty())
+                            collectLast(viewModel.searchForActor(search))
+                            {actorSearchAdapter.submitData(it)}
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun setSpanSize(footerAdapter: LoadUIStateAdapter) {

@@ -39,10 +39,15 @@ class MovieSearchDataSource @Inject constructor(
         val pageNumber = params.key ?: 1
         return try {
             val response = service.searchForMovie(movieSearchText, pageNumber)
+            val pagedResponse = response.body()
+            var nextPageNumber: Int? = null
+            if(pagedResponse?.page!! < pagedResponse.totalPages!!){
+                nextPageNumber = pagedResponse.page?.plus(1)
+            }
             LoadResult.Page(
                 data = ListMapper(mapper).mapList(response.body()?.items),
                 prevKey = null,
-                nextKey = response.body()?.page?.plus(1)
+                nextKey = nextPageNumber
             )
         }catch (e: Throwable){
             LoadResult.Error(e)
@@ -64,10 +69,15 @@ class SeriesSearchDataSource @Inject constructor(
         val pageNumber = params.key ?: 1
         return try {
             val response = service.searchForSeries(seriesSearchText, pageNumber)
+            val pagedResponse = response.body()
+            var nextPageNumber: Int? = null
+            if(pagedResponse?.page!! < pagedResponse.totalPages!!){
+                nextPageNumber = pagedResponse.page?.plus(1)
+            }
             LoadResult.Page(
                 data = ListMapper(mapper).mapList(response.body()?.items),
                 prevKey = null,
-                nextKey = response.body()?.page?.plus(1)
+                nextKey = nextPageNumber
             )
         }catch (e: Throwable){
             LoadResult.Error(e)
@@ -89,10 +99,15 @@ class ActorSearchDataSource @Inject constructor(
         val pageNumber = params.key ?: 1
         return try {
             val response = service.searchForActor(actorSearchText, pageNumber)
+            val pagedResponse = response.body()
+            var nextPageNumber: Int? = null
+            if(pagedResponse?.page!! < pagedResponse.totalPages!!){
+                nextPageNumber = pagedResponse.page?.plus(1)
+            }
             LoadResult.Page(
                 data = ListMapper(mapper).mapList(response.body()?.items),
                 prevKey = null,
-                nextKey = response.body()?.page?.plus(1)
+                nextKey = nextPageNumber
             )
         }catch (e: Throwable){
             LoadResult.Error(e)
