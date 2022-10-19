@@ -1,6 +1,5 @@
 package com.karrar.movieapp.utilities
 
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -56,12 +55,19 @@ fun <T> showWhenFail2(view: View, state: UIState<T>?) {
 
 @BindingAdapter(value = ["app:showWhenSearch"])
 fun showWhenSearch(view: View, text: String){
-    view.isVisible = !text.isNullOrEmpty()
+    view.isVisible = text.isNotBlank()
 }
 
 @BindingAdapter(value = ["app:hideWhenSearch"])
 fun hideWhenSearch(view: View, text: String){
-    view.isVisible = text.isNullOrEmpty()
+    view.isVisible = text.isBlank()
+}
+
+@BindingAdapter(value = ["app:hideWhenBlankSearch"])
+fun hideWhenBlankSearch(view: View, text: String){
+    if(text.isBlank()){
+        view.visibility = View.INVISIBLE
+    }
 }
 
 @BindingAdapter("app:posterImage")
@@ -96,7 +102,7 @@ fun setGenre(textView: TextView, genreList: List<Genre>?) {
 @BindingAdapter("app:setGenres", "app:genresId", "app:listener", "app:firstChipSelection")
 fun <T> setGenresChips(
     view: ChipGroup,
-    chipList: UIState<List<Genre>>?,
+    chipList: List<Genre>?,
     categoryId: Int?,
     listener: T,
     isFirstChipSelected: Boolean?
@@ -104,13 +110,13 @@ fun <T> setGenresChips(
     val allMedia = Genre(FIRST_CATEGORY_ID, ALL)
     when (categoryId) {
         MOVIE_CATEGORIES_ID -> {
-            chipList?.toData()?.let {
+            chipList?.let {
                 view.addView(view.createChip(allMedia, listener))
                 it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
             }
         }
         TV_CATEGORIES_ID -> {
-            chipList?.toData()?.let {
+            chipList?.let {
                 view.addView(view.createChip(allMedia, listener))
                 it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
             }
@@ -146,17 +152,28 @@ fun setReleaseDate(text: TextView, date: String?) {
 }
 
 @BindingAdapter("app:convertToHoursPattern")
-fun convertToHoursPattern(text: TextView, duration: Int?) {
-    duration?.let {
-        val hours = duration / 60
-        val minutes = duration % 60
-        "$hours h $minutes min".also { text.text = it }
+fun convertToHoursPattern(view: TextView, duration: Int) {
+    duration.let {
+        val hours = (duration / 60).toString()
+        val minutes = (duration % 60).toString()
+        if (hours == "0") {
+            view.text = view.context.getString(R.string.minutes_pattern, minutes)
+        } else if (minutes == "0") {
+            view.text = view.context.getString(R.string.hours_pattern, hours)
+        } else {
+            view.text = view.context.getString(R.string.hours_minutes_pattern, hours, minutes)
+        }
     }
 }
 
 @BindingAdapter("app:showWhenListIsEmpty")
 fun <T> showWhenListIsEmpty(view: View, list: List<T>?) {
     view.isVisible = list?.isEmpty() == true
+}
+
+@BindingAdapter("app:showWhenListIsNotEmpty")
+fun <T> showWhenListIsNotEmpty(view: View, list: List<T>?) {
+    view.isVisible = list?.isNotEmpty() == true
 }
 
 @BindingAdapter("app:overviewText")
@@ -172,9 +189,21 @@ fun setOverViewText(view: TextView, text: String) {
 fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
     mediaDetails?.let {
         when(mediaDetails.mediaType){
-            MediaType.MOVIE ->  view.text = view.context.getString(R.string.duration, mediaDetails.specialNumber)
+            MediaType.MOVIE ->  setDuration(view, mediaDetails.specialNumber)
             MediaType.TV_SHOW -> view.text = view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
         }
+    }
+}
+
+fun setDuration(view: TextView, duration: Int?) {
+    val hours = duration?.div(60)
+    val minutes = duration?.rem(60)
+    if (hours == 0) {
+        view.text = view.context.getString(R.string.minutes_pattern, minutes.toString())
+    } else if (minutes == 0) {
+        view.text = view.context.getString(R.string.hours_pattern, hours.toString())
+    } else {
+        view.text = view.context.getString(R.string.hours_minutes_pattern, hours.toString(), minutes.toString())
     }
 }
 

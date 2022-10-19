@@ -20,9 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/plus_jakarta_sans_semibold"
-            android:text="Create a new list"
-            android:textColor="@color/shade_primary_color"
-            android:textSize="@dimen/spacing_large"
+            android:text="@string/create_a_new_list"
+            style="@style/SemiBold.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -58,8 +57,9 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:fontFamily="@font/plus_jakarta_sans_regular"
-                android:maxLength="60"
+                android:maxLength="15"
                 android:maxLines="1"
+                android:textCursorDrawable="@drawable/color_cursor"
                 android:text="@={viewModel.listName}"
                 android:textColor="@color/shade_primary_color" />
 

@@ -14,10 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentSearchBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.search.adapters.MediaSearchAdapter
 import com.karrar.movieapp.ui.search.adapters.PersonAdapter
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryAdapter
 import com.karrar.movieapp.utilities.Constants
-import com.karrar.movieapp.utilities.EventObserve
+import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -50,44 +51,47 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun observeEvents() {
-        navigateToMovieDetails()
-        navigateToSeriesDetails()
-        navigateToActorDetails()
-        backToExplore()
-    }
 
-    private fun navigateToMovieDetails() {
-        if (viewModel.mediaType.value == Constants.MOVIE) {
-            viewModel.clickMediaEvent.observe(viewLifecycleOwner, EventObserve {
-                findNavController().navigate(
-                    SearchFragmentDirections.actionSearchFragmentToMovieDetailFragment(
-                        it
-                    )
-                )
-            })
+        viewModel.clickMediaEvent.observeEvent(viewLifecycleOwner) {
+            when (it.mediaType) {
+                Constants.MOVIE -> navigateToMovieDetails(it.mediaID)
+
+                Constants.TV_SHOWS -> navigateToSeriesDetails(it.mediaID)
+            }
+        }
+
+        viewModel.clickActorEvent.observeEvent(viewLifecycleOwner) { actorID ->
+            navigateToActorDetails(actorID)
+        }
+
+        viewModel.clickBackEvent.observeEvent(viewLifecycleOwner) {
+            popFragment()
         }
     }
 
-    private fun navigateToSeriesDetails() {
-        if (viewModel.mediaType.value == Constants.TV_SHOWS) {
-            viewModel.clickMediaEvent.observe(viewLifecycleOwner, EventObserve {
-                findNavController().navigate(
-                    SearchFragmentDirections.actionSearchFragmentToTvShowDetailsFragment(
-                        it
-                    )
-                )
-            })
-        }
-    }
-
-    private fun navigateToActorDetails() {
-        viewModel.clickActorEvent.observe(viewLifecycleOwner, EventObserve { actorID ->
-            findNavController().navigate(
-                SearchFragmentDirections.actionSearchFragmentToActorDetailsFragment(
-                    actorID
-                )
+    private fun navigateToMovieDetails(movieId: Int) {
+        findNavController().navigate(
+            SearchFragmentDirections.actionSearchFragmentToMovieDetailFragment(
+                movieId
             )
-        })
+        )
+    }
+
+    private fun navigateToSeriesDetails(seriesId: Int) {
+        findNavController().navigate(
+            SearchFragmentDirections.actionSearchFragmentToTvShowDetailsFragment(
+                seriesId
+            )
+        )
+    }
+
+
+    private fun navigateToActorDetails(actorId: Int) {
+        findNavController().navigate(
+            SearchFragmentDirections.actionSearchFragmentToActorDetailsFragment(
+                actorId
+            )
+        )
     }
 
     private fun bindMedia() {
@@ -105,9 +109,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         }
     }
 
-    private fun backToExplore() {
-        viewModel.clickBackEvent.observe(viewLifecycleOwner, EventObserve {
-            findNavController().popBackStack()
-        })
+    private fun popFragment() {
+        findNavController().popBackStack()
     }
 }

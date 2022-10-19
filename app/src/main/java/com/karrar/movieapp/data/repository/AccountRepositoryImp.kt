@@ -54,18 +54,19 @@ class AccountRepositoryImp @Inject constructor(
 
     override suspend fun logout(): Flow<UIState<Boolean>> {
         return flow {
-            emit(UIState.Loading)
             try {
                 getSessionId().collect{
                     val logout = service.logout(it.toString())
-                    if (logout.isSuccessful){
+                    if (logout.isSuccessful) {
                         appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
                         emit(UIState.Success(true))
                     } else {
-                        emit(UIState.Error("There is an error"))
+                        appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
+                        emit(UIState.Error("Logout Failed"))
                     }
                 }
             } catch (e: Exception) {
+                appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
                 emit(UIState.Error(e.message.toString()))
             }
         }

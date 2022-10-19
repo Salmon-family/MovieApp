@@ -7,7 +7,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentActorDetailsBinding
-import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.ui.adapters.MovieAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
@@ -33,13 +32,13 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
 
     private fun observeEvents() {
         viewModel.backEvent.observe(viewLifecycleOwner, EventObserve { removeFragment() })
-        viewModel.seeAllMovies.observe(viewLifecycleOwner, EventObserve { seeAllMovies() })
+        viewModel.seeAllMovies.observe(viewLifecycleOwner, EventObserve { navigateToActorMovies() })
         viewModel.clickMovieEvent.observe(
             viewLifecycleOwner,
             EventObserve { movieID -> seeMovieDetails(movieID) })
     }
 
-    private fun seeAllMovies() {
+    private fun navigateToActorMovies() {
         Navigation.findNavController(binding.root)
             .navigate(
                 ActorDetailsFragmentDirections.actionActorDetailsFragmentToAllMovieOfActorFragment(

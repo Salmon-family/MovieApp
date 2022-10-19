@@ -7,9 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.profile.ProfileViewModel"
-            />
-
+            type="com.karrar.movieapp.ui.profile.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,8 +28,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:posterImage="@{viewModel.profileDetails.toData().avatarPath}"
             app:shapeAppearanceOverlay="@style/Circle"
-            tools:src="@drawable/actor"
-            />
+            tools:background="@drawable/actor" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_name_actor"

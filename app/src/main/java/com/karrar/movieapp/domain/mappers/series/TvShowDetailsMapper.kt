@@ -16,7 +16,7 @@ class TvShowDetailsMapper @Inject constructor(
             input.id ?: 0,
             BuildConfig.IMAGE_BASE_PATH + input.posterPath,
             input.name ?: "",
-            input.firstAirDate?.take(4) ?: "unknown",
+            input.firstAirDate ?: "unknown",
             input.genres?.map { it?.name }?.joinToString(", ") ?: "unknown",
             input.numberOfSeasons ?: 0,
             input.voteCount ?: 0,

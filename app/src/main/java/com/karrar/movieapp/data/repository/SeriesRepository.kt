@@ -16,10 +16,6 @@ interface SeriesRepository {
 
     suspend fun getPopularTvShow(page: Int = 1): List<Media>
 
-    suspend fun getTvShowsByGenreID(genreId: Int): List<Media>
-
-    suspend fun getAllTvShows(): List<Media>
-
     suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails
 
     suspend fun getTvShowCast(tvShowId: Int): List<Actor>

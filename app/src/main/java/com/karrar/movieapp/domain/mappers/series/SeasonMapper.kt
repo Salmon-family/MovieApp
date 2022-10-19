@@ -14,7 +14,7 @@ class SeasonMapper @Inject constructor(
             input.id ?: 0,
             BuildConfig.IMAGE_BASE_PATH + input.posterPath,
             input.name ?: "",
-            input.airDate?.take(4) ?: "",
+            input.airDate ?: "",
             input.seasonNumber ?: 0,
             input.episodeCount ?: 0,
             input.overview ?: "",

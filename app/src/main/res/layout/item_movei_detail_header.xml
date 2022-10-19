@@ -47,13 +47,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:background="@drawable/back_icon_shape"
             android:layout_marginTop="16dp"
             android:onClick="@{() -> listener.onclickBack()}"
             android:padding="@dimen/spacing_small"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/shade_primary_color" />
+            app:tint="@color/background_color" />
 
 
         <ImageButton
@@ -84,6 +85,7 @@
             android:textAllCaps="false"
             app:cornerRadius="@dimen/spacing_large"
             app:icon="@drawable/ic_play_filled"
+            app:iconTint="@color/white_primary"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,9 +114,8 @@
             app:layout_constraintEnd_toStartOf="@+id/line"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/line"
-            app:setReleaseDate="@{item.releaseDate}"
+            android:text="@{item.releaseDate}"
             tools:text="2014" />
 
         <View
@@ -123,9 +124,9 @@
             android:layout_height="16dp"
             android:layout_marginTop="@dimen/spacing_medium"
             android:background="@color/shade_ternary_color"
-            app:layout_constraintEnd_toStartOf="@+id/duration"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/release_date"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movie_name" />
 
         <TextView
@@ -135,7 +136,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_small"
             app:layout_constraintBottom_toBottomOf="@+id/line"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/line"
             app:layout_constraintTop_toTopOf="@+id/line"

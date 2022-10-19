@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.search
+package com.karrar.movieapp.ui.search.adapters
 
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.models.Media
@@ -11,5 +11,5 @@ class MediaSearchAdapter(items: List<Media>, listener: MediaSearchInteractionLis
 }
 
 interface MediaSearchInteractionListener : BaseInteractionListener {
-    fun onClickMedia(mediaID: Int, name: String)
+    fun onClickMedia(media: Media)
 }

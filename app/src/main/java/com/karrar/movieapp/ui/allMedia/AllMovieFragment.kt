@@ -15,6 +15,7 @@ import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
 import com.karrar.movieapp.utilities.observeEvent
+import com.karrar.movieapp.utilities.setSpanSize
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,7 +34,9 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
     private fun setMovieAdapter() {
         val footerAdapter = LoadUIStateAdapter(allMediaAdapter::retry)
         binding.recyclerMedia.adapter = allMediaAdapter.withLoadStateFooter(footerAdapter)
-        setSnapSize(footerAdapter)
+
+        val mManager = binding.recyclerMedia.layoutManager as GridLayoutManager
+        mManager.setSpanSize(footerAdapter, allMediaAdapter, mManager.spanCount)
 
         collect(flow = allMediaAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it.source.refresh) })
@@ -41,20 +44,6 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
         collectLast(viewModel.allMedia, ::setAllMedia)
     }
 
-    private fun setSnapSize(footerAdapter: LoadUIStateAdapter) {
-        val mManager = binding.recyclerMedia.layoutManager as GridLayoutManager
-        mManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if ((position == allMediaAdapter.itemCount)
-                    && footerAdapter.itemCount > 0
-                ) {
-                    mManager.spanCount
-                } else {
-                    1
-                }
-            }
-        }
-    }
 
     private suspend fun setAllMedia(itemsPagingData: PagingData<Media>) {
         allMediaAdapter.submitData(itemsPagingData)
@@ -78,10 +67,11 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
         viewModel.backEvent.observeEvent(viewLifecycleOwner) { removeFragment() }
 
         viewModel.clickRetryEvent.observeEvent(viewLifecycleOwner) {
-            if (it) { allMediaAdapter.retry() }
+            if (it) {
+                allMediaAdapter.retry()
+            }
         }
     }
-
 
     private fun removeFragment() {
         findNavController().popBackStack()
@@ -91,6 +81,7 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
         return when (type) {
             AllMediaType.ON_THE_AIR -> resources.getString(R.string.title_on_air)
             AllMediaType.AIRING_TODAY -> resources.getString(R.string.title_airing_today)
+            AllMediaType.LATEST -> resources.getString(R.string.latest)
             AllMediaType.POPULAR -> resources.getString(R.string.popular)
             AllMediaType.TOP_RATED -> resources.getString(R.string.title_top_rated_tv_show)
             AllMediaType.TRENDING -> resources.getString(R.string.title_trending)
