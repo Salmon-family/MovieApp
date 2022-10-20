@@ -1,14 +1,11 @@
 package com.karrar.movieapp.ui.profile
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.domain.models.Account
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.postEvent
-import com.karrar.movieapp.utilities.toLiveData
+import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -32,8 +29,6 @@ class ProfileViewModel @Inject constructor(
     private val _clickWatchHistoryEvent = MutableLiveData<Event<Boolean>>()
     val clickWatchHistoryEvent = _clickWatchHistoryEvent.toLiveData()
 
-    private val _isLogIn = MutableLiveData<Boolean>()
-    val isLogIn = _isLogIn.toLiveData()
 
     init {
         getData()
@@ -42,21 +37,24 @@ class ProfileViewModel @Inject constructor(
     override fun getData() {
         _profileDetails.postValue(UIState.Loading)
         wrapWithState({
-            accountRepository.getSessionId().collect { sectionId ->
-                checkIfLogIn(sectionId)
-                val result = accountRepository.getAccountDetails(sectionId.toString())
-                _profileDetails.postValue(UIState.Success(result))
+            accountRepository.getSessionId().collect { sessionId ->
+                val result = accountRepository.getAccountDetails(sessionId.toString())
+                _profileDetails.value = UIState.Success(result)
+                checkIfLogIn(sessionId)
             }
-        }, { _profileDetails.postValue(UIState.Error(it.message.toString()))
+        }, { _profileDetails.value = UIState.Error(it.message.toString())
+            checkTheError()
         })
     }
 
+    private fun checkTheError() {
+        if (_profileDetails.value  == UIState.Error("response is not successful"))
+            _profileDetails.postValue(UIState.NoLogin)
+    }
 
-    private fun checkIfLogIn(sectionId: String?) {
-        if (sectionId == "")
-            _isLogIn.postValue(false)
-        else
-            _isLogIn.postValue(true)
+    private fun checkIfLogIn(sessionId: String?) {
+        if (sessionId == "")
+            _profileDetails.postValue(UIState.NoLogin)
     }
 
 

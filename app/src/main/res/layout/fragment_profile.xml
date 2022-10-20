@@ -207,8 +207,7 @@
             image_actor,
             text_name_actor,
             text_username,"
-            app:showWhenSuccess="@{viewModel.profileDetails}"
-            />
+            app:showWhenSuccess="@{viewModel.profileDetails}" />
 
         <androidx.constraintlayout.widget.Group
             android:layout_width="wrap_content"
@@ -218,8 +217,7 @@
             vector_image,
             text_message_wrong_title,
             button_nav_login,"
-            app:isLogIN="@{viewModel.isLogIn()}"
-            />
+            app:showWhenNoLogin="@{viewModel.profileDetails}" />
 
         <include
             android:id="@+id/loading"
@@ -227,9 +225,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/error"
+            layout="@layout/error"
+            app:error="@{viewModel.profileDetails}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.profileDetails}"
-            />
+            app:viewModel="@{viewModel}" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
