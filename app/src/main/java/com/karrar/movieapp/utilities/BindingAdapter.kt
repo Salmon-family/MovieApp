@@ -129,7 +129,7 @@ fun <T> isVisible(view: View,isVisible :Boolean){
 fun setVideoId(view: YouTubePlayerView, videoId: String?){
     view.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
         override fun onReady(youTubePlayer: YouTubePlayer) {
-            videoId?.let { youTubePlayer.loadVideo(it, 0f) }
+            videoId?.let { youTubePlayer.cueVideo(it, 0f) }
         }
     })
 }
