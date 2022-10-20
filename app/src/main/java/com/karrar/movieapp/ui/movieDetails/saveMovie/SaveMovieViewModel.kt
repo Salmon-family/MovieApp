@@ -35,12 +35,14 @@ class SaveMovieViewModel @Inject constructor(
     }
 
     override fun getData() {
-//        wrapWithState({
-//            accountRepository.getSessionId().collect {
-//                val response = movieRepository.getAllLists(0, it.toString())
-//                _savedList.postValue(UIState.Success(response))
-//            }
-//        }, { _savedList.postValue(UIState.Error("error")) })
+        wrapWithState({
+            val sessionId = accountRepository.getSessionId()
+
+            sessionId?.let {
+                val response = movieRepository.getAllLists(0, it)
+                _savedList.postValue(UIState.Success(response))
+            }
+        }, { _savedList.postValue(UIState.Error("error")) })
     }
 
     fun checkMovie(movieId: Int) {
@@ -59,7 +61,11 @@ class SaveMovieViewModel @Inject constructor(
             {
                 val sessionId = accountRepository.getSessionId()
                 sessionId?.let {
-                    movieRepository.addMovieToList(sessionId, _clickListEvent.value?.peekContent() ?: 0, movieId)
+                    movieRepository.addMovieToList(
+                        sessionId,
+                        _clickListEvent.value?.peekContent() ?: 0,
+                        movieId
+                    )
                     _message.postValue("Susses: The movie has been added")
                 }
             })
