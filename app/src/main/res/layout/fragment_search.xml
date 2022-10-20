@@ -134,7 +134,6 @@
             android:clipToPadding="false"
             android:paddingVertical="@dimen/spacing_small"
             app:hideWhenLoading="@{viewModel.mediaState}"
-
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
             app:showWhenSearch="@{viewModel.searchText}"
