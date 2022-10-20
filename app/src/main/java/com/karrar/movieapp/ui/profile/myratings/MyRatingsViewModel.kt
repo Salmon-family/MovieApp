@@ -10,7 +10,6 @@ import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,12 +30,14 @@ class MyRatingsViewModel @Inject constructor(
     }
 
     override fun getData() {
-//        _ratedMovies.postValue(UIState.Loading)
-//        wrapWithState({
-//            accountRepository.getSessionId().collect {
-//                val response = movieRepository.getRatedMovie(0, it.toString())
-//                _ratedMovies.postValue(UIState.Success(response))
-//            } }, { _ratedMovies.postValue(UIState.Error(it.message.toString())) })
+        _ratedMovies.postValue(UIState.Loading)
+        wrapWithState({
+            val sessionId = accountRepository.getSessionId()
+            sessionId?.let {
+                val response = movieRepository.getRatedMovie(0, it)
+                _ratedMovies.postValue(UIState.Success(response))
+            }
+        }, { _ratedMovies.postValue(UIState.Error(it.message.toString())) })
     }
 
     override fun onClickMovie(movieId: Int) {

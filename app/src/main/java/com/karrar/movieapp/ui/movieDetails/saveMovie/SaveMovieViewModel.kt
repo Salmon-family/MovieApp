@@ -55,17 +55,14 @@ class SaveMovieViewModel @Inject constructor(
 
 
     private fun addMovieToList(movieId: Int) {
-//        wrapWithState(
-//            {
-//                accountRepository.getSessionId().collect {
-//                    movieRepository.addMovieToList(
-//                        it.toString(),
-//                        _clickListEvent.value?.peekContent() ?: 0,
-//                        movieId
-//                    )
-//                    _message.postValue("Susses: The movie has been added")
-//                }
-//            })
+        wrapWithState(
+            {
+                val sessionId = accountRepository.getSessionId()
+                sessionId?.let {
+                    movieRepository.addMovieToList(sessionId, _clickListEvent.value?.peekContent() ?: 0, movieId)
+                    _message.postValue("Susses: The movie has been added")
+                }
+            })
     }
 
     override fun onClickList(listId: Int) {

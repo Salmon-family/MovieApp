@@ -17,7 +17,6 @@ import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -159,19 +158,19 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     fun onAddRating(movie_id: Int, value: Float) {
-//        if (_check.value != value) {
-//            wrapWithState({
-//                accountRepository.getSessionId().collect {
-//                    val response = movieRepository.setRating(movie_id, value, it.toString())
-//                    if (response.statusCode != null
-//                        && response.statusCode == Constants.SUCCESS_REQUEST
-//                    ) {
-//                        _check.postValue(value)
-//                    }
-//                }
-//            })
-//            messageAppear.postValue(Event(true))
-//        }
+        if (_check.value != value) {
+            wrapWithState({
+                val sessionId = accountRepository.getSessionId()
+                sessionId?.let {
+                    val response = movieRepository.setRating(movie_id, value, it)
+                    if (response.statusCode != null
+                        && response.statusCode == Constants.SUCCESS_REQUEST
+                    ) { _check.postValue(value)
+                    }
+                    messageAppear.postValue(Event(true))
+                }
+            })
+        }
     }
 
     private fun updateDetailItems(item: DetailItem) {
