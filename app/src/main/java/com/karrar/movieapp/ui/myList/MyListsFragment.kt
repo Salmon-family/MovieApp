@@ -12,19 +12,17 @@ import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
     override val layoutIdFragment: Int = R.layout.fragment_my_lists
-    override val viewModel: MyListsViewModel by viewModels()
+    override val viewModel: MyListsViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(true,getString(R.string.myList))
         binding.savedList.adapter = CreatedListAdapter(emptyList(), viewModel)
         observeEvents()
-        viewModel.createdList.observe(viewLifecycleOwner){
-            Log.i("kkk", it.toString())
-        }
     }
 
     private fun observeEvents() {

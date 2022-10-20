@@ -7,7 +7,8 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveMovieViewModel" />
+            type="com.karrar.movieapp.ui.myList.MyListsViewModel" />
+
     </data>
 
 
@@ -25,7 +26,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:title="@string/save_to"
             android:visibility="gone"
-            app:showWhenListIsNotEmpty="@{viewModel.savedList.toData()}"
+            app:showWhenListIsNotEmpty="@{viewModel.createdList.toData()}"
             app:titleTextColor="@color/shade_primary_color"
             app:titleCentered="true"/>
 
@@ -35,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:items="@{viewModel.savedList.toData()}"
+            app:items="@{viewModel.createdList.toData()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +56,7 @@
             android:text="@string/you_must_be_logged_in_to_save_a_movie"
             android:visibility="gone"
             android:layout_marginVertical="@dimen/spacing_large"
-            app:showWhenFail="@{viewModel.savedList}"
+            app:showWhenFail="@{viewModel.createdList}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +71,7 @@
             android:text="@string/this_list_has_no_lists"
             android:visibility="gone"
             android:layout_marginVertical="@dimen/spacing_large"
-            app:showWhenListIsEmpty="@{viewModel.savedList.toData()}"
+            app:showWhenListIsEmpty="@{viewModel.createdList.toData()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

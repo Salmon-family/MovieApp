@@ -3,11 +3,13 @@ package com.karrar.movieapp.ui.movieDetails.saveMovie
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.DialogSaveMovieBinding
 import com.karrar.movieapp.ui.base.BaseDialogFragment
+import com.karrar.movieapp.ui.myList.MyListsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -15,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SaveMovieDialog : BaseDialogFragment<DialogSaveMovieBinding>() {
 
     override val layoutIdFragment = R.layout.dialog_save_movie
-    override val viewModel: SaveMovieViewModel by viewModels()
+    override val viewModel: MyListsViewModel by viewModels()
     private val args: SaveMovieDialogArgs by navArgs()
 
 
@@ -31,6 +33,7 @@ class SaveMovieDialog : BaseDialogFragment<DialogSaveMovieBinding>() {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
             dismiss()
         }
+
     }
 
 
