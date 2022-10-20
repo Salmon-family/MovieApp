@@ -117,7 +117,7 @@
             text_message_wrong,
             vector_image,
             text_message_wrong_title,"
-            app:isLogIN="@{viewModel.isLogIn}"
+            app:showWhenNoLogin="@{viewModel.createdList}"
             />
 
         <include
@@ -128,6 +128,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:loading="@{viewModel.createdList}"
+            />
+
+        <include
+            android:id="@+id/error"
+            layout="@layout/error"
+            app:error="@{viewModel.createdList}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:viewModel="@{viewModel}"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

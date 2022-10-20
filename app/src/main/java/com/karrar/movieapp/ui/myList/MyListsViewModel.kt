@@ -35,9 +35,6 @@ class MyListsViewModel @Inject constructor(
     val item: LiveData<Event<CreatedList>>
         get() = _item
 
-    private val _isLogIn = MutableLiveData<Boolean>()
-    val isLogIn = _isLogIn.toLiveData()
-
 
     init {
         getData()
@@ -46,22 +43,28 @@ class MyListsViewModel @Inject constructor(
     override fun getData() {
         _createdList.postValue(UIState.Loading)
         wrapWithState({
-            accountRepository.getSessionId().collect { sectionId ->
-                checkIfLogIn(sectionId)
-                val response = movieRepository.getAllLists(0, sectionId.toString()).toMutableList()
-                _createdList.postValue(UIState.Success(response))
+            accountRepository.getSessionId().collect { sessionId ->
+                val response = movieRepository.getAllLists(0, sessionId.toString()).toMutableList()
+                _createdList.value = UIState.Success(response)
+                checkIfLogIn(sessionId)
+
             }
         }, {
-            _createdList.postValue(UIState.Error(it.message.toString()))
+            _createdList.value = UIState.Error(it.message.toString())
+            checkTheError()
         })
     }
 
-    private fun checkIfLogIn(sectionId: String?) {
-        if (sectionId == "")
-            _isLogIn.postValue(false)
-        else
-            _isLogIn.postValue(true)
+    private fun checkTheError() {
+        if (_createdList.value  == UIState.Error("response is not successful"))
+            _createdList.postValue(UIState.NoLogin)
     }
+
+    private fun checkIfLogIn(sessionId: String?) {
+        if (sessionId == "")
+            _createdList.postValue(UIState.NoLogin)
+    }
+
 
     fun onCreateList() {
         _isCreateButtonClicked.postEvent(true)

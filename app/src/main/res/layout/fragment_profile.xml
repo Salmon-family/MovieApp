@@ -7,7 +7,8 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.profile.ProfileViewModel" />
+            type="com.karrar.movieapp.ui.profile.ProfileViewModel"
+            />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

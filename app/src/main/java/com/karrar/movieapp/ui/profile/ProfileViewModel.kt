@@ -42,7 +42,8 @@ class ProfileViewModel @Inject constructor(
                 _profileDetails.value = UIState.Success(result)
                 checkIfLogIn(sessionId)
             }
-        }, { _profileDetails.value = UIState.Error(it.message.toString())
+        }, {
+            _profileDetails.value = UIState.Error(it.message.toString())
             checkTheError()
         })
     }
