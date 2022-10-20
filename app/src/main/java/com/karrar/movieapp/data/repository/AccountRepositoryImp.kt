@@ -1,15 +1,12 @@
 package com.karrar.movieapp.data.repository
 
-import com.karrar.movieapp.data.remote.response.login.ErrorResponse
-import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.DataClassParser
 import com.karrar.movieapp.data.local.AppConfiguration
+import com.karrar.movieapp.data.remote.response.login.ErrorResponse
+import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.account.AccountMapper
 import com.karrar.movieapp.domain.models.Account
-import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.utilities.DataStorePreferencesKeys
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 
@@ -18,58 +15,42 @@ class AccountRepositoryImp @Inject constructor(
     private val appConfiguration: AppConfiguration,
     private val dataClassParser: DataClassParser,
     private val accountMapper: AccountMapper,
-    ) : AccountRepository, BaseRepository() {
-    override fun getSessionId(): Flow<String?> {
+) : AccountRepository, BaseRepository() {
+
+    override fun getSessionId(): String? {
         return appConfiguration.readString(DataStorePreferencesKeys.SESSION_ID_KEY)
     }
+
     override suspend fun loginWithUserNameANdPassword(
         userName: String,
-        password: String,
-    ): Flow<UIState<Boolean>> {
-        return flow {
-            emit(UIState.Loading)
-            try {
-                val token = getRequestToken().toString()
-                val body = mapOf<String, Any>(
-                    "username" to userName,
-                    "password" to password,
-                    "request_token" to token,
-                ).toMap()
-                val validateRequestTokenWithLogin = service.validateRequestTokenWithLogin(body)
-                if (validateRequestTokenWithLogin.isSuccessful) {
-                    validateRequestTokenWithLogin.body()?.requestToken?.let { createSession(it) }
-                    emit(UIState.Success(true))
-                } else {
-                    val errorResponse =
-                        dataClassParser.parseFromJson(validateRequestTokenWithLogin.errorBody()
-                            ?.string(), ErrorResponse::class.java)
-                    emit(UIState.Error(errorResponse.statusMessage.toString()))
-                }
-            } catch (e: Exception) {
-                emit(UIState.Error(e.message.toString()))
+        password: String
+    ): Boolean {
+        return try {
+            val token = getRequestToken().toString()
+            val body = mapOf<String, Any>(
+                "username" to userName,
+                "password" to password,
+                "request_token" to token,
+            ).toMap()
 
+            val validateRequestTokenWithLogin = service.validateRequestTokenWithLogin(body)
+            if (validateRequestTokenWithLogin.isSuccessful) {
+                validateRequestTokenWithLogin.body()?.requestToken?.let { createSession(it) }
+                true
+            } else {
+                val errorResponse = dataClassParser.parseFromJson(
+                    validateRequestTokenWithLogin.errorBody()?.string(), ErrorResponse::class.java
+                )
+                throw Throwable(errorResponse.statusMessage)
             }
+        } catch (e: Exception) {
+            throw Throwable(e)
         }
     }
 
-    override suspend fun logout(): Flow<UIState<Boolean>> {
-        return flow {
-            try {
-                getSessionId().collect{
-                    val logout = service.logout(it.toString())
-                    if (logout.isSuccessful) {
-                        appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
-                        emit(UIState.Success(true))
-                    } else {
-                        appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
-                        emit(UIState.Error("Logout Failed"))
-                    }
-                }
-            } catch (e: Exception) {
-                appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
-                emit(UIState.Error(e.message.toString()))
-            }
-        }
+    override suspend fun logout(): Boolean {
+        appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
+        return true
     }
 
     override suspend fun getAccountDetails(sessionId: String): Account {

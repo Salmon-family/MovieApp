@@ -9,7 +9,6 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentLoginBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.Constants
-import com.karrar.movieapp.utilities.EventObserve
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override val layoutIdFragment = R.layout.fragment_login
     override val viewModel: LoginViewModel by viewModels()
+
     override fun onStart() {
         super.onStart()
         observeEvents()
@@ -27,7 +27,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private fun observeEvents() {
         viewModel.loginEvent.observeEvent(viewLifecycleOwner) {
-            findNavController().popBackStack()
+            if (it == Constants.PROFILE) {
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToProfileFragment())
+            }
         }
 
         viewModel.signUpEvent.observeEvent(viewLifecycleOwner) {

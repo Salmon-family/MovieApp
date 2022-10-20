@@ -45,9 +45,9 @@ class ProfileViewModel @Inject constructor(
 
     private fun getProfileDetails() {
         _profileDetails.postValue(UIState.Loading)
-
         wrapWithState({
-            accountRepository.getSessionId().collect { sectionId ->
+            val sectionId = accountRepository.getSessionId()
+            sectionId?.let {
                 val result = accountRepository.getAccountDetails(sectionId.toString())
                 _profileDetails.postValue(UIState.Success(result))
             }

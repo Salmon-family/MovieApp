@@ -108,15 +108,15 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun getRatedMovie(movieId: Int) {
-        viewModelScope.launch {
-            accountRepository.getSessionId().collectLatest {
-                wrapWithState({
-                    val response = movieRepository.getRatedMovie(0, it.toString())
-                    checkIfMovieRated(response, movieId)
-                    updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
-                })
-            }
-        }
+//        viewModelScope.launch {
+//            accountRepository.getSessionId().collectLatest {
+//                wrapWithState({
+//                    val response = movieRepository.getRatedMovie(0, it.toString())
+//                    checkIfMovieRated(response, movieId)
+//                    updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
+//                })
+//            }
+//        }
     }
 
     private fun getMovieReviews(movieId: Int) {
@@ -159,19 +159,19 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     fun onAddRating(movie_id: Int, value: Float) {
-        if (_check.value != value) {
-            wrapWithState({
-                accountRepository.getSessionId().collect {
-                    val response = movieRepository.setRating(movie_id, value, it.toString())
-                    if (response.statusCode != null
-                        && response.statusCode == Constants.SUCCESS_REQUEST
-                    ) {
-                        _check.postValue(value)
-                    }
-                }
-            })
-            messageAppear.postValue(Event(true))
-        }
+//        if (_check.value != value) {
+//            wrapWithState({
+//                accountRepository.getSessionId().collect {
+//                    val response = movieRepository.setRating(movie_id, value, it.toString())
+//                    if (response.statusCode != null
+//                        && response.statusCode == Constants.SUCCESS_REQUEST
+//                    ) {
+//                        _check.postValue(value)
+//                    }
+//                }
+//            })
+//            messageAppear.postValue(Event(true))
+//        }
     }
 
     private fun updateDetailItems(item: DetailItem) {

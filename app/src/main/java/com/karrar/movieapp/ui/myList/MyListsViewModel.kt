@@ -41,15 +41,15 @@ class MyListsViewModel @Inject constructor(
     }
 
     override fun getData() {
-        wrapWithState({
-            accountRepository.getSessionId().collect {
-                _createdList.postValue(UIState.Loading)
-                val response = movieRepository.getAllLists(0, it.toString()).toMutableList()
-                _createdList.postValue(UIState.Success(response))
-            }
-        }, {
-            _createdList.postValue(UIState.Error(it.message.toString()))
-        })
+//        wrapWithState({
+//            accountRepository.getSessionId().collect {
+//                _createdList.postValue(UIState.Loading)
+//                val response = movieRepository.getAllLists(0, it.toString()).toMutableList()
+//                _createdList.postValue(UIState.Success(response))
+//            }
+//        }, {
+//            _createdList.postValue(UIState.Error(it.message.toString()))
+//        })
     }
 
     fun onCreateList() {
@@ -57,15 +57,15 @@ class MyListsViewModel @Inject constructor(
     }
 
     fun onClickAddList() {
-        wrapWithState({
-            accountRepository.getSessionId().collect {
-                val item = movieRepository.createList(it.toString(), listName.value.toString())
-                if (item.success == true)
-                    addList(CreatedList(item.listId ?: 0, 0, listName.value.toString()))
-                listName.postValue(null)
-            }
-        })
-        _onCLickAddEvent.postEvent(true)
+//        wrapWithState({
+//            accountRepository.getSessionId().collect {
+//                val item = movieRepository.createList(it.toString(), listName.value.toString())
+//                if (item.success == true)
+//                    addList(CreatedList(item.listId ?: 0, 0, listName.value.toString()))
+//                listName.postValue(null)
+//            }
+//        })
+//        _onCLickAddEvent.postEvent(true)
     }
 
     private fun addList(createdLists: CreatedList) {
