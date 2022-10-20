@@ -5,6 +5,7 @@ import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.MovieDetails
+import com.karrar.movieapp.utilities.convertToDayMonthYearFormat
 import javax.inject.Inject
 
 class MovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsDto, MovieDetails> {
@@ -13,8 +14,8 @@ class MovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsDto, MovieDe
             input.id ?: 0,
             BuildConfig.IMAGE_BASE_PATH + input.posterPath,
             input.title ?: "",
-            input.releaseDate ?: "unknown",
-            input.genres?.map { it?.name }?.joinToString(" , ") ?: "unknown",
+            input.releaseDate?.let { convertToDayMonthYearFormat(it) } ?: "",
+            input.genres?.map { it?.name }?.joinToString(" , ") ?: "",
             input.runtime ?: 0,
             input.voteCount ?: 0,
             input.voteAverage.toString().take(3),

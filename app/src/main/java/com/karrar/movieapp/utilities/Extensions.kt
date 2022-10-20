@@ -5,6 +5,8 @@ import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.*
@@ -105,4 +107,10 @@ fun <T : Any> GridLayoutManager.setSpanSize(
             ) { spanCount } else { 1 }
         }
     }
+}
+
+fun convertToDayMonthYearFormat(date: String): String {
+    val localDate = LocalDate.parse(date)
+    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+    return formatter.format(localDate)
 }

@@ -5,6 +5,7 @@ import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.TvShowDetails
+import com.karrar.movieapp.utilities.convertToDayMonthYearFormat
 import javax.inject.Inject
 
 class TvShowDetailsMapper @Inject constructor(
@@ -16,8 +17,8 @@ class TvShowDetailsMapper @Inject constructor(
             input.id ?: 0,
             BuildConfig.IMAGE_BASE_PATH + input.posterPath,
             input.name ?: "",
-            input.firstAirDate ?: "unknown",
-            input.genres?.map { it?.name }?.joinToString(", ") ?: "unknown",
+            input.firstAirDate?.let { convertToDayMonthYearFormat(it) } ?: "",
+            input.genres?.map { it?.name }?.joinToString(", ") ?: "",
             input.numberOfSeasons ?: 0,
             input.voteCount ?: 0,
             input.voteAverage.toString().take(3),
