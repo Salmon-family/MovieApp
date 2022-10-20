@@ -93,6 +93,10 @@ fun <T> LifecycleOwner.collect(flow: Flow<T>, action: suspend (T) -> Unit) {
     }
 }
 
+fun <T> List<T>.margeTowList(secondList :List<T>):List<T>{
+    return this.plus(secondList)
+}
+
 fun <T : Any> GridLayoutManager.setSpanSize(
     footerAdapter: LoadUIStateAdapter,
     adapter: BasePagingAdapter<T>,

@@ -144,12 +144,6 @@ interface MovieService {
     @GET("list/{list_id}")
     suspend fun getList(@Path("list_id") listId: Int): Response<MyListsDto>
 
-    @GET("account/{account_id}/rated/movies")
-    suspend fun getRatedMovie(
-        @Path("account_id") accountId: Int,
-        @Query("session_id") sessionId: String
-    ): Response<BaseResponse<RatedMoviesDto>>
-
     @GET("tv/on_the_air")
     suspend fun getOnTheAir(@Query("page") page: Int): Response<BaseResponse<TVShowsDTO>>
 
@@ -203,6 +197,12 @@ interface MovieService {
     @GET("account/{account_id}/rated/tv")
     suspend fun getRatedTvShow(
         @Path("account_id") listId: Int,
+        @Query("session_id") sessionId: String
+    ): Response<BaseResponse<RatedTvShowDto>>
+
+    @GET("account/{account_id}/rated/movies")
+    suspend fun getRatedMovie(
+        @Path("account_id") accountId: Int,
         @Query("session_id") sessionId: String
     ): Response<BaseResponse<RatedMoviesDto>>
 

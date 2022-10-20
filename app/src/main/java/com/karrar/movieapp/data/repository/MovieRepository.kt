@@ -41,7 +41,7 @@ interface MovieRepository {
 
     suspend fun getMovieTrailer(movieId: Int): Trailer
 
-    suspend fun getRatedMovie(accountId: Int, sessionId: String): List<RatedMovies>
+    suspend fun getRatedMovie(accountId: Int, sessionId: String): List<Rated>
 
     suspend fun getTrendingActors(): List<Actor>
 

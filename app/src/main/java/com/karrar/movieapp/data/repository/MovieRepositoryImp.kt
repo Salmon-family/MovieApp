@@ -97,7 +97,7 @@ class MovieRepositoryImp @Inject constructor(
     override suspend fun getRatedMovie(
         accountId: Int,
         sessionId: String,
-    ): List<RatedMovies> {
+    ): List<Rated> {
         return wrap({ movieService.getRatedMovie(accountId, sessionId) }, { response ->
             ListMapper(movieMappersContainer.ratedMoviesMapper).mapList(response.items)
         })
