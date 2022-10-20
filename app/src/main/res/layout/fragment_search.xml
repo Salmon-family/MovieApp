@@ -175,7 +175,7 @@
 
         <include
             android:id="@+id/error"
-            layout="@layout/error"
+            layout="@layout/error_search"
             app:error="@{viewModel.mediaState}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
