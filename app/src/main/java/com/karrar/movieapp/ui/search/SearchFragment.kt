@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.transition.ChangeTransform
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -79,11 +80,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         }
 
         viewModel.clickRetryEvent.observeEvent(viewLifecycleOwner) {
-            if (it) { actorSearchAdapter.retry() }
-        }
-
-        viewModel.clickRetryEvent.observeEvent(viewLifecycleOwner) {
-            if (it) { mediaSearchAdapter.retry() }
+            if (it && viewModel.mediaType.value == Constants.ACTOR){
+                actorSearchAdapter.retry()
+            }else{
+                mediaSearchAdapter.retry()
+            }
         }
     }
 
@@ -118,7 +119,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.recyclerMedia.layoutManager = LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
 
         collect(flow = mediaSearchAdapter.loadStateFlow,
-                action = {viewModel.setUiState(it.source.refresh)})
+                action = {viewModel.setUiState(it.source.refresh, mediaSearchAdapter.itemCount)})
 
         getSearchResults()
     }
@@ -131,7 +132,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         setSpanSize(footerAdapter)
 
         collect(flow = actorSearchAdapter.loadStateFlow,
-                action = {viewModel.setUiState(it.source.refresh)})
+                action = {viewModel.setUiState(it.source.refresh, actorSearchAdapter.itemCount)})
 
         getSearchResults()
     }

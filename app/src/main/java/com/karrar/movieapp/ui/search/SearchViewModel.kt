@@ -90,7 +90,7 @@ class SearchViewModel @Inject constructor(
     fun onClickActors() {
         viewModelScope.launch {
             if (mediaType.value != Constants.ACTOR) {
-                mediaType.emit(Constants.PERSON)
+                mediaType.emit(Constants.ACTOR)
             }
         }
     }
@@ -134,12 +134,16 @@ class SearchViewModel @Inject constructor(
         _clickBackEvent.postEvent(true)
     }
 
-    fun setUiState(loadState: LoadState) {
+    fun setUiState(loadState: LoadState, itemCount: Int) {
         when (loadState) {
             is LoadState.Loading -> _mediaState.postValue(UIState.Loading)
             is LoadState.Error -> _mediaState.postValue(UIState.Error(""))
             else -> {
-                _mediaState.postValue(UIState.Success(true))
+                if(loadState is LoadState.NotLoading && itemCount < 1){
+                    _mediaState.postValue(UIState.Success(false))
+                }else{
+                    _mediaState.postValue(UIState.Success(true))
+                }
             }
         }
     }

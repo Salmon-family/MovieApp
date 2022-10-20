@@ -181,3 +181,8 @@ fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
 fun hideIfNotTypeOfMovie(view: View, mediaType: MediaType?) {
     if (mediaType != MediaType.MOVIE) view.isVisible = false
 }
+
+@BindingAdapter("app:showWhenNoResults")
+fun <T>showWhenNoResults(view: View, state: UIState<T>?){
+    view.isVisible = (state == UIState.Success(false))
+}
