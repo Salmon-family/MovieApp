@@ -107,14 +107,16 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun getRatedMovie(movieId: Int) {
-        viewModelScope.launch {
+        wrapWithState( {
             val sessionId = accountRepository.getSessionId()
             sessionId?.let {
                 val response = movieRepository.getRatedMovie(0, it)
                 checkIfMovieRated(response, movieId)
                 updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
             }
-        }
+        },{
+
+        })
     }
 
     private fun getMovieReviews(movieId: Int) {
