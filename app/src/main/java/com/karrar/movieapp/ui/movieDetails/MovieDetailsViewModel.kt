@@ -8,7 +8,7 @@ import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.MovieDetails
-import com.karrar.movieapp.domain.models.RatedMovies
+import com.karrar.movieapp.domain.models.Rated
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
@@ -148,7 +148,7 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun checkIfMovieRated(items: List<RatedMovies>?, movie_id: Int) {
+    private fun checkIfMovieRated(items: List<Rated>?, movie_id: Int) {
         val item = items?.firstOrNull { it.id == movie_id }
         item?.let {
             if (it.rating != ratingValue.value) {

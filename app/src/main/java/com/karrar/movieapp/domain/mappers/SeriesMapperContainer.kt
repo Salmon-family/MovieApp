@@ -2,6 +2,7 @@ package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.domain.mappers.actor.ActorMapper
 import com.karrar.movieapp.domain.mappers.movie.RatedMoviesMapper
+import com.karrar.movieapp.domain.mappers.series.RatedTvShowMapper
 import com.karrar.movieapp.domain.mappers.series.SeasonMapper
 import com.karrar.movieapp.domain.mappers.series.TVShowMapper
 import com.karrar.movieapp.domain.mappers.series.TvShowDetailsMapper
@@ -15,5 +16,5 @@ class SeriesMapperContainer @Inject constructor(
      val reviewMapper: ReviewMapper,
      val seasonMapper: SeasonMapper,
      val trailerMapper: TrailerMapper,
-     val ratedMoviesMapper: RatedMoviesMapper,
+     val ratedTvShowMapper: RatedTvShowMapper,
 )

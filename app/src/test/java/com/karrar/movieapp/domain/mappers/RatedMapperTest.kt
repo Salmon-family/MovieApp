@@ -3,14 +3,16 @@ package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.RatedMoviesDto
-import com.karrar.movieapp.domain.models.RatedMovies
+import com.karrar.movieapp.domain.mappers.movie.RatedMoviesMapper
+import com.karrar.movieapp.domain.models.Rated
+import com.karrar.movieapp.utilities.Constants
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-internal class RatedMoviesMapperTest {
+internal class RatedMapperTest {
 
     private lateinit var ratedMoviesMapper: RatedMoviesMapper
 
@@ -43,12 +45,13 @@ internal class RatedMoviesMapperTest {
         val result = ratedMoviesMapper.map(ratedMoviesDto)
 
         // expected
-        val expectedRatedMovie = RatedMovies(
+        val expectedRatedMovie = Rated(
             id = 1,
             title = "title",
             posterPath = BuildConfig.IMAGE_BASE_PATH + "posterPath",
             rating = 1f,
             releaseDate = "releaseDate",
+            mediaType = Constants.MOVIE
         )
 
         // then the result should be a Movie rated object with the same values
