@@ -1,19 +1,16 @@
 package com.karrar.movieapp.utilities
 
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import coil.load
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.domain.enums.MediaType
-import com.karrar.movieapp.domain.models.Genre
-import com.karrar.movieapp.domain.models.MediaDetails
+import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.utilities.Constants.ALL
@@ -25,6 +22,13 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 
+@BindingAdapter("app:isLogIN")
+fun <T> isLogIN(view: View, value:Boolean) {
+    if (value)
+        view.isVisible = false
+}
+
+
 @BindingAdapter("app:showWhenSuccess")
 fun <T> showWhenSuccess2(view: View, state: UIState<T>?) {
     view.isVisible = state is UIState.Success
@@ -34,6 +38,12 @@ fun <T> showWhenSuccess2(view: View, state: UIState<T>?) {
 fun <T> showWhenLoading2(view: View, state: UIState<T>?) {
     view.isVisible = (state is UIState.Loading)
 }
+
+@BindingAdapter(value = ["app:showWhenNoLogin"])
+fun <T> showWhenNoLogin(view: View, state: UIState<T>?) {
+    view.isVisible = (state is UIState.NoLogin)
+}
+
 
 @BindingAdapter(value = ["app:hideWhenLoading"])
 fun <T> hideWhenLoading(view: View, state: UIState<T>?) {

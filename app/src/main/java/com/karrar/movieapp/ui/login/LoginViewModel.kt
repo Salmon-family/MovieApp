@@ -3,10 +3,7 @@ package com.karrar.movieapp.ui.login
 import androidx.lifecycle.*
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.ui.UIState
-import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.FormFiledValidator
-import com.karrar.movieapp.utilities.postEvent
-import com.karrar.movieapp.utilities.toLiveData
+import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -76,8 +73,9 @@ class LoginViewModel @Inject constructor(
                 password.value.toString()).collect {
                 when (it) {
                     is UIState.Error -> onLoginError(it.message)
-                    UIState.Loading -> _loginRequestState.postValue(it)
+                    is UIState.Loading -> _loginRequestState.postValue(it)
                     is UIState.Success -> onLoginSuccessfully()
+                    else -> {}
                 }
             }
         }
