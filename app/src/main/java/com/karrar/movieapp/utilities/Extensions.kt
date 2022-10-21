@@ -93,12 +93,3 @@ fun <T> LifecycleOwner.collect(flow: Flow<T>, action: suspend (T) -> Unit) {
         }
     }
 }
-
-fun ActivityYoutubePlayerBinding.fullScreen(window: Window){
-    WindowCompat.setDecorFitsSystemWindows(window, false)
-    WindowInsetsControllerCompat(window, this.youtubePlayer).let { controller ->
-        controller.hide(WindowInsetsCompat.Type.systemBars())
-        controller.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-    }
-}
