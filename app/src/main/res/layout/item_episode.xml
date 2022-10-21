@@ -38,7 +38,7 @@
             android:layout_marginEnd="@dimen/spacing_medium"
             android:ellipsize="end"
             android:lines="1"
-            android:text="@{item.episodeName}"
+            android:text="@{@string/episode_title(item.episodeNumber, item.episodeName)}"
             app:layout_constraintEnd_toStartOf="@+id/text_episode_duration"
             app:layout_constraintStart_toEndOf="@+id/image_episode"
             app:layout_constraintTop_toTopOf="@+id/image_episode"
