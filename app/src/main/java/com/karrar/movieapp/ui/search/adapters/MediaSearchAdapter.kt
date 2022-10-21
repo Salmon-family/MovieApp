@@ -20,5 +20,5 @@ class MediaSearchAdapter(listener: MediaSearchInteractionListener)
 }
 
 interface MediaSearchInteractionListener : BaseInteractionListener {
-    fun onClickMedia(media: Media)
+    fun onClickMediaResult(media: Media)
 }

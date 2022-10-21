@@ -30,7 +30,7 @@
             app:shapeAppearanceOverlay="@style/Circle"
             tools:src="@drawable/actor"
             app:posterImage="@{item.mediaImage}"
-            android:onClick="@{() -> listener.onClickPerson(item.mediaID, item.mediaName)}"/>
+            android:onClick="@{() -> listener.onClickActorResult(item.mediaID, item.mediaName)}"/>
 
         <TextView
             android:id="@+id/cast_name"

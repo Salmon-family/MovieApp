@@ -27,6 +27,7 @@ import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
@@ -48,6 +49,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         inputMethodManager.showSoftInput(binding.inputSearch, InputMethodManager.SHOW_IMPLICIT)
 
         observeEvents()
+        getSearchResults()
 
         binding.recyclerSearchHistory.adapter = SearchHistoryAdapter(mutableListOf(), viewModel)
         lifecycleScope.launch {
@@ -86,6 +88,30 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 mediaSearchAdapter.retry()
             }
         }
+
+        viewModel.clickMoviesCategoryEvent.observeEvent(viewLifecycleOwner){ isClicked ->
+            if(isClicked){
+                getMovieSearchResults(viewModel.searchText.value)
+            }else{
+                getSearchResults()
+            }
+        }
+
+        viewModel.clickSeriesCategoryEvent.observeEvent(viewLifecycleOwner){ isClicked ->
+            if(isClicked){
+                getSeriesSearchResults(viewModel.searchText.value)
+            }else{
+                getSearchResults()
+            }
+        }
+
+        viewModel.clickActorsCategoryEvent.observeEvent(viewLifecycleOwner){ isClicked ->
+            if(isClicked){
+                getActorsSearchResults(viewModel.searchText.value)
+            }else{
+                getSearchResults()
+            }
+        }
     }
 
     private fun navigateToMovieDetails(movieId: Int) {
@@ -120,8 +146,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
         collect(flow = mediaSearchAdapter.loadStateFlow,
                 action = {viewModel.setUiState(it.source.refresh, mediaSearchAdapter.itemCount)})
-
-        getSearchResults()
     }
 
     private fun bindActors() {
@@ -133,34 +157,45 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
         collect(flow = actorSearchAdapter.loadStateFlow,
                 action = {viewModel.setUiState(it.source.refresh, actorSearchAdapter.itemCount)})
-
-        getSearchResults()
     }
 
+    @OptIn(FlowPreview::class)
     private fun getSearchResults(){
         lifecycleScope.launch {
-            viewModel.searchText.debounce(1000).collect{ search ->
+            viewModel.searchText.debounce(500).collect{ search ->
                 if (search.isNotBlank()) {
                     when (viewModel.mediaType.value) {
                         Constants.MOVIE -> {
-                            mediaSearchAdapter.submitData(lifecycle, PagingData.empty())
-                            collectLast(viewModel.searchForMovie(search))
-                            {mediaSearchAdapter.submitData(it)}
+                            getMovieSearchResults(search)
                         }
                         Constants.TV_SHOWS -> {
-                            mediaSearchAdapter.submitData(lifecycle, PagingData.empty())
-                            collectLast(viewModel.searchForSeries(search))
-                            {mediaSearchAdapter.submitData(it)}
+                            getSeriesSearchResults(search)
                         }
                         Constants.ACTOR -> {
-                            actorSearchAdapter.submitData(lifecycle, PagingData.empty())
-                            collectLast(viewModel.searchForActor(search))
-                            {actorSearchAdapter.submitData(it)}
+                            getActorsSearchResults(search)
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun getMovieSearchResults(searchText: String){
+        mediaSearchAdapter.submitData(lifecycle, PagingData.empty())
+        collectLast(viewModel.searchForMovie(searchText))
+        {mediaSearchAdapter.submitData(it)}
+    }
+
+    private fun getSeriesSearchResults(searchText: String){
+        mediaSearchAdapter.submitData(lifecycle, PagingData.empty())
+        collectLast(viewModel.searchForSeries(searchText))
+        {mediaSearchAdapter.submitData(it)}
+    }
+
+    private fun getActorsSearchResults(searchText: String){
+        actorSearchAdapter.submitData(lifecycle, PagingData.empty())
+        collectLast(viewModel.searchForActor(searchText))
+        {actorSearchAdapter.submitData(it)}
     }
 
     private fun setSpanSize(footerAdapter: LoadUIStateAdapter) {

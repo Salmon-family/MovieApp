@@ -35,13 +35,22 @@ class SearchViewModel @Inject constructor(
     val searchHistory = _searchHistory.toLiveData()
 
     private val _clickMediaEvent = MutableLiveData<Event<Media>>()
-    var clickMediaEvent = _clickMediaEvent.toLiveData()
+    val clickMediaEvent = _clickMediaEvent.toLiveData()
 
     private val _clickActorEvent = MutableLiveData<Event<Int>>()
-    var clickActorEvent = _clickActorEvent.toLiveData()
+    val clickActorEvent = _clickActorEvent.toLiveData()
+
+    private val _clickMoviesCategoryEvent = MutableLiveData<Event<Boolean>>()
+    val clickMoviesCategoryEvent = _clickMoviesCategoryEvent.toLiveData()
+
+    private val _clickSeriesCategoryEvent = MutableLiveData<Event<Boolean>>()
+    val clickSeriesCategoryEvent = _clickSeriesCategoryEvent.toLiveData()
+
+    private val _clickActorsCategoryEvent = MutableLiveData<Event<Boolean>>()
+    val clickActorsCategoryEvent = _clickActorsCategoryEvent.toLiveData()
 
     private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
-    var clickBackEvent = _clickBackEvent.toLiveData()
+    val clickBackEvent = _clickBackEvent.toLiveData()
 
     private val _clickRetryEvent = MutableLiveData<Event<Boolean>>()
     val clickRetryEvent = _clickRetryEvent.toLiveData()
@@ -50,9 +59,7 @@ class SearchViewModel @Inject constructor(
     val mediaType = MutableStateFlow(Constants.MOVIE)
 
     init {
-        viewModelScope.launch {
-            getAllSearchHistory()
-        }
+        getAllSearchHistory()
     }
 
     override fun getData() {
@@ -71,26 +78,29 @@ class SearchViewModel @Inject constructor(
         return movieRepository.searchForSeries(text)
     }
 
-    fun onClickMovies() {
+    fun onClickMoviesCategory() {
         viewModelScope.launch {
             if (mediaType.value != Constants.MOVIE) {
                 mediaType.emit(Constants.MOVIE)
+                _clickMoviesCategoryEvent.postEvent(true)
             }
         }
     }
 
-    fun onClickSeries() {
+    fun onClickSeriesCategory() {
         viewModelScope.launch {
             if (mediaType.value != Constants.TV_SHOWS) {
                 mediaType.emit(Constants.TV_SHOWS)
+                _clickSeriesCategoryEvent.postEvent(true)
             }
         }
     }
 
-    fun onClickActors() {
+    fun onClickActorsCategory() {
         viewModelScope.launch {
             if (mediaType.value != Constants.ACTOR) {
                 mediaType.emit(Constants.ACTOR)
+                _clickActorsCategoryEvent.postEvent(true)
             }
         }
     }
@@ -103,12 +113,12 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    override fun onClickMedia(media: Media) {
+    override fun onClickMediaResult(media: Media) {
         saveSearchResult(media.mediaID, media.mediaName)
         _clickMediaEvent.postEvent(media)
     }
 
-    override fun onClickPerson(personID: Int, name: String) {
+    override fun onClickActorResult(personID: Int, name: String) {
         saveSearchResult(personID, name)
         _clickActorEvent.postEvent(personID)
     }

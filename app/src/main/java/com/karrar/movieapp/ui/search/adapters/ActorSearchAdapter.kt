@@ -21,5 +21,5 @@ class ActorSearchAdapter(listener: ActorSearchInteractionListener)
 }
 
 interface ActorSearchInteractionListener : BaseInteractionListener{
-    fun onClickPerson(personID: Int, name: String)
+    fun onClickActorResult(personID: Int, name: String)
 }
