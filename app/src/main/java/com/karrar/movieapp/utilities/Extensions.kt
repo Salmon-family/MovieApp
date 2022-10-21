@@ -21,6 +21,8 @@ import com.karrar.movieapp.ui.category.CategoryInteractionListener
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun <T> MutableLiveData<T>.toLiveData(): LiveData<T> {
     return this
@@ -109,4 +111,9 @@ fun <T : Any> GridLayoutManager.setSpanSize(
             ) { spanCount } else { 1 }
         }
     }
+}
+
+fun Date.convertToDayMonthYearFormat(): String {
+    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    return formatter.format(this)
 }
