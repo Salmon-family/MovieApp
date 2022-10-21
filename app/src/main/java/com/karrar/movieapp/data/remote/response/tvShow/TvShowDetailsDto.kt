@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 import com.karrar.movieapp.data.remote.response.SeasonDto
 import com.karrar.movieapp.data.remote.response.SpokenLanguageDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
+import java.util.Date
 
 data class TvShowDetailsDto(
     @SerializedName("adult")
@@ -16,7 +17,7 @@ data class TvShowDetailsDto(
     @SerializedName("episode_run_time")
     val episodeRunTime: List<Int?>? = null,
     @SerializedName("first_air_date")
-    val firstAirDate: String? = null,
+    val firstAirDate: Date? = null,
     @SerializedName("genres")
     val genres: List<GenreDto?>? = null,
     @SerializedName("homepage")

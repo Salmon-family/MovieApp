@@ -5,8 +5,6 @@ import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import org.threeten.bp.LocalDate
-import org.threeten.bp.format.DateTimeFormatter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.*
@@ -23,6 +21,8 @@ import com.karrar.movieapp.ui.category.CategoryInteractionListener
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun <T> MutableLiveData<T>.toLiveData(): LiveData<T> {
     return this
@@ -109,8 +109,7 @@ fun <T : Any> GridLayoutManager.setSpanSize(
     }
 }
 
-fun convertToDayMonthYearFormat(date: String): String {
-    val localDate = LocalDate.parse(date)
-    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-    return formatter.format(localDate)
+fun Date.convertToDayMonthYearFormat(): String {
+    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    return formatter.format(this)
 }

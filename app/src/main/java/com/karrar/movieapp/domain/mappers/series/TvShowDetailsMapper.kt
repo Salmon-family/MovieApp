@@ -17,7 +17,7 @@ class TvShowDetailsMapper @Inject constructor(
             input.id ?: 0,
             BuildConfig.IMAGE_BASE_PATH + input.posterPath,
             input.name ?: "",
-            input.firstAirDate?.let { convertToDayMonthYearFormat(it) } ?: "",
+            input.firstAirDate?.convertToDayMonthYearFormat() ?: "",
             input.genres?.map { it?.name }?.joinToString(", ") ?: "",
             input.numberOfSeasons ?: 0,
             input.voteCount ?: 0,
