@@ -1,6 +1,8 @@
 package com.karrar.movieapp.ui.profile
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -19,9 +21,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         super.onViewCreated(view, savedInstanceState)
         observeEvents()
         setTitle(true, getString(R.string.profile))
-//        viewModel.isLogIn.observe(viewLifecycleOwner){
-//            Log.i("aaa", it.toString())
-//        }
     }
 
     private fun observeEvents() {
@@ -42,4 +41,5 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
 
     }
+
 }

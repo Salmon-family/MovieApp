@@ -17,7 +17,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> listener.onClickSaveList(item.id)}"
+        android:onClick="@{() -> listener.onClickSaveList(item)}"
         app:cardCornerRadius="@dimen/radius_large"
         app:cardBackgroundColor="@color/background_color"
         android:layout_marginHorizontal="@dimen/spacing_small"
