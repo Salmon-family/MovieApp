@@ -8,6 +8,7 @@
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.myList.ListDetailsViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +27,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_list_details" />
+            tools:listitem="@layout/item_list_details"
+            />
 
         <include
             android:id="@+id/loading"
@@ -38,6 +40,16 @@
             app:loading="@{viewModel.listDetails}" />
 
         <include
+            android:id="@+id/empty"
+            layout="@layout/empty"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showWhenListIsEmpty="@{viewModel.listDetails.toData()}"
+            />
+
+        <include
             android:id="@+id/error"
             layout="@layout/error"
             app:error="@{viewModel.listDetails}"
@@ -45,19 +57,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
-
-        <TextView
-            style="@style/SemiBold.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/this_list_has_no_movies"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:showWhenListIsEmpty="@{viewModel.listDetails.toData()}" />
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

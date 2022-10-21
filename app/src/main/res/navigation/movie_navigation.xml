@@ -245,6 +245,9 @@
         <action
             android:id="@+id/action_ratedMoviesFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_ratedMoviesFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
     </fragment>
 
     <fragment

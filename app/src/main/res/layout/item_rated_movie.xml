@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.RatedMovies" />
+            type="com.karrar.movieapp.domain.models.Rated" />
 
         <variable
             name="listener"

@@ -1,6 +1,5 @@
 package com.karrar.movieapp.ui.youtubePlayer
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.karrar.movieapp.data.repository.MovieRepository

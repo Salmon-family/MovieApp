@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
-import com.karrar.movieapp.domain.models.RatedMovies
+import com.karrar.movieapp.domain.models.Rated
 import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
@@ -151,7 +151,7 @@ class TvShowDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun checkIfTvShowRated(items: List<RatedMovies>?, tvShowId: Int) {
+    private fun checkIfTvShowRated(items: List<Rated>?, tvShowId: Int) {
         val item = items?.firstOrNull { it.id == tvShowId }
         item?.let {
             if (it.rating != ratingValue.value) {

@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMyRatingsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.profile.watchhistory.WatchHistoryFragmentDirections
 import com.karrar.movieapp.utilities.EventObserve
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +29,11 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
     private fun observeEvents() {
         viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner){ movieId ->
             findNavController().navigate(MyRatingsFragmentDirections.actionRatedMoviesFragmentToMovieDetailFragment(movieId))
+        }
+
+        viewModel.clickTVShowEvent.observeEvent(viewLifecycleOwner){ tvShowId->
+            findNavController().navigate(
+                MyRatingsFragmentDirections.actionRatedMoviesFragmentToTvShowDetailsFragment(tvShowId))
         }
     }
 }
