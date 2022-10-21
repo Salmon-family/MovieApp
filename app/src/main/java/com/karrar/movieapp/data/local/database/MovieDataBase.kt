@@ -2,6 +2,7 @@ package com.karrar.movieapp.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.*
 import com.karrar.movieapp.data.local.database.entity.movie.*
@@ -14,6 +15,7 @@ import com.karrar.movieapp.data.local.database.entity.series.*
         OnTheAirSeriesEntity::class,TopRatedSeriesEntity::class],
     version = 1
 )
+@TypeConverters(Converters::class)
 abstract class MovieDataBase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
 }
