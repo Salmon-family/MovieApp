@@ -3,7 +3,7 @@ package com.karrar.movieapp.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class ListItem(
+data class DailyTrendingDto(
     @SerializedName("adult")
     val adult: Boolean? = null,
     @SerializedName("backdrop_path")
