@@ -1,19 +1,14 @@
 package com.karrar.movieapp.ui.movieDetails.saveMovie
 
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.DialogSaveMovieBinding
 import com.karrar.movieapp.ui.base.BaseDialogFragment
 import com.karrar.movieapp.ui.myList.MyListsViewModel
-import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 

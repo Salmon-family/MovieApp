@@ -1,20 +1,15 @@
 package com.karrar.movieapp.ui.myList
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.repository.*
 import com.karrar.movieapp.domain.models.CreatedList
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.category.CategoryFragmentArgs
 import com.karrar.movieapp.ui.movieDetails.saveMovie.SaveListInteractionListener
-import com.karrar.movieapp.ui.movieDetails.saveMovie.SaveMovieDialogArgs
 import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import okhttp3.internal.filterList
 import javax.inject.Inject
-import kotlin.properties.Delegates
+
 
 @HiltViewModel
 class MyListsViewModel @Inject constructor(
