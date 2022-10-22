@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.home.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -148,7 +149,7 @@ class HomeAdapter(
         oldPosition: HomeRecyclerItem,
         newPosition: HomeRecyclerItem,
     ): Boolean {
-        return false
+        return oldPosition == newPosition
     }
 
     override fun getItemViewType(position: Int): Int {
