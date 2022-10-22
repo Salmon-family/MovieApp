@@ -8,5 +8,6 @@ data class Episode(
     val episodeDate: String,
     val episodeRate: Double,
     val episodeTotalReviews: String,
-    val episodeDescription: String
+    val episodeDescription: String,
+    val episodeNumber: Int,
 )

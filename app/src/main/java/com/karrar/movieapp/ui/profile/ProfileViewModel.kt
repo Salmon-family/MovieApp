@@ -36,7 +36,7 @@ class ProfileViewModel @Inject constructor(
     val clickWatchHistoryEvent = _clickWatchHistoryEvent.toLiveData()
 
     init {
-        getProfileDetails()
+        getData()
     }
 
     override fun getData() {
@@ -47,11 +47,21 @@ class ProfileViewModel @Inject constructor(
         _profileDetails.postValue(UIState.Loading)
 
         wrapWithState({
-            accountRepository.getSessionId().collect { sectionId ->
+            val sectionId = accountRepository.getSessionId()
+            sectionId?.let {
                 val result = accountRepository.getAccountDetails(sectionId.toString())
                 _profileDetails.postValue(UIState.Success(result))
-            }
-        }, { _profileDetails.postValue(UIState.Error(it.message.toString())) })
+            } ?: _profileDetails.postValue(UIState.NoLogin)
+
+        }, {
+            _profileDetails.value = UIState.Error(it.message.toString())
+            checkTheError()
+        })
+    }
+
+    private fun checkTheError() {
+        if (_profileDetails.value == UIState.Error("response is not successful"))
+            _profileDetails.postValue(UIState.NoLogin)
     }
 
 

@@ -10,6 +10,7 @@ import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
     override val layoutIdFragment: Int = R.layout.fragment_my_lists
@@ -37,5 +38,10 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
         findNavController().navigate(
             MyListsFragmentDirections.actionMyListFragmentToCreateSavedList()
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.checkIfLogin()
     }
 }

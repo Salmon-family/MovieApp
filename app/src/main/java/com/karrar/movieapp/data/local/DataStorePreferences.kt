@@ -10,9 +10,12 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 
-class DataStorePreferences (context: Context) {
-    private val Context.preferencesDataStore: DataStore<androidx.datastore.preferences.core.Preferences> by preferencesDataStore(PREFERENCES_FILE_NAME)
+class DataStorePreferences(context: Context) {
+    private val Context.preferencesDataStore: DataStore<androidx.datastore.preferences.core.Preferences> by preferencesDataStore(
+        PREFERENCES_FILE_NAME
+    )
     private val prefDataStore = context.preferencesDataStore
 
     suspend fun writeLong(key: String, value: Long) {
@@ -25,16 +28,14 @@ class DataStorePreferences (context: Context) {
         return prefDataStore.data.firstOrNull()?.get(longPreferencesKey(key))
     }
 
-    suspend fun writeString(key: String, value: String){
+    suspend fun writeString(key: String, value: String) {
         prefDataStore.edit { preferences ->
             preferences[stringPreferencesKey(key)] = value
         }
     }
 
-    fun readString(key: String): Flow<String?> {
-        return prefDataStore.data.map { preferences ->
-            preferences[stringPreferencesKey(key)]
-        }
+    fun readString(key: String): String? {
+        return runBlocking { prefDataStore.data.map { it[stringPreferencesKey(key)] }.first() }
     }
 
     companion object {

@@ -21,6 +21,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing"
             android:theme="@style/Theme.MovieApp.SplashScreen">
             <intent-filter>
@@ -32,12 +33,13 @@
 
         <activity
             android:name=".ui.youtubePlayer.YoutubePlayerActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true">
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode|locale|layoutDirection"
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
     </application>
 
 </manifest>

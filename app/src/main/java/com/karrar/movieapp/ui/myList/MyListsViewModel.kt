@@ -1,24 +1,22 @@
 package com.karrar.movieapp.ui.myList
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.karrar.movieapp.data.repository.AccountRepository
-import com.karrar.movieapp.data.repository.MovieRepository
+import androidx.lifecycle.*
+import com.karrar.movieapp.data.repository.*
 import com.karrar.movieapp.domain.models.CreatedList
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.postEvent
-import com.karrar.movieapp.utilities.toLiveData
+import com.karrar.movieapp.ui.movieDetails.saveMovie.SaveListInteractionListener
+import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
+
 
 @HiltViewModel
 class MyListsViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     private val accountRepository: AccountRepository,
-) : BaseViewModel(), CreatedListInteractionListener {
+) : BaseViewModel(), CreatedListInteractionListener, SaveListInteractionListener {
+
 
     private val _createdList = MutableLiveData<UIState<MutableList<CreatedList>?>>()
     val createdList = _createdList.toLiveData()
@@ -35,22 +33,34 @@ class MyListsViewModel @Inject constructor(
     val item: LiveData<Event<CreatedList>>
         get() = _item
 
-
-    init {
-        getData()
-    }
-
     override fun getData() {
+        _createdList.postValue(UIState.Loading)
         wrapWithState({
-            accountRepository.getSessionId().collect {
-                _createdList.postValue(UIState.Loading)
-                val response = movieRepository.getAllLists(0, it.toString()).toMutableList()
-                _createdList.postValue(UIState.Success(response))
-            }
+            val sessionId = accountRepository.getSessionId()
+            sessionId?.let {
+                val response = movieRepository.getAllLists(0, it).toMutableList()
+                _createdList.value = UIState.Success(response)
+            } ?: _createdList.postValue(UIState.NoLogin)
         }, {
-            _createdList.postValue(UIState.Error(it.message.toString()))
+            _createdList.value = UIState.Error(it.message.toString())
+            checkTheError()
         })
     }
+
+    fun checkIfLogin() {
+        val sessionId = accountRepository.getSessionId()
+        if (sessionId.isNullOrBlank() && _createdList.value !is UIState.NoLogin) {
+            _createdList.postValue(UIState.NoLogin)
+        } else if (!sessionId.isNullOrBlank() && _createdList.value is UIState.NoLogin) {
+            getData()
+        }
+    }
+
+    private fun checkTheError() {
+        if (_createdList.value == UIState.Error("response is not successful"))
+            _createdList.postValue(UIState.NoLogin)
+    }
+
 
     fun onCreateList() {
         _isCreateButtonClicked.postEvent(true)
@@ -58,7 +68,8 @@ class MyListsViewModel @Inject constructor(
 
     fun onClickAddList() {
         wrapWithState({
-            accountRepository.getSessionId().collect {
+            val sessionId = accountRepository.getSessionId()
+            sessionId?.let {
                 val item = movieRepository.createList(it.toString(), listName.value.toString())
                 if (item.success == true)
                     addList(CreatedList(item.listId ?: 0, 0, listName.value.toString()))
@@ -72,10 +83,58 @@ class MyListsViewModel @Inject constructor(
         val oldList = _createdList.value?.toData()?.toMutableList()
         oldList?.add(0, createdLists)
         _createdList.postValue(UIState.Success(oldList))
-
     }
 
     override fun onListClick(item: CreatedList) {
         _item.postValue(Event(item))
     }
+
+
+    override fun onClickSaveList(list: CreatedList) {
+        chosenList.postValue(list)
+        _newAdd.postValue(true)
+    }
+
+    private val _newAdd = MutableLiveData(false)
+    var newAdd: LiveData<Boolean> = _newAdd
+
+    private val chosenList = MutableLiveData<CreatedList>()
+
+    private val _message = MutableLiveData<String>()
+    var message: LiveData<String> = _message
+
+
+    fun checkMovie(movieId: Int) {
+        wrapWithState({
+            val result = movieRepository.getListDetails(chosenList.value?.id ?: 0)
+            if (result.checkIfExist(movieId)) {
+                _message.postValue("Fail: this movie is already on the list")
+                _newAdd.postValue(false)
+            }
+            if (!result.checkIfExist(movieId)) {
+                addMovieToList(movieId)
+            }
+        })
+
+    }
+
+    private fun addMovieToList(movieId: Int) {
+        wrapWithState({
+            val sessionID = accountRepository.getSessionId()
+            sessionID?.let {
+                movieRepository.addMovieToList(
+                    it,
+                    chosenList.value?.id ?: 0,
+                    movieId
+                )
+                _message.postValue("Susses: The movie has been added")
+                getData()
+                _newAdd.postValue(false)
+            }
+        }, {
+            _message.postValue("error: No Internet Connection")
+            _newAdd.postValue(false)
+        })
+    }
+
 }

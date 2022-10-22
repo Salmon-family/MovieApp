@@ -4,6 +4,7 @@ package com.karrar.movieapp.data.remote.response.movie
 import com.google.gson.annotations.SerializedName
 import com.karrar.movieapp.data.remote.response.SpokenLanguageDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
+import java.util.Date
 
 data class MovieDetailsDto(
     @SerializedName("adult")
@@ -33,7 +34,7 @@ data class MovieDetailsDto(
     @SerializedName("poster_path")
     val posterPath: String? = null,
     @SerializedName("release_date")
-    val releaseDate: String? = null,
+    val releaseDate: Date? = null,
     @SerializedName("revenue")
     val revenue: Int? = null,
     @SerializedName("runtime")

@@ -1,13 +1,13 @@
 package com.karrar.movieapp.domain.mappers.savedList
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.ListItems
+import com.karrar.movieapp.data.remote.response.SavedListDto
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.SaveListDetails
 import javax.inject.Inject
 
-class SaveListDetailsMapper @Inject constructor() : Mapper<ListItems, SaveListDetails> {
-    override fun map(input: ListItems): SaveListDetails {
+class SaveListDetailsMapper @Inject constructor() : Mapper<SavedListDto, SaveListDetails> {
+    override fun map(input: SavedListDto): SaveListDetails {
         return SaveListDetails(
             id = input.id ?: 0,
             mediaType = input.mediaType ?: "",

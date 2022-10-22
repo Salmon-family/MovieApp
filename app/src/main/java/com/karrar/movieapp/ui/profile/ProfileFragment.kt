@@ -1,16 +1,15 @@
 package com.karrar.movieapp.ui.profile
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentProfileBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.EventObserve
-import com.karrar.movieapp.utilities.observeEvent
+import com.karrar.movieapp.utilities.Constants
 import dagger.hilt.android.AndroidEntryPoint
+import com.karrar.movieapp.utilities.observeEvent
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
@@ -37,7 +36,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
 
         viewModel.clickLoginEvent.observeEvent(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+            findNavController().navigate(
+                ProfileFragmentDirections.actionProfileFragmentToLoginFragment(
+                    Constants.PROFILE
+                )
+            )
         }
     }
 }

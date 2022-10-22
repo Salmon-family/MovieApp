@@ -16,7 +16,8 @@ class EpisodeMapper @Inject constructor() : Mapper<EpisodeDto, Episode> {
             input.airDate ?: "",
             input.voteAverage ?: 0.0,
             input.voteCount.toString(),
-            input.overview ?: ""
+            input.overview ?: "",
+            input.episodeNumber ?: 1,
         )
     }
 }
