@@ -8,8 +8,8 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentProfileBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.Constants
-import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
+import com.karrar.movieapp.utilities.observeEvent
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {

@@ -39,4 +39,9 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
             MyListsFragmentDirections.actionMyListFragmentToCreateSavedList()
         )
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getData()
+    }
 }

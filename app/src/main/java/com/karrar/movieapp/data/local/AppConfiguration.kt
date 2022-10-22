@@ -1,7 +1,6 @@
 package com.karrar.movieapp.data.local
 
 
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface AppConfiguration {

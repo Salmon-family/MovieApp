@@ -51,8 +51,8 @@ class ProfileViewModel @Inject constructor(
             sectionId?.let {
                 val result = accountRepository.getAccountDetails(sectionId.toString())
                 _profileDetails.postValue(UIState.Success(result))
-                checkIfLogIn(sessionId)
-            }
+            } ?: _profileDetails.postValue(UIState.NoLogin)
+
         }, {
             _profileDetails.value = UIState.Error(it.message.toString())
             checkTheError()
@@ -60,12 +60,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun checkTheError() {
-        if (_profileDetails.value  == UIState.Error("response is not successful"))
-            _profileDetails.postValue(UIState.NoLogin)
-    }
-
-    private fun checkIfLogIn(sessionId: String?) {
-        if (sessionId == "")
+        if (_profileDetails.value == UIState.Error("response is not successful"))
             _profileDetails.postValue(UIState.NoLogin)
     }
 
