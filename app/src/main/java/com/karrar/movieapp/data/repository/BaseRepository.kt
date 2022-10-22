@@ -1,7 +1,7 @@
 package com.karrar.movieapp.data.repository
 
 import androidx.paging.PagingConfig
-import com.karrar.movieapp.data.remote.response.BaseResponse
+import com.karrar.movieapp.data.remote.response.BaseListResponse
 import retrofit2.Response
 
 abstract class BaseRepository {
@@ -22,7 +22,7 @@ abstract class BaseRepository {
 
 
     protected suspend fun <I, O> refreshWrapper(
-        request: suspend () -> Response<BaseResponse<I>>,
+        request: suspend () -> Response<BaseListResponse<I>>,
         mapper: (List<I>?) -> List<O>?,
         insertIntoDatabase: suspend (List<O>) -> Unit,
     ) {
