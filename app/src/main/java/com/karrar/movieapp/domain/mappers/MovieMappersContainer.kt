@@ -1,11 +1,9 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.domain.mappers.actor.ActorDetailsMapper
-import com.karrar.movieapp.domain.mappers.actor.ActorMapper
-import com.karrar.movieapp.domain.mappers.movie.MovieDetailsMapper
-import com.karrar.movieapp.domain.mappers.movie.MovieMapper
-import com.karrar.movieapp.domain.mappers.movie.PopularMovieMapper
-import com.karrar.movieapp.domain.mappers.movie.RatedMoviesMapper
+import com.karrar.movieapp.domain.mappers.actor.ActorDtoMapper
+import com.karrar.movieapp.domain.mappers.actor.ActorEntityMapper
+import com.karrar.movieapp.domain.mappers.movie.*
 import com.karrar.movieapp.domain.mappers.savedList.CreatedListsMapper
 import com.karrar.movieapp.domain.mappers.savedList.ItemListMapper
 import com.karrar.movieapp.domain.mappers.savedList.SaveListDetailsMapper
@@ -23,11 +21,20 @@ class MovieMappersContainer @Inject constructor(
     val trailerMapper: TrailerMapper,
     val ratedMoviesMapper: RatedMoviesMapper,
     val actorDetailsMapper: ActorDetailsMapper,
-    val actorMapper: ActorMapper,
+    val actorMapper: ActorDtoMapper,
     val searchActorMapper: SearchActorMapper,
     val seriesMapper: SearchSeriesMapper,
     val searchHistoryMapper: SearchHistoryMapper,
     val itemListMapper: ItemListMapper,
     val createdListsMapper: CreatedListsMapper,
     val saveListDetailsMapper: SaveListDetailsMapper,
-)
+    val actorEntityMapper: ActorEntityMapper,
+    val adventureMovieMapper: AdventureMovieMapper,
+    val mysteryMovieMapper: MysteryMovieMapper,
+    val nowStreamingMovieMapper: NowStreamingMovieMapper,
+    val popularMovieEntityMapper: PopularMovieEntityMapper,
+    val trendingMapper: TrendingMovieMapper,
+    val upcomingMovieMapper: UpcomingMovieMapper,
+
+
+    )

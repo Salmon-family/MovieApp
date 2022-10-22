@@ -85,6 +85,13 @@ fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolea
 }
 
 @BindingAdapter("app:genre")
+fun setAllGenre(textView: TextView, genreList: List<String>?) {
+    genreList?.let {
+        textView.text = genreList.joinToString(" . ") { it }
+    }
+}
+
+@BindingAdapter("app:genre")
 fun setGenre(textView: TextView, genreList: List<Genre>?) {
     genreList?.let {
         textView.text = genreList.map { it.genreName }.joinToString(" . ")

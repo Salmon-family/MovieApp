@@ -6,7 +6,7 @@ import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.Actor
 import javax.inject.Inject
 
-class ActorMapper @Inject constructor() : Mapper<ActorDto, Actor> {
+class ActorDtoMapper @Inject constructor() : Mapper<ActorDto, Actor> {
     override fun map(input: ActorDto): Actor {
         return Actor(
             actorID = input.id ?: 0,
