@@ -33,7 +33,6 @@ class MyListsViewModel @Inject constructor(
     val item: LiveData<Event<CreatedList>>
         get() = _item
 
-
     override fun getData() {
         _createdList.postValue(UIState.Loading)
         wrapWithState({
@@ -42,11 +41,19 @@ class MyListsViewModel @Inject constructor(
                 val response = movieRepository.getAllLists(0, it).toMutableList()
                 _createdList.value = UIState.Success(response)
             } ?: _createdList.postValue(UIState.NoLogin)
-
         }, {
             _createdList.value = UIState.Error(it.message.toString())
             checkTheError()
         })
+    }
+
+    fun checkIfLogin() {
+        val sessionId = accountRepository.getSessionId()
+        if (sessionId.isNullOrBlank() && _createdList.value !is UIState.NoLogin) {
+            _createdList.postValue(UIState.NoLogin)
+        } else if (!sessionId.isNullOrBlank() && _createdList.value is UIState.NoLogin) {
+            getData()
+        }
     }
 
     private fun checkTheError() {
