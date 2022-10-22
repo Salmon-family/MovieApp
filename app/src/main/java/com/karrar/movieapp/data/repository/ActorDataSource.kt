@@ -4,14 +4,14 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.ListMapper
-import com.karrar.movieapp.domain.mappers.actor.ActorMapper
+import com.karrar.movieapp.domain.mappers.actor.ActorDtoMapper
 import com.karrar.movieapp.domain.models.Actor
 import javax.inject.Inject
 
 
 class ActorDataSource @Inject constructor(
     private val service: MovieService,
-    private val actorMapper: ActorMapper
+    private val actorMapper: ActorDtoMapper
 ) : PagingSource<Int, Actor>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Actor> {

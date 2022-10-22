@@ -1,24 +1,35 @@
 package com.karrar.movieapp.ui.home.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.adapters.*
 import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.ui.base.BaseDiffUtil
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.home.HomeInteractionListener
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 import com.karrar.movieapp.utilities.Constants
 
 class HomeAdapter(
-    private var homeItems: List<HomeRecyclerItem>,
+    private var homeItems: MutableList<HomeRecyclerItem>,
     private val listener: BaseInteractionListener,
 ) : BaseAdapter<HomeRecyclerItem>(homeItems, listener) {
     override val layoutID: Int = 0
+
+    fun setItem(item: HomeRecyclerItem) {
+        val newItems = homeItems.apply {
+            removeAt(item.priority)
+            add(item.priority, item)
+        }
+        setItems(newItems)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return ItemViewHolder(
@@ -45,10 +56,12 @@ class HomeAdapter(
 
                 is HomeRecyclerItem.TvShows -> {
                     holder.binding.run {
-                        setVariable(BR.topRated, currentItem.items.first())
-                        setVariable(BR.popular, currentItem.items[1])
-                        setVariable(BR.latest, currentItem.items.last())
-                        setVariable(BR.listener, listener as TVShowInteractionListener)
+                        if (currentItem.items.isNotEmpty()) {
+                            setVariable(BR.topRated, currentItem.items.first())
+                            setVariable(BR.popular, currentItem.items[1])
+                            setVariable(BR.latest, currentItem.items.last())
+                            setVariable(BR.listener, listener as TVShowInteractionListener)
+                        }
                     }
                 }
 
@@ -123,12 +136,19 @@ class HomeAdapter(
     }
 
     override fun setItems(newItems: List<HomeRecyclerItem>) {
-        homeItems = newItems.sortedBy { it.priority }
+        homeItems = newItems.sortedBy { it.priority }.toMutableList()
         super.setItems(homeItems)
     }
 
     override fun areItemsSame(oldItem: HomeRecyclerItem, newItem: HomeRecyclerItem): Boolean {
         return oldItem.priority == newItem.priority
+    }
+
+    override fun areContentSame(
+        oldPosition: HomeRecyclerItem,
+        newPosition: HomeRecyclerItem,
+    ): Boolean {
+        return oldPosition == newPosition
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -151,4 +171,3 @@ class HomeAdapter(
     }
 
 }
-

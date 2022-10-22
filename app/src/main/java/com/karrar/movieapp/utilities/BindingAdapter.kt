@@ -13,6 +13,8 @@ import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.ui.home.HomeRecyclerItem
+import com.karrar.movieapp.ui.home.adapter.HomeAdapter
 import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
@@ -82,6 +84,13 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
     }
 }
 
+@BindingAdapter(value = ["app:homeItems"])
+fun <T> setHomeRecyclerItems(view: RecyclerView, items: List<HomeRecyclerItem>?) {
+    items?.forEach {
+        (view.adapter as HomeAdapter).setItem(it)
+    }
+}
+
 @BindingAdapter(value = ["app:items"])
 fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
     (view.adapter as BaseAdapter<T>?)?.setItems(items ?: emptyList())
@@ -92,6 +101,13 @@ fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
 fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolean = false) {
     if (useSnapHelper)
         PagerSnapHelper().attachToRecyclerView(recycler)
+}
+
+@BindingAdapter("app:genre")
+fun setAllGenre(textView: TextView, genreList: List<String>?) {
+    genreList?.let {
+        textView.text = genreList.joinToString(" . ") { it }
+    }
 }
 
 @BindingAdapter("app:genre")

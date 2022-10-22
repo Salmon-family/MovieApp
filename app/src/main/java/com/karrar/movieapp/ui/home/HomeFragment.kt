@@ -7,7 +7,6 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentHomeBinding
 import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
 import com.karrar.movieapp.utilities.observeEvent
@@ -27,7 +26,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setAdapter(){
-        val homeAdapter = HomeAdapter(emptyList(), viewModel)
+        val homeAdapter = HomeAdapter(mutableListOf(
+            HomeRecyclerItem.Slider(emptyList()),
+            HomeRecyclerItem.TvShows(emptyList()),
+            HomeRecyclerItem.OnTheAiring(emptyList(),HomeItemsType.ON_THE_AIR),
+            HomeRecyclerItem.Trending(emptyList(),HomeItemsType.TRENDING),
+            HomeRecyclerItem.AiringToday(emptyList()),
+            HomeRecyclerItem.NowStreaming(emptyList(),HomeItemsType.NOW_STREAMING),
+            HomeRecyclerItem.Upcoming(emptyList(),HomeItemsType.UPCOMING),
+            HomeRecyclerItem.Mystery(emptyList(),HomeItemsType.MYSTERY),
+            HomeRecyclerItem.Adventure(emptyList(),HomeItemsType.ADVENTURE),
+            HomeRecyclerItem.Actor(emptyList()),
+        ), viewModel)
         binding.recyclerView.adapter = homeAdapter
     }
 

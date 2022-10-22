@@ -2,9 +2,13 @@ package com.karrar.movieapp.di
 
 import android.content.Context
 import androidx.room.Room
+import com.google.gson.Gson
 import com.karrar.movieapp.data.local.DataStorePreferences
+import com.karrar.movieapp.data.local.database.Converters
 import com.karrar.movieapp.data.local.database.MovieDataBase
+import com.karrar.movieapp.data.local.database.daos.ActorDao
 import com.karrar.movieapp.data.local.database.daos.MovieDao
+import com.karrar.movieapp.data.local.database.daos.SeriesDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,13 +22,36 @@ object DataBaseModule {
 
     @Singleton
     @Provides
-    fun providesRoomDatabase(@ApplicationContext context: Context): MovieDataBase =
-        Room.databaseBuilder(context, MovieDataBase::class.java, "MovieDatabase").build()
+    fun providesRoomDatabase(
+        @ApplicationContext context: Context,
+        converters: Converters,
+    ): MovieDataBase =
+        Room.databaseBuilder(context, MovieDataBase::class.java, "MovieDatabase")
+            .addTypeConverter(converters)
+            .build()
 
     @Singleton
     @Provides
-    fun provideMovieDao(@ApplicationContext context: Context): MovieDao{
-        return providesRoomDatabase(context).movieDao()
+    fun provideMovieDao(movieDataBase: MovieDataBase): MovieDao {
+        return movieDataBase.movieDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideActorDao(movieDataBase: MovieDataBase): ActorDao {
+        return movieDataBase.actorDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideSeriesDao(movieDataBase: MovieDataBase): SeriesDao {
+        return movieDataBase.seriesDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideConverters(gson: Gson): Converters {
+        return Converters(gson)
     }
 
     @Singleton

@@ -22,18 +22,18 @@ interface MovieService {
     suspend fun getPopularMovies(): Response<BaseListResponse<MovieDto>>
 
     @GET("movie/upcoming")
-    suspend fun getUpcomingMovies(@Query("page") page: Int): Response<BaseListResponse<MovieDto>>
+    suspend fun getUpcomingMovies(@Query("page") page: Int = 1): Response<BaseListResponse<MovieDto>>
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovies(): Response<BaseListResponse<MovieDto>>
 
     @GET("movie/now_playing")
-    suspend fun getNowPlayingMovies(@Query("page") page: Int): Response<BaseListResponse<MovieDto>>
+    suspend fun getNowPlayingMovies(@Query("page") page: Int = 1): Response<BaseListResponse<MovieDto>>
 
     @GET("trending/movie/{time_window}")
     suspend fun getTrendingMovies(
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
-        @Query("page") page: Int
+        @Query("page") page: Int = 1
     ): Response<BaseListResponse<MovieDto>>
 
     @GET("trending/person/{time_window}")
@@ -81,13 +81,13 @@ interface MovieService {
     @GET("discover/movie")
     suspend fun getMovieListByGenre(
         @Query("with_genres") genreID: Int,
-        @Query("page") page: Int): Response<BaseListResponse<MovieDto>>
+        @Query("page") page: Int =1): Response<BaseListResponse<MovieDto>>
 
     @GET("trending/all/day")
     suspend fun getDailyTrending(): Response<BaseListResponse<DailyTrendingDto>>
 
     @GET("discover/movie")
-    suspend fun getAllMovies(@Query("page") page: Int): Response<BaseListResponse<MovieDto>>
+    suspend fun getAllMovies(@Query("page") page: Int = 1): Response<BaseListResponse<MovieDto>>
 
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(@Path("movie_id") movieId: Int): Response<MovieDetailsDto>
@@ -145,16 +145,16 @@ interface MovieService {
     suspend fun getList(@Path("list_id") listId: Int): Response<MyListsDto>
 
     @GET("tv/on_the_air")
-    suspend fun getOnTheAir(@Query("page") page: Int): Response<BaseListResponse<TVShowsDTO>>
+    suspend fun getOnTheAir(@Query("page") page: Int = 1 ): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("tv/airing_today")
-    suspend fun getAiringToday(@Query("page")page: Int): Response<BaseListResponse<TVShowsDTO>>
+    suspend fun getAiringToday(@Query("page")page: Int = 1 ): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("tv/top_rated")
-    suspend fun getTopRatedTvShow(@Query("page")page: Int): Response<BaseListResponse<TVShowsDTO>>
+    suspend fun getTopRatedTvShow(@Query("page")page: Int = 1 ): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("tv/popular")
-    suspend fun getPopularTvShow(@Query("page")page: Int): Response<BaseListResponse<TVShowsDTO>>
+    suspend fun getPopularTvShow(@Query("page")page: Int = 1 ): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("tv/latest")
     suspend fun getLatestTvShow(): Response<BaseListResponse<TVShowsDTO>>
@@ -165,10 +165,10 @@ interface MovieService {
     @GET("discover/tv")
     suspend fun getTvListByGenre(
         @Query("with_genres") genreId: Int,
-        @Query("page") page: Int): Response<BaseListResponse<TVShowsDTO>>
+        @Query("page") page: Int = 1 ): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("discover/tv")
-    suspend fun getAllTvShows(@Query("page")page: Int): Response<BaseListResponse<TVShowsDTO>>
+    suspend fun getAllTvShows(@Query("page")page: Int = 1 ): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("account")
     suspend fun getAccountDetails(@Query("session_id") sessionId: String?): Response<AccountDto>

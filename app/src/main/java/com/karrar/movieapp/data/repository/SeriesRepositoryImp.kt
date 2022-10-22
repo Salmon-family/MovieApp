@@ -1,18 +1,25 @@
 package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.local.database.daos.MovieDao
+import com.karrar.movieapp.data.local.database.daos.SeriesDao
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
+import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntity
+import com.karrar.movieapp.data.local.mappers.series.LocalSeriesMappersContainer
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
 import com.karrar.movieapp.domain.models.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class SeriesRepositoryImp @Inject constructor(
     private val service: MovieService,
     private val movieDao: MovieDao,
+    private val seriesDao: SeriesDao,
     private val seriesMapperContainer: SeriesMapperContainer,
+    private val localSeriesMappersContainer: LocalSeriesMappersContainer,
 ) : BaseRepository(), SeriesRepository {
 
     override suspend fun getTVShowsGenreList(): List<Genre> {
@@ -79,4 +86,77 @@ class SeriesRepositoryImp @Inject constructor(
     override suspend fun insertTvShow(tvShow: WatchHistoryEntity) {
         return movieDao.insert(tvShow)
     }
+
+    /**
+     * Caching
+     * */
+
+    override fun getAiringToday(): Flow<List<Media>> {
+        return seriesDao.getAiringTodaySeries().map { list ->
+            list.map { seriesMapperContainer.airingTodaySeriesMapper.map(it) }
+        }
+    }
+
+    override fun getOnTheAir(): Flow<List<Media>> {
+        return seriesDao.getOnTheAirSeries().map { list ->
+            list.map { seriesMapperContainer.onTheAirSeriesMapper.map(it) }
+        }
+    }
+
+    override fun getTopRatedTvShow(): Flow<List<Media>> {
+        return seriesDao.getTopRatedSeries().map { list ->
+            list.map { seriesMapperContainer.topRatedSeriesMapper.map(it) }
+        }
+    }
+
+
+    override suspend fun refreshAiringToday() {
+        refreshWrapper(
+            { service.getAiringToday() },
+            { list ->
+                list?.map {
+                    localSeriesMappersContainer.airingTodaySeriesMapper.map(it)
+                }
+            },
+            {
+                seriesDao.deleteAllAiringTodaySeries()
+                seriesDao.insertAiringTodaySeries(it)
+            },
+        )
+    }
+
+    override suspend fun refreshOnTheAir() {
+        refreshWrapper(
+            { service.getOnTheAir() },
+            { list ->
+                list?.map {
+                    localSeriesMappersContainer.onTheAirSeriesMapper.map(it)
+                }
+            },
+            {
+                seriesDao.deleteAllOnTheAirSeries()
+                seriesDao.insertOnTheAirSeries(it)
+            },
+        )
+    }
+
+    override suspend fun refreshTopRatedTvShow() {
+        try {
+            val items = mutableListOf<TopRatedSeriesEntity>()
+            service.getTopRatedTvShow().body()?.items?.first()?.let {
+                items.add(localSeriesMappersContainer.topRatedSeriesMapper.map(it))
+            }
+            service.getPopularTvShow().body()?.items?.first()?.let {
+                items.add(localSeriesMappersContainer.topRatedSeriesMapper.map(it))
+            }
+            service.getAiringToday().body()?.items?.first()?.let {
+                items.add(localSeriesMappersContainer.topRatedSeriesMapper.map(it))
+            }
+            seriesDao.deleteAllTopRatedSeries()
+            seriesDao.insertTopRatedSeries(items)
+        } catch (throwable: Throwable) {
+
+        }
+    }
+
 }
