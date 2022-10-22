@@ -17,7 +17,6 @@ import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -108,15 +107,16 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun getRatedMovie(movieId: Int) {
-        viewModelScope.launch {
-            accountRepository.getSessionId().collectLatest {
-                wrapWithState({
-                    val response = movieRepository.getRatedMovie(0, it.toString())
-                    checkIfMovieRated(response, movieId)
-                    updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
-                })
+        wrapWithState( {
+            val sessionId = accountRepository.getSessionId()
+            sessionId?.let {
+                val response = movieRepository.getRatedMovie(0, it)
+                checkIfMovieRated(response, movieId)
+                updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
             }
-        }
+        },{
+
+        })
     }
 
     private fun getMovieReviews(movieId: Int) {
@@ -161,16 +161,17 @@ class MovieDetailsViewModel @Inject constructor(
     fun onAddRating(movie_id: Int, value: Float) {
         if (_check.value != value) {
             wrapWithState({
-                accountRepository.getSessionId().collect {
-                    val response = movieRepository.setRating(movie_id, value, it.toString())
+                val sessionId = accountRepository.getSessionId()
+                sessionId?.let {
+                    val response = movieRepository.setRating(movie_id, value, it)
                     if (response.statusCode != null
                         && response.statusCode == Constants.SUCCESS_REQUEST
                     ) {
                         _check.postValue(value)
                     }
+                    messageAppear.postValue(Event(true))
                 }
             })
-            messageAppear.postValue(Event(true))
         }
     }
 

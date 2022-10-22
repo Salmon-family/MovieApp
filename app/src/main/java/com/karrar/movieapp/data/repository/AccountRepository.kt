@@ -5,13 +5,15 @@ import com.karrar.movieapp.ui.UIState
 import kotlinx.coroutines.flow.Flow
 
 interface AccountRepository {
-    fun getSessionId(): Flow<String?>
+
+    fun getSessionId(): String?
+
     suspend fun loginWithUserNameANdPassword(
         userName: String,
         password: String,
-    ): Flow<UIState<Boolean>>
+    ): Boolean
 
-    suspend fun logout(): Flow<UIState<Boolean>>
+    suspend fun logout(): Boolean
 
     suspend fun getAccountDetails(sessionId: String): Account
 }

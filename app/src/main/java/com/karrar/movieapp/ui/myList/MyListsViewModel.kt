@@ -33,31 +33,31 @@ class MyListsViewModel @Inject constructor(
     val item: LiveData<Event<CreatedList>>
         get() = _item
 
-    init {
-        getData()
-    }
-
     override fun getData() {
         _createdList.postValue(UIState.Loading)
         wrapWithState({
-            accountRepository.getSessionId().collect { sessionId ->
-                val response = movieRepository.getAllLists(0, sessionId.toString()).toMutableList()
+            val sessionId = accountRepository.getSessionId()
+            sessionId?.let {
+                val response = movieRepository.getAllLists(0, it).toMutableList()
                 _createdList.value = UIState.Success(response)
-                checkIfLogIn(sessionId)
-            }
+            } ?: _createdList.postValue(UIState.NoLogin)
         }, {
             _createdList.value = UIState.Error(it.message.toString())
             checkTheError()
         })
     }
 
-    private fun checkTheError() {
-        if (_createdList.value  == UIState.Error("response is not successful"))
+    fun checkIfLogin() {
+        val sessionId = accountRepository.getSessionId()
+        if (sessionId.isNullOrBlank() && _createdList.value !is UIState.NoLogin) {
             _createdList.postValue(UIState.NoLogin)
+        } else if (!sessionId.isNullOrBlank() && _createdList.value is UIState.NoLogin) {
+            getData()
+        }
     }
 
-    private fun checkIfLogIn(sessionId: String?) {
-        if (sessionId == "")
+    private fun checkTheError() {
+        if (_createdList.value == UIState.Error("response is not successful"))
             _createdList.postValue(UIState.NoLogin)
     }
 
@@ -68,7 +68,8 @@ class MyListsViewModel @Inject constructor(
 
     fun onClickAddList() {
         wrapWithState({
-            accountRepository.getSessionId().collect {
+            val sessionId = accountRepository.getSessionId()
+            sessionId?.let {
                 val item = movieRepository.createList(it.toString(), listName.value.toString())
                 if (item.success == true)
                     addList(CreatedList(item.listId ?: 0, 0, listName.value.toString()))
@@ -89,7 +90,6 @@ class MyListsViewModel @Inject constructor(
     }
 
 
-
     override fun onClickSaveList(list: CreatedList) {
         chosenList.postValue(list)
         _newAdd.postValue(true)
@@ -105,12 +105,13 @@ class MyListsViewModel @Inject constructor(
 
 
     fun checkMovie(movieId: Int) {
-        wrapWithState({ val result = movieRepository.getListDetails(chosenList.value?.id ?:0)
+        wrapWithState({
+            val result = movieRepository.getListDetails(chosenList.value?.id ?: 0)
             if (result.checkIfExist(movieId)) {
                 _message.postValue("Fail: this movie is already on the list")
                 _newAdd.postValue(false)
             }
-            if (!result.checkIfExist(movieId)){
+            if (!result.checkIfExist(movieId)) {
                 addMovieToList(movieId)
             }
         })
@@ -118,15 +119,19 @@ class MyListsViewModel @Inject constructor(
     }
 
     private fun addMovieToList(movieId: Int) {
-        wrapWithState({ accountRepository.getSessionId().collect {
-            movieRepository.addMovieToList(
-                it.toString(),
-                chosenList.value?.id ?: 0,
-                movieId)
-            _message.postValue("Susses: The movie has been added")
-            getData()
-            _newAdd.postValue(false)
-        }},{
+        wrapWithState({
+            val sessionID = accountRepository.getSessionId()
+            sessionID?.let {
+                movieRepository.addMovieToList(
+                    it,
+                    chosenList.value?.id ?: 0,
+                    movieId
+                )
+                _message.postValue("Susses: The movie has been added")
+                getData()
+                _newAdd.postValue(false)
+            }
+        }, {
             _message.postValue("error: No Internet Connection")
             _newAdd.postValue(false)
         })
