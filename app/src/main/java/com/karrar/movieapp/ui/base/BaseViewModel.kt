@@ -23,6 +23,17 @@ abstract class BaseViewModel : ViewModel() {
         }
 
     }
+    fun <T> collectData(
+        data: Flow<List<T>>,
+        function: suspend (List<T>) -> Unit
+    ){
+        viewModelScope.launch {
+            data.collect{
+                function(it)
+            }
+
+        }
+    }
 
     abstract fun getData()
 

@@ -2,11 +2,12 @@ package com.karrar.movieapp.ui.home
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.domain.models.PopularMovie
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
@@ -18,12 +19,14 @@ import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
-    private val seriesRepository: SeriesRepository
+    private val seriesRepository: SeriesRepository,
 ) : BaseViewModel(), HomeInteractionListener, ActorsInteractionListener, MovieInteractionListener,
     MediaInteractionListener, TVShowInteractionListener {
 
@@ -48,6 +51,7 @@ class HomeViewModel @Inject constructor(
     val homeItemsLiveData = MutableLiveData<UIState<List<HomeRecyclerItem>>>()
     private val homeItems = mutableListOf<HomeRecyclerItem>()
 
+
     private val _failedState = MutableLiveData(0)
     private var counter = 0
     val failedState = MediatorLiveData<UIState<Boolean>>().apply {
@@ -63,26 +67,50 @@ class HomeViewModel @Inject constructor(
 
     init {
         getData()
+        viewModelScope.launch {
+            movieRepository.refreshHomeData()
+            seriesRepository.refreshHomeData()
+        }
+
+    }
+
+
+    private fun refreshDataOneTimeInDay(
+        refreshData: () -> Unit,
+    ) {
+        viewModelScope.launch {
+            val requestDate = movieRepository.getRequestDate()
+            val currentDate = Date()
+            if (requestDate != null) {
+                val date = Date(requestDate)
+                if (date.after(currentDate)) {
+                    refreshData()
+                    movieRepository.saveRequestDate(currentDate.time)
+                }
+            } else {
+                refreshData()
+                movieRepository.saveRequestDate(currentDate.time)
+            }
+        }
     }
 
     override fun getData() {
-        resetFailedState()
         homeItemsLiveData.postValue(UIState.Loading)
         getTrending()
         getNowStreaming()
         getUpcoming()
-        getActors()
         getTopRatedTvShow()
         getOnTheAir()
         getAiringToday()
         getPopularMovies()
-        getMovieListByGenreID(Constants.ADVENTURE_ID, HomeItemsType.ADVENTURE)
-        getMovieListByGenreID(Constants.MYSTERY_ID, HomeItemsType.MYSTERY)
+        getMystery()
+        getAdventure()
+        getActors()
     }
 
-    private fun resetFailedState() {
-        counter = 0
-        failedState.postValue(UIState.Loading)
+
+    val idEquality = { oldMessages: List<PopularMovie>, newMessages: List<PopularMovie> ->
+        oldMessages.map(PopularMovie::movieID) == newMessages.map(PopularMovie::movieID)
     }
 
     private fun updateHomeItems(item: HomeRecyclerItem) {
@@ -91,105 +119,84 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getPopularMovies() {
-        wrapWithState({
-            val responseGenre = movieRepository.getMovieGenreList()
-            val responseMovie = movieRepository.getPopularMovies(responseGenre)
-            updateHomeItems(HomeRecyclerItem.Slider(responseMovie))
-        }, { _failedState.postValue(++counter) })
+        collectData(movieRepository.getPopularMovies()) {
+            if (it.isNotEmpty()) {
+                updateHomeItems(HomeRecyclerItem.Slider(it))
+            }
+        }
+
     }
 
     private fun getTrending() {
-        wrapWithState(
-            {
-                updateHomeItems(
-                    HomeRecyclerItem.Trending(
-                        movieRepository.getTrendingMovies(),
-                        HomeItemsType.TRENDING
-                    )
-                )
-            }, { _failedState.postValue(++counter) })
+        collectData(movieRepository.getTrendingMovies()) {
+            if (it.isNotEmpty())
+                updateHomeItems(HomeRecyclerItem.Trending(it, HomeItemsType.TRENDING))
+        }
     }
 
     private fun getActors() {
-        wrapWithState({ updateHomeItems(HomeRecyclerItem.Actor(movieRepository.getTrendingActors())) })
+        collectData(movieRepository.getTrendingActors()) {
+            if (it.isNotEmpty())
+                updateHomeItems(HomeRecyclerItem.Actor(it))
+        }
+
     }
 
     private fun getUpcoming() {
-        wrapWithState(
-            {
-                updateHomeItems(
-                    HomeRecyclerItem.Upcoming(
-                        movieRepository.getUpcomingMovies(),
-                        HomeItemsType.UPCOMING
-                    )
-                )
-            },
-            { _failedState.postValue(++counter) })
+        collectData(movieRepository.getUpcomingMovies()) {
+            if (it.isNotEmpty())
+                updateHomeItems(HomeRecyclerItem.Upcoming(it, HomeItemsType.UPCOMING))
+        }
+
     }
 
     private fun getNowStreaming() {
-        wrapWithState({
-            updateHomeItems(
-                HomeRecyclerItem.NowStreaming(
-                    movieRepository.getNowPlayingMovies(),
-                    HomeItemsType.NOW_STREAMING
-                )
-            )
-        }, { _failedState.postValue(++counter) })
+        collectData(movieRepository.getNowPlayingMovies()) {
+            if (it.isNotEmpty())
+                updateHomeItems(HomeRecyclerItem.NowStreaming(it, HomeItemsType.NOW_STREAMING))
+        }
+
     }
 
     private fun getTopRatedTvShow() {
-        val tvShowList = mutableListOf<Media>()
-        wrapWithState({
-            tvShowList.add(seriesRepository.getTopRatedTvShow().first())
-            tvShowList.add(seriesRepository.getAiringToday().first())
-            tvShowList.add(seriesRepository.getPopularTvShow().first())
-            updateHomeItems(HomeRecyclerItem.TvShows(tvShowList))
-        }, { _failedState.postValue(++counter) })
+        collectData(seriesRepository.getTopRatedTvShow()) {
+            if (it.isNotEmpty())
+                updateHomeItems(HomeRecyclerItem.TvShows(it))
+        }
+
     }
 
     private fun getOnTheAir() {
-        wrapWithState({
-            updateHomeItems(
-                HomeRecyclerItem.OnTheAiring(
-                    seriesRepository.getOnTheAir(),
-                    HomeItemsType.ON_THE_AIR
-                )
-            )
-        }, { _failedState.postValue(++counter) })
+        collectData(seriesRepository.getOnTheAir()) {
+            if (it.isNotEmpty())
+                updateHomeItems(HomeRecyclerItem.OnTheAiring(it, HomeItemsType.ON_THE_AIR))
+        }
+
     }
 
     private fun getAiringToday() {
-        wrapWithState({
-            updateHomeItems(HomeRecyclerItem.AiringToday(seriesRepository.getAiringToday()))
-        }, { _failedState.postValue(++counter) })
+        collectData(seriesRepository.getAiringToday()) {
+            if (it.isNotEmpty())
+                updateHomeItems(HomeRecyclerItem.AiringToday(it))
+        }
+
     }
 
-    private fun getMovieListByGenreID(genreID: Int, type: HomeItemsType) {
-        when (type) {
-            HomeItemsType.MYSTERY -> {
-                wrapWithState({
-                    updateHomeItems(
-                        HomeRecyclerItem.Mystery(
-                            movieRepository.getMovieListByGenreID(genreID = genreID),
-                            type
-                        )
-                    )
-                }, { _failedState.postValue(++counter) })
-            }
-            else -> {
-                wrapWithState({
-                    updateHomeItems(
-                        HomeRecyclerItem.Adventure(
-                            movieRepository.getMovieListByGenreID(
-                                genreID = genreID
-                            ),
-                            type
-                        )
-                    )
-                }, { _failedState.postValue(++counter) })
-            }
+    private fun getMystery() {
+        collectData(movieRepository.getMysteryMovies()) {
+            if (it.isNotEmpty())
+                updateHomeItems(HomeRecyclerItem.Mystery(it, HomeItemsType.MYSTERY))
         }
+
+
+    }
+
+    private fun getAdventure() {
+        collectData(movieRepository.getAdventureMovies()) {
+            if (it.isNotEmpty())
+                updateHomeItems(HomeRecyclerItem.Adventure(it, HomeItemsType.ADVENTURE))
+        }
+
 
     }
 

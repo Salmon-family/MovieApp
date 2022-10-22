@@ -16,6 +16,8 @@ import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.MediaDetails
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.ui.home.HomeRecyclerItem
+import com.karrar.movieapp.ui.home.adapter.HomeAdapter
 import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
@@ -69,6 +71,13 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
             placeholder(R.drawable.loading)
             error(R.drawable.ic_baseline_person_24)
         }
+    }
+}
+
+@BindingAdapter(value = ["app:homeItems"])
+fun <T> setHomeRecyclerItems(view: RecyclerView, items: List<HomeRecyclerItem>?) {
+    items?.forEach {
+        (view.adapter as HomeAdapter).setItem(it)
     }
 }
 

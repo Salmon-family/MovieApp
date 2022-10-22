@@ -4,7 +4,7 @@ import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.PopularMovie
 
-sealed class HomeRecyclerItem(var priority: Int) {
+sealed class HomeRecyclerItem(val priority: Int) {
 
     class Slider(val items: List<PopularMovie>) : HomeRecyclerItem(0)
 

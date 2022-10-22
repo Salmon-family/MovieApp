@@ -32,7 +32,7 @@ class MovieMappersContainer @Inject constructor(
     val adventureMovieMapper: AdventureMovieMapper,
     val mysteryMovieMapper: MysteryMovieMapper,
     val nowStreamingMovieMapper: NowStreamingMovieMapper,
-    val popularMovieEntityMapper: PopularMovieEntityMapper,
+    val popularMovieEntityMapper: PopularMovieMapper,
     val trendingMapper: TrendingMovieMapper,
     val upcomingMovieMapper: UpcomingMovieMapper,
 

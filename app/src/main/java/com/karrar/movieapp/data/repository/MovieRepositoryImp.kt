@@ -40,10 +40,6 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMappersContainer.genreMapper).mapList(it.genres) })
     }
 
-    override suspend fun getPopularMovies(genres: List<Genre>): List<PopularMovie> {
-        return wrap({ movieService.getPopularMovies() },
-            { movieMappersContainer.popularMovieMapper.mapGenreMovie(it.items, genres) })
-    }
 
     override suspend fun getTrendingMovies(page: Int): List<Media> {
         return wrap({ movieService.getTrendingMovies(page = page) },
