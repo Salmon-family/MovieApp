@@ -38,9 +38,11 @@ interface SeriesRepository {
 
     fun getOnTheAir(): Flow<List<Media>>
 
-    fun getTopRatedTvShow() : Flow<List<Media>>
+    fun getTopRatedTvShow(): Flow<List<Media>>
 
+    suspend fun refreshTopRatedTvShow()
 
-    suspend fun refreshHomeData()
+    suspend fun refreshAiringToday()
 
+    suspend fun refreshOnTheAir()
 }

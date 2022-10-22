@@ -87,16 +87,6 @@ class SeriesRepositoryImp @Inject constructor(
         return movieDao.insert(tvShow)
     }
 
-    override suspend fun refreshHomeData() {
-        try {
-            refreshTopRatedTvShow()
-            refreshAiringToday()
-            refreshOnTheAir()
-        } catch (throwable: Throwable) {
-
-        }
-    }
-
     /**
      * Caching
      * */
@@ -120,7 +110,7 @@ class SeriesRepositoryImp @Inject constructor(
     }
 
 
-    private suspend fun refreshAiringToday() {
+    override suspend fun refreshAiringToday() {
         refreshWrapper(
             { service.getAiringToday() },
             { list ->
@@ -135,7 +125,7 @@ class SeriesRepositoryImp @Inject constructor(
         )
     }
 
-    private suspend fun refreshOnTheAir() {
+    override suspend fun refreshOnTheAir() {
         refreshWrapper(
             { service.getOnTheAir() },
             { list ->
@@ -150,7 +140,7 @@ class SeriesRepositoryImp @Inject constructor(
         )
     }
 
-    private suspend fun refreshTopRatedTvShow() {
+    override suspend fun refreshTopRatedTvShow() {
         try {
             val items = mutableListOf<TopRatedSeriesEntity>()
             service.getTopRatedTvShow().body()?.items?.first()?.let {

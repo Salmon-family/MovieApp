@@ -67,11 +67,40 @@ class HomeViewModel @Inject constructor(
 
     init {
         getData()
-        viewModelScope.launch {
-            movieRepository.refreshHomeData()
-            seriesRepository.refreshHomeData()
-        }
+        refreshDataOneTimeInDay { refreshHomeData() }
+    }
 
+    private fun refreshHomeData() {
+        wrapWithState({
+            movieRepository.refreshPopularMovies()
+        })
+        wrapWithState({
+            movieRepository.refreshTrendingMovies()
+        })
+        wrapWithState({
+            movieRepository.refreshNowPlayingMovies()
+        })
+        wrapWithState({
+            movieRepository.refreshAdventureMovies()
+        })
+        wrapWithState({
+            movieRepository.refreshUpcomingMovies()
+        })
+        wrapWithState({
+            movieRepository.refreshMysteryMovies()
+        })
+        wrapWithState({
+            movieRepository.refreshTrendingActors()
+        })
+        wrapWithState({
+            seriesRepository.refreshTopRatedTvShow()
+        })
+        wrapWithState({
+            seriesRepository.refreshAiringToday()
+        })
+        wrapWithState({
+            seriesRepository.refreshOnTheAir()
+        })
     }
 
 

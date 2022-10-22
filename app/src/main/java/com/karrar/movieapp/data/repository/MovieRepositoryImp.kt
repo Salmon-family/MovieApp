@@ -228,12 +228,12 @@ class MovieRepositoryImp @Inject constructor(
             AllMediaType.UPCOMING -> mediaDataSourceContainer.upcomingMovieMovieDataSource
             AllMediaType.MYSTERY -> {
                 val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
-                dataSource.setGenre(Constants.MYSTERY_ID,Constants.MOVIE_CATEGORIES_ID)
+                dataSource.setGenre(Constants.MYSTERY_ID, Constants.MOVIE_CATEGORIES_ID)
                 dataSource
             }
             AllMediaType.ADVENTURE -> {
                 val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
-                dataSource.setGenre(Constants.ADVENTURE_ID,Constants.MOVIE_CATEGORIES_ID)
+                dataSource.setGenre(Constants.ADVENTURE_ID, Constants.MOVIE_CATEGORIES_ID)
                 dataSource
             }
             AllMediaType.NON -> {
@@ -311,21 +311,7 @@ class MovieRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend fun refreshHomeData() {
-        try {
-            refreshPopularMovies()
-            refreshTrendingMovies()
-            refreshNowPlayingMovies()
-            refreshAdventureMovies()
-            refreshUpcomingMovies()
-            refreshMysteryMovies()
-            refreshTrendingActors()
-        } catch (throwable: Throwable) {
-
-        }
-    }
-
-    private suspend fun refreshPopularMovies() {
+    override suspend fun refreshPopularMovies() {
         val genres = getMovieGenreList()
         refreshWrapper(
             { movieService.getPopularMovies() },
@@ -340,7 +326,7 @@ class MovieRepositoryImp @Inject constructor(
 
     }
 
-    private suspend fun refreshTrendingMovies() {
+    override suspend fun refreshTrendingMovies() {
         refreshWrapper(
             { movieService.getTrendingMovies() },
             { list ->
@@ -353,7 +339,7 @@ class MovieRepositoryImp @Inject constructor(
         )
     }
 
-    private suspend fun refreshNowPlayingMovies() {
+    override suspend fun refreshNowPlayingMovies() {
         refreshWrapper(
             { movieService.getNowPlayingMovies() },
             { list ->
@@ -366,7 +352,7 @@ class MovieRepositoryImp @Inject constructor(
         )
     }
 
-    private suspend fun refreshUpcomingMovies() {
+    override suspend fun refreshUpcomingMovies() {
         refreshWrapper({ movieService.getUpcomingMovies() }, { list ->
             list?.map { dataMappers.upcomingMovieMapper.map(it) }
         }, {
@@ -375,7 +361,7 @@ class MovieRepositoryImp @Inject constructor(
         })
     }
 
-    private suspend fun refreshAdventureMovies() {
+    override suspend fun refreshAdventureMovies() {
         refreshWrapper(
             { movieService.getMovieListByGenre(genreID = Constants.ADVENTURE_ID) },
             { list ->
@@ -388,7 +374,7 @@ class MovieRepositoryImp @Inject constructor(
         )
     }
 
-    private suspend fun refreshMysteryMovies() {
+    override suspend fun refreshMysteryMovies() {
         refreshWrapper(
             { movieService.getMovieListByGenre(genreID = Constants.MYSTERY_ID) },
             { list ->
@@ -401,14 +387,14 @@ class MovieRepositoryImp @Inject constructor(
         )
     }
 
-    private suspend fun refreshTrendingActors() {
+    override suspend fun refreshTrendingActors() {
         refreshWrapper(
             { movieService.getTrendingActors() }, { items ->
                 items?.map { dataMappers.actorMapper.map(it) }
             }, {
                 actorDao.deleteActors()
-                actorDao.insertActors(it) }
-
+                actorDao.insertActors(it)
+            }
         )
     }
 

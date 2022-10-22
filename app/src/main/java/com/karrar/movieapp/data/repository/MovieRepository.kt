@@ -86,26 +86,36 @@ interface MovieRepository {
     fun getMediaByGenre(genreID: Int, mediaType: Int): Flow<PagingData<Media>>
 
 
-    fun getPopularMovies() : Flow<List<PopularMovie>>
+    fun getPopularMovies(): Flow<List<PopularMovie>>
 
-    fun getTrendingMovies():Flow<List<Media>>
+    fun getTrendingMovies(): Flow<List<Media>>
 
-    fun getNowPlayingMovies():Flow<List<Media>>
+    fun getNowPlayingMovies(): Flow<List<Media>>
 
-    fun getUpcomingMovies():Flow<List<Media>>
+    fun getUpcomingMovies(): Flow<List<Media>>
 
-    fun getAdventureMovies():Flow<List<Media>>
+    fun getAdventureMovies(): Flow<List<Media>>
 
-    fun getMysteryMovies():Flow<List<Media>>
+    fun getMysteryMovies(): Flow<List<Media>>
 
     fun getTrendingActors(): Flow<List<Actor>>
 
-    suspend fun refreshHomeData()
-
-
-
     suspend fun saveRequestDate(value: Long)
 
-    suspend fun getRequestDate() : Long?
+    suspend fun getRequestDate(): Long?
+
+    suspend fun refreshPopularMovies()
+
+    suspend fun refreshTrendingMovies()
+
+    suspend fun refreshNowPlayingMovies()
+
+    suspend fun refreshAdventureMovies()
+
+    suspend fun refreshUpcomingMovies()
+
+    suspend fun refreshMysteryMovies()
+
+    suspend fun refreshTrendingActors()
 
 }
