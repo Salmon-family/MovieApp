@@ -28,12 +28,12 @@ interface MovieService {
     suspend fun getTopRatedMovies(): Response<BaseResponse<MovieDto>>
 
     @GET("movie/now_playing")
-    suspend fun getNowPlayingMovies(@Query("page") page: Int): Response<BaseResponse<MovieDto>>
+    suspend fun getNowPlayingMovies(@Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
 
     @GET("trending/movie/{time_window}")
     suspend fun getTrendingMovies(
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
-        @Query("page") page: Int
+        @Query("page") page: Int = 1
     ): Response<BaseResponse<MovieDto>>
 
     @GET("trending/person/{time_window}")
@@ -81,7 +81,7 @@ interface MovieService {
     @GET("discover/movie")
     suspend fun getMovieListByGenre(
         @Query("with_genres") genreID: Int,
-        @Query("page") page: Int): Response<BaseResponse<MovieDto>>
+        @Query("page") page: Int = 1): Response<BaseResponse<MovieDto>>
 
     @GET("trending/all/day")
     suspend fun getDailyTrending(): Response<BaseResponse<ListItem>>
@@ -145,16 +145,16 @@ interface MovieService {
     suspend fun getList(@Path("list_id") listId: Int): Response<MyListsDto>
 
     @GET("tv/on_the_air")
-    suspend fun getOnTheAir(@Query("page") page: Int): Response<BaseResponse<TVShowsDTO>>
+    suspend fun getOnTheAir(@Query("page") page: Int = 1 ): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/airing_today")
-    suspend fun getAiringToday(@Query("page")page: Int): Response<BaseResponse<TVShowsDTO>>
+    suspend fun getAiringToday(@Query("page")page: Int= 1): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/top_rated")
-    suspend fun getTopRatedTvShow(@Query("page")page: Int): Response<BaseResponse<TVShowsDTO>>
+    suspend fun getTopRatedTvShow(@Query("page")page: Int = 1): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/popular")
-    suspend fun getPopularTvShow(@Query("page")page: Int): Response<BaseResponse<TVShowsDTO>>
+    suspend fun getPopularTvShow(@Query("page")page: Int= 1): Response<BaseResponse<TVShowsDTO>>
 
     @GET("tv/latest")
     suspend fun getLatestTvShow(): Response<BaseResponse<TVShowsDTO>>

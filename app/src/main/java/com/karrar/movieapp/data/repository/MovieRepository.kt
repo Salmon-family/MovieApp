@@ -43,7 +43,7 @@ interface MovieRepository {
 
     suspend fun getRatedMovie(accountId: Int, sessionId: String): List<Rated>
 
-    suspend fun getTrendingActors(): List<Actor>
+    suspend fun getTrendingActors(page: Int): List<Actor>
 
     suspend fun getActorDetails(actorId: Int): ActorDetails
 
@@ -86,5 +86,28 @@ interface MovieRepository {
     fun getAllMedia(mediaType: Int): Flow<PagingData<Media>>
 
     fun getMediaByGenre(genreID: Int, mediaType: Int): Flow<PagingData<Media>>
+
+
+    fun getPopularMovies() : Flow<List<PopularMovie>>
+
+    fun getTrendingMovies():Flow<List<Media>>
+
+    fun getNowPlayingMovies():Flow<List<Media>>
+
+    fun getUpcomingMovies():Flow<List<Media>>
+
+    fun getAdventureMovies():Flow<List<Media>>
+
+    fun getMysteryMovies():Flow<List<Media>>
+
+    fun getTrendingActors(): Flow<List<Actor>>
+
+    suspend fun refreshHomeData()
+
+
+
+    suspend fun saveRequestDate(value: Long)
+
+    suspend fun getRequestDate() : Long?
 
 }

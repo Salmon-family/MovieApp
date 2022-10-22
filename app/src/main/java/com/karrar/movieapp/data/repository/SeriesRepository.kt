@@ -3,6 +3,7 @@ package com.karrar.movieapp.data.repository
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.domain.models.*
+import kotlinx.coroutines.flow.Flow
 
 interface SeriesRepository {
 
@@ -31,5 +32,15 @@ interface SeriesRepository {
     suspend fun getTvShowTrailer(tvShowId: Int): Trailer
 
     suspend fun insertTvShow(tvShow: WatchHistoryEntity)
+
+
+    fun getAiringToday(): Flow<List<Media>>
+
+    fun getOnTheAir(): Flow<List<Media>>
+
+    fun getTopRatedTvShow() : Flow<List<Media>>
+
+
+    suspend fun refreshHomeData()
 
 }
