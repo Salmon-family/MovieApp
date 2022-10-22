@@ -28,8 +28,7 @@ class HomeAdapter(
             removeAt(item.priority)
             add(item.priority, item)
         }
-        val diffResult = DiffUtil.calculateDiff(BaseDiffUtil(homeItems, newItems,::areItemsSame, ::areContentSame))
-        diffResult.dispatchUpdatesTo(this)
+        setItems(newItems)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {

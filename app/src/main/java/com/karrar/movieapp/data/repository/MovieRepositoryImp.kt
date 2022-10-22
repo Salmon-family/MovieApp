@@ -367,7 +367,7 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     private suspend fun refreshUpcomingMovies() {
-        refreshWrapper({ movieService.getPopularMovies() }, { list ->
+        refreshWrapper({ movieService.getUpcomingMovies() }, { list ->
             list?.map { dataMappers.upcomingMovieMapper.map(it) }
         }, {
             movieDao.deleteAllUpcomingMovies()
