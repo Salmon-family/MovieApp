@@ -27,7 +27,7 @@ abstract class BaseViewModel : ViewModel() {
         data: Flow<List<T>>,
         function: suspend (List<T>) -> Unit
     ){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             data.collect{
                 function(it)
             }
