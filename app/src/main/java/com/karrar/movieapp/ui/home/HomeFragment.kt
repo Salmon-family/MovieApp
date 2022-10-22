@@ -28,15 +28,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun setAdapter(){
         val homeAdapter = HomeAdapter(mutableListOf(
             HomeRecyclerItem.Slider(emptyList()),
-            HomeRecyclerItem.Actor(emptyList()),
-            HomeRecyclerItem.Trending(emptyList(),HomeItemsType.TRENDING),
-            HomeRecyclerItem.Upcoming(emptyList(),HomeItemsType.UPCOMING),
-            HomeRecyclerItem.Adventure(emptyList(),HomeItemsType.ADVENTURE),
-            HomeRecyclerItem.Mystery(emptyList(),HomeItemsType.MYSTERY),
-            HomeRecyclerItem.AiringToday(emptyList()),
-            HomeRecyclerItem.OnTheAiring(emptyList(),HomeItemsType.ON_THE_AIR),
             HomeRecyclerItem.TvShows(emptyList()),
+            HomeRecyclerItem.OnTheAiring(emptyList(),HomeItemsType.ON_THE_AIR),
+            HomeRecyclerItem.Trending(emptyList(),HomeItemsType.TRENDING),
+            HomeRecyclerItem.AiringToday(emptyList()),
             HomeRecyclerItem.NowStreaming(emptyList(),HomeItemsType.NOW_STREAMING),
+            HomeRecyclerItem.Upcoming(emptyList(),HomeItemsType.UPCOMING),
+            HomeRecyclerItem.Mystery(emptyList(),HomeItemsType.MYSTERY),
+            HomeRecyclerItem.Adventure(emptyList(),HomeItemsType.ADVENTURE),
+            HomeRecyclerItem.Actor(emptyList()),
         ), viewModel)
         binding.recyclerView.adapter = homeAdapter
     }

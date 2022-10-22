@@ -3,12 +3,14 @@ package com.karrar.movieapp.ui.home.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.adapters.*
 import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.ui.base.BaseDiffUtil
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.home.HomeInteractionListener
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
@@ -25,7 +27,8 @@ class HomeAdapter(
             removeAt(item.priority)
             add(item.priority, item)
         }
-        super.setItems(newItems)
+        val diffResult = DiffUtil.calculateDiff(BaseDiffUtil(homeItems, newItems,::areItemsSame, ::areContentSame))
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
