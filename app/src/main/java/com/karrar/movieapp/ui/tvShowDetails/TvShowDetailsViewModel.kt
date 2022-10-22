@@ -18,7 +18,6 @@ import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -104,15 +103,15 @@ class TvShowDetailsViewModel @Inject constructor(
     }
 
     private fun getRatedTvShows(tvShowId: Int) {
-//        viewModelScope.launch {
-//            accountRepository.getSessionId().collectLatest {
-//                wrapWithState({
-//                    val response = seriesRepository.getRatedTvShow(0, it.toString())
-//                    checkIfTvShowRated(response, tvShowId)
-//                    updateDetailItems(DetailItem.Rating(this@TvShowDetailsViewModel))
-//                })
-//            }
-//        }
+        viewModelScope.launch {
+            accountRepository.getSessionId()?.let {
+                wrapWithState({
+                    val response = seriesRepository.getRatedTvShow(0, it.toString())
+                    checkIfTvShowRated(response, tvShowId)
+                    updateDetailItems(DetailItem.Rating(this@TvShowDetailsViewModel))
+                })
+            }
+        }
     }
 
     private fun getTvShowReviews(tvShowId: Int) {
@@ -162,19 +161,19 @@ class TvShowDetailsViewModel @Inject constructor(
     }
 
     fun onAddRating(tvShowId: Int, value: Float) {
-//        if (_check.value != value) {
-//            wrapWithState({
-//                accountRepository.getSessionId().collect {
-//                    val response = seriesRepository.setRating(tvShowId, value, it.toString())
-//                    if (response.statusCode != null
-//                        && response.statusCode == Constants.SUCCESS_REQUEST
-//                    ) {
-//                        _check.postValue(value)
-//                    }
-//                }
-//            })
-//            messageAppear.postValue(Event(true))
-//        }
+        if (_check.value != value) {
+            wrapWithState({
+                accountRepository.getSessionId()?.let {
+                    val response = seriesRepository.setRating(tvShowId, value, it)
+                    if (response.statusCode != null
+                        && response.statusCode == Constants.SUCCESS_REQUEST
+                    ) {
+                        _check.postValue(value)
+                    }
+                }
+            })
+            messageAppear.postValue(Event(true))
+        }
     }
 
 
