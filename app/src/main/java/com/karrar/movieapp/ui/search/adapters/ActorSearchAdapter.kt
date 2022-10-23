@@ -2,15 +2,16 @@ package com.karrar.movieapp.ui.search.adapters
 
 import androidx.recyclerview.widget.DiffUtil
 import com.karrar.movieapp.R
+import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.base.BasePagingAdapter
 
-class MediaSearchAdapter(listener: MediaSearchInteractionListener)
-    : BasePagingAdapter<Media>(MediaSearchComparator, listener){
-    override val layoutID: Int = R.layout.item_media_search
+class ActorSearchAdapter(listener: ActorSearchInteractionListener)
+    : BasePagingAdapter<Media>(ActorSearchComparator, listener){
+    override val layoutID: Int = R.layout.item_actor_search
 
-    object MediaSearchComparator : DiffUtil.ItemCallback<Media>(){
+    object ActorSearchComparator : DiffUtil.ItemCallback<Media>(){
         override fun areItemsTheSame(oldItem: Media, newItem: Media) =
             oldItem.mediaID == newItem.mediaID
 
@@ -19,6 +20,6 @@ class MediaSearchAdapter(listener: MediaSearchInteractionListener)
     }
 }
 
-interface MediaSearchInteractionListener : BaseInteractionListener {
-    fun onClickMediaResult(media: Media)
+interface ActorSearchInteractionListener : BaseInteractionListener{
+    fun onClickActorResult(personID: Int, name: String)
 }

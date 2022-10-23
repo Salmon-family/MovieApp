@@ -59,11 +59,11 @@ interface MovieRepository {
     suspend fun addMovieToList(sessionId: String, listId: Int, movieId: Int): AddMovieDto
 
 
-    suspend fun searchForMovie(query: String): List<Media>
+    fun searchForMovie(query: String): Flow<PagingData<Media>>
 
-    suspend fun searchForSeries(query: String): List<Media>
+    fun searchForSeries(query: String): Flow<PagingData<Media>>
 
-    suspend fun searchForActor(query: String): List<Media>
+    fun searchForActor(query: String): Flow<PagingData<Media>>
 
     fun getAllSearchHistory(): Flow<List<SearchHistory>>
 

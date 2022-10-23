@@ -189,6 +189,13 @@ fun <T> showWhenListIsEmpty(view: View, list: List<T>?) {
     view.isVisible = list?.isEmpty() == true
 }
 
+@BindingAdapter("app:hideWhenListIsEmpty")
+fun <T> hideWhenListIsEmpty(view: View, list: List<T>?) {
+    if(list?.isEmpty() == true){
+        view.visibility = View.INVISIBLE
+    }
+}
+
 @BindingAdapter("app:showWhenListIsNotEmpty")
 fun <T> showWhenListIsNotEmpty(view: View, list: List<T>?) {
     view.isVisible = list?.isNotEmpty() == true
@@ -228,4 +235,9 @@ fun setDuration(view: TextView, duration: Int?) {
 @BindingAdapter("app:hideIfNotTypeOfMovie")
 fun hideIfNotTypeOfMovie(view: View, mediaType: MediaType?) {
     if (mediaType != MediaType.MOVIE) view.isVisible = false
+}
+
+@BindingAdapter("app:showWhenNoResults")
+fun <T>showWhenNoResults(view: View, state: UIState<T>?){
+    view.isVisible = (state == UIState.Success(false))
 }

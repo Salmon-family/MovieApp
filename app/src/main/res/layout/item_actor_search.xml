@@ -9,7 +9,7 @@
             type="com.karrar.movieapp.domain.models.Media" />
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.search.adapters.PersonInteractionListener" />
+            type="com.karrar.movieapp.ui.search.adapters.ActorSearchInteractionListener" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             app:shapeAppearanceOverlay="@style/Circle"
             tools:src="@drawable/actor"
             app:posterImage="@{item.mediaImage}"
-            android:onClick="@{() -> listener.onClickPerson(item.mediaID, item.mediaName)}"/>
+            android:onClick="@{() -> listener.onClickActorResult(item.mediaID, item.mediaName)}"/>
 
         <TextView
             android:id="@+id/cast_name"

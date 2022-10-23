@@ -44,17 +44,20 @@ interface MovieService {
 
     @GET("search/person")
     suspend fun searchForActor(
-        @Query("query") query: String
+        @Query("query") query: String,
+        @Query("page") page: Int
     ): Response<BaseListResponse<ActorDto>>
 
     @GET("search/movie")
     suspend fun searchForMovie(
-        @Query("query") query: String
+        @Query("query") query: String,
+        @Query("page") page: Int
     ): Response<BaseListResponse<MovieDto>>
 
     @GET("search/tv")
     suspend fun searchForSeries(
-        @Query("query") query: String
+        @Query("query") query: String,
+        @Query("page") page: Int
     ): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("authentication/token/new")
