@@ -9,6 +9,7 @@ import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.MovieDetails
 import com.karrar.movieapp.domain.models.Rated
+import com.karrar.movieapp.domain.usecase.*
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
@@ -23,7 +24,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
-    private val movieRepository: MovieRepository,
+    val getMovieDetailsUseCase: GetMovieDetailsUseCase,
+    val getMovieCastUseCase: GetMovieCastUseCase,
+    val getSimilarMovieUseCase: GetSimilarMovieUseCase,
+    val getRatedMovieUseCase: GetRatedMovieUseCase,
+    val getMovieReviewsUseCase: GetMovieReviewsUseCase,
+    val insertMovieUseCase: InsertMovieUseCase,
+    val setRatingUseCase: SetRatingUseCase,
     private val accountRepository: AccountRepository,
     state: SavedStateHandle,
 ) : MediaDetailsViewModel(), ActorsInteractionListener, MovieInteractionListener,
@@ -82,7 +89,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun getMovieDetails(movieId: Int) {
         wrapWithState(
             {
-                val response = movieRepository.getMovieDetails(movieId)
+                val response = getMovieDetailsUseCase(movieId)
                 updateDetailItems(DetailItem.Header(response))
                 insertMovieToWatchHistory(response)
             }, {
@@ -92,7 +99,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getMovieCast(movieId: Int) {
         wrapWithState({
-            val response = movieRepository.getMovieCast(movieId)
+            val response = getMovieCastUseCase(movieId)
             updateDetailItems(DetailItem.Cast(response))
         })
     }
@@ -100,28 +107,28 @@ class MovieDetailsViewModel @Inject constructor(
     private fun getSimilarMovie(movieId: Int) {
         wrapWithState(
             {
-                val response = movieRepository.getSimilarMovie(movieId)
+                val response = getSimilarMovieUseCase(movieId)
                 updateDetailItems(DetailItem.SimilarMovies(response))
             }
         )
     }
 
     private fun getRatedMovie(movieId: Int) {
-        wrapWithState( {
+        wrapWithState({
             val sessionId = accountRepository.getSessionId()
             sessionId?.let {
-                val response = movieRepository.getRatedMovie(0, it)
+                val response = getRatedMovieUseCase(0, it)
                 checkIfMovieRated(response, movieId)
                 updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
             }
-        },{
+        }, {
 
         })
     }
 
     private fun getMovieReviews(movieId: Int) {
         wrapWithState({
-            val response = movieRepository.getMovieReviews(movieId)
+            val response = getMovieReviewsUseCase(movieId)
             if (response.isNotEmpty()) {
                 response.take(3).forEach { updateDetailItems(DetailItem.Comment(it)) }
                 updateDetailItems(DetailItem.ReviewText)
@@ -133,7 +140,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun insertMovieToWatchHistory(movie: MovieDetails?) {
         viewModelScope.launch {
             movie?.let { movieDetails ->
-                movieRepository.insertMovie(
+                insertMovieUseCase(
                     WatchHistoryEntity(
                         id = movieDetails.id,
                         posterPath = movieDetails.image,
@@ -163,7 +170,7 @@ class MovieDetailsViewModel @Inject constructor(
             wrapWithState({
                 val sessionId = accountRepository.getSessionId()
                 sessionId?.let {
-                    val response = movieRepository.setRating(movie_id, value, it)
+                    val response = setRatingUseCase(movie_id, value, it)
                     if (response.statusCode != null
                         && response.statusCode == Constants.SUCCESS_REQUEST
                     ) {
