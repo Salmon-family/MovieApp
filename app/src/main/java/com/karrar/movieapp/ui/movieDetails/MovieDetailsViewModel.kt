@@ -123,13 +123,13 @@ class MovieDetailsViewModel @Inject constructor(
             _uiState.update { it.copy(sessionIdResult = getSessionIdUseCase()) }
             _uiState.update {
                 it.copy(
-                    movieRatedResult = getRatedMovieUseCase(
+                    movieGetRatedResult = getRatedMovieUseCase(
                         0,
                         _uiState.value.sessionIdResult ?: ""
                     )
                 )
             }
-            checkIfMovieRated(_uiState.value.movieRatedResult, movieId)
+            checkIfMovieRated(_uiState.value.movieGetRatedResult, movieId)
             updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
         })
     }
@@ -174,22 +174,26 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    /*
-    not manage to ui state
-     */
     fun onAddRating(movie_id: Int, value: Float) {
         if (_check.value != value) {
             wrapWithState({
-                val sessionId = getSessionIdUseCase()
-                sessionId?.let {
-                    val response = setRatingUseCase(movie_id, value, it)
-                    if (response.statusCode != null
-                        && response.statusCode == Constants.SUCCESS_REQUEST
-                    ) {
-                        _check.postValue(value)
-                    }
-                    messageAppear.postValue(Event(true))
+                _uiState.update { it.copy(sessionIdResult = getSessionIdUseCase()) }
+
+                _uiState.update {
+                    it.copy(
+                        movieSetRatedResult = setRatingUseCase(
+                            movie_id,
+                            value,
+                            _uiState.value.sessionIdResult ?: ""
+                        )
+                    )
                 }
+                if (_uiState.value.movieSetRatedResult.statusCode != null
+                    && _uiState.value.movieSetRatedResult.statusCode == Constants.SUCCESS_REQUEST
+                ) {
+                    _check.postValue(value)
+                }
+                messageAppear.postValue(Event(true))
             })
         }
     }
