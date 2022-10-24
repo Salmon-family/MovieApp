@@ -28,7 +28,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenSuccess="@{viewModel.actorsState}"
+            app:showWhenSuccess="@{viewModel.uiState.actorsState}"
             app:spanCount="4" />
 
         <include
@@ -38,12 +38,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.actorsState}" />
+            app:loading="@{viewModel.uiState.actorsState}" />
 
         <include
             android:id="@+id/error"
             layout="@layout/error"
-            app:error="@{viewModel.actorsState}"
+            app:error="@{viewModel.uiState.actorsState}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -27,7 +27,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenSuccess="@{viewModel.actorsState}"
+            app:showWhenSuccess="@{viewModel.uiState.actorsState}"
             app:spanCount="4" />
 
 </layout>

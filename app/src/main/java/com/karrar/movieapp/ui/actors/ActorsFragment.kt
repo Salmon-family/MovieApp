@@ -38,9 +38,9 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
         mManager.setSpanSize(footerAdapter, actorsAdapter, mManager.spanCount)
 
         collect(flow = actorsAdapter.loadStateFlow,
-            action = { viewModel.setErrorUiState(it.source.refresh) })
+            action = { viewModel.setUiState(it.source.refresh) })
 
-        collectLast(viewModel.trendingActors, ::setAllActors)
+        collectLast(viewModel.uiState.value.actors, ::setAllActors)
     }
 
 
