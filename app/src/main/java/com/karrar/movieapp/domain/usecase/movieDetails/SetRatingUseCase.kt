@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.usecase
+package com.karrar.movieapp.domain.usecase.movieDetails
 
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.repository.MovieRepository

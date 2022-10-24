@@ -3,7 +3,7 @@ package com.karrar.movieapp.ui.movieDetails.movieReviews
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.karrar.movieapp.domain.models.Review
-import com.karrar.movieapp.domain.usecase.GetMovieReviewsUseCase
+import com.karrar.movieapp.domain.usecase.movieDetails.GetMovieReviewsUseCase
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel

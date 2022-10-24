@@ -7,7 +7,7 @@ import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.MovieDetails
 import com.karrar.movieapp.domain.models.Rated
-import com.karrar.movieapp.domain.usecase.*
+import com.karrar.movieapp.domain.usecase.movieDetails.*
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
@@ -83,7 +83,6 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getAllDetails(movieId: Int) {
         _uiState.update { it.copy(isLoading = true) }
-        _detailItemsLiveData.postValue(UIState.Loading)
         getMovieDetails(movieId)
         getMovieCast(movieId)
         getSimilarMovie(movieId)
