@@ -16,20 +16,24 @@ import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
-    val getMovieDetailsUseCase: GetMovieDetailsUseCase,
-    val getMovieCastUseCase: GetMovieCastUseCase,
-    val getSimilarMovieUseCase: GetSimilarMovieUseCase,
-    val getRatedMovieUseCase: GetRatedMovieUseCase,
-    val getMovieReviewsUseCase: GetMovieReviewsUseCase,
-    val insertMovieUseCase: InsertMovieUseCase,
-    val setRatingUseCase: SetRatingUseCase,
-    val getSessionIdUseCase: GetSessionIdUseCase,
+    private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
+    private val getMovieCastUseCase: GetMovieCastUseCase,
+    private val getSimilarMovieUseCase: GetSimilarMovieUseCase,
+    private val getRatedMovieUseCase: GetRatedMovieUseCase,
+    private val getMovieReviewsUseCase: GetMovieReviewsUseCase,
+    private val insertMovieUseCase: InsertMovieUseCase,
+    private val setRatingUseCase: SetRatingUseCase,
+    private val getSessionIdUseCase: GetSessionIdUseCase,
     state: SavedStateHandle,
 ) : MediaDetailsViewModel(), ActorsInteractionListener, MovieInteractionListener,
     DetailInteractionListener {
@@ -63,8 +67,11 @@ class MovieDetailsViewModel @Inject constructor(
 
     override var ratingValue = MutableLiveData<Float>()
 
-    val detailItemsLiveData = MutableLiveData<UIState<List<DetailItem>>>()
+    //    val detailItemsLiveData = MutableLiveData<UIState<List<DetailItem>>>()
     private val detailItems = mutableListOf<DetailItem>()
+
+    private val _uiState = MutableStateFlow(MovieDetailsUIState())
+    val uiState: StateFlow<MovieDetailsUIState> = _uiState.asStateFlow()
 
     init {
         getData()
@@ -76,7 +83,7 @@ class MovieDetailsViewModel @Inject constructor(
 
 
     private fun getAllDetails(movieId: Int) {
-        detailItemsLiveData.postValue(UIState.Loading)
+        _uiState.update { it.copy(isLoading = true) }
         getMovieDetails(movieId)
         getMovieCast(movieId)
         getSimilarMovie(movieId)
@@ -87,51 +94,55 @@ class MovieDetailsViewModel @Inject constructor(
     private fun getMovieDetails(movieId: Int) {
         wrapWithState(
             {
-                val response = getMovieDetailsUseCase(movieId)
-                updateDetailItems(DetailItem.Header(response))
-                insertMovieToWatchHistory(response)
+                _uiState.update { it.copy(movieDetailsResult = getMovieDetailsUseCase(movieId)) }
+                updateDetailItems(DetailItem.Header(_uiState.value.movieDetailsResult))
+                insertMovieToWatchHistory(_uiState.value.movieDetailsResult)
             }, {
-                detailItemsLiveData.postValue(UIState.Error(""))
+                _uiState.update { it.copy(errors = mutableListOf(Error(message = ""))) }
             })
     }
 
     private fun getMovieCast(movieId: Int) {
         wrapWithState({
-            val response = getMovieCastUseCase(movieId)
-            updateDetailItems(DetailItem.Cast(response))
+            _uiState.update { it.copy(movieCastResult = getMovieCastUseCase(movieId)) }
+            updateDetailItems(DetailItem.Cast(_uiState.value.movieCastResult))
         })
     }
 
     private fun getSimilarMovie(movieId: Int) {
         wrapWithState(
             {
-                val response = getSimilarMovieUseCase(movieId)
-                updateDetailItems(DetailItem.SimilarMovies(response))
+                _uiState.update { it.copy(similarMoviesResult = getSimilarMovieUseCase(movieId)) }
+                updateDetailItems(DetailItem.SimilarMovies(_uiState.value.similarMoviesResult))
             }
         )
     }
 
     private fun getRatedMovie(movieId: Int) {
         wrapWithState({
-            val sessionId = getSessionIdUseCase()
-            sessionId?.let {
-                val response = getRatedMovieUseCase(0, it)
-                checkIfMovieRated(response, movieId)
-                updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
+            _uiState.update { it.copy(sessionIdResult = getSessionIdUseCase()) }
+            _uiState.update {
+                it.copy(
+                    movieRatedResult = getRatedMovieUseCase(
+                        0,
+                        _uiState.value.sessionIdResult ?: ""
+                    )
+                )
             }
-        }, {
-
+            checkIfMovieRated(_uiState.value.movieRatedResult, movieId)
+            updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
         })
     }
 
     private fun getMovieReviews(movieId: Int) {
         wrapWithState({
-            val response = getMovieReviewsUseCase(movieId)
-            if (response.isNotEmpty()) {
-                response.take(3).forEach { updateDetailItems(DetailItem.Comment(it)) }
+            _uiState.update { it.copy(movieReview = getMovieReviewsUseCase(movieId)) }
+            if (_uiState.value.movieReview.isNotEmpty()) {
+                _uiState.value.movieReview.take(3)
+                    .forEach { updateDetailItems(DetailItem.Comment(it)) }
                 updateDetailItems(DetailItem.ReviewText)
             }
-            if (response.count() > 3) updateDetailItems(DetailItem.SeeAllReviewsButton)
+            if (_uiState.value.movieReview.count() > 3) updateDetailItems(DetailItem.SeeAllReviewsButton)
         })
     }
 
@@ -163,6 +174,9 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+    /*
+    not manage to ui state
+     */
     fun onAddRating(movie_id: Int, value: Float) {
         if (_check.value != value) {
             wrapWithState({
@@ -182,7 +196,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun updateDetailItems(item: DetailItem) {
         detailItems.add(item)
-        detailItemsLiveData.postValue(UIState.Success(detailItems))
+        _uiState.update { it.copy(detailItemResult = detailItems) }
     }
 
     override fun onClickSave() {
