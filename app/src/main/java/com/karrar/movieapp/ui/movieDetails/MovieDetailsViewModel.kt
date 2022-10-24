@@ -4,8 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.repository.AccountRepository
-import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.MovieDetails
 import com.karrar.movieapp.domain.models.Rated
@@ -31,7 +29,7 @@ class MovieDetailsViewModel @Inject constructor(
     val getMovieReviewsUseCase: GetMovieReviewsUseCase,
     val insertMovieUseCase: InsertMovieUseCase,
     val setRatingUseCase: SetRatingUseCase,
-    private val accountRepository: AccountRepository,
+    val getSessionIdUseCase: GetSessionIdUseCase,
     state: SavedStateHandle,
 ) : MediaDetailsViewModel(), ActorsInteractionListener, MovieInteractionListener,
     DetailInteractionListener {
@@ -115,7 +113,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getRatedMovie(movieId: Int) {
         wrapWithState({
-            val sessionId = accountRepository.getSessionId()
+            val sessionId = getSessionIdUseCase()
             sessionId?.let {
                 val response = getRatedMovieUseCase(0, it)
                 checkIfMovieRated(response, movieId)
@@ -168,7 +166,7 @@ class MovieDetailsViewModel @Inject constructor(
     fun onAddRating(movie_id: Int, value: Float) {
         if (_check.value != value) {
             wrapWithState({
-                val sessionId = accountRepository.getSessionId()
+                val sessionId = getSessionIdUseCase()
                 sessionId?.let {
                     val response = setRatingUseCase(movie_id, value, it)
                     if (response.statusCode != null
