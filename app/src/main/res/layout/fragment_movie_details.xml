@@ -23,26 +23,27 @@
             android:scrollbars="none"
             app:items="@{viewModel.uiState.detailItemResult}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:showWhenSuccess="@{viewModel.detailsItemLiveData}"
             app:spanCount="1" />
 
-<!--        <include-->
-<!--            android:id="@+id/loading"-->
-<!--            layout="@layout/loading"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:loading="@{viewModel.uiState}" />-->
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:loading="@{viewModel.detailsItemLiveData}" />
 
-<!--        <include-->
-<!--            android:id="@+id/error"-->
-<!--            layout="@layout/error"-->
-<!--            app:error="@{viewModel.uiState}"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:viewModel="@{viewModel}" />-->
+        <include
+            android:id="@+id/error"
+            layout="@layout/error"
+            app:error="@{viewModel.detailsItemLiveData}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:viewModel="@{viewModel}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

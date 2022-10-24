@@ -40,9 +40,6 @@ class MovieDetailsViewModel @Inject constructor(
 
     private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
 
-    private var _movieDetails = MutableLiveData<UIState<MovieDetails>>()
-    val movieDetails = _movieDetails.toLiveData()
-
     private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
     var clickBackEvent = _clickBackEvent.toLiveData()
 
@@ -67,7 +64,9 @@ class MovieDetailsViewModel @Inject constructor(
 
     override var ratingValue = MutableLiveData<Float>()
 
-    //    val detailItemsLiveData = MutableLiveData<UIState<List<DetailItem>>>()
+    private val _detailItemsLiveData = MutableLiveData<UIState<Boolean>>()
+    val detailsItemLiveData = _detailItemsLiveData.toLiveData()
+
     private val detailItems = mutableListOf<DetailItem>()
 
     private val _uiState = MutableStateFlow(MovieDetailsUIState())
@@ -84,6 +83,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getAllDetails(movieId: Int) {
         _uiState.update { it.copy(isLoading = true) }
+        _detailItemsLiveData.postValue(UIState.Loading)
         getMovieDetails(movieId)
         getMovieCast(movieId)
         getSimilarMovie(movieId)
@@ -94,17 +94,28 @@ class MovieDetailsViewModel @Inject constructor(
     private fun getMovieDetails(movieId: Int) {
         wrapWithState(
             {
-                _uiState.update { it.copy(movieDetailsResult = getMovieDetailsUseCase(movieId)) }
+                _uiState.update {
+                    it.copy(
+                        movieDetailsResult = getMovieDetailsUseCase(movieId),
+                        isLoading = false
+                    )
+                }
                 updateDetailItems(DetailItem.Header(_uiState.value.movieDetailsResult))
                 insertMovieToWatchHistory(_uiState.value.movieDetailsResult)
+                _detailItemsLiveData.postValue(UIState.Success(true))
             }, {
-                _uiState.update { it.copy(errors = mutableListOf(Error(message = ""))) }
+                _detailItemsLiveData.postValue(UIState.Error(_uiState.value.errors.joinToString { it.message }))
             })
     }
 
     private fun getMovieCast(movieId: Int) {
         wrapWithState({
-            _uiState.update { it.copy(movieCastResult = getMovieCastUseCase(movieId)) }
+            _uiState.update {
+                it.copy(
+                    movieCastResult = getMovieCastUseCase(movieId),
+                    isLoading = false
+                )
+            }
             updateDetailItems(DetailItem.Cast(_uiState.value.movieCastResult))
         })
     }
@@ -112,7 +123,12 @@ class MovieDetailsViewModel @Inject constructor(
     private fun getSimilarMovie(movieId: Int) {
         wrapWithState(
             {
-                _uiState.update { it.copy(similarMoviesResult = getSimilarMovieUseCase(movieId)) }
+                _uiState.update {
+                    it.copy(
+                        similarMoviesResult = getSimilarMovieUseCase(movieId),
+                        isLoading = false
+                    )
+                }
                 updateDetailItems(DetailItem.SimilarMovies(_uiState.value.similarMoviesResult))
             }
         )
@@ -120,7 +136,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getRatedMovie(movieId: Int) {
         wrapWithState({
-            _uiState.update { it.copy(sessionIdResult = getSessionIdUseCase()) }
+            _uiState.update { it.copy(sessionIdResult = getSessionIdUseCase(), isLoading = false) }
             _uiState.update {
                 it.copy(
                     movieGetRatedResult = getRatedMovieUseCase(
@@ -136,7 +152,12 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getMovieReviews(movieId: Int) {
         wrapWithState({
-            _uiState.update { it.copy(movieReview = getMovieReviewsUseCase(movieId)) }
+            _uiState.update {
+                it.copy(
+                    movieReview = getMovieReviewsUseCase(movieId),
+                    isLoading = false
+                )
+            }
             if (_uiState.value.movieReview.isNotEmpty()) {
                 _uiState.value.movieReview.take(3)
                     .forEach { updateDetailItems(DetailItem.Comment(it)) }
@@ -177,7 +198,12 @@ class MovieDetailsViewModel @Inject constructor(
     fun onAddRating(movie_id: Int, value: Float) {
         if (_check.value != value) {
             wrapWithState({
-                _uiState.update { it.copy(sessionIdResult = getSessionIdUseCase()) }
+                _uiState.update {
+                    it.copy(
+                        sessionIdResult = getSessionIdUseCase(),
+                        isLoading = false
+                    )
+                }
 
                 _uiState.update {
                     it.copy(
