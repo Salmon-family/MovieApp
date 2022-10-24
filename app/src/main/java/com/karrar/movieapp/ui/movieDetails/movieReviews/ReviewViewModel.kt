@@ -7,8 +7,13 @@ import com.karrar.movieapp.domain.usecase.GetMovieReviewsUseCase
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.movieDetails.MovieDetailsUIState
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 
@@ -19,6 +24,10 @@ class ReviewViewModel @Inject constructor(
 ) : BaseViewModel(), BaseInteractionListener {
 
     private val args = ReviewFragmentArgs.fromSavedStateHandle(state)
+
+    private val _uiState = MutableStateFlow(MovieDetailsUIState())
+    val uiState: StateFlow<MovieDetailsUIState> = _uiState.asStateFlow()
+
 
     private var _movieReviews = MutableLiveData<UIState<List<Review>>>()
     val movieReviews = _movieReviews.toLiveData()
@@ -31,11 +40,16 @@ class ReviewViewModel @Inject constructor(
         _movieReviews.postValue(UIState.Loading)
         wrapWithState(
             {
-                val response = getMovieReviewsUseCase(args.mediaId)
-                if (response.isNotEmpty()) {
-                    _movieReviews.postValue(UIState.Success(response))
+                _uiState.update {
+                    it.copy(
+                        movieReview = getMovieReviewsUseCase(args.mediaId),
+                        isLoading = false
+                    )
                 }
-            }, { _movieReviews.postValue(UIState.Error("")) })
+                if (_uiState.value.movieReview.isNotEmpty()) {
+                    _movieReviews.postValue(UIState.Success(_uiState.value.movieReview))
+                }
+            },
+            { _movieReviews.postValue(UIState.Error(_uiState.value.errors.joinToString { it.message })) })
     }
-
 }
