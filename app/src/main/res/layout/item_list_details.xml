@@ -9,7 +9,7 @@
             type="com.karrar.movieapp.domain.models.SaveListDetails" />
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.myList.ListDetailsInteractionListener" />
+            type="com.karrar.movieapp.ui.myList.listDetails.ListDetailsInteractionListener" />
     </data>
 
 

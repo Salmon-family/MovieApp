@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.myList
+package com.karrar.movieapp.ui.myList.listDetails
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

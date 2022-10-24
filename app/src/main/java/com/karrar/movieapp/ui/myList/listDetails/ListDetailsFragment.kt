@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.myList
+package com.karrar.movieapp.ui.myList.listDetails
 
 import android.os.Bundle
 import android.view.View
@@ -41,11 +41,19 @@ class ListDetailsFragment : BaseFragment<FragmentListDetailsBinding>() {
     }
 
     private fun navigateToMovieDetails(id: Int) {
-        findNavController().navigate(ListDetailsFragmentDirections.actionSavedListFragmentToMovieDetailFragment(id))
+        findNavController().navigate(
+           ListDetailsFragmentDirections.actionSavedListFragmentToMovieDetailFragment(
+                id
+            )
+        )
     }
 
     private fun navigateToTvShowDetails(id: Int) {
-        findNavController().navigate(ListDetailsFragmentDirections.actionListDetailsFragmentToTvShowDetailsFragment(id))
+        findNavController().navigate(
+            ListDetailsFragmentDirections.actionListDetailsFragmentToTvShowDetailsFragment(
+                id
+            )
+        )
     }
 
 }
