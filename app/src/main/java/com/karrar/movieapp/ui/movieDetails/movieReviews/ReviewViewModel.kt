@@ -2,8 +2,8 @@ package com.karrar.movieapp.ui.movieDetails.movieReviews
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Review
+import com.karrar.movieapp.domain.usecase.GetMovieReviewsUseCase
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReviewViewModel @Inject constructor(
-    private val movieRepository: MovieRepository,
+    private val getMovieReviewsUseCase: GetMovieReviewsUseCase,
     state: SavedStateHandle
 ) : BaseViewModel(), BaseInteractionListener {
 
@@ -31,7 +31,7 @@ class ReviewViewModel @Inject constructor(
         _movieReviews.postValue(UIState.Loading)
         wrapWithState(
             {
-                val response = movieRepository.getMovieReviews(args.mediaId)
+                val response = getMovieReviewsUseCase(args.mediaId)
                 if (response.isNotEmpty()) {
                     _movieReviews.postValue(UIState.Success(response))
                 }
