@@ -14,7 +14,6 @@ import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.*
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 
 @AndroidEntryPoint
@@ -47,7 +46,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     private fun getDataByCategory() {
         viewModel.selectedCategory.observe(viewLifecycleOwner) {
             allMediaAdapter.submitData(lifecycle, PagingData.empty())
-            viewModel.setAllMediaList()
+            viewModel.getMediaList()
             collectLast(viewModel.uiState.value.media) {
                 allMediaAdapter.submitData(it)
             }

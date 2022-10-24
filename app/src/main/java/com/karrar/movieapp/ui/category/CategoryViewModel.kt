@@ -4,9 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
-import androidx.paging.PagingData
-import com.karrar.movieapp.domain.models.Genre
-import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.usecase.GetCategoryUseCase
 import com.karrar.movieapp.domain.usecase.GetGenreUseCase
 import com.karrar.movieapp.ui.UIState
@@ -21,24 +18,17 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
-data class CategoryUIState(
-    val genre: List<Genre> = emptyList(),
-    val media: Flow<PagingData<Media>> = emptyFlow(),
-    val mediaUIState: UIState<Boolean> = UIState.Loading,
-)
-
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     private val getCategoryUseCase: GetCategoryUseCase,
-    private val getGenreUsecase: GetGenreUseCase,
+    private val getGenreUseCase: GetGenreUseCase,
     state: SavedStateHandle
 ) : BaseViewModel(), MediaInteractionListener, CategoryInteractionListener {
 
     val args = CategoryFragmentArgs.fromSavedStateHandle(state)
 
     private val _uiState = MutableStateFlow(CategoryUIState())
-    val uiState: StateFlow<CategoryUIState> = _uiState
+    val uiState: StateFlow<CategoryUIState> = _uiState.asStateFlow()
 
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
     var clickMovieEvent = _clickMovieEvent
@@ -54,20 +44,22 @@ class CategoryViewModel @Inject constructor(
     }
 
     override fun getData() {
-        setAllMediaList()
         getGenre()
+        getMediaList()
         _clickRetryEvent.postEvent(true)
     }
 
     private fun getGenre() {
         viewModelScope.launch {
-            _uiState.update {
-                it.copy(genre = getGenreUsecase(args.mediaId))
+            try {
+                _uiState.update { it.copy(genre = getGenreUseCase(args.mediaId)) }
+            } catch (t: Throwable) {
+                _uiState.update { it.copy(mediaUIState = UIState.Error("")) }
             }
         }
     }
 
-    fun setAllMediaList() {
+    fun getMediaList() {
         _uiState.update { it.copy(mediaUIState = UIState.Loading) }
         val result = getCategoryUseCase(args.mediaId, selectedCategory.value ?: FIRST_CATEGORY_ID)
         _uiState.update { it.copy(mediaUIState = UIState.Success(true), media = result) }
@@ -91,5 +83,6 @@ class CategoryViewModel @Inject constructor(
             }
         }
     }
+
 }
 
