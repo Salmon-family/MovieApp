@@ -20,40 +20,39 @@
             android:layout_height="60dp"
             android:background="@color/background_color">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/bottom_line"
-                app:contentInsetStart="0dp"
-                app:layout_scrollFlags="scroll|enterAlways">
+<!--            <com.google.android.material.appbar.MaterialToolbar-->
+<!--                android:id="@+id/toolbar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:background="@drawable/bottom_line"-->
+<!--                app:contentInsetStart="0dp"-->
+<!--                app:layout_scrollFlags="scroll|enterAlways">-->
 
-                <HorizontalScrollView
-                    android:id="@+id/horizontalScrollView"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/chip_height"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:clipToPadding="false"
-                    android:overScrollMode="never"
-                    android:paddingHorizontal="@dimen/spacing_medium"
-                    android:scrollbars="none"
-                    tools:background="@color/brand_color">
+<!--                <HorizontalScrollView-->
+<!--                    android:id="@+id/horizontalScrollView"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="@dimen/chip_height"-->
+<!--                    android:layout_marginTop="@dimen/spacing_medium"-->
+<!--                    android:clipToPadding="false"-->
+<!--                    android:overScrollMode="never"-->
+<!--                    android:paddingHorizontal="@dimen/spacing_medium"-->
+<!--                    android:scrollbars="none"-->
+<!--                    tools:background="@color/brand_color">-->
 
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/chipGroup_category"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:firstChipSelection="@{true}"
-                        app:genresId="@{viewModel.args.mediaId}"
-                        app:listener="@{viewModel}"
-                        app:selectionRequired="true"
-                        app:setGenres="@{viewModel.categories}"
-                        app:singleLine="true"
-                        app:singleSelection="true" />
+<!--                    <com.google.android.material.chip.ChipGroup-->
+<!--                        android:id="@+id/chipGroup_category"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        app:firstChipSelection="@{true}"-->
+<!--                        app:genresId="@{viewModel.args.mediaId}"-->
+<!--                        app:listener="@{viewModel}"-->
+<!--                        app:selectionRequired="true"-->
+<!--                        app:singleLine="true"-->
+<!--                        app:singleSelection="true" />-->
 
-                </HorizontalScrollView>
+<!--                </HorizontalScrollView>-->
 
-            </com.google.android.material.appbar.MaterialToolbar>
+<!--            </com.google.android.material.appbar.MaterialToolbar>-->
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -73,24 +72,24 @@
             tools:listitem="@layout/item_media" />
 
 
-        <include
-            android:id="@+id/loading"
-            layout="@layout/loading"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.allMediaState}" />
+<!--        <include-->
+<!--            android:id="@+id/loading"-->
+<!--            layout="@layout/loading"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:loading="@{viewModel.allMediaState}" />-->
 
-        <include
-            android:id="@+id/error"
-            layout="@layout/error"
-            app:error="@{viewModel.allMediaState}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
+<!--        <include-->
+<!--            android:id="@+id/error"-->
+<!--            layout="@layout/error"-->
+<!--            app:error="@{viewModel.allMediaState}"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:viewModel="@{viewModel}" />-->
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

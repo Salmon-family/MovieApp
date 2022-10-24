@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
 
-    val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
 
     fun wrapWithState(function: suspend () -> Unit, errorFunction: (e: Throwable) -> Unit = {}) {
         viewModelScope.launch {
@@ -36,5 +35,6 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     abstract fun getData()
+
 
 }

@@ -3,9 +3,7 @@ package com.karrar.movieapp.ui.category
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentCategoryBinding
@@ -15,6 +13,7 @@ import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.*
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.flow
 
 @AndroidEntryPoint
 class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
@@ -44,13 +43,17 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     }
 
     private fun getDataByCategory() {
-        viewModel.selectedCategory.observe(viewLifecycleOwner) { categoryId ->
-            allMediaAdapter.submitData(lifecycle, PagingData.empty())
-            categoryId?.let {
-                collectLast(viewModel.setAllMediaList(categoryId))
-                { allMediaAdapter.submitData(it) }
-            }
+        collectLast(viewModel.uiState.value.media) {
+            allMediaAdapter.submitData(it)
         }
+
+//        viewModel.selectedCategory.observe(viewLifecycleOwner) { categoryId ->
+//            allMediaAdapter.submitData(lifecycle, PagingData.empty())
+//            categoryId?.let {
+//                collectLast(viewModel.setAllMediaList(categoryId))
+//                { allMediaAdapter.submitData(it) }
+//            }
+//        }
     }
 
     private fun observeEvents() {
@@ -63,9 +66,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         })
 
         viewModel.clickRetryEvent.observeEvent(viewLifecycleOwner) {
-            if (it) {
-                allMediaAdapter.retry()
-            }
+            allMediaAdapter.retry()
         }
     }
 
