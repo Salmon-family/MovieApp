@@ -2,10 +2,13 @@ package com.karrar.movieapp.ui.category
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
+import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.usecase.GetCategoryUseCase
+import com.karrar.movieapp.domain.usecase.GetGenreUseCase
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
@@ -15,24 +18,20 @@ import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 data class CategoryUIState(
-    val genre: List<GenreUIState> = emptyList(),
-    val media: Flow<PagingData<Media>> = emptyFlow(),// url for medias
-    val isLoading: Boolean = false,
-    val error: String = ""
-)
-
-data class GenreUIState(
-    val name: String,
-    val isSelected: Boolean
+    val genre: List<Genre> = emptyList(),
+    val media: Flow<PagingData<Media>> = emptyFlow(),
+    val mediaUIState: UIState<Boolean> = UIState.Loading,
 )
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     private val getCategoryUseCase: GetCategoryUseCase,
+    private val getGenreUsecase: GetGenreUseCase,
     state: SavedStateHandle
 ) : BaseViewModel(), MediaInteractionListener, CategoryInteractionListener {
 
@@ -40,12 +39,6 @@ class CategoryViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(CategoryUIState())
     val uiState: StateFlow<CategoryUIState> = _uiState
-
-//    private val _categories = MutableLiveData<List<Genre>>()
-//    val categories: LiveData<List<Genre>> = _categories
-
-    private val _allMediaState = MutableLiveData<UIState<Boolean>>(UIState.Loading)
-    val allMediaState = _allMediaState.toLiveData()
 
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
     var clickMovieEvent = _clickMovieEvent
@@ -61,33 +54,24 @@ class CategoryViewModel @Inject constructor(
     }
 
     override fun getData() {
-        setAllMediaList(FIRST_CATEGORY_ID)
+        setAllMediaList()
+        getGenre()
         _clickRetryEvent.postEvent(true)
     }
 
-    fun setAllMediaList(genre: Int) {
-        _uiState.update { it.copy(isLoading = true) }
-        val result = getCategoryUseCase(args.mediaId, genre)
-        _uiState.update { it.copy(isLoading = false, media = result) }
+    private fun getGenre() {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(genre = getGenreUsecase(args.mediaId))
+            }
+        }
     }
 
-    // clicks ...
-//    private fun setCategoryType() {
-//        wrapWithState({
-//            val response = when (args.mediaId) {
-//                MOVIE_CATEGORIES_ID -> {
-//                    movieRepository.getMovieGenreList()
-//                }
-//                TV_CATEGORIES_ID -> {
-//                    seriesRepository.getTVShowsGenreList()
-//                }
-//                else -> {
-//                    throw Throwable("There is no MOVIE_CATEGORIES_ID ")
-//                }
-//            }
-//            _categories.postValue(response)
-//        })
-//    }
+    fun setAllMediaList() {
+        _uiState.update { it.copy(mediaUIState = UIState.Loading) }
+        val result = getCategoryUseCase(args.mediaId, selectedCategory.value ?: FIRST_CATEGORY_ID)
+        _uiState.update { it.copy(mediaUIState = UIState.Success(true), media = result) }
+    }
 
     override fun onClickMedia(mediaId: Int) {
         _clickMovieEvent.postValue(Event(mediaId))
@@ -99,9 +83,11 @@ class CategoryViewModel @Inject constructor(
 
     fun setErrorUiState(loadState: LoadState) {
         when (loadState) {
-            is LoadState.Error, null -> _allMediaState.postValue(UIState.Error(""))
+            is LoadState.Error, null -> {
+                _uiState.update { it.copy(mediaUIState = UIState.Error("")) }
+            }
             else -> {
-                _allMediaState.postValue(UIState.Success(true))
+                _uiState.update { it.copy(mediaUIState = UIState.Success(true)) }
             }
         }
     }
