@@ -1,6 +1,8 @@
 package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
+import com.karrar.movieapp.data.remote.response.BaseListResponse
+import com.karrar.movieapp.data.remote.response.RatedTvShowDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +27,7 @@ interface SeriesRepository {
 
     suspend fun setRating(tvShowId: Int, value: Float, sessionId: String): RatingDto
 
-    suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<Rated>
+    suspend fun getRatedTvShow(accountId: Int, sessionId: String): BaseListResponse<RatedTvShowDto>
 
     suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): Season
 

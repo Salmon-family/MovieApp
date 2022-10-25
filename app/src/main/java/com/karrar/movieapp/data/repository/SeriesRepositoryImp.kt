@@ -5,6 +5,8 @@ import com.karrar.movieapp.data.local.database.daos.SeriesDao
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntity
 import com.karrar.movieapp.data.local.mappers.series.LocalSeriesMappersContainer
+import com.karrar.movieapp.data.remote.response.BaseListResponse
+import com.karrar.movieapp.data.remote.response.RatedTvShowDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.ListMapper
@@ -68,9 +70,9 @@ class SeriesRepositoryImp @Inject constructor(
         return wrap({ service.postTvShowRating(tvShowId, value, sessionId) }, { it })
     }
 
-    override suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<Rated> {
-        return wrap({ service.getRatedTvShow(accountId, sessionId) },
-            { ListMapper(seriesMapperContainer.ratedTvShowMapper).mapList(it.items) })
+    override suspend fun getRatedTvShow(accountId: Int, sessionId: String)
+    : BaseListResponse<RatedTvShowDto> {
+        return wrap2{ service.getRatedTvShow(accountId, sessionId) }
     }
 
     override suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): Season {

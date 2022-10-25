@@ -2,24 +2,25 @@ package com.karrar.movieapp.ui.profile.myratings
 
 import androidx.lifecycle.MutableLiveData
 import com.karrar.movieapp.data.repository.AccountRepository
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.models.Rated
+import com.karrar.movieapp.domain.GetListOfRatedUseCase
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class MyRatingsViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
-    private val movieRepository: MovieRepository,
-    private val tvShowsRepository: SeriesRepository
+    private val getRatedUseCase: GetListOfRatedUseCase
 ) : BaseViewModel(), RatedMoviesInteractionListener {
 
-    private val _rated = MutableLiveData<UIState<List<Rated>>>()
-    val ratedMovies = _rated.toLiveData()
+    private val _ratedUiState = MutableStateFlow(MyRateUIState())
+    val ratedUiState: StateFlow<MyRateUIState> = _ratedUiState
 
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
     val clickMovieEvent = _clickMovieEvent.toLiveData()
@@ -32,20 +33,19 @@ class MyRatingsViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _rated.postValue(UIState.Loading)
+        _ratedUiState.update { it.copy(isLoading = true) }
         wrapWithState({
             val sessionId = accountRepository.getSessionId()
-            sessionId?.let {
-                val movieResponse = movieRepository.getRatedMovie(0, it)
-                val tvShowResponse = tvShowsRepository.getRatedTvShow(0, it)
-                _rated.postValue(UIState.Success(movieResponse.margeTowList(tvShowResponse)))
+            sessionId?.let { session ->
+                val listOfRated = getRatedUseCase(0, session).map { rate -> rate.ratedToUiSate() }
+                _ratedUiState.update { it.copy(ratedList = listOfRated, isLoading = false) }
             }
-        }, { _rated.postValue(UIState.Error(it.message.toString())) })
+        }, { _ratedUiState.update { it.copy(error = listOf(Error(""))) } })
     }
 
     override fun onClickMovie(mediaID: Int) {
-        ratedMovies.value?.let { it ->
-            val item = it.toData()?.find { it.id == mediaID }
+        ratedUiState.value.ratedList.let { it ->
+            val item = it.find { it.id == mediaID }
             item?.let {
                 if (it.mediaType == Constants.MOVIE) _clickMovieEvent.postEvent(mediaID)
                 else _clickTVShowEvent.postEvent(mediaID)

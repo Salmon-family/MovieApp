@@ -22,16 +22,16 @@
             android:clipToPadding="false"
             android:overScrollMode="never"
             android:paddingVertical="@dimen/spacing_small"
-            android:scrollbars="none"
             android:paddingBottom="@dimen/spacing_medium"
-            app:items="@{viewModel.ratedMovies.toData()}"
+            android:scrollbars="none"
+            app:items="@{viewModel.ratedUiState.ratedList}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenSuccess="@{viewModel.ratedMovies}"
-            tools:listitem="@layout/item_rated_movie" />
+            tools:listitem="@layout/item_rated_movie"
+            app:showWhenListNotEmpty="@{viewModel.ratedUiState.ratedList}" />
 
         <TextView
             style="@style/SemiBold.Medium"
@@ -43,27 +43,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenListIsEmpty="@{viewModel.ratedMovies.toData()}" />
+            app:showWhenListIsEmpty="@{viewModel.ratedUiState.ratedList}" />
 
+        <!--
+                <include
+                    android:id="@+id/loading"
+                    layout="@layout/loading"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:loading="@{viewModel.ratedMovies.toData()}"/>
 
-        <include
-            android:id="@+id/loading"
-            layout="@layout/loading"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.ratedMovies}" />
-
-        <include
-            android:id="@+id/error"
-            layout="@layout/error"
-            app:error="@{viewModel.ratedMovies}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
+                 <include
+                    android:id="@+id/error"
+                    layout="@layout/error"
+                    app:error="@{viewModel.ratedMovies}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:viewModel="@{viewModel}" /> -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
