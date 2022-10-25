@@ -4,11 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
+import com.karrar.movieapp.domain.usecase.GetMovieDetailsUseCase
 import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.domain.models.MovieDetails
-import com.karrar.movieapp.domain.models.Rated
-import com.karrar.movieapp.domain.usecase.movieDetails.*
-import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.MediaDetailsViewModel
@@ -23,17 +20,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
-    private val getMovieCastUseCase: GetMovieCastUseCase,
-    private val getSimilarMovieUseCase: GetSimilarMovieUseCase,
-    private val getRatedMovieUseCase: GetRatedMovieUseCase,
-    private val getMovieReviewsUseCase: GetMovieReviewsUseCase,
-    private val insertMovieUseCase: InsertMovieUseCase,
-    private val setRatingUseCase: SetRatingUseCase,
-    private val getSessionIdUseCase: GetSessionIdUseCase,
     state: SavedStateHandle,
 ) : MediaDetailsViewModel(), ActorsInteractionListener, MovieInteractionListener,
     DetailInteractionListener {
@@ -64,10 +53,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     override var ratingValue = MutableLiveData<Float>()
 
-    private val _detailItemsLiveData = MutableLiveData<UIState<Boolean>>()
-    val detailsItemLiveData = _detailItemsLiveData.toLiveData()
-
-    private val detailItems = mutableListOf<DetailItem>()
+    private val detailItems = mutableListOf<DetailItemUIState>()
 
     private val _uiState = MutableStateFlow(MovieDetailsUIState())
     val uiState: StateFlow<MovieDetailsUIState> = _uiState.asStateFlow()
@@ -91,57 +77,93 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun getMovieDetails(movieId: Int) {
-        wrapWithState(
-            {
-                _uiState.update {
-                    it.copy(
-                        movieDetailsResult = getMovieDetailsUseCase(movieId),
-                        isLoading = false
-                    )
-                }
-                updateDetailItems(DetailItem.Header(_uiState.value.movieDetailsResult))
-                insertMovieToWatchHistory(_uiState.value.movieDetailsResult)
-                _detailItemsLiveData.postValue(UIState.Success(true))
-            }, {
-                _detailItemsLiveData.postValue(UIState.Error(_uiState.value.errors.joinToString { it.message }))
-            })
+        wrapWithState({
+            val result = getMovieDetailsUseCase.getMovieDetails(movieId)
+
+            _uiState.update {
+                it.copy(
+                    movieDetailsResult = MovieDetailsResultUIState(
+                        movieId = result.movieId,
+                        movieImage = result.movieImage,
+                        movieName = result.movieName,
+                        movieReleaseDate = result.movieReleaseDate,
+                        movieGenres = result.movieGenres,
+                        movieDuration = result.movieDuration,
+                        movieReview = result.movieReview,
+                        movieVoteAverage = result.movieVoteAverage,
+                        movieOverview = result.movieOverview,
+                        movieType = result.mediaType
+                    ),
+                    isLoading = false
+                )
+            }
+            updateDetailItems(DetailItemUIState.Header(_uiState.value.movieDetailsResult))
+            insertMovieToWatchHistory(_uiState.value.movieDetailsResult)
+        }, {
+            uiState.value.errors.joinToString { it.message }
+        })
     }
 
     private fun getMovieCast(movieId: Int) {
         wrapWithState({
             _uiState.update {
                 it.copy(
-                    movieCastResult = getMovieCastUseCase(movieId),
+                    movieCastResult = getMovieDetailsUseCase.getMovieCast(movieId).map {
+                        ActorUiState(
+                            actorID = it.actorID,
+                            actorImage = it.actorImage,
+                            actorName = it.actorName
+                        )
+                    },
                     isLoading = false
                 )
             }
-            updateDetailItems(DetailItem.Cast(_uiState.value.movieCastResult))
+            updateDetailItems(DetailItemUIState.Cast(_uiState.value.movieCastResult))
         })
     }
 
     private fun getSimilarMovie(movieId: Int) {
-        wrapWithState(
-            {
-                _uiState.update {
-                    it.copy(
-                        similarMoviesResult = getSimilarMovieUseCase(movieId),
-                        isLoading = false
-                    )
-                }
-                updateDetailItems(DetailItem.SimilarMovies(_uiState.value.similarMoviesResult))
+        wrapWithState({
+            _uiState.update {
+                it.copy(
+                    similarMoviesResult = getMovieDetailsUseCase.getSimilarMovie(movieId).map {
+                        MediaUIState(
+                            mediaID = it.mediaID,
+                            mediaRate = it.mediaRate,
+                            mediaDate = it.mediaDate,
+                            mediaType = it.mediaType,
+                            mediaImage = it.mediaImage,
+                            mediaName = it.mediaName
+                        )
+                    },
+                    isLoading = false
+                )
             }
-        )
+            updateDetailItems(DetailItemUIState.SimilarMovies(_uiState.value.similarMoviesResult))
+        })
     }
 
     private fun getRatedMovie(movieId: Int) {
         wrapWithState({
-            _uiState.update { it.copy(sessionIdResult = getSessionIdUseCase(), isLoading = false) }
             _uiState.update {
                 it.copy(
-                    movieGetRatedResult = getRatedMovieUseCase(
-                        0,
-                        _uiState.value.sessionIdResult ?: ""
-                    )
+                    sessionIdResult = getMovieDetailsUseCase.getSessionId(), isLoading = false
+                )
+            }
+            _uiState.update {
+                it.copy(
+                    movieGetRatedResult = getMovieDetailsUseCase.getRatedMovie(
+                        0, _uiState.value.sessionIdResult ?: ""
+                    ).map {
+                        RatedUIState(
+                            id = it.id,
+                            title = it.title,
+                            posterPath = it.posterPath,
+                            rating = it.rating,
+                            releaseDate = it.releaseDate,
+                            mediaType = it.mediaType
+                        )
+                    }
                 )
             }
             checkIfMovieRated(_uiState.value.movieGetRatedResult, movieId)
@@ -153,23 +175,27 @@ class MovieDetailsViewModel @Inject constructor(
         wrapWithState({
             _uiState.update {
                 it.copy(
-                    movieReview = getMovieReviewsUseCase(movieId),
-                    isLoading = false
+                    movieReview = getMovieDetailsUseCase.getMovieReviews(movieId).map {
+                        ReviewUIState(
+                            content = it.content,
+                            createDate = it.createDate
+                        )
+                    }, isLoading = false
                 )
             }
             if (_uiState.value.movieReview.isNotEmpty()) {
                 _uiState.value.movieReview.take(3)
-                    .forEach { updateDetailItems(DetailItem.Comment(it)) }
+                    .forEach { updateDetailItems(DetailItemUIState.Comment(it)) }
                 updateDetailItems(DetailItem.ReviewText)
             }
             if (_uiState.value.movieReview.count() > 3) updateDetailItems(DetailItem.SeeAllReviewsButton)
         })
     }
 
-    private fun insertMovieToWatchHistory(movie: MovieDetails?) {
+    private fun insertMovieToWatchHistory(movie: MovieDetailsResultUIState?) {
         viewModelScope.launch {
             movie?.let { movieDetails ->
-                insertMovieUseCase(
+                getMovieDetailsUseCase.insertMovie(
                     WatchHistoryEntity(
                         id = movieDetails.id,
                         posterPath = movieDetails.image,
@@ -184,7 +210,7 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun checkIfMovieRated(items: List<Rated>?, movie_id: Int) {
+    private fun checkIfMovieRated(items: List<RatedUIState>?, movie_id: Int) {
         val item = items?.firstOrNull { it.id == movie_id }
         item?.let {
             if (it.rating != ratingValue.value) {
@@ -197,25 +223,26 @@ class MovieDetailsViewModel @Inject constructor(
     fun onAddRating(movie_id: Int, value: Float) {
         if (_check.value != value) {
             wrapWithState({
+                val result = getMovieDetailsUseCase.setRating(
+                    movie_id, value,
+                    _uiState.value.sessionIdResult ?: ""
+                )
+
                 _uiState.update {
                     it.copy(
-                        sessionIdResult = getSessionIdUseCase(),
-                        isLoading = false
+                        sessionIdResult = getMovieDetailsUseCase.getSessionId(), isLoading = false
                     )
                 }
 
                 _uiState.update {
                     it.copy(
-                        movieSetRatedResult = setRatingUseCase(
-                            movie_id,
-                            value,
-                            _uiState.value.sessionIdResult ?: ""
+                        movieSetRatedResult = RatingUIState(
+                            statusCode = result.statusCode ?: 0,
+                            statusMessage = result.statusMessage ?: ""
                         )
                     )
                 }
-                if (_uiState.value.movieSetRatedResult.statusCode != null
-                    && _uiState.value.movieSetRatedResult.statusCode == Constants.SUCCESS_REQUEST
-                ) {
+                if (_uiState.value.movieSetRatedResult.statusCode == Constants.SUCCESS_REQUEST) {
                     _check.postValue(value)
                 }
                 messageAppear.postValue(Event(true))
@@ -224,7 +251,7 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun updateDetailItems(item: DetailItem) {
-        detailItems.add(item)
+        detailItems.add(item as DetailItemUIState)
         _uiState.update { it.copy(detailItemResult = detailItems) }
     }
 

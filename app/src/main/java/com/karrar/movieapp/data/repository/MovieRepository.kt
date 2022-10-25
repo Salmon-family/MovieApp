@@ -4,13 +4,15 @@ import androidx.paging.Pager
 import androidx.paging.PagingData
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.remote.response.AddListResponse
-import com.karrar.movieapp.data.remote.response.AddMovieDto
-import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
+import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 interface MovieRepository {
 
@@ -27,19 +29,19 @@ interface MovieRepository {
     suspend fun getMovieListByGenreID(genreID: Int, page: Int = 1): List<Media>
 
 
-    suspend fun getMovieDetails(movieId: Int): MovieDetails
+    suspend fun getMovieDetails(movieId: Int): MovieDetailsDto
 
-    suspend fun getMovieCast(movieId: Int): List<Actor>
+    suspend fun getMovieCast(movieId: Int): CreditsDto
 
-    suspend fun getSimilarMovie(movieId: Int): List<Media>
+    suspend fun getSimilarMovie(movieId: Int): BaseListResponse<MovieDto>
 
-    suspend fun getMovieReviews(movieId: Int): List<Review>
+    suspend fun getMovieReviews(movieId: Int): BaseListResponse<ReviewsDto>
 
     suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto
 
     suspend fun getMovieTrailer(movieId: Int): Trailer
 
-    suspend fun getRatedMovie(accountId: Int, sessionId: String): List<Rated>
+    suspend fun getRatedMovie(accountId: Int, sessionId: String): BaseListResponse<RatedMoviesDto>
 
     suspend fun getTrendingActors(page: Int): List<Actor>
 

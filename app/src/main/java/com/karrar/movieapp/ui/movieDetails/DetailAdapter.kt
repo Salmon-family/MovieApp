@@ -78,6 +78,7 @@ class DetailAdapter(
                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
+            else -> {}
         }
     }
 
@@ -100,6 +101,7 @@ class DetailAdapter(
             is DetailItem.Comment -> R.layout.item_movie_review
             is DetailItem.ReviewText -> R.layout.item_review_text
             DetailItem.SeeAllReviewsButton -> R.layout.item_see_all_reviews
+            else -> 0
         }
     }
 

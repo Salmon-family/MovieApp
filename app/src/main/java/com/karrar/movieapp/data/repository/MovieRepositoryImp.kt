@@ -9,10 +9,10 @@ import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.mappers.movie.LocalMovieMappersContainer
-import com.karrar.movieapp.data.remote.response.AddListResponse
-import com.karrar.movieapp.data.remote.response.AddMovieDto
-import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
+import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.mappers.ListMapper
@@ -72,27 +72,20 @@ class MovieRepositoryImp @Inject constructor(
      * movie details
      * */
 
-    override suspend fun getMovieDetails(movieId: Int): MovieDetails {
-        return wrap({ movieService.getMovieDetails(movieId) },
-            { movieMappersContainer.movieDetailsMapper.map(it) })
+    override suspend fun getMovieDetails(movieId: Int): MovieDetailsDto {
+        return wrap2 { movieService.getMovieDetails(movieId) }
     }
 
-    override suspend fun getMovieCast(movieId: Int): List<Actor> {
-        return wrap({ movieService.getMovieCast(movieId) }, { response ->
-            ListMapper(movieMappersContainer.actorMapper).mapList(response.cast)
-        })
+    override suspend fun getMovieCast(movieId: Int): CreditsDto {
+        return wrap2 { movieService.getMovieCast(movieId) }
     }
 
-    override suspend fun getSimilarMovie(movieId: Int): List<Media> {
-        return wrap({ movieService.getSimilarMovie(movieId) }, { response ->
-            ListMapper(movieMappersContainer.movieMapper).mapList(response.items)
-        })
+    override suspend fun getSimilarMovie(movieId: Int): BaseListResponse<MovieDto> {
+        return wrap2 { movieService.getSimilarMovie(movieId) }
     }
 
-    override suspend fun getMovieReviews(movieId: Int): List<Review> {
-        return wrap({ movieService.getMovieReviews(movieId) }, { response ->
-            ListMapper(movieMappersContainer.reviewMapper).mapList(response.items)
-        })
+    override suspend fun getMovieReviews(movieId: Int): BaseListResponse<ReviewsDto> {
+        return wrap2 { movieService.getMovieReviews(movieId) }
     }
 
     override suspend fun getMovieTrailer(movieId: Int): Trailer {
@@ -103,10 +96,8 @@ class MovieRepositoryImp @Inject constructor(
     override suspend fun getRatedMovie(
         accountId: Int,
         sessionId: String,
-    ): List<Rated> {
-        return wrap({ movieService.getRatedMovie(accountId, sessionId) }, { response ->
-            ListMapper(movieMappersContainer.ratedMoviesMapper).mapList(response.items)
-        })
+    ): BaseListResponse<RatedMoviesDto> {
+        return wrap2 { movieService.getRatedMovie(accountId, sessionId) }
     }
 
     override suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto {
@@ -176,14 +167,14 @@ class MovieRepositoryImp @Inject constructor(
         val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
         val dataSource = searchDataSourceContainer.movieSearchDataSource
         dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource}).flow
+        return Pager(config = config, pagingSourceFactory = { dataSource }).flow
     }
 
     override fun searchForSeries(query: String): Flow<PagingData<Media>> {
         val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
         val dataSource = searchDataSourceContainer.seriesSearchDataSource
         dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource}).flow
+        return Pager(config = config, pagingSourceFactory = { dataSource }).flow
     }
 
     //should remove empty list ...
@@ -191,7 +182,7 @@ class MovieRepositoryImp @Inject constructor(
         val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
         val dataSource = searchDataSourceContainer.actorSearchDataSource
         dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource}).flow
+        return Pager(config = config, pagingSourceFactory = { dataSource }).flow
     }
 
     override fun getAllSearchHistory(): Flow<List<SearchHistory>> {
