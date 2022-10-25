@@ -241,3 +241,13 @@ fun hideIfNotTypeOfMovie(view: View, mediaType: MediaType?) {
 fun <T>showWhenNoResults(view: View, state: UIState<T>?){
     view.isVisible = (state == UIState.Success(false))
 }
+
+@BindingAdapter("app:isLoading")
+fun isLoading(view: View, isLoading: Boolean){
+    view.isVisible = isLoading
+}
+
+@BindingAdapter("app:showWhenError")
+fun showWhenError(view: View, error: com.karrar.movieapp.ui.actorDetails.Error){
+    view.isVisible = error.message.isNotEmpty() == true
+}

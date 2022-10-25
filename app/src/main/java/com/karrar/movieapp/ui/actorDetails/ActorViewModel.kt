@@ -2,32 +2,34 @@ package com.karrar.movieapp.ui.actorDetails
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import com.karrar.movieapp.data.repository.MovieRepository
+import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.ActorDetails
-import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.ui.UIState
+import com.karrar.movieapp.domain.usecases.GetActorDetailsUseCase
+import com.karrar.movieapp.domain.usecases.GetActorMoviesUseCase
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ActorViewModel @Inject constructor(
-    private val movieRepository: MovieRepository,
     private val state: SavedStateHandle,
+    private val getActorDetailsUseCase: GetActorDetailsUseCase,
+    private val getActorMoviesUseCase: GetActorMoviesUseCase,
 ) : BaseViewModel(), MovieInteractionListener {
 
     val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
 
-    private val _actorDetails = MutableLiveData<UIState<ActorDetails>>()
-    val actorDetails = _actorDetails.toLiveData()
-
-    private val _actorMovies = MutableLiveData<List<Media>>()
-    val actorMovies = _actorMovies.toLiveData()
+    private val _actorDetails = MutableStateFlow(ActorDetailsUIState(isLoading = true))
+    val actorDetails = _actorDetails.asStateFlow()
 
     private val _backEvent = MutableLiveData<Event<Boolean>>()
     val backEvent = _backEvent.toLiveData()
@@ -43,20 +45,40 @@ class ActorViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _actorDetails.postValue(UIState.Loading)
-        wrapWithState({
-            val result = movieRepository.getActorDetails(args.id)
-            _actorDetails.postValue(UIState.Success(result))
-        }, {
-            _actorDetails.postValue(UIState.Error(it.message.toString()))
-        })
-
-        wrapWithState({
-            val result = movieRepository.getActorMovies(args.id)
-            _actorMovies.postValue(result)
-        })
+        viewModelScope.launch {
+            try {
+                val actorDetails = getActorDetailsUseCase(args.id)
+                onShowActorDetails(actorDetails)
+            } catch (e: Exception) {
+                onError(e.message.toString())
+            }
+        }
     }
 
+    private fun onError(message: String){
+        _actorDetails.update { actorDetailsUIState ->
+            actorDetailsUIState.copy(
+                isLoading = false,
+                error = Error(message),
+            )
+        }
+    }
+
+    private suspend fun onShowActorDetails(actorDetails: ActorDetails){
+        _actorDetails.update { actorDetailsUIState ->
+            actorDetailsUIState.copy(
+                name = actorDetails.actorName,
+                imageUrl = actorDetails.actorImage,
+                gender = actorDetails.actorGender,
+                birthday = actorDetails.actorBirthday,
+                placeOfBirth = actorDetails.actorPlaceOfBirth,
+                knownFor = actorDetails.knownForDepartment,
+                biography = actorDetails.actorBiography,
+                actorMovies = getActorMoviesUseCase(args.id),
+                isLoading = false,
+            )
+        }
+    }
 
     fun onClickBack() {
         _backEvent.postValue(Event(true))
