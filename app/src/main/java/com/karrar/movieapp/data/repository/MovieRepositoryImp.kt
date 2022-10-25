@@ -11,7 +11,9 @@ import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.mappers.movie.LocalMovieMappersContainer
 import com.karrar.movieapp.data.remote.response.AddListResponse
 import com.karrar.movieapp.data.remote.response.AddMovieDto
+import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.enums.AllMediaType
@@ -22,6 +24,7 @@ import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import retrofit2.Response
 import javax.inject.Inject
 
 
@@ -121,14 +124,27 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMappersContainer.actorMapper).mapList(it.items) })
     }
 
-    override suspend fun getActorDetails(actorId: Int): ActorDetails {
-        return wrap({ movieService.getActorDetails(actorId) },
-            { movieMappersContainer.actorDetailsMapper.map(it) })
+    override suspend fun getActorDetails(actorId: Int): ActorDto {
+        return wrap {
+            movieService.getActorDetails(actorId = actorId)
+        }
     }
 
-    override suspend fun getActorMovies(actorId: Int): List<Media> {
-        return wrap({ movieService.getActorMovies(actorId) },
-            { ListMapper(movieMappersContainer.movieMapper).mapList(it.cast) })
+    override suspend fun getActorMovies(actorId: Int): List<MovieDto> {
+        return wrap {
+            movieService.getActorMovies(actorId = actorId)
+        }.cast ?: emptyList()
+    }
+
+    private suspend fun <T> wrap(
+        response: suspend () -> Response<T>,
+    ) : T {
+        val result = response()
+        return if (result.isSuccessful) {
+            result.body() ?: throw Exception("Response body is null")
+        } else {
+            throw Exception(result.errorBody().toString())
+        }
     }
 
     /**
