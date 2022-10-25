@@ -1,5 +1,6 @@
 package com.karrar.movieapp.utilities
 
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.view.isVisible
@@ -145,8 +146,15 @@ fun <T> setGenresChips(
 }
 
 @BindingAdapter("app:isVisible")
-fun <T> isVisible(view: View,isVisible :Boolean){
+fun  isVisible(view: View,isVisible :Boolean){
+    Log.e("DEVFALAHisVisible",isVisible.toString())
     view.isVisible = isVisible
+
+}
+@BindingAdapter("app:hideIfTrue")
+fun  hideIfTrue(view: View,value :Boolean){
+    Log.e("DEVFALAH",value.toString())
+    view.isVisible = !value
 
 }
 

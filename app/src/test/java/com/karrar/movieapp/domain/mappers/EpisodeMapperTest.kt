@@ -3,6 +3,7 @@ package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.episode.EpisodeDto
+import com.karrar.movieapp.domain.mappers.series.EpisodeMapper
 import com.karrar.movieapp.domain.models.Episode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
@@ -47,9 +48,10 @@ internal class EpisodeMapperTest {
             episodeDescription = "overview",
             imageUrl = BuildConfig.IMAGE_BASE_PATH + "stillPath",
             episodeDate = "airDate",
-            episodeDuration = "airD",
+            episodeDuration = 200,
             episodeRate = 1.0,
             episodeTotalReviews = "1",
+            episodeNumber = 1
         )
 
         // then return EpisodeMapper object with the same values

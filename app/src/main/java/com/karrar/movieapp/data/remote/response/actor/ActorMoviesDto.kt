@@ -6,7 +6,7 @@ import com.karrar.movieapp.data.remote.response.MovieDto
 
 data class ActorMoviesDto(
     @SerializedName("cast")
-    val cast: List<MovieDto?>? = null,
+    val cast: List<MovieDto>? = null,
     @SerializedName("id")
     val id: Int? = null
 )

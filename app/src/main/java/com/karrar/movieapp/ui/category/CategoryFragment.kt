@@ -6,15 +6,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingData
+import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentCategoryBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.allMedia.AllMediaAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.mappers.MediaUiMapper
 import com.karrar.movieapp.utilities.*
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
@@ -22,6 +25,9 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     override val layoutIdFragment = R.layout.fragment_category
     override val viewModel: CategoryViewModel by viewModels()
     private val allMediaAdapter: AllMediaAdapter by lazy { AllMediaAdapter(viewModel) }
+
+    @Inject
+    lateinit var mediaUiMapper: MediaUiMapper
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,7 +54,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
             allMediaAdapter.submitData(lifecycle, PagingData.empty())
             categoryId?.let {
                 collectLast(viewModel.setAllMediaList(categoryId))
-                { allMediaAdapter.submitData(it) }
+                { allMediaAdapter.submitData(it.map { mediaUiMapper.map(it) }) }
             }
         }
     }
