@@ -2,13 +2,11 @@ package com.karrar.movieapp.ui.actors
 
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.karrar.movieapp.domain.models.Actor
+import androidx.paging.map
 import com.karrar.movieapp.domain.usecase.GetActorsDataUseCase
-import com.karrar.movieapp.ui.UIState
+import com.karrar.movieapp.ui.actors.models.ActorsUIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
@@ -16,16 +14,16 @@ import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ActorsViewModel @Inject constructor(
-    private val getActorsDataUseCase: GetActorsDataUseCase
+    private val getActorsDataUseCase: GetActorsDataUseCase,
+    private val actorMapper: ActorMapper
 ) : BaseViewModel(), ActorsInteractionListener {
 
     private val _uiState = MutableStateFlow(ActorsUIState())
-    val uiState: StateFlow<ActorsUIState> = _uiState.asStateFlow()
+    val uiState = _uiState.asStateFlow()
 
     private val _clickActorEvent = MutableLiveData<Event<Int>>()
     val clickActorEvent = _clickActorEvent.toLiveData()
@@ -34,11 +32,13 @@ class ActorsViewModel @Inject constructor(
     val clickRetryEvent = _clickRetryEvent.toLiveData()
 
     init {
-        viewModelScope.launch {
-            _uiState.update { it.copy(actorsState = UIState.Loading) }
-            val actorsResult = getActorsDataUseCase().flow
-            _uiState.update { it.copy(actorsState = UIState.Success(true), actors = actorsResult) }
-        }
+        getActors()
+    }
+
+    private fun getActors(){
+        _uiState.update { it.copy(isLoading = true) }
+        val actorsItems = getActorsDataUseCase().map { pager -> pager.map { actorMapper.map(it) } }
+        _uiState.update { it.copy(isLoading = false, actors = actorsItems) }
     }
 
     override fun getData() {
@@ -50,14 +50,22 @@ class ActorsViewModel @Inject constructor(
         _clickActorEvent.postEvent(actorID)
     }
 
-    fun setUiState(loadState: LoadState) {
-        when(loadState){
-            is LoadState.Loading -> {_uiState.update { it.copy(actorsState = UIState.Loading) }}
-            is LoadState.Error -> {
-                _uiState.update { it.copy(actorsState = UIState.Error("")) }
+    fun setErrorUiState(combinedLoadStates: CombinedLoadStates) {
+        when (combinedLoadStates.refresh) {
+            is LoadState.NotLoading -> {
+                _uiState.update {
+                    it.copy(isLoading = false, error = emptyList())
+                }
             }
-            else -> {
-                _uiState.update { it.copy(actorsState = UIState.Success(true)) }
+            LoadState.Loading -> {
+                _uiState.update {
+                    it.copy(isLoading = true, error = emptyList())
+                }
+            }
+            is LoadState.Error -> {
+                _uiState.update {
+                    it.copy(isLoading = false, error = listOf(Error("")))
+                }
             }
         }
     }

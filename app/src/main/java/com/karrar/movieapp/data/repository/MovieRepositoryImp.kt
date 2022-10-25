@@ -249,7 +249,7 @@ class MovieRepositoryImp @Inject constructor(
         return Pager(config = config, pagingSourceFactory = { pagingSourceFactory })
     }
 
-    override suspend fun getActorData(): Pager<Int, Actor> {
+    override fun getActorData(): Pager<Int, ActorDto> {
         return Pager(config = config, pagingSourceFactory = { actorDataSource })
     }
 
