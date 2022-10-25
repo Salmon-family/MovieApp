@@ -6,9 +6,9 @@ import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.remote.response.AddListResponse
 import com.karrar.movieapp.data.remote.response.AddMovieDto
+import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
-import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
 
@@ -116,5 +116,15 @@ interface MovieRepository {
     suspend fun refreshMysteryMovies()
 
     suspend fun refreshTrendingActors()
+
+    fun getTrendingMoviesPager(): Pager<Int, MovieDto>
+
+    fun getNowPlayingMoviesPager(): Pager<Int, MovieDto>
+
+    fun getUpcomingMoviesPager(): Pager<Int, MovieDto>
+
+    fun getAdventureMoviesPager(): Pager<Int, MovieDto>
+
+    fun getMysteryMoviesPager(): Pager<Int, MovieDto>
 
 }
