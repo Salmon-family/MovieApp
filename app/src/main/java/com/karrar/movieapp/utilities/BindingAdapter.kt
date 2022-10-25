@@ -24,12 +24,21 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 
-@BindingAdapter("app:isLogIN")
-fun <T> isLogIN(view: View, value:Boolean) {
-    if (value)
-        view.isVisible = false
+
+@BindingAdapter("app:hideIfTrue")
+fun  hideIfTrue(view: View,value :Boolean){
+    view.isVisible = !value
 }
 
+@BindingAdapter("app:isLoading")
+fun  isLoading(view: View,value :Boolean){
+    view.isVisible = value
+}
+
+@BindingAdapter("app:isLogIN")
+fun <T> isLogIN(view: View, value:Boolean) {
+    if (value) view.isVisible = false
+}
 
 @BindingAdapter("app:showWhenSuccess")
 fun <T> showWhenSuccess2(view: View, state: UIState<T>?) {

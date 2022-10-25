@@ -3,21 +3,15 @@ package com.karrar.movieapp.ui.explore
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.view.View
-import androidx.compose.ui.unit.Constraints
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.*
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentExploringBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.Constants
-import com.karrar.movieapp.utilities.EventObserve
-import com.karrar.movieapp.utilities.observeEvent
+import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
@@ -61,17 +55,11 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
     }
 
     private fun navigateToSeries(){
-        viewModel.clickSeriesEvent.observe(viewLifecycleOwner, EventObserve{
+        viewModel.clickTVShowEvent.observe(viewLifecycleOwner, EventObserve{
             findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToCategoryFragment(
                 Constants.TV_CATEGORIES_ID
             ))
         })
-
-        viewModel.clickTrendTVShowEvent.observeEvent(viewLifecycleOwner){
-            findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToTvShowDetailsFragment(
-                it
-            ))
-        }
     }
 
     private fun navigateToActors(){
@@ -89,8 +77,9 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
                 Constants.TV_SHOWS -> {
                     findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToTvShowDetailsFragment(mediaId))
                 }
-                Constants.ACTOR -> {}
             }
         })
     }
+
+
 }

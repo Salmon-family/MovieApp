@@ -2,8 +2,7 @@ package com.karrar.movieapp.ui.explore
 
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.ui.base.BaseAdapter
-import com.karrar.movieapp.ui.base.BaseInteractionListener
+import com.karrar.movieapp.ui.base.*
 
 class TrendAdapter(items: List<Media>, listener: TrendInteractionListener)
     : BaseAdapter<Media>(items, listener){

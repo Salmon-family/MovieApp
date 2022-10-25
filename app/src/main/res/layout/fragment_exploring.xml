@@ -7,7 +7,9 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.explore.ExploringViewModel" />
+            type="com.karrar.movieapp.ui.explore.ExploringViewModel"
+            />
+
     </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout
@@ -91,7 +93,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/spacing_medium"
             android:backgroundTint="@color/card_background_color"
-            android:onClick="@{() -> viewModel.onClickSeries()}"
+            android:onClick="@{() -> viewModel.onClickTVShow()}"
             app:cardCornerRadius="@dimen/radius_small"
             app:cardElevation="0dp"
             app:layout_constraintDimensionRatio="1:1"
@@ -174,15 +176,16 @@
             android:elevation="@dimen/spacing_too_small"
             android:layout_marginVertical="@dimen/spacing_small"
             android:layout_marginHorizontal="@dimen/spacing_small"
-            app:items="@{viewModel.trend.toData()}"
+            app:items="@{viewModel.uiState.trendyMovie}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_trend_label"
-            app:showWhenSuccess="@{viewModel.trend}"
             app:spanCount="2"
-            tools:listitem="@layout/item_trend" />
+            tools:listitem="@layout/item_trend"
+            app:hideIfTrue="@{viewModel.uiState.loading}"
+            />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_loading"
@@ -195,26 +198,8 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading="@{viewModel.trend}" />
-
-<!--        <include-->
-<!--            android:id="@+id/loading"-->
-<!--            layout="@layout/loading"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:loading="@{viewModel.trend}" />-->
-
-<!--        <include-->
-<!--            android:id="@+id/error"-->
-<!--            layout="@layout/error"-->
-<!--            app:error="@{viewModel.trend}"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:viewModel="@{viewModel}" />-->
+            app:isLoading="@{viewModel.uiState.loading}"
+            />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

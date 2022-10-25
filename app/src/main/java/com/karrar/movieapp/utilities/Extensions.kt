@@ -1,6 +1,5 @@
 package com.karrar.movieapp.utilities
 
-import android.app.Activity
 import android.content.res.Resources
 import android.graphics.Rect
 import android.view.LayoutInflater
@@ -20,10 +19,11 @@ import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.ResultDto
 import com.karrar.movieapp.databinding.ActivityYoutubePlayerBinding
 import com.karrar.movieapp.databinding.ChipItemCategoryBinding
-import com.karrar.movieapp.domain.models.Genre
+import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BasePagingAdapter
 import com.karrar.movieapp.ui.category.CategoryInteractionListener
+import com.karrar.movieapp.ui.explore.TrendyMediaUIState
 import com.karrar.movieapp.ui.youtubePlayer.YoutubePlayerActivity
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import kotlinx.coroutines.flow.Flow
@@ -31,6 +31,16 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+
+
+
+fun Media.toTrendyMedia(): TrendyMediaUIState {
+    return TrendyMediaUIState(
+        this.mediaID,
+        this.mediaType,
+        this.mediaImage
+    )
+}
 
 fun <T> MutableLiveData<T>.toLiveData(): LiveData<T> {
     return this
