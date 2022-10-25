@@ -3,6 +3,7 @@ package com.karrar.movieapp.domain.mappers
 import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.review.AuthorDetailsDto
+import com.karrar.movieapp.domain.mappers.account.UserMapper
 import com.karrar.movieapp.domain.models.User
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
