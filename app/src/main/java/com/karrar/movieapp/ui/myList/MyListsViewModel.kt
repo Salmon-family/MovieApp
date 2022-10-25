@@ -8,6 +8,10 @@ import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.movieDetails.saveMovie.SaveListInteractionListener
 import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -18,8 +22,8 @@ class MyListsViewModel @Inject constructor(
 ) : BaseViewModel(), CreatedListInteractionListener, SaveListInteractionListener {
 
 
-    private val _createdList = MutableLiveData<UIState<MutableList<CreatedList>?>>()
-    val createdList = _createdList.toLiveData()
+    private val _createdList = MutableStateFlow(MyListUIState())
+    val createdList = _createdList.asStateFlow()
 
     val listName = MutableLiveData("")
 
@@ -33,34 +37,42 @@ class MyListsViewModel @Inject constructor(
     val item: LiveData<Event<CreatedList>>
         get() = _item
 
-    override fun getData() {
-        _createdList.postValue(UIState.Loading)
-        wrapWithState({
-            val sessionId = accountRepository.getSessionId()
-            sessionId?.let {
-                val response = movieRepository.getAllLists(0, it).toMutableList()
-                _createdList.value = UIState.Success(response)
-            } ?: _createdList.postValue(UIState.NoLogin)
-        }, {
-            _createdList.value = UIState.Error(it.message.toString())
-            checkTheError()
-        })
-    }
+    private val _newAdd = MutableLiveData(false)
+    var newAdd: LiveData<Boolean> = _newAdd
 
-    fun checkIfLogin() {
-        val sessionId = accountRepository.getSessionId()
-        if (sessionId.isNullOrBlank() && _createdList.value !is UIState.NoLogin) {
-            _createdList.postValue(UIState.NoLogin)
-        } else if (!sessionId.isNullOrBlank() && _createdList.value is UIState.NoLogin) {
-            getData()
+    private val chosenList = MutableLiveData<CreatedList>()
+
+    private val _message = MutableLiveData<String>()
+    var message: LiveData<String> = _message
+
+    override fun getData() {
+        _createdList.update { it.copy(isLoading = true) }
+        viewModelScope.launch {
+            try {
+                val sessionId = accountRepository.getSessionId()
+                sessionId?.let {
+                    val response = movieRepository.getAllLists(0, it).toMutableList()
+                    _createdList.update {
+                        it.copy(
+                            isLoading = false,
+                            createdList = response.map { it.toUIState() }
+                        )
+                    }
+                } ?: _createdList.update { it.copy(isLoading = false, error = "NoLogin") }
+            } catch (t: Throwable) {
+                _createdList.update { it.copy(isLoading = false, error = t.message.toString()) }
+            }
         }
     }
 
-    private fun checkTheError() {
-        if (_createdList.value == UIState.Error("response is not successful"))
-            _createdList.postValue(UIState.NoLogin)
+    fun checkIfLogin() {
+//        val sessionId = accountRepository.getSessionId()
+//        if (sessionId.isNullOrBlank() && _createdList.value !is UIState.NoLogin) {
+//            _createdList.postValue(UIState.NoLogin)
+//        } else if (!sessionId.isNullOrBlank() && _createdList.value is UIState.NoLogin) {
+//            getData()
+//        }
     }
-
 
     fun onCreateList() {
         _isCreateButtonClicked.postEvent(true)
@@ -80,29 +92,19 @@ class MyListsViewModel @Inject constructor(
     }
 
     private fun addList(createdLists: CreatedList) {
-        val oldList = _createdList.value?.toData()?.toMutableList()
-        oldList?.add(0, createdLists)
-        _createdList.postValue(UIState.Success(oldList))
+//        val oldList = _createdList.value?.toData()?.toMutableList()
+//        oldList?.add(0, createdLists)
+//        _createdList.postValue(UIState.Success(oldList))
     }
 
     override fun onListClick(item: CreatedList) {
         _item.postValue(Event(item))
     }
 
-
     override fun onClickSaveList(list: CreatedList) {
         chosenList.postValue(list)
         _newAdd.postValue(true)
     }
-
-    private val _newAdd = MutableLiveData(false)
-    var newAdd: LiveData<Boolean> = _newAdd
-
-    private val chosenList = MutableLiveData<CreatedList>()
-
-    private val _message = MutableLiveData<String>()
-    var message: LiveData<String> = _message
-
 
     fun checkMovie(movieId: Int) {
         wrapWithState({

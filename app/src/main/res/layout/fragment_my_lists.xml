@@ -26,13 +26,12 @@
             android:overScrollMode="never"
             android:paddingTop="@dimen/spacing_small"
             android:paddingBottom="80dp"
-            app:items="@{viewModel.createdList.toData()}"
+            app:items="@{viewModel.createdList.createdList}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenSuccess="@{viewModel.createdList}"
             tools:listitem="@layout/item_saved_list" />
 
 
@@ -59,7 +58,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenListIsEmpty="@{viewModel.createdList.toData()}" />
+            app:showWhenListIsEmpty="@{viewModel.createdList.createdList}" />
 
 
         <ImageView
@@ -102,45 +101,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_message_wrong_title" />
 
-        <androidx.constraintlayout.widget.Group
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="
-            saved_list,
-            floating_action_button"
-            app:showWhenSuccess="@{viewModel.createdList}"
-            />
+<!--        <androidx.constraintlayout.widget.Group-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:constraint_referenced_ids="-->
+<!--            saved_list,-->
+<!--            floating_action_button"-->
+<!--            app:showWhenSuccess="@{viewModel.createdList}"-->
+<!--            />-->
 
-        <androidx.constraintlayout.widget.Group
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="
-            text_message_wrong,
-            vector_image,
-            text_message_wrong_title,"
-            app:showWhenNoLogin="@{viewModel.createdList}"
-            />
+<!--        <androidx.constraintlayout.widget.Group-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:constraint_referenced_ids="-->
+<!--            text_message_wrong,-->
+<!--            vector_image,-->
+<!--            text_message_wrong_title,"-->
+<!--            app:showWhenNoLogin="@{viewModel.createdList}"-->
+<!--            />-->
 
-        <include
-            android:id="@+id/loading"
-            layout="@layout/loading"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.createdList}"
-            />
 
-        <include
-            android:id="@+id/error"
-            layout="@layout/error"
-            app:error="@{viewModel.createdList}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}"
-            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
