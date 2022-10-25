@@ -1,9 +1,7 @@
 package com.karrar.movieapp.data.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingData
-import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
-import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
+import androidx.paging.*
+import com.karrar.movieapp.data.local.database.entity.*
 import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.domain.enums.AllMediaType
@@ -16,7 +14,7 @@ interface MovieRepository {
 
     suspend fun getTrendingMovies(page: Int = 1): List<Media>
 
-    suspend fun getDailyTrending(): List<Media>
+    suspend fun getDailyTrending(): BaseListResponse<DailyTrendingDto>
 
     suspend fun getUpcomingMovies(page: Int = 1): List<Media>
 

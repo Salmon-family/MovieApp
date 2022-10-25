@@ -41,9 +41,8 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
     }
 
-    override suspend fun getDailyTrending(): List<Media> {
-        return wrap({ movieService.getDailyTrending() },
-            { ListMapper(movieMappersContainer.itemListMapper).mapList(it.items) })
+    override suspend fun getDailyTrending(): BaseListResponse<DailyTrendingDto> {
+        return checkResponse {  movieService.getDailyTrending() }
     }
 
     override suspend fun getUpcomingMovies(page: Int): List<Media> {

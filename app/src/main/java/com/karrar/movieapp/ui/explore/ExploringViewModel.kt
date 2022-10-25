@@ -44,7 +44,7 @@ class ExploringViewModel @Inject constructor(
     override fun getData() {
         _uiState.update { it.copy(isLoading = true) }
         wrapWithState({
-            val result = getTrendyMovieUseCase.invoke()
+            val result = getTrendyMovieUseCase()
             _uiState.update { it.copy(isLoading = false) }
             _uiState.update { it.copy(trendyMovie = result.map { it.toTrendyMedia() }) }
         }){

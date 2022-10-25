@@ -1,6 +1,6 @@
 package com.karrar.movieapp.ui.explore
 
-data class ExploreUIState (
+data class ExploreUIState(
     val trendyMovie: List<TrendyMediaUIState> = emptyList(),
     val isLoading: Boolean = false,
     val errors: List<Error> = emptyList()
