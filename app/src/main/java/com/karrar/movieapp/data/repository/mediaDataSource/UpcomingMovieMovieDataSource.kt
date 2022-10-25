@@ -9,7 +9,7 @@ import com.karrar.movieapp.data.remote.service.MovieService
 class UpcomingMovieMovieDataSource @Inject constructor(
     private val service: MovieService,
     private val mapper: MovieMapper
-) : MediaDataSource() {
+) : MediaDataSource<Media>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Media> {
         val pageNumber = params.key ?: 1

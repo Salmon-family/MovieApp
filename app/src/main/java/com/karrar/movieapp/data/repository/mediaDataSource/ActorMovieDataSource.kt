@@ -6,11 +6,12 @@ import com.karrar.movieapp.domain.models.Media
 import javax.inject.Inject
 import kotlin.properties.Delegates
 import com.karrar.movieapp.data.remote.service.MovieService
+import com.karrar.movieapp.domain.models.Actor
 
 class ActorMovieDataSource @Inject constructor(
     private val service: MovieService,
     private val mapper: MovieMapper
-) : MediaDataSource() {
+) : MediaDataSource<Media>() {
 
     private var actorID by Delegates.notNull<Int>()
 
