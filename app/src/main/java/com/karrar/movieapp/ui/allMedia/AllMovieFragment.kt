@@ -92,7 +92,7 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
             AllMediaType.UPCOMING -> resources.getString(R.string.title_upcoming)
             AllMediaType.MYSTERY -> resources.getString(R.string.title_mystery)
             AllMediaType.ADVENTURE -> resources.getString(R.string.title_adventure)
-            AllMediaType.ACTOR -> ""
+            AllMediaType.ACTOR_MOVIES -> ""
         }
     }
 

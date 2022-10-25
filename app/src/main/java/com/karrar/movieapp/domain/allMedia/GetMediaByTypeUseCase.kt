@@ -22,7 +22,7 @@ class GetMediaByTypeUseCase @Inject constructor(
 
     suspend operator fun invoke(type: AllMediaType, actorId: Int = 0): Flow<PagingData<Media>> {
         return when (type) {
-            AllMediaType.ACTOR -> {
+            AllMediaType.ACTOR_MOVIES -> {
                 wrapper({ movieRepository.getActorMoviesPager(actorId) }, movieMapper::map)
             }
             AllMediaType.LATEST,
