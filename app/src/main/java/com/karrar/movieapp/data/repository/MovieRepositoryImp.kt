@@ -1,20 +1,21 @@
 package com.karrar.movieapp.data.repository
 
-import com.karrar.movieapp.data.local.AppConfiguration
-import com.karrar.movieapp.data.local.database.daos.ActorDao
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.karrar.movieapp.data.local.AppConfiguration
+import com.karrar.movieapp.data.local.database.daos.ActorDao
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.mappers.movie.LocalMovieMappersContainer
 import com.karrar.movieapp.data.remote.response.AddListResponse
 import com.karrar.movieapp.data.remote.response.AddMovieDto
+import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
 import com.karrar.movieapp.domain.mappers.MovieMappersContainer
@@ -22,6 +23,7 @@ import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import retrofit2.Response
 import javax.inject.Inject
 
 
@@ -42,6 +44,9 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMappersContainer.genreMapper).mapList(it.genres) })
     }
 
+    override suspend fun getMovieGenreList2(): Response<GenreResponse> {
+        return movieService.getGenreList()
+    }
 
     override suspend fun getTrendingMovies(page: Int): List<Media> {
         return wrap({ movieService.getTrendingMovies(page = page) },
@@ -176,14 +181,14 @@ class MovieRepositoryImp @Inject constructor(
         val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
         val dataSource = searchDataSourceContainer.movieSearchDataSource
         dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource}).flow
+        return Pager(config = config, pagingSourceFactory = { dataSource }).flow
     }
 
     override fun searchForSeries(query: String): Flow<PagingData<Media>> {
         val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
         val dataSource = searchDataSourceContainer.seriesSearchDataSource
         dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource}).flow
+        return Pager(config = config, pagingSourceFactory = { dataSource }).flow
     }
 
     //should remove empty list ...
@@ -191,7 +196,7 @@ class MovieRepositoryImp @Inject constructor(
         val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
         val dataSource = searchDataSourceContainer.actorSearchDataSource
         dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource}).flow
+        return Pager(config = config, pagingSourceFactory = { dataSource }).flow
     }
 
     override fun getAllSearchHistory(): Flow<List<SearchHistory>> {
@@ -220,54 +225,50 @@ class MovieRepositoryImp @Inject constructor(
         return movieDao.getAllWatchedMovies()
     }
 
-    override suspend fun getMediaData(type: AllMediaType, actorId: Int): Pager<Int, Media> {
-        val pagingSourceFactory = when (type) {
-            AllMediaType.ON_THE_AIR, AllMediaType.LATEST -> mediaDataSourceContainer.onTheAirTvShowDataSource
-            AllMediaType.AIRING_TODAY -> mediaDataSourceContainer.airingTodayTvShowDataSource
-            AllMediaType.POPULAR -> mediaDataSourceContainer.popularTvShowDataSource
-            AllMediaType.TOP_RATED -> mediaDataSourceContainer.topRatedTvShowDataSource
-            AllMediaType.TRENDING -> mediaDataSourceContainer.trendingMovieDataSource
-            AllMediaType.NOW_STREAMING -> mediaDataSourceContainer.nowStreamingMovieMovieDataSource
-            AllMediaType.UPCOMING -> mediaDataSourceContainer.upcomingMovieMovieDataSource
-            AllMediaType.MYSTERY -> {
-                val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
-                dataSource.setGenre(Constants.MYSTERY_ID, Constants.MOVIE_CATEGORIES_ID)
-                dataSource
-            }
-            AllMediaType.ADVENTURE -> {
-                val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
-                dataSource.setGenre(Constants.ADVENTURE_ID, Constants.MOVIE_CATEGORIES_ID)
-                dataSource
-            }
-            AllMediaType.NON -> {
-                val dataSource = mediaDataSourceContainer.actorMovieDataSource
-                dataSource.setMovieActorID(actorId)
-                dataSource
-            }
-        }
-        return Pager(config = config, pagingSourceFactory = { pagingSourceFactory })
-    }
+//    override suspend fun getMediaData(type: AllMediaType, actorId: Int): Pager<Int, Media> {
+//        val pagingSourceFactory = when (type) {
+//            AllMediaType.ON_THE_AIR, AllMediaType.LATEST -> mediaDataSourceContainer.onTheAirTvShowDataSource
+//            AllMediaType.AIRING_TODAY -> mediaDataSourceContainer.airingTodayTvShowDataSource
+//            AllMediaType.POPULAR -> mediaDataSourceContainer.popularTvShowDataSource
+//            AllMediaType.TOP_RATED -> mediaDataSourceContainer.topRatedTvShowDataSource
+//            AllMediaType.TRENDING -> mediaDataSourceContainer.trendingMovieDataSource
+//            AllMediaType.NOW_STREAMING -> mediaDataSourceContainer.nowStreamingMovieMovieDataSource
+//            AllMediaType.UPCOMING -> mediaDataSourceContainer.upcomingMovieMovieDataSource
+//            AllMediaType.MYSTERY -> {
+//                val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
+//                dataSource.setGenre(Constants.MYSTERY_ID, Constants.MOVIE_CATEGORIES_ID)
+//                dataSource
+//            }
+//            AllMediaType.ADVENTURE -> {
+//                val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
+//                dataSource.setGenre(Constants.ADVENTURE_ID, Constants.MOVIE_CATEGORIES_ID)
+//                dataSource
+//            }
+//            AllMediaType.NON -> {
+//                val dataSource = mediaDataSourceContainer.actorMovieDataSource
+//                dataSource.setMovieActorID(actorId)
+//                dataSource
+//            }
+//        }
+//        return Pager(config = config, pagingSourceFactory = { pagingSourceFactory })
+//    }
 
     override suspend fun getActorData(): Pager<Int, Actor> {
         return Pager(config = config, pagingSourceFactory = { actorDataSource })
     }
 
-    override fun getAllMedia(mediaType: Int): Flow<PagingData<Media>> {
+    override fun getAllMovies(): Flow<PagingData<MovieDto>> {
         return Pager(
             config = config,
-            pagingSourceFactory = {
-                val dataSource = mediaDataSourceContainer.allMediaDataSource
-                dataSource.setTypeMedia(mediaType)
-                dataSource
-            }).flow
+            pagingSourceFactory = { mediaDataSourceContainer.movieDataSource }).flow
     }
 
-    override fun getMediaByGenre(genreID: Int, mediaType: Int): Flow<PagingData<Media>> {
+    override fun getMovieByGenre(genreID: Int): Flow<PagingData<MovieDto>> {
         return Pager(
             config = config,
             pagingSourceFactory = {
-                val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
-                dataSource.setGenre(genreID, mediaType)
+                val dataSource = mediaDataSourceContainer.movieByGenreDataSource
+                dataSource.setGenre(genreID)
                 dataSource
             }
         ).flow

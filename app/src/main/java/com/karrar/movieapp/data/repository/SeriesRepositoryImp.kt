@@ -1,17 +1,23 @@
 package com.karrar.movieapp.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingData
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.daos.SeriesDao
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntity
 import com.karrar.movieapp.data.local.mappers.series.LocalSeriesMappersContainer
+import com.karrar.movieapp.data.remote.response.TVShowsDTO
+import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.ListMapper
+import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
 import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import retrofit2.Response
 import javax.inject.Inject
 
 class SeriesRepositoryImp @Inject constructor(
@@ -20,11 +26,16 @@ class SeriesRepositoryImp @Inject constructor(
     private val seriesDao: SeriesDao,
     private val seriesMapperContainer: SeriesMapperContainer,
     private val localSeriesMappersContainer: LocalSeriesMappersContainer,
+    private val mediaDataSourceContainer: MediaDataSourceContainer,
 ) : BaseRepository(), SeriesRepository {
 
     override suspend fun getTVShowsGenreList(): List<Genre> {
         return wrap({ service.getGenreTvShowList() },
             { ListMapper(seriesMapperContainer.genreMapper).mapList(it.genres) })
+    }
+
+    override suspend fun getTVShowsGenreList2(): Response<GenreResponse> {
+        return service.getGenreTvShowList()
     }
 
     override suspend fun getOnTheAir(page: Int): List<Media> {
@@ -85,6 +96,23 @@ class SeriesRepositoryImp @Inject constructor(
 
     override suspend fun insertTvShow(tvShow: WatchHistoryEntity) {
         return movieDao.insert(tvShow)
+    }
+
+    override fun getAllTVShows(): Flow<PagingData<TVShowsDTO>> {
+        return Pager(
+            config = config,
+            pagingSourceFactory = { mediaDataSourceContainer.tvShowDataSource }).flow
+    }
+
+    override fun getTVShowByGenre(genreID: Int): Flow<PagingData<TVShowsDTO>> {
+        return Pager(
+            config = config,
+            pagingSourceFactory = {
+                val dataSource = mediaDataSourceContainer.tvShowsByGenreDataSource
+                dataSource.setGenre(genreID)
+                dataSource
+            }
+        ).flow
     }
 
     /**
