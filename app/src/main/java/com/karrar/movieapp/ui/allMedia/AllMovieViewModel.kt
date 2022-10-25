@@ -53,7 +53,7 @@ class AllMovieViewModel @Inject constructor(
     private fun initUiState() {
         _uiState.update { it.copy(isLoading = true) }
         val allMediaItems =
-            getMediaByType(args.type).flow.map { pager -> pager.map { it.toUiState() } }
+            getMediaByType(args.type).map { pager -> pager.map { it.toUiState() } }
         _uiState.update { it.copy(allMedia = allMediaItems, isLoading = false) }
     }
 
