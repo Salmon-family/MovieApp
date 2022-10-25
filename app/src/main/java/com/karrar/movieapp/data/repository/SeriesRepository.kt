@@ -16,7 +16,7 @@ interface SeriesRepository {
 
     suspend fun getTVShowsGenreList(): List<Genre>
 
-    suspend fun getTVShowsGenreList2(): Response<GenreResponse>
+    suspend fun getTVShowsGenreList2(): List<GenreDto>?
 
     suspend fun getOnTheAir(page: Int = 1): List<Media>
 

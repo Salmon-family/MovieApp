@@ -8,6 +8,7 @@ import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntity
 import com.karrar.movieapp.data.local.mappers.series.LocalSeriesMappersContainer
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
+import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
@@ -34,8 +35,8 @@ class SeriesRepositoryImp @Inject constructor(
             { ListMapper(seriesMapperContainer.genreMapper).mapList(it.genres) })
     }
 
-    override suspend fun getTVShowsGenreList2(): Response<GenreResponse> {
-        return service.getGenreTvShowList()
+    override suspend fun getTVShowsGenreList2(): List<GenreDto>? {
+        return service.getGenreTvShowList().body()?.genres
     }
 
     override suspend fun getOnTheAir(page: Int): List<Media> {

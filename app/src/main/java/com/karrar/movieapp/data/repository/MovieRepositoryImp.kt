@@ -13,6 +13,7 @@ import com.karrar.movieapp.data.remote.response.AddListResponse
 import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
@@ -44,8 +45,8 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMappersContainer.genreMapper).mapList(it.genres) })
     }
 
-    override suspend fun getMovieGenreList2(): Response<GenreResponse> {
-        return movieService.getGenreList()
+    override suspend fun getMovieGenreList2(): List<GenreDto>? {
+        return movieService.getGenreList().body()?.genres
     }
 
     override suspend fun getTrendingMovies(page: Int): List<Media> {

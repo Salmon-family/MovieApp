@@ -53,9 +53,10 @@ class CategoryViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _uiState.update {
-                    it.copy(genre = getCategoryUseCase.getGenreList(args.mediaId).map {
-                        genreUIStateMapper.map(it)
-                    })
+                    it.copy(
+                        genre = getCategoryUseCase.getGenreList(args.mediaId).map {
+                            genreUIStateMapper.map(it)
+                        })
                 }
             } catch (t: Throwable) {
                 _uiState.update { it.copy(error = t.message.toString()) }
@@ -72,7 +73,7 @@ class CategoryViewModel @Inject constructor(
                 isLoading = false,
                 media = result.map { pagingData ->
                     pagingData.map { mediaUIStateMapper.map(it) }
-                })
+                }, error = "")
         }
     }
 

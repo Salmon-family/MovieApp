@@ -63,10 +63,10 @@ class GetCategoryUseCase @Inject constructor(
     suspend fun getGenreList(mediaId: Int): List<Genre> {
         val genre = when (mediaId) {
             Constants.MOVIE_CATEGORIES_ID -> {
-                mapGenre(movieRepository.getMovieGenreList2().body()?.genres)
+                mapGenre(movieRepository.getMovieGenreList2())
             }
             else -> {
-                mapGenre(seriesRepository.getTVShowsGenreList2().body()?.genres)
+                mapGenre(seriesRepository.getTVShowsGenreList2())
             }
         }
         return addAllGenre(genre)
