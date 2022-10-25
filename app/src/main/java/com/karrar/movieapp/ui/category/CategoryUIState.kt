@@ -25,18 +25,3 @@ data class MediaUIState(
     val mediaType: String
 )
 
-
-fun Genre.toUiState(): GenreUIState {
-    return GenreUIState(
-        genreID = genreID,
-        genreName = genreName
-    )
-}
-
-fun Media.toUiState(): MediaUIState {
-    return MediaUIState(
-        mediaID = mediaID,
-        mediaImage = mediaImage,
-        mediaType = mediaType
-    )
-}
