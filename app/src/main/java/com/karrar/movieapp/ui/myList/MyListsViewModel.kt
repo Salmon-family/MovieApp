@@ -1,12 +1,17 @@
 package com.karrar.movieapp.ui.myList
 
-import androidx.lifecycle.*
-import com.karrar.movieapp.data.repository.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.data.repository.AccountRepository
+import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.CreatedList
-import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.movieDetails.saveMovie.SaveListInteractionListener
-import com.karrar.movieapp.utilities.*
+import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.checkIfExist
+import com.karrar.movieapp.utilities.postEvent
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,8 +27,8 @@ class MyListsViewModel @Inject constructor(
 ) : BaseViewModel(), CreatedListInteractionListener, SaveListInteractionListener {
 
 
-    private val _createdList = MutableStateFlow(MyListUIState())
-    val createdList = _createdList.asStateFlow()
+    private val _createdListUIState = MutableStateFlow(MyListUIState())
+    val createdListUIState = _createdListUIState.asStateFlow()
 
     val listName = MutableLiveData("")
 
@@ -33,9 +38,9 @@ class MyListsViewModel @Inject constructor(
     private val _onCLickAddEvent = MutableLiveData<Event<Boolean>>()
     val onClickAddEvent = _onCLickAddEvent.toLiveData()
 
-    private val _item = MutableLiveData<Event<CreatedList>>()
-    val item: LiveData<Event<CreatedList>>
-        get() = _item
+//    private val _item = MutableLiveData<Event<CreatedList>>()
+//    val item: LiveData<Event<CreatedList>>
+//        get() = _item
 
     private val _newAdd = MutableLiveData(false)
     var newAdd: LiveData<Boolean> = _newAdd
@@ -46,32 +51,30 @@ class MyListsViewModel @Inject constructor(
     var message: LiveData<String> = _message
 
     override fun getData() {
-        _createdList.update { it.copy(isLoading = true) }
+        _createdListUIState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             try {
                 val sessionId = accountRepository.getSessionId()
                 sessionId?.let {
                     val response = movieRepository.getAllLists(0, it).toMutableList()
-                    _createdList.update {
-                        it.copy(
-                            isLoading = false,
-                            createdList = response.map { it.toUIState() }
-                        )
-                    }
-                } ?: _createdList.update { it.copy(isLoading = false, error = "NoLogin") }
+                    val list = response.map { it.toUIState() }
+
+                    _createdListUIState.update { it.copy(isLoading = false, createdList = list) }
+
+                } ?: _createdListUIState.update { it.copy(isLoading = false, error = "NoLogin") }
             } catch (t: Throwable) {
-                _createdList.update { it.copy(isLoading = false, error = t.message.toString()) }
+                _createdListUIState.update {
+                    it.copy(
+                        isLoading = false,
+                        error = t.message.toString()
+                    )
+                }
             }
         }
     }
 
     fun checkIfLogin() {
-//        val sessionId = accountRepository.getSessionId()
-//        if (sessionId.isNullOrBlank() && _createdList.value !is UIState.NoLogin) {
-//            _createdList.postValue(UIState.NoLogin)
-//        } else if (!sessionId.isNullOrBlank() && _createdList.value is UIState.NoLogin) {
-//            getData()
-//        }
+        getData()
     }
 
     fun onCreateList() {
@@ -97,8 +100,8 @@ class MyListsViewModel @Inject constructor(
 //        _createdList.postValue(UIState.Success(oldList))
     }
 
-    override fun onListClick(item: CreatedList) {
-        _item.postValue(Event(item))
+    override fun onListClick(itemID: Int) {
+//        _item.postValue(Event(item))
     }
 
     override fun onClickSaveList(list: CreatedList) {

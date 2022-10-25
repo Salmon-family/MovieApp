@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.CreatedList" />
+            type="com.karrar.movieapp.ui.myList.CreatedListUI" />
+
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.myList.CreatedListInteractionListener" />
@@ -16,26 +18,26 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="73dp"
-        app:cardElevation="0dp"
-        android:backgroundTint="@color/card_background_color"
         android:layout_marginHorizontal="@dimen/spacing_medium"
         android:layout_marginVertical="@dimen/spacing_small"
+        android:backgroundTint="@color/card_background_color"
+        android:onClick="@{()->listener.onListClick(item.listID)}"
         app:cardCornerRadius="@dimen/radius_small"
-        android:onClick="@{()->listener.onListClick(item)}">
+        app:cardElevation="0dp">
 
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <TextView
+                style="@style/Regular.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{item.name}"
-                style="@style/Regular.Small"
                 android:layout_marginStart="@dimen/spacing_medium"
+                android:text="@{item.name}"
                 tools:text="Action movies" />
 
             <View
@@ -44,11 +46,11 @@
                 android:layout_weight="1" />
 
             <TextView
+                style="@style/Regular.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Regular.Small"
-                android:text="@{@string/items(item.itemCount)}"
                 android:layout_marginEnd="@dimen/spacing_medium"
+                android:text="@{@string/items(item.mediaCounts)}"
                 tools:text="14 items" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

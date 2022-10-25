@@ -28,10 +28,10 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
             navigateToCreateListDialog()
         }
 
-        viewModel.item.observeEvent(viewLifecycleOwner){
-            val action = MyListsFragmentDirections.actionMyListFragmentToSavedListFragment(it.id, it.name)
-            findNavController().navigate(action)
-        }
+//        viewModel.item.observeEvent(viewLifecycleOwner){
+//            val action = MyListsFragmentDirections.actionMyListFragmentToSavedListFragment(it.id, it.name)
+//            findNavController().navigate(action)
+//        }
     }
 
     private fun navigateToCreateListDialog() {

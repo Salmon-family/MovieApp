@@ -49,6 +49,10 @@ fun <T> showWhenNoLogin(view: View, state: UIState<T>?) {
     view.isVisible = (state is UIState.NoLogin)
 }
 
+@BindingAdapter(value = ["app:showWhenNoLogin"])
+fun showWhenErrorLogin(view: View, error: String?) {
+    view.isVisible = error != null && error.contains("NoLogin", true)
+}
 
 @BindingAdapter(value = ["app:hideWhenLoading"])
 fun <T> hideWhenLoading(view: View, state: UIState<T>?) {
