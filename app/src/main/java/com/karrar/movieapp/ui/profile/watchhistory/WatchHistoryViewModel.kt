@@ -3,19 +3,17 @@ package com.karrar.movieapp.ui.profile.watchhistory
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.data.repository.MovieRepository
+import com.karrar.movieapp.domain.useCases.GetWatchHistoryUseCase
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class WatchHistoryViewModel @Inject constructor(
-    private val movieRepository: MovieRepository,
+    getWatchHistoryUseCase: GetWatchHistoryUseCase
 ) : ViewModel(), WatchHistoryInteractionListener {
 
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
@@ -24,7 +22,7 @@ class WatchHistoryViewModel @Inject constructor(
     private val _clickTVShowEvent = MutableLiveData<Event<Int>>()
     val clickTVShowEvent = _clickTVShowEvent.toLiveData()
 
-    val watchHistory = movieRepository.getAllWatchedMovies().asLiveData()
+    val watchHistory = getWatchHistoryUseCase().asLiveData()
 
     override fun onClickMovie(mediaID: Int) {
         watchHistory.value?.let { it ->
