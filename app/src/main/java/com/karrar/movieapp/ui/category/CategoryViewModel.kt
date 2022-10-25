@@ -5,7 +5,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
 import androidx.paging.map
-import com.karrar.movieapp.domain.usecase.GetCategoryUseCase
+import com.karrar.movieapp.domain.usecase.GetAllMediaByGenreIDUseCase
+import com.karrar.movieapp.domain.usecase.GetGenreListUseCase
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
@@ -19,9 +20,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
-    private val getCategoryUseCase: GetCategoryUseCase,
+    private val getCategoryUseCase: GetAllMediaByGenreIDUseCase,
     private val mediaUIStateMapper: MediaUIStateMapper,
     private val genreUIStateMapper: GenreUIStateMapper,
+    private val getGenresUseCase: GetGenreListUseCase,
     state: SavedStateHandle
 ) : BaseViewModel(), MediaInteractionListener, CategoryInteractionListener {
 
@@ -54,9 +56,7 @@ class CategoryViewModel @Inject constructor(
             try {
                 _uiState.update {
                     it.copy(
-                        genre = getCategoryUseCase.getGenreList(args.mediaId).map {
-                            genreUIStateMapper.map(it)
-                        })
+                        genre = getGenresUseCase(args.mediaId).map { genreUIStateMapper.map(it) })
                 }
             } catch (t: Throwable) {
                 _uiState.update { it.copy(error = t.message.toString()) }
@@ -71,9 +71,9 @@ class CategoryViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 isLoading = false,
-                media = result.map { pagingData ->
-                    pagingData.map { mediaUIStateMapper.map(it) }
-                }, error = "")
+                media = result.map { pagingData -> pagingData.map { mediaUIStateMapper.map(it) } },
+                error = ""
+            )
         }
     }
 
@@ -87,7 +87,7 @@ class CategoryViewModel @Inject constructor(
 
     fun setErrorUiState(loadState: LoadState) {
         when (loadState) {
-            is LoadState.Error, null -> {
+            is LoadState.Error -> {
                 _uiState.update { it.copy(error = "error loading") }
             }
             else -> {
