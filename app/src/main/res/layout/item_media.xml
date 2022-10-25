@@ -10,7 +10,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Media" />
+            type="com.karrar.movieapp.ui.category.MediaUIState" />
     </data>
 
     <com.google.android.material.imageview.ShapeableImageView

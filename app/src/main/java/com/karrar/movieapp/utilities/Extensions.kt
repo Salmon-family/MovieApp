@@ -24,6 +24,7 @@ import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BasePagingAdapter
 import com.karrar.movieapp.ui.category.CategoryInteractionListener
+import com.karrar.movieapp.ui.category.GenreUIState
 import com.karrar.movieapp.ui.youtubePlayer.YoutubePlayerActivity
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import kotlinx.coroutines.flow.Flow
@@ -47,7 +48,7 @@ inline fun <T> LiveData<Event<T>>.observeEvent(
     observe(owner) { it?.getContentIfNotHandled()?.let(onEventUnhandledContent) }
 }
 
-fun <T> ChipGroup.createChip(item: Genre, listener: T): View {
+fun <T> ChipGroup.createChip(item: GenreUIState, listener: T): View {
     val chipBinding: ChipItemCategoryBinding = DataBindingUtil.inflate(
         LayoutInflater.from(context),
         R.layout.chip_item_category,

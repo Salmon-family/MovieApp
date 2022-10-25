@@ -41,13 +41,13 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
         collect(flow = allMediaAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it.source.refresh) })
 
-        collectLast(viewModel.allMedia, ::setAllMedia)
+//        collectLast(viewModel.allMedia, ::setAllMedia)
     }
 
 
-    private suspend fun setAllMedia(itemsPagingData: PagingData<Media>) {
-        allMediaAdapter.submitData(itemsPagingData)
-    }
+//    private suspend fun setAllMedia(itemsPagingData: PagingData<Media>) {
+//        allMediaAdapter.submitData(itemsPagingData)
+//    }
 
     private fun observeEvents() {
         viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner) { movieID ->

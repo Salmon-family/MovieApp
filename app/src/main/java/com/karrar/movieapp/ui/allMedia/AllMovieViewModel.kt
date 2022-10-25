@@ -47,7 +47,7 @@ class AllMovieViewModel @Inject constructor(
 
     init {
         viewModelScope.launch{
-            allMedia = movieRepository.getMediaData(args.type, args.id).flow
+//            allMedia = movieRepository.getMediaData(args.type, args.id).flow
         }
     }
 

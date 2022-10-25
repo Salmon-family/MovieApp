@@ -75,23 +75,14 @@
 
         <include
             android:id="@+id/loading"
-            layout="@layout/loading"
+            layout="@layout/state"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.uiState.mediaUIState}" />
-
-        <include
-            android:id="@+id/error"
-            layout="@layout/error"
-            app:error="@{viewModel.uiState.mediaUIState}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
-
+            app:loading="@{viewModel.uiState.isLoading}"
+            app:error="@{viewModel.uiState.error}"
+            app:viewModel="@{viewModel}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
