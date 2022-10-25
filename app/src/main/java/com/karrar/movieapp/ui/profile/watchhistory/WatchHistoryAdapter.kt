@@ -13,5 +13,5 @@ class WatchHistoryAdapter(
 }
 
 interface WatchHistoryInteractionListener : BaseInteractionListener {
-    fun onClickMovie(movieID: Int)
+    fun onClickMovie(mediaId: Int)
 }

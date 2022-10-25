@@ -24,22 +24,17 @@ class WatchHistoryViewModel @Inject constructor(
 
     val watchHistory = getWatchHistoryUseCase().asLiveData()
 
-    override fun onClickMovie(mediaID: Int) {
+    override fun onClickMovie(mediaId: Int) {
         watchHistory.value?.let { it ->
-            val item = it.find { it.id == mediaID }
+            val item = it.find { it.id == mediaId }
             item?.let {
                 if (it.mediaType == Constants.MOVIE) {
-                    _clickMovieEvent.postEvent(mediaID)
+                    _clickMovieEvent.postEvent(mediaId)
                 } else {
-                    _clickTVShowEvent.postEvent(mediaID)
+                    _clickTVShowEvent.postEvent(mediaId)
                 }
             }
         }
     }
 
-    fun clearHistory() {
-        viewModelScope.launch {
-            movieRepository.clearWatchHistory()
-        }
-    }
 }
