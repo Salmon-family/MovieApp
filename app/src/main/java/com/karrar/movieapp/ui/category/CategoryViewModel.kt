@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
+import androidx.paging.map
 import com.karrar.movieapp.domain.usecase.GetCategoryUseCase
 import com.karrar.movieapp.domain.usecase.GetGenreUseCase
-import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
@@ -52,17 +52,22 @@ class CategoryViewModel @Inject constructor(
     private fun getGenre() {
         viewModelScope.launch {
             try {
-                _uiState.update { it.copy(genre = getGenreUseCase(args.mediaId)) }
+                _uiState.update { it.copy(genre = getGenreUseCase(args.mediaId).map { it.toUiState() }) }
             } catch (t: Throwable) {
-                _uiState.update { it.copy(mediaUIState = UIState.Error("")) }
+                _uiState.update { it.copy(error = t.message.toString()) }
             }
         }
     }
 
     fun getMediaList() {
-        _uiState.update { it.copy(mediaUIState = UIState.Loading) }
+        _uiState.update { it.copy(isLoading = true) }
         val result = getCategoryUseCase(args.mediaId, selectedCategory.value ?: FIRST_CATEGORY_ID)
-        _uiState.update { it.copy(mediaUIState = UIState.Success(true), media = result) }
+
+        _uiState.update {
+            it.copy(
+                isLoading = false,
+                media = result.map { pagingData -> pagingData.map { it.toUiState() } })
+        }
     }
 
     override fun onClickMedia(mediaId: Int) {
@@ -76,10 +81,10 @@ class CategoryViewModel @Inject constructor(
     fun setErrorUiState(loadState: LoadState) {
         when (loadState) {
             is LoadState.Error, null -> {
-                _uiState.update { it.copy(mediaUIState = UIState.Error("")) }
+                _uiState.update { it.copy(error = "error loading") }
             }
             else -> {
-                _uiState.update { it.copy(mediaUIState = UIState.Success(true)) }
+                _uiState.update { it.copy(isLoading = false) }
             }
         }
     }
