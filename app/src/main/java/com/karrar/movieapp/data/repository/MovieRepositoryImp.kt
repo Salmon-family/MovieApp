@@ -24,6 +24,7 @@ import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import okhttp3.internal.notify
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -125,26 +126,11 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override suspend fun getActorDetails(actorId: Int): ActorDto {
-        return wrap {
-            movieService.getActorDetails(actorId = actorId)
-        }
+        return movieService.getActorDetails(actorId = actorId).body()!!
     }
 
     override suspend fun getActorMovies(actorId: Int): List<MovieDto> {
-        return wrap {
-            movieService.getActorMovies(actorId = actorId)
-        }.cast ?: emptyList()
-    }
-
-    private suspend fun <T> wrap(
-        response: suspend () -> Response<T>,
-    ) : T {
-        val result = response()
-        return if (result.isSuccessful) {
-            result.body() ?: throw Exception("Response body is null")
-        } else {
-            throw Exception(result.errorBody().toString())
-        }
+        return movieService.getActorMovies(actorId = actorId).body()?.cast ?: emptyList()
     }
 
     /**
