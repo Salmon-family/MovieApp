@@ -39,6 +39,11 @@ fun <T> showWhenSuccess2(view: View, state: UIState<T>?) {
     view.isVisible = state is UIState.Success
 }
 
+@BindingAdapter("app:showWhenNoError")
+fun <T> showWhenNoError(view: View, error:String?) {
+    view.isVisible = error.isNullOrBlank()
+}
+
 @BindingAdapter(value = ["app:showWhenLoading"])
 fun <T> showWhenLoading2(view: View, state: UIState<T>?) {
     view.isVisible = (state is UIState.Loading)

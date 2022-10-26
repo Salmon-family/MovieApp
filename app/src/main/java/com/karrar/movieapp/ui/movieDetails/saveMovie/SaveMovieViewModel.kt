@@ -1,12 +1,12 @@
 package com.karrar.movieapp.ui.movieDetails.saveMovie
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecase.mylist.GetMyListUseCase
 import com.karrar.movieapp.domain.usecase.mylist.SaveMovieToMyListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.MySavedListUIState
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

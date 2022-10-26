@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.ui.myList.CreatedListUI" />
+            type="com.karrar.movieapp.ui.myList.uiState.CreatedListUIState" />
 
         <variable
             name="listener"

@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecase.mylist.CreateMovieListUseCase
 import com.karrar.movieapp.domain.usecase.mylist.GetMyListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.myList.uiState.CreatedListUIState
+import com.karrar.movieapp.ui.myList.uiState.MyListUIState
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
@@ -34,7 +36,7 @@ class MyListsViewModel @Inject constructor(
     private val _onCLickAddEvent = MutableLiveData<Event<Boolean>>()
     val onClickAddEvent = _onCLickAddEvent.toLiveData()
 
-    private val _onSelectItem = MutableLiveData<Event<CreatedListUI>>()
+    private val _onSelectItem = MutableLiveData<Event<CreatedListUIState>>()
     val onSelectItem = _onSelectItem.toLiveData()
 
     override fun getData() {

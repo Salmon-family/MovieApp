@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.movieDetails.saveMovie
+package com.karrar.movieapp.ui.movieDetails.saveMovie.uiState
 
 
 data class MySavedListUIState (
@@ -7,7 +7,3 @@ data class MySavedListUIState (
     val error: String = ""
 )
 
-data class MyListItemUI(
-    val listID: Int = 0,
-    val name: String = ""
-)

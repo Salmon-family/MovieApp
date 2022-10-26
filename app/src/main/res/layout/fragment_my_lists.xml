@@ -99,14 +99,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_message_wrong_title" />
 
-        <!--        <androidx.constraintlayout.widget.Group-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            app:constraint_referenced_ids="-->
-        <!--            saved_list,-->
-        <!--            floating_action_button"-->
-        <!--            app:showWhenSuccess="@{viewModel.createdList}"-->
-        <!--            />-->
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="
+                    saved_list,
+                    floating_action_button"
+            app:showWhenNoError="@{viewModel.createdListUIState.error}" />
 
         <androidx.constraintlayout.widget.Group
             android:layout_width="wrap_content"

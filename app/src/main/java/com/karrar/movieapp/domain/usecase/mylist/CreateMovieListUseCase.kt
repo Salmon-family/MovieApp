@@ -18,7 +18,7 @@ class CreateMovieListUseCase @Inject constructor(
         return sessionId?.let {
             val item = movieRepository.createList(it, listName)
             if (item?.success == true) {
-                val response = movieRepository.getAllLists(0, it)
+                val response = movieRepository.getAllLists(it)
                 ListMapper(createdListsMapper).mapList(response)
             } else {
                 throw Throwable("Not Success")

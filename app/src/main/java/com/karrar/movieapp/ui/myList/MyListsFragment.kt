@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
+
     override val layoutIdFragment: Int = R.layout.fragment_my_lists
     override val viewModel: MyListsViewModel by activityViewModels()
 
