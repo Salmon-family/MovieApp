@@ -45,7 +45,7 @@ internal class CheckIfMediaIsSeriesUseCaseTest {
     @Test
     fun should_ReturnFalse_WhenGivenNON() {
         //given series type
-        val type = AllMediaType.NON
+        val type = AllMediaType.ACTOR
 
         //when
         val result = checkIfMediaIsSeriesUseCase(type)
