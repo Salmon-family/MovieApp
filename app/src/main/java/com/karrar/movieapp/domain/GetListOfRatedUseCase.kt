@@ -21,10 +21,10 @@ class GetListOfRatedUseCase @Inject constructor(
     }
 
     private suspend fun getRatedMovie(accountId: Int, sessionId: String): List<Rated> {
-        return ListMapper(ratedMoviesMapper).mapList(movieRepository.getRatedMovie(accountId, sessionId).items)
+        return ListMapper(ratedMoviesMapper).mapList(movieRepository.getRatedMovie(accountId, sessionId))
     }
 
     private suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<Rated> {
-        return ListMapper(ratedTvShowMapper).mapList(tvShowRepository.getRatedTvShow(accountId, sessionId).items)
+        return ListMapper(ratedTvShowMapper).mapList(tvShowRepository.getRatedTvShow(accountId, sessionId))
     }
 }

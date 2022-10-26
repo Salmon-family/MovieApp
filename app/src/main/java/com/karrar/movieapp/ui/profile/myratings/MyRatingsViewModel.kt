@@ -1,6 +1,7 @@
 package com.karrar.movieapp.ui.profile.myratings
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.domain.models.Rated
 import com.karrar.movieapp.domain.GetListOfRatedUseCase
@@ -11,12 +12,15 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
 class MyRatingsViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
-    private val getRatedUseCase: GetListOfRatedUseCase
+    private val getRatedUseCase: GetListOfRatedUseCase,
+    private val ratedUIStateMapper: RatedUIStateMapper
 ) : BaseViewModel(), RatedMoviesInteractionListener {
 
     private val _ratedUiState = MutableStateFlow(MyRateUIState())
@@ -34,14 +38,24 @@ class MyRatingsViewModel @Inject constructor(
 
     override fun getData() {
         _ratedUiState.update { it.copy(isLoading = true) }
-        wrapWithState({
-            val sessionId = accountRepository.getSessionId()
-            sessionId?.let { session ->
-                val listOfRated = getRatedUseCase(0, session).map { rate -> rate.ratedToUiSate() }
-                _ratedUiState.update { it.copy(ratedList = listOfRated, isLoading = false) }
+        try {
+            viewModelScope.launch {
+                val sessionId = accountRepository.getSessionId()
+                sessionId?.let { session ->
+                    val listOfRated =
+                        getRatedUseCase(0, session).map { rate -> ratedUIStateMapper.map(rate) }
+                    _ratedUiState.update { it.copy(ratedList = listOfRated, isLoading = false) }
+                }
             }
-        }, { _ratedUiState.update { it.copy(error = listOf(Error(""))) } })
+        } catch (e: Throwable) {
+            _ratedUiState.update { it.copy(error = listOf(Error(""))) }
+            _ratedUiState.update { it.copy(isLoading = false) }
+        } catch (eh: HttpException) {
+            _ratedUiState.update { it.copy(error = listOf(Error(""))) }
+            _ratedUiState.update { it.copy(isLoading = false) }
+        }
     }
+
 
     override fun onClickMovie(mediaID: Int) {
         ratedUiState.value.ratedList.let { it ->

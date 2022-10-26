@@ -46,6 +46,11 @@ fun <T> showWhenLoading2(view: View, state: UIState<T>?) {
     view.isVisible = (state is UIState.Loading)
 }
 
+@BindingAdapter(value = ["app:showWhenLoading3"])
+fun <T> showWhenLoading3(view: View, value: Boolean) {
+    view.isVisible = value
+}
+
 @BindingAdapter(value = ["app:showWhenNoLogin"])
 fun <T> showWhenNoLogin(view: View, state: UIState<T>?) {
     view.isVisible = (state is UIState.NoLogin)
@@ -60,6 +65,11 @@ fun <T> hideWhenLoading(view: View, state: UIState<T>?) {
 @BindingAdapter("app:showWhenFail")
 fun <T> showWhenFail2(view: View, state: UIState<T>?) {
     view.isVisible = state is UIState.Error
+}
+
+@BindingAdapter("app:showWhenFail3")
+fun <T> showWhenFail3(view: View, error :String) {
+    view.isVisible = error.isEmpty()
 }
 
 @BindingAdapter(value = ["app:showWhenSearch"])
@@ -192,6 +202,11 @@ fun convertToHoursPattern(view: TextView, duration: Int) {
 @BindingAdapter("app:showWhenListIsEmpty")
 fun <T> showWhenListIsEmpty(view: View, list: List<T>?) {
     view.isVisible = list?.isEmpty() == true
+}
+
+@BindingAdapter(value = ["app:showWhenListIsEmpty2","app:loading"])
+fun <T> showWhenListIsEmpty2(view: View, list: List<T>?,value :Boolean) {
+    view.isVisible = list?.isEmpty() == true && !value
 }
 
 @BindingAdapter("app:hideWhenListIsEmpty")
