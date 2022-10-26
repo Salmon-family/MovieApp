@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.domain.models.ActorDetails
 import com.karrar.movieapp.domain.usecases.GetActorDetailsUseCase
 import com.karrar.movieapp.domain.usecases.GetActorMoviesUseCase
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
@@ -21,15 +20,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ActorViewModel @Inject constructor(
-    private val state: SavedStateHandle,
+    state: SavedStateHandle,
     private val getActorDetailsUseCase: GetActorDetailsUseCase,
     private val getActorMoviesUseCase: GetActorMoviesUseCase,
+    private val actorDetailsUIMapper: ActorDetailsUIMapper,
+    private val actorMoviesUIMapper: ActorMoviesUIMapper
 ) : BaseViewModel(), MovieInteractionListener {
 
     val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
 
-    private val _actorDetails = MutableStateFlow(ActorDetailsUIState(isLoading = true))
-    val actorDetails = _actorDetails.asStateFlow()
+    private val _actorDetailsUIState = MutableStateFlow(ActorDetailsUIState())
+    val actorDetailsUIState = _actorDetailsUIState.asStateFlow()
 
     private val _backEvent = MutableLiveData<Event<Boolean>>()
     val backEvent = _backEvent.toLiveData()
@@ -45,18 +46,29 @@ class ActorViewModel @Inject constructor(
     }
 
     override fun getData() {
+        _actorDetailsUIState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             try {
-                val actorDetails = getActorDetailsUseCase(args.id)
+                val actorDetails = actorDetailsUIMapper.map(getActorDetailsUseCase(args.id))
+                val actorMovies = getActorMoviesUseCase(args.id).map { actorMoviesUIMapper.map(it) }
                 onShowActorDetails(actorDetails)
+                onShowActorMovies(actorMovies)
             } catch (e: Exception) {
                 onError(e.message.toString())
             }
         }
     }
 
+    private fun onShowActorMovies(actorMovies: List<ActorMoviesUIState>) {
+        _actorDetailsUIState.update {
+            it.copy(
+                actorMovies = actorMovies
+            )
+        }
+    }
+
     private fun onError(message: String){
-        _actorDetails.update { actorDetailsUIState ->
+        _actorDetailsUIState.update { actorDetailsUIState ->
             actorDetailsUIState.copy(
                 isLoading = false,
                 error = Error(message),
@@ -64,17 +76,16 @@ class ActorViewModel @Inject constructor(
         }
     }
 
-    private suspend fun onShowActorDetails(actorDetails: ActorDetails){
-        _actorDetails.update { actorDetailsUIState ->
-            actorDetailsUIState.copy(
-                name = actorDetails.actorName,
-                imageUrl = actorDetails.actorImage,
-                gender = actorDetails.actorGender,
-                birthday = actorDetails.actorBirthday,
-                placeOfBirth = actorDetails.actorPlaceOfBirth,
-                knownFor = actorDetails.knownForDepartment,
-                biography = actorDetails.actorBiography,
-                actorMovies = getActorMoviesUseCase(args.id),
+    private fun onShowActorDetails(actorDetailsUIState: ActorDetailsUIState) {
+        _actorDetailsUIState.update {
+            it.copy(
+                name = actorDetailsUIState.name,
+                gender = actorDetailsUIState.gender,
+                imageUrl = actorDetailsUIState.imageUrl,
+                placeOfBirth = actorDetailsUIState.placeOfBirth,
+                biography = actorDetailsUIState.biography,
+                birthday = actorDetailsUIState.birthday,
+                knownFor = actorDetailsUIState.knownFor,
                 isLoading = false,
             )
         }

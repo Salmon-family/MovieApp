@@ -1,21 +1,18 @@
 package com.karrar.movieapp.domain.usecases
 
-import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.ui.actorDetails.ActorMoviesUIState
+import com.karrar.movieapp.domain.mappers.ActorMoviesMapper
+import com.karrar.movieapp.domain.mappers.ListMapper
+import com.karrar.movieapp.domain.models.ActorMovie
 import javax.inject.Inject
 
-class GetActorMoviesUseCase @Inject constructor(private val movieRepository: MovieRepository) {
+class GetActorMoviesUseCase @Inject constructor(
+    private val movieRepository: MovieRepository,
+    private val actorMoviesMapper: ActorMoviesMapper,
+) {
 
-    suspend operator fun invoke(actorId: Int) = movieRepository.getActorMovies(actorId).map {
-        it.toActorMoviesUIState()
-    }
-
-    private fun MovieDto.toActorMoviesUIState(): ActorMoviesUIState {
-        return ActorMoviesUIState(
-            this.id ?: 0,
-            BuildConfig.IMAGE_BASE_PATH + this.posterPath,
-        )
+    suspend operator fun invoke(actorId: Int): List<ActorMovie> {
+        val response = movieRepository.getActorMovies(actorId = actorId)
+        return ListMapper(actorMoviesMapper).mapList(response?.cast)
     }
 }
