@@ -28,6 +28,8 @@ import com.karrar.movieapp.ui.category.GenreUIState
 import com.karrar.movieapp.ui.youtubePlayer.YoutubePlayerActivity
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -125,4 +127,9 @@ fun <T : Any> GridLayoutManager.setSpanSize(
 fun Date.convertToDayMonthYearFormat(): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(this)
+}
+
+
+fun <T> MutableStateFlow<T>.toStateFlow(): StateFlow<T> {
+    return this
 }

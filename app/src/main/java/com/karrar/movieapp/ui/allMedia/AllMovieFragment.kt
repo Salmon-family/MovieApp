@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentAllMovieBinding
 import com.karrar.movieapp.domain.enums.AllMediaType
-import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
 import com.karrar.movieapp.utilities.observeEvent
@@ -39,15 +39,18 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
         mManager.setSpanSize(footerAdapter, allMediaAdapter, mManager.spanCount)
 
         collect(flow = allMediaAdapter.loadStateFlow,
-            action = { viewModel.setErrorUiState(it.source.refresh) })
+            action = {
+                viewModel.setErrorUiState(it) })
 
-//        collectLast(viewModel.allMedia, ::setAllMedia)
+        collectLast(viewModel.uiState.value.allMedia, ::setAllMedia)
+
+
     }
 
 
-//    private suspend fun setAllMedia(itemsPagingData: PagingData<Media>) {
-//        allMediaAdapter.submitData(itemsPagingData)
-//    }
+    private suspend fun setAllMedia(itemsPagingData: PagingData<MediaUiState>) {
+        allMediaAdapter.submitData(itemsPagingData)
+    }
 
     private fun observeEvents() {
         viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner) { movieID ->
@@ -89,7 +92,7 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
             AllMediaType.UPCOMING -> resources.getString(R.string.title_upcoming)
             AllMediaType.MYSTERY -> resources.getString(R.string.title_mystery)
             AllMediaType.ADVENTURE -> resources.getString(R.string.title_adventure)
-            AllMediaType.NON -> ""
+            AllMediaType.ACTOR_MOVIES -> ""
         }
     }
 

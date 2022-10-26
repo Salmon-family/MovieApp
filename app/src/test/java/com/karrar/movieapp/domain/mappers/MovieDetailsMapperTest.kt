@@ -5,6 +5,7 @@ import com.karrar.movieapp.data.remote.response.SpokenLanguageDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.domain.enums.MediaType
+import com.karrar.movieapp.domain.mappers.movie.MovieDetailsMapper
 import com.karrar.movieapp.domain.models.MovieDetails
 import com.karrar.movieapp.utilities.Constants
 import org.junit.jupiter.api.Assertions.*
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.BeforeAll
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import java.util.*
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class MovieDetailsMapperTest {
@@ -40,7 +42,7 @@ internal class MovieDetailsMapperTest {
             overview = "overview",
             popularity = 1.0,
             posterPath = "posterPath",
-            releaseDate = "releaseDate",
+            releaseDate = Date(),
             revenue = 1,
             runtime = 1,
             spokenLanguages = listOf(SpokenLanguageDto(iso6391 = "iso6391", name = "name")),
