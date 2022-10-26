@@ -20,46 +20,47 @@ class GetMediaByTypeUseCase @Inject constructor(
     private val tvShowMapper: TVShowMapper,
 ) {
 
-    operator fun invoke(type: AllMediaType, actorId: Int = 0) : Flow<PagingData<Media>>{
-        return when(type){
+    operator fun invoke(type: AllMediaType, actorId: Int = 0): Flow<PagingData<Media>> {
+        return when (type) {
             AllMediaType.ACTOR -> {
-                wrapper({movieRepository.getActorMoviesPager(actorId)},movieMapper::map)
+                wrapper({ movieRepository.getActorMoviesPager(actorId) }, movieMapper::map)
             }
-            AllMediaType.LATEST ,
-            AllMediaType.AIRING_TODAY ->{
-                wrapper({seriesRepository.getAiringTodayTvShowPager()},tvShowMapper::map)
+            AllMediaType.LATEST,
+            AllMediaType.AIRING_TODAY,
+            -> {
+                wrapper(seriesRepository::getAiringTodayTvShowPager, tvShowMapper::map)
             }
-            AllMediaType.ON_THE_AIR ->{
-                    wrapper({seriesRepository.getTopRatedTvShowPager()},tvShowMapper::map)
+            AllMediaType.ON_THE_AIR -> {
+                wrapper(seriesRepository::getTopRatedTvShowPager, tvShowMapper::map)
             }
-            AllMediaType.POPULAR ->{
-                wrapper({seriesRepository.getPopularTvShowPager()},tvShowMapper::map)
+            AllMediaType.POPULAR -> {
+                wrapper(seriesRepository::getPopularTvShowPager, tvShowMapper::map)
             }
-            AllMediaType.TOP_RATED ->{
-                wrapper({seriesRepository.getTopRatedTvShowPager()},tvShowMapper::map)
+            AllMediaType.TOP_RATED -> {
+                wrapper(seriesRepository::getTopRatedTvShowPager, tvShowMapper::map)
             }
             AllMediaType.TRENDING -> {
-                wrapper({movieRepository.getTrendingMoviesPager()},movieMapper::map)
+                wrapper(movieRepository::getTrendingMoviesPager, movieMapper::map)
             }
             AllMediaType.NOW_STREAMING -> {
-                wrapper({movieRepository.getNowPlayingMoviesPager()},movieMapper::map)
+                wrapper(movieRepository::getNowPlayingMoviesPager, movieMapper::map)
             }
             AllMediaType.UPCOMING -> {
-                wrapper({movieRepository.getUpcomingMoviesPager()},movieMapper::map)
-        }
+                wrapper(movieRepository::getUpcomingMoviesPager, movieMapper::map)
+            }
             AllMediaType.MYSTERY -> {
-                wrapper({movieRepository.getMysteryMoviesPager()},movieMapper::map)
-        }
+                wrapper(movieRepository::getMysteryMoviesPager, movieMapper::map)
+            }
             AllMediaType.ADVENTURE -> {
-                wrapper({movieRepository.getAdventureMoviesPager()},movieMapper::map)
+                wrapper(movieRepository::getAdventureMoviesPager, movieMapper::map)
             }
         }
     }
 
-    private fun <T:Any>wrapper(
-        data :()-> Pager<Int,T>,
-        mapper : (T) -> Media
-    ) :Flow<PagingData<Media>>{
+    private fun <T : Any> wrapper(
+        data: () -> Pager<Int, T>,
+        mapper: (T) -> Media,
+    ): Flow<PagingData<Media>> {
         return data().flow.map { pager -> pager.map { mapper(it) } }
     }
 }
