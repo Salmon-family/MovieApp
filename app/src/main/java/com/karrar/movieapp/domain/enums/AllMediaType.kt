@@ -11,5 +11,5 @@ enum class AllMediaType {
     UPCOMING,
     MYSTERY,
     ADVENTURE,
-    NON
+    ACTOR_MOVIES
 }

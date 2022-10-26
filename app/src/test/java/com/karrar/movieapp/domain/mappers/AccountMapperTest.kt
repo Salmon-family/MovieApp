@@ -4,6 +4,7 @@ import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.account.AccountDto
 import com.karrar.movieapp.data.remote.response.account.Avatar
 import com.karrar.movieapp.data.remote.response.account.Gravatar
+import com.karrar.movieapp.domain.mappers.account.AccountMapper
 import com.karrar.movieapp.domain.models.Account
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
