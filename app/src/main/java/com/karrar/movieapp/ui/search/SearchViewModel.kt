@@ -5,7 +5,7 @@ import androidx.paging.*
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.*
-import com.karrar.movieapp.domain.usecase.GetSearchUseCase
+import com.karrar.movieapp.domain.explorUsecase.GetSearchUseCase
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.search.adapters.*
@@ -13,7 +13,6 @@ import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -73,17 +72,18 @@ class SearchViewModel @Inject constructor(
         _clickRetryEvent.postEvent(true)
     }
 
-    fun searchForActor(text: String): Flow<PagingData<Media>> {
-        return movieRepository.searchForActor(text)
+    suspend fun searchForMovie(text: String): Flow<PagingData<Media>> {
+        return getSearchUseCase.getMovies(text)
     }
 
-    fun searchForMovie(text: String): Flow<PagingData<Media>> {
-        return movieRepository.searchForMovie(text)
+    suspend fun searchForSeries(text: String): Flow<PagingData<Media>> {
+        return getSearchUseCase.getTvShows(text)
     }
 
-    fun searchForSeries(text: String): Flow<PagingData<Media>> {
-        return movieRepository.searchForSeries(text)
+    suspend fun searchForActor(text: String): Flow<PagingData<Media>> {
+        return getSearchUseCase.getActors(text)
     }
+
 
     fun onClickMoviesCategory() {
         viewModelScope.launch {

@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.usecase
+package com.karrar.movieapp.domain.explorUsecase
 
 
 import com.karrar.movieapp.data.repository.MovieRepository

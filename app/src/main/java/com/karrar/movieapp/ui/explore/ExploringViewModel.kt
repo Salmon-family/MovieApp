@@ -1,8 +1,7 @@
 package com.karrar.movieapp.ui.explore
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.karrar.movieapp.domain.usecase.GetTrendyMovieUseCase
+import com.karrar.movieapp.domain.explorUsecase.GetTrendyMovieUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel

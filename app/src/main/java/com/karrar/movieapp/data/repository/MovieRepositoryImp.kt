@@ -11,6 +11,7 @@ import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.mediaDataSource.movie.MovieDataSourceContainer
+import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.domain.mappers.*
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
@@ -167,27 +168,26 @@ class MovieRepositoryImp @Inject constructor(
      * searching
      * */
 
-    override fun searchForMovie(query: String): Flow<PagingData<Media>> {
-        val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
+    override suspend fun searchForMoviePager(query: String): Pager<Int, MovieDto> {
         val dataSource = searchDataSourceContainer.movieSearchDataSource
         dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource}).flow
+        return Pager(config = config, pagingSourceFactory = {dataSource})
     }
 
-    override fun searchForSeries(query: String): Flow<PagingData<Media>> {
-        val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
+    override suspend fun searchForSeriesPager(query: String): Pager<Int, TVShowsDTO> {
         val dataSource = searchDataSourceContainer.seriesSearchDataSource
         dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource}).flow
+        return Pager(config = config, pagingSourceFactory = {dataSource})
     }
 
     //should remove empty list ...
-    override fun searchForActor(query: String): Flow<PagingData<Media>> {
-        val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
+    override suspend fun searchForActorPager(query: String): Pager<Int, ActorDto> {
         val dataSource = searchDataSourceContainer.actorSearchDataSource
         dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource}).flow
+        return Pager(config = config, pagingSourceFactory = {dataSource})
     }
+
+
 
     override suspend fun getAllSearchHistory(): Flow<List<SearchHistoryEntity>> {
         return movieDao.getAllSearchHistory()

@@ -24,8 +24,10 @@ import kotlinx.coroutines.*
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {
+
     override val layoutIdFragment: Int = R.layout.fragment_search
     override val viewModel: SearchViewModel by viewModels()
+
     private val mediaSearchAdapter by lazy { MediaSearchAdapter(viewModel) }
     private val actorSearchAdapter by lazy { ActorSearchAdapter(viewModel) }
 
@@ -38,7 +40,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             binding.inputSearch.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.showSoftInput(binding.inputSearch, InputMethodManager.SHOW_IMPLICIT)
 
-        observeEvents()
+        lifecycleScope.launch {
+            observeEvents()
+        }
         getSearchResults()
 
         binding.recyclerSearchHistory.adapter = SearchHistoryAdapter(mutableListOf(), viewModel)
@@ -171,21 +175,27 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun getMovieSearchResults(searchText: String){
-        mediaSearchAdapter.submitData(lifecycle, PagingData.empty())
-        collectLast(viewModel.searchForMovie(searchText))
-        {mediaSearchAdapter.submitData(it)}
+        lifecycleScope.launch {
+            mediaSearchAdapter.submitData(lifecycle, PagingData.empty())
+            collectLast(viewModel.searchForMovie(searchText))
+            {mediaSearchAdapter.submitData(it)}
+        }
     }
 
     private fun getSeriesSearchResults(searchText: String){
-        mediaSearchAdapter.submitData(lifecycle, PagingData.empty())
-        collectLast(viewModel.searchForSeries(searchText))
-        {mediaSearchAdapter.submitData(it)}
+        lifecycleScope.launch {
+            mediaSearchAdapter.submitData(lifecycle, PagingData.empty())
+            collectLast(viewModel.searchForSeries(searchText))
+            {mediaSearchAdapter.submitData(it)}
+        }
     }
 
     private fun getActorsSearchResults(searchText: String){
-        actorSearchAdapter.submitData(lifecycle, PagingData.empty())
-        collectLast(viewModel.searchForActor(searchText))
-        {actorSearchAdapter.submitData(it)}
+        lifecycleScope.launch {
+            actorSearchAdapter.submitData(lifecycle, PagingData.empty())
+            collectLast(viewModel.searchForActor(searchText))
+            {actorSearchAdapter.submitData(it)}
+        }
     }
 
     private fun setSpanSize(footerAdapter: LoadUIStateAdapter) {
