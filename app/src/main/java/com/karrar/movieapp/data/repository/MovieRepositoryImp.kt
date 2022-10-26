@@ -9,6 +9,7 @@ import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.mappers.movie.LocalMovieMappersContainer
+import com.karrar.movieapp.data.mediaDataSource.ActorMovieDataSource
 import com.karrar.movieapp.data.remote.response.AddListResponse
 import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.MovieDto
@@ -37,6 +38,7 @@ class MovieRepositoryImp @Inject constructor(
     private val mediaDataSourceContainer: MediaDataSourceContainer,
     private val searchDataSourceContainer: SearchDataSourceContainer,
     private val movieMovieDataSource: MovieDataSourceContainer,
+    private val actorMovieDataSource: ActorMovieDataSource,
 ) : BaseRepository(), MovieRepository {
 
     override suspend fun getMovieGenreList(): List<Genre> {
@@ -399,6 +401,12 @@ class MovieRepositoryImp @Inject constructor(
     override fun getMysteryMoviesPager(): Pager<Int, MovieDto> {
         val dataSource = movieMovieDataSource.movieGenreShowDataSource
         dataSource.setGenre(Constants.ADVENTURE_ID, Constants.MOVIE_CATEGORIES_ID)
+        return  Pager(config = config,pagingSourceFactory = {dataSource})
+    }
+
+    override fun getActorMoviesPager(actorId: Int): Pager<Int, MovieDto> {
+        val dataSource = actorMovieDataSource
+        dataSource.setMovieActorID(actorId)
         return  Pager(config = config,pagingSourceFactory = {dataSource})
     }
 

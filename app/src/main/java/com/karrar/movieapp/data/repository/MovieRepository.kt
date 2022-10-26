@@ -127,4 +127,6 @@ interface MovieRepository {
 
     fun getMysteryMoviesPager(): Pager<Int, MovieDto>
 
+    fun getActorMoviesPager(actorId: Int): Pager<Int, MovieDto>
+
 }

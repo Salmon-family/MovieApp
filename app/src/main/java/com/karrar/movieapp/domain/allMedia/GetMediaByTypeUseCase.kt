@@ -22,9 +22,11 @@ class GetMediaByTypeUseCase @Inject constructor(
     private val tvShowMapper: TVShowMapper,
 ) {
 
-    operator fun invoke(type: AllMediaType) : Flow<PagingData<Media>>{
+    operator fun invoke(type: AllMediaType, actorId: Int = 0) : Flow<PagingData<Media>>{
         return when(type){
-            AllMediaType.NON -> {throw Exception("")}
+            AllMediaType.NON -> {
+                wrapper({movieRepository.getActorMoviesPager(actorId)},movieMapper::map)
+            }
             AllMediaType.LATEST ,
             AllMediaType.AIRING_TODAY ->{
                 wrapper({seriesRepository.getAiringTodayTvShowPager()},tvShowMapper::map)

@@ -9,7 +9,7 @@ import com.karrar.movieapp.domain.allMedia.CheckIfMediaIsSeriesUseCase
 import com.karrar.movieapp.domain.allMedia.GetMediaByTypeUseCase
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.models.toUiState
+import com.karrar.movieapp.ui.mappers.MediaUiMapper
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
@@ -25,6 +25,7 @@ class AllMovieViewModel @Inject constructor(
     state: SavedStateHandle,
     private val checkIfMediaIsSeriesUseCase: CheckIfMediaIsSeriesUseCase,
     private val getMediaByType: GetMediaByTypeUseCase,
+    private val mediaUiMapper: MediaUiMapper,
 ) : BaseViewModel(), MediaInteractionListener {
 
     val args = AllMovieFragmentArgs.fromSavedStateHandle(state)
@@ -53,7 +54,7 @@ class AllMovieViewModel @Inject constructor(
     private fun initUiState() {
         _uiState.update { it.copy(isLoading = true) }
         val allMediaItems =
-            getMediaByType(args.type).map { pager -> pager.map { it.toUiState() } }
+            getMediaByType(args.type, args.id).map { pager -> pager.map { mediaUiMapper.map(it) } }
         _uiState.update { it.copy(allMedia = allMediaItems, isLoading = false) }
     }
 
