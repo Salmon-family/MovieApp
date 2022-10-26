@@ -16,6 +16,7 @@ import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.MediaDetails
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
@@ -159,6 +160,11 @@ fun isVisible(view: View, isVisible: Boolean) {
 @BindingAdapter("app:hideIfTrue")
 fun hideIfTrue(view: View, value: Boolean) {
     view.isVisible = !value
+}
+
+@BindingAdapter("app:hideIfLoading", "app:hideError")
+fun hideIfNoData(view: View, loading: Boolean, error: List<ErrorUIState>) {
+    view.isVisible = !loading && error.isEmpty()
 }
 
 @BindingAdapter("app:setVideoId")

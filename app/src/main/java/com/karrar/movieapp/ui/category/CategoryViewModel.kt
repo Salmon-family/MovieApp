@@ -49,6 +49,7 @@ class CategoryViewModel @Inject constructor(
     }
 
     override fun getData() {
+        _uiState.update { it.copy(isLoading = true) }
         getMediaList()
         getGenre()
         _clickRetryEvent.postEvent(true)
@@ -68,7 +69,6 @@ class CategoryViewModel @Inject constructor(
     }
 
     fun getMediaList() {
-        _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             val result =
                 getCategoryUseCase(args.mediaId, selectedCategory.value ?: FIRST_CATEGORY_ID)

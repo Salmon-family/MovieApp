@@ -24,10 +24,10 @@ class GetGenreListUseCase @Inject constructor(
                 mapGenre(seriesRepository.getTVShowsGenreList2())
             }
         }
-        return addAllGenre(genre)
+        return setGenre(genre)
     }
 
-    private fun addAllGenre(genre: List<Genre>): List<Genre> {
+    private fun setGenre(genre: List<Genre>): List<Genre> {
         val allGenre = mutableListOf<Genre>()
         allGenre.add(Genre(Constants.FIRST_CATEGORY_ID, Constants.ALL))
         allGenre.addAll(genre)
