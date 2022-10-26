@@ -4,7 +4,7 @@ import javax.inject.Inject
 
 class MovieDataSourceContainer @Inject constructor(
     val movieGenreShowDataSource: MovieGenreShowDataSource,
-    val nowStreamingMovieMovieDataSource: NowStreamingMovieMovieDataSource,
+    val nowStreamingMovieMovieDataSource: NowStreamingMovieDataSource,
     val trendingMovieDataSource: TrendingMovieDataSource,
-    val upcomingMovieMovieDataSource: UpcomingMovieMovieDataSource,
+    val upcomingMovieMovieDataSource: UpcomingMovieDataSource,
 )
