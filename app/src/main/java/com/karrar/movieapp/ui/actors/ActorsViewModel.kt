@@ -2,6 +2,7 @@ package com.karrar.movieapp.ui.actors
 
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
@@ -14,6 +15,7 @@ import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,8 +39,10 @@ class ActorsViewModel @Inject constructor(
 
     private fun getActors(){
         _uiState.update { it.copy(isLoading = true) }
-        val actorsItems = getActorsDataUseCase().map { pager -> pager.map { actorMapper.map(it) } }
-        _uiState.update { it.copy(isLoading = false, actors = actorsItems) }
+        viewModelScope.launch {
+            val actorsItems = getActorsDataUseCase().map { pager -> pager.map { actorMapper.map(it) } }
+            _uiState.update { it.copy(isLoading = false, actors = actorsItems) }
+        }
     }
 
     override fun getData() {

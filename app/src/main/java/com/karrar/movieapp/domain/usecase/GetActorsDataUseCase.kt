@@ -1,6 +1,5 @@
 package com.karrar.movieapp.domain.usecase
 
-import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.karrar.movieapp.data.repository.MovieRepository
@@ -14,14 +13,7 @@ class GetActorsDataUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val actorMapper: ActorDtoMapper
 ) {
-     operator fun invoke(): Flow<PagingData<Actor>>{
-        return wrapper({movieRepository.getActorData()}, actorMapper::map)
-    }
-
-    private fun <T:Any>wrapper(
-        data :()-> Pager<Int,T>,
-        mapper : (T) -> Actor
-    ) : Flow<PagingData<Actor>> {
-        return data().flow.map { pager -> pager.map { mapper(it) } }
+     suspend operator fun invoke(): Flow<PagingData<Actor>>{
+         return movieRepository.getActorData().flow.map { pager -> pager.map { actorMapper.map(it) } }
     }
 }

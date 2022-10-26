@@ -80,7 +80,7 @@ interface MovieRepository {
 
     suspend fun getMediaData(type: AllMediaType, actorId: Int): Pager<Int, Media>
 
-    fun getActorData(): Pager<Int, ActorDto>
+    suspend fun getActorData(): Pager<Int, ActorDto>
 
     fun getAllMedia(mediaType: Int): Flow<PagingData<Media>>
 
