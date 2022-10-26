@@ -10,3 +10,9 @@ data class AllMediaUiState(
     val isLoading : Boolean = false,
     val error : List<Error> = emptyList(),
     )
+
+
+data class Error(
+    val code : Int,
+    val message: String,
+)

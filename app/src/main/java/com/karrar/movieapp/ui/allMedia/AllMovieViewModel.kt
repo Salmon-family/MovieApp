@@ -84,7 +84,7 @@ class AllMovieViewModel @Inject constructor(
             }
             is LoadState.Error -> {
                 _uiState.update {
-                    it.copy(isLoading = false, error = listOf(Error("")))
+                    it.copy(isLoading = false, error = listOf(Error(404,"")))
                 }
             }
         }
