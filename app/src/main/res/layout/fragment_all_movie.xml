@@ -29,27 +29,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenSuccess="@{viewModel.allMediaState}"
             app:spanCount="3"
-            tools:listitem="@layout/item_media_search" />
+            android:visibility="gone"
+            tools:listitem="@layout/item_media_search"
+            app:hideIfTrue="@{viewModel.uiState.loading}" />
 
         <include
             android:id="@+id/loading"
-            layout="@layout/loading"
+            layout="@layout/loading2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.allMediaState}" />
+            app:isLoading="@{viewModel.uiState.loading}" />
 
         <include
             android:id="@+id/error"
-            layout="@layout/error"
-            app:error="@{viewModel.allMediaState}"
+            layout="@layout/error2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:isError="@{!viewModel.uiState.error.isEmpty()}"
             app:viewModel="@{viewModel}" />
 
 

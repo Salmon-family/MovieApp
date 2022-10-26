@@ -6,10 +6,19 @@ import androidx.paging.*
 import com.karrar.movieapp.data.local.database.entity.*
 import com.karrar.movieapp.data.local.mappers.movie.LocalMovieMappersContainer
 import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.mediaDataSource.ActorMovieDataSource
+import com.karrar.movieapp.data.remote.response.AddListResponse
+import com.karrar.movieapp.data.remote.response.AddMovieDto
+import com.karrar.movieapp.data.remote.response.MovieDto
+import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.mappers.*
+import com.karrar.movieapp.data.mediaDataSource.movie.MovieDataSourceContainer
+import com.karrar.movieapp.domain.mappers.ListMapper
+import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
+import com.karrar.movieapp.domain.mappers.MovieMappersContainer
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +36,9 @@ class MovieRepositoryImp @Inject constructor(
     private val appConfiguration: AppConfiguration,
     private val actorDataSource: ActorDataSource,
     private val mediaDataSourceContainer: MediaDataSourceContainer,
-    private val searchDataSourceContainer: SearchDataSourceContainer
+    private val searchDataSourceContainer: SearchDataSourceContainer,
+    private val movieMovieDataSource: MovieDataSourceContainer,
+    private val actorMovieDataSource: ActorMovieDataSource,
 ) : BaseRepository(), MovieRepository {
 
     override suspend fun getMovieGenreList(): List<Genre> {
@@ -391,6 +402,38 @@ class MovieRepositoryImp @Inject constructor(
                 actorDao.insertActors(it)
             }
         )
+    }
+
+
+
+    override suspend fun getTrendingMoviesPager(): Pager<Int, MovieDto> {
+        return  Pager(config = config,pagingSourceFactory = {movieMovieDataSource.trendingMovieDataSource})
+    }
+
+    override suspend fun getNowPlayingMoviesPager(): Pager<Int, MovieDto> {
+        return  Pager(config = config,pagingSourceFactory = {movieMovieDataSource.nowStreamingMovieMovieDataSource})
+    }
+
+    override suspend fun getUpcomingMoviesPager(): Pager<Int, MovieDto> {
+        return  Pager(config = config,pagingSourceFactory = {movieMovieDataSource.upcomingMovieMovieDataSource})
+    }
+
+    override suspend fun getAdventureMoviesPager(): Pager<Int, MovieDto> {
+        val dataSource = movieMovieDataSource.movieGenreShowDataSource
+        dataSource.setGenre(Constants.MYSTERY_ID, Constants.MOVIE_CATEGORIES_ID)
+        return  Pager(config = config,pagingSourceFactory = {dataSource})
+    }
+
+    override suspend fun getMysteryMoviesPager(): Pager<Int, MovieDto> {
+        val dataSource = movieMovieDataSource.movieGenreShowDataSource
+        dataSource.setGenre(Constants.ADVENTURE_ID, Constants.MOVIE_CATEGORIES_ID)
+        return  Pager(config = config,pagingSourceFactory = {dataSource})
+    }
+
+    override suspend fun getActorMoviesPager(actorId: Int): Pager<Int, MovieDto> {
+        val dataSource = actorMovieDataSource
+        dataSource.setMovieActorID(actorId)
+        return  Pager(config = config,pagingSourceFactory = {dataSource})
     }
 
     override suspend fun saveRequestDate(value: Long) {

@@ -2,6 +2,7 @@ package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
+import com.karrar.movieapp.domain.mappers.search.SearchSeriesMapper
 import com.karrar.movieapp.domain.models.Media
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll

@@ -114,4 +114,16 @@ interface MovieRepository {
 
     suspend fun refreshTrendingActors()
 
+    suspend fun getTrendingMoviesPager(): Pager<Int, MovieDto>
+
+    suspend fun getNowPlayingMoviesPager(): Pager<Int, MovieDto>
+
+    suspend fun getUpcomingMoviesPager(): Pager<Int, MovieDto>
+
+    suspend fun getAdventureMoviesPager(): Pager<Int, MovieDto>
+
+    suspend fun getMysteryMoviesPager(): Pager<Int, MovieDto>
+
+    suspend fun getActorMoviesPager(actorId: Int): Pager<Int, MovieDto>
+
 }
