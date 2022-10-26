@@ -13,6 +13,7 @@ import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.ui.category.GenreUIState
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
 import com.karrar.movieapp.utilities.Constants.ALL
@@ -164,9 +165,7 @@ fun <T> isVisible(view: View, isVisible: Boolean) {
 }
 @BindingAdapter("app:hideIfTrue")
 fun  hideIfTrue(view: View,value :Boolean){
-    Log.e("DEVFALAH",value.toString())
     view.isVisible = !value
-
 }
 
 @BindingAdapter("app:setVideoId")

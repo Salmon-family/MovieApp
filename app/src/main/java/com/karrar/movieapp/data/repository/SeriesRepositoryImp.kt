@@ -1,6 +1,5 @@
 package com.karrar.movieapp.data.repository
 
-import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.Pager
 import com.karrar.movieapp.data.local.database.daos.MovieDao
@@ -10,9 +9,7 @@ import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntit
 import com.karrar.movieapp.data.local.mappers.series.LocalSeriesMappersContainer
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
-import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.mediaDataSource.series.SeriesDataSourceContainer
-import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.ListMapper
@@ -21,7 +18,6 @@ import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import retrofit2.Response
 import javax.inject.Inject
 
 class SeriesRepositoryImp @Inject constructor(
