@@ -14,6 +14,7 @@ import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.enums.AllMediaType
@@ -125,12 +126,12 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMappersContainer.actorMapper).mapList(it.items) })
     }
 
-    override suspend fun getActorDetails(actorId: Int): ActorDto {
-        return movieService.getActorDetails(actorId = actorId).body()!!
+    override suspend fun getActorDetails(actorId: Int): ActorDto? {
+        return movieService.getActorDetails(actorId = actorId).body()
     }
 
-    override suspend fun getActorMovies(actorId: Int): List<MovieDto> {
-        return movieService.getActorMovies(actorId = actorId).body()?.cast ?: emptyList()
+    override suspend fun getActorMovies(actorId: Int): ActorMoviesDto? {
+        return movieService.getActorMovies(actorId = actorId).body()
     }
 
     /**

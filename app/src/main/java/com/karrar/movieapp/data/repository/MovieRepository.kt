@@ -9,6 +9,7 @@ import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.models.*
@@ -45,9 +46,9 @@ interface MovieRepository {
 
     suspend fun getTrendingActors(page: Int): List<Actor>
 
-    suspend fun getActorDetails(actorId: Int): ActorDto
+    suspend fun getActorDetails(actorId: Int): ActorDto?
 
-    suspend fun getActorMovies(actorId: Int): List<MovieDto>
+    suspend fun getActorMovies(actorId: Int): ActorMoviesDto?
 
 
     suspend fun getAllLists(accountId: Int, sessionId: String): List<CreatedList>
