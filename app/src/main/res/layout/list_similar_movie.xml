@@ -7,7 +7,7 @@
 
         <variable
             name="adapterRecycler"
-            type="com.karrar.movieapp.ui.adapters.MovieAdapter" />
+            type="com.karrar.movieapp.ui.adapters.MovieAdapter2" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

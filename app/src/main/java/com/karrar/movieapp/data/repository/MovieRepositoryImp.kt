@@ -72,20 +72,20 @@ class MovieRepositoryImp @Inject constructor(
      * movie details
      * */
 
-    override suspend fun getMovieDetails(movieId: Int): MovieDetailsDto {
-        return wrap2 { movieService.getMovieDetails(movieId) }
+    override suspend fun getMovieDetails(movieId: Int): MovieDetailsDto? {
+        return movieService.getMovieDetails(movieId).body()
     }
 
-    override suspend fun getMovieCast(movieId: Int): CreditsDto {
-        return wrap2 { movieService.getMovieCast(movieId) }
+    override suspend fun getMovieCast(movieId: Int): CreditsDto? {
+        return movieService.getMovieCast(movieId).body()
     }
 
-    override suspend fun getSimilarMovie(movieId: Int): BaseListResponse<MovieDto> {
-        return wrap2 { movieService.getSimilarMovie(movieId) }
+    override suspend fun getSimilarMovie(movieId: Int): List<MovieDto>? {
+        return movieService.getSimilarMovie(movieId).body()?.items
     }
 
-    override suspend fun getMovieReviews(movieId: Int): BaseListResponse<ReviewsDto> {
-        return wrap2 { movieService.getMovieReviews(movieId) }
+    override suspend fun getMovieReviews(movieId: Int): List<ReviewsDto>? {
+        return movieService.getMovieReviews(movieId).body()?.items
     }
 
     override suspend fun getMovieTrailer(movieId: Int): Trailer {
@@ -96,12 +96,12 @@ class MovieRepositoryImp @Inject constructor(
     override suspend fun getRatedMovie(
         accountId: Int,
         sessionId: String,
-    ): BaseListResponse<RatedMoviesDto> {
-        return wrap2 { movieService.getRatedMovie(accountId, sessionId) }
+    ): List<RatedMoviesDto>? {
+        return movieService.getRatedMovie(accountId, sessionId).body()?.items
     }
 
-    override suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto {
-        return wrap({ movieService.postRating(movieId, value, session_id) }, { it })
+    override suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto? {
+        return movieService.postRating(movieId, value, session_id).body()
     }
 
     /**

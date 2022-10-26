@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Review" />
+            type="com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ReviewUIState" />
 
     </data>
 
@@ -63,8 +63,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_name"
-            app:readMoreText="Read more"
             app:readLessText=""
+            app:readMoreText="Read more"
             tools:text="Krasinski's instincts are very good, and once you've placed the primary action there, then it allows the story instincts are very good, and once you've placed the primary action there, then it allows the story" />
 
 

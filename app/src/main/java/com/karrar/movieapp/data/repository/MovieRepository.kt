@@ -29,19 +29,19 @@ interface MovieRepository {
     suspend fun getMovieListByGenreID(genreID: Int, page: Int = 1): List<Media>
 
 
-    suspend fun getMovieDetails(movieId: Int): MovieDetailsDto
+    suspend fun getMovieDetails(movieId: Int): MovieDetailsDto?
 
-    suspend fun getMovieCast(movieId: Int): CreditsDto
+    suspend fun getMovieCast(movieId: Int): CreditsDto?
 
-    suspend fun getSimilarMovie(movieId: Int): BaseListResponse<MovieDto>
+    suspend fun getSimilarMovie(movieId: Int): List<MovieDto>?
 
-    suspend fun getMovieReviews(movieId: Int): BaseListResponse<ReviewsDto>
+    suspend fun getMovieReviews(movieId: Int): List<ReviewsDto>?
 
-    suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto
+    suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto?
 
     suspend fun getMovieTrailer(movieId: Int): Trailer
 
-    suspend fun getRatedMovie(accountId: Int, sessionId: String): BaseListResponse<RatedMoviesDto>
+    suspend fun getRatedMovie(accountId: Int, sessionId: String): List<RatedMoviesDto>?
 
     suspend fun getTrendingActors(page: Int): List<Actor>
 

@@ -7,8 +7,8 @@ import com.karrar.movieapp.domain.usecase.GetMovieDetailsUseCase
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.movieDetails.MovieDetailsUIState
-import com.karrar.movieapp.ui.movieDetails.ReviewUIState
+import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieDetailsUIState
+import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ReviewUIState
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
