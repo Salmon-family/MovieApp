@@ -2,6 +2,7 @@ package com.karrar.movieapp.ui.allMedia
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
@@ -18,6 +19,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,9 +55,11 @@ class AllMovieViewModel @Inject constructor(
 
     private fun initUiState() {
         _uiState.update { it.copy(isLoading = true) }
-        val allMediaItems =
-            getMediaByType(args.type, args.id).map { pager -> pager.map { mediaUiMapper.map(it) } }
-        _uiState.update { it.copy(allMedia = allMediaItems, isLoading = false) }
+        viewModelScope.launch {
+            val allMediaItems =
+                getMediaByType(args.type, args.id).map { pager -> pager.map { mediaUiMapper.map(it) } }
+            _uiState.update { it.copy(allMedia = allMediaItems, isLoading = false) }
+        }
     }
 
     override fun getData() {

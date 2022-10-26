@@ -380,31 +380,31 @@ class MovieRepositoryImp @Inject constructor(
 
 
 
-    override fun getTrendingMoviesPager(): Pager<Int, MovieDto> {
+    override suspend fun getTrendingMoviesPager(): Pager<Int, MovieDto> {
         return  Pager(config = config,pagingSourceFactory = {movieMovieDataSource.trendingMovieDataSource})
     }
 
-    override fun getNowPlayingMoviesPager(): Pager<Int, MovieDto> {
+    override suspend fun getNowPlayingMoviesPager(): Pager<Int, MovieDto> {
         return  Pager(config = config,pagingSourceFactory = {movieMovieDataSource.nowStreamingMovieMovieDataSource})
     }
 
-    override fun getUpcomingMoviesPager(): Pager<Int, MovieDto> {
+    override suspend fun getUpcomingMoviesPager(): Pager<Int, MovieDto> {
         return  Pager(config = config,pagingSourceFactory = {movieMovieDataSource.upcomingMovieMovieDataSource})
     }
 
-    override fun getAdventureMoviesPager(): Pager<Int, MovieDto> {
+    override suspend fun getAdventureMoviesPager(): Pager<Int, MovieDto> {
         val dataSource = movieMovieDataSource.movieGenreShowDataSource
         dataSource.setGenre(Constants.MYSTERY_ID, Constants.MOVIE_CATEGORIES_ID)
         return  Pager(config = config,pagingSourceFactory = {dataSource})
     }
 
-    override fun getMysteryMoviesPager(): Pager<Int, MovieDto> {
+    override suspend fun getMysteryMoviesPager(): Pager<Int, MovieDto> {
         val dataSource = movieMovieDataSource.movieGenreShowDataSource
         dataSource.setGenre(Constants.ADVENTURE_ID, Constants.MOVIE_CATEGORIES_ID)
         return  Pager(config = config,pagingSourceFactory = {dataSource})
     }
 
-    override fun getActorMoviesPager(actorId: Int): Pager<Int, MovieDto> {
+    override suspend fun getActorMoviesPager(actorId: Int): Pager<Int, MovieDto> {
         val dataSource = actorMovieDataSource
         dataSource.setMovieActorID(actorId)
         return  Pager(config = config,pagingSourceFactory = {dataSource})

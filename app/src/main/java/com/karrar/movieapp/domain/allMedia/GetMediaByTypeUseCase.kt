@@ -20,7 +20,7 @@ class GetMediaByTypeUseCase @Inject constructor(
     private val tvShowMapper: TVShowMapper,
 ) {
 
-    operator fun invoke(type: AllMediaType, actorId: Int = 0): Flow<PagingData<Media>> {
+    suspend operator fun invoke(type: AllMediaType, actorId: Int = 0): Flow<PagingData<Media>> {
         return when (type) {
             AllMediaType.ACTOR -> {
                 wrapper({ movieRepository.getActorMoviesPager(actorId) }, movieMapper::map)
@@ -57,8 +57,8 @@ class GetMediaByTypeUseCase @Inject constructor(
         }
     }
 
-    private fun <T : Any> wrapper(
-        data: () -> Pager<Int, T>,
+    private suspend fun <T : Any> wrapper(
+        data: suspend () -> Pager<Int, T>,
         mapper: (T) -> Media,
     ): Flow<PagingData<Media>> {
         return data().flow.map { pager -> pager.map { mapper(it) } }
