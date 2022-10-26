@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.profile.myratings.MyRatingsViewModel" />
@@ -95,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
-                android:onClick="@{() -> viewModel.getData()}"
+                android:onClick="@{() -> viewModel.retryConnect()}"
                 android:text="@string/retry"
                 android:textColor="@color/white_primary"
                 app:layout_constraintEnd_toEndOf="parent"
