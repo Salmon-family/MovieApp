@@ -46,7 +46,7 @@ interface MovieRepository {
 
     suspend fun getTrendingActors(page: Int): List<Actor>
 
-    suspend fun getActorDetails(actorId: Int): ActorDto
+    suspend fun getActorDetails(actorId: Int): ActorDto?
 
     suspend fun getActorMovies(actorId: Int): ActorMoviesDto?
 

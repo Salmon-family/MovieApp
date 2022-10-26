@@ -51,19 +51,22 @@ class ActorViewModel @Inject constructor(
             try {
                 val actorDetails = actorDetailsUIMapper.map(getActorDetailsUseCase(args.id))
                 val actorMovies = getActorMoviesUseCase(args.id).map { actorMoviesUIMapper.map(it) }
-                onShowActorDetails(actorDetails)
-                onShowActorMovies(actorMovies)
+                _actorDetailsUIState.update {
+                    it.copy(
+                        name = actorDetails.name,
+                        gender = actorDetails.gender,
+                        imageUrl = actorDetails.imageUrl,
+                        placeOfBirth = actorDetails.placeOfBirth,
+                        biography = actorDetails.biography,
+                        birthday = actorDetails.birthday,
+                        knownFor = actorDetails.knownFor,
+                        actorMovies = actorMovies,
+                        isLoading = false,
+                    )
+                }
             } catch (e: Exception) {
                 onError(e.message.toString())
             }
-        }
-    }
-
-    private fun onShowActorMovies(actorMovies: List<ActorMoviesUIState>) {
-        _actorDetailsUIState.update {
-            it.copy(
-                actorMovies = actorMovies
-            )
         }
     }
 
@@ -72,21 +75,6 @@ class ActorViewModel @Inject constructor(
             actorDetailsUIState.copy(
                 isLoading = false,
                 error = Error(message),
-            )
-        }
-    }
-
-    private fun onShowActorDetails(actorDetailsUIState: ActorDetailsUIState) {
-        _actorDetailsUIState.update {
-            it.copy(
-                name = actorDetailsUIState.name,
-                gender = actorDetailsUIState.gender,
-                imageUrl = actorDetailsUIState.imageUrl,
-                placeOfBirth = actorDetailsUIState.placeOfBirth,
-                biography = actorDetailsUIState.biography,
-                birthday = actorDetailsUIState.birthday,
-                knownFor = actorDetailsUIState.knownFor,
-                isLoading = false,
             )
         }
     }

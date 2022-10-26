@@ -126,8 +126,8 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMappersContainer.actorMapper).mapList(it.items) })
     }
 
-    override suspend fun getActorDetails(actorId: Int): ActorDto {
-        return movieService.getActorDetails(actorId = actorId).body()!!
+    override suspend fun getActorDetails(actorId: Int): ActorDto? {
+        return movieService.getActorDetails(actorId = actorId).body()
     }
 
     override suspend fun getActorMovies(actorId: Int): ActorMoviesDto? {
