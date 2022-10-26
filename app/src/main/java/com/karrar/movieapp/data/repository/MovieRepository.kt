@@ -84,9 +84,9 @@ interface MovieRepository {
 
     suspend fun getActorData(): Pager<Int, Actor>
 
-    fun getAllMovies(): Flow<PagingData<MovieDto>>
+    suspend fun getAllMovies() : Pager<Int, MovieDto>
 
-    fun getMovieByGenre(genreID: Int): Flow<PagingData<MovieDto>>
+    suspend fun getMovieByGenre(genreID: Int): Pager<Int, MovieDto>
 
     fun getPopularMovies(): Flow<List<PopularMovie>>
 

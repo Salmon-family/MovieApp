@@ -235,13 +235,13 @@ class MovieRepositoryImp @Inject constructor(
         return Pager(config = config, pagingSourceFactory = { actorDataSource })
     }
 
-    override fun getAllMovies(): Flow<PagingData<MovieDto>> {
+    override suspend fun getAllMovies(): Pager<Int, MovieDto> {
         return Pager(
             config = config,
-            pagingSourceFactory = { mediaDataSourceContainer.movieDataSource }).flow
+            pagingSourceFactory = { mediaDataSourceContainer.movieDataSource })
     }
 
-    override fun getMovieByGenre(genreID: Int): Flow<PagingData<MovieDto>> {
+    override suspend fun getMovieByGenre(genreID: Int): Pager<Int, MovieDto> {
         return Pager(
             config = config,
             pagingSourceFactory = {
@@ -249,7 +249,7 @@ class MovieRepositoryImp @Inject constructor(
                 dataSource.setGenre(genreID)
                 dataSource
             }
-        ).flow
+        )
     }
 
 

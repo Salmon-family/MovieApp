@@ -39,9 +39,9 @@ interface SeriesRepository {
 
     suspend fun insertTvShow(tvShow: WatchHistoryEntity)
 
-    fun getAllTVShows(): Flow<PagingData<TVShowsDTO>>
+    suspend fun getAllTVShows(): Pager<Int,TVShowsDTO>
 
-    fun getTVShowByGenre(genreID: Int): Flow<PagingData<TVShowsDTO>>
+    suspend fun getTVShowByGenre(genreID: Int): Pager<Int, TVShowsDTO>
 
     fun getAiringToday(): Flow<List<Media>>
 

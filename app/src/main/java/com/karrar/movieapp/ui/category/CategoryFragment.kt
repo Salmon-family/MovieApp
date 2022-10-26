@@ -36,14 +36,13 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         mManager.setSpanSize(footerAdapter, allMediaAdapter, mManager.spanCount)
 
         collect(flow = allMediaAdapter.loadStateFlow,
-            action = { viewModel.setErrorUiState(it.source.refresh) })
+            action = { viewModel.setErrorUiState(it) })
 
         getDataByCategory()
     }
 
     private fun getDataByCategory() {
         viewModel.selectedCategory.observe(viewLifecycleOwner) {
-            allMediaAdapter.submitData(lifecycle, PagingData.empty())
             viewModel.getMediaList()
             collectLast(viewModel.uiState.value.media) {
                 allMediaAdapter.submitData(it)

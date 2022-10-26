@@ -18,7 +18,9 @@
             android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@color/background_color">
+            android:background="@color/background_color"
+            app:hideIfTrue="@{viewModel.uiState.loading}"
+            app:isVisible="@{viewModel.uiState.error.isEmpty()}">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
@@ -67,22 +69,31 @@
             android:paddingHorizontal="@dimen/spacing_small"
             android:paddingTop="@dimen/spacing_medium"
             android:scrollbars="none"
+            app:hideIfTrue="@{viewModel.uiState.loading}"
+            app:isVisible="@{viewModel.uiState.error.isEmpty()}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:spanCount="3"
-            tools:listitem="@layout/item_media" />
-
+            tools:listitem="@layout/item_category" />
 
         <include
-            android:id="@+id/loading"
-            layout="@layout/state"
+            android:id="@+id/error"
+            layout="@layout/error2"
+            app:isError="@{!viewModel.uiState.error.isEmpty()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.uiState.isLoading}"
-            app:error="@{viewModel.uiState.error}"
-            app:viewModel="@{viewModel}"/>
+            app:viewModel="@{viewModel}" />
+
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading2"
+            app:isLoading="@{viewModel.uiState.loading}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

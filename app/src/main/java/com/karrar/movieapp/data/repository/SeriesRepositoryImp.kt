@@ -1,15 +1,15 @@
 package com.karrar.movieapp.data.repository
 
-import androidx.paging.PagingData
 import androidx.paging.Pager
+import androidx.paging.PagingData
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.daos.SeriesDao
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntity
 import com.karrar.movieapp.data.local.mappers.series.LocalSeriesMappersContainer
+import com.karrar.movieapp.data.mediaDataSource.series.SeriesDataSourceContainer
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
-import com.karrar.movieapp.data.mediaDataSource.series.SeriesDataSourceContainer
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.ListMapper
@@ -99,13 +99,13 @@ class SeriesRepositoryImp @Inject constructor(
         return movieDao.insert(tvShow)
     }
 
-    override fun getAllTVShows(): Flow<PagingData<TVShowsDTO>> {
+    override suspend fun getAllTVShows(): Pager<Int, TVShowsDTO> {
         return Pager(
             config = config,
-            pagingSourceFactory = { mediaDataSourceContainer.tvShowDataSource }).flow
+            pagingSourceFactory = { mediaDataSourceContainer.tvShowDataSource })
     }
 
-    override fun getTVShowByGenre(genreID: Int): Flow<PagingData<TVShowsDTO>> {
+    override suspend fun getTVShowByGenre(genreID: Int): Pager<Int, TVShowsDTO> {
         return Pager(
             config = config,
             pagingSourceFactory = {
@@ -113,7 +113,7 @@ class SeriesRepositoryImp @Inject constructor(
                 dataSource.setGenre(genreID)
                 dataSource
             }
-        ).flow
+        )
     }
 
     /**
@@ -170,19 +170,27 @@ class SeriesRepositoryImp @Inject constructor(
     }
 
     override fun getAiringTodayTvShowPager(): Pager<Int, TVShowsDTO> {
-        return  Pager(config = config,pagingSourceFactory = {seriesDataSourceContainer.airingTodayTvShowDataSource})
+        return Pager(
+            config = config,
+            pagingSourceFactory = { seriesDataSourceContainer.airingTodayTvShowDataSource })
     }
 
     override fun getOnTheAirTvShowPager(): Pager<Int, TVShowsDTO> {
-        return  Pager(config = config,pagingSourceFactory = {seriesDataSourceContainer.onTheAirTvShowDataSource})
+        return Pager(
+            config = config,
+            pagingSourceFactory = { seriesDataSourceContainer.onTheAirTvShowDataSource })
     }
 
     override fun getTopRatedTvShowPager(): Pager<Int, TVShowsDTO> {
-        return  Pager(config = config,pagingSourceFactory = {seriesDataSourceContainer.topRatedTvShowDataSource})
+        return Pager(
+            config = config,
+            pagingSourceFactory = { seriesDataSourceContainer.topRatedTvShowDataSource })
     }
 
     override fun getPopularTvShowPager(): Pager<Int, TVShowsDTO> {
-        return  Pager(config = config,pagingSourceFactory = {seriesDataSourceContainer.popularTvShowDataSource})
+        return Pager(
+            config = config,
+            pagingSourceFactory = { seriesDataSourceContainer.popularTvShowDataSource })
     }
 
     override suspend fun refreshTopRatedTvShow() {

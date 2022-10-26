@@ -1,22 +1,24 @@
 package com.karrar.movieapp.utilities
 
 import android.view.View
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.domain.enums.MediaType
-import com.karrar.movieapp.domain.models.*
+import com.karrar.movieapp.domain.models.Genre
+import com.karrar.movieapp.domain.models.MediaDetails
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
-import com.karrar.movieapp.ui.category.GenreUIState
+import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
-import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
@@ -56,16 +58,6 @@ fun <T> hideWhenLoading(view: View, state: UIState<T>?) {
 @BindingAdapter("app:showWhenFail")
 fun <T> showWhenFail2(view: View, state: UIState<T>?) {
     view.isVisible = state is UIState.Error
-}
-
-@BindingAdapter(value = ["app:showWhenLoading"])
-fun <T> showWhenLoadingUIState(view: View, isLoading: Boolean) {
-    view.isVisible = isLoading
-}
-
-@BindingAdapter("app:showWhenFail")
-fun <T> showWhenFailUIState(view: View, error: String?) {
-    view.isVisible = !error.isNullOrBlank()
 }
 
 @BindingAdapter(value = ["app:showWhenSearch"])
@@ -159,12 +151,13 @@ fun <T> setGenresChips(
 }
 
 @BindingAdapter("app:isVisible")
-fun <T> isVisible(view: View, isVisible: Boolean) {
+fun isVisible(view: View, isVisible: Boolean) {
     view.isVisible = isVisible
 
 }
+
 @BindingAdapter("app:hideIfTrue")
-fun  hideIfTrue(view: View,value :Boolean){
+fun hideIfTrue(view: View, value: Boolean) {
     view.isVisible = !value
 }
 
@@ -231,9 +224,10 @@ fun setOverViewText(view: TextView, text: String) {
 @BindingAdapter("app:textBasedOnMediaType")
 fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
     mediaDetails?.let {
-        when(mediaDetails.mediaType){
-            MediaType.MOVIE ->  setDuration(view, mediaDetails.specialNumber)
-            MediaType.TV_SHOW -> view.text = view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
+        when (mediaDetails.mediaType) {
+            MediaType.MOVIE -> setDuration(view, mediaDetails.specialNumber)
+            MediaType.TV_SHOW -> view.text =
+                view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
         }
     }
 }
@@ -246,7 +240,11 @@ fun setDuration(view: TextView, duration: Int?) {
     } else if (minutes == 0) {
         view.text = view.context.getString(R.string.hours_pattern, hours.toString())
     } else {
-        view.text = view.context.getString(R.string.hours_minutes_pattern, hours.toString(), minutes.toString())
+        view.text = view.context.getString(
+            R.string.hours_minutes_pattern,
+            hours.toString(),
+            minutes.toString()
+        )
     }
 }
 

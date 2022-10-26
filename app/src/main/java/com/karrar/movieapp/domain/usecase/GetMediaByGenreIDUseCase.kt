@@ -1,5 +1,6 @@
 package com.karrar.movieapp.domain.usecase
 
+import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.karrar.movieapp.data.repository.MovieRepository
@@ -12,14 +13,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetAllMediaByGenreIDUseCase @Inject constructor(
+class GetMediaByGenreIDUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val seriesRepository: SeriesRepository,
     private val movieMapper: MovieMapper,
     private val tvShowMapper: TVShowMapper
 ) {
 
-    operator fun invoke(mediaType: Int, genreID: Int): Flow<PagingData<Media>> {
+    suspend operator fun invoke(mediaType: Int, genreID: Int): Flow<PagingData<Media>> {
         return when (mediaType) {
             Constants.MOVIE_CATEGORIES_ID -> {
                 getMovies(genreID)
@@ -30,27 +31,27 @@ class GetAllMediaByGenreIDUseCase @Inject constructor(
         }
     }
 
-    private fun getMovies(genreID: Int): Flow<PagingData<Media>> {
+    private suspend fun getMovies(genreID: Int): Flow<PagingData<Media>> {
         return if (genreID == Constants.FIRST_CATEGORY_ID) {
-            movieRepository.getAllMovies().map { it ->
-                it.map { movieMapper.map(it) }
-            }
+            wrapper(movieRepository::getAllMovies, movieMapper::map)
         } else {
-            movieRepository.getMovieByGenre(genreID).map { it ->
-                it.map { movieMapper.map(it) }
-            }
+            wrapper({ movieRepository.getMovieByGenre(genreID) }, movieMapper::map)
         }
     }
 
-    private fun getTVShows(genreID: Int): Flow<PagingData<Media>> {
+    private suspend fun getTVShows(genreID: Int): Flow<PagingData<Media>> {
         return if (genreID == Constants.FIRST_CATEGORY_ID) {
-            seriesRepository.getAllTVShows().map { it ->
-                it.map { tvShowMapper.map(it) }
-            }
+            wrapper(seriesRepository::getAllTVShows, tvShowMapper::map)
+
         } else {
-            seriesRepository.getTVShowByGenre(genreID).map { it ->
-                it.map { tvShowMapper.map(it) }
-            }
+            wrapper({ seriesRepository.getTVShowByGenre(genreID) }, tvShowMapper::map)
         }
+    }
+
+    private suspend fun <T : Any> wrapper(
+        data: suspend () -> Pager<Int, T>,
+        mapper: (T) -> Media,
+    ): Flow<PagingData<Media>> {
+        return data().flow.map { pager -> pager.map { mapper(it) } }
     }
 }

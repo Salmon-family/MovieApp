@@ -11,7 +11,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.ui.category.GenreUIState" />
+            type="com.karrar.movieapp.ui.category.uiState.GenreUIState" />
     </data>
 
     <com.google.android.material.chip.Chip

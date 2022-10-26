@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.karrar.movieapp.R
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BasePagingAdapter
+import com.karrar.movieapp.ui.category.uiState.MediaUIState
 
 class CategoryAdapter (listener: MediaInteractionListener) :
     BasePagingAdapter<MediaUIState>(MediaComparator, listener) {
