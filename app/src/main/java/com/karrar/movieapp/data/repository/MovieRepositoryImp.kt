@@ -9,10 +9,7 @@ import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.mappers.movie.LocalMovieMappersContainer
-import com.karrar.movieapp.data.remote.response.AddListResponse
-import com.karrar.movieapp.data.remote.response.AddMovieDto
-import com.karrar.movieapp.data.remote.response.MovieDto
-import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
@@ -141,15 +138,13 @@ class MovieRepositoryImp @Inject constructor(
      * */
 
     override suspend fun getAllLists(
-        accountId: Int,
         sessionId: String,
-    ): List<CreatedList> {
-        return wrap({ movieService.getCreatedLists(accountId, sessionId) },
-            { ListMapper(movieMappersContainer.createdListsMapper).mapList(it.items) })
+    ): List<CreatedListDto>? {
+        return movieService.getCreatedLists(sessionId = sessionId).body()?.items
     }
 
-    override suspend fun getListDetails(listId: Int): MyListsDto {
-        return wrap({ movieService.getList(listId) }, { it })
+    override suspend fun getListDetails(listId: Int): MyListsDto? {
+        return movieService.getList(listId).body()
     }
 
     override suspend fun getSavedListDetails(listId: String): List<SaveListDetails> {
@@ -160,8 +155,8 @@ class MovieRepositoryImp @Inject constructor(
     override suspend fun createList(
         sessionId: String,
         name: String,
-    ): AddListResponse {
-        return wrap({ movieService.createList(sessionId, name) }, { it })
+    ): AddListResponse? {
+        return  movieService.createList(sessionId, name).body()
     }
 
     override suspend fun addMovieToList(

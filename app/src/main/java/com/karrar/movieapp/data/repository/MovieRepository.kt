@@ -4,13 +4,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingData
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.remote.response.AddListResponse
-import com.karrar.movieapp.data.remote.response.AddMovieDto
-import com.karrar.movieapp.data.remote.response.MovieDto
-import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
-import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
@@ -53,13 +49,13 @@ interface MovieRepository {
     suspend fun getActorMovies(actorId: Int): List<Media>
 
 
-    suspend fun getAllLists(accountId: Int, sessionId: String): List<CreatedList>
+    suspend fun getAllLists(sessionId: String): List<CreatedListDto>?
 
-    suspend fun getListDetails(listId: Int): MyListsDto
+    suspend fun getListDetails(listId: Int): MyListsDto?
 
     suspend fun getSavedListDetails(listId: String): List<SaveListDetails>
 
-    suspend fun createList(sessionId: String, name: String): AddListResponse
+    suspend fun createList(sessionId: String, name: String): AddListResponse?
 
     suspend fun addMovieToList(sessionId: String, listId: Int, movieId: Int): AddMovieDto
 
