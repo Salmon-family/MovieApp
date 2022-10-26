@@ -61,7 +61,8 @@ interface MovieRepository {
 
     fun searchForActor(query: String): Flow<PagingData<Media>>
 
-    fun getAllSearchHistory(): Flow<List<SearchHistory>>
+
+    suspend fun getAllSearchHistory(): Flow<List<SearchHistoryEntity>>
 
     suspend fun clearWatchHistory()
 
@@ -72,8 +73,6 @@ interface MovieRepository {
     suspend fun insertMovie(movie: WatchHistoryEntity)
 
     fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>
-
-    suspend fun getMediaData(type: AllMediaType, actorId: Int): Pager<Int, Media>
 
     suspend fun getActorData(): Pager<Int, Actor>
 

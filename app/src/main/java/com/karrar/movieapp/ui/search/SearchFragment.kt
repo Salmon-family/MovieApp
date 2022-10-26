@@ -5,32 +5,22 @@ import android.os.Bundle
 import android.transition.ChangeTransform
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentSearchBinding
-import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.search.adapters.MediaSearchAdapter
-import com.karrar.movieapp.ui.search.adapters.ActorSearchAdapter
-import com.karrar.movieapp.ui.search.adapters.SearchHistoryAdapter
-import com.karrar.movieapp.utilities.Constants
-import com.karrar.movieapp.utilities.collect
-import com.karrar.movieapp.utilities.collectLast
-import com.karrar.movieapp.utilities.observeEvent
+import com.karrar.movieapp.ui.search.adapters.*
+import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {

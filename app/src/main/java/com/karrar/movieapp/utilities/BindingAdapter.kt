@@ -25,12 +25,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 
-
-@BindingAdapter("app:hideIfTrue")
-fun  hideIfTrue(view: View,value :Boolean){
-    view.isVisible = !value
-}
-
 @BindingAdapter("app:isLoading")
 fun  isLoading(view: View,value :Boolean){
     view.isVisible = value

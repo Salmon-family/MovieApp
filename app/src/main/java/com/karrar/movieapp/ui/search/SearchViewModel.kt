@@ -1,30 +1,29 @@
 package com.karrar.movieapp.ui.search
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.*
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.domain.models.SearchHistory
+import com.karrar.movieapp.domain.models.*
+import com.karrar.movieapp.domain.usecase.GetSearchUseCase
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.search.adapters.MediaSearchInteractionListener
-import com.karrar.movieapp.ui.search.adapters.ActorSearchInteractionListener
-import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
-import com.karrar.movieapp.utilities.Constants
-import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.postEvent
-import com.karrar.movieapp.utilities.toLiveData
+import com.karrar.movieapp.ui.search.adapters.*
+import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
+
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val movieRepository: MovieRepository,
+    private val getSearchUseCase: GetSearchUseCase
+
 ) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener,
     SearchHistoryInteractionListener {
 
@@ -60,6 +59,14 @@ class SearchViewModel @Inject constructor(
 
     init {
         getAllSearchHistory()
+    }
+
+    private fun getAllSearchHistory() {
+        viewModelScope.launch {
+            getSearchUseCase().collect {
+            _searchHistory.postValue(it)
+            }
+        }
     }
 
     override fun getData() {
@@ -101,14 +108,6 @@ class SearchViewModel @Inject constructor(
             if (mediaType.value != Constants.ACTOR) {
                 mediaType.emit(Constants.ACTOR)
                 _clickActorsCategoryEvent.postEvent(true)
-            }
-        }
-    }
-
-    private fun getAllSearchHistory() {
-        viewModelScope.launch {
-            movieRepository.getAllSearchHistory().collect {
-                _searchHistory.postValue(it)
             }
         }
     }
@@ -157,4 +156,5 @@ class SearchViewModel @Inject constructor(
             }
         }
     }
+
 }
