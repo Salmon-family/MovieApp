@@ -53,7 +53,7 @@ interface MovieRepository {
 
     suspend fun getListDetails(listId: Int): MyListsDto?
 
-    suspend fun getSavedListDetails(listId: String): List<SaveListDetails>
+    suspend fun getSavedListDetails(listId: Int): List<SavedListDto>?
 
     suspend fun createList(sessionId: String, name: String): AddListResponse?
 

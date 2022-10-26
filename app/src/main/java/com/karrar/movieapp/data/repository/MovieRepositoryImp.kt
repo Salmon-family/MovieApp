@@ -147,16 +147,15 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getList(listId).body()
     }
 
-    override suspend fun getSavedListDetails(listId: String): List<SaveListDetails> {
-        return wrap({ movieService.getList(listId.toInt()) },
-            { ListMapper(movieMappersContainer.saveListDetailsMapper).mapList(it.items) })
+    override suspend fun getSavedListDetails(listId: Int): List<SavedListDto>? {
+        return movieService.getList(listId).body()?.items
     }
 
     override suspend fun createList(
         sessionId: String,
         name: String,
     ): AddListResponse? {
-        return  movieService.createList(sessionId, name).body()
+        return movieService.createList(sessionId, name).body()
     }
 
     override suspend fun addMovieToList(

@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.SaveListDetails
+import com.karrar.movieapp.domain.usecase.mylist.GetListDetailsUseCase
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListDetailsViewModel @Inject constructor(
-    private val movieRepository: MovieRepository,
+    private val getListDetailsUseCase: GetListDetailsUseCase,
     saveStateHandle: SavedStateHandle
 ) : BaseViewModel(), ListDetailsInteractionListener {
 
@@ -37,12 +37,9 @@ class ListDetailsViewModel @Inject constructor(
 
     override fun getData() {
         listDetails.postValue(UIState.Loading)
-        viewModelScope.launch {
-            wrapWithState({
-                listDetails.postValue(UIState.Success(movieRepository.getSavedListDetails(args.id.toString())))
-            }, {
-                listDetails.postValue(UIState.Error(it.message.toString()))
-            })
+        viewModelScope.launch{
+            getListDetailsUseCase(args.id)
+
         }
     }
 
