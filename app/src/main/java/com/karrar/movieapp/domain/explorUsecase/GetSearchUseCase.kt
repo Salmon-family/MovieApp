@@ -22,11 +22,11 @@ class GetSearchUseCase @Inject constructor(
         }
     }
 
-    suspend fun getSearchResult(mediaTypes: MediaTypes,text: String): Flow<PagingData<Media>>{
+    suspend fun getSearchResult(mediaTypes: MediaTypes, searchTerm: String): Flow<PagingData<Media>>{
         return when(mediaTypes){
-            MediaTypes.MOVIE ->  wrapper({movieRepository.searchForMoviePager(text)}, movieMappersContainer.movieMapper::map)
-            MediaTypes.TVS_SHOW ->  wrapper({movieRepository.searchForSeriesPager(text)}, movieMappersContainer.seriesMapper::map)
-            MediaTypes.ACTOR ->  wrapper({movieRepository.searchForActorPager(text)}, movieMappersContainer.searchActorMapper::map)
+            MediaTypes.MOVIE ->  wrapper({movieRepository.searchForMoviePager(searchTerm)}, movieMappersContainer.movieMapper::map)
+            MediaTypes.TVS_SHOW ->  wrapper({movieRepository.searchForSeriesPager(searchTerm)}, movieMappersContainer.seriesMapper::map)
+            MediaTypes.ACTOR ->  wrapper({movieRepository.searchForActorPager(searchTerm)}, movieMappersContainer.searchActorMapper::map)
         }
     }
 

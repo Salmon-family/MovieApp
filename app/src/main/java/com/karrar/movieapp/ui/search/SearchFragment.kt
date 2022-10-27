@@ -3,13 +3,11 @@ package com.karrar.movieapp.ui.search
 import android.content.Context
 import android.os.Bundle
 import android.transition.ChangeTransform
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.*
 import com.karrar.movieapp.R
@@ -21,8 +19,6 @@ import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.observeOn
 
 
 @AndroidEntryPoint
@@ -40,7 +36,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         sharedElementEnterTransition = ChangeTransform()
         setTitle(false)
         setSearchHistoryAdapter()
-        getSearchResults()
+        getSearchResultsBySearchTerm()
+        getSearchResultsByMediaType()
         observeEvents()
 
     }
@@ -54,17 +51,25 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     @OptIn(FlowPreview::class)
-    private fun getSearchResults(){
+    private fun getSearchResultsBySearchTerm(){
         lifecycleScope.launch {
-            viewModel.uiState.debounce(500).collect{ search ->
-                if (search.searchInput.isNotBlank()) {
-                    Log.i("sss", search.searchInput)
-                    when (search.searchTypes) {
-                        MediaTypes.ACTOR -> { bindActors() }
-                        else -> { bindMedia() }
-                    }
-                }
+            viewModel.searchText.debounce(500).collect{ searchTerm ->
+                if (searchTerm.isNotBlank()) { getSearchResult() }
             }
+        }
+    }
+
+    private fun getSearchResultsByMediaType(){
+        lifecycleScope.launch {
+            viewModel.mediaType.collect{ getSearchResult() }
+        }
+    }
+
+
+    private fun getSearchResult(){
+        when (viewModel.uiState.value.searchTypes) {
+            MediaTypes.ACTOR -> { bindActors() }
+            else -> { bindMedia() }
         }
     }
 
@@ -100,7 +105,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.recyclerMedia.layoutManager = LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
 
         collect(flow = mediaSearchAdapter.loadStateFlow,
-                action = {viewModel.setUiState(it.source.refresh, mediaSearchAdapter.itemCount)})
+            action = {viewModel.setErrorUiState(it, mediaSearchAdapter.itemCount)})
 
         getMediaSearchResults()
     }
@@ -112,7 +117,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         setSpanSize(footerAdapter)
 
         collect(flow = actorSearchAdapter.loadStateFlow,
-            action = {viewModel.setUiState(it.source.refresh, actorSearchAdapter.itemCount)})
+            action = {viewModel.setErrorUiState(it, mediaSearchAdapter.itemCount)})
 
         getActorsSearchResults()
     }

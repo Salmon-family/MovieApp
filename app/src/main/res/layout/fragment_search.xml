@@ -32,7 +32,7 @@
             app:layout_constraintTop_toTopOf="@id/input_search"
             app:tint="@color/shade_primary_color" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_search"
             style="@style/Regular.Medium"
             android:layout_width="0dp"
@@ -61,7 +61,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <requestFocus />
-        </EditText>
+        </com.google.android.material.textfield.TextInputEditText>
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group_media_type"
@@ -130,7 +130,8 @@
             app:drawableStartCompat="@drawable/ic_history"
             app:hideWhenSearch="@{viewModel.uiState.searchInput}"
             app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
-            app:layout_constraintTop_toBottomOf="@id/input_search" />
+            app:layout_constraintTop_toBottomOf="@id/input_search"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_media"
@@ -138,7 +139,6 @@
             android:layout_height="0dp"
             android:clipToPadding="false"
             android:paddingVertical="@dimen/spacing_small"
-            app:hideWhenLoading="@{viewModel.mediaState}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
             app:showWhenSearch="@{viewModel.uiState.searchInput}"
@@ -146,7 +146,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/chip_group_media_type"
-            tools:listitem="@layout/item_media_search" />
+            tools:listitem="@layout/item_media_search"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_search_history"
@@ -170,21 +171,21 @@
 
         <include
             android:id="@+id/loading"
-            layout="@layout/loading"
+            layout="@layout/loading2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.mediaState}" />
+            app:isLoading="@{viewModel.uiState.loading}" />
 
         <include
             android:id="@+id/error"
-            layout="@layout/error_search"
-            app:error="@{viewModel.mediaState}"
+            layout="@layout/error2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:isError="@{!viewModel.uiState.error.isEmpty()}"
             app:viewModel="@{viewModel}" />
 
         <com.airbnb.lottie.LottieAnimationView
@@ -198,8 +199,9 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/no_result"
-            app:showWhenNoResults="@{viewModel.mediaState}"
-            app:hideWhenBlankSearch="@{viewModel.uiState.searchInput}" />
+            app:showWhenNoResults="@{viewModel.uiState.empty}"
+            app:hideWhenBlankSearch="@{viewModel.uiState.searchInput}"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -152,13 +152,18 @@ fun <T> setGenresChips(
 fun  isVisible(view: View,isVisible :Boolean){
     Log.e("DEVFALAHisVisible",isVisible.toString())
     view.isVisible = isVisible
-
 }
+
+
 @BindingAdapter("app:hideIfTrue")
 fun  hideIfTrue(view: View,value :Boolean){
     Log.e("DEVFALAH",value.toString())
     view.isVisible = !value
+}
 
+@BindingAdapter("app:showWhenNoResults")
+fun <T>showWhenNoResults(view: View, value: Boolean){
+    view.isVisible = value
 }
 
 @BindingAdapter("app:setVideoId")
@@ -246,9 +251,4 @@ fun setDuration(view: TextView, duration: Int?) {
 @BindingAdapter("app:hideIfNotTypeOfMovie")
 fun hideIfNotTypeOfMovie(view: View, mediaType: MediaType?) {
     if (mediaType != MediaType.MOVIE) view.isVisible = false
-}
-
-@BindingAdapter("app:showWhenNoResults")
-fun <T>showWhenNoResults(view: View, state: UIState<T>?){
-    view.isVisible = (state == UIState.Success(false))
 }
