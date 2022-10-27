@@ -7,7 +7,7 @@ import com.karrar.movieapp.domain.models.Media
 import javax.inject.Inject
 
 
-class GetTrendyMovieUseCase @Inject constructor(
+class GetTrendingMovieUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val movieMappersContainer: MovieMappersContainer,
 ) {

@@ -1,7 +1,7 @@
 package com.karrar.movieapp.ui.explore
 
 import androidx.lifecycle.*
-import com.karrar.movieapp.domain.usecase.GetTrendyMovieUseCase
+import com.karrar.movieapp.domain.usecase.GetTrendingMovieUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.explore.exploreUIState.ExploreUIState
 import com.karrar.movieapp.ui.explore.exploreUIState.TrendyMediaUIState
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ExploringViewModel @Inject constructor(
-    private val getTrendyMovieUseCase: GetTrendyMovieUseCase,
+    private val getTrendyMovieUseCase: GetTrendingMovieUseCase,
     private val trendingUIStateMapper: TrendingUIStateMapper
 ) :BaseViewModel(), TrendInteractionListener {
 
@@ -45,9 +45,9 @@ class ExploringViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val result = getTrendyMovieUseCase()
-                _uiState.update { it.copy(isLoading = false, trendyMovie = result.map { trendingUIStateMapper.map(it) }) }
+                _uiState.update { it.copy(isLoading = false, errors = "", trendyMovie = result.map { trendingUIStateMapper.map(it) }) }
             }catch (e: Throwable){
-                _uiState.update { it.copy(errors = e.message.toString()) }
+                _uiState.update { it.copy(errors = e.message.toString(), isLoading = false) }
             }
         }
     }

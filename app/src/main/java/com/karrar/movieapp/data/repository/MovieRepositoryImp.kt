@@ -42,7 +42,7 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override suspend fun getDailyTrending(): BaseListResponse<DailyTrendingDto> {
-        return checkResponse {  movieService.getDailyTrending() }
+        return movieService.getDailyTrending().body()!!
     }
 
     override suspend fun getUpcomingMovies(page: Int): List<Media> {
