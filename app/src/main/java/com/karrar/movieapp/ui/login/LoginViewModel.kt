@@ -3,21 +3,25 @@ package com.karrar.movieapp.ui.login
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import com.karrar.movieapp.data.repository.AccountRepository
-import com.karrar.movieapp.ui.UIState
+import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.domain.login.LoginUseCase
+import com.karrar.movieapp.domain.login.ValidateFiledUseCase
+import com.karrar.movieapp.domain.login.ValidatePasswordFiledUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.FormFiledValidator
-import com.karrar.movieapp.utilities.postEvent
-import com.karrar.movieapp.utilities.toLiveData
+import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val accountRepository: AccountRepository,
-    private val textValidation: FormFiledValidator,
-    private val state: SavedStateHandle
+    state: SavedStateHandle,
+    private val loginUseCase: LoginUseCase,
+    private val validateFiledUseCase: ValidateFiledUseCase,
+    private val validatePasswordFiledUseCase: ValidatePasswordFiledUseCase,
 ) : BaseViewModel() {
 
     val args = LoginFragmentArgs.fromSavedStateHandle(state)
@@ -25,25 +29,18 @@ class LoginViewModel @Inject constructor(
     val userName = MutableLiveData<String?>()
     val password = MutableLiveData<String?>()
 
-    private val _passwordHelperText = MutableLiveData("")
-    val passwordHelperText = _passwordHelperText.toLiveData()
-
-    private val _userNameHelperText = MutableLiveData("")
-    val userNameHelperText = _userNameHelperText.toLiveData()
-
-    private val _loginRequestState = MutableLiveData<UIState<Boolean>>()
-    val loginRequestState = _loginRequestState.toLiveData()
-
     private val _loginEvent = MutableLiveData<Event<Int>>()
     val loginEvent = _loginEvent.toLiveData()
 
     private val _signUpEvent = MutableLiveData<Event<Boolean>>()
     val signUpEvent = _signUpEvent.toLiveData()
 
+    private val _loginUIState = MutableStateFlow(LoginUiState())
+    val loginUIState = _loginUIState.asStateFlow()
 
-    val loginValidation = MediatorLiveData<Boolean>().apply {
-        addSource(userName, ::checkUserNameValidation)
-        addSource(password, ::checkPasswordValidation)
+     val loginValidation = MediatorLiveData<Boolean>().apply {
+        addSource(userName, ::checkFormField)
+        addSource(password, ::checkFormField)
     }
 
     fun onClickSignUp() {
@@ -54,45 +51,46 @@ class LoginViewModel @Inject constructor(
         login()
     }
 
-    private fun checkPasswordValidation(password: String?) {
-        val passwordFieldState = textValidation.validatePasswordFiledState(password.toString())
-        _passwordHelperText.postValue(passwordFieldState.errorMessage())
-        checkFormValidation()
+    private fun checkFormField(text: String?) {
+        val userNameFieldState = validateFiledUseCase(userName.value.toString())
+        val passwordFieldState = validatePasswordFiledUseCase(password.value.toString())
+        _loginUIState.update { it.copy(
+            passwordHelperText = passwordFieldState.errorMessage()?:"",
+            userNameHelperText = userNameFieldState.errorMessage()?:"",
+            isValidForm =userNameFieldState.isValid() && passwordFieldState.isValid()
+        ) }
     }
 
-    private fun checkUserNameValidation(userName: String?) {
-        val userNameFieldState = textValidation.validateFiledState(userName.toString())
-        _userNameHelperText.postValue(userNameFieldState.errorMessage())
-        checkFormValidation()
-    }
 
-    private fun checkFormValidation() {
-        val isValidUserNameAndPassword = textValidation.isValidUserNameAndPassword(
-            userName.value.toString(),
-            password.value.toString()
-        )
-        loginValidation.postValue(isValidUserNameAndPassword)
-    }
 
     private fun login() {
-        wrapWithState({
-            accountRepository.loginWithUserNameANdPassword(userName.value.toString(), password.value.toString())
-            onLoginSuccessfully()
-        }, {
-            onLoginError(it.message.toString())
-        })
+        viewModelScope.launch {
+            try {
+                _loginUIState.update { it.copy(isLoading = true) }
+                val isLoginSuccessfully =
+                    loginUseCase(userName.value.toString(), password.value.toString())
+                if (isLoginSuccessfully) {
+                    onLoginSuccessfully()
+                }
+            } catch (e: Throwable) {
+                onLoginError(e.message.toString())
+            }
+        }
 
     }
 
     private fun onLoginSuccessfully() {
-        _loginRequestState.postValue(UIState.Success(true))
+        _loginUIState.update { it.copy(isLoading = false) }
         _loginEvent.postEvent(args.from)
         resetForm()
     }
 
     private fun onLoginError(message: String) {
-        _loginRequestState.postValue(UIState.Error(message))
-        _passwordHelperText.postValue(message)
+        _loginUIState.update {
+            it.copy(isLoading = false,
+                error = message,
+                passwordHelperText = message)
+        }
     }
 
 
