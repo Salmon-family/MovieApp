@@ -59,6 +59,6 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.checkIfLogin()
+        viewModel.getData()
     }
 }

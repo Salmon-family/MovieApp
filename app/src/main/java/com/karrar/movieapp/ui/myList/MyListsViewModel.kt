@@ -46,28 +46,23 @@ class MyListsViewModel @Inject constructor(
     val onSelectItem = _onSelectItem.toLiveData()
 
     override fun getData() {
-        _createdListUIState.update { it.copy(isLoading = true, error = emptyList()) }
+        _createdListUIState.update {
+            it.copy(
+                isLoading = true,
+                isEmpty = false,
+                error = emptyList()
+            )
+        }
         viewModelScope.launch {
             try {
                 val list = getMyListUseCase().map { createdListUIMapper.map(it) }
                 _createdListUIState.update {
-                    it.copy(isLoading = false, createdList = list)
+                    it.copy(isLoading = false, isEmpty = list.isEmpty(), createdList = list)
                 }
             } catch (t: Throwable) {
-                _createdListUIState.update {
-                    val error = if (t.message == NO_LOGIN) {
-                        listOf(ErrorUIState(NEED_LOGIN, t.message.toString()))
-                    } else {
-                        listOf(ErrorUIState(INTERNET_CONNECTION, t.message.toString()))
-                    }
-                    it.copy(isLoading = false, error = error)
-                }
+                setError(t)
             }
         }
-    }
-
-    fun checkIfLogin() {
-        getData()
     }
 
     fun onListNameInputChange(listName: CharSequence) {
@@ -79,7 +74,7 @@ class MyListsViewModel @Inject constructor(
     }
 
     fun onClickAddList() {
-        _createdListUIState.update { it.copy(isLoading = true) }
+        _createdListUIState.update { it.copy(isLoading = true, isEmpty = false) }
 
         viewModelScope.launch {
             try {
@@ -110,7 +105,18 @@ class MyListsViewModel @Inject constructor(
         item?.let { _onSelectItem.postValue(Event(it)) }
     }
 
-    fun updateErrorDialog(){
+    fun updateErrorDialog() {
         _createListDialogUIState.update { it.copy(error = emptyList()) }
+    }
+
+    private fun setError(t: Throwable) {
+        _createdListUIState.update {
+            val error = if (t.message == NO_LOGIN) {
+                listOf(ErrorUIState(NEED_LOGIN, t.message.toString()))
+            } else {
+                listOf(ErrorUIState(INTERNET_CONNECTION, t.message.toString()))
+            }
+            it.copy(isLoading = false, error = error)
+        }
     }
 }
