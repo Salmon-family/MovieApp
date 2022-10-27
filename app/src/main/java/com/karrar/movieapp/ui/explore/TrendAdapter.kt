@@ -1,8 +1,9 @@
 package com.karrar.movieapp.ui.explore
 
 import com.karrar.movieapp.R
-import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.base.*
+import com.karrar.movieapp.ui.explore.exploreUIState.TrendyMediaUIState
+
 
 class TrendAdapter(items: List<TrendyMediaUIState>, listener: TrendInteractionListener)
     : BaseAdapter<TrendyMediaUIState>(items, listener){

@@ -2,7 +2,6 @@ package com.karrar.movieapp.utilities
 
 import android.content.res.Resources
 import android.graphics.Rect
-import android.view.LayoutInflater
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -17,6 +16,9 @@ import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BasePagingAdapter
 import com.karrar.movieapp.ui.category.CategoryInteractionListener
+import com.karrar.movieapp.ui.explore.exploreUIState.TrendyMediaUIState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import com.karrar.movieapp.ui.explore.TrendyMediaUIState
 import com.karrar.movieapp.ui.search.mediaSearchUIState.*
 import kotlinx.coroutines.flow.*
@@ -141,9 +143,4 @@ fun <T : Any> GridLayoutManager.setSpanSize(
 fun Date.convertToDayMonthYearFormat(): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(this)
-}
-
-
-fun <T> MutableStateFlow<T>.toStateFlow(): StateFlow<T> {
-    return this
 }

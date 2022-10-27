@@ -174,7 +174,7 @@
             android:layout_height="0dp"
             android:clipToPadding="false"
             android:elevation="@dimen/spacing_too_small"
-            android:layout_marginVertical="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginHorizontal="@dimen/spacing_small"
             app:items="@{viewModel.uiState.trendyMovie}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
