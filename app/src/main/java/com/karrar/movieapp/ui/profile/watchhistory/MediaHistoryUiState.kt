@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.models
+package com.karrar.movieapp.ui.profile.watchhistory
 
 data class MediaHistoryUiState(
     val id: Int,
