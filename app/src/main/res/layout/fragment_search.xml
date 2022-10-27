@@ -129,6 +129,7 @@
             android:textColor="@color/shade_primary_color"
             app:drawableStartCompat="@drawable/ic_history"
             app:hideWhenSearch="@{viewModel.uiState.searchInput}"
+            app:hideWhenListIsEmpty="@{viewModel.uiState.searchHistory}"
             app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
             app:layout_constraintTop_toBottomOf="@id/input_search"
             />
@@ -180,7 +181,7 @@
 
         <include
             android:id="@+id/error"
-            layout="@layout/error2"
+            layout="@layout/error_search"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
