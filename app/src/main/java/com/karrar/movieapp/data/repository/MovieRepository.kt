@@ -83,8 +83,6 @@ interface MovieRepository {
 
     fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>
 
-    suspend fun getMediaData(type: AllMediaType, actorId: Int): Pager<Int, Media>
-
     suspend fun getActorData(): Pager<Int, ActorDto>
 
     suspend fun getAllMovies() : Pager<Int, MovieDto>

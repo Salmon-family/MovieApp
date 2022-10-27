@@ -19,6 +19,7 @@ import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.mediaDataSource.movie.MovieDataSourceContainer
+import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
 import com.karrar.movieapp.domain.mappers.MovieMappersContainer
@@ -231,7 +232,7 @@ class MovieRepositoryImp @Inject constructor(
     }
 
 
-    override suspend fun getActorData(): Pager<Int, Actor> {
+    override suspend fun getActorData(): Pager<Int, ActorDto> {
         return Pager(config = config, pagingSourceFactory = { actorDataSource })
     }
 
