@@ -34,21 +34,21 @@ class ActorsViewModel @Inject constructor(
     val clickRetryEvent = _clickRetryEvent.toLiveData()
 
     init {
-        getActors()
-    }
-
-    private fun getActors(){
-        _uiState.update { it.copy(isLoading = true) }
-        viewModelScope.launch {
-            val actorsItems = getActorsDataUseCase().map { pager -> pager.map { actorMapper.map(it) } }
-            _uiState.update { it.copy(isLoading = false, actors = actorsItems) }
-        }
+        getData()
     }
 
     override fun getData() {
+        _uiState.update { it.copy(isLoading = true) }
+        getActors()
         _clickRetryEvent.postEvent(true)
     }
 
+    private fun getActors(){
+        viewModelScope.launch {
+            val actorsItems = getActorsDataUseCase().map { pager -> pager.map { actorMapper.map(it) } }
+            _uiState.update { it.copy(isLoading = false, actors = actorsItems, error = emptyList()) }
+        }
+    }
 
     override fun onClickActor(actorID: Int) {
         _clickActorEvent.postEvent(actorID)
