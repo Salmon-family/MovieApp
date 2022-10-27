@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.myList
+package com.karrar.movieapp.ui.myList.listDetails
 
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.models.SaveListDetails

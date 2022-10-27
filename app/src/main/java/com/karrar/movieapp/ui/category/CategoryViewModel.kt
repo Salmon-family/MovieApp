@@ -1,44 +1,42 @@
 package com.karrar.movieapp.ui.category
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import androidx.paging.PagingData
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.data.repository.SeriesRepository
-import com.karrar.movieapp.domain.models.Genre
-import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.ui.UIState
+import androidx.paging.map
+import com.karrar.movieapp.domain.usecase.GetGenreListUseCase
+import com.karrar.movieapp.domain.usecase.GetMediaByGenreIDUseCase
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.category.uiState.CategoryUIState
+import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
-import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
-import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
-    private val movieRepository: MovieRepository,
-    private val seriesRepository: SeriesRepository,
+    private val getCategoryUseCase: GetMediaByGenreIDUseCase,
+    private val mediaUIStateMapper: MediaUIStateMapper,
+    private val genreUIStateMapper: GenreUIStateMapper,
+    private val getGenresUseCase: GetGenreListUseCase,
     state: SavedStateHandle
 ) : BaseViewModel(), MediaInteractionListener, CategoryInteractionListener {
 
     val args = CategoryFragmentArgs.fromSavedStateHandle(state)
 
-    private val _categories = MutableLiveData<List<Genre>>()
-    val categories: LiveData<List<Genre>> = _categories
-
-    private val _allMediaState = MutableLiveData<UIState<Boolean>>(UIState.Loading)
-    val allMediaState = _allMediaState.toLiveData()
+    private val _uiState = MutableStateFlow(CategoryUIState())
+    val uiState: StateFlow<CategoryUIState> = _uiState.asStateFlow()
 
     private val _clickMovieEvent = MutableLiveData<Event<Int>>()
-    var clickMovieEvent: LiveData<Event<Int>> = _clickMovieEvent
+    var clickMovieEvent = _clickMovieEvent
 
     private val _clickRetryEvent = MutableLiveData<Event<Boolean>>()
     val clickRetryEvent = _clickRetryEvent.toLiveData()
@@ -51,33 +49,37 @@ class CategoryViewModel @Inject constructor(
     }
 
     override fun getData() {
-        setCategoryType()
+        _uiState.update { it.copy(isLoading = true) }
+        getMediaList()
+        getGenre()
         _clickRetryEvent.postEvent(true)
     }
 
-    fun setAllMediaList(genre: Int): Flow<PagingData<Media>> {
-        return if (genre == FIRST_CATEGORY_ID) {
-            movieRepository.getAllMedia(args.mediaId)
-        } else {
-            movieRepository.getMediaByGenre(genre, args.mediaId)
+    private fun getGenre() {
+        viewModelScope.launch {
+            try {
+                _uiState.update {
+                    it.copy(
+                        genre = getGenresUseCase(args.mediaId).map { genreUIStateMapper.map(it) })
+                }
+            } catch (t: Throwable) {
+                _uiState.update { it.copy(error = listOf(ErrorUIState(-1, t.message.toString()))) }
+            }
         }
     }
 
-    private fun setCategoryType() {
-        wrapWithState({
-            val response = when (args.mediaId) {
-                MOVIE_CATEGORIES_ID -> {
-                    movieRepository.getMovieGenreList()
-                }
-                TV_CATEGORIES_ID -> {
-                    seriesRepository.getTVShowsGenreList()
-                }
-                else -> {
-                    throw Throwable("There is no MOVIE_CATEGORIES_ID ")
-                }
+    fun getMediaList() {
+        viewModelScope.launch {
+            val result =
+                getCategoryUseCase(args.mediaId, selectedCategory.value ?: FIRST_CATEGORY_ID)
+            _uiState.update {
+                it.copy(
+                    isLoading = false,
+                    media = result.map { pagingData -> pagingData.map { mediaUIStateMapper.map(it) } },
+                    error = emptyList()
+                )
             }
-            _categories.postValue(response)
-        })
+        }
     }
 
     override fun onClickMedia(mediaId: Int) {
@@ -88,12 +90,25 @@ class CategoryViewModel @Inject constructor(
         _selectedCategory.postValue(categoryId)
     }
 
-    fun setErrorUiState(loadState: LoadState) {
-        when (loadState) {
-            is LoadState.Error, null -> _allMediaState.postValue(UIState.Error(""))
-            else -> {
-                _allMediaState.postValue(UIState.Success(true))
+    fun setErrorUiState(combinedLoadStates: CombinedLoadStates) {
+        when (combinedLoadStates.refresh) {
+            is LoadState.NotLoading -> {
+                _uiState.update {
+                    it.copy(isLoading = false, error = emptyList())
+                }
+            }
+            LoadState.Loading -> {
+                _uiState.update {
+                    it.copy(isLoading = false, error = emptyList())
+                }
+            }
+            is LoadState.Error -> {
+                _uiState.update {
+                    it.copy(isLoading = false, error = listOf(ErrorUIState(404, "Error")))
+                }
             }
         }
     }
+
 }
+

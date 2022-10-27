@@ -1,6 +1,7 @@
 package com.karrar.movieapp.data.repository
 
 import androidx.paging.Pager
+import androidx.paging.PagingData
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.daos.SeriesDao
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
@@ -8,9 +9,11 @@ import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntit
 import com.karrar.movieapp.data.local.mappers.series.LocalSeriesMappersContainer
 import com.karrar.movieapp.data.mediaDataSource.series.SeriesDataSourceContainer
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
+import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.ListMapper
+import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
 import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
@@ -24,11 +27,16 @@ class SeriesRepositoryImp @Inject constructor(
     private val seriesMapperContainer: SeriesMapperContainer,
     private val localSeriesMappersContainer: LocalSeriesMappersContainer,
     private val seriesDataSourceContainer: SeriesDataSourceContainer,
+    private val mediaDataSourceContainer: MediaDataSourceContainer,
 ) : BaseRepository(), SeriesRepository {
 
     override suspend fun getTVShowsGenreList(): List<Genre> {
         return wrap({ service.getGenreTvShowList() },
             { ListMapper(seriesMapperContainer.genreMapper).mapList(it.genres) })
+    }
+
+    override suspend fun getTVShowsGenreList2(): List<GenreDto>? {
+        return service.getGenreTvShowList().body()?.genres
     }
 
     override suspend fun getOnTheAir(page: Int): List<Media> {
@@ -91,6 +99,23 @@ class SeriesRepositoryImp @Inject constructor(
         return movieDao.insert(tvShow)
     }
 
+    override suspend fun getAllTVShows(): Pager<Int, TVShowsDTO> {
+        return Pager(
+            config = config,
+            pagingSourceFactory = { mediaDataSourceContainer.tvShowDataSource })
+    }
+
+    override suspend fun getTVShowByGenre(genreID: Int): Pager<Int, TVShowsDTO> {
+        return Pager(
+            config = config,
+            pagingSourceFactory = {
+                val dataSource = mediaDataSourceContainer.tvShowsByGenreDataSource
+                dataSource.setGenre(genreID)
+                dataSource
+            }
+        )
+    }
+
     /**
      * Caching
      * */
@@ -145,19 +170,27 @@ class SeriesRepositoryImp @Inject constructor(
     }
 
     override fun getAiringTodayTvShowPager(): Pager<Int, TVShowsDTO> {
-        return  Pager(config = config,pagingSourceFactory = {seriesDataSourceContainer.airingTodayTvShowDataSource})
+        return Pager(
+            config = config,
+            pagingSourceFactory = { seriesDataSourceContainer.airingTodayTvShowDataSource })
     }
 
     override fun getOnTheAirTvShowPager(): Pager<Int, TVShowsDTO> {
-        return  Pager(config = config,pagingSourceFactory = {seriesDataSourceContainer.onTheAirTvShowDataSource})
+        return Pager(
+            config = config,
+            pagingSourceFactory = { seriesDataSourceContainer.onTheAirTvShowDataSource })
     }
 
     override fun getTopRatedTvShowPager(): Pager<Int, TVShowsDTO> {
-        return  Pager(config = config,pagingSourceFactory = {seriesDataSourceContainer.topRatedTvShowDataSource})
+        return Pager(
+            config = config,
+            pagingSourceFactory = { seriesDataSourceContainer.topRatedTvShowDataSource })
     }
 
     override fun getPopularTvShowPager(): Pager<Int, TVShowsDTO> {
-        return  Pager(config = config,pagingSourceFactory = {seriesDataSourceContainer.popularTvShowDataSource})
+        return Pager(
+            config = config,
+            pagingSourceFactory = { seriesDataSourceContainer.popularTvShowDataSource })
     }
 
     override suspend fun refreshTopRatedTvShow() {

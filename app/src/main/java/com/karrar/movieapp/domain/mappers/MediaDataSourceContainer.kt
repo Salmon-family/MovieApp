@@ -10,8 +10,12 @@ class MediaDataSourceContainer @Inject constructor(
     val airingTodayTvShowDataSource: AiringTodayTvShowDataSource,
     val popularTvShowDataSource: PopularTvShowDataSource,
     val topRatedTvShowDataSource: TopRatedTvShowDataSource,
-    val movieGenreShowDataSource: MovieGenreShowDataSource,
     val onTheAirTvShowDataSource: OnTheAirTvShowDataSource,
     val actorMovieDataSource: ActorMovieDataSource,
-    val allMediaDataSource: AllMediaDataSource
+
+    val movieByGenreDataSource: MovieByGenreDataSource,
+    val tvShowsByGenreDataSource: TVShowsByGenreDataSource,
+    val movieDataSource: MovieDataSource,
+    val tvShowDataSource: TVShowDataSource
+
 )

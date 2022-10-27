@@ -8,13 +8,18 @@ import com.karrar.movieapp.data.remote.response.AddListResponse
 import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.remote.response.genre.GenreDto
+import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 interface MovieRepository {
 
     suspend fun getMovieGenreList(): List<Genre>
+
+    suspend fun getMovieGenreList2(): List<GenreDto>?
 
     suspend fun getTrendingMovies(page: Int = 1): List<Media>
 
@@ -77,13 +82,11 @@ interface MovieRepository {
 
     fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>
 
-
     suspend fun getActorData(): Pager<Int, Actor>
 
-    fun getAllMedia(mediaType: Int): Flow<PagingData<Media>>
+    suspend fun getAllMovies() : Pager<Int, MovieDto>
 
-    fun getMediaByGenre(genreID: Int, mediaType: Int): Flow<PagingData<Media>>
-
+    suspend fun getMovieByGenre(genreID: Int): Pager<Int, MovieDto>
 
     fun getPopularMovies(): Flow<List<PopularMovie>>
 

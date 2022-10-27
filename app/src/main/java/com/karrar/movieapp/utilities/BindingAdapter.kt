@@ -1,22 +1,25 @@
 package com.karrar.movieapp.utilities
 
-import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.domain.enums.MediaType
-import com.karrar.movieapp.domain.models.*
+import com.karrar.movieapp.domain.models.Genre
+import com.karrar.movieapp.domain.models.MediaDetails
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.ui.category.uiState.ErrorUIState
+import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
-import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
@@ -26,7 +29,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 
 
 @BindingAdapter("app:isLogIN")
-fun <T> isLogIN(view: View, value:Boolean) {
+fun <T> isLogIN(view: View, value: Boolean) {
     if (value)
         view.isVisible = false
 }
@@ -59,18 +62,18 @@ fun <T> showWhenFail2(view: View, state: UIState<T>?) {
 }
 
 @BindingAdapter(value = ["app:showWhenSearch"])
-fun showWhenSearch(view: View, text: String){
+fun showWhenSearch(view: View, text: String) {
     view.isVisible = text.isNotBlank()
 }
 
 @BindingAdapter(value = ["app:hideWhenSearch"])
-fun hideWhenSearch(view: View, text: String){
+fun hideWhenSearch(view: View, text: String) {
     view.isVisible = text.isBlank()
 }
 
 @BindingAdapter(value = ["app:hideWhenBlankSearch"])
-fun hideWhenBlankSearch(view: View, text: String){
-    if(text.isBlank()){
+fun hideWhenBlankSearch(view: View, text: String) {
+    if (text.isBlank()) {
         view.visibility = View.INVISIBLE
     }
 }
@@ -118,48 +121,54 @@ fun setGenre(textView: TextView, genreList: List<Genre>?) {
     }
 }
 
-@BindingAdapter("app:setGenres", "app:genresId", "app:listener", "app:firstChipSelection")
+@BindingAdapter(
+    "app:setGenres",
+    "app:genresId",
+    "app:listener",
+    "app:selectedChip"
+)
 fun <T> setGenresChips(
     view: ChipGroup,
-    chipList: List<Genre>?,
+    chipList: List<GenreUIState>?,
     categoryId: Int?,
     listener: T,
-    isFirstChipSelected: Boolean?
+    selectedChip: Int?
 ) {
-    val allMedia = Genre(FIRST_CATEGORY_ID, ALL)
     when (categoryId) {
         MOVIE_CATEGORIES_ID -> {
             chipList?.let {
-                view.addView(view.createChip(allMedia, listener))
                 it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
             }
         }
         TV_CATEGORIES_ID -> {
             chipList?.let {
-                view.addView(view.createChip(allMedia, listener))
                 it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
             }
         }
     }
 
-    if (isFirstChipSelected == true) view.getChildAt(FIRST_CATEGORY_ID)?.id?.let { view.check(it) }
+    val index = chipList?.indexOf(chipList.find { it.genreID == selectedChip }) ?: FIRST_CATEGORY_ID
+    view.getChildAt(index)?.id?.let { view.check(it) }
 }
 
 @BindingAdapter("app:isVisible")
-fun  isVisible(view: View,isVisible :Boolean){
-    Log.e("DEVFALAHisVisible",isVisible.toString())
+fun isVisible(view: View, isVisible: Boolean) {
     view.isVisible = isVisible
 
 }
-@BindingAdapter("app:hideIfTrue")
-fun  hideIfTrue(view: View,value :Boolean){
-    Log.e("DEVFALAH",value.toString())
-    view.isVisible = !value
 
+@BindingAdapter("app:hideIfTrue")
+fun hideIfTrue(view: View, value: Boolean) {
+    view.isVisible = !value
+}
+
+@BindingAdapter("app:hideIfLoading", "app:hideError")
+fun hideIfNoData(view: View, loading: Boolean, error: List<ErrorUIState>) {
+    view.isVisible = !loading && error.isEmpty()
 }
 
 @BindingAdapter("app:setVideoId")
-fun setVideoId(view: YouTubePlayerView, videoId: String?){
+fun setVideoId(view: YouTubePlayerView, videoId: String?) {
     view.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
         override fun onReady(youTubePlayer: YouTubePlayer) {
             videoId?.let { youTubePlayer.cueVideo(it, 0f) }
@@ -199,7 +208,7 @@ fun <T> showWhenListIsEmpty(view: View, list: List<T>?) {
 
 @BindingAdapter("app:hideWhenListIsEmpty")
 fun <T> hideWhenListIsEmpty(view: View, list: List<T>?) {
-    if(list?.isEmpty() == true){
+    if (list?.isEmpty() == true) {
         view.visibility = View.INVISIBLE
     }
 }
@@ -221,9 +230,10 @@ fun setOverViewText(view: TextView, text: String) {
 @BindingAdapter("app:textBasedOnMediaType")
 fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
     mediaDetails?.let {
-        when(mediaDetails.mediaType){
-            MediaType.MOVIE ->  setDuration(view, mediaDetails.specialNumber)
-            MediaType.TV_SHOW -> view.text = view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
+        when (mediaDetails.mediaType) {
+            MediaType.MOVIE -> setDuration(view, mediaDetails.specialNumber)
+            MediaType.TV_SHOW -> view.text =
+                view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
         }
     }
 }
@@ -236,7 +246,11 @@ fun setDuration(view: TextView, duration: Int?) {
     } else if (minutes == 0) {
         view.text = view.context.getString(R.string.hours_pattern, hours.toString())
     } else {
-        view.text = view.context.getString(R.string.hours_minutes_pattern, hours.toString(), minutes.toString())
+        view.text = view.context.getString(
+            R.string.hours_minutes_pattern,
+            hours.toString(),
+            minutes.toString()
+        )
     }
 }
 
@@ -246,6 +260,6 @@ fun hideIfNotTypeOfMovie(view: View, mediaType: MediaType?) {
 }
 
 @BindingAdapter("app:showWhenNoResults")
-fun <T>showWhenNoResults(view: View, state: UIState<T>?){
+fun <T> showWhenNoResults(view: View, state: UIState<T>?) {
     view.isVisible = (state == UIState.Success(false))
 }

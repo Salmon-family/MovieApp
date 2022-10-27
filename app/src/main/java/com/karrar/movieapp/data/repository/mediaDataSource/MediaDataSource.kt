@@ -2,14 +2,12 @@ package com.karrar.movieapp.data.repository.mediaDataSource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.domain.models.Media
 
-abstract class MediaDataSource : PagingSource<Int, Media>() {
+abstract class MediaDataSource<T : Any> : PagingSource<Int, T>() {
 
-    abstract override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Media>
+    abstract override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T>
 
-    override fun getRefreshKey(state: PagingState<Int, Media>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, T>): Int? {
         return state.anchorPosition
     }
 }
