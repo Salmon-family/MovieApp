@@ -1,22 +1,19 @@
 package com.karrar.movieapp.data.repository
 
 import androidx.paging.PagingData
+import androidx.paging.Pager
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
-import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
-import com.karrar.movieapp.domain.mappers.GenreMapper
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
 
 interface SeriesRepository {
 
     suspend fun getTVShowsGenreList(): List<Genre>
 
-    suspend fun getTVShowsGenreList2(): Response<GenreResponse>
+    suspend fun getTVShowsGenreList2(): List<GenreDto>?
 
     suspend fun getOnTheAir(page: Int = 1): List<Media>
 
@@ -42,9 +39,9 @@ interface SeriesRepository {
 
     suspend fun insertTvShow(tvShow: WatchHistoryEntity)
 
-    fun getAllTVShows(): Flow<PagingData<TVShowsDTO>>
+    suspend fun getAllTVShows(): Pager<Int,TVShowsDTO>
 
-    fun getTVShowByGenre(genreID: Int): Flow<PagingData<TVShowsDTO>>
+    suspend fun getTVShowByGenre(genreID: Int): Pager<Int, TVShowsDTO>
 
     fun getAiringToday(): Flow<List<Media>>
 
@@ -57,4 +54,13 @@ interface SeriesRepository {
     suspend fun refreshAiringToday()
 
     suspend fun refreshOnTheAir()
+
+
+    fun getAiringTodayTvShowPager(): Pager<Int, TVShowsDTO>
+
+    fun getOnTheAirTvShowPager(): Pager<Int, TVShowsDTO>
+
+    fun getTopRatedTvShowPager(): Pager<Int, TVShowsDTO>
+
+    fun getPopularTvShowPager(): Pager<Int, TVShowsDTO>
 }

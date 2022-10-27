@@ -16,7 +16,8 @@ import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.MediaDetails
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
-import com.karrar.movieapp.ui.category.GenreUIState
+import com.karrar.movieapp.ui.category.uiState.ErrorUIState
+import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
@@ -67,16 +68,6 @@ fun <T> hideWhenLoading(view: View, state: UIState<T>?) {
 @BindingAdapter("app:showWhenFail")
 fun <T> showWhenFail2(view: View, state: UIState<T>?) {
     view.isVisible = state is UIState.Error
-}
-
-@BindingAdapter(value = ["app:showWhenLoading"])
-fun <T> showWhenLoadingUIState(view: View, isLoading: Boolean) {
-    view.isVisible = isLoading
-}
-
-@BindingAdapter("app:showWhenFail")
-fun <T> showWhenFailUIState(view: View, error: String?) {
-    view.isVisible = !error.isNullOrBlank()
 }
 
 @BindingAdapter(value = ["app:showWhenSearch"])
@@ -170,9 +161,19 @@ fun <T> setGenresChips(
 }
 
 @BindingAdapter("app:isVisible")
-fun <T> isVisible(view: View, isVisible: Boolean) {
+fun isVisible(view: View, isVisible: Boolean) {
     view.isVisible = isVisible
 
+}
+
+@BindingAdapter("app:hideIfTrue")
+fun hideIfTrue(view: View, value: Boolean) {
+    view.isVisible = !value
+}
+
+@BindingAdapter("app:hideIfLoading", "app:hideError")
+fun hideIfNoData(view: View, loading: Boolean, error: List<ErrorUIState>) {
+    view.isVisible = !loading && error.isEmpty()
 }
 
 @BindingAdapter("app:setVideoId")

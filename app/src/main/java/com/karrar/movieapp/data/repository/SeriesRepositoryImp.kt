@@ -7,8 +7,9 @@ import com.karrar.movieapp.data.local.database.daos.SeriesDao
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntity
 import com.karrar.movieapp.data.local.mappers.series.LocalSeriesMappersContainer
+import com.karrar.movieapp.data.mediaDataSource.series.SeriesDataSourceContainer
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
-import com.karrar.movieapp.data.remote.response.genre.GenreResponse
+import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.ListMapper
@@ -17,7 +18,6 @@ import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import retrofit2.Response
 import javax.inject.Inject
 
 class SeriesRepositoryImp @Inject constructor(
@@ -26,6 +26,7 @@ class SeriesRepositoryImp @Inject constructor(
     private val seriesDao: SeriesDao,
     private val seriesMapperContainer: SeriesMapperContainer,
     private val localSeriesMappersContainer: LocalSeriesMappersContainer,
+    private val seriesDataSourceContainer: SeriesDataSourceContainer,
     private val mediaDataSourceContainer: MediaDataSourceContainer,
 ) : BaseRepository(), SeriesRepository {
 
@@ -34,8 +35,8 @@ class SeriesRepositoryImp @Inject constructor(
             { ListMapper(seriesMapperContainer.genreMapper).mapList(it.genres) })
     }
 
-    override suspend fun getTVShowsGenreList2(): Response<GenreResponse> {
-        return service.getGenreTvShowList()
+    override suspend fun getTVShowsGenreList2(): List<GenreDto>? {
+        return service.getGenreTvShowList().body()?.genres
     }
 
     override suspend fun getOnTheAir(page: Int): List<Media> {
@@ -98,13 +99,13 @@ class SeriesRepositoryImp @Inject constructor(
         return movieDao.insert(tvShow)
     }
 
-    override fun getAllTVShows(): Flow<PagingData<TVShowsDTO>> {
+    override suspend fun getAllTVShows(): Pager<Int, TVShowsDTO> {
         return Pager(
             config = config,
-            pagingSourceFactory = { mediaDataSourceContainer.tvShowDataSource }).flow
+            pagingSourceFactory = { mediaDataSourceContainer.tvShowDataSource })
     }
 
-    override fun getTVShowByGenre(genreID: Int): Flow<PagingData<TVShowsDTO>> {
+    override suspend fun getTVShowByGenre(genreID: Int): Pager<Int, TVShowsDTO> {
         return Pager(
             config = config,
             pagingSourceFactory = {
@@ -112,7 +113,7 @@ class SeriesRepositoryImp @Inject constructor(
                 dataSource.setGenre(genreID)
                 dataSource
             }
-        ).flow
+        )
     }
 
     /**
@@ -166,6 +167,30 @@ class SeriesRepositoryImp @Inject constructor(
                 seriesDao.insertOnTheAirSeries(it)
             },
         )
+    }
+
+    override fun getAiringTodayTvShowPager(): Pager<Int, TVShowsDTO> {
+        return Pager(
+            config = config,
+            pagingSourceFactory = { seriesDataSourceContainer.airingTodayTvShowDataSource })
+    }
+
+    override fun getOnTheAirTvShowPager(): Pager<Int, TVShowsDTO> {
+        return Pager(
+            config = config,
+            pagingSourceFactory = { seriesDataSourceContainer.onTheAirTvShowDataSource })
+    }
+
+    override fun getTopRatedTvShowPager(): Pager<Int, TVShowsDTO> {
+        return Pager(
+            config = config,
+            pagingSourceFactory = { seriesDataSourceContainer.topRatedTvShowDataSource })
+    }
+
+    override fun getPopularTvShowPager(): Pager<Int, TVShowsDTO> {
+        return Pager(
+            config = config,
+            pagingSourceFactory = { seriesDataSourceContainer.popularTvShowDataSource })
     }
 
     override suspend fun refreshTopRatedTvShow() {

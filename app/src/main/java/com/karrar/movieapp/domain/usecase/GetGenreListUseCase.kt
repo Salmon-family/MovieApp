@@ -7,10 +7,9 @@ import com.karrar.movieapp.domain.mappers.GenreMapper
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.utilities.Constants
-import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
 import javax.inject.Inject
 
-class GetGenreUseCase @Inject constructor(
+class GetGenreListUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val seriesRepository: SeriesRepository,
     private val genreMapper: GenreMapper
@@ -18,17 +17,17 @@ class GetGenreUseCase @Inject constructor(
 
     suspend operator fun invoke(mediaId: Int): List<Genre> {
         val genre = when (mediaId) {
-            MOVIE_CATEGORIES_ID -> {
-                mapGenre(movieRepository.getMovieGenreList2().body()?.genres)
+            Constants.MOVIE_CATEGORIES_ID -> {
+                mapGenre(movieRepository.getMovieGenreList2())
             }
             else -> {
-                mapGenre(seriesRepository.getTVShowsGenreList2().body()?.genres)
+                mapGenre(seriesRepository.getTVShowsGenreList2())
             }
         }
-        return addAllGenre(genre)
+        return setGenre(genre)
     }
 
-    private fun addAllGenre(genre: List<Genre>): List<Genre> {
+    private fun setGenre(genre: List<Genre>): List<Genre> {
         val allGenre = mutableListOf<Genre>()
         allGenre.add(Genre(Constants.FIRST_CATEGORY_ID, Constants.ALL))
         allGenre.addAll(genre)

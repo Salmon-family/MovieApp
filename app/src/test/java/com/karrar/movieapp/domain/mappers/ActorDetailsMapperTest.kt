@@ -2,7 +2,7 @@ package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
-import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
+import com.karrar.movieapp.domain.mappers.actor.ActorDetailsMapper
 import com.karrar.movieapp.domain.models.ActorDetails
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll

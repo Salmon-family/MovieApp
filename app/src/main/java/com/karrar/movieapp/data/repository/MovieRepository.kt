@@ -4,6 +4,11 @@ import androidx.paging.Pager
 import androidx.paging.PagingData
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
+import com.karrar.movieapp.data.remote.response.AddListResponse
+import com.karrar.movieapp.data.remote.response.AddMovieDto
+import com.karrar.movieapp.data.remote.response.MovieDto
+import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
@@ -15,7 +20,7 @@ interface MovieRepository {
 
     suspend fun getMovieGenreList(): List<Genre>
 
-    suspend fun getMovieGenreList2(): Response<GenreResponse>
+    suspend fun getMovieGenreList2(): List<GenreDto>?
 
     suspend fun getTrendingMovies(page: Int = 1): List<Media>
 
@@ -78,13 +83,11 @@ interface MovieRepository {
 
     fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>
 
-//    suspend fun getMediaData(type: AllMediaType, actorId: Int): Pager<Int, Media>
-
     suspend fun getActorData(): Pager<Int, Actor>
 
-    fun getAllMovies(): Flow<PagingData<MovieDto>>
+    suspend fun getAllMovies() : Pager<Int, MovieDto>
 
-    fun getMovieByGenre(genreID: Int): Flow<PagingData<MovieDto>>
+    suspend fun getMovieByGenre(genreID: Int): Pager<Int, MovieDto>
 
     fun getPopularMovies(): Flow<List<PopularMovie>>
 
@@ -117,5 +120,17 @@ interface MovieRepository {
     suspend fun refreshMysteryMovies()
 
     suspend fun refreshTrendingActors()
+
+    suspend fun getTrendingMoviesPager(): Pager<Int, MovieDto>
+
+    suspend fun getNowPlayingMoviesPager(): Pager<Int, MovieDto>
+
+    suspend fun getUpcomingMoviesPager(): Pager<Int, MovieDto>
+
+    suspend fun getAdventureMoviesPager(): Pager<Int, MovieDto>
+
+    suspend fun getMysteryMoviesPager(): Pager<Int, MovieDto>
+
+    suspend fun getActorMoviesPager(actorId: Int): Pager<Int, MovieDto>
 
 }

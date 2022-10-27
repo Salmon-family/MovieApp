@@ -9,19 +9,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentCategoryBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
-import com.karrar.movieapp.ui.allMedia.AllMediaAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.*
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.flow
 
 @AndroidEntryPoint
 class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     override val layoutIdFragment = R.layout.fragment_category
     override val viewModel: CategoryViewModel by viewModels()
-    private val allMediaAdapter: AllMediaAdapter by lazy { AllMediaAdapter(viewModel) }
+    private val allMediaAdapter by lazy { CategoryAdapter(viewModel) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,14 +36,13 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         mManager.setSpanSize(footerAdapter, allMediaAdapter, mManager.spanCount)
 
         collect(flow = allMediaAdapter.loadStateFlow,
-            action = { viewModel.setErrorUiState(it.source.refresh) })
+            action = { viewModel.setErrorUiState(it) })
 
         getDataByCategory()
     }
 
     private fun getDataByCategory() {
         viewModel.selectedCategory.observe(viewLifecycleOwner) {
-            allMediaAdapter.submitData(lifecycle, PagingData.empty())
             viewModel.getMediaList()
             collectLast(viewModel.uiState.value.media) {
                 allMediaAdapter.submitData(it)

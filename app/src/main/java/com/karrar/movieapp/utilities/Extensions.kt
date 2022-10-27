@@ -18,16 +18,14 @@ import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.ResultDto
-import com.karrar.movieapp.databinding.ActivityYoutubePlayerBinding
 import com.karrar.movieapp.databinding.ChipItemCategoryBinding
-import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BasePagingAdapter
 import com.karrar.movieapp.ui.category.CategoryInteractionListener
-import com.karrar.movieapp.ui.category.GenreUIState
-import com.karrar.movieapp.ui.youtubePlayer.YoutubePlayerActivity
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -125,4 +123,9 @@ fun <T : Any> GridLayoutManager.setSpanSize(
 fun Date.convertToDayMonthYearFormat(): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(this)
+}
+
+
+fun <T> MutableStateFlow<T>.toStateFlow(): StateFlow<T> {
+    return this
 }
