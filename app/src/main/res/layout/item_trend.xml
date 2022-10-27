@@ -24,7 +24,7 @@
         app:shapeAppearanceOverlay="@style/CardCorners.Medium"
         tools:src="@drawable/trend"
         app:posterImage="@{item.mediaImage}"
-        android:onClick="@{() -> listener.onClickTrend(item.mediaID,item.mediaType)}"
+        android:onClick="@{() -> listener.onClickTrend(item)}"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginVertical="@dimen/spacing_small"
         />

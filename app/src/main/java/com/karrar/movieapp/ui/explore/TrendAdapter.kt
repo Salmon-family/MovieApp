@@ -11,5 +11,5 @@ class TrendAdapter(items: List<TrendyMediaUIState>, listener: TrendInteractionLi
 }
 
 interface TrendInteractionListener : BaseInteractionListener {
-    fun onClickTrend(trendID: Int, trendType: String)
+    fun onClickTrend(item: TrendyMediaUIState)
 }

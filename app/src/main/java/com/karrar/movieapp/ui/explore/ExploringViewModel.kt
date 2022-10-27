@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.karrar.movieapp.domain.usecase.GetTrendyMovieUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.explore.exploreUIState.ExploreUIState
+import com.karrar.movieapp.ui.explore.exploreUIState.TrendyMediaUIState
 import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -32,11 +33,8 @@ class ExploringViewModel @Inject constructor(
     private val _clickActorsEvent = MutableLiveData<Event<Boolean>>()
     var clickActorsEvent = _clickActorsEvent.toLiveData()
 
-    private val _clickTrendEvent = MutableLiveData<Event<Int>>()
+    private val _clickTrendEvent = MutableLiveData<Event<TrendyMediaUIState>>()
     var clickTrendEvent = _clickTrendEvent.toLiveData()
-
-    val mediaType = MutableStateFlow("")
-
 
     init {
         getData()
@@ -47,17 +45,15 @@ class ExploringViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val result = getTrendyMovieUseCase()
-                _uiState.update { it.copy(isLoading = false) }
-                _uiState.update { it.copy(trendyMovie = result.map { trendingUIStateMapper.map(it) }) }
+                _uiState.update { it.copy(isLoading = false, trendyMovie = result.map { trendingUIStateMapper.map(it) }) }
             }catch (e: Throwable){
                 _uiState.update { it.copy(errors = e.message.toString()) }
             }
         }
     }
 
-    override fun onClickTrend(trendID: Int, trendType: String) {
-        _clickTrendEvent.postValue(Event(trendID))
-        viewModelScope.launch { mediaType.emit(trendType) }
+    override fun onClickTrend(item: TrendyMediaUIState) {
+        _clickTrendEvent.postValue(Event(item))
     }
 
     fun onClickSearch() {
