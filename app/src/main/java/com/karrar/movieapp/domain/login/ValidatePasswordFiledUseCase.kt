@@ -5,11 +5,8 @@ import javax.inject.Inject
 
 class ValidatePasswordFiledUseCase @Inject constructor(){
     operator fun invoke(passwordText: String) : FormFieldState {
-        if(passwordText.length < 8) {
-            return FormFieldState.InValid("Minimum 8 Character Password")
-        }
-        if(!passwordText.matches(".*[a-z].*".toRegex())) {
-            return FormFieldState.InValid("Must Contain 1 Lower-case Character")
+        if(passwordText.length < 4) {
+            return FormFieldState.InValid("Minimum 4 Character Password")
         }
         return FormFieldState.Valid
     }
