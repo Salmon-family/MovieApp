@@ -47,6 +47,7 @@
             android:focusableInTouchMode="true"
             android:hint="@string/search_hint"
             android:inputType="text"
+            android:text="@{viewModel.uiState.searchInput}"
             android:maxLines="1"
             android:paddingStart="@dimen/spacing_small"
             android:afterTextChanged="@{(text) -> viewModel.onSearchInputChange(text)}"

@@ -103,7 +103,7 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun onClickSearchHistory(name: String) {
-        _uiState.update { it.copy(searchInput = name) }
+        onSearchInputChange(name)
     }
 
     fun onClickBack() {

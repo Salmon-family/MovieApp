@@ -58,6 +58,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         lifecycleScope.launch {
             viewModel.uiState.debounce(500).collect{ search ->
                 if (search.searchInput.isNotBlank()) {
+                    Log.i("sss", search.searchInput)
                     when (search.searchTypes) {
                         MediaTypes.ACTOR -> { bindActors() }
                         else -> { bindMedia() }
