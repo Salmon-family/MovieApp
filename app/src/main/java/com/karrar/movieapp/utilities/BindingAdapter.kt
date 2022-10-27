@@ -248,6 +248,11 @@ fun isLoading(view: View, isLoading: Boolean){
 }
 
 @BindingAdapter("app:showWhenError")
-fun showWhenError(view: View, error: com.karrar.movieapp.ui.actorDetails.Error){
-    view.isVisible = error.message.isNotEmpty() == true
+fun showWhenError(view: View, message: String){
+    view.isVisible = message.isNotEmpty()
+}
+
+@BindingAdapter("app:hideWhenLoading")
+fun hideWhenLoading(view: View, isLoading: Boolean){
+    view.isVisible = isLoading.not()
 }

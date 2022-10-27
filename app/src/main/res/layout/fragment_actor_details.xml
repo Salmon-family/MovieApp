@@ -45,7 +45,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/lost_internet_animation"
-            app:showWhenError="@{viewModel.actorDetailsUIState.error}" />
+            app:showWhenError="@{viewModel.actorDetailsUIState.error.message}" />
 
         <TextView
             android:id="@+id/description_lost_connection"
@@ -59,7 +59,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/animation_lost_connection"
-            app:showWhenError="@{viewModel.actorDetailsUIState.error}" />
+            app:showWhenError="@{viewModel.actorDetailsUIState.error.message}" />
 
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -70,6 +70,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:hideWhenLoading="@{viewModel.actorDetailsUIState.isLoading}"
             app:posterImage="@{viewModel.actorDetailsUIState.imageUrl}"
             tools:src="@drawable/chris_evans" />
 
@@ -119,6 +120,7 @@
                 android:id="@+id/details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:hideWhenLoading="@{viewModel.actorDetailsUIState.isLoading}"
                 android:background="@color/background_color">
 
                 <TextView
