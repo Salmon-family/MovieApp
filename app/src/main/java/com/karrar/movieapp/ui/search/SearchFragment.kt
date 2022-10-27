@@ -61,9 +61,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun getSearchResultsByMediaType(){
-        lifecycleScope.launch {
-            viewModel.mediaType.collect{ getSearchResult() }
-        }
+        viewModel.mediaType.observeEvent(viewLifecycleOwner){ getSearchResult() }
     }
 
 

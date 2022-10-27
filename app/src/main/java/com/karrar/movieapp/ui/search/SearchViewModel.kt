@@ -38,8 +38,11 @@ class SearchViewModel @Inject constructor(
     private val _clickRetryEvent = MutableLiveData<Event<Boolean>>()
     val clickRetryEvent = _clickRetryEvent.toLiveData()
 
+    private val _mediaType = MutableLiveData<Event<MediaTypes>>(Event(MediaTypes.MOVIE))
+    val mediaType = _mediaType.toLiveData()
+
     val searchText = MutableStateFlow("")
-    val mediaType = MutableStateFlow(MediaTypes.MOVIE)
+
 
     init {
         getAllSearchHistory()
@@ -80,7 +83,7 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(searchTypes = type, isLoading = false) }
             updateSearchResultUIState()
-            mediaType.emit(type)
+            _mediaType.postValue(Event(type))
         }
     }
 
