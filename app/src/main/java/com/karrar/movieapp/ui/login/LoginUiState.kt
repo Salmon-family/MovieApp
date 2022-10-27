@@ -1,6 +1,8 @@
 package com.karrar.movieapp.ui.login
 
 data class LoginUiState(
+    val userName :String = "",
+    val password :String = "",
     val userNameHelperText :String = "",
     val passwordHelperText :String = "",
     val isLoading:Boolean = false,

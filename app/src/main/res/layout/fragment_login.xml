@@ -58,7 +58,7 @@
                 android:layout_height="56dp"
                 android:inputType="textPersonName"
                 android:maxLines="1"
-                android:text="@={viewModel.userName}"
+                android:afterTextChanged="@{(text) -> viewModel.onUserNameInputChange(text)}"
                 android:textColor="@color/shade_secondary_color"
 
                 />
@@ -82,7 +82,7 @@
                 android:layout_height="56dp"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:text="@={viewModel.password}"
+                android:afterTextChanged="@{(text) -> viewModel.onPasswordInputChange(text)}"
                 android:textColor="@color/shade_secondary_color" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,7 +93,6 @@
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_extra_large"
             android:enabled="@{viewModel.loginUIState.validForm}"
-            app:isVisible="@{!viewModel.loginValidation}"
             android:onClick="@{()->viewModel.onClickLogin()}"
             android:text="@string/login"
             android:textAppearance="@style/SemiBold.Medium"
