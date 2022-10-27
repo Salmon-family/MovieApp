@@ -19,22 +19,12 @@ import com.karrar.movieapp.ui.category.CategoryInteractionListener
 import com.karrar.movieapp.ui.explore.exploreUIState.TrendyMediaUIState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
-import com.karrar.movieapp.ui.explore.TrendyMediaUIState
 import com.karrar.movieapp.ui.search.mediaSearchUIState.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-
-fun Media.toTrendyMedia(): TrendyMediaUIState {
-    return TrendyMediaUIState(
-        this.mediaID,
-        this.mediaType,
-        this.mediaImage
-    )
-}
 
 fun Media.toSearchResult(): MediaUIState{
     return MediaUIState(
@@ -143,4 +133,8 @@ fun <T : Any> GridLayoutManager.setSpanSize(
 fun Date.convertToDayMonthYearFormat(): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(this)
+}
+
+fun <T> MutableStateFlow<T>.toStateFlow(): StateFlow<T> {
+    return this
 }
