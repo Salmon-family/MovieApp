@@ -1,7 +1,5 @@
 package com.karrar.movieapp.utilities
 
-import com.karrar.movieapp.ui.UIState
-
 object Constants {
     const val IMAGE_BASE_PATH = "https://image.tmdb.org/t/p/w780"
     const val MAX_NUMBER_AIRING_TODAY = 6
@@ -12,17 +10,25 @@ object Constants {
     const val FIRST_CATEGORY_ID = 0
     const val ALL = "All"
 
-    const val MOVIE ="movie"
-    const val TV_SHOWS ="tv"
-    const val ACTOR ="person"
+    const val MOVIE = "movie"
+    const val TV_SHOWS = "tv"
+    const val ACTOR = "person"
     const val PERSON = "person"
     const val ACTING = "Acting"
     const val NUM_HOME_REQUEST = 9
-    const val  SUCCESS_REQUEST = 1
+    const val SUCCESS_REQUEST = 1
 
-    const val PROFILE= 1
+    const val PROFILE = 1
 }
 
-object DataStorePreferencesKeys{
+object DataStorePreferencesKeys {
     const val SESSION_ID_KEY = "session_id"
+}
+
+object ErrorUI {
+    const val NEED_LOGIN = 100
+    const val INTERNET_CONNECTION = 404
+
+    const val NO_LOGIN = "NoLogin"
+    const val EMPTY_FIELD = "EMPTY_FIELD"
 }

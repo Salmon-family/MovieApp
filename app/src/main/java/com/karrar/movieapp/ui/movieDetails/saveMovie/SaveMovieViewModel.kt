@@ -6,7 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecase.mylist.GetMyListUseCase
 import com.karrar.movieapp.domain.usecase.mylist.SaveMovieToMyListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.MySavedListUIState
+import com.karrar.movieapp.utilities.ErrorUI
+import com.karrar.movieapp.utilities.ErrorUI.INTERNET_CONNECTION
+import com.karrar.movieapp.utilities.ErrorUI.NEED_LOGIN
+import com.karrar.movieapp.utilities.ErrorUI.NO_LOGIN
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,17 +42,21 @@ class SaveMovieViewModel @Inject constructor(
 
     override fun getData() {
         viewModelScope.launch {
-            _myListsUIState.update { it.copy(isLoading = true) }
+            _myListsUIState.update { it.copy(isLoading = true, error = emptyList()) }
             try {
                 _myListsUIState.update {
                     it.copy(
                         isLoading = false,
-                        error = "",
                         myListItemUI = getMyListUseCase().map { myListItemUIStateMapper.map(it) }
                     )
                 }
             } catch (t: Throwable) {
-                _myListsUIState.update { it.copy(isLoading = false, error = t.message.toString()) }
+                val error = if (t.message == NO_LOGIN) {
+                    listOf(ErrorUIState(NEED_LOGIN, t.message.toString()))
+                } else {
+                    listOf(ErrorUIState(INTERNET_CONNECTION, t.message.toString()))
+                }
+                _myListsUIState.update { it.copy(isLoading = false, error = error) }
             }
         }
     }

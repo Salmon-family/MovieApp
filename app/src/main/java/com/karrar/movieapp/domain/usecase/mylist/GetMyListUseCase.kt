@@ -5,6 +5,7 @@ import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.savedList.CreatedListsMapper
 import com.karrar.movieapp.domain.models.CreatedList
+import com.karrar.movieapp.utilities.ErrorUI
 import javax.inject.Inject
 
 class GetMyListUseCase @Inject constructor(
@@ -19,7 +20,7 @@ class GetMyListUseCase @Inject constructor(
             val response = movieRepository.getAllLists(sessionId)
             ListMapper(createdListsMapper).mapList(response)
         } else {
-            throw Throwable("NoLogin")
+            throw Throwable(ErrorUI.NO_LOGIN)
         }
     }
 

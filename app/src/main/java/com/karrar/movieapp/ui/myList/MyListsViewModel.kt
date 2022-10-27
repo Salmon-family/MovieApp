@@ -5,8 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecase.mylist.CreateMovieListUseCase
 import com.karrar.movieapp.domain.usecase.mylist.GetMyListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.category.uiState.ErrorUIState
+import com.karrar.movieapp.ui.myList.uiState.CreateListDialogUIState
 import com.karrar.movieapp.ui.myList.uiState.CreatedListUIState
 import com.karrar.movieapp.ui.myList.uiState.MyListUIState
+import com.karrar.movieapp.utilities.ErrorUI.INTERNET_CONNECTION
+import com.karrar.movieapp.utilities.ErrorUI.NEED_LOGIN
+import com.karrar.movieapp.utilities.ErrorUI.NO_LOGIN
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
@@ -28,7 +33,8 @@ class MyListsViewModel @Inject constructor(
     private val _createdListUIState = MutableStateFlow(MyListUIState())
     val createdListUIState = _createdListUIState.asStateFlow()
 
-    val listName = MutableLiveData("")
+    private val _createListDialogUIState = MutableStateFlow(CreateListDialogUIState())
+    val createListDialogUIState = _createListDialogUIState.asStateFlow()
 
     private val _isCreateButtonClicked = MutableLiveData<Event<Boolean>>()
     val isButtonClicked = _isCreateButtonClicked.toLiveData()
@@ -40,16 +46,21 @@ class MyListsViewModel @Inject constructor(
     val onSelectItem = _onSelectItem.toLiveData()
 
     override fun getData() {
-        _createdListUIState.update { it.copy(isLoading = true) }
+        _createdListUIState.update { it.copy(isLoading = true, error = emptyList()) }
         viewModelScope.launch {
             try {
                 val list = getMyListUseCase().map { createdListUIMapper.map(it) }
                 _createdListUIState.update {
-                    it.copy(isLoading = false, createdList = list, error = "")
+                    it.copy(isLoading = false, createdList = list)
                 }
             } catch (t: Throwable) {
                 _createdListUIState.update {
-                    it.copy(isLoading = false, error = t.message.toString())
+                    val error = if (t.message == NO_LOGIN) {
+                        listOf(ErrorUIState(NEED_LOGIN, t.message.toString()))
+                    } else {
+                        listOf(ErrorUIState(INTERNET_CONNECTION, t.message.toString()))
+                    }
+                    it.copy(isLoading = false, error = error)
                 }
             }
         }
@@ -57,6 +68,10 @@ class MyListsViewModel @Inject constructor(
 
     fun checkIfLogin() {
         getData()
+    }
+
+    fun onListNameInputChange(listName: CharSequence) {
+        _createListDialogUIState.update { it.copy(mediaListName = listName.toString()) }
     }
 
     fun onCreateList() {
@@ -71,17 +86,21 @@ class MyListsViewModel @Inject constructor(
                 _createdListUIState.update {
                     it.copy(
                         isLoading = false,
-                        createdList = createMovieListUseCase(listName.value.toString())
+                        createdList = createMovieListUseCase(_createListDialogUIState.value.mediaListName)
                             .map { createdListUIMapper.map(it) },
-                        error = ""
+                        error = emptyList()
                     )
                 }
             } catch (t: Throwable) {
                 _createdListUIState.update {
-                    it.copy(isLoading = false, error = t.message.toString())
+                    it.copy(isLoading = false)
+                }
+
+                _createListDialogUIState.update {
+                    it.copy(error = listOf(ErrorUIState(0, t.message.toString())))
                 }
             }
-            listName.postValue(null)
+            _createListDialogUIState.update { it.copy(mediaListName = "") }
         }
         _onCLickAddEvent.postEvent(true)
     }
@@ -91,4 +110,7 @@ class MyListsViewModel @Inject constructor(
         item?.let { _onSelectItem.postValue(Event(it)) }
     }
 
+    fun updateErrorDialog(){
+        _createListDialogUIState.update { it.copy(error = emptyList()) }
+    }
 }

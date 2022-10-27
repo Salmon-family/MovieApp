@@ -60,7 +60,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenFail="@{viewModel.myListsUIState.error}" />
+            app:showWhenNoLogin="@{viewModel.myListsUIState.error}" />
 
         <TextView
             android:id="@+id/text_message_empty_list"
