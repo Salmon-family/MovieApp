@@ -3,8 +3,7 @@ package com.karrar.movieapp.utilities
 import android.content.res.Resources
 import android.graphics.Rect
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.*
@@ -19,12 +18,8 @@ import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BasePagingAdapter
 import com.karrar.movieapp.ui.category.CategoryInteractionListener
 import com.karrar.movieapp.ui.explore.TrendyMediaUIState
-import com.karrar.movieapp.ui.search.MediaUIState
-import com.karrar.movieapp.ui.search.SearchHistoryUIState
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
+import com.karrar.movieapp.ui.search.mediaSearchUIState.*
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*

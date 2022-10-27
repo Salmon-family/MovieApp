@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.ui.search.MediaUIState" />
+            type="com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState" />
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.search.adapters.MediaSearchInteractionListener" />

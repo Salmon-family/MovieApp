@@ -11,7 +11,7 @@
 
         <variable
             name="mediaTypes"
-            type="com.karrar.movieapp.ui.search.MediaTypes" />
+            type="com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes" />
 
     </data>
 

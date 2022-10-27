@@ -5,7 +5,7 @@ import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.mappers.MovieMappersContainer
 import com.karrar.movieapp.domain.models.*
-import com.karrar.movieapp.ui.search.MediaTypes
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

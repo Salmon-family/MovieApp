@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.search
+package com.karrar.movieapp.ui.search.mediaSearchUIState
 
 enum class MediaTypes {
     MOVIE,

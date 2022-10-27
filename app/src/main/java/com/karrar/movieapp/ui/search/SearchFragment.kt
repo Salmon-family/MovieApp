@@ -15,6 +15,7 @@ import com.karrar.movieapp.databinding.FragmentSearchBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.search.adapters.*
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
 import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.debounce

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.ui.search.SearchHistoryUIState" />
+            type="com.karrar.movieapp.ui.search.mediaSearchUIState.SearchHistoryUIState" />
 
         <variable
             name="listener"

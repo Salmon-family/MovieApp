@@ -3,10 +3,12 @@ package com.karrar.movieapp.ui.search
 import androidx.lifecycle.*
 import androidx.paging.*
 import com.karrar.movieapp.domain.explorUsecase.GetSearchUseCase
-import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.allMedia.Error
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.search.adapters.*
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaSearchUIState
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState
 import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -49,16 +51,19 @@ class SearchViewModel @Inject constructor(
 
     private fun getAllSearchHistory() {
         _uiState.update { it.copy(isLoading = true) }
-        wrapWithState({
-            getSearchUseCase().collect { list ->
-                 _uiState.update { it.copy(searchHistory = list.map { item -> item.toSearchHistory() }, isLoading = false, isEmpty = false)
+        viewModelScope.launch {
+            try {
+                getSearchUseCase().collect { list ->
+                    _uiState.update {
+                        it.copy(searchHistory = list.map { item -> item.toSearchHistory() }, isLoading = false, isEmpty = false)
+                    }
+                }
+            } catch (e:Throwable) {
+                _uiState.update {
+                    it.copy(error = listOf(Error(0,e.message.toString())))
                 }
             }
-        },{
-            _uiState.update {
-                it.copy(error = emptyList())
-            }
-        })
+        }
     }
 
     fun onSearchInputChange(searchTerm: CharSequence) {
