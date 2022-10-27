@@ -263,3 +263,17 @@ fun hideIfNotTypeOfMovie(view: View, mediaType: MediaType?) {
 fun <T> showWhenNoResults(view: View, state: UIState<T>?) {
     view.isVisible = (state == UIState.Success(false))
 }
+
+@BindingAdapter ("app:isLogged")
+fun isLogged(view: View, isLoggedIn: Boolean){
+    view.isVisible = !isLoggedIn
+}
+
+@BindingAdapter("app:isLog", "app:isFail")
+fun checkIsLoggedIn(view: View, isLoggedIn: Boolean, isFail: Boolean){
+    if (isLoggedIn && isFail){
+        view.isVisible = true
+    } else if (isLoggedIn){
+        view.isVisible = false
+    }
+}
