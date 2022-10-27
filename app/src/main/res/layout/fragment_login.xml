@@ -93,7 +93,7 @@
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_extra_large"
             android:enabled="@{viewModel.loginUIState.validForm}"
-            app:isVisible="@{viewModel.loginValidation}"
+            app:isVisible="@{!viewModel.loginValidation}"
             android:onClick="@{()->viewModel.onClickLogin()}"
             android:text="@string/login"
             android:textAppearance="@style/SemiBold.Medium"

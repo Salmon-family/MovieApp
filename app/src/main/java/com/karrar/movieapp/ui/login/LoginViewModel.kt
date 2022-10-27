@@ -3,6 +3,7 @@ package com.karrar.movieapp.ui.login
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.login.LoginUseCase
 import com.karrar.movieapp.domain.login.ValidateFiledUseCase
@@ -22,7 +23,7 @@ class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val validateFiledUseCase: ValidateFiledUseCase,
     private val validatePasswordFiledUseCase: ValidatePasswordFiledUseCase,
-) : BaseViewModel() {
+) : ViewModel() {
 
     val args = LoginFragmentArgs.fromSavedStateHandle(state)
 
@@ -97,9 +98,6 @@ class LoginViewModel @Inject constructor(
     private fun resetForm() {
         userName.postValue(null)
         password.postValue(null)
-    }
-
-    override fun getData() {
     }
 
 }
