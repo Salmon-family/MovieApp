@@ -1,6 +1,5 @@
 package com.karrar.movieapp.domain.usecase
 
-import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.MovieMappersContainer
@@ -12,9 +11,13 @@ class GetMovieDetailsUseCase @Inject constructor(
     private val movieMappersContainer: MovieMappersContainer,
     private val getSessionIDUseCase: GetSessionIDUseCase,
 ) {
-    suspend fun getMovieDetails(movieId: Int): MovieDetails? {
-        return movieRepository.getMovieDetails(movieId)
-            ?.let { movieMappersContainer.movieDetailsMapper.map(it) }
+    suspend fun getMovieDetails(movieId: Int): MovieDetails {
+        val response = movieRepository.getMovieDetails(movieId)
+        return if (response != null) {
+            movieMappersContainer.movieDetailsMapper.map(response)
+        } else {
+            throw Throwable("Not Success")
+        }
     }
 
     suspend fun getMovieCast(movieId: Int): List<Actor> {
@@ -31,7 +34,6 @@ class GetMovieDetailsUseCase @Inject constructor(
                 movieId
             )
         )
-
     }
 
     suspend fun getRatedMovie(accountId: Int): List<Rated> {
@@ -49,16 +51,4 @@ class GetMovieDetailsUseCase @Inject constructor(
             )
         )
     }
-
-    suspend fun insertMovie(movie: WatchHistoryEntity) {
-        return movieRepository.insertMovie(movie)
-    }
-
-    suspend fun setRating(movieId: Int, value: Float): RatingStatus? {
-        return movieRepository.setRating(movieId, value, getSessionIDUseCase() ?: "")?.let {
-            movieMappersContainer.ratingStatusMoviesMapper
-                .map(it)
-        }
-    }
-
 }

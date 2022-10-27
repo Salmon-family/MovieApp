@@ -15,8 +15,8 @@ import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
-import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MediaDetailsUIState
-import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieDetailsResultUIState
+import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ErrorUIState
+import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieDetailsUIState
 import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
@@ -62,6 +62,14 @@ fun <T> hideWhenLoading(view: View, state: UIState<T>?) {
 @BindingAdapter("app:showWhenFail")
 fun <T> showWhenFail2(view: View, state: UIState<T>?) {
     view.isVisible = state is UIState.Error
+}
+
+@BindingAdapter("app:showWhenFail")
+fun <T> showWhenFail3(view: View, state: ErrorUIState) {
+    if (state.message.isEmpty()){
+        view.isVisible = false
+    }
+
 }
 
 @BindingAdapter(value = ["app:showWhenSearch"])
@@ -229,13 +237,13 @@ fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
 }
 
 @BindingAdapter("app:textBasedOnMediaType2")
-fun setTextBasedOnMediaType2(view: TextView, mediaDetailsUIState: MediaDetailsUIState?) {
-    mediaDetailsUIState?.let {
-        when (mediaDetailsUIState.mediaType) {
-            MediaType.MOVIE -> setDuration(view, mediaDetailsUIState.specialNumber)
+fun setTextBasedOnMediaType2(view: TextView, movieDetailsUIState: MovieDetailsUIState?) {
+    movieDetailsUIState?.let {
+        when (movieDetailsUIState.mediaType) {
+            MediaType.MOVIE -> setDuration(view, movieDetailsUIState.specialNumber)
             MediaType.TV_SHOW -> view.text = view.context.getString(
                 R.string.more_than_one_season,
-                mediaDetailsUIState.specialNumber
+                movieDetailsUIState.specialNumber
             )
         }
     }

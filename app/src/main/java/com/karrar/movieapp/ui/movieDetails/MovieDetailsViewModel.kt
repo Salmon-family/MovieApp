@@ -3,14 +3,15 @@ package com.karrar.movieapp.ui.movieDetails
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.domain.usecase.GetMovieDetailsUseCase
 import com.karrar.movieapp.domain.enums.HomeItemsType
+import com.karrar.movieapp.domain.usecase.GetMovieDetailsUseCase
+import com.karrar.movieapp.domain.usecase.InsertMoviesUseCase
+import com.karrar.movieapp.domain.usecase.SetRatingUseCase
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
-import com.karrar.movieapp.ui.base.MediaDetailsViewModel
+import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.movieDetails.mapExtension.*
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.*
-import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,8 +25,16 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
+    private val insertMoviesUseCase: InsertMoviesUseCase,
+    private val setRatingUseCase: SetRatingUseCase,
+    private val movieDetailsUIStateMapper: MovieDetailsUIStateMapper,
+    private val actorUIStateMapper: ActorUIStateMapper,
+    private val mediaUIStateMapper: MediaUIStateMapper,
+    private val ratedUIStateMapper: RatedUIStateMapper,
+    private val reviewMapper: ReviewUIStateMapper,
+    private val watchHistoryMapper: WatchHistoryMapper,
     state: SavedStateHandle,
-) : MediaDetailsViewModel(), ActorsInteractionListener, MovieInteractionListener,
+) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener,
     DetailInteractionListener {
 
     private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
@@ -48,16 +57,10 @@ class MovieDetailsViewModel @Inject constructor(
     private val _clickSaveEvent = MutableLiveData<Event<Boolean>>()
     var clickSaveEvent = _clickSaveEvent.toLiveData()
 
-    private val _check = MutableLiveData<Float>()
+    private val movieDetailItemsOfNestedView = mutableListOf<DetailItemUIState>()
 
-    val messageAppear = MutableLiveData(Event(false))
-
-    override var ratingValue = MutableLiveData<Float>()
-
-    private val detailItems = mutableListOf<DetailItemUIState>()
-
-    private val _uiState = MutableStateFlow(MovieDetailsUIState())
-    val uiState: StateFlow<MovieDetailsUIState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(MovieUIState())
+    val uiState: StateFlow<MovieUIState> = _uiState.asStateFlow()
 
     init {
         getData()
@@ -78,24 +81,22 @@ class MovieDetailsViewModel @Inject constructor(
         getMovieReviews(movieId)
     }
 
-    //TODO: need extension function add error in catch block
-
     private fun getMovieDetails(movieId: Int) {
         viewModelScope.launch {
             try {
                 val result = getMovieDetailsUseCase.getMovieDetails(movieId)
-
                 _uiState.update {
                     it.copy(
-                        mediaDetailsResult = result?.toMediaDetailsUIState(), isLoading = false
+                        movieDetailsResult = movieDetailsUIStateMapper.map(result),
+                        isLoading = false
                     )
                 }
-                updateDetailItems(DetailItemUIState.Header(_uiState.value.mediaDetailsResult))
-                insertMovieToWatchHistory(_uiState.value.mediaDetailsResult)
+                updateDetailItems(DetailItemUIState.Header(_uiState.value.movieDetailsResult))
+                insertMovieToWatchHistory(_uiState.value.watchHistoryUIState)
 
             } catch (e: Exception) {
-                val listError = listOf(Error(message = "${e.message}"))
-                _uiState.update { it.copy(errors = listError) }
+                val listErrorUIState = listOf(ErrorUIState(message = "${e.message}"))
+                _uiState.update { it.copy(errorUIStates = listErrorUIState, isLoading = false) }
             }
         }
     }
@@ -106,14 +107,14 @@ class MovieDetailsViewModel @Inject constructor(
                 val result = getMovieDetailsUseCase.getMovieCast(movieId)
                 _uiState.update {
                     it.copy(
-                        movieCastResult = result.map { actor -> actor.toActorUIState() },
+                        movieCastResult = result.map { actor -> actorUIStateMapper.map(actor) },
                         isLoading = false
                     )
                 }
                 updateDetailItems(DetailItemUIState.Cast(_uiState.value.movieCastResult))
             } catch (e: Exception) {
-                val listError = listOf(Error(message = "${e.message}"))
-                _uiState.update { it.copy(errors = listError) }
+                val listErrorUIState = listOf(ErrorUIState(message = "${e.message}"))
+                _uiState.update { it.copy(errorUIStates = listErrorUIState, isLoading = false) }
             }
         }
     }
@@ -124,14 +125,18 @@ class MovieDetailsViewModel @Inject constructor(
                 val result = getMovieDetailsUseCase.getSimilarMovie(movieId)
                 _uiState.update {
                     it.copy(
-                        similarMoviesResult = result.map { media -> media.toMediaUIState() },
+                        similarMoviesResult = result.map { media ->
+                            mediaUIStateMapper.map(
+                                media
+                            )
+                        },
                         isLoading = false
                     )
                 }
                 updateDetailItems(DetailItemUIState.SimilarMovies(_uiState.value.similarMoviesResult))
             } catch (e: Exception) {
-                val listError = listOf(Error(message = "${e.message}"))
-                _uiState.update { it.copy(errors = listError) }
+                val listErrorUIState = listOf(ErrorUIState(message = "${e.message}"))
+                _uiState.update { it.copy(errorUIStates = listErrorUIState, isLoading = false) }
             }
         }
     }
@@ -141,13 +146,17 @@ class MovieDetailsViewModel @Inject constructor(
             try {
                 val result = getMovieDetailsUseCase.getRatedMovie(0)
                 _uiState.update {
-                    it.copy(movieGetRatedResult = result.map { rated -> rated.toRatedUIState() })
+                    it.copy(movieGetRatedResult = result.map { rated ->
+                        ratedUIStateMapper
+                            .map(rated)
+                    })
                 }
+
                 checkIfMovieRated(_uiState.value.movieGetRatedResult, movieId)
                 updateDetailItems(DetailItemUIState.Rating(this@MovieDetailsViewModel))
             } catch (e: Exception) {
-                val listError = listOf(Error(message = "${e.message}"))
-                _uiState.update { it.copy(errors = listError) }
+                val listErrorUIState = listOf(ErrorUIState(message = "${e.message}"))
+                _uiState.update { it.copy(errorUIStates = listErrorUIState, isLoading = false) }
             }
         }
     }
@@ -156,19 +165,18 @@ class MovieDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val result = getMovieDetailsUseCase.getMovieReviews(movieId)
-
                 _uiState.update {
                     it.copy(
-                        movieReview = result.map { review -> review.toReviewUIState() },
+                        movieReview = result.map { review -> reviewMapper.map(review) },
                         isLoading = false
                     )
                 }
+
                 getThreeCommits()
                 onSeeAllReviews()
-
             } catch (e: Exception) {
-                val listError = listOf(Error(message = "${e.message}"))
-                _uiState.update { it.copy(errors = listError) }
+                val listErrorUIState = listOf(ErrorUIState(message = "${e.message}"))
+                _uiState.update { it.copy(errorUIStates = listErrorUIState, isLoading = false) }
             }
         }
     }
@@ -187,72 +195,50 @@ class MovieDetailsViewModel @Inject constructor(
         )
     }
 
-    /*
-    need domain
-     */
-    private fun insertMovieToWatchHistory(movie: MediaDetailsUIState?) {
+    private fun insertMovieToWatchHistory(movie: WatchHistoryUiState?) {
         viewModelScope.launch {
             movie?.let { movieDetails ->
-                getMovieDetailsUseCase.insertMovie(
-                    WatchHistoryEntity(
-                        id = movieDetails.id,
-                        posterPath = movieDetails.image,
-                        movieTitle = movieDetails.name,
-                        movieDuration = movieDetails.specialNumber,
-                        voteAverage = movieDetails.voteAverage,
-                        releaseDate = movieDetails.releaseDate,
-                        mediaType = Constants.MOVIE
+                val movieDetailsMapper = watchHistoryMapper.map(movieDetails)
+                insertMoviesUseCase(movieDetailsMapper)
+            }
+        }
+    }
+
+    // move to use case
+    private fun checkIfMovieRated(items: List<RatedUIState>?, movieId: Int) {
+        val item = items?.firstOrNull { it.id == movieId }
+        item?.let { ratedUIState ->
+            if (ratedUIState.rating != _uiState.value.ratingValue) {
+                _uiState.update { it.copy(ratingValue = ratedUIState.rating) }
+            }
+        }
+    }
+
+    fun onChangeRating(value: Float) {
+        _uiState.value.movieDetailsResult.let { onAddRating(it.id, value) }
+    }
+
+    private fun onAddRating(movie_id: Int, value: Float) {
+        viewModelScope.launch {
+            try {
+                val result = setRatingUseCase(movie_id, value)
+                _uiState.update {
+                    it.copy(
+                        movieSetRatedResult = result.statusCode,
+                        ratingValue = value,
+                        messageAppear = true
                     )
-                )
-            }
-        }
-    }
-
-    private fun checkIfMovieRated(items: List<RatedUIState>?, movie_id: Int) {
-        val item = items?.firstOrNull { it.id == movie_id }
-        item?.let {
-            if (it.rating != ratingValue.value) {
-                _check.postValue(it.rating)
-                ratingValue.postValue(it.rating)
-            }
-        }
-    }
-
-
-    fun onAddRating(movie_id: Int, value: Float) {
-        if (_check.value != value) {
-            viewModelScope.launch {
-                try {
-                    val result = getMovieDetailsUseCase.setRating(movie_id, value)
-
-                    _uiState.update {
-                        it.copy(
-                            movieSetRatedResult = result?.toRatingStatusUIState()
-                        )
-                    }
-                    checkStatusCode(value)
-                    onShowMessage()
-                } catch (e: Exception) {
-                    val listError = listOf(Error(message = "${e.message}"))
-                    _uiState.update { it.copy(errors = listError) }
                 }
+            } catch (e: Exception) {
+                val listErrorUIState = listOf(ErrorUIState(message = "${e.message}"))
+                _uiState.update { it.copy(errorUIStates = listErrorUIState, isLoading = false) }
             }
         }
-    }
-
-    private fun checkStatusCode(value: Float) {
-        if (_uiState.value.movieSetRatedResult?.statusCode == Constants.SUCCESS_REQUEST) {
-            _check.postValue(value)
-        }
-    }
-
-    private fun onShowMessage() {
-        messageAppear.postValue(Event(true))
     }
 
     private fun updateDetailItems(item: DetailItemUIState) {
-        detailItems.add(item)
-        _uiState.update { it.copy(detailItemResult = detailItems) }
+        movieDetailItemsOfNestedView.add(item)
+        _uiState.update { it.copy(detailItemResult = movieDetailItemsOfNestedView) }
     }
 
     override fun onClickSave() {
@@ -280,5 +266,4 @@ class MovieDetailsViewModel @Inject constructor(
     override fun onClickActor(actorID: Int) {
         _clickCastEvent.postValue(Event(actorID))
     }
-
 }

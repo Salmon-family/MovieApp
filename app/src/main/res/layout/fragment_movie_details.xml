@@ -41,7 +41,7 @@
 <!--        <include-->
 <!--            android:id="@+id/error"-->
 <!--            layout="@layout/error"-->
-<!--            app:error="@{viewModel.detailsItemLiveData}"-->
+<!--            app:error="@{viewModel.uiState}"-->
 <!--            app:layout_constraintBottom_toBottomOf="parent"-->
 <!--            app:layout_constraintEnd_toEndOf="parent"-->
 <!--            app:layout_constraintStart_toStartOf="parent"-->

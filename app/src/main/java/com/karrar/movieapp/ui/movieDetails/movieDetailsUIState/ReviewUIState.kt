@@ -5,10 +5,3 @@ data class ReviewUIState(
     val createDate: String = "",
     val user: UserUIState = UserUIState()
 )
-
-data class UserUIState(
-    val userImage: String = "",
-    val name: String = "",
-    val userName: String = "",
-    val rating: Float = 0f
-)

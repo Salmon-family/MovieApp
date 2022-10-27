@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 
 sealed class DetailItemUIState(val priority: Int) {
 
-    class Header(val data: MediaDetailsUIState?) : DetailItemUIState(0)
+    class Header(val data: MovieDetailsUIState?) : DetailItemUIState(0)
 
     class Cast(val data: List<ActorUiState>) : DetailItemUIState(1)
 

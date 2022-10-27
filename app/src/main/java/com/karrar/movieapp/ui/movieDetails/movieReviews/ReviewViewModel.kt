@@ -7,7 +7,7 @@ import com.karrar.movieapp.domain.usecase.GetMovieDetailsUseCase
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieDetailsUIState
+import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieUIState
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ReviewUIState
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,8 +25,8 @@ class ReviewViewModel @Inject constructor(
 
     private val args = ReviewFragmentArgs.fromSavedStateHandle(state)
 
-    private val _uiState = MutableStateFlow(MovieDetailsUIState())
-    val uiState: StateFlow<MovieDetailsUIState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(MovieUIState())
+    val uiState: StateFlow<MovieUIState> = _uiState.asStateFlow()
 
 
     private var _movieReviews = MutableLiveData<UIState<List<Review>>>()
@@ -54,7 +54,7 @@ class ReviewViewModel @Inject constructor(
                 _uiState.value.movieReview
             }
         }, {
-            _uiState.value.errors.joinToString { it.message }
+            _uiState.value.errorUIStates.joinToString { it.message }
         })
     }
 }

@@ -1,6 +1,7 @@
 package com.karrar.movieapp.ui.movieDetails
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
@@ -34,15 +35,13 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     }
 
     private fun addRating() {
-        viewModel.ratingValue.observe(viewLifecycleOwner) {
-            it?.let { viewModel.onAddRating(args.movieId, it) }
-        }
+        val toast = Toast.makeText(
+            context,
+            getString(R.string.submit_toast),
+            Toast.LENGTH_SHORT
+        )
+        if (viewModel.uiState.value.messageAppear) toast.show()
 
-        viewModel.messageAppear.observe(viewLifecycleOwner, EventObserve {
-            val toast =
-                Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT)
-            if (it) toast.show()
-        })
     }
 
 
