@@ -10,6 +10,7 @@ import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.genre.GenreResponse
+import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
@@ -82,7 +83,9 @@ interface MovieRepository {
 
     fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>
 
-    suspend fun getActorData(): Pager<Int, Actor>
+    suspend fun getMediaData(type: AllMediaType, actorId: Int): Pager<Int, Media>
+
+    suspend fun getActorData(): Pager<Int, ActorDto>
 
     suspend fun getAllMovies() : Pager<Int, MovieDto>
 

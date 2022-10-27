@@ -1,5 +1,6 @@
 package com.karrar.movieapp.utilities
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -263,3 +264,10 @@ fun hideIfNotTypeOfMovie(view: View, mediaType: MediaType?) {
 fun <T> showWhenNoResults(view: View, state: UIState<T>?) {
     view.isVisible = (state == UIState.Success(false))
 }
+
+
+@BindingAdapter("app:hideIfTrue")
+fun  hideIfTrue(view: View,value :Boolean){
+    view.isVisible = !value
+}
+
