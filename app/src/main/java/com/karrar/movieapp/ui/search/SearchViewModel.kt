@@ -6,9 +6,9 @@ import com.karrar.movieapp.domain.explorUsecase.GetSearchUseCase
 import com.karrar.movieapp.ui.allMedia.Error
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.search.adapters.*
-import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaSearchUIState
-import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
-import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState
+import com.karrar.movieapp.ui.search.mediaSearchUIState.*
+import com.karrar.movieapp.ui.search.uiStatMapper.SearchHistoryUIStateMapper
+import com.karrar.movieapp.ui.search.uiStatMapper.SearchMediaUIStateMapper
 import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -19,7 +19,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getSearchUseCase: GetSearchUseCase
+    private val getSearchUseCase: GetSearchUseCase,
+    private val searchHistoryUIStateMapper: SearchHistoryUIStateMapper,
+    private val searchMediaUIStateMapper: SearchMediaUIStateMapper
 ) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener,
     SearchHistoryInteractionListener {
 
@@ -58,7 +60,7 @@ class SearchViewModel @Inject constructor(
             try {
                 getSearchUseCase().collect { list ->
                     _uiState.update {
-                        it.copy(searchHistory = list.map { item -> item.toSearchHistory() }, isLoading = false, isEmpty = false)
+                        it.copy(searchHistory = list.map { item -> searchHistoryUIStateMapper.map(item) }, isLoading = false, isEmpty = false)
                     }
                 }
             } catch (e:Throwable) {
@@ -90,7 +92,7 @@ class SearchViewModel @Inject constructor(
     private suspend fun updateSearchResultUIState(){
         _uiState.update {
             it.copy(searchResult= getSearchUseCase.getSearchResult(it.searchTypes, it.searchInput).map { pagingData ->
-                pagingData.map { item -> item.toSearchResult() } })
+                pagingData.map { item -> searchMediaUIStateMapper.map(item) } })
         }
     }
 
