@@ -99,7 +99,7 @@ class CategoryViewModel @Inject constructor(
             }
             LoadState.Loading -> {
                 _uiState.update {
-                    it.copy(isLoading = true, error = emptyList())
+                    it.copy(isLoading = false, error = emptyList())
                 }
             }
             is LoadState.Error -> {
