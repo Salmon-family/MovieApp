@@ -2,10 +2,9 @@ package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.DataClassParser
 import com.karrar.movieapp.data.local.AppConfiguration
+import com.karrar.movieapp.data.remote.response.account.AccountDto
 import com.karrar.movieapp.data.remote.response.login.ErrorResponse
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.domain.mappers.account.AccountMapper
-import com.karrar.movieapp.domain.models.Account
 import com.karrar.movieapp.utilities.DataStorePreferencesKeys
 import javax.inject.Inject
 
@@ -14,7 +13,6 @@ class AccountRepositoryImp @Inject constructor(
     private val service: MovieService,
     private val appConfiguration: AppConfiguration,
     private val dataClassParser: DataClassParser,
-    private val accountMapper: AccountMapper,
 ) : AccountRepository, BaseRepository() {
 
     override fun getSessionId(): String? {
@@ -53,8 +51,8 @@ class AccountRepositoryImp @Inject constructor(
         return true
     }
 
-    override suspend fun getAccountDetails(sessionId: String): Account {
-        return wrap({ service.getAccountDetails(sessionId) }, { accountMapper.map(it) })
+    override suspend fun getAccountDetails(sessionId: String): AccountDto? {
+        return service.getAccountDetails(sessionId).body()
     }
 
     private suspend fun getRequestToken(): String? {

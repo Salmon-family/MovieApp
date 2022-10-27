@@ -1,8 +1,6 @@
 package com.karrar.movieapp.data.repository
 
-import com.karrar.movieapp.domain.models.Account
-import com.karrar.movieapp.ui.UIState
-import kotlinx.coroutines.flow.Flow
+import com.karrar.movieapp.data.remote.response.account.AccountDto
 
 interface AccountRepository {
 
@@ -15,6 +13,6 @@ interface AccountRepository {
 
     suspend fun logout(): Boolean
 
-    suspend fun getAccountDetails(sessionId: String): Account
+    suspend fun getAccountDetails(sessionId: String): AccountDto?
 }
 
