@@ -6,9 +6,9 @@ import com.karrar.movieapp.domain.usecase.mylist.CreateMovieListUseCase
 import com.karrar.movieapp.domain.usecase.mylist.GetMyListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
-import com.karrar.movieapp.ui.myList.uiState.CreateListDialogUIState
-import com.karrar.movieapp.ui.myList.uiState.CreatedListUIState
-import com.karrar.movieapp.ui.myList.uiState.MyListUIState
+import com.karrar.movieapp.ui.myList.myListUIState.CreateListDialogUIState
+import com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState
+import com.karrar.movieapp.ui.myList.myListUIState.MyListUIState
 import com.karrar.movieapp.utilities.ErrorUI.INTERNET_CONNECTION
 import com.karrar.movieapp.utilities.ErrorUI.NEED_LOGIN
 import com.karrar.movieapp.utilities.ErrorUI.NO_LOGIN

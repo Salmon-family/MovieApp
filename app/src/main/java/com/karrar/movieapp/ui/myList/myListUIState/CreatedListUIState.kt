@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.myList.uiState
+package com.karrar.movieapp.ui.myList.myListUIState
 
 data class CreatedListUIState(
     val listID: Int = 0,

@@ -1,51 +1,78 @@
 package com.karrar.movieapp.ui.myList.listDetails
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.models.SaveListDetails
-import com.karrar.movieapp.domain.usecase.mylist.GetListDetailsUseCase
-import com.karrar.movieapp.ui.UIState
+import com.karrar.movieapp.domain.usecase.mylist.GetMyMediaListDetailsUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.category.uiState.ErrorUIState
+import com.karrar.movieapp.ui.category.uiState.MediaUIState
+import com.karrar.movieapp.ui.myList.listDetails.listDetailsUIState.ListDetailsUIState
+import com.karrar.movieapp.ui.myList.listDetails.listDetailsUIState.SavedMediaUIState
+import com.karrar.movieapp.utilities.ErrorUI.INTERNET_CONNECTION
 import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class ListDetailsViewModel @Inject constructor(
-    private val getListDetailsUseCase: GetListDetailsUseCase,
+    private val getMyMediaListDetailsUseCase: GetMyMediaListDetailsUseCase,
+    private val mediaUIStateMapper: MediaUIStateMapper,
     saveStateHandle: SavedStateHandle
 ) : BaseViewModel(), ListDetailsInteractionListener {
 
-    private val args = ListDetailsFragmentArgs.fromSavedStateHandle(saveStateHandle)
+    val args = ListDetailsFragmentArgs.fromSavedStateHandle(saveStateHandle)
 
-    val listDetails = MutableLiveData<UIState<List<SaveListDetails>>>()
-    private val _itemId = MutableLiveData<Event<Int>>()
-    val itemId: LiveData<Event<Int>>
-        get() = _itemId
+    private val _listDetailsUIState = MutableStateFlow(ListDetailsUIState())
+    val listDetailsUIState = _listDetailsUIState.asStateFlow()
 
-    private val _mediaType = MutableLiveData<Event<String>>()
-    val mediaType: LiveData<Event<String>>
-        get() = _mediaType
+    private val _onItemSelected = MutableLiveData<Event<SavedMediaUIState>>()
+    val onItemSelected = _onItemSelected.toLiveData()
 
     init {
         getData()
     }
 
     override fun getData() {
-        listDetails.postValue(UIState.Loading)
-        viewModelScope.launch{
-            getListDetailsUseCase(args.id)
+        _listDetailsUIState.update {
+            it.copy(isLoading = true, isEmpty = false, error = emptyList())
+        }
+        viewModelScope.launch {
+            try {
+                val result =
+                    getMyMediaListDetailsUseCase(args.id).map { mediaUIStateMapper.map(it) }
+                _listDetailsUIState.update {
+                    it.copy(
+                        isLoading = false,
+                        isEmpty = result.isEmpty(),
+                        savedMedia = result
+                    )
+                }
 
+            } catch (t: Throwable) {
+                _listDetailsUIState.update {
+                    it.copy(
+                        isLoading = false,
+                        error = listOf(
+                            ErrorUIState(
+                                code = INTERNET_CONNECTION,
+                                t.message.toString()
+                            )
+                        )
+                    )
+                }
+            }
         }
     }
 
-    override fun onItemClick(item: SaveListDetails) {
-        _mediaType.postValue(Event(item.mediaType!!))
-        _itemId.postValue(Event(item.id))
+    override fun onItemClick(item: SavedMediaUIState) {
+        _onItemSelected.postValue(Event(item))
     }
 }
 
