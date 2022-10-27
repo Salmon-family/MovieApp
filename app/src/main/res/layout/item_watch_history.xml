@@ -18,23 +18,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_medium"
-        app:cardElevation="0dp"
         android:layout_marginTop="@dimen/spacing_medium"
         android:onClick="@{() -> listener.onClickMovie(item.id)}"
-        app:cardCornerRadius="@dimen/radius_small">
-
+        app:cardCornerRadius="@dimen/radius_small"
+        app:cardElevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:background="@color/card_background_color">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/image_movie"
-                android:layout_width="142dp"
-                android:layout_height="80dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:background="@drawable/ic_media_background"
                 android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="3:2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:posterImage="@{item.posterPath}"
@@ -51,7 +52,7 @@
                 android:ellipsize="end"
                 android:lines="2"
                 android:text="@{item.movieTitle}"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/text_duration"
                 app:layout_constraintStart_toEndOf="@id/image_movie"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="The Mandalorian" />
@@ -89,11 +90,10 @@
                 style="@style/Regular.Small.ternary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
                 app:convertToHoursPattern="@{item.movieDuration}"
-                app:layout_constraintBottom_toBottomOf="@+id/text_year"
-                app:layout_constraintStart_toEndOf="@+id/text_year"
-                app:layout_constraintTop_toTopOf="@+id/text_year"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/text_title_movie"
                 tools:text="1h 50m" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
