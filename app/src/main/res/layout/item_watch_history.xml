@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_medium"
         android:layout_marginTop="@dimen/spacing_medium"
-        android:onClick="@{() -> listener.onClickMovie(item.id)}"
+        android:onClick="@{() -> listener.onClickMovie(item)}"
         app:cardCornerRadius="@dimen/radius_small"
         app:cardElevation="0dp">
 

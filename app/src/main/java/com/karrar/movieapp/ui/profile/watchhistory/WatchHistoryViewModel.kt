@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.mappers.WatchHistoryMapper
+import com.karrar.movieapp.domain.models.MediaHistoryUiState
 import com.karrar.movieapp.domain.useCases.GetWatchHistoryUseCase
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
@@ -39,7 +40,7 @@ class WatchHistoryViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 getWatchHistoryUseCase().collect { list ->
-                    _uiState.update { it.copy(allMedia = list.map { watchHistoryMapper.map(it) }) }
+                    _uiState.update { watchHistoryUiState -> watchHistoryUiState.copy(allMedia = list.map { watchHistoryMapper.map(it) }) }
                 }
             } catch (T: Throwable) {
                 _uiState.update { it.copy(error = listOf(Error(-1, T.message.toString()))) }
@@ -48,17 +49,12 @@ class WatchHistoryViewModel @Inject constructor(
         }
     }
 
-    override fun onClickMovie(mediaId: Int) {
-        _uiState.value.let { it ->
-            val item = it.allMedia.find { it.id == mediaId }
-            item?.let {
-                if (it.mediaType == Constants.MOVIE) {
-                    _clickMovieEvent.postEvent(mediaId)
+    override fun onClickMovie(item: MediaHistoryUiState) {
+                if (item.mediaType == Constants.MOVIE) {
+                    _clickMovieEvent.postEvent(item.id)
                 } else {
-                    _clickTVShowEvent.postEvent(mediaId)
+                    _clickTVShowEvent.postEvent(item.id)
                 }
-            }
-        }
     }
 
 }
