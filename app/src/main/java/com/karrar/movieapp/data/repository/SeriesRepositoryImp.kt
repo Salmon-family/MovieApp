@@ -5,7 +5,14 @@ import com.karrar.movieapp.data.local.database.daos.SeriesDao
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntity
 import com.karrar.movieapp.data.local.mappers.series.LocalSeriesMappersContainer
+import com.karrar.movieapp.data.remote.response.BaseListResponse
+import com.karrar.movieapp.data.remote.response.CreditsDto
+import com.karrar.movieapp.data.remote.response.RatedTvShowDto
+import com.karrar.movieapp.data.remote.response.SeasonDto
+import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
+import com.karrar.movieapp.data.remote.response.review.ReviewsDto
+import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
@@ -48,34 +55,28 @@ class SeriesRepositoryImp @Inject constructor(
             { ListMapper(seriesMapperContainer.mediaMapper).mapList(it.items) })
     }
 
-    override suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails {
-        return wrap({ service.getTvShowDetails(tvShowId) }, { response ->
-            seriesMapperContainer.tvShowDetailsMapper.map(response)
-        })
+    override suspend fun getTvShowDetails(tvShowId: Int): TvShowDetailsDto? {
+        return service.getTvShowDetails(tvShowId).body()
     }
 
-    override suspend fun getTvShowCast(tvShowId: Int): List<Actor> {
-        return wrap({ service.getTvShowCast(tvShowId) },
-            { ListMapper(seriesMapperContainer.actorMapper).mapList(it.cast) })
+    override suspend fun getTvShowCast(tvShowId: Int): CreditsDto? {
+        return service.getTvShowCast(tvShowId).body()
     }
 
-    override suspend fun getTvShowReviews(tvShowId: Int): List<Review> {
-        return wrap({ service.getTvShowReviews(tvShowId) },
-            { ListMapper(seriesMapperContainer.reviewMapper).mapList(it.items) })
+    override suspend fun getTvShowReviews(tvShowId: Int): List<ReviewsDto>? {
+        return service.getTvShowReviews(tvShowId).body()?.items
     }
 
-    override suspend fun setRating(tvShowId: Int, value: Float, sessionId: String): RatingDto {
-        return wrap({ service.postTvShowRating(tvShowId, value, sessionId) }, { it })
+    override suspend fun setRating(tvShowId: Int, value: Float, sessionId: String): RatingDto? {
+        return service.postTvShowRating(tvShowId, value, sessionId).body()
     }
 
-    override suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<Rated> {
-        return wrap({ service.getRatedTvShow(accountId, sessionId) },
-            { ListMapper(seriesMapperContainer.ratedTvShowMapper).mapList(it.items) })
+    override suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<RatedTvShowDto>? {
+        return service.getRatedTvShow(accountId, sessionId).body()?.items
     }
 
-    override suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): Season {
-        return wrap({ service.getSeasonDetails(tvShowId, seasonId) },
-            { seriesMapperContainer.seasonMapper.map(it) })
+    override suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): SeasonDto? {
+        return service.getSeasonDetails(tvShowId, seasonId).body()
     }
 
     override suspend fun getTvShowTrailer(tvShowId: Int): Trailer {

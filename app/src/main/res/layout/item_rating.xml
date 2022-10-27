@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.base.MediaDetailsViewModel" />
+            type="com.karrar.movieapp.ui.tvShowDetails.TvShowDetailsViewModel" />
 
     </data>
 
@@ -32,10 +32,11 @@
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
             android:isIndicator="false"
+            android:onRatingChanged="@{(r1,r2,r3) -> viewModel.onChangeRating(r2)}"
             android:progressDrawable="@drawable/rating_custom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:rating="@={viewModel.ratingValue}"
+            android:rating="@{viewModel.stateFlow.ratingValue}"
             app:layout_constraintTop_toBottomOf="@+id/rate_the_movie" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

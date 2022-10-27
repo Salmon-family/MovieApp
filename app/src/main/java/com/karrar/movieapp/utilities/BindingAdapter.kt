@@ -15,6 +15,8 @@ import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
+import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.TvShowDetailsResultUIState
+import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.TvShowDetailsUIState
 import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
@@ -219,6 +221,20 @@ fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
         }
     }
 }
+
+@BindingAdapter("app:textBasedOnMediaType2")
+fun setTextBasedOnMediaType2(view: TextView, tvShowDetailsUIState: TvShowDetailsResultUIState?) {
+    tvShowDetailsUIState?.let {
+        when (tvShowDetailsUIState.tvShowMediaType) {
+            MediaType.MOVIE -> setDuration(view, tvShowDetailsUIState.tvShowSeasonsNumber)
+            MediaType.TV_SHOW -> view.text = view.context.getString(
+                R.string.more_than_one_season,
+                tvShowDetailsUIState.tvShowSeasonsNumber
+            )
+        }
+    }
+}
+
 
 fun setDuration(view: TextView, duration: Int?) {
     val hours = duration?.div(60)

@@ -10,7 +10,6 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentTvShowDetailsBinding
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.movieDetails.DetailAdapter
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +19,7 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
     override val layoutIdFragment = R.layout.fragment_tv_show_details
     override val viewModel: TvShowDetailsViewModel by viewModels()
     private val args: TvShowDetailsFragmentArgs by navArgs()
-    private lateinit var detailAdapter: DetailAdapter
+    private lateinit var detailAdapter: DetailUIStateAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,21 +33,18 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
 
 
     private fun setDetailAdapter() {
-        detailAdapter = DetailAdapter(emptyList(), viewModel)
+        detailAdapter = DetailUIStateAdapter(emptyList(), viewModel)
         binding.recyclerView.adapter = detailAdapter
     }
 
 
     private fun addRating() {
-        viewModel.ratingValue.observe(viewLifecycleOwner) {
-            it?.let { viewModel.onAddRating(args.tvShowId, it) }
-        }
-
-        viewModel.messageAppear.observeEvent(viewLifecycleOwner) {
-            val toast =
-                Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT)
-            if (it) toast.show()
-        }
+        val toast = Toast.makeText(
+            context,
+            getString(R.string.submit_toast),
+            Toast.LENGTH_SHORT
+        )
+        if (viewModel.stateFlow.value.messageAppear) toast.show()
     }
 
 

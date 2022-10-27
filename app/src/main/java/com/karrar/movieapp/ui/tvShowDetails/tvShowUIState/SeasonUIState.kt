@@ -1,6 +1,6 @@
-package com.karrar.movieapp.domain.models
+package com.karrar.movieapp.ui.tvShowDetails.tvShowUIState
 
-data class Season(
+data class SeasonUIState(
     val seasonId: Int = 0,
     val imageUrl: String = "",
     val seasonName: String = "",
@@ -8,5 +8,5 @@ data class Season(
     val seasonNumber: Int = 0,
     val episodeCount: Int = 0,
     val seasonDescription: String = "",
-    val episodes: List<Episode> = emptyList()
+    val episodes: List<EpisodeUIState>,
 )

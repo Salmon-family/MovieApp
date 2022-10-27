@@ -1,8 +1,8 @@
-package com.karrar.movieapp.domain.models
+package com.karrar.movieapp.ui.tvShowDetails.tvShowUIState
 
 import com.karrar.movieapp.domain.enums.MediaType
 
-data class TvShowDetails(
+data class TvShowDetailsResultUIState(
     val tvShowId: Int = 0,
     val tvShowImage: String = "",
     val tvShowName: String = "",
@@ -12,6 +12,5 @@ data class TvShowDetails(
     val tvShowReview: Int = 0,
     val tvShowVoteAverage: String = "",
     val tvShowOverview: String = "",
-    val tvShowSeasons: List<Season> = emptyList(),
-    val tvShowType: MediaType = MediaType.TV_SHOW
+    val tvShowMediaType: MediaType = MediaType.TV_SHOW,
 )

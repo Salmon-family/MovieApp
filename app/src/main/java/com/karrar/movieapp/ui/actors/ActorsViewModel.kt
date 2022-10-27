@@ -52,7 +52,7 @@ class ActorsViewModel @Inject constructor(
 
     fun setErrorUiState(loadState: LoadState) {
         val result = if (loadState is LoadState.Error) {
-            loadState.error.message ?: "Error"
+            loadState.error.message ?: "com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.Error"
         } else null
 
         if (!result.isNullOrBlank()) {

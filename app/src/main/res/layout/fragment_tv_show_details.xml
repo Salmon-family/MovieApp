@@ -20,9 +20,9 @@
             android:layout_height="match_parent"
             android:background="@color/background_color"
             android:overScrollMode="never"
-            app:items="@{viewModel.detailItemsLiveData.toData()}"
+            app:items="@{viewModel.stateFlow.detailItemResult}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:showWhenSuccess="@{viewModel.detailItemsLiveData}"
+
             app:spanCount="1" />
 
         <include
@@ -31,18 +31,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.detailItemsLiveData}" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <include
             android:id="@+id/error"
             layout="@layout/error"
-            app:error="@{viewModel.detailItemsLiveData}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
