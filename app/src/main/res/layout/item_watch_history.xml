@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity" />
+            type="com.karrar.movieapp.domain.models.MediaHistoryUiState" />
 
         <variable
             name="listener"

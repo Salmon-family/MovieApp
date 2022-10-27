@@ -19,7 +19,7 @@
             android:id="@+id/recycler_view_watch_history"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:items="@{viewModel.watchHistory}"
+            app:items="@{viewModel.uiState.allMedia}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenListIsEmpty="@{viewModel.watchHistory}" />
+            app:showWhenListIsEmpty="@{viewModel.uiState.allMedia}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
