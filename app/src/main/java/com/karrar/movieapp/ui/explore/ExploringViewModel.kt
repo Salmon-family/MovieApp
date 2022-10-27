@@ -14,6 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ExploringViewModel @Inject constructor(
     private val getTrendyMovieUseCase: GetTrendyMovieUseCase,
+    private val trendingUIStateMapper: TrendingUIStateMapper
 ) :BaseViewModel(), TrendInteractionListener {
 
     private val _uiState = MutableStateFlow(ExploreUIState())
@@ -47,7 +48,7 @@ class ExploringViewModel @Inject constructor(
             try {
                 val result = getTrendyMovieUseCase()
                 _uiState.update { it.copy(isLoading = false) }
-                _uiState.update { it.copy(trendyMovie = result.map { it.toTrendyMedia() }) }
+                _uiState.update { it.copy(trendyMovie = result.map { trendingUIStateMapper.map(it) }) }
             }catch (e: Throwable){
                 _uiState.update { it.copy(errors = e.message.toString()) }
             }

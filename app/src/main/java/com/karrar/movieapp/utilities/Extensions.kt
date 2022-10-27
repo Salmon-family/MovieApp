@@ -24,15 +24,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-
-fun Media.toTrendyMedia(): TrendyMediaUIState {
-    return TrendyMediaUIState(
-        this.mediaID,
-        this.mediaType,
-        this.mediaImage
-    )
-}
-
 fun <T> MutableLiveData<T>.toLiveData(): LiveData<T> {
     return this
 }
