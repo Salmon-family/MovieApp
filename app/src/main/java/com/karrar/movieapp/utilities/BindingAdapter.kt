@@ -254,5 +254,10 @@ fun showWhenError(view: View, message: String){
 
 @BindingAdapter("app:hideWhenLoading")
 fun hideWhenLoading(view: View, isLoading: Boolean){
-    view.isVisible = isLoading.not()
+    view.isVisible = !isLoading
+}
+
+@BindingAdapter("app:hideWhenFail")
+fun hideWhenFail(view: View, message: String){
+    view.isVisible = message.isEmpty()
 }

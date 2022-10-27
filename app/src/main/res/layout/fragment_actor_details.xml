@@ -120,7 +120,8 @@
                 android:id="@+id/details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hideWhenLoading="@{viewModel.actorDetailsUIState.isLoading}"
+                app:hideWhenLoading="@{viewModel.actorDetailsUIState.loading}"
+                app:hideWhenFail="@{viewModel.actorDetailsUIState.error.message}"
                 android:background="@color/background_color">
 
                 <TextView
