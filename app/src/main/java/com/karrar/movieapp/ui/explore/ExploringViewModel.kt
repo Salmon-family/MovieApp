@@ -16,7 +16,7 @@ class ExploringViewModel @Inject constructor(
 ) :BaseViewModel(), TrendInteractionListener {
 
     private val _uiState = MutableStateFlow(ExploreUIState())
-    val uiState: StateFlow<ExploreUIState> = _uiState
+    val uiState = _uiState.toStateFlow()
 
     private val _clickSearchEvent = MutableLiveData<Event<Boolean>>()
     var clickSearchEvent = _clickSearchEvent.toLiveData()

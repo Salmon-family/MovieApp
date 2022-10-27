@@ -1,18 +1,16 @@
 package com.karrar.movieapp.ui.search
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.*
-import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.domain.explorUsecase.GetSearchUseCase
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.search.adapters.*
 import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,26 +24,18 @@ class SearchViewModel @Inject constructor(
 ) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener,
     SearchHistoryInteractionListener {
 
+    private val _uiState = MutableStateFlow(MediaSearchUIState())
+    val uiState = _uiState.toStateFlow()
+
+
     private val _mediaState = MutableLiveData<UIState<Boolean>>()
     val mediaState = _mediaState.toLiveData()
 
-    private val _searchHistory = MutableLiveData<List<SearchHistory>>()
-    val searchHistory = _searchHistory.toLiveData()
-
-    private val _clickMediaEvent = MutableLiveData<Event<Media>>()
+    private val _clickMediaEvent = MutableLiveData<Event<MediaUIState>>()
     val clickMediaEvent = _clickMediaEvent.toLiveData()
 
     private val _clickActorEvent = MutableLiveData<Event<Int>>()
     val clickActorEvent = _clickActorEvent.toLiveData()
-
-    private val _clickMoviesCategoryEvent = MutableLiveData<Event<Boolean>>()
-    val clickMoviesCategoryEvent = _clickMoviesCategoryEvent.toLiveData()
-
-    private val _clickSeriesCategoryEvent = MutableLiveData<Event<Boolean>>()
-    val clickSeriesCategoryEvent = _clickSeriesCategoryEvent.toLiveData()
-
-    private val _clickActorsCategoryEvent = MutableLiveData<Event<Boolean>>()
-    val clickActorsCategoryEvent = _clickActorsCategoryEvent.toLiveData()
 
     private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
     val clickBackEvent = _clickBackEvent.toLiveData()
@@ -53,66 +43,52 @@ class SearchViewModel @Inject constructor(
     private val _clickRetryEvent = MutableLiveData<Event<Boolean>>()
     val clickRetryEvent = _clickRetryEvent.toLiveData()
 
-    val searchText = MutableStateFlow("")
-    val mediaType = MutableStateFlow(Constants.MOVIE)
 
     init {
         getAllSearchHistory()
-    }
-
-    private fun getAllSearchHistory() {
-        viewModelScope.launch {
-            getSearchUseCase().collect {
-            _searchHistory.postValue(it)
-            }
-        }
     }
 
     override fun getData() {
         _clickRetryEvent.postEvent(true)
     }
 
-    suspend fun searchForMovie(text: String): Flow<PagingData<Media>> {
-        return getSearchUseCase.getMovies(text)
-    }
-
-    suspend fun searchForSeries(text: String): Flow<PagingData<Media>> {
-        return getSearchUseCase.getTvShows(text)
-    }
-
-    suspend fun searchForActor(text: String): Flow<PagingData<Media>> {
-        return getSearchUseCase.getActors(text)
-    }
-
-
-    fun onClickMoviesCategory() {
+    private fun getAllSearchHistory() {
+        _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            if (mediaType.value != Constants.MOVIE) {
-                mediaType.emit(Constants.MOVIE)
-                _clickMoviesCategoryEvent.postEvent(true)
-            }
+            getSearchUseCase().collect{ list ->
+                _uiState.update { it.copy(searchHistory = list.map { item -> item.toSearchHistory() })
+                } }
         }
     }
 
-    fun onClickSeriesCategory() {
+    fun onSearchInputChange(searchTerm: CharSequence) {
+        _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            if (mediaType.value != Constants.TV_SHOWS) {
-                mediaType.emit(Constants.TV_SHOWS)
-                _clickSeriesCategoryEvent.postEvent(true)
-            }
+            _uiState.update { it.copy(searchInput = searchTerm.toString()) }
+            updateSearchResultUIState()
         }
     }
 
-    fun onClickActorsCategory() {
+    fun onSelectMediaType(type: MediaTypes) {
+        Log.i("sss", type.name)
+        _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            if (mediaType.value != Constants.ACTOR) {
-                mediaType.emit(Constants.ACTOR)
-                _clickActorsCategoryEvent.postEvent(true)
-            }
+            _uiState.update { it.copy(searchTypes = type) }
+            updateSearchResultUIState()
         }
     }
 
-    override fun onClickMediaResult(media: Media) {
+    private suspend fun updateSearchResultUIState(){
+        _uiState.update {
+            it.copy(searchResult= getSearchUseCase.getSearchResult(it.searchTypes, it.searchInput).map { pagingData ->
+                pagingData.map { item -> item.toSearchResult() } })
+        }
+    }
+
+    suspend fun onInternetDisconnect() {}
+
+
+    override fun onClickMediaResult(media: MediaUIState) {
         saveSearchResult(media.mediaID, media.mediaName)
         _clickMediaEvent.postEvent(media)
     }
@@ -123,20 +99,11 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun saveSearchResult(id: Int, name: String) {
-        viewModelScope.launch {
-            movieRepository.insertSearchItem(
-                SearchHistoryEntity(
-                    id = id.toLong(),
-                    search = name
-                )
-            )
-        }
+        viewModelScope.launch { getSearchUseCase.saveSearchResult(id, name) }
     }
 
     override fun onClickSearchHistory(name: String) {
-        viewModelScope.launch {
-            searchText.emit(name)
-        }
+        _uiState.update { it.copy(searchInput = name) }
     }
 
     fun onClickBack() {
