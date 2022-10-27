@@ -74,8 +74,6 @@ class MyListsViewModel @Inject constructor(
     }
 
     fun onClickAddList() {
-        _createdListUIState.update { it.copy(isLoading = true, isEmpty = false) }
-
         viewModelScope.launch {
             try {
                 _createdListUIState.update {
@@ -87,10 +85,6 @@ class MyListsViewModel @Inject constructor(
                     )
                 }
             } catch (t: Throwable) {
-                _createdListUIState.update {
-                    it.copy(isLoading = false)
-                }
-
                 _createListDialogUIState.update {
                     it.copy(error = listOf(ErrorUIState(0, t.message.toString())))
                 }

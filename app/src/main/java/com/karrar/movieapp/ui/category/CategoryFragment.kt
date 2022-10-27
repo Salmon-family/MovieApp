@@ -48,7 +48,6 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
                 allMediaAdapter.submitData(it)
             }
         }
-
     }
 
     private fun observeEvents() {
