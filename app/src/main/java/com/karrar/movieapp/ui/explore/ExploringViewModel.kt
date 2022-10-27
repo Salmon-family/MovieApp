@@ -1,9 +1,9 @@
 package com.karrar.movieapp.ui.explore
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.karrar.movieapp.domain.usecase.GetTrendyMovieUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.explore.exploreUIState.ExploreUIState
 import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -43,13 +43,13 @@ class ExploringViewModel @Inject constructor(
 
     override fun getData() {
         _uiState.update { it.copy(isLoading = true) }
-        wrapWithState({
-            val result = getTrendyMovieUseCase()
-            _uiState.update { it.copy(isLoading = false) }
-            _uiState.update { it.copy(trendyMovie = result.map { it.toTrendyMedia() }) }
-        }){
-            _uiState.update {
-                it.copy(errors = emptyList())
+        viewModelScope.launch {
+            try {
+                val result = getTrendyMovieUseCase()
+                _uiState.update { it.copy(isLoading = false) }
+                _uiState.update { it.copy(trendyMovie = result.map { it.toTrendyMedia() }) }
+            }catch (e: Throwable){
+                _uiState.update { it.copy(errors = e.message.toString()) }
             }
         }
     }
