@@ -36,6 +36,8 @@ interface SeriesRepository {
 
     suspend fun insertTvShow(tvShow: WatchHistoryEntity)
 
+    suspend fun searchForSeriesPager(query: String): Pager<Int, TVShowsDTO>
+
 
     fun getAiringToday(): Flow<List<Media>>
 

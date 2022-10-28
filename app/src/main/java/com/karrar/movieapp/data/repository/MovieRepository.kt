@@ -58,8 +58,6 @@ interface MovieRepository {
 
     suspend fun searchForMoviePager(query: String): Pager<Int, MovieDto>
 
-    suspend fun searchForSeriesPager(query: String): Pager<Int, TVShowsDTO>
-
     suspend fun searchForActorPager(query: String): Pager<Int, ActorDto>
 
 

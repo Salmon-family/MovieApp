@@ -3,6 +3,7 @@ package com.karrar.movieapp.domain.explorUsecase
 import androidx.paging.*
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.repository.MovieRepository
+import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.mappers.MovieMappersContainer
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
@@ -13,6 +14,7 @@ import javax.inject.Inject
 
 class GetSearchUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
+    private val seriesRepository: SeriesRepository,
     private val movieMappersContainer: MovieMappersContainer,
     ) {
 
@@ -25,7 +27,7 @@ class GetSearchUseCase @Inject constructor(
     suspend fun getSearchResult(mediaTypes: MediaTypes, searchTerm: String): Flow<PagingData<Media>>{
         return when(mediaTypes){
             MediaTypes.MOVIE ->  wrapper({movieRepository.searchForMoviePager(searchTerm)}, movieMappersContainer.movieMapper::map)
-            MediaTypes.TVS_SHOW ->  wrapper({movieRepository.searchForSeriesPager(searchTerm)}, movieMappersContainer.seriesMapper::map)
+            MediaTypes.TVS_SHOW ->  wrapper({seriesRepository.searchForSeriesPager(searchTerm)}, movieMappersContainer.seriesMapper::map)
             MediaTypes.ACTOR ->  wrapper({movieRepository.searchForActorPager(searchTerm)}, movieMappersContainer.searchActorMapper::map)
         }
     }

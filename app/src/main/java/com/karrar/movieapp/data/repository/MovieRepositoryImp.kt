@@ -174,19 +174,11 @@ class MovieRepositoryImp @Inject constructor(
         return Pager(config = config, pagingSourceFactory = {dataSource})
     }
 
-    override suspend fun searchForSeriesPager(query: String): Pager<Int, TVShowsDTO> {
-        val dataSource = searchDataSourceContainer.seriesSearchDataSource
-        dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource})
-    }
-
-    //should remove empty list ...
     override suspend fun searchForActorPager(query: String): Pager<Int, ActorDto> {
         val dataSource = searchDataSourceContainer.actorSearchDataSource
         dataSource.setSearchText(query)
         return Pager(config = config, pagingSourceFactory = {dataSource})
     }
-
 
 
     override suspend fun getAllSearchHistory(): Flow<List<SearchHistoryEntity>> {

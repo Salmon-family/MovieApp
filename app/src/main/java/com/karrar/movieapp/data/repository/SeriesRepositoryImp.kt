@@ -24,7 +24,14 @@ class SeriesRepositoryImp @Inject constructor(
     private val seriesMapperContainer: SeriesMapperContainer,
     private val localSeriesMappersContainer: LocalSeriesMappersContainer,
     private val seriesDataSourceContainer: SeriesDataSourceContainer,
-) : BaseRepository(), SeriesRepository {
+    private val searchDataSourceContainer: SearchDataSourceContainer,
+    ) : BaseRepository(), SeriesRepository {
+
+    override suspend fun searchForSeriesPager(query: String): Pager<Int, TVShowsDTO> {
+        val dataSource = searchDataSourceContainer.seriesSearchDataSource
+        dataSource.setSearchText(query)
+        return Pager(config = config, pagingSourceFactory = {dataSource})
+    }
 
     override suspend fun getTVShowsGenreList(): List<Genre> {
         return wrap({ service.getGenreTvShowList() },
