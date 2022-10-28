@@ -11,7 +11,8 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Media" />
+            type="com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MediaUIState" />
+
         <variable
             name="type"
             type="com.karrar.movieapp.domain.enums.HomeItemsType" />

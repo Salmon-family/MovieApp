@@ -14,7 +14,7 @@ class MovieAdapter(items: List<Media>,val listener: MovieInteractionListener) :
 
 class MovieAdapter2(items: List<MediaUIState>, val listener: MovieInteractionListener) :
     BaseAdapter<MediaUIState>(items, listener) {
-    override val layoutID: Int = R.layout.item_movie
+    override val layoutID: Int = R.layout.item_movie_2
 }
 
 interface MovieInteractionListener : BaseInteractionListener {

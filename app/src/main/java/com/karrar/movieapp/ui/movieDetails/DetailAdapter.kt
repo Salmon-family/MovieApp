@@ -42,7 +42,7 @@ class DetailAdapter(
                         BR.adapterRecycler,
                         ActorAdapter2(
                             currentItem.data,
-                            R.layout.item_cast,
+                            R.layout.item_cast_2,
                             listener as ActorsInteractionListener
                         )
                     )
@@ -88,8 +88,8 @@ class DetailAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
             is DetailItemUIState.Header -> R.layout.item_movie_detail_header
-            is DetailItemUIState.Cast -> R.layout.list_cast
-            is DetailItemUIState.SimilarMovies -> R.layout.list_similar_movie
+            is DetailItemUIState.Cast -> R.layout.list_cast_2
+            is DetailItemUIState.SimilarMovies -> R.layout.list_similar_movie_2
             is DetailItemUIState.Rating -> R.layout.item_rating
             is DetailItemUIState.Comment -> R.layout.item_movie_review
             is DetailItemUIState.ReviewText -> R.layout.item_review_text

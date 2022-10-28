@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Actor" />
+            type="com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ActorUiState" />
 
         <variable
             name="listener"
