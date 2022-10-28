@@ -27,7 +27,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:posterImage="@{viewModel.profileDetails.toData().avatarPath}"
+            app:posterImage="@{viewModel.profileDetailsUIState.avatarPath}"
             app:shapeAppearanceOverlay="@style/Circle"
             tools:background="@drawable/actor" />
 
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
             android:textColor="@color/shade_primary_color"
-            android:text="@{viewModel.profileDetails.toData().name}"
+            android:text="@{viewModel.profileDetailsUIState.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image_actor"
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:text="@{@string/at + viewModel.profileDetails.toData().username}"
+            android:text="@{@string/at + viewModel.profileDetailsUIState.username}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_name_actor"
@@ -137,7 +137,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading="@{viewModel.profileDetails}"
+            app:isVisible="@{viewModel.profileDetailsUIState.isLoading}"
             tools:visibility="gone" />
 
         <ImageView
@@ -196,10 +196,60 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_lost_connection"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginBottom="@dimen/spacing_small"
+            app:layout_constraintBottom_toTopOf="@+id/title_lost_connection"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/lost_internet_animation" />
 
-        <androidx.constraintlayout.widget.Group
+        <TextView
+            android:id="@+id/title_lost_connection"
+            style="@style/SemiBold.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_extra_large"
+            android:text="@string/oops"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/description_lost_connection"
+            style="@style/Regular.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:gravity="center"
+            android:text="@string/description"
+            android:textColor="@color/brand_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_lost_connection" />
+
+        <Button
+            android:id="@+id/button_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:onClick="@{() -> viewModel.getData()}"
+            android:text="@string/retry"
+            android:textColor="@color/white_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_when_success"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible"
             app:constraint_referenced_ids="text_watch_history,
             text_rated_movies,
             text_sign_out,
@@ -207,37 +257,29 @@
             second_divider,
             image_actor,
             text_name_actor,
-            text_username,"
-            app:showWhenSuccess="@{viewModel.profileDetails}" />
+            text_username"
+            app:showProfileWhenSuccess="@{viewModel.profileDetailsUIState.username}"
+            />
 
         <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_when_no_internet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_retry"
+            app:isFail="@{viewModel.profileDetailsUIState.error}"
+            app:isLoggedIn="@{viewModel.profileDetailsUIState.loggedIn}"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_when_no_logged_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
             app:constraint_referenced_ids="
             text_message_wrong,
             vector_image,
             text_message_wrong_title,
             button_nav_login,"
-            app:showWhenNoLogin="@{viewModel.profileDetails}" />
-
-        <include
-            android:id="@+id/loading"
-            layout="@layout/loading"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <include
-            android:id="@+id/error"
-            layout="@layout/error"
-            app:error="@{viewModel.profileDetails}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
-
-
+            app:showWhenNoLoggedIn="@{viewModel.profileDetailsUIState.isLoggedIn}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

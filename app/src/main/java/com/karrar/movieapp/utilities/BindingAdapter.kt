@@ -310,3 +310,30 @@ fun isLoading(view: View, isLoading: Boolean){
 fun <T> showWhenError(view: View, error: List<T>){
     view.isVisible = error.isNotEmpty()
 }
+@BindingAdapter ("app:showWhenNoLoggedIn")
+fun showWhenNoLoggedIn(view: View, isLoggedIn: Boolean){
+    view.isVisible = !isLoggedIn
+}
+
+@BindingAdapter("app:isLoggedIn", "app:isFail")
+fun showWhenLoggedInAndFail(view: View, isLoggedIn: Boolean, isFail: Boolean){
+    if (isLoggedIn && isFail){
+        view.isVisible = true
+    } else if (isLoggedIn){
+        view.isVisible = false
+    }
+}
+
+@BindingAdapter("isLogged", "isFailure")
+fun showWhenIsLoggedInWithoutFail(view: View, isLoggedIn: Boolean, isFail: Boolean){
+    if (isLoggedIn && !isFail){
+        view.isVisible = true
+    } else if (isFail){
+        view.isVisible = false
+    }
+}
+
+@BindingAdapter("app:showProfileWhenSuccess")
+fun showWhenProfileSuccess(view: View, userName: String) {
+    view.isVisible = userName.isNotEmpty()
+}
