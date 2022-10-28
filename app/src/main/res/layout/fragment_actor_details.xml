@@ -83,9 +83,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"
             app:isVisible="@{viewModel.actorDetailsUIState.success}"
-            app:loadActorImage="@{viewModel.actorDetailsUIState.imageUrl}"
+            app:posterImage="@{viewModel.actorDetailsUIState.imageUrl}"
             tools:src="@drawable/chris_evans" />
 
         <View

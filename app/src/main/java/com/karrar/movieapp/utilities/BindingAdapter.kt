@@ -310,14 +310,3 @@ fun isLoading(view: View, isLoading: Boolean){
 fun <T> showWhenError(view: View, error: List<T>){
     view.isVisible = error.isNotEmpty()
 }
-
-@BindingAdapter("app:loadActorImage")
-fun loadActorImage(image: ImageView, imageURL: String?){
-    if (imageURL == IMAGEACTORPATHWHENISNULL){
-        image.setImageResource(R.drawable.ic_baseline_person_24)
-    } else {
-        image.load(imageURL){
-            placeholder(R.drawable.loading)
-        }
-    }
-}
