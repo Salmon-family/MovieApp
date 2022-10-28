@@ -17,11 +17,11 @@
 
         <TextView
             android:id="@+id/primary_text"
+            style="@style/SemiBold.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/plus_jakarta_sans_semibold"
             android:text="@string/create_a_new_list"
-            style="@style/SemiBold.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -46,8 +46,8 @@
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_large"
             android:hint="@string/list_name"
-            app:hintTextColor="@color/shade_secondary_color"
             android:textColorHint="@color/shade_secondary_color"
+            app:hintTextColor="@color/shade_secondary_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5">
@@ -55,13 +55,13 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
+                android:afterTextChanged="@{(text) -> viewModel.onListNameInputChange(text)}"
                 android:fontFamily="@font/plus_jakarta_sans_regular"
+                android:inputType="textPersonName"
                 android:maxLength="15"
                 android:maxLines="1"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:text="@={viewModel.listName}"
-                android:textColor="@color/shade_primary_color" />
+                android:textColor="@color/shade_primary_color"
+                android:textCursorDrawable="@drawable/color_cursor" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,13 +71,14 @@
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_large"
             android:layout_marginBottom="24dp"
-            android:backgroundTint="@color/brand_color"
+            android:enabled="@{!viewModel.createListDialogUIState.mediaListName.empty}"
             android:fontFamily="@font/plus_jakarta_sans_semibold"
             android:onClick="@{()->viewModel.onClickAddList()}"
             android:paddingVertical="@dimen/spacing_medium"
             android:text="@string/create"
             android:textAllCaps="false"
             android:textColor="@color/white_primary"
+            app:backgroundTint="@color/color_states_material_button"
             app:cornerRadius="@dimen/spacing_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

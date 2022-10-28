@@ -40,6 +40,11 @@ fun <T> showWhenSuccess2(view: View, state: UIState<T>?) {
     view.isVisible = state is UIState.Success
 }
 
+@BindingAdapter("app:showWhenNoError")
+fun <T> showWhenNoError(view: View, error: String?) {
+    view.isVisible = error.isNullOrBlank()
+}
+
 @BindingAdapter(value = ["app:showWhenLoading"])
 fun <T> showWhenLoading2(view: View, state: UIState<T>?) {
     view.isVisible = (state is UIState.Loading)
@@ -50,6 +55,10 @@ fun <T> showWhenNoLogin(view: View, state: UIState<T>?) {
     view.isVisible = (state is UIState.NoLogin)
 }
 
+@BindingAdapter(value = ["app:showWhenNoLogin"])
+fun showWhenErrorLogin(view: View, error: String?) {
+    view.isVisible = error != null && error.contains("NoLogin", true)
+}
 
 @BindingAdapter(value = ["app:hideWhenLoading"])
 fun <T> hideWhenLoading(view: View, state: UIState<T>?) {
@@ -121,17 +130,9 @@ fun setGenre(textView: TextView, genreList: List<Genre>?) {
     }
 }
 
-@BindingAdapter(
-    "app:setGenres",
-    "app:genresId",
-    "app:listener",
-    "app:selectedChip"
-)
+@BindingAdapter("app:setGenres", "app:genresId", "app:listener", "app:selectedChip")
 fun <T> setGenresChips(
-    view: ChipGroup,
-    chipList: List<GenreUIState>?,
-    categoryId: Int?,
-    listener: T,
+    view: ChipGroup, chipList: List<GenreUIState>?, categoryId: Int?, listener: T,
     selectedChip: Int?
 ) {
     when (categoryId) {
@@ -165,6 +166,16 @@ fun hideIfTrue(view: View, value: Boolean) {
 @BindingAdapter("app:hideIfLoading", "app:hideError")
 fun hideIfNoData(view: View, loading: Boolean, error: List<ErrorUIState>) {
     view.isVisible = !loading && error.isEmpty()
+}
+
+@BindingAdapter(value = ["app:showWhenNoLogin"])
+fun showWhenNoLogin2(view: View, error: List<ErrorUIState>) {
+    view.isVisible = !error.none { it.code == ErrorUI.NEED_LOGIN }
+}
+
+@BindingAdapter(value = ["app:showWhenNoInternet"])
+fun showWhenNoInternet(view: View, error: List<ErrorUIState>) {
+    view.isVisible = !error.none { it.code != ErrorUI.NEED_LOGIN }
 }
 
 @BindingAdapter("app:setVideoId")
@@ -204,6 +215,11 @@ fun convertToHoursPattern(view: TextView, duration: Int) {
 @BindingAdapter("app:showWhenListIsEmpty")
 fun <T> showWhenListIsEmpty(view: View, list: List<T>?) {
     view.isVisible = list?.isEmpty() == true
+}
+
+@BindingAdapter("app:isListIsEmpty")
+fun <T> showWhenDoneLoadingAndListIsEmpty(view: View, emptyList: Boolean) {
+    view.isVisible = emptyList
 }
 
 @BindingAdapter("app:hideWhenListIsEmpty")
