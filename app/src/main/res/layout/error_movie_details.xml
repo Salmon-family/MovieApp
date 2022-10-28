@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="error"
-            type="com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ErrorUIState" />
+            name="isError"
+            type="Boolean" />
 
         <variable
             name="viewModel"
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_retry"
-            app:showWhenFail="@{error}" />
+            app:showWhenError="@{isError}" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

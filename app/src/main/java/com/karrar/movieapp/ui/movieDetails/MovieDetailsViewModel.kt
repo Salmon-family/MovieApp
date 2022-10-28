@@ -72,7 +72,7 @@ class MovieDetailsViewModel @Inject constructor(
 
 
     private fun getAllDetails(movieId: Int) {
-        _uiState.update { it.copy(isLoading = true) }
+        _uiState.update { it.copy(isLoading = true, errorUIStates = emptyList()) }
 
         getMovieDetails(movieId)
         getMovieCast(movieId)
@@ -88,15 +88,20 @@ class MovieDetailsViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         movieDetailsResult = movieDetailsUIStateMapper.map(result),
-                        isLoading = false
+                        isLoading = false,
                     )
                 }
-                onAddMovieDetalisItemOfNestedView(DetailItemUIState.Header(_uiState.value.movieDetailsResult))
+                onAddMovieDetailsItemOfNestedView(
+                    DetailItemUIState.Header(_uiState.value.movieDetailsResult)
+                )
                 insertMovieToWatchHistory(_uiState.value.movieDetailsResult)
 
             } catch (e: Exception) {
-                val listErrorUIState = listOf(ErrorUIState(message = "${e.message}"))
-                _uiState.update { it.copy(errorUIStates = listErrorUIState, isLoading = false) }
+                _uiState.update {
+                    it.copy(
+                        errorUIStates = onAddMessageToListError(e), isLoading = false
+                    )
+                }
             }
         }
     }
@@ -111,10 +116,13 @@ class MovieDetailsViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
-                onAddMovieDetalisItemOfNestedView(DetailItemUIState.Cast(_uiState.value.movieCastResult))
+                onAddMovieDetailsItemOfNestedView(
+                    DetailItemUIState.Cast(_uiState.value.movieCastResult)
+                )
             } catch (e: Exception) {
-                val listErrorUIState = listOf(ErrorUIState(message = "${e.message}"))
-                _uiState.update { it.copy(errorUIStates = listErrorUIState, isLoading = false) }
+                _uiState.update {
+                    it.copy(errorUIStates = onAddMessageToListError(e), isLoading = false)
+                }
             }
         }
     }
@@ -129,14 +137,16 @@ class MovieDetailsViewModel @Inject constructor(
                             mediaUIStateMapper.map(
                                 media
                             )
-                        },
-                        isLoading = false
+                        }, isLoading = false
                     )
                 }
-                onAddMovieDetalisItemOfNestedView(DetailItemUIState.SimilarMovies(_uiState.value.similarMoviesResult))
+                onAddMovieDetailsItemOfNestedView(
+                    DetailItemUIState.SimilarMovies(_uiState.value.similarMoviesResult)
+                )
             } catch (e: Exception) {
-                val listErrorUIState = listOf(ErrorUIState(message = "${e.message}"))
-                _uiState.update { it.copy(errorUIStates = listErrorUIState, isLoading = false) }
+                _uiState.update {
+                    it.copy(errorUIStates = onAddMessageToListError(e), isLoading = false)
+                }
             }
         }
     }
@@ -147,16 +157,18 @@ class MovieDetailsViewModel @Inject constructor(
                 val result = getMovieDetailsUseCase.getRatedMovie(0)
                 _uiState.update {
                     it.copy(movieGetRatedResult = result.map { rated ->
-                        ratedUIStateMapper
-                            .map(rated)
+                        ratedUIStateMapper.map(rated)
                     })
                 }
 
                 checkIfMovieRated(_uiState.value.movieGetRatedResult, movieId)
-                onAddMovieDetalisItemOfNestedView(DetailItemUIState.Rating(this@MovieDetailsViewModel))
+                onAddMovieDetailsItemOfNestedView(
+                    DetailItemUIState.Rating(this@MovieDetailsViewModel)
+                )
             } catch (e: Exception) {
-                val listErrorUIState = listOf(ErrorUIState(message = "${e.message}"))
-                _uiState.update { it.copy(errorUIStates = listErrorUIState, isLoading = false) }
+                _uiState.update {
+                    it.copy(errorUIStates = onAddMessageToListError(e), isLoading = false)
+                }
             }
         }
     }
@@ -175,8 +187,9 @@ class MovieDetailsViewModel @Inject constructor(
                 getThreeCommits()
                 onSeeAllReviews()
             } catch (e: Exception) {
-                val listErrorUIState = listOf(ErrorUIState(message = "${e.message}"))
-                _uiState.update { it.copy(errorUIStates = listErrorUIState, isLoading = false) }
+                _uiState.update {
+                    it.copy(errorUIStates = onAddMessageToListError(e), isLoading = false)
+                }
             }
         }
     }
@@ -184,13 +197,13 @@ class MovieDetailsViewModel @Inject constructor(
     private fun getThreeCommits() {
         if (_uiState.value.movieReview.isNotEmpty()) {
             _uiState.value.movieReview.take(3)
-                .forEach { onAddMovieDetalisItemOfNestedView(DetailItemUIState.Comment(it)) }
-            onAddMovieDetalisItemOfNestedView(DetailItemUIState.ReviewText)
+                .forEach { onAddMovieDetailsItemOfNestedView(DetailItemUIState.Comment(it)) }
+            onAddMovieDetailsItemOfNestedView(DetailItemUIState.ReviewText)
         }
     }
 
     private fun onSeeAllReviews() {
-        if (_uiState.value.movieReview.count() > 3) onAddMovieDetalisItemOfNestedView(
+        if (_uiState.value.movieReview.count() > 3) onAddMovieDetailsItemOfNestedView(
             DetailItemUIState.SeeAllReviewsButton
         )
     }
@@ -222,20 +235,20 @@ class MovieDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 setRatingUseCase(movie_id, value)
-                _uiState.update {
-                    it.copy(
-                        ratingValue = value,
-                        messageAppear = true
-                    )
-                }
+                _uiState.update { it.copy(ratingValue = value, messageAppear = true) }
             } catch (e: Exception) {
-                val listErrorUIState = listOf(ErrorUIState(message = "${e.message}"))
-                _uiState.update { it.copy(errorUIStates = listErrorUIState, isLoading = false) }
+                _uiState.update {
+                    it.copy(errorUIStates = onAddMessageToListError(e), isLoading = false)
+                }
             }
         }
     }
 
-    private fun onAddMovieDetalisItemOfNestedView(item: DetailItemUIState) {
+    private fun onAddMessageToListError(e: Exception): List<ErrorUIState> {
+        return listOf(ErrorUIState(code = 400, message = e.message.toString()))
+    }
+
+    private fun onAddMovieDetailsItemOfNestedView(item: DetailItemUIState) {
         movieDetailItemsOfNestedView.add(item)
         _uiState.update { it.copy(detailItemResult = movieDetailItemsOfNestedView) }
     }
