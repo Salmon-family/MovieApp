@@ -17,6 +17,8 @@ import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.repository.mediaDataSource.movie.MovieDataSourceContainer
@@ -28,6 +30,8 @@ import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import okhttp3.internal.notify
+import retrofit2.Response
 import javax.inject.Inject
 
 
@@ -129,14 +133,12 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMappersContainer.actorMapper).mapList(it.items) })
     }
 
-    override suspend fun getActorDetails(actorId: Int): ActorDetails {
-        return wrap({ movieService.getActorDetails(actorId) },
-            { movieMappersContainer.actorDetailsMapper.map(it) })
+    override suspend fun getActorDetails(actorId: Int): ActorDto? {
+        return movieService.getActorDetails(actorId = actorId).body()
     }
 
-    override suspend fun getActorMovies(actorId: Int): List<Media> {
-        return wrap({ movieService.getActorMovies(actorId) },
-            { ListMapper(movieMappersContainer.movieMapper).mapList(it.cast) })
+    override suspend fun getActorMovies(actorId: Int): ActorMoviesDto? {
+        return movieService.getActorMovies(actorId = actorId).body()
     }
 
     /**
@@ -374,8 +376,6 @@ class MovieRepositoryImp @Inject constructor(
             }
         )
     }
-
-
 
     override suspend fun getTrendingMoviesPager(): Pager<Int, MovieDto> {
         return  Pager(config = config,pagingSourceFactory = {movieMovieDataSource.trendingMovieDataSource})

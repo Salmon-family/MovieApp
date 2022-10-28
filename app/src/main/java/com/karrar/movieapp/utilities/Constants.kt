@@ -19,6 +19,7 @@ object Constants {
     const val SUCCESS_REQUEST = 1
 
     const val PROFILE = 1
+    const val IMAGEACTORPATHWHENISNULL = "https://image.tmdb.org/t/p/w500null"
 }
 
 object DataStorePreferencesKeys {

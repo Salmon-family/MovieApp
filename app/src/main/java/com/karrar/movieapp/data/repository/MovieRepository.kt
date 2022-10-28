@@ -13,6 +13,7 @@ import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
@@ -51,9 +52,9 @@ interface MovieRepository {
 
     suspend fun getTrendingActors(page: Int): List<Actor>
 
-    suspend fun getActorDetails(actorId: Int): ActorDetails
+    suspend fun getActorDetails(actorId: Int): ActorDto?
 
-    suspend fun getActorMovies(actorId: Int): List<Media>
+    suspend fun getActorMovies(actorId: Int): ActorMoviesDto?
 
 
     suspend fun getAllLists(sessionId: String): List<CreatedListDto>?
