@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.explorUsecase
+package com.karrar.movieapp.domain.searchUseCase
 
 import androidx.paging.*
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity

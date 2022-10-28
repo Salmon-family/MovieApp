@@ -2,7 +2,7 @@ package com.karrar.movieapp.ui.search
 
 import androidx.lifecycle.*
 import androidx.paging.*
-import com.karrar.movieapp.domain.explorUsecase.GetSearchUseCase
+import com.karrar.movieapp.domain.searchUseCase.GetSearchUseCase
 import com.karrar.movieapp.ui.allMedia.Error
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.search.adapters.*
