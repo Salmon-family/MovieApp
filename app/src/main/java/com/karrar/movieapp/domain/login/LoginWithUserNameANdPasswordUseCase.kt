@@ -3,7 +3,7 @@ package com.karrar.movieapp.domain.login
 import com.karrar.movieapp.data.DataClassParser
 import com.karrar.movieapp.data.remote.response.login.ErrorResponse
 import com.karrar.movieapp.data.repository.AccountRepository
-import com.karrar.movieapp.domain.LoginState
+import com.karrar.movieapp.domain.LoginStatus
 import javax.inject.Inject
 
 class LoginWithUserNameAndPasswordUseCase @Inject constructor(
@@ -12,7 +12,7 @@ class LoginWithUserNameAndPasswordUseCase @Inject constructor(
     private val dataClassParser: DataClassParser,
 
     ) {
-    suspend operator fun invoke(userName: String, password: String): LoginState {
+    suspend operator fun invoke(userName: String, password: String): LoginStatus {
         val token = getRequestTokenUseCase()
         val body = mapOf(
             "username" to userName,
@@ -24,12 +24,12 @@ class LoginWithUserNameAndPasswordUseCase @Inject constructor(
 
         return if (validateRequestTokenWithLogin.isSuccessful) {
             validateRequestTokenWithLogin.body()?.requestToken?.let { accountRepository.createSession(it) }
-            LoginState.Success
+            LoginStatus.Success
         } else {
             val errorResponse = dataClassParser.parseFromJson(
                 validateRequestTokenWithLogin.errorBody()?.string(), ErrorResponse::class.java
             )
-            LoginState.Error(errorResponse.statusMessage.toString())
+            LoginStatus.Failure(errorResponse.statusMessage.toString())
         }
     }
 }
