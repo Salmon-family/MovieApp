@@ -47,7 +47,7 @@ class ActorViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _actorDetailsUIState.update { it.copy(isLoading = true) }
+        _actorDetailsUIState.update { it.copy(isLoading = true, error = emptyList()) }
         viewModelScope.launch {
             try {
                 val actorDetails = actorDetailsUIMapper.map(getActorDetailsUseCase(args.id))
@@ -76,7 +76,7 @@ class ActorViewModel @Inject constructor(
         _actorDetailsUIState.update { actorDetailsUIState ->
             actorDetailsUIState.copy(
                 isLoading = false,
-                error = Error(message),
+                error = listOf(Error(message)),
             )
         }
     }

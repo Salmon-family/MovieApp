@@ -249,8 +249,8 @@ fun isLoading(view: View, isLoading: Boolean){
 }
 
 @BindingAdapter("app:showWhenError")
-fun showWhenError(view: View, message: String){
-    view.isVisible = message.isNotEmpty()
+fun <T> showWhenError(view: View, error: List<T>){
+    view.isVisible = error.isNotEmpty()
 }
 
 @BindingAdapter("app:loadActorImage")

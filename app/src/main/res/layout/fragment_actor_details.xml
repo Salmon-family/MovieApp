@@ -45,7 +45,20 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/lost_internet_animation"
-            app:showWhenError="@{viewModel.actorDetailsUIState.error.message}" />
+            app:showWhenError="@{viewModel.actorDetailsUIState.error}" />
+
+        <Button
+            android:id="@+id/button_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:onClick="@{() -> viewModel.getData()}"
+            android:text="@string/retry"
+            android:textColor="@color/white_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:showWhenError="@{viewModel.actorDetailsUIState.error}"
+            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection" />
 
         <TextView
             android:id="@+id/description_lost_connection"
@@ -59,7 +72,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/animation_lost_connection"
-            app:showWhenError="@{viewModel.actorDetailsUIState.error.message}" />
+            app:showWhenError="@{viewModel.actorDetailsUIState.error}" />
 
 
         <com.google.android.material.imageview.ShapeableImageView
