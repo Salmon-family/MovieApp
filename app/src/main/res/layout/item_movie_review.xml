@@ -24,7 +24,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:posterImage="@{item.user.userImage}"
+            app:posterImage="@{item.userImage}"
             app:shapeAppearanceOverlay="@style/Circle"
             tools:srcCompat="@drawable/image" />
 
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@{item.user.name}"
+            android:text="@{item.name}"
             android:textColor="@color/shade_primary_color"
             app:layout_constraintStart_toEndOf="@+id/user_image"
             app:layout_constraintTop_toTopOf="@+id/user_image"
@@ -45,7 +45,7 @@
             style="@style/Regular.Small.ternary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{@string/user_name(item.user.userName)}"
+            android:text="@{@string/user_name(item.userName)}"
             app:layout_constraintStart_toStartOf="@+id/name"
             app:layout_constraintTop_toBottomOf="@+id/name"
             tools:text="e_jones" />
@@ -75,7 +75,7 @@
             android:layout_marginTop="16dp"
             android:isIndicator="true"
             android:progressDrawable="@drawable/rating_custom"
-            android:rating="@{item.user.rating}"
+            android:rating="@{item.rating}"
             android:scaleX="0.5"
             android:scaleY="0.5"
             android:stepSize="0.5"

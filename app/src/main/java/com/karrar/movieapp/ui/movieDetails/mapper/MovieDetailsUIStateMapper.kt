@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.movieDetails.mapExtension
+package com.karrar.movieapp.ui.movieDetails.mapper
 
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.MovieDetails

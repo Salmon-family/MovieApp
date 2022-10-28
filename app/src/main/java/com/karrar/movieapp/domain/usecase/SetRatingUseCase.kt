@@ -1,13 +1,13 @@
 package com.karrar.movieapp.domain.usecase
 
 import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.mappers.MovieMappersContainer
+import com.karrar.movieapp.domain.mappers.movie.RatingStatusMoviesMapper
 import com.karrar.movieapp.domain.models.RatingStatus
 import javax.inject.Inject
 
 class SetRatingUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
-    private val movieMappersContainer: MovieMappersContainer,
+    private  val ratingStatusMoviesMapper: RatingStatusMoviesMapper,
     private val getSessionIDUseCase: GetSessionIDUseCase,
 ) {
 
@@ -15,7 +15,7 @@ class SetRatingUseCase @Inject constructor(
         val sessionId = getSessionIDUseCase() ?: ""
         val response = movieRepository.setRating(movieId, value, sessionId)
         return if (response != null) {
-            movieMappersContainer.ratingStatusMoviesMapper.map(response)
+            ratingStatusMoviesMapper.map(response)
         } else {
             throw Throwable("Not Success")
         }
