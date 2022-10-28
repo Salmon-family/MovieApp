@@ -9,11 +9,7 @@ class TvShowRatedUIMapper @Inject constructor() : Mapper<Rated, RatedUIState> {
     override fun map(input: Rated): RatedUIState {
         return RatedUIState(
             id = input.id,
-            title = input.title,
-            posterPath = input.posterPath,
             rating = input.rating,
-            releaseDate = input.releaseDate,
-            mediaType = input.mediaType
         )
     }
 }

@@ -9,7 +9,11 @@ class TvShowReviewUIMapper @Inject constructor() : Mapper<Review, ReviewUIState>
     override fun map(input: Review): ReviewUIState {
         return ReviewUIState(
             content = input.content,
-            createDate = input.createDate
+            createDate = input.createDate,
+            userImage = input.userImage,
+            name = input.name,
+            userName = input.userName,
+            rating = input.rating
         )
     }
 }

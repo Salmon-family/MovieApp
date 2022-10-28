@@ -37,12 +37,15 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
     }
 
     private fun addRating() {
-        val toast = Toast.makeText(
-            context,
-            getString(R.string.submit_toast),
-            Toast.LENGTH_SHORT
-        )
-        if (viewModel.stateFlow.value.messageAppear) toast.show()
+        viewModel.messageAppear.observe(viewLifecycleOwner) {
+            if (viewModel.messageAppear.value == true) {
+                Toast.makeText(
+                    context,
+                    getString(R.string.submit_toast),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     private fun observeEvents() {

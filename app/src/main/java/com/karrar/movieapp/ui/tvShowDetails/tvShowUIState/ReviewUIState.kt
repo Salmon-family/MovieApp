@@ -3,5 +3,8 @@ package com.karrar.movieapp.ui.tvShowDetails.tvShowUIState
 data class ReviewUIState(
     val content: String = "",
     val createDate: String = "",
-    val user: UserUIState = UserUIState()
+    val userImage: String = "",
+    val name: String = "",
+    val userName: String = "",
+    val rating: Float = 0f
 )

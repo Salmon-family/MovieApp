@@ -127,18 +127,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movie_name" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/duration"-->
-<!--            style="@style/Regular.Small.ternary"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="@dimen/spacing_small"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/line"-->
-<!--            app:layout_constraintHorizontal_bias="0.5"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/line"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/line"-->
-<!--            app:textBasedOnMediaType2="@{item}"-->
-<!--            tools:text="100m" />-->
+        <TextView
+            android:id="@+id/duration"
+            style="@style/Regular.Small.ternary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            app:layout_constraintBottom_toBottomOf="@+id/line"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/line"
+            app:layout_constraintTop_toTopOf="@+id/line"
+            app:textBasedOnMediaType2="@{item}"
+            tools:text="100m" />
 
         <TextView
             android:id="@+id/genres"

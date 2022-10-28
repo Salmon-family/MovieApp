@@ -13,7 +13,6 @@ class TvShowDetailsResultUIMapper @Inject constructor() : Mapper<TvShowDetails, 
             tvShowOverview = input.tvShowOverview,
             tvShowImage = input.tvShowImage,
             tvShowVoteAverage = input.tvShowVoteAverage,
-            tvShowSeasonsNumber = input.tvShowSeasonsNumber,
             tvShowReview = input.tvShowReview,
             tvShowReleaseDate = input.tvShowReleaseDate,
             tvShowGenres = input.tvShowGenres

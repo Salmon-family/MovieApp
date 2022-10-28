@@ -23,7 +23,7 @@
             android:overScrollMode="never"
             android:paddingTop="@dimen/spacing_small"
             android:scrollbars="none"
-            app:items="@{viewModel.seasonDetails.toData().episodes}"
+            app:items="@{viewModel.stateFlowEpisode.seriesEpisodeUIState}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_episode" />
 
@@ -34,12 +34,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.seasonDetails}" />
+            />
 
         <include
             android:id="@+id/error"
             layout="@layout/error"
-            app:error="@{viewModel.seasonDetails}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

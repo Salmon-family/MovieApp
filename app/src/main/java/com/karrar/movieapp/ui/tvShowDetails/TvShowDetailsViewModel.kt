@@ -56,6 +56,9 @@ class TvShowDetailsViewModel @Inject constructor(
     private val _clickEpisodeEvent = MutableLiveData<Event<Int>>()
     val clickEpisodeEvent = _clickEpisodeEvent.toLiveData()
 
+    private val _messageAppear = MutableLiveData<Boolean>()
+    var messageAppear = _messageAppear.toLiveData()
+
     private val movieDetailItemsOfNestedView = mutableListOf<DetailItemUIState>()
 
     private val _stateFlow = MutableStateFlow(TvShowDetailsUIState())
@@ -216,19 +219,17 @@ class TvShowDetailsViewModel @Inject constructor(
     private fun onAddRating(tvShowId: Int, value: Float) {
         viewModelScope.launch {
             try {
-                val result = setRatingUesCase(tvShowId, value)
-                _stateFlow.update {
-                    it.copy(
-                        seriesSetRatedResult = result?.statusCode ?: 0,
-                        ratingValue = value,
-                        messageAppear = true
-                    )
-                }
+                setRatingUesCase(tvShowId, value)
+                onShowMessageOfChangeRating()
             } catch (e: Exception) {
                 val listErrorUIState = listOf(Error(message = "${e.message}"))
                 _stateFlow.update { it.copy(error = listErrorUIState, isLoading = false) }
             }
         }
+    }
+
+    private fun onShowMessageOfChangeRating() {
+        _messageAppear.postValue(true)
     }
 
     private fun updateDetailItems(items: DetailItemUIState) {

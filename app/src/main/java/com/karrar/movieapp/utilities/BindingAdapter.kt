@@ -43,6 +43,11 @@ fun <T> showWhenLoading2(view: View, state: UIState<T>?) {
     view.isVisible = (state is UIState.Loading)
 }
 
+@BindingAdapter(value = ["app:showWhenLoading2"])
+fun <T> showWhenLoading2(view: View, state: Boolean = false) {
+    view.isVisible = state
+}
+
 @BindingAdapter(value = ["app:showWhenNoLogin"])
 fun <T> showWhenNoLogin(view: View, state: UIState<T>?) {
     view.isVisible = (state is UIState.NoLogin)
@@ -226,11 +231,10 @@ fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
 fun setTextBasedOnMediaType2(view: TextView, tvShowDetailsUIState: TvShowDetailsResultUIState?) {
     tvShowDetailsUIState?.let {
         when (tvShowDetailsUIState.tvShowMediaType) {
-            MediaType.MOVIE -> setDuration(view, tvShowDetailsUIState.tvShowSeasonsNumber)
             MediaType.TV_SHOW -> view.text = view.context.getString(
                 R.string.more_than_one_season,
-                tvShowDetailsUIState.tvShowSeasonsNumber
             )
+            MediaType.MOVIE -> {}
         }
     }
 }

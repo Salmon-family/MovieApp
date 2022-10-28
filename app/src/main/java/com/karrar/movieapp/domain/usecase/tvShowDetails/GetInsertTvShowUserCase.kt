@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class GetInsertTvShowUserCase @Inject constructor(
     private val seriesRepository: SeriesRepository,
-    val watchHistoryMapper: WatchHistoryMapper
+    private val watchHistoryMapper: WatchHistoryMapper
 ) {
 
     suspend operator fun invoke(tvShow: WatchHistory) {
