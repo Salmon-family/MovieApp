@@ -1,16 +1,17 @@
 package com.karrar.movieapp.ui.login
 
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.login.LoginUseCase
+import com.karrar.movieapp.domain.LoginState
+import com.karrar.movieapp.domain.login.LoginWithUserNameAndPasswordUseCase
 import com.karrar.movieapp.domain.login.ValidateFiledUseCase
 import com.karrar.movieapp.domain.login.ValidateLoginFormUseCase
 import com.karrar.movieapp.domain.login.ValidatePasswordFiledUseCase
-import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.utilities.*
+import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.postEvent
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     state: SavedStateHandle,
-    private val loginUseCase: LoginUseCase,
+    private val loginWithUserNameAndPasswordUseCase: LoginWithUserNameAndPasswordUseCase,
     private val validateFiledUseCase: ValidateFiledUseCase,
     private val validatePasswordFiledUseCase: ValidatePasswordFiledUseCase,
     private val validateLoginFormUseCase: ValidateLoginFormUseCase,
@@ -47,39 +48,42 @@ class LoginViewModel @Inject constructor(
         login()
     }
 
-     fun onUserNameInputChange(text : CharSequence){
-         val userNameFieldState = validateFiledUseCase(text.toString())
-         _loginUIState.update {
-             it.copy(
-                 userName = text.toString(),
-                 userNameHelperText = userNameFieldState.errorMessage()?:"",
-                 isValidForm = validateLoginFormUseCase(loginUIState.value.userName,loginUIState.value.password)
-             )
+    fun onUserNameInputChange(text: CharSequence) {
+        val userNameFieldState = validateFiledUseCase(text.toString())
+        _loginUIState.update {
+            it.copy(
+                userName = text.toString(),
+                userNameHelperText = userNameFieldState.errorMessage() ?: "",
+                isValidForm = validateLoginFormUseCase(loginUIState.value.userName,
+                    loginUIState.value.password)
+            )
 
-         }
+        }
     }
-    fun onPasswordInputChange(text :  CharSequence){
+
+    fun onPasswordInputChange(text: CharSequence) {
         val passwordFieldState = validatePasswordFiledUseCase(text.toString())
         _loginUIState.update {
             it.copy(
                 password = text.toString(),
-                passwordHelperText = passwordFieldState.errorMessage()?:"",
-                isValidForm = validateLoginFormUseCase(loginUIState.value.userName,loginUIState.value.password)
-        ) }
+                passwordHelperText = passwordFieldState.errorMessage() ?: "",
+                isValidForm = validateLoginFormUseCase(loginUIState.value.userName,
+                    loginUIState.value.password)
+            )
+        }
     }
-
-
-
 
 
     private fun login() {
         viewModelScope.launch {
             try {
                 _loginUIState.update { it.copy(isLoading = true) }
-                val isLoginSuccessfully =
-                    loginUseCase(loginUIState.value.userName, loginUIState.value.password)
-                if (isLoginSuccessfully) {
-                    onLoginSuccessfully()
+                val loginState =
+                    loginWithUserNameAndPasswordUseCase(loginUIState.value.userName,
+                        loginUIState.value.password)
+                when (loginState) {
+                    is LoginState.Error -> onLoginError(loginState.message)
+                    LoginState.Success -> onLoginSuccessfully()
                 }
             } catch (e: Throwable) {
                 onLoginError(e.message.toString())
