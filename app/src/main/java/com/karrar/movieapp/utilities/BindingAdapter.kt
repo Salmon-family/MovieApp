@@ -40,6 +40,11 @@ fun <T> showWhenSuccess2(view: View, state: UIState<T>?) {
     view.isVisible = state is UIState.Success
 }
 
+@BindingAdapter("app:showWhenListNotEmpty")
+fun <T> showWhenListNotEmpty(view: View,list: List<T>){
+    view.isVisible = list.isNotEmpty() == true
+}
+
 @BindingAdapter("app:showWhenNoError")
 fun <T> showWhenNoError(view: View, error: String?) {
     view.isVisible = error.isNullOrBlank()
@@ -48,6 +53,11 @@ fun <T> showWhenNoError(view: View, error: String?) {
 @BindingAdapter(value = ["app:showWhenLoading"])
 fun <T> showWhenLoading2(view: View, state: UIState<T>?) {
     view.isVisible = (state is UIState.Loading)
+}
+
+@BindingAdapter(value = ["app:showWhenLoading3"])
+fun <T> showWhenLoading3(view: View, value: Boolean) {
+    view.isVisible = value
 }
 
 @BindingAdapter(value = ["app:showWhenNoLogin"])
@@ -68,6 +78,11 @@ fun <T> hideWhenLoading(view: View, state: UIState<T>?) {
 @BindingAdapter("app:showWhenFail")
 fun <T> showWhenFail2(view: View, state: UIState<T>?) {
     view.isVisible = state is UIState.Error
+}
+
+@BindingAdapter("app:showWhenFail3")
+fun <T> showWhenFail3(view: View, error :String) {
+    view.isVisible = error.isEmpty()
 }
 
 @BindingAdapter(value = ["app:showWhenSearch"])
@@ -222,6 +237,11 @@ fun <T> showWhenDoneLoadingAndListIsEmpty(view: View, emptyList: Boolean) {
     view.isVisible = emptyList
 }
 
+@BindingAdapter(value = ["app:showWhenListIsEmpty2","app:loading"])
+fun <T> showWhenListIsEmpty2(view: View, list: List<T>?,value :Boolean) {
+    view.isVisible = list?.isEmpty() == true && !value
+}
+
 @BindingAdapter("app:hideWhenListIsEmpty")
 fun <T> hideWhenListIsEmpty(view: View, list: List<T>?) {
     if (list?.isEmpty() == true) {
@@ -279,4 +299,3 @@ fun hideIfNotTypeOfMovie(view: View, mediaType: MediaType?) {
 fun <T> showWhenNoResults(view: View, state: UIState<T>?) {
     view.isVisible = (state == UIState.Success(false))
 }
-

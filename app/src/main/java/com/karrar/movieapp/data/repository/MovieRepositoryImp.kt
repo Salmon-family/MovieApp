@@ -16,6 +16,7 @@ import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
+import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.repository.mediaDataSource.movie.MovieDataSourceContainer
@@ -112,11 +113,8 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getRatedMovie(
         accountId: Int,
-        sessionId: String,
-    ): List<Rated> {
-        return wrap({ movieService.getRatedMovie(accountId, sessionId) }, { response ->
-            ListMapper(movieMappersContainer.ratedMoviesMapper).mapList(response.items)
-        })
+        sessionId: String, ): List<RatedMoviesDto>? {
+        return movieService.getRatedMovie(accountId, sessionId).body()?.items
     }
 
     override suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto {

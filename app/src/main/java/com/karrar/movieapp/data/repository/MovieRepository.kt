@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingData
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
+import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.AddListResponse
 import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.MovieDto
@@ -46,7 +47,7 @@ interface MovieRepository {
 
     suspend fun getMovieTrailer(movieId: Int): Trailer
 
-    suspend fun getRatedMovie(accountId: Int, sessionId: String): List<Rated>
+    suspend fun getRatedMovie(accountId: Int, sessionId: String): List<RatedMoviesDto>?
 
     suspend fun getTrendingActors(page: Int): List<Actor>
 

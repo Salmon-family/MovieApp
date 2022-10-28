@@ -72,7 +72,7 @@ class TvShowDetailsViewModel @Inject constructor(
         getTvShowDetails(tvShowId)
         getTvShowCast(tvShowId)
         getSeasons(tvShowId)
-        getRatedTvShows(tvShowId)
+//        getRatedTvShows(tvShowId)
         getTvShowReviews(tvShowId)
     }
 
@@ -102,17 +102,17 @@ class TvShowDetailsViewModel @Inject constructor(
         })
     }
 
-    private fun getRatedTvShows(tvShowId: Int) {
-        viewModelScope.launch {
-            accountRepository.getSessionId()?.let {
-                wrapWithState({
-                    val response = seriesRepository.getRatedTvShow(0, it.toString())
-                    checkIfTvShowRated(response, tvShowId)
-                    updateDetailItems(DetailItem.Rating(this@TvShowDetailsViewModel))
-                })
-            }
-        }
-    }
+//    private fun getRatedTvShows(tvShowId: Int) {
+//        viewModelScope.launch {
+//            accountRepository.getSessionId()?.let {
+//                wrapWithState({
+//                    val response = seriesRepository.getRatedTvShow(0, it.toString())
+//                    checkIfTvShowRated(response, tvShowId)
+//                    updateDetailItems(DetailItem.Rating(this@TvShowDetailsViewModel))
+//                })
+//            }
+//        }
+//    }
 
     private fun getTvShowReviews(tvShowId: Int) {
         wrapWithState({
