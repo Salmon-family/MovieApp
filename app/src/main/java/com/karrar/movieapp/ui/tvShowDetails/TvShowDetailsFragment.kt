@@ -31,12 +31,10 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
         observeEvents()
     }
 
-
     private fun setDetailAdapter() {
         detailAdapter = DetailUIStateAdapter(emptyList(), viewModel)
         binding.recyclerView.adapter = detailAdapter
     }
-
 
     private fun addRating() {
         val toast = Toast.makeText(
@@ -46,7 +44,6 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
         )
         if (viewModel.stateFlow.value.messageAppear) toast.show()
     }
-
 
     private fun observeEvents() {
         viewModel.clickPlayTrailerEvent.observeEvent(viewLifecycleOwner) { navigateToTrailer() }
@@ -63,7 +60,8 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
     private fun navigateToTrailer() {
         val action =
             TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToYoutubePlayerActivity(
-                args.tvShowId, MediaType.TV_SHOW
+                args.tvShowId,
+                MediaType.TV_SHOW
             )
         findNavController().navigate(action)
     }
@@ -77,7 +75,8 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
     private fun navigateToReviews() {
         val action =
             TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewFragment(
-                args.tvShowId, MediaType.TV_SHOW
+                args.tvShowId,
+                MediaType.TV_SHOW
             )
         findNavController().navigate(action)
     }
@@ -85,7 +84,8 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
     private fun navigateToEpisodes(seasonNumber: Int) {
         val action =
             TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(
-                args.tvShowId, seasonNumber
+                args.tvShowId,
+                seasonNumber
             )
         findNavController().navigate(action)
     }
@@ -93,5 +93,4 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
     private fun goBack() {
         findNavController().navigateUp()
     }
-
 }

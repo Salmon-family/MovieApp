@@ -6,11 +6,11 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.TvShowDetails" />
+            type="com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.TvShowDetailsResultUIState" />
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.tvShowDetails.DetailInteractionListener" />
+            type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,7 +64,7 @@
             android:onClick="@{() -> listener.onClickSave()}"
             android:padding="@dimen/spacing_small"
             android:src="@drawable/ic_save"
-            app:hideIfNotTypeOfMovie="@{item.tvShowType}"
+            app:hideIfNotTypeOfMovie="@{item.tvShowMediaType}"
             app:layout_constraintBottom_toBottomOf="@+id/imageView3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imageView3"

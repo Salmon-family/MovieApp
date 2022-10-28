@@ -7,7 +7,7 @@
 
         <variable
             name="adapterRecycler"
-            type="com.karrar.movieapp.ui.tvShowDetails.SeasonAdapter" />
+            type="com.karrar.movieapp.ui.tvShowDetails.SeasonAdapterUIState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

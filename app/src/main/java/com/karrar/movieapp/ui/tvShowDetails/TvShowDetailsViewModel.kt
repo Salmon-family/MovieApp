@@ -5,7 +5,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.domain.usecase.tvShowDetails.GetInsertTvShowUserCase
-import com.karrar.movieapp.domain.usecase.tvShowDetails.GetSessionIdUseCase
 import com.karrar.movieapp.domain.usecase.tvShowDetails.GetTvShowDetailsUseCase
 import com.karrar.movieapp.domain.usecase.tvShowDetails.SetRatingUesCase
 import com.karrar.movieapp.ui.UIState
@@ -28,12 +27,13 @@ import javax.inject.Inject
 @HiltViewModel
 class TvShowDetailsViewModel @Inject constructor(
     private val getTvShowDetailsUseCase: GetTvShowDetailsUseCase,
-    private val getSessionIdUseCase: GetSessionIdUseCase,
     private val getInsertTvShowUserCase: GetInsertTvShowUserCase,
     private val setRatingUesCase: SetRatingUesCase,
     private val tvShowMapperContainer: TvShowMapperContainer,
-    state: SavedStateHandle,
-) : BaseViewModel(), ActorsInteractionListener, SeasonInteractionListener,
+    state: SavedStateHandle
+) : BaseViewModel(),
+    ActorsInteractionListener,
+    SeasonInteractionListener,
     DetailInteractionListener {
 
     val args = TvShowDetailsFragmentArgs.fromSavedStateHandle(state)
@@ -61,7 +61,6 @@ class TvShowDetailsViewModel @Inject constructor(
     private val _stateFlow = MutableStateFlow(TvShowDetailsUIState())
     val stateFlow: StateFlow<TvShowDetailsUIState> = _stateFlow.asStateFlow()
 
-
     init {
         getData()
     }
@@ -85,21 +84,23 @@ class TvShowDetailsViewModel @Inject constructor(
         try {
             val result = getTvShowDetailsUseCase.getTvShowDetails(tvShowId)
             _stateFlow.update {
-                it.copy(tvShowDetailsResult = tvShowMapperContainer.tvShowDetailsUIMapper.map(result),
-                    isLoading = false)
+                it.copy(
+                    tvShowDetailsResult = tvShowMapperContainer.tvShowDetailsUIMapper.map(result),
+                    isLoading = false
+                )
             }
 
             updateDetailItems(DetailItemUIState.Header(_stateFlow.value.tvShowDetailsResult))
             insertMovieToWatchHistory(_stateFlow.value.watchHistoryUIState)
         } catch (e: Exception) {
             _stateFlow.update {
-                it.copy(error = listOf(Error(message = e.message.toString())),
-                    isLoading = false)
+                it.copy(
+                    error = listOf(Error(message = e.message.toString())),
+                    isLoading = false
+                )
             }
         }
-
     }
-
 
     private suspend fun getTvShowCast(tvShowId: Int) {
         try {
@@ -107,13 +108,15 @@ class TvShowDetailsViewModel @Inject constructor(
             _stateFlow.update { it ->
                 it.copy(
                     seriesCastResult = result.map { tvShowMapperContainer.tvShowCastUIMapper.map(it) },
-                    isLoading = false,
+                    isLoading = false
                 )
             }
         } catch (e: Exception) {
             _stateFlow.update {
-                it.copy(error = listOf(Error(message = e.message.toString())),
-                    isLoading = false)
+                it.copy(
+                    error = listOf(Error(message = e.message.toString())),
+                    isLoading = false
+                )
             }
         }
         updateDetailItems(DetailItemUIState.Cast(_stateFlow.value.seriesCastResult))
@@ -133,8 +136,10 @@ class TvShowDetailsViewModel @Inject constructor(
             updateDetailItems(DetailItemUIState.Seasons(_stateFlow.value.seriesSeasonsResult))
         } catch (e: Exception) {
             _stateFlow.update {
-                it.copy(error = listOf(Error(message = e.message.toString())),
-                    isLoading = false)
+                it.copy(
+                    error = listOf(Error(message = e.message.toString())),
+                    isLoading = false
+                )
             }
         }
     }
@@ -155,16 +160,16 @@ class TvShowDetailsViewModel @Inject constructor(
         } catch (e: Exception) {
             _stateFlow.update { it.copy(error = listOf(Error(message = e.message.toString()))) }
         }
-
     }
 
     private suspend fun getTvShowReviews(tvShowId: Int) {
         try {
             val result = getTvShowDetailsUseCase.getTvShowReviews(tvShowId)
             _stateFlow.update { it ->
-                it.copy(seriesReviewsResult = result.map {
-                    tvShowMapperContainer.tvShowReviewUIMapper.map(it)
-                },
+                it.copy(
+                    seriesReviewsResult = result.map {
+                        tvShowMapperContainer.tvShowReviewUIMapper.map(it)
+                    },
                     isLoading = false
                 )
             }
@@ -189,14 +194,11 @@ class TvShowDetailsViewModel @Inject constructor(
         )
     }
 
-
     private fun insertMovieToWatchHistory(tvShow: WatchHistoryUIState) {
         viewModelScope.launch {
             getInsertTvShowUserCase(tvShowMapperContainer.tvShowWatchHistoryMapper.map(tvShow))
         }
     }
-
-    ///
 
     private fun checkIfTvShowRated(items: List<RatedUIState>?, tvShowId: Int) {
         val item = items?.firstOrNull { it.id == tvShowId }
@@ -234,7 +236,6 @@ class TvShowDetailsViewModel @Inject constructor(
         _stateFlow.update { it.copy(detailItemResult = movieDetailItemsOfNestedView) }
     }
 
-
     override fun onClickSave() {}
 
     override fun onClickPlayTrailer() {
@@ -256,5 +257,4 @@ class TvShowDetailsViewModel @Inject constructor(
     override fun onClickSeason(seasonNumber: Int) {
         _clickEpisodeEvent.postEvent(seasonNumber)
     }
-
 }

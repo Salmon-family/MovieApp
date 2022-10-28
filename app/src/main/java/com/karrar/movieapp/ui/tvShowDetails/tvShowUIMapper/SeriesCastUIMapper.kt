@@ -10,7 +10,7 @@ class SeriesCastUIMapper @Inject constructor() : Mapper<Actor, SeriesCastUIState
         return SeriesCastUIState(
             actorID = input.actorID,
             actorName = input.actorName,
-            actorImage = input.actorImage,
+            actorImage = input.actorImage
         )
     }
 }

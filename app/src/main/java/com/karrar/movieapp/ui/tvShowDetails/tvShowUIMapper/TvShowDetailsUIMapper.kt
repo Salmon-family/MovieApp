@@ -2,12 +2,10 @@ package com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper
 
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.TvShowDetails
-import com.karrar.movieapp.ui.tvShowDetails.tvShowExtensionMapeprs.toTvShowDetailsResultUIState
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.TvShowDetailsResultUIState
-import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.TvShowDetailsUIState
 import javax.inject.Inject
 
-class TvShowDetailsResultUIMapper @Inject constructor(): Mapper<TvShowDetails, TvShowDetailsResultUIState> {
+class TvShowDetailsResultUIMapper @Inject constructor() : Mapper<TvShowDetails, TvShowDetailsResultUIState> {
     override fun map(input: TvShowDetails): TvShowDetailsResultUIState {
         return TvShowDetailsResultUIState(
             tvShowId = input.tvShowId,
@@ -18,7 +16,7 @@ class TvShowDetailsResultUIMapper @Inject constructor(): Mapper<TvShowDetails, T
             tvShowSeasonsNumber = input.tvShowSeasonsNumber,
             tvShowReview = input.tvShowReview,
             tvShowReleaseDate = input.tvShowReleaseDate,
-            tvShowGenres = input.tvShowGenres,
+            tvShowGenres = input.tvShowGenres
         )
     }
 }

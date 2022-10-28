@@ -16,6 +16,4 @@ class SeriesMapperContainer @Inject constructor(
     val airingTodaySeriesMapper: AiringTodaySeriesMapper,
     val onTheAirSeriesMapper: OnTheAirSeriesMapper,
     val topRatedSeriesMapper: TopRatedSeriesMapper,
-    val ratingStatusTvShowMapper: RatingStatusTvShowMapper,
-    val watchHistoryMapper: WatchHistoryMapper,
 )

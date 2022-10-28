@@ -5,7 +5,7 @@ import com.karrar.movieapp.domain.models.Rated
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.RatedUIState
 import javax.inject.Inject
 
-class TvShowRatedUIMapper @Inject constructor(): Mapper<Rated, RatedUIState> {
+class TvShowRatedUIMapper @Inject constructor() : Mapper<Rated, RatedUIState> {
     override fun map(input: Rated): RatedUIState {
         return RatedUIState(
             id = input.id,
@@ -13,7 +13,7 @@ class TvShowRatedUIMapper @Inject constructor(): Mapper<Rated, RatedUIState> {
             posterPath = input.posterPath,
             rating = input.rating,
             releaseDate = input.releaseDate,
-            mediaType = input.mediaType,
+            mediaType = input.mediaType
         )
     }
 }

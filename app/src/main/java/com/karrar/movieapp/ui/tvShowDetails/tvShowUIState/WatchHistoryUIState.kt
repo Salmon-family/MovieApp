@@ -9,5 +9,5 @@ data class WatchHistoryUIState(
     val movieDuration: Int = 0,
     val voteAverage: String = "",
     val releaseDate: String = "",
-    val mediaType: String = Constants.TV_SHOWS,
+    val mediaType: String = Constants.TV_SHOWS
 )

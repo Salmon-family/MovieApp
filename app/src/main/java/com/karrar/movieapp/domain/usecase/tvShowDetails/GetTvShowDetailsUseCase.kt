@@ -4,13 +4,12 @@ import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
 import com.karrar.movieapp.domain.models.*
-import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.TvShowDetailsUIState
 import javax.inject.Inject
 
 class GetTvShowDetailsUseCase @Inject constructor(
     private val seriesRepository: SeriesRepository,
     private val seriesMapperContainer: SeriesMapperContainer,
-    private val getSessionIdUseCase: GetSessionIdUseCase,
+    private val getSessionIdUseCase: GetSessionIdUseCase
 ) {
 
     suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails {
@@ -44,10 +43,9 @@ class GetTvShowDetailsUseCase @Inject constructor(
     suspend fun getTvShowRated(accountId: Int): List<Rated> {
         return ListMapper(seriesMapperContainer.ratedTvShowMapper).mapList(
             seriesRepository.getRatedTvShow(
-                accountId, getSessionIdUseCase() ?: ""
+                accountId,
+                getSessionIdUseCase() ?: ""
             )
         )
     }
-
-
 }

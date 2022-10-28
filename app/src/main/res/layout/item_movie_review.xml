@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Review" />
+            type="com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.ReviewUIState" />
 
     </data>
 

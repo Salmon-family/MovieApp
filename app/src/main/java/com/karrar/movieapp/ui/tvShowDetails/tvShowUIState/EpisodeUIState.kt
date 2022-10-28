@@ -9,5 +9,5 @@ data class EpisodeUIState(
     val episodeRate: Double = 0.0,
     val episodeTotalReviews: String = "",
     val episodeDescription: String = "",
-    val episodeNumber: Int = 0,
+    val episodeNumber: Int = 0
 )
