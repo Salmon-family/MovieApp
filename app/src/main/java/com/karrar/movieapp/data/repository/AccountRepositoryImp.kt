@@ -46,9 +46,8 @@ class AccountRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend fun logout(): Boolean {
+    override suspend fun logout() {
         appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
-        return true
     }
 
     override suspend fun getAccountDetails(sessionId: String): AccountDto? {

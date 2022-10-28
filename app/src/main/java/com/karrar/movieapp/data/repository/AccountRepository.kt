@@ -11,7 +11,7 @@ interface AccountRepository {
         password: String,
     ): Boolean
 
-    suspend fun logout(): Boolean
+    suspend fun logout()
 
     suspend fun getAccountDetails(sessionId: String): AccountDto?
 }
