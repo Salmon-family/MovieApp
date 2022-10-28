@@ -46,31 +46,34 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getProfileDetails() {
-        _profileDetailsUIState.update {
-            it.copy(isLoading = true)
-        }
-        _profileDetailsUIState.update {
-            it.copy(
-                isLoggedIn = checkIfLoggedInUseCase()
-            )
-        }
-        viewModelScope.launch {
-            try {
-                val accountDetails = accountUIStateMapper.map(getAccountDetailsUseCase())
-                _profileDetailsUIState.update {
-                    it.copy(
-                        avatarPath = accountDetails.avatarPath,
-                        name = accountDetails.name,
-                        username = accountDetails.username,
-                        isLoading = false,
-                        isSuccess = true,
-                        isFail = false
-                    )
+        if (checkIfLoggedInUseCase()){
+            _profileDetailsUIState.update {
+                it.copy(isLoggedIn = true)
+            }
+            _profileDetailsUIState.update {
+                it.copy(isLoading = true)
+            }
+            viewModelScope.launch {
+                try {
+                    val accountDetails = accountUIStateMapper.map(getAccountDetailsUseCase())
+                    _profileDetailsUIState.update {
+                        it.copy(
+                            avatarPath = accountDetails.avatarPath,
+                            name = accountDetails.name,
+                            username = accountDetails.username,
+                            isLoading = false,
+                            isFail = false,
+                        )
+                    }
+                } catch (t: Throwable) {
+                    _profileDetailsUIState.update {
+                        it.copy(isLoading = false, isFail = true)
+                    }
                 }
-            } catch (t: Throwable) {
-                _profileDetailsUIState.update {
-                    it.copy(isLoading = false, isFail = true, isSuccess = false)
-                }
+            }
+        } else {
+            _profileDetailsUIState.update {
+                it.copy(isLoggedIn = false)
             }
         }
     }

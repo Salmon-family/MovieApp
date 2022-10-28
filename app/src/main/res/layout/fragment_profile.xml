@@ -196,39 +196,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-
-        <androidx.constraintlayout.widget.Group
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="text_watch_history,
-            text_rated_movies,
-            text_sign_out,
-            first_divider,
-            second_divider,
-            image_actor,
-            text_name_actor,
-            text_username"
-            app:isVisible="@{viewModel.profileDetailsUIState.success}"
-            />
-
-        <androidx.constraintlayout.widget.Group
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="
-            text_message_wrong,
-            vector_image,
-            text_message_wrong_title,
-            button_nav_login,"
-            app:isLogged="@{viewModel.profileDetailsUIState.isLoggedIn}" />
-
-        <include
-            android:id="@+id/loading"
-            layout="@layout/loading"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_lost_connection"
             android:layout_width="128dp"
@@ -278,11 +245,42 @@
             app:layout_constraintTop_toBottomOf="@+id/description_lost_connection" />
 
         <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_profile_fetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:constraint_referenced_ids="text_watch_history,
+            text_rated_movies,
+            text_sign_out,
+            first_divider,
+            second_divider,
+            image_actor,
+            text_name_actor,
+            text_username"
+            isLogged="@{viewModel.profileDetailsUIState.loggedIn}"
+            isFailure="@{viewModel.profileDetailsUIState.fail}"
+            />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_when_no_internet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_retry"
             app:isFail="@{viewModel.profileDetailsUIState.fail}"
-            app:isLog="@{viewModel.profileDetailsUIState.loggedIn}"/>
+            app:isLoggedIn="@{viewModel.profileDetailsUIState.loggedIn}"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_when_no_logged_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="
+            text_message_wrong,
+            vector_image,
+            text_message_wrong_title,
+            button_nav_login,"
+            app:showWhenNoLoggedIn="@{viewModel.profileDetailsUIState.isLoggedIn}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
