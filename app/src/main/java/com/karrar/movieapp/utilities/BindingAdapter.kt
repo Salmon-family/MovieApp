@@ -286,3 +286,8 @@ fun showWhenIsLoggedInWithoutFail(view: View, isLoggedIn: Boolean, isFail: Boole
         view.isVisible = false
     }
 }
+
+@BindingAdapter("app:showProfileWhenSuccess")
+fun showWhenProfileSuccess(view: View, userName: String) {
+    view.isVisible = userName.isNotEmpty()
+}

@@ -245,7 +245,7 @@
             app:layout_constraintTop_toBottomOf="@+id/description_lost_connection" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/group_profile_fetails"
+            android:id="@+id/group_when_success"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
@@ -258,8 +258,7 @@
             image_actor,
             text_name_actor,
             text_username"
-            isLogged="@{viewModel.profileDetailsUIState.loggedIn}"
-            isFailure="@{viewModel.profileDetailsUIState.fail}"
+            app:showProfileWhenSuccess="@{viewModel.profileDetailsUIState.username}"
             />
 
         <androidx.constraintlayout.widget.Group
@@ -268,7 +267,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_retry"
-            app:isFail="@{viewModel.profileDetailsUIState.fail}"
+            app:isFail="@{viewModel.profileDetailsUIState.error}"
             app:isLoggedIn="@{viewModel.profileDetailsUIState.loggedIn}"/>
 
         <androidx.constraintlayout.widget.Group

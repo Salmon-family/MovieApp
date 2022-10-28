@@ -48,11 +48,9 @@ class ProfileViewModel @Inject constructor(
     private fun getProfileDetails() {
         if (checkIfLoggedInUseCase()){
             _profileDetailsUIState.update {
-                it.copy(isLoggedIn = true)
+                it.copy(isLoading = true, isLoggedIn = true, error = false)
             }
-            _profileDetailsUIState.update {
-                it.copy(isLoading = true)
-            }
+
             viewModelScope.launch {
                 try {
                     val accountDetails = accountUIStateMapper.map(getAccountDetailsUseCase())
@@ -61,13 +59,12 @@ class ProfileViewModel @Inject constructor(
                             avatarPath = accountDetails.avatarPath,
                             name = accountDetails.name,
                             username = accountDetails.username,
-                            isLoading = false,
-                            isFail = false,
+                            isLoading = false
                         )
                     }
                 } catch (t: Throwable) {
                     _profileDetailsUIState.update {
-                        it.copy(isLoading = false, isFail = true)
+                        it.copy(isLoading = false, error = true)
                     }
                 }
             }
