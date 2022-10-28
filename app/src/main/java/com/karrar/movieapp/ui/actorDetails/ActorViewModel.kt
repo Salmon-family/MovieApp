@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.actorDetails
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -62,6 +63,7 @@ class ActorViewModel @Inject constructor(
                         knownFor = actorDetails.knownFor,
                         actorMovies = actorMovies,
                         isLoading = false,
+                        isSuccess = true
                     )
                 }
             } catch (e: Exception) {

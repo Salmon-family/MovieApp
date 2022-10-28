@@ -9,6 +9,7 @@ data class ActorDetailsUIState(
     val knownFor: String = "",
     val biography: String = "",
     val isLoading: Boolean = false,
+    val isSuccess: Boolean = false,
     val error: Error = Error(""),
     val actorMovies: List<ActorMoviesUIState> = emptyList()
 )

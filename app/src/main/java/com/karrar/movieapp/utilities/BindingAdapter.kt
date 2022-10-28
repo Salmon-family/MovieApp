@@ -17,6 +17,7 @@ import com.karrar.movieapp.ui.home.HomeRecyclerItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
 import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
+import com.karrar.movieapp.utilities.Constants.IMAGEACTORPATHWHENISNULL
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -252,12 +253,13 @@ fun showWhenError(view: View, message: String){
     view.isVisible = message.isNotEmpty()
 }
 
-@BindingAdapter("app:hideWhenLoading")
-fun hideWhenLoading(view: View, isLoading: Boolean){
-    view.isVisible = !isLoading
-}
-
-@BindingAdapter("app:hideWhenFail")
-fun hideWhenFail(view: View, message: String){
-    view.isVisible = message.isEmpty()
+@BindingAdapter("app:loadActorImage")
+fun loadActorImage(image: ImageView, imageURL: String?){
+    if (imageURL == IMAGEACTORPATHWHENISNULL){
+        image.setImageResource(R.drawable.ic_baseline_person_24)
+    } else {
+        image.load(imageURL){
+            placeholder(R.drawable.loading)
+        }
+    }
 }

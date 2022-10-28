@@ -70,8 +70,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:hideWhenLoading="@{viewModel.actorDetailsUIState.isLoading}"
-            app:posterImage="@{viewModel.actorDetailsUIState.imageUrl}"
+            android:visibility="gone"
+            app:isVisible="@{viewModel.actorDetailsUIState.success}"
+            app:loadActorImage="@{viewModel.actorDetailsUIState.imageUrl}"
             tools:src="@drawable/chris_evans" />
 
         <View
@@ -120,8 +121,8 @@
                 android:id="@+id/details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hideWhenLoading="@{viewModel.actorDetailsUIState.loading}"
-                app:hideWhenFail="@{viewModel.actorDetailsUIState.error.message}"
+                android:visibility="gone"
+                app:isVisible="@{viewModel.actorDetailsUIState.success}"
                 android:background="@color/background_color">
 
                 <TextView
