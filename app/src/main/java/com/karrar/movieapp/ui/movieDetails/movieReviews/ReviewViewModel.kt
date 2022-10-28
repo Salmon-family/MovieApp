@@ -32,7 +32,7 @@ class ReviewViewModel @Inject constructor(
 
 
     init {
-        _uiState.update { it.copy(isLoading = true) }
+        _uiState.update { it.copy(isLoading = true, errorUIStates = emptyList()) }
         getData()
     }
 
@@ -43,11 +43,8 @@ class ReviewViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         movieReview = result.map { review -> reviewUIStateMapper.map(review) },
-                        isLoading = false
+                        isLoading = false,
                     )
-                }
-                if (_uiState.value.movieReview.isNotEmpty()) {
-                    _uiState.value.movieReview
                 }
             } catch (e: Exception) {
                 _uiState.update {
