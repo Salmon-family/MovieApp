@@ -18,7 +18,9 @@ class GetMyListUseCase @Inject constructor(
         val sessionId = accountRepository.getSessionId()
         return if (!sessionId.isNullOrBlank()) {
             val response = movieRepository.getAllLists(sessionId)
-            ListMapper(createdListsMapper).mapList(response)
+            response?.let {
+                it.map { createdListsMapper.map(it) }
+            }?: throw Throwable(ErrorUI.EMPTY_BODY)
         } else {
             throw Throwable(ErrorUI.NO_LOGIN)
         }

@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMyListsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,11 +20,8 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setTitle(true, getString(R.string.myList))
-
         binding.savedList.adapter = CreatedListAdapter(emptyList(), viewModel)
-
         observeEvents()
     }
 
@@ -42,11 +38,8 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
             findNavController().navigate(action)
         }
 
-        collect(viewModel.createListDialogUIState) {
-            if (it.error.isNotEmpty()) {
-                Toast.makeText(requireContext(), it.error.toString(), Toast.LENGTH_LONG).show()
-                viewModel.updateErrorDialog()
-            }
+        viewModel.displayError.observeEvent(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         }
 
     }

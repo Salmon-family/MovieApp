@@ -45,6 +45,9 @@ class MyListsViewModel @Inject constructor(
     private val _onSelectItem = MutableLiveData<Event<CreatedListUIState>>()
     val onSelectItem = _onSelectItem.toLiveData()
 
+    private val _displayError = MutableLiveData<Event<String>>()
+    val displayError = _displayError.toLiveData()
+
     override fun getData() {
         _createdListUIState.update {
             it.copy(
@@ -85,22 +88,15 @@ class MyListsViewModel @Inject constructor(
                     )
                 }
             } catch (t: Throwable) {
-                _createListDialogUIState.update {
-                    it.copy(error = listOf(ErrorUIState(0, t.message.toString())))
-                }
+                _displayError.postEvent(t.message.toString())
             }
             _createListDialogUIState.update { it.copy(mediaListName = "") }
         }
         _onCLickAddEvent.postEvent(true)
     }
 
-    override fun onListClick(itemID: Int) {
-        val item = _createdListUIState.value.createdList.find { it.listID == itemID }
-        item?.let { _onSelectItem.postValue(Event(it)) }
-    }
-
-    fun updateErrorDialog() {
-        _createListDialogUIState.update { it.copy(error = emptyList()) }
+    override fun onListClick(item: CreatedListUIState) {
+        _onSelectItem.postValue(Event(item))
     }
 
     private fun setError(t: Throwable) {

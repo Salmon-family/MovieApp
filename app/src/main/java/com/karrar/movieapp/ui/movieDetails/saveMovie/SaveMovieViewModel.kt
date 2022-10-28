@@ -8,10 +8,6 @@ import com.karrar.movieapp.domain.usecase.mylist.SaveMovieToMyListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.MySavedListUIState
-import com.karrar.movieapp.utilities.ErrorUI
-import com.karrar.movieapp.utilities.ErrorUI.INTERNET_CONNECTION
-import com.karrar.movieapp.utilities.ErrorUI.NEED_LOGIN
-import com.karrar.movieapp.utilities.ErrorUI.NO_LOGIN
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,12 +47,7 @@ class SaveMovieViewModel @Inject constructor(
                     )
                 }
             } catch (t: Throwable) {
-                val error = if (t.message == NO_LOGIN) {
-                    listOf(ErrorUIState(NEED_LOGIN, t.message.toString()))
-                } else {
-                    listOf(ErrorUIState(INTERNET_CONNECTION, t.message.toString()))
-                }
-                _myListsUIState.update { it.copy(isLoading = false, error = error) }
+                _myListsUIState.update { it.copy(isLoading = false, error = listOf(ErrorUIState(404,t.message.toString()))) }
             }
         }
     }

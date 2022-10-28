@@ -2,6 +2,7 @@ package com.karrar.movieapp.domain.usecase.mylist
 
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.MovieRepository
+import com.karrar.movieapp.utilities.ErrorUI
 import com.karrar.movieapp.utilities.checkIfExist
 import javax.inject.Inject
 
@@ -25,6 +26,6 @@ class SaveMovieToMyListUseCase @Inject constructor(
         return sessionID?.let {
             movieRepository.addMovieToList(it, listID, mediaId)
             "Success: The movie has been added"
-        } ?: "Need Login"
+        } ?: throw Throwable(ErrorUI.NO_LOGIN)
     }
 }

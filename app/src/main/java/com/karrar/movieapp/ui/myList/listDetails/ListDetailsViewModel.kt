@@ -6,10 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecase.mylist.GetMyMediaListDetailsUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
-import com.karrar.movieapp.ui.category.uiState.MediaUIState
 import com.karrar.movieapp.ui.myList.listDetails.listDetailsUIState.ListDetailsUIState
 import com.karrar.movieapp.ui.myList.listDetails.listDetailsUIState.SavedMediaUIState
-import com.karrar.movieapp.utilities.ErrorUI.INTERNET_CONNECTION
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -57,15 +55,9 @@ class ListDetailsViewModel @Inject constructor(
 
             } catch (t: Throwable) {
                 _listDetailsUIState.update {
-                    it.copy(
-                        isLoading = false,
-                        error = listOf(
-                            ErrorUIState(
-                                code = INTERNET_CONNECTION,
-                                t.message.toString()
-                            )
-                        )
-                    )
+                    it.copy(isLoading = false, error = listOf(
+                      ErrorUIState(0, t.message.toString())
+                    ))
                 }
             }
         }

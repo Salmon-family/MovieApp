@@ -21,7 +21,7 @@
         android:layout_marginHorizontal="@dimen/spacing_medium"
         android:layout_marginVertical="@dimen/spacing_small"
         android:backgroundTint="@color/card_background_color"
-        android:onClick="@{()->listener.onListClick(item.listID)}"
+        android:onClick="@{()->listener.onListClick(item)}"
         app:cardCornerRadius="@dimen/radius_small"
         app:cardElevation="0dp">
 
