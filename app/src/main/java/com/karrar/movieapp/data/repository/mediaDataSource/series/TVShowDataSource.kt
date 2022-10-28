@@ -1,24 +1,22 @@
-package com.karrar.movieapp.data.mediaDataSource.series
-
+package com.karrar.movieapp.data.repository.mediaDataSource.series
 
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
-import javax.inject.Inject
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.data.mediaDataSource.BasePagingSource
+import com.karrar.movieapp.data.repository.mediaDataSource.BasePagingSource
+import javax.inject.Inject
 
-
-class OnTheAirTvShowDataSource @Inject constructor(
-    private val service: MovieService,
+class TVShowDataSource @Inject constructor(
+    private val service: MovieService
 ) : BasePagingSource<TVShowsDTO>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TVShowsDTO> {
         val pageNumber = params.key ?: 1
-
         return try {
-            val response = service.getOnTheAir(page = pageNumber)
+
+            val response = service.getAllTvShows(pageNumber)
 
             LoadResult.Page(
-                data = response.body()?.items?: emptyList(),
+                data = response.body()?.items as List<TVShowsDTO>,
                 prevKey = null,
                 nextKey = response.body()?.page?.plus(1)
             )
@@ -26,5 +24,4 @@ class OnTheAirTvShowDataSource @Inject constructor(
             LoadResult.Error(e)
         }
     }
-
 }

@@ -3,7 +3,7 @@ package com.karrar.movieapp.domain.usecase.mylist
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.CreatedList
-import com.karrar.movieapp.ui.myList.MyListErrorType
+import com.karrar.movieapp.utilities.ErrorUI
 import javax.inject.Inject
 
 class CreateMovieListUseCase @Inject constructor(
@@ -19,9 +19,9 @@ class CreateMovieListUseCase @Inject constructor(
             if (item?.success == true) {
                 getMyListUseCase()
             } else {
-                throw MyListErrorType.RequiredInternetConnectionError()
+                throw Throwable(ErrorUI.EMPTY_BODY)
             }
-        } ?: throw MyListErrorType.RequiredLoginError()
+        } ?: throw Throwable(ErrorUI.NO_LOGIN)
     }
 
 

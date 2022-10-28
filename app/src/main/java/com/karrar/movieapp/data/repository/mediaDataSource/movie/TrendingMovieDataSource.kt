@@ -1,11 +1,11 @@
-package com.karrar.movieapp.data.mediaDataSource.movie
+package com.karrar.movieapp.data.repository.mediaDataSource.movie
 
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.data.mediaDataSource.BasePagingSource
+import com.karrar.movieapp.data.repository.mediaDataSource.BasePagingSource
 import javax.inject.Inject
 
-class UpcomingMovieDataSource @Inject constructor(
+class TrendingMovieDataSource @Inject constructor(
     private val service: MovieService,
 ) : BasePagingSource<MovieDto>() {
 
@@ -13,7 +13,7 @@ class UpcomingMovieDataSource @Inject constructor(
         val pageNumber = params.key ?: 1
 
         return try {
-            val response = service.getUpcomingMovies(page = pageNumber)
+            val response = service.getTrendingMovies(page = pageNumber)
 
             LoadResult.Page(
                 data = response.body()?.items?: emptyList(),

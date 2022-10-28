@@ -1,4 +1,4 @@
-package com.karrar.movieapp.data.mediaDataSource
+package com.karrar.movieapp.data.repository.mediaDataSource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

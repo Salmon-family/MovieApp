@@ -1,4 +1,4 @@
-package com.karrar.movieapp.data.mediaDataSource.series
+package com.karrar.movieapp.data.repository.mediaDataSource.series
 
 import javax.inject.Inject
 

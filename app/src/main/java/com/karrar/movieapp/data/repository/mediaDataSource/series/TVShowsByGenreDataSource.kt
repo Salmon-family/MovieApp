@@ -1,12 +1,13 @@
-package com.karrar.movieapp.data.repository.mediaDataSource
+package com.karrar.movieapp.data.repository.mediaDataSource.series
 
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.service.MovieService
+import com.karrar.movieapp.data.repository.mediaDataSource.BasePagingSource
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
 class TVShowsByGenreDataSource @Inject constructor(private val service: MovieService) :
-    MediaDataSource<TVShowsDTO>() {
+    BasePagingSource<TVShowsDTO>() {
 
     private var mediaGenreID by Delegates.notNull<Int>()
 

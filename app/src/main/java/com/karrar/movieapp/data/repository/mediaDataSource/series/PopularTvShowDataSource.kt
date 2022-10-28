@@ -1,12 +1,13 @@
-package com.karrar.movieapp.data.mediaDataSource.series
+package com.karrar.movieapp.data.repository.mediaDataSource.series
 
+import androidx.paging.PagingState
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
-import javax.inject.Inject
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.data.mediaDataSource.BasePagingSource
+import com.karrar.movieapp.data.repository.mediaDataSource.BasePagingSource
+import javax.inject.Inject
 
 
-class AiringTodayTvShowDataSource @Inject constructor(
+class PopularTvShowDataSource @Inject constructor(
     private val service: MovieService,
 ) : BasePagingSource<TVShowsDTO>() {
 
@@ -14,7 +15,7 @@ class AiringTodayTvShowDataSource @Inject constructor(
         val pageNumber = params.key ?: 1
 
         return try {
-            val response = service.getAiringToday(page = pageNumber)
+            val response = service.getPopularTvShow(page = pageNumber)
 
             LoadResult.Page(
                 data = response.body()?.items?: emptyList(),
@@ -24,5 +25,9 @@ class AiringTodayTvShowDataSource @Inject constructor(
         } catch (e: Throwable) {
             LoadResult.Error(e)
         }
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, TVShowsDTO>): Int? {
+        return state.anchorPosition
     }
 }

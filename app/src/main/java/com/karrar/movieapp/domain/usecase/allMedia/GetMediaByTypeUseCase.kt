@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.allMedia
+package com.karrar.movieapp.domain.usecase.allMedia
 
 import androidx.paging.Pager
 import androidx.paging.PagingData
@@ -9,6 +9,7 @@ import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.mappers.movie.MovieMapper
 import com.karrar.movieapp.domain.mappers.series.TVShowMapper
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -49,10 +50,14 @@ class GetMediaByTypeUseCase @Inject constructor(
                 wrapper(movieRepository::getUpcomingMoviesPager, movieMapper::map)
             }
             AllMediaType.MYSTERY -> {
-                wrapper(movieRepository::getMysteryMoviesPager, movieMapper::map)
+                wrapper({ movieRepository.getMovieByGenre(Constants.MYSTERY_ID) }, movieMapper::map)
+
             }
             AllMediaType.ADVENTURE -> {
-                wrapper(movieRepository::getAdventureMoviesPager, movieMapper::map)
+                wrapper(
+                    { movieRepository.getMovieByGenre(Constants.ADVENTURE_ID) },
+                    movieMapper::map
+                )
             }
         }
     }

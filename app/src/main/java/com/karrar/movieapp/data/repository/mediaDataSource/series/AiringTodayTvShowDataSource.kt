@@ -1,24 +1,23 @@
-package com.karrar.movieapp.data.repository.mediaDataSource
+package com.karrar.movieapp.data.repository.mediaDataSource.series
 
-import com.karrar.movieapp.domain.mappers.ListMapper
-import com.karrar.movieapp.domain.mappers.series.TVShowMapper
-import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import javax.inject.Inject
 import com.karrar.movieapp.data.remote.service.MovieService
+import com.karrar.movieapp.data.repository.mediaDataSource.BasePagingSource
+
 
 class AiringTodayTvShowDataSource @Inject constructor(
     private val service: MovieService,
-    private val mapper: TVShowMapper
-) : MediaDataSource<Media>() {
+) : BasePagingSource<TVShowsDTO>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Media> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TVShowsDTO> {
         val pageNumber = params.key ?: 1
 
         return try {
             val response = service.getAiringToday(page = pageNumber)
 
             LoadResult.Page(
-                data = ListMapper(mapper).mapList(response.body()?.items),
+                data = response.body()?.items?: emptyList(),
                 prevKey = null,
                 nextKey = response.body()?.page?.plus(1)
             )

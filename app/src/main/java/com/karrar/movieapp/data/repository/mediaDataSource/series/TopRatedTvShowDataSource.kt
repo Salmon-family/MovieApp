@@ -1,9 +1,9 @@
-package com.karrar.movieapp.data.mediaDataSource.series
+package com.karrar.movieapp.data.repository.mediaDataSource.series
 
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import javax.inject.Inject
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.data.mediaDataSource.BasePagingSource
+import com.karrar.movieapp.data.repository.mediaDataSource.BasePagingSource
 
 
 class TopRatedTvShowDataSource @Inject constructor(

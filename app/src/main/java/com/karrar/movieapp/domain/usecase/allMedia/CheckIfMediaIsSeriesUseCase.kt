@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.allMedia
+package com.karrar.movieapp.domain.usecase.allMedia
 
 import com.karrar.movieapp.domain.enums.AllMediaType
 import javax.inject.Inject
