@@ -2,8 +2,10 @@ package com.karrar.movieapp.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingData
+import com.karrar.movieapp.data.local.database.entity.ActorEntity
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
+import com.karrar.movieapp.data.local.database.entity.movie.*
 import com.karrar.movieapp.data.remote.response.AddListResponse
 import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.MovieDto
@@ -89,19 +91,19 @@ interface MovieRepository {
 
     suspend fun getMovieByGenre(genreID: Int): Pager<Int, MovieDto>
 
-    fun getPopularMovies(): Flow<List<PopularMovie>>
+    fun getPopularMovies(): Flow<List<PopularMovieEntity>>
 
-    fun getTrendingMovies(): Flow<List<Media>>
+    fun getTrendingMovies(): Flow<List<TrendingMovieEntity>>
 
-    fun getNowPlayingMovies(): Flow<List<Media>>
+    fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>>
 
-    fun getUpcomingMovies(): Flow<List<Media>>
+    fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
 
-    fun getAdventureMovies(): Flow<List<Media>>
+    fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
 
-    fun getMysteryMovies(): Flow<List<Media>>
+    fun getMysteryMovies(): Flow<List<MysteryMovieEntity>>
 
-    fun getTrendingActors(): Flow<List<Actor>>
+    fun getTrendingActors(): Flow<List<ActorEntity>>
 
     suspend fun saveRequestDate(value: Long)
 

@@ -5,6 +5,8 @@ import androidx.paging.PagingData
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.daos.SeriesDao
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
+import com.karrar.movieapp.data.local.database.entity.series.AiringTodaySeriesEntity
+import com.karrar.movieapp.data.local.database.entity.series.OnTheAirSeriesEntity
 import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntity
 import com.karrar.movieapp.data.local.mappers.series.LocalSeriesMappersContainer
 import com.karrar.movieapp.data.mediaDataSource.series.SeriesDataSourceContainer
@@ -120,22 +122,16 @@ class SeriesRepositoryImp @Inject constructor(
      * Caching
      * */
 
-    override fun getAiringToday(): Flow<List<Media>> {
-        return seriesDao.getAiringTodaySeries().map { list ->
-            list.map { seriesMapperContainer.airingTodaySeriesMapper.map(it) }
-        }
+    override fun getAiringToday(): Flow<List<AiringTodaySeriesEntity>> {
+        return seriesDao.getAiringTodaySeries()
     }
 
-    override fun getOnTheAir(): Flow<List<Media>> {
-        return seriesDao.getOnTheAirSeries().map { list ->
-            list.map { seriesMapperContainer.onTheAirSeriesMapper.map(it) }
-        }
+    override fun getOnTheAir(): Flow<List<OnTheAirSeriesEntity>> {
+        return seriesDao.getOnTheAirSeries()
     }
 
-    override fun getTopRatedTvShow(): Flow<List<Media>> {
-        return seriesDao.getTopRatedSeries().map { list ->
-            list.map { seriesMapperContainer.topRatedSeriesMapper.map(it) }
-        }
+    override fun getTopRatedTvShow(): Flow<List<TopRatedSeriesEntity>> {
+        return seriesDao.getTopRatedSeries()
     }
 
 

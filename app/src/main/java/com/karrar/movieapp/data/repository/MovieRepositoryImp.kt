@@ -6,8 +6,10 @@ import androidx.paging.PagingData
 import com.karrar.movieapp.data.local.AppConfiguration
 import com.karrar.movieapp.data.local.database.daos.ActorDao
 import com.karrar.movieapp.data.local.database.daos.MovieDao
+import com.karrar.movieapp.data.local.database.entity.ActorEntity
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
+import com.karrar.movieapp.data.local.database.entity.movie.*
 import com.karrar.movieapp.data.local.mappers.movie.LocalMovieMappersContainer
 import com.karrar.movieapp.data.mediaDataSource.ActorMovieDataSource
 import com.karrar.movieapp.data.remote.response.AddListResponse
@@ -15,7 +17,6 @@ import com.karrar.movieapp.data.remote.response.AddMovieDto
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
-import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.mediaDataSource.movie.MovieDataSourceContainer
@@ -27,7 +28,6 @@ import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import retrofit2.Response
 import javax.inject.Inject
 
 
@@ -258,40 +258,32 @@ class MovieRepositoryImp @Inject constructor(
      * Caching
      * */
 
-    override fun getPopularMovies(): Flow<List<PopularMovie>> {
-        return movieDao.getPopularMovies().map { list ->
-            list.map { movieMappersContainer.popularMovieEntityMapper.map(it) }
-        }
+    override fun getPopularMovies(): Flow<List<PopularMovieEntity>> {
+        return movieDao.getPopularMovies()
     }
 
-    override fun getTrendingMovies(): Flow<List<Media>> {
-        return movieDao.getTrendingMovies().map { list ->
-            list.map { movieMappersContainer.trendingMapper.map(it) }
-        }
+    override fun getTrendingMovies(): Flow<List<TrendingMovieEntity>> {
+        return movieDao.getTrendingMovies()
     }
 
-    override fun getNowPlayingMovies(): Flow<List<Media>> {
-        return movieDao.getNowStreamingMovies().map { list ->
-            list.map { movieMappersContainer.nowStreamingMovieMapper.map(it) }
-        }
+    override fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>> {
+        return movieDao.getNowStreamingMovies()
     }
 
-    override fun getUpcomingMovies(): Flow<List<Media>> {
-        return movieDao.getUpcomingMovies().map { list ->
-            list.map { movieMappersContainer.upcomingMovieMapper.map(it) }
-        }
+    override fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>> {
+        return movieDao.getUpcomingMovies()
     }
 
-    override fun getAdventureMovies(): Flow<List<Media>> {
-        return movieDao.getAdventureMovies().map { list ->
-            list.map { movieMappersContainer.adventureMovieMapper.map(it) }
-        }
+    override fun getAdventureMovies(): Flow<List<AdventureMovieEntity>> {
+        return movieDao.getAdventureMovies()
     }
 
-    override fun getMysteryMovies(): Flow<List<Media>> {
-        return movieDao.getMysteryMovies().map { list ->
-            list.map { movieMappersContainer.mysteryMovieMapper.map(it) }
-        }
+    override fun getMysteryMovies(): Flow<List<MysteryMovieEntity>> {
+        return movieDao.getMysteryMovies()
+    }
+
+    override fun getTrendingActors(): Flow<List<ActorEntity>> {
+        return actorDao.getActors()
     }
 
     override suspend fun refreshPopularMovies() {
@@ -421,10 +413,7 @@ class MovieRepositoryImp @Inject constructor(
         return appConfiguration.getRequestDate()
     }
 
-    override fun getTrendingActors(): Flow<List<Actor>> {
-        return actorDao.getActors()
-            .map { list -> list.map { movieMappersContainer.actorEntityMapper.map(it) } }
-    }
+
 
 
 }
