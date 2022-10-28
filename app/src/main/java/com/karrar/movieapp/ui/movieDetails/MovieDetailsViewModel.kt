@@ -32,7 +32,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val actorUIStateMapper: ActorUIStateMapper,
     private val mediaUIStateMapper: MediaUIStateMapper,
     private val ratedUIStateMapper: RatedUIStateMapper,
-    private val reviewMapper: ReviewUIStateMapper,
+    private val reviewUIStateMapper: ReviewUIStateMapper,
     private val watchHistoryMapper: WatchHistoryMapper,
     state: SavedStateHandle,
 ) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener,
@@ -184,7 +184,7 @@ class MovieDetailsViewModel @Inject constructor(
                 val result = getMovieDetailsUseCase.getMovieReviews(movieId)
                 _uiState.update {
                     it.copy(
-                        movieReview = result.map { review -> reviewMapper.map(review) },
+                        movieReview = result.map { review -> reviewUIStateMapper.map(review) },
                         isLoading = false
                     )
                 }
