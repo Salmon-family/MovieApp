@@ -20,31 +20,29 @@
             android:layout_height="0dp"
             android:overScrollMode="never"
             android:scrollbars="none"
-            app:homeItems="@{viewModel.homeItemsLiveData.toData()}"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenSuccess="@{viewModel.homeItemsLiveData}"
             app:spanCount="1" />
 
-        <include
-            android:id="@+id/loading"
-            layout="@layout/loading"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.homeItemsLiveData}" />
+<!--        <include-->
+<!--            android:id="@+id/loading"-->
+<!--            layout="@layout/loading"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:loading="@{viewModel.homeItemsLiveData}" />-->
 
-        <include
-            android:id="@+id/error"
-            layout="@layout/error"
-            app:error="@{viewModel.failedState}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
+<!--        <include-->
+<!--            android:id="@+id/error"-->
+<!--            layout="@layout/error"-->
+<!--            app:error="@{viewModel.failedState}"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:viewModel="@{viewModel}" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -3,6 +3,8 @@ package com.karrar.movieapp.ui.home
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentHomeBinding
@@ -11,6 +13,8 @@ import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -23,22 +27,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setTitle(false)
         setAdapter()
         observeEvents()
+
     }
 
     private fun setAdapter(){
-        val homeAdapter = HomeAdapter(mutableListOf(
-            HomeRecyclerItem.Slider(emptyList()),
-            HomeRecyclerItem.TvShows(emptyList()),
-            HomeRecyclerItem.OnTheAiring(emptyList(),HomeItemsType.ON_THE_AIR),
-            HomeRecyclerItem.Trending(emptyList(),HomeItemsType.TRENDING),
-            HomeRecyclerItem.AiringToday(emptyList()),
-            HomeRecyclerItem.NowStreaming(emptyList(),HomeItemsType.NOW_STREAMING),
-            HomeRecyclerItem.Upcoming(emptyList(),HomeItemsType.UPCOMING),
-            HomeRecyclerItem.Mystery(emptyList(),HomeItemsType.MYSTERY),
-            HomeRecyclerItem.Adventure(emptyList(),HomeItemsType.ADVENTURE),
-            HomeRecyclerItem.Actor(emptyList()),
-        ), viewModel)
+        val homeAdapter = HomeAdapter(mutableListOf(), viewModel)
         binding.recyclerView.adapter = homeAdapter
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.homeUiState.collect{
+                homeAdapter.setItems(mutableListOf(
+                    it.popularMovies,
+                    it.tvShowsSeries,
+                    it.onTheAiringSeries,
+                    it.airingTodaySeries,
+                    it.upcomingMovies,
+                    it.nowStreamingMovies,
+                    it.mysteryMovies,
+                    it.adventureMovies,
+                    it.trendingMovies,
+                    it.actors,
+                ))
+            }
+        }
     }
 
     private fun observeEvents() {

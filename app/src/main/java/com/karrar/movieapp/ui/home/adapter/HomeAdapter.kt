@@ -70,7 +70,7 @@ class HomeAdapter(
                         setVariable(
                             BR.adapterRecycler, ActorAdapter(
                                 currentItem.items,
-                                R.layout.item_actor,
+                                R.layout.item_actor_home,
                                 listener as ActorsInteractionListener
                             )
                         )
@@ -148,7 +148,7 @@ class HomeAdapter(
         oldPosition: HomeRecyclerItem,
         newPosition: HomeRecyclerItem,
     ): Boolean {
-        return oldPosition == newPosition
+        return false
     }
 
     override fun getItemViewType(position: Int): Int {

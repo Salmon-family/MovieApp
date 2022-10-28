@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.adapters.ActorsInteractionListener" />
+
+        <variable
+            name="item"
+            type="com.karrar.movieapp.domain.models.Actor" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:background="@color/background_color"
+        android:layout_marginVertical="@dimen/spacing_small"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:background="@android:color/transparent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_actor"
+            android:layout_width="@dimen/spacing_actor"
+            android:layout_height="@dimen/spacing_actor"
+            android:background="@color/brand_color"
+            android:onClick="@{()->listener.onClickActor(item.actorID)}"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:posterImage="@{item.actorImage}"
+            app:shapeAppearanceOverlay="@style/Circle" />
+
+
+        <TextView
+            android:id="@+id/text_actor_name"
+            style="@style/SemiBold.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_actor"
+            android:text="@{item.actorName}"
+            tools:text="Debora Caprioglio"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

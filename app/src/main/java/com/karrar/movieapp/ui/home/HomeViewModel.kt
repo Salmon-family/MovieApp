@@ -7,6 +7,7 @@ import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.HomeItemsType
+import com.karrar.movieapp.domain.home.HomeUseCasesContainer
 import com.karrar.movieapp.domain.models.PopularMovie
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
@@ -19,6 +20,8 @@ import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -27,6 +30,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     private val seriesRepository: SeriesRepository,
+    private val homeUseCasesContainer: HomeUseCasesContainer,
 ) : BaseViewModel(), HomeInteractionListener, ActorsInteractionListener, MovieInteractionListener,
     MediaInteractionListener, TVShowInteractionListener {
 
@@ -52,6 +56,9 @@ class HomeViewModel @Inject constructor(
     private val homeItems = mutableListOf<HomeRecyclerItem>()
 
 
+    val homeUiState = MutableStateFlow(HomeUiState())
+
+
     private val _failedState = MutableLiveData(0)
     private var counter = 0
     val failedState = MediatorLiveData<UIState<Boolean>>().apply {
@@ -67,7 +74,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         getData()
-        refreshDataOneTimeInDay { refreshHomeData() }
+        refreshHomeData()
     }
 
     private fun refreshHomeData() {
@@ -138,92 +145,93 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    val idEquality = { oldMessages: List<PopularMovie>, newMessages: List<PopularMovie> ->
-        oldMessages.map(PopularMovie::movieID) == newMessages.map(PopularMovie::movieID)
-    }
 
-    private fun updateHomeItems(item: HomeRecyclerItem) {
-        homeItems.add(item)
-        homeItemsLiveData.postValue(UIState.Success(homeItems))
-    }
 
     private fun getPopularMovies() {
-        collectData(movieRepository.getPopularMovies()) {
-            if (it.isNotEmpty()) {
-                updateHomeItems(HomeRecyclerItem.Slider(it))
+        collectData(homeUseCasesContainer.getPopularMoviesUseCase()) {list->
+            if (list.isNotEmpty()) {
+               homeUiState.update { it.copy(popularMovies = HomeRecyclerItem.Slider(list)) }
             }
         }
 
     }
 
     private fun getTrending() {
-        collectData(movieRepository.getTrendingMovies()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.Trending(it, HomeItemsType.TRENDING))
+        collectData(homeUseCasesContainer.getTrendingMoviesUseCase()) {list->
+            if (list.isNotEmpty()) {
+                homeUiState.update { it.copy(trendingMovies = HomeRecyclerItem.Trending(list)) }
+            }
         }
     }
 
     private fun getActors() {
-        collectData(movieRepository.getTrendingActors()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.Actor(it))
+        collectData(homeUseCasesContainer.getTrendingActorsUseCase()) { list->
+            if (list.isNotEmpty()) {
+                homeUiState.update { it.copy(actors = HomeRecyclerItem.Actor(list)) }
+            }
         }
 
     }
 
     private fun getUpcoming() {
-        collectData(movieRepository.getUpcomingMovies()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.Upcoming(it, HomeItemsType.UPCOMING))
+        collectData(homeUseCasesContainer.getUpcomingMoviesUseCase())  { list->
+            if (list.isNotEmpty()) {
+                homeUiState.update { it.copy(upcomingMovies = HomeRecyclerItem.Upcoming(list)) }
+            }
         }
 
     }
 
     private fun getNowStreaming() {
-        collectData(movieRepository.getNowPlayingMovies()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.NowStreaming(it, HomeItemsType.NOW_STREAMING))
+        collectData(homeUseCasesContainer.getNowStreamingMoviesUseCase())  { list->
+            if (list.isNotEmpty()) {
+                homeUiState.update { it.copy(nowStreamingMovies = HomeRecyclerItem.NowStreaming(list)) }
+            }
         }
-
     }
 
     private fun getTopRatedTvShow() {
-        collectData(seriesRepository.getTopRatedTvShow()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.TvShows(it))
+        collectData(homeUseCasesContainer.getTopRatedTvShowUseCase())  { list->
+            if (list.isNotEmpty()) {
+                homeUiState.update { it.copy(tvShowsSeries = HomeRecyclerItem.TvShows(list)) }
+            }
         }
 
     }
 
     private fun getOnTheAir() {
-        collectData(seriesRepository.getOnTheAir()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.OnTheAiring(it, HomeItemsType.ON_THE_AIR))
+        collectData(homeUseCasesContainer.getOnTheAirUseCase())  { list->
+            if (list.isNotEmpty()) {
+                homeUiState.update { it.copy(onTheAiringSeries = HomeRecyclerItem.OnTheAiring(list)) }
+            }
         }
 
     }
 
     private fun getAiringToday() {
-        collectData(seriesRepository.getAiringToday()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.AiringToday(it))
+        collectData(homeUseCasesContainer.getAiringTodayUseCase())  { list->
+            if (list.isNotEmpty()) {
+                homeUiState.update { it.copy(airingTodaySeries = HomeRecyclerItem.AiringToday(list)) }
+            }
         }
 
     }
 
     private fun getMystery() {
-        collectData(movieRepository.getMysteryMovies()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.Mystery(it, HomeItemsType.MYSTERY))
+        collectData(homeUseCasesContainer.getMysteryMoviesUseCase())  { list->
+            if (list.isNotEmpty()) {
+                homeUiState.update { it.copy(mysteryMovies = HomeRecyclerItem.Mystery(list)) }
+            }
         }
 
 
     }
 
     private fun getAdventure() {
-        collectData(movieRepository.getAdventureMovies()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.Adventure(it, HomeItemsType.ADVENTURE))
+        collectData(homeUseCasesContainer.getAdventureMoviesUseCase())  { list->
+            if (list.isNotEmpty()) {
+                homeUiState.update { it.copy(adventureMovies = HomeRecyclerItem.Adventure(list)) }
+            }
         }
 
 
