@@ -1,8 +1,10 @@
 package com.karrar.movieapp.ui.explore
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.karrar.movieapp.domain.usecase.GetTrendingMovieUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.explore.exploreUIState.ErrorUIState
 import com.karrar.movieapp.ui.explore.exploreUIState.ExploreUIState
 import com.karrar.movieapp.ui.explore.exploreUIState.TrendyMediaUIState
 import com.karrar.movieapp.utilities.*
@@ -45,9 +47,9 @@ class ExploringViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val result = getTrendyMovieUseCase()
-                _uiState.update { it.copy(isLoading = false, errors = "", trendyMovie = result.map { trendingUIStateMapper.map(it) }) }
+                _uiState.update { it.copy(isLoading = false, error = emptyList(), trendyMovie = result.map { trendingUIStateMapper.map(it) }) }
             }catch (e: Throwable){
-                _uiState.update { it.copy(errors = e.message.toString(), isLoading = false) }
+                _uiState.update { it.copy(isLoading = false, error =listOf(ErrorUIState(404, ""))) }
             }
         }
     }
