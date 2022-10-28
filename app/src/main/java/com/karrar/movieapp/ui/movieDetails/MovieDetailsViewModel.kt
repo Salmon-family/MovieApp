@@ -12,6 +12,7 @@ import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.movieDetails.mapper.*
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.*
+import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -56,6 +57,9 @@ class MovieDetailsViewModel @Inject constructor(
 
     private val _clickSaveEvent = MutableLiveData<Event<Boolean>>()
     var clickSaveEvent = _clickSaveEvent.toLiveData()
+
+    private val _messageAppear = MutableLiveData<Boolean>()
+    var messageAppear = _messageAppear.toLiveData()
 
     private val movieDetailItemsOfNestedView = mutableListOf<DetailItemUIState>()
 
@@ -156,6 +160,7 @@ class MovieDetailsViewModel @Inject constructor(
             try {
                 val result = getMovieDetailsUseCase.getRatedMovie(0)
                 _uiState.update {
+                    // there is a list here not item..
                     it.copy(movieGetRatedResult = result.map { rated ->
                         ratedUIStateMapper.map(rated)
                     })
@@ -217,7 +222,7 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    // move to use case
+    // can not make it as use case because is need list of rated ui state to check
     private fun checkIfMovieRated(items: List<RatedUIState>?, movieId: Int) {
         val item = items?.firstOrNull { it.id == movieId }
         item?.let { ratedUIState ->
@@ -229,13 +234,14 @@ class MovieDetailsViewModel @Inject constructor(
 
     fun onChangeRating(value: Float) {
         _uiState.value.movieDetailsResult.let { onAddRating(it.id, value) }
+        _uiState.update { it.copy(ratingValue = value) }
     }
 
-    private fun onAddRating(movie_id: Int, value: Float) {
+    private fun onAddRating(movieId: Int, value: Float) {
         viewModelScope.launch {
             try {
-                setRatingUseCase(movie_id, value)
-                _uiState.update { it.copy(ratingValue = value, messageAppear = true) }
+                setRatingUseCase(movieId, value)
+                onShowMessageOfChangeRating()
             } catch (e: Exception) {
                 _uiState.update {
                     it.copy(errorUIStates = onAddMessageToListError(e), isLoading = false)
@@ -244,8 +250,17 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+    private fun onShowMessageOfChangeRating() {
+        _messageAppear.postValue(true)
+    }
+
     private fun onAddMessageToListError(e: Exception): List<ErrorUIState> {
-        return listOf(ErrorUIState(code = 400, message = e.message.toString()))
+        return listOf(
+            ErrorUIState(
+                code = Constants.INTERNET_STATUS,
+                message = e.message.toString()
+            )
+        )
     }
 
     private fun onAddMovieDetailsItemOfNestedView(item: DetailItemUIState) {

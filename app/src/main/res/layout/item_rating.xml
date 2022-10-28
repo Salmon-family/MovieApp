@@ -32,7 +32,7 @@
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
             android:isIndicator="false"
-            android:onRatingChanged="@{(r1,r2,r3) -> viewModel.onChangeRating(r2)}"
+            android:onRatingChanged="@{(ratingBar, rating, fromUser) -> viewModel.onChangeRating(rating)}"
             android:progressDrawable="@drawable/rating_custom"
             android:rating="@{viewModel.uiState.ratingValue}"
             app:layout_constraintEnd_toEndOf="parent"

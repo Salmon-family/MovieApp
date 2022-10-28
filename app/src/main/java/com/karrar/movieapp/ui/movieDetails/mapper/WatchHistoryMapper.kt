@@ -11,7 +11,7 @@ class WatchHistoryMapper @Inject constructor() : Mapper<MovieDetailsUIState, Wat
             id = input.id,
             posterPath = input.image,
             movieTitle = input.name,
-            movieDuration = input.specialNumber,
+            movieDuration = input.duration,
             voteAverage = input.voteAverage,
             releaseDate = input.releaseDate,
             mediaType = input.mediaType.name

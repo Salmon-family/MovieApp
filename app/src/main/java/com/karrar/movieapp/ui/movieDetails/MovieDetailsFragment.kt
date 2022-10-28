@@ -1,7 +1,6 @@
 package com.karrar.movieapp.ui.movieDetails
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
@@ -25,7 +24,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
         setDetailAdapter()
-        addRating()
+        showMessageOfChangeRating()
         observeEvents()
     }
 
@@ -34,13 +33,16 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         binding.recyclerView.adapter = detailAdapter
     }
 
-    private fun addRating() {
-        val toast = Toast.makeText(
-            context,
-            getString(R.string.submit_toast),
-            Toast.LENGTH_SHORT
-        )
-        if (viewModel.uiState.value.messageAppear) toast.show()
+    private fun showMessageOfChangeRating() {
+        viewModel.messageAppear.observe(viewLifecycleOwner) {
+            if (viewModel.messageAppear.value == true) {
+                Toast.makeText(
+                    context,
+                    getString(R.string.submit_toast),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
 
     }
 

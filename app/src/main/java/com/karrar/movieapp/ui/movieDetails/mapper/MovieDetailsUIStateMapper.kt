@@ -13,6 +13,7 @@ class MovieDetailsUIStateMapper @Inject constructor() : Mapper<MovieDetails, Mov
             name = input.name,
             releaseDate = input.releaseDate,
             genres = input.genres,
+            duration = input.movieDuration,
             specialNumber = input.specialNumber,
             review = input.review,
             voteAverage = input.voteAverage,

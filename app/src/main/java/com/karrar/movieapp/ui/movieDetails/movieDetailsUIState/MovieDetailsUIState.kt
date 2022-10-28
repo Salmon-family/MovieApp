@@ -10,6 +10,7 @@ data class MovieDetailsUIState(
     val genres: String = "",
     val review: Int = 0,
     val specialNumber: Int = 0,
+    val duration: Int = 0,
     val voteAverage: String = "",
     val overview: String = "",
     val mediaType: MediaType = MediaType.MOVIE
