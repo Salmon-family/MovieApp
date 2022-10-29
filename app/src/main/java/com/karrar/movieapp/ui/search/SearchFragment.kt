@@ -3,23 +3,26 @@ package com.karrar.movieapp.ui.search
 import android.content.Context
 import android.os.Bundle
 import android.transition.ChangeTransform
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.PagingData
+import androidx.paging.map
 import androidx.recyclerview.widget.*
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentSearchBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.search.adapters.*
-import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
+import com.karrar.movieapp.ui.search.mediaSearchUIState.*
 import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 
 
 @AndroidEntryPoint
@@ -36,9 +39,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
         sharedElementEnterTransition = ChangeTransform()
         setTitle(false)
+        getSearchResult()
         setSearchHistoryAdapter()
         getSearchResultsBySearchTerm()
-        getSearchResultsByMediaType()
         observeEvents()
 
     }
@@ -51,17 +54,18 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.recyclerSearchHistory.adapter = SearchHistoryAdapter(mutableListOf(), viewModel)
     }
 
+    private val oldValue = MutableStateFlow(MediaSearchUIState())
+
     @OptIn(FlowPreview::class)
     private fun getSearchResultsBySearchTerm(){
         lifecycleScope.launch {
-            viewModel.searchText.debounce(500).collect{ searchTerm ->
-                if (searchTerm.isNotBlank()) { getSearchResult() }
+            viewModel.uiState.debounce(500).collect{ searchTerm ->
+                if (searchTerm.searchInput.isNotBlank() && oldValue.value.searchInput != viewModel.uiState.value.searchInput ||  oldValue.value.searchTypes != viewModel.uiState.value.searchTypes) {
+                    getSearchResult()
+                    oldValue.emit(viewModel.uiState.value)
+                }
             }
         }
-    }
-
-    private fun getSearchResultsByMediaType(){
-        viewModel.mediaType.observeEvent(viewLifecycleOwner){ getSearchResult() }
     }
 
 
@@ -104,7 +108,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.recyclerMedia.layoutManager = LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
 
         collect(flow = mediaSearchAdapter.loadStateFlow,
-            action = {viewModel.setErrorUiState(it, mediaSearchAdapter.itemCount)})
+            action = { viewModel.setErrorUiState(it, mediaSearchAdapter.itemCount) })
 
         getMediaSearchResults()
     }
@@ -116,24 +120,22 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         setSpanSize(footerAdapter)
 
         collect(flow = actorSearchAdapter.loadStateFlow,
-            action = {viewModel.setErrorUiState(it, mediaSearchAdapter.itemCount)})
+            action = { viewModel.setErrorUiState(it, actorSearchAdapter.itemCount) })
 
         getActorsSearchResults()
     }
 
     private fun getMediaSearchResults(){
         lifecycleScope.launch {
-            mediaSearchAdapter.submitData(lifecycle, PagingData.empty())
             collectLast(viewModel.uiState.value.searchResult)
-            {mediaSearchAdapter.submitData(it)}
+            { mediaSearchAdapter.submitData(it) }
         }
     }
 
     private fun getActorsSearchResults(){
         lifecycleScope.launch {
-            actorSearchAdapter.submitData(lifecycle, PagingData.empty())
             collectLast(viewModel.uiState.value.searchResult)
-            {actorSearchAdapter.submitData(it)}
+            { actorSearchAdapter.submitData(it) }
         }
     }
 
@@ -142,8 +144,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         mManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return if ((position == actorSearchAdapter.itemCount)
-                    && footerAdapter.itemCount > 0)
-                { mManager.spanCount } else { 1 }
+                    && footerAdapter.itemCount > 0
+                ) { mManager.spanCount }
+                else { 1 }
             }
         }
     }
@@ -151,4 +154,5 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun popFragment() {
         findNavController().popBackStack()
     }
+
 }
