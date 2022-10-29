@@ -7,8 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.explore.ExploringViewModel"
-            />
+            type="com.karrar.movieapp.ui.explore.ExploringViewModel" />
 
     </data>
 
@@ -17,6 +16,61 @@
         android:layout_height="match_parent"
         android:background="@color/background_color"
         app:layoutDescription="@xml/fragment_exploring_scene">
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_lost_connection"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginBottom="@dimen/spacing_small"
+            app:layout_constraintBottom_toTopOf="@+id/title_lost_connection"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/lost_internet_animation"
+            app:showWhenListIsNotEmpty="@{viewModel.uiState.error}" />
+
+        <TextView
+            android:id="@+id/title_lost_connection"
+            style="@style/SemiBold.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_extra_large"
+            android:text="@string/oops"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_trend_label"
+            app:showWhenListIsNotEmpty="@{viewModel.uiState.error}" />
+
+        <TextView
+            android:id="@+id/description_lost_connection"
+            style="@style/Regular.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:gravity="center"
+            android:text="@string/description"
+            android:textColor="@color/brand_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_lost_connection"
+            app:showWhenListIsNotEmpty="@{viewModel.uiState.error}" />
+
+        <Button
+            android:id="@+id/button_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:onClick="@{() -> viewModel.getData()}"
+            android:text="@string/retry"
+            android:textColor="@color/white_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection"
+            app:showWhenListIsNotEmpty="@{viewModel.uiState.error}" />
+
+        <!--        layout-->
 
         <TextView
             android:id="@+id/text_explore"
@@ -58,10 +112,10 @@
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_medium"
-            app:cardElevation="0dp"
             android:backgroundTint="@color/card_background_color"
             android:onClick="@{() -> viewModel.onClickMovies()}"
             app:cardCornerRadius="@dimen/radius_small"
+            app:cardElevation="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@id/card_series"
             app:layout_constraintStart_toStartOf="parent"
@@ -128,10 +182,10 @@
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
-            app:cardElevation="0dp"
             android:backgroundTint="@color/card_background_color"
             android:onClick="@{() -> viewModel.onClickActors()}"
             app:cardCornerRadius="@dimen/radius_small"
+            app:cardElevation="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/input_search"
             app:layout_constraintStart_toEndOf="@id/card_series"
@@ -165,6 +219,8 @@
             android:layout_marginTop="@dimen/spacing_large"
             android:text="@string/trending_today_label"
             android:textColor="@color/shade_primary_color"
+            app:hide="@{viewModel.uiState.error}"
+            app:isLoading33="@{viewModel.uiState.loading}"
             app:layout_constraintStart_toStartOf="@id/card_movies"
             app:layout_constraintTop_toBottomOf="@id/card_movies" />
 
@@ -172,10 +228,12 @@
             android:id="@+id/recycler_trend"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_small"
             android:clipToPadding="false"
             android:elevation="@dimen/spacing_too_small"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:layout_marginHorizontal="@dimen/spacing_small"
+            app:hide="@{viewModel.uiState.error}"
+            app:isLoading33="@{viewModel.uiState.loading}"
             app:items="@{viewModel.uiState.trendyMovie}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -183,86 +241,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_trend_label"
             app:spanCount="2"
-            tools:listitem="@layout/item_trend"
-            app:hideIfTrue="@{viewModel.uiState.loading}"
-            />
+            tools:listitem="@layout/item_trend" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_loading"
             android:layout_width="128dp"
             android:layout_height="128dp"
+            app:isLoading="@{viewModel.uiState.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_animation"
-            app:isLoading="@{viewModel.uiState.loading}"
-            />
+            app:lottie_rawRes="@raw/loading_animation" />
 
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_lost_connection"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            android:layout_marginBottom="@dimen/spacing_small"
-            app:layout_constraintBottom_toTopOf="@+id/title_lost_connection"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_rawRes="@raw/lost_internet_animation"
-            />
-
-        <TextView
-            android:id="@+id/title_lost_connection"
-            style="@style/SemiBold.Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_extra_large"
-            android:text="@string/oops"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_trend_label"
-            />
-
-        <TextView
-            android:id="@+id/description_lost_connection"
-            style="@style/Regular.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:gravity="center"
-            android:text="@string/description"
-            android:textColor="@color/brand_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_lost_connection" />
-
-        <Button
-            android:id="@+id/button_retry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:onClick="@{() -> viewModel.getData()}"
-            android:text="@string/retry"
-            android:textColor="@color/white_primary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection"
-            />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/error_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="
-            title_lost_connection,
-            animation_lost_connection,
-            description_lost_connection,button_retry"
-            app:showWhenListIsNotEmpty="@{viewModel.uiState.error}"
-            />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>
