@@ -7,8 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.profile.ProfileViewModel"
-            />
+            type="com.karrar.movieapp.ui.profile.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,8 +20,8 @@
             android:layout_width="0dp"
             android:layout_height="128dp"
             android:layout_marginTop="50dp"
-            android:scaleType="centerCrop"
             android:background="@color/brand_color"
+            android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,8 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:textColor="@color/shade_primary_color"
             android:text="@{viewModel.profileDetailsUIState.name}"
+            android:textColor="@color/shade_primary_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image_actor"
@@ -130,6 +129,7 @@
         <com.airbnb.lottie.LottieAnimationView
             android:layout_width="128dp"
             android:layout_height="128dp"
+            app:isVisible="@{viewModel.profileDetailsUIState.isLoading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -137,7 +137,6 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading_animation"
-            app:isVisible="@{viewModel.profileDetailsUIState.isLoading}"
             tools:visibility="gone" />
 
         <ImageView
@@ -161,17 +160,16 @@
             android:textColor="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vector_image"
-            />
+            app:layout_constraintTop_toBottomOf="@id/vector_image" />
 
         <TextView
             android:id="@+id/text_message_wrong"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginHorizontal="@dimen/spacing_extra_large"
-            android:textAlignment="center"
+            android:layout_marginTop="@dimen/spacing_small"
             android:text="@string/you_must_be_logged_in_to_see_the_profile"
+            android:textAlignment="center"
             android:textAppearance="@style/Regular.Medium.Secondary"
             android:textColor="@color/shade_secondary_color"
             app:layout_constraintEnd_toEndOf="parent"
@@ -249,7 +247,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            tools:visibility="visible"
             app:constraint_referenced_ids="text_watch_history,
             text_rated_movies,
             text_sign_out,
@@ -259,7 +256,7 @@
             text_name_actor,
             text_username"
             app:showProfileWhenSuccess="@{viewModel.profileDetailsUIState.username}"
-            />
+            tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_when_no_internet"
@@ -268,7 +265,7 @@
             android:visibility="gone"
             app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_retry"
             app:isFail="@{viewModel.profileDetailsUIState.error}"
-            app:isLoggedIn="@{viewModel.profileDetailsUIState.loggedIn}"/>
+            app:isLoggedIn="@{viewModel.profileDetailsUIState.loggedIn}" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_when_no_logged_in"
