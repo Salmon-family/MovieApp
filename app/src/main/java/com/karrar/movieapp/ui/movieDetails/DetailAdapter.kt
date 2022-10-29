@@ -41,14 +41,16 @@ class DetailAdapter(
                 }
             }
             is DetailItem.Cast -> {
-                holder.binding.run {
-                    setVariable(BR.adapterRecycler,
-                        ActorAdapter(currentItem.data,
-                            R.layout.item_cast,
-                            listener as ActorsInteractionListener))
-                }
+                //TODO:Uncomment this
+//                holder.binding.run {
+//                    setVariable(BR.adapterRecycler,
+//                        ActorAdapter(currentItem.data,
+//                            R.layout.item_cast,
+//                            listener as ActorsInteractionListener))
+//                }
             }
             is DetailItem.SimilarMovies -> {
+                //TODO:Uncomment this
 //                holder.binding.run {
 //                    setVariable(BR.adapterRecycler,
 //                        MovieAdapter(currentItem.data, listener as MovieInteractionListener))
