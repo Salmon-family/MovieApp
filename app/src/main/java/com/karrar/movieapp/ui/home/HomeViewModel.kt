@@ -2,8 +2,6 @@ package com.karrar.movieapp.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.home.HomeUseCasesContainer
@@ -21,13 +19,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val movieRepository: MovieRepository,
-    private val seriesRepository: SeriesRepository,
     private val homeUseCasesContainer: HomeUseCasesContainer,
     private val mediaUiMapper: MediaUiMapper,
     private val actorUiMapper: ActorUiMapper,
@@ -58,62 +53,31 @@ class HomeViewModel @Inject constructor(
 
 
     init {
-        getData()
-        refreshHomeData()
-    }
-
-    private fun refreshHomeData() {
-        wrapWithState({
-            movieRepository.refreshPopularMovies()
-        })
-        wrapWithState({
-            movieRepository.refreshTrendingMovies()
-        })
-        wrapWithState({
-            movieRepository.refreshNowPlayingMovies()
-        })
-        wrapWithState({
-            movieRepository.refreshAdventureMovies()
-        })
-        wrapWithState({
-            movieRepository.refreshUpcomingMovies()
-        })
-        wrapWithState({
-            movieRepository.refreshMysteryMovies()
-        })
-        wrapWithState({
-            movieRepository.refreshTrendingActors()
-        })
-        wrapWithState({
-            seriesRepository.refreshTopRatedTvShow()
-        })
-        wrapWithState({
-            seriesRepository.refreshAiringToday()
-        })
-        wrapWithState({
-            seriesRepository.refreshOnTheAir()
-        })
-    }
-
-
-    private fun refreshDataOneTimeInDay(
-        refreshData: () -> Unit,
-    ) {
         viewModelScope.launch {
-            val requestDate = movieRepository.getRequestDate()
-            val currentDate = Date()
-            if (requestDate != null) {
-                val date = Date(requestDate)
-                if (date.after(currentDate)) {
-                    refreshData()
-                    movieRepository.saveRequestDate(currentDate.time)
-                }
-            } else {
-                refreshData()
-                movieRepository.saveRequestDate(currentDate.time)
-            }
+            getData()
+            homeUseCasesContainer.refreshHomeDataUseCase()
         }
     }
+
+
+//    private fun refreshDataOneTimeInDay(
+//        refreshData: () -> Unit,
+//    ) {
+//        viewModelScope.launch {
+//            val requestDate = movieRepository.getRequestDate()
+//            val currentDate = Date()
+//            if (requestDate != null) {
+//                val date = Date(requestDate)
+//                if (date.after(currentDate)) {
+//                    refreshData()
+//                    movieRepository.saveRequestDate(currentDate.time)
+//                }
+//            } else {
+//                refreshData()
+//                movieRepository.saveRequestDate(currentDate.time)
+//            }
+//        }
+//    }
 
     override fun getData() {
         homeUiState.update { it.copy(isLoading = true) }
