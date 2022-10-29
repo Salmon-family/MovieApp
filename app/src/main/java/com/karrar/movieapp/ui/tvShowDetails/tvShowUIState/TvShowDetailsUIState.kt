@@ -5,7 +5,6 @@ data class TvShowDetailsUIState(
     val seriesCastResult: List<SeriesCastUIState> = listOf(),
     val seriesSeasonsResult: List<SeasonUIState> = listOf(),
     val seriesRatedResult: List<RatedUIState> = listOf(),
-    val seriesGetRatedResult: RatingUIState = RatingUIState(),
     val seriesReviewsResult: List<ReviewUIState> = listOf(),
     val detailItemResult: List<DetailItemUIState> = listOf(),
     val watchHistoryUIState: WatchHistoryUIState = WatchHistoryUIState(),

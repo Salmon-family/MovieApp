@@ -77,7 +77,7 @@ class SeriesRepositoryImp @Inject constructor(
     }
 
     override suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): List<EpisodeDto>? {
-        return service.getSeasonDetails(tvShowId, seasonId).body()?.items
+        return service.getSeasonDetails(tvShowId, seasonId).body()?.episodes
     }
 
     override suspend fun getTvShowTrailer(tvShowId: Int): Trailer {

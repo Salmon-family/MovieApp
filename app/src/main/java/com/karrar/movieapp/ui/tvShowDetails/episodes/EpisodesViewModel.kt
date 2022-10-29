@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.tvShowDetails.episodes
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecase.tvShowDetails.GetTvShowDetailsUseCase
@@ -36,6 +37,7 @@ class EpisodesViewModel @Inject constructor(
             try {
                 val result =
                     getTvShowDetailsUseCase.getSeasonsDetails(args.tvShowId, args.seasonNumber)
+                Log.i("test", "getData: $result")
                 _stateFlowEpisode.update { it ->
                     it.copy(
                         seriesEpisodeUIState = result.map { getTvShowMapperContainer.tvShowEpisodesUIMapper.map(it) },

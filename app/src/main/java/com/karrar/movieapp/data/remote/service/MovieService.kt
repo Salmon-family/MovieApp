@@ -214,7 +214,7 @@ interface MovieService {
     suspend fun getSeasonDetails(
         @Path("tv_id") tvShowId: Int,
         @Path("season_number") seasonId: Int
-    ): Response<BaseListResponse<EpisodeDto>>
+    ): Response<SeasonDto>
 
     @GET("tv/{tv_id}/videos")
     suspend fun getTvShowTrailer(@Path("tv_id") tvShowId: Int): Response<TrailerDto>
