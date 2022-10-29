@@ -15,8 +15,6 @@ import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
-import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.TvShowDetailsResultUIState
-import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.TvShowDetailsUIState
 import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
@@ -43,7 +41,7 @@ fun <T> showWhenLoading2(view: View, state: UIState<T>?) {
     view.isVisible = (state is UIState.Loading)
 }
 
-@BindingAdapter(value = ["app:showWhenLoading2"])
+@BindingAdapter(value = ["app:showWhenLoading"])
 fun <T> showWhenLoading2(view: View, state: Boolean = false) {
     view.isVisible = state
 }
@@ -62,6 +60,11 @@ fun <T> hideWhenLoading(view: View, state: UIState<T>?) {
 @BindingAdapter("app:showWhenFail")
 fun <T> showWhenFail2(view: View, state: UIState<T>?) {
     view.isVisible = state is UIState.Error
+}
+
+@BindingAdapter("app:showWhenError")
+fun <T> showWhenError(view: View, error: List<T>){
+    view.isVisible = error.isNotEmpty()
 }
 
 @BindingAdapter(value = ["app:showWhenSearch"])
@@ -223,18 +226,6 @@ fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
         when(mediaDetails.mediaType){
             MediaType.MOVIE ->  setDuration(view, mediaDetails.specialNumber)
             MediaType.TV_SHOW -> view.text = view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
-        }
-    }
-}
-
-@BindingAdapter("app:textBasedOnMediaType2")
-fun setTextBasedOnMediaType2(view: TextView, tvShowDetailsUIState: TvShowDetailsResultUIState?) {
-    tvShowDetailsUIState?.let {
-        when (tvShowDetailsUIState.tvShowMediaType) {
-            MediaType.TV_SHOW -> view.text = view.context.getString(
-                R.string.more_than_one_season,
-            )
-            MediaType.MOVIE -> {}
         }
     }
 }

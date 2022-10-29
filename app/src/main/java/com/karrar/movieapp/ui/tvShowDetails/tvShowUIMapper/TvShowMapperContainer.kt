@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper
 
+import com.karrar.movieapp.ui.tvShowDetails.episodes.TvShowEpisodesUIMapper
 import javax.inject.Inject
 
 class TvShowMapperContainer @Inject constructor(
@@ -8,5 +9,6 @@ class TvShowMapperContainer @Inject constructor(
     val tvShowCastUIMapper: SeriesCastUIMapper,
     val tvShowReviewUIMapper: TvShowReviewUIMapper,
     val tvShowSeasonUIMapper: TvShowSeasonUIMapper,
-    val tvShowWatchHistoryMapper: TvShowWatchHistoryMapper
+    val tvShowWatchHistoryMapper: TvShowWatchHistoryMapper,
+    val tvShowEpisodesUIMapper: TvShowEpisodesUIMapper
 )

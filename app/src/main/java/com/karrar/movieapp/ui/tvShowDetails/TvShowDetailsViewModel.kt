@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.models.TvShowDetails
-import com.karrar.movieapp.domain.usecase.tvShowDetails.GetInsertTvShowUserCase
+import com.karrar.movieapp.domain.usecase.tvShowDetails.InsertTvShowUserCase
 import com.karrar.movieapp.domain.usecase.tvShowDetails.GetTvShowDetailsUseCase
 import com.karrar.movieapp.domain.usecase.tvShowDetails.SetRatingUesCase
 import com.karrar.movieapp.ui.UIState
@@ -27,7 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TvShowDetailsViewModel @Inject constructor(
     private val getTvShowDetailsUseCase: GetTvShowDetailsUseCase,
-    private val getInsertTvShowUserCase: GetInsertTvShowUserCase,
+    private val getInsertTvShowUserCase: InsertTvShowUserCase,
     private val setRatingUesCase: SetRatingUesCase,
     private val tvShowMapperContainer: TvShowMapperContainer,
     state: SavedStateHandle
@@ -130,9 +130,9 @@ class TvShowDetailsViewModel @Inject constructor(
             val seasons = getTvShowDetailsUseCase.getSeasons(tvShowId)
             _stateFlow.update { it ->
                 it.copy(
-                    seriesSeasonsResult = seasons?.map {
+                    seriesSeasonsResult = seasons.map {
                         tvShowMapperContainer.tvShowSeasonUIMapper.map(it)
-                    } ?: listOf(),
+                    },
                     isLoading = false
                 )
             }

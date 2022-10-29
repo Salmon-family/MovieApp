@@ -23,16 +23,14 @@ class GetTvShowDetailsUseCase @Inject constructor(
             .mapList(seriesRepository.getTvShowCast(tvShowId)?.cast)
     }
 
-    suspend fun getSeasons(tvShowId: Int): List<Season>? {
+    suspend fun getSeasons(tvShowId: Int): List<Season> {
         return ListMapper(seriesMapperContainer.seasonMapper)
             .mapList(seriesRepository.getTvShowDetails(tvShowId)?.season)
     }
 
-    suspend fun getSeasonsDetails(tvShowId: Int, seasonId: Int): Season {
-        return seriesRepository.getSeasonDetails(tvShowId, seasonId)?.let {
-            seriesMapperContainer.seasonMapper
-                .map(it)
-        } ?: Season()
+    suspend fun getSeasonsDetails(tvShowId: Int, seasonId: Int): List<Episode> {
+        return ListMapper(seriesMapperContainer.episodeMapper)
+            .mapList(seriesRepository.getSeasonDetails(tvShowId, seasonId))
     }
 
     suspend fun getTvShowReviews(tvShowId: Int): List<Review> {

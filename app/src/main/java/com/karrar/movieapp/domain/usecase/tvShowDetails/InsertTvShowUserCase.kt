@@ -5,7 +5,7 @@ import com.karrar.movieapp.domain.mappers.series.WatchHistoryMapper
 import com.karrar.movieapp.domain.models.WatchHistory
 import javax.inject.Inject
 
-class GetInsertTvShowUserCase @Inject constructor(
+class InsertTvShowUserCase @Inject constructor(
     private val seriesRepository: SeriesRepository,
     private val watchHistoryMapper: WatchHistoryMapper
 ) {

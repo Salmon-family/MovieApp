@@ -4,6 +4,7 @@ import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.account.AccountDto
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
+import com.karrar.movieapp.data.remote.response.episode.EpisodeDto
 import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.response.login.SessionResponse
@@ -213,7 +214,7 @@ interface MovieService {
     suspend fun getSeasonDetails(
         @Path("tv_id") tvShowId: Int,
         @Path("season_number") seasonId: Int
-    ): Response<SeasonDto>
+    ): Response<BaseListResponse<EpisodeDto>>
 
     @GET("tv/{tv_id}/videos")
     suspend fun getTvShowTrailer(@Path("tv_id") tvShowId: Int): Response<TrailerDto>

@@ -8,9 +8,9 @@ import javax.inject.Inject
 class SetRatingUesCase @Inject constructor(
     private val seriesRepository: SeriesRepository,
     private val getSessionIDUseCase: GetSessionIdUseCase,
-    val ratingStatusTvShowMapper: RatingStatusTvShowMapper
+    private val ratingStatusTvShowMapper: RatingStatusTvShowMapper
 ) {
-    suspend operator fun invoke(tvShowId: Int, rating: Float): RatingStatus? {
+    suspend operator fun invoke(tvShowId: Int, rating: Float): RatingStatus {
         val sessionId = getSessionIDUseCase() ?: ""
         val response = seriesRepository.setRating(tvShowId, rating, sessionId)
         return if (response != null) {

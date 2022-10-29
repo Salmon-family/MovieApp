@@ -36,11 +36,9 @@ class EpisodesViewModel @Inject constructor(
             try {
                 val result =
                     getTvShowDetailsUseCase.getSeasonsDetails(args.tvShowId, args.seasonNumber)
-                _stateFlowEpisode.update {
+                _stateFlowEpisode.update { it ->
                     it.copy(
-                        seriesSeasonUIState = getTvShowMapperContainer.tvShowSeasonUIMapper.map(
-                            result
-                        ),
+                        seriesEpisodeUIState = result.map { getTvShowMapperContainer.tvShowEpisodesUIMapper.map(it) },
                         isLoading = false
                     )
                 }

@@ -137,7 +137,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/line"
             app:layout_constraintTop_toTopOf="@+id/line"
-            app:textBasedOnMediaType2="@{item}"
+            android:text="@{@string/season_number(String.valueOf(item.tvShowSeasonsNumber)) }"
             tools:text="100m" />
 
         <TextView

@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.tvShowDetails.tvShowUIState
+package com.karrar.movieapp.ui.tvShowDetails.episodes
 
 data class EpisodeUIState(
     val episodeId: Int = 0,

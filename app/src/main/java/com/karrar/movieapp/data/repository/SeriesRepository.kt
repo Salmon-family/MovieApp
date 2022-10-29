@@ -6,6 +6,7 @@ import com.karrar.movieapp.data.remote.response.CreditsDto
 import com.karrar.movieapp.data.remote.response.RatedTvShowDto
 import com.karrar.movieapp.data.remote.response.SeasonDto
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.karrar.movieapp.data.remote.response.episode.EpisodeDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
@@ -34,7 +35,7 @@ interface SeriesRepository {
 
     suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<RatedTvShowDto>?
 
-    suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): SeasonDto?
+    suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): List<EpisodeDto>?
 
     suspend fun getTvShowTrailer(tvShowId: Int): Trailer
 
