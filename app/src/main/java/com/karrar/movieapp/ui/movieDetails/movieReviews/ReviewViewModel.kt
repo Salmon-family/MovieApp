@@ -32,11 +32,11 @@ class ReviewViewModel @Inject constructor(
 
 
     init {
-        _uiState.update { it.copy(isLoading = true, errorUIStates = emptyList()) }
         getData()
     }
 
     override fun getData() {
+        _uiState.update { it.copy(isLoading = true, errorUIStates = emptyList()) }
         viewModelScope.launch {
             try {
                 val result = getMovieReviewsUseCase.getMovieReviews(args.mediaId)
@@ -44,7 +44,6 @@ class ReviewViewModel @Inject constructor(
                     it.copy(
                         movieReview = result.map { review -> reviewUIStateMapper.map(review) },
                         isLoading = false,
-                        errorUIStates = emptyList()
                     )
                 }
             } catch (e: Exception) {
