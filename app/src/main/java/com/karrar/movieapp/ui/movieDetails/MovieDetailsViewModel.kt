@@ -234,7 +234,6 @@ class MovieDetailsViewModel @Inject constructor(
 
     fun onChangeRating(value: Float) {
         _uiState.value.movieDetailsResult.let { onAddRating(it.id, value) }
-        _uiState.update { it.copy(ratingValue = value) }
     }
 
     private fun onAddRating(movieId: Int, value: Float) {
