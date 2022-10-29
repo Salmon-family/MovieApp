@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Media" />
+            type="com.karrar.movieapp.ui.explore.exploreUIState.TrendyMediaUIState" />
+
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.explore.TrendInteractionListener" />
+
     </data>
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -21,7 +24,7 @@
         app:shapeAppearanceOverlay="@style/CardCorners.Medium"
         tools:src="@drawable/trend"
         app:posterImage="@{item.mediaImage}"
-        android:onClick="@{() -> listener.onClickTrend(item.mediaID,item.mediaType)}"
+        android:onClick="@{() -> listener.onClickTrend(item)}"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginVertical="@dimen/spacing_small"
         />
