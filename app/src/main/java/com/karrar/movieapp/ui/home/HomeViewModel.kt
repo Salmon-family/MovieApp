@@ -2,6 +2,7 @@ package com.karrar.movieapp.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.domain.RequestStatus
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.home.HomeUseCasesContainer
@@ -17,6 +18,7 @@ import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -48,39 +50,28 @@ class HomeViewModel @Inject constructor(
     private val _clickSeeAllActorEvent = MutableLiveData<Event<Boolean>>()
     val clickSeeAllActorEvent = _clickSeeAllActorEvent.toLiveData()
 
-
-    val homeUiState = MutableStateFlow(HomeUiState())
+    private val _homeUiState = MutableStateFlow(HomeUiState())
+    val homeUiState = _homeUiState.asStateFlow()
 
 
     init {
         viewModelScope.launch {
-            getData()
-            homeUseCasesContainer.refreshHomeDataUseCase()
+            getHomeData()
+            refreshHomeDataOneTimePerDayUseCase()
         }
     }
 
+    private suspend fun refreshHomeDataOneTimePerDayUseCase(){
+        try {
+            _homeUiState.update { it.copy(isLoading = true) }
+            homeUseCasesContainer.refreshHomeDataOneTimePerDayUseCase()
+        }catch (e:Throwable){
+            _homeUiState.update { it.copy(isLoading = false) }
+            _homeUiState.update { it.copy(error = e.message.toString()) }
+        }
+    }
 
-//    private fun refreshDataOneTimeInDay(
-//        refreshData: () -> Unit,
-//    ) {
-//        viewModelScope.launch {
-//            val requestDate = movieRepository.getRequestDate()
-//            val currentDate = Date()
-//            if (requestDate != null) {
-//                val date = Date(requestDate)
-//                if (date.after(currentDate)) {
-//                    refreshData()
-//                    movieRepository.saveRequestDate(currentDate.time)
-//                }
-//            } else {
-//                refreshData()
-//                movieRepository.saveRequestDate(currentDate.time)
-//            }
-//        }
-//    }
-
-    override fun getData() {
-        homeUiState.update { it.copy(isLoading = true) }
+    private fun getHomeData(){
         getTrending()
         getNowStreaming()
         getUpcoming()
@@ -92,13 +83,22 @@ class HomeViewModel @Inject constructor(
         getAdventure()
         getActors()
     }
+    override fun getData() {
+        viewModelScope.launch {
+            _homeUiState.update { it.copy(isLoading = true) }
+            when(val requestStatus = homeUseCasesContainer.refreshHomeDataUseCase()){
+                is RequestStatus.Failure -> _homeUiState.update { it.copy(isLoading = false, error = requestStatus.message) }
+                RequestStatus.Success -> _homeUiState.update { it.copy(isLoading = false, error = "") }
+            }
+        }
+    }
 
 
     private fun getPopularMovies() {
         collectData(homeUseCasesContainer.getPopularMoviesUseCase()) { list ->
             if (list.isNotEmpty()) {
                 val items = list.map(popularUiMapper::map)
-                homeUiState.update {
+                _homeUiState.update {
                     it.copy(popularMovies = HomeItem.Slider(items),
                         isLoading = false)
                 }
@@ -111,7 +111,7 @@ class HomeViewModel @Inject constructor(
         collectData(homeUseCasesContainer.getTrendingMoviesUseCase()) { list ->
             if (list.isNotEmpty()) {
                 val items = list.map(mediaUiMapper::map)
-                homeUiState.update {
+                _homeUiState.update {
                     it.copy(trendingMovies = HomeItem.Trending(items),
                         isLoading = false)
                 }
@@ -123,7 +123,7 @@ class HomeViewModel @Inject constructor(
         collectData(homeUseCasesContainer.getTrendingActorsUseCase()) { list ->
             if (list.isNotEmpty()) {
                 val items = list.map(actorUiMapper::map)
-                homeUiState.update { it.copy(actors = HomeItem.Actor(items), isLoading = false) }
+                _homeUiState.update { it.copy(actors = HomeItem.Actor(items), isLoading = false) }
             }
         }
 
@@ -133,7 +133,7 @@ class HomeViewModel @Inject constructor(
         collectData(homeUseCasesContainer.getUpcomingMoviesUseCase()) { list ->
             if (list.isNotEmpty()) {
                 val items = list.map(mediaUiMapper::map)
-                homeUiState.update {
+                _homeUiState.update {
                     it.copy(upcomingMovies = HomeItem.Upcoming(items),
                         isLoading = false)
                 }
@@ -146,7 +146,7 @@ class HomeViewModel @Inject constructor(
         collectData(homeUseCasesContainer.getNowStreamingMoviesUseCase()) { list ->
             if (list.isNotEmpty()) {
                 val items = list.map(mediaUiMapper::map)
-                homeUiState.update {
+                _homeUiState.update {
                     it.copy(nowStreamingMovies = HomeItem.NowStreaming(items),
                         isLoading = false)
                 }
@@ -158,7 +158,7 @@ class HomeViewModel @Inject constructor(
         collectData(homeUseCasesContainer.getTopRatedTvShowUseCase()) { list ->
             if (list.isNotEmpty()) {
                 val items = list.map(mediaUiMapper::map)
-                homeUiState.update {
+                _homeUiState.update {
                     it.copy(tvShowsSeries = HomeItem.TvShows(items),
                         isLoading = false)
                 }
@@ -171,7 +171,7 @@ class HomeViewModel @Inject constructor(
         collectData(homeUseCasesContainer.getOnTheAirUseCase()) { list ->
             if (list.isNotEmpty()) {
                 val items = list.map(mediaUiMapper::map)
-                homeUiState.update {
+                _homeUiState.update {
                     it.copy(onTheAiringSeries = HomeItem.OnTheAiring(items),
                         isLoading = false)
                 }
@@ -184,7 +184,7 @@ class HomeViewModel @Inject constructor(
         collectData(homeUseCasesContainer.getAiringTodayUseCase()) { list ->
             if (list.isNotEmpty()) {
                 val items = list.map(mediaUiMapper::map)
-                homeUiState.update {
+                _homeUiState.update {
                     it.copy(airingTodaySeries = HomeItem.AiringToday(items),
                         isLoading = false)
                 }
@@ -197,7 +197,7 @@ class HomeViewModel @Inject constructor(
         collectData(homeUseCasesContainer.getMysteryMoviesUseCase()) { list ->
             if (list.isNotEmpty()) {
                 val items = list.map(mediaUiMapper::map)
-                homeUiState.update {
+                _homeUiState.update {
                     it.copy(mysteryMovies = HomeItem.Mystery(items),
                         isLoading = false)
                 }
@@ -211,7 +211,7 @@ class HomeViewModel @Inject constructor(
         collectData(homeUseCasesContainer.getAdventureMoviesUseCase()) { list ->
             if (list.isNotEmpty()) {
                 val items = list.map(mediaUiMapper::map)
-                homeUiState.update {
+                _homeUiState.update {
                     it.copy(adventureMovies = HomeItem.Adventure(items),
                         isLoading = false)
                 }

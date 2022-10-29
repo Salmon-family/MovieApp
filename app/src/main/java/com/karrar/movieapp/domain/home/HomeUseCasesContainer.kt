@@ -5,6 +5,7 @@ import com.karrar.movieapp.domain.home.getData.movie.*
 import com.karrar.movieapp.domain.home.getData.series.GetAiringTodaySeriesUseCase
 import com.karrar.movieapp.domain.home.getData.series.GetOnTheAirSeriesUseCase
 import com.karrar.movieapp.domain.home.getData.series.GetTopRatedTvShowSeriesUseCase
+import com.karrar.movieapp.domain.home.refreshData.RefreshHomeDataOneTimePerDayUseCase
 import com.karrar.movieapp.domain.home.refreshData.RefreshHomeDataUseCase
 import javax.inject.Inject
 
@@ -20,4 +21,5 @@ class HomeUseCasesContainer @Inject constructor(
     val getNowStreamingMoviesUseCase: GetNowStreamingMoviesUseCase,
     val getTrendingActorsUseCase: GetTrendingActorsUseCase,
     val refreshHomeDataUseCase: RefreshHomeDataUseCase,
+    val refreshHomeDataOneTimePerDayUseCase: RefreshHomeDataOneTimePerDayUseCase,
 )

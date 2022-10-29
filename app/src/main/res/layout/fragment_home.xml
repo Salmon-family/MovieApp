@@ -23,7 +23,7 @@
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:hideIfTrue="@{viewModel.homeUiState.loading}"
+            app:hideIfTrue="@{viewModel.homeUiState.loading || !viewModel.homeUiState.error.isEmpty()}"
             app:spanCount="1" />
 
         <include
@@ -33,17 +33,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:isLoading="@{viewModel.homeUiState.loading}" />
+            app:isLoading="@{viewModel.homeUiState.loading}"
+            />
 
-<!--        <include-->
-<!--            android:id="@+id/error"-->
-<!--            layout="@layout/error"-->
-<!--            app:error="@{viewModel.failedState}"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:viewModel="@{viewModel}" />-->
+        <include
+            android:id="@+id/error"
+            layout="@layout/error2"
+            app:isError="@{!viewModel.homeUiState.error.isEmpty() &amp;&amp; !viewModel.homeUiState.loading}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:viewModel="@{viewModel}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -14,4 +14,5 @@ data class HomeUiState (
     val tvShowsSeries: HomeItem = HomeItem.TvShows(emptyList()),
     val actors: HomeItem = HomeItem.Actor(emptyList()),
     val isLoading:Boolean = false,
+    val error : String = "",
 )
