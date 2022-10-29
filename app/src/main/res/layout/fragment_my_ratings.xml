@@ -120,7 +120,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:showWhenLoading="@{viewModel.ratedUiState.loading}" />
+                app:isVisible="@{viewModel.ratedUiState.loading}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

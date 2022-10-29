@@ -108,7 +108,7 @@
             android:id="@+id/loading"
             android:layout_width="172dp"
             android:layout_height="172dp"
-            app:showWhenLoading="@{viewModel.createdListUIState.loading}"
+            app:isVisible="@{viewModel.createdListUIState.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

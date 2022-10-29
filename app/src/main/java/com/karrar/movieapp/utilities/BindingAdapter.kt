@@ -23,12 +23,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
-
-@BindingAdapter(value = ["app:showWhenLoading"])
-fun showWhenLoading(view: View, value: Boolean) {
-    view.isVisible = value
-}
-
 @BindingAdapter("app:showWhenListNotEmpty")
 fun <T> showWhenListNotEmpty(view: View, list: List<T>) {
     view.isVisible = list.isNotEmpty() == true

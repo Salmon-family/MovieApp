@@ -31,7 +31,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading="@{viewModel.actorDetailsUIState.isLoading}" />
+            app:isVisible="@{viewModel.actorDetailsUIState.isLoading}" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_lost_connection"
