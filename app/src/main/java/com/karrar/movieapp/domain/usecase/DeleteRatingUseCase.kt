@@ -5,15 +5,15 @@ import com.karrar.movieapp.domain.mappers.movie.RatingStatusMoviesMapper
 import com.karrar.movieapp.domain.models.RatingStatus
 import javax.inject.Inject
 
-class SetRatingUseCase @Inject constructor(
+class DeleteRatingUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val ratingStatusMoviesMapper: RatingStatusMoviesMapper,
     private val getSessionIDUseCase: GetSessionIDUseCase,
 ) {
 
-    suspend operator fun invoke(movieId: Int, value: Float): RatingStatus {
+    suspend operator fun invoke(movieId: Int): RatingStatus {
         val sessionId = getSessionIDUseCase() ?: ""
-        val response = movieRepository.setRating(movieId, value, sessionId)
+        val response = movieRepository.deleteRating(movieId, sessionId)
         return if (response != null) {
             ratingStatusMoviesMapper.map(response)
         } else {

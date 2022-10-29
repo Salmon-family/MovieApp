@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.HomeItemsType
+import com.karrar.movieapp.domain.usecase.DeleteRatingUseCase
 import com.karrar.movieapp.domain.usecase.GetMovieDetailsUseCase
 import com.karrar.movieapp.domain.usecase.InsertMoviesUseCase
 import com.karrar.movieapp.domain.usecase.SetRatingUseCase
@@ -28,6 +29,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val insertMoviesUseCase: InsertMoviesUseCase,
     private val setRatingUseCase: SetRatingUseCase,
+    private val deleteRatingUseCase: DeleteRatingUseCase,
     private val movieDetailsUIStateMapper: MovieDetailsUIStateMapper,
     private val actorUIStateMapper: ActorUIStateMapper,
     private val mediaUIStateMapper: MediaUIStateMapper,
@@ -160,7 +162,6 @@ class MovieDetailsViewModel @Inject constructor(
             try {
                 val result = getMovieDetailsUseCase.getRatedMovie(0)
                 _uiState.update {
-                    // there is a list here not item..
                     it.copy(movieGetRatedResult = result.map { rated ->
                         ratedUIStateMapper.map(rated)
                     })
@@ -222,7 +223,6 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    // can not make it as use case because is need list of rated ui state to check
     private fun checkIfMovieRated(items: List<RatedUIState>?, movieId: Int) {
         val item = items?.firstOrNull { it.id == movieId }
         item?.let { ratedUIState ->
@@ -240,7 +240,11 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onAddRating(movieId: Int, value: Float) {
         viewModelScope.launch {
             try {
-                setRatingUseCase(movieId, value)
+                if (value == 0f) {
+                    deleteRatingUseCase(movieId)
+                } else {
+                    setRatingUseCase(movieId, value)
+                }
                 onShowMessageOfChangeRating()
             } catch (e: Exception) {
                 _uiState.update {

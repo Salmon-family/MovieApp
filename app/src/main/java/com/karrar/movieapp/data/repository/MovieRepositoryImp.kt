@@ -104,6 +104,10 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.postRating(movieId, value, session_id).body()
     }
 
+    override suspend fun deleteRating(movieId: Int, session_id: String): RatingDto? {
+        return movieService.deleteRating(movieId, session_id).body()
+    }
+
     /**
      * Actor.
      * */

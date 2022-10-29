@@ -39,6 +39,8 @@ interface MovieRepository {
 
     suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto?
 
+    suspend fun deleteRating(movieId: Int, session_id: String): RatingDto?
+
     suspend fun getMovieTrailer(movieId: Int): Trailer
 
     suspend fun getRatedMovie(accountId: Int, sessionId: String): List<RatedMoviesDto>?
