@@ -19,14 +19,14 @@
             android:id="@+id/recycler_view_watch_history"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/spacing_medium"
             app:items="@{viewModel.uiState.allMedia}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:paddingBottom="@dimen/spacing_medium"
-            android:clipToPadding="false"
             tools:listitem="@layout/item_watch_history" />
 
         <TextView
@@ -39,7 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenListIsEmpty="@{viewModel.uiState.allMedia}" />
+            app:showWhenListEmpty="@{viewModel.uiState.allMedia}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -25,11 +25,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenListIsNotEmpty="@{viewModel.myListsUIState.myListItemUI}"
+            app:showWhenListNotEmpty="@{viewModel.myListsUIState.myListItemUI}"
             app:title="@string/save_to"
             app:titleCentered="true"
             app:titleTextColor="@color/shade_primary_color" />
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/save_list_adapter"
@@ -75,7 +74,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenListIsEmpty="@{viewModel.myListsUIState.myListItemUI}" />
+            app:doneLoad="@{viewModel.myListsUIState.loading}"
+            app:noError="@{viewModel.myListsUIState.error}"
+            app:emptyData="@{viewModel.myListsUIState.myListItemUI}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.profile.myratings.MyRatingsViewModel" />
@@ -29,8 +30,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_rated_movie"
-            app:showWhenListNotEmpty="@{viewModel.ratedUiState.ratedList}" />
+            app:showWhenListNotEmpty="@{viewModel.ratedUiState.ratedList}"
+            tools:listitem="@layout/item_rated_movie" />
 
         <TextView
             style="@style/SemiBold.Medium"
@@ -38,20 +39,21 @@
             android:layout_height="wrap_content"
             android:text="@string/this_list_has_no_movies"
             android:visibility="gone"
+            app:doneLoad="@{viewModel.ratedUiState.loading}"
+            app:emptyData="@{viewModel.ratedUiState.ratedList}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenListIsEmpty2="@{viewModel.ratedUiState.ratedList}"
-            app:loading="@{viewModel.ratedUiState.loading}"/>
+            app:noError="@{viewModel.ratedUiState.error}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animation_lost_connection"
@@ -109,18 +111,18 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/loading"
-                android:layout_width="172dp"
-                android:layout_height="172dp"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/loading_animation"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:showWhenLoading3="@{viewModel.ratedUiState.loading}" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loading"
+            android:layout_width="172dp"
+            android:layout_height="172dp"
+            app:isVisible="@{viewModel.ratedUiState.loading}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_animation" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
