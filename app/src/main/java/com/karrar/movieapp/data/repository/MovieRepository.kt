@@ -7,7 +7,6 @@ import com.karrar.movieapp.data.local.database.entity.ActorEntity
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.movie.*
-import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
@@ -150,6 +149,10 @@ interface MovieRepository {
     suspend fun getUpcomingMoviesPager(): Pager<Int, MovieDto>
 
     suspend fun getActorMoviesPager(actorId: Int): Pager<Int, MovieDto>
+
+    suspend fun getAdventureMoviesPager(): Pager<Int, MovieDto>
+
+    suspend fun getMysteryMoviesPager(): Pager<Int, MovieDto>
 
 
 }

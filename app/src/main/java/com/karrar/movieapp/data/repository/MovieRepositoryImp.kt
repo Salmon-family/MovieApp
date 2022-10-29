@@ -9,7 +9,6 @@ import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.ActorEntity
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.local.mappers.movie.LocalMovieMappersContainer
 import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.repository.mediaDataSource.ActorMovieDataSource
 import com.karrar.movieapp.data.local.database.entity.movie.*
@@ -316,6 +315,10 @@ class MovieRepositoryImp @Inject constructor(
         movieDao.deleteAllNowStreamingMovies()
     }
 
+    override fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>> {
+        return movieDao.getUpcomingMovies()
+    }
+
     override suspend fun getUpcomingMovies(page: Int): List<MovieDto> {
         return movieService.getUpcomingMovies().body()?.items ?: emptyList()
     }
@@ -341,18 +344,6 @@ class MovieRepositoryImp @Inject constructor(
         movieDao.deleteAllAdventureMovies()
     }
 
-    override suspend fun refreshTrendingActors() {
-        refreshWrapper(
-            { movieService.getTrendingActors() }, { items ->
-                items?.map { dataMappers.actorMapper.map(it) }
-            }, {
-                actorDao.deleteActors()
-                actorDao.insertActors(it)
-            }
-        )
-    }
-
-
 
     override suspend fun getTrendingMoviesPager(): Pager<Int, MovieDto> {
         return Pager(config = config,
@@ -370,14 +361,14 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override suspend fun getAdventureMoviesPager(): Pager<Int, MovieDto> {
-        val dataSource = movieMovieDataSource.movieGenreShowDataSource
-        dataSource.setGenre(Constants.MYSTERY_ID, Constants.MOVIE_CATEGORIES_ID)
+        val dataSource = movieMovieDataSource.movieByGenreDataSource
+        dataSource.setGenre(Constants.MYSTERY_ID)
         return Pager(config = config, pagingSourceFactory = { dataSource })
     }
 
     override suspend fun getMysteryMoviesPager(): Pager<Int, MovieDto> {
-        val dataSource = movieMovieDataSource.movieGenreShowDataSource
-        dataSource.setGenre(Constants.ADVENTURE_ID, Constants.MOVIE_CATEGORIES_ID)
+        val dataSource = movieMovieDataSource.movieByGenreDataSource
+        dataSource.setGenre(Constants.ADVENTURE_ID)
         return Pager(config = config, pagingSourceFactory = { dataSource })
     }
 
