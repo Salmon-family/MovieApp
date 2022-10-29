@@ -19,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@color/background_color"
-            app:hideIfTrue="@{!viewModel.uiState.error.empty}">
+            app:doneLoading="@{viewModel.uiState.loading}"
+            app:errorNotEmpty="@{viewModel.uiState.error}">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
@@ -67,10 +68,10 @@
             android:paddingHorizontal="@dimen/spacing_small"
             android:paddingTop="@dimen/spacing_medium"
             android:scrollbars="none"
+            app:doneLoading="@{viewModel.uiState.loading}"
+            app:errorNotEmpty="@{viewModel.uiState.error}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:loading="@{viewModel.uiState.loading}"
-            app:showWhenListIsEmpty="@{viewModel.uiState.error}"
             app:spanCount="3"
             tools:listitem="@layout/item_category" />
 

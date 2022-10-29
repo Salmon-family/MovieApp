@@ -84,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="description_empty_list,title,no_data"
-            app:isListIsEmpty="@{viewModel.listDetailsUIState.isEmpty}" />
+            app:isListEmpty="@{viewModel.listDetailsUIState.isEmpty}" />
 
         <!--        Error State         -->
 

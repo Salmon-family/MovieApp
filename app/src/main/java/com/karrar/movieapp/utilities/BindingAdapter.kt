@@ -28,6 +28,11 @@ fun <T> showWhenListNotEmpty(view: View, list: List<T>) {
     view.isVisible = list.isNotEmpty() == true
 }
 
+@BindingAdapter("app:showWhenListEmpty")
+fun <T> showWhenListEmpty(view: View, list: List<T>) {
+    view.isVisible = list.isEmpty() == true
+}
+
 @BindingAdapter("app:hideWhenListIsEmpty")
 fun <T> hideWhenListIsEmpty(view: View, list: List<T>?) {
     if (list?.isEmpty() == true) {
@@ -35,12 +40,24 @@ fun <T> hideWhenListIsEmpty(view: View, list: List<T>?) {
     }
 }
 
-@BindingAdapter(value = ["app:showWhenListIsEmpty", "app:loading"])
-fun <T> showWhenListIsEmpty2(view: View, list: List<T>?, value: Boolean) {
-    view.isVisible = list?.isEmpty() == true && !value
+@BindingAdapter(value = ["app:error", "app:loading"])
+fun <T> showWhenSuccess(view: View, error: List<T>?, loading: Boolean) {
+    view.isVisible = error?.isEmpty() == true && !loading
 }
 
-@BindingAdapter("app:isListIsEmpty")
+@BindingAdapter(value = ["app:noError", "app:doneLoad", "app:emptyData"])
+fun <T, M> showWhenNoData(view: View, error: List<T>?, loading: Boolean, data: List<M>?) {
+    view.isVisible = error.isNullOrEmpty() && !loading && data.isNullOrEmpty()
+}
+
+@BindingAdapter(value = ["app:errorNotEmpty", "app:doneLoading"])
+fun <T> hidWhenFail(view: View, error: List<T>?, loading: Boolean) {
+    view.visibility = if (!error.isNullOrEmpty() && !loading){
+        View.GONE
+    }else{ View.VISIBLE}
+}
+
+@BindingAdapter("app:isListEmpty")
 fun showWhenDoneLoadingAndListIsEmpty(view: View, emptyList: Boolean) {
     view.isVisible = emptyList
 }

@@ -91,7 +91,7 @@
             app:constraint_referenced_ids="
                     saved_list,
                     floating_action_button"
-            app:showWhenListIsEmpty="@{viewModel.createdListUIState.error}"
+            app:error="@{viewModel.createdListUIState.error}"
             app:loading="@{viewModel.createdListUIState.loading}" />
 
         <androidx.constraintlayout.widget.Group
@@ -218,7 +218,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="description_empty_list,title,no_data"
-            app:isListIsEmpty="@{viewModel.createdListUIState.isEmpty}" />
+            app:isListEmpty="@{viewModel.createdListUIState.isEmpty}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
