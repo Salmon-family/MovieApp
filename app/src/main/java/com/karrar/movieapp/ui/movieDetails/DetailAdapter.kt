@@ -49,10 +49,10 @@ class DetailAdapter(
                 }
             }
             is DetailItem.SimilarMovies -> {
-                holder.binding.run {
-                    setVariable(BR.adapterRecycler,
-                        MovieAdapter(currentItem.data, listener as MovieInteractionListener))
-                }
+//                holder.binding.run {
+//                    setVariable(BR.adapterRecycler,
+//                        MovieAdapter(currentItem.data, listener as MovieInteractionListener))
+//                }
             }
             is DetailItem.Seasons -> {
                 holder.binding.run {

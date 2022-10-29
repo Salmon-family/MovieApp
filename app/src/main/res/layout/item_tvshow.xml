@@ -10,7 +10,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Media" />
+            type="com.karrar.movieapp.ui.models.MediaUiState" />
 
         <variable
             name="type"
@@ -26,14 +26,14 @@
             android:layout_width="@dimen/media_card_width"
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/spacing_small"
-            android:onClick="@{()->listener.onClickTVShow(item.mediaID)}"
+            android:onClick="@{()->listener.onClickTVShow(item.id)}"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1.4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:posterImage="@{item.mediaImage}"
+            app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium"
             tools:background="@color/yellow" />
     </androidx.constraintlayout.widget.ConstraintLayout>

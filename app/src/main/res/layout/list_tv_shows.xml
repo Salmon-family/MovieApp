@@ -9,15 +9,15 @@
 
         <variable
             name="topRated"
-            type="com.karrar.movieapp.domain.models.Media" />
+            type="com.karrar.movieapp.ui.models.MediaUiState" />
 
         <variable
             name="latest"
-            type="com.karrar.movieapp.domain.models.Media" />
+            type="com.karrar.movieapp.ui.models.MediaUiState" />
 
         <variable
             name="popular"
-            type="com.karrar.movieapp.domain.models.Media" />
+            type="com.karrar.movieapp.ui.models.MediaUiState" />
 
         <variable
             name="listener"
@@ -52,7 +52,7 @@
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/image_latest"
-            app:posterImage="@{topRated.mediaImage}"
+            app:posterImage="@{topRated.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -91,7 +91,7 @@
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@+id/image_top_rated"
             app:layout_constraintTop_toBottomOf="@+id/text_tvShow_title"
-            app:posterImage="@{latest.mediaImage}"
+            app:posterImage="@{latest.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -130,7 +130,7 @@
             app:layout_constraintEnd_toEndOf="@+id/image_latest"
             app:layout_constraintStart_toStartOf="@+id/image_latest"
             app:layout_constraintTop_toBottomOf="@+id/image_latest"
-            app:posterImage="@{popular.mediaImage}"
+            app:posterImage="@{popular.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
         <com.google.android.material.imageview.ShapeableImageView

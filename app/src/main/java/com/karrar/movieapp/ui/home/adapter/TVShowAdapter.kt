@@ -5,9 +5,10 @@ import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
+import com.karrar.movieapp.ui.models.MediaUiState
 
-class TVShowAdapter(items: List<Media>,val listener: TVShowInteractionListener) :
-    BaseAdapter<Media>(items, listener) {
+class TVShowAdapter(items: List<MediaUiState>,val listener: TVShowInteractionListener) :
+    BaseAdapter<MediaUiState>(items, listener) {
     override val layoutID: Int = R.layout.item_tvshow
 }
 
