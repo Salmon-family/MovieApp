@@ -21,7 +21,6 @@ import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
-import com.karrar.movieapp.utilities.Constants.IMAGEACTORPATHWHENISNULL
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -34,14 +33,7 @@ fun hideIfTrue(view: View, value: Boolean) {
     view.isVisible = !value
 }
 
-@BindingAdapter("app:isLoading")
-fun isLoading(view: View, value: Boolean) {
-    view.isVisible = value
-}
-
 @BindingAdapter("app:isLogIN")
-fun <T> isLogIN(view: View, value: Boolean) {
-    if (value) view.isVisible = false
 fun <T> isLogIN(view: View, value: Boolean) {
     if (value)
         view.isVisible = false
@@ -196,12 +188,6 @@ fun<T> isVisible(view: View, error: List<T>?, loading:Boolean) {
     }else{ View.VISIBLE}
 }
 
-
-@BindingAdapter("app:hideIfTrue")
-fun hideIfTrue(view: View, value: Boolean) {
-    view.isVisible = !value
-}
-
 @BindingAdapter("app:hideIfLoading", "app:hideError")
 fun hideIfNoData(view: View, loading: Boolean, error: List<ErrorUIState>) {
     view.isVisible = !loading && error.isEmpty()
@@ -338,6 +324,7 @@ fun isLoading(view: View, isLoading: Boolean){
 fun <T> showWhenError(view: View, error: List<T>){
     view.isVisible = error.isNotEmpty()
 }
+
 @BindingAdapter ("app:showWhenNoLoggedIn")
 fun showWhenNoLoggedIn(view: View, isLoggedIn: Boolean){
     view.isVisible = !isLoggedIn
@@ -361,7 +348,10 @@ fun showWhenIsLoggedInWithoutFail(view: View, isLoggedIn: Boolean, isFail: Boole
     }
 }
 
+
 @BindingAdapter("app:showProfileWhenSuccess")
 fun showWhenProfileSuccess(view: View, userName: String) {
     view.isVisible = userName.isNotEmpty()
 }
+
+

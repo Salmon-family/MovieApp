@@ -1,15 +1,19 @@
 package com.karrar.movieapp.ui.explore
 
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecase.GetTrendingMovieUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.explore.exploreUIState.ErrorUIState
 import com.karrar.movieapp.ui.explore.exploreUIState.ExploreUIState
 import com.karrar.movieapp.ui.explore.exploreUIState.TrendyMediaUIState
-import com.karrar.movieapp.utilities.*
+import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.postEvent
+import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,7 +22,7 @@ import javax.inject.Inject
 class ExploringViewModel @Inject constructor(
     private val getTrendyMovieUseCase: GetTrendingMovieUseCase,
     private val trendingUIStateMapper: TrendingUIStateMapper
-) :BaseViewModel(), TrendInteractionListener {
+) : BaseViewModel(), TrendInteractionListener {
 
     private val _uiState = MutableStateFlow(ExploreUIState())
     val uiState: StateFlow<ExploreUIState> = _uiState
@@ -43,13 +47,22 @@ class ExploringViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _uiState.update { it.copy(isLoading = true) }
+        _uiState.update { it.copy(isLoading = true, error = emptyList()) }
         viewModelScope.launch {
             try {
                 val result = getTrendyMovieUseCase()
-                _uiState.update { it.copy(isLoading = false, error = emptyList(), trendyMovie = result.map { trendingUIStateMapper.map(it) }) }
-            }catch (e: Throwable){
-                _uiState.update { it.copy(isLoading = false, error =listOf(ErrorUIState(404, ""))) }
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        trendyMovie = result.map { trendingUIStateMapper.map(it) })
+                }
+            } catch (e: Throwable) {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        error = listOf(ErrorUIState(404, ""))
+                    )
+                }
             }
         }
     }
