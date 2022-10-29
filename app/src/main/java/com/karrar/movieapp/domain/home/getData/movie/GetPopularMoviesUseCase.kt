@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.home
+package com.karrar.movieapp.domain.home.getData.movie
 
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.mappers.movie.PopularMovieMapper

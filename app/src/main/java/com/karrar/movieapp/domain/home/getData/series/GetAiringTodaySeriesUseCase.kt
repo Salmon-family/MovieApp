@@ -1,19 +1,19 @@
-package com.karrar.movieapp.domain.home
+package com.karrar.movieapp.domain.home.getData.series
 
 import com.karrar.movieapp.data.repository.SeriesRepository
-import com.karrar.movieapp.domain.mappers.series.TopRatedSeriesMapper
+import com.karrar.movieapp.domain.mappers.series.AiringTodaySeriesMapper
 import com.karrar.movieapp.domain.models.Media
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetTopRatedTvShowUseCase @Inject constructor(
+class GetAiringTodaySeriesUseCase @Inject constructor(
     private val seriesRepository: SeriesRepository,
-    private val seriesMapper: TopRatedSeriesMapper,
+    private val seriesMapper: AiringTodaySeriesMapper,
 ) {
 
     operator fun invoke(): Flow<List<Media>> {
-        return seriesRepository.getTopRatedTvShow().map {
+        return seriesRepository.getAiringToday().map {
             it.map(seriesMapper::map)
         }
     }
