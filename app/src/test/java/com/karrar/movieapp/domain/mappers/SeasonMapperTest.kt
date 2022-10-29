@@ -2,6 +2,8 @@ package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.SeasonDto
+import com.karrar.movieapp.domain.mappers.series.EpisodeMapper
+import com.karrar.movieapp.domain.mappers.series.SeasonMapper
 import com.karrar.movieapp.domain.models.Season
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll

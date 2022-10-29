@@ -1,8 +1,15 @@
 package com.karrar.movieapp.utilities
 
+import android.app.Activity
 import android.content.res.Resources
 import android.graphics.Rect
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.*
@@ -12,17 +19,17 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.ResultDto
 import com.karrar.movieapp.databinding.ChipItemCategoryBinding
-import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BasePagingAdapter
 import com.karrar.movieapp.ui.category.CategoryInteractionListener
-import com.karrar.movieapp.ui.explore.exploreUIState.TrendyMediaUIState
+import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 fun <T> MutableLiveData<T>.toLiveData(): LiveData<T> {
     return this
@@ -39,7 +46,7 @@ inline fun <T> LiveData<Event<T>>.observeEvent(
     observe(owner) { it?.getContentIfNotHandled()?.let(onEventUnhandledContent) }
 }
 
-fun <T> ChipGroup.createChip(item: Genre, listener: T): View {
+fun <T> ChipGroup.createChip(item: GenreUIState, listener: T): View {
     val chipBinding: ChipItemCategoryBinding = DataBindingUtil.inflate(
         LayoutInflater.from(context),
         R.layout.chip_item_category,
@@ -116,4 +123,9 @@ fun <T : Any> GridLayoutManager.setSpanSize(
 fun Date.convertToDayMonthYearFormat(): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(this)
+}
+
+
+fun <T> MutableStateFlow<T>.toStateFlow(): StateFlow<T> {
+    return this
 }

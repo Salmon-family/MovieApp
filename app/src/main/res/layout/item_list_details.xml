@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.SaveListDetails" />
+            type="com.karrar.movieapp.ui.myList.listDetails.listDetailsUIState.SavedMediaUIState" />
+
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.myList.ListDetailsInteractionListener" />
+            type="com.karrar.movieapp.ui.myList.listDetails.ListDetailsInteractionListener" />
     </data>
 
 
@@ -17,11 +19,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_medium"
-        app:cardElevation="0dp"
         android:layout_marginTop="@dimen/spacing_medium"
-        android:onClick="@{() -> listener.onItemClick(item)}"
-        app:cardCornerRadius="@dimen/radius_small">
-
+        android:onClick="@{()-> listener.onItemClick(item)}"
+        app:cardCornerRadius="@dimen/radius_small"
+        app:cardElevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,7 +37,7 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:posterImage="@{item.posterPath}"
+                app:posterImage="@{item.image}"
                 app:shapeAppearanceOverlay="@style/CardCorners.Small"
                 tools:src="@drawable/test" />
 
@@ -82,7 +83,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/text_rate_movie"
                 tools:text="2022" />
-            
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

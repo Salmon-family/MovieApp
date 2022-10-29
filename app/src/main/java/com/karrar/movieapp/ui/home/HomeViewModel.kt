@@ -245,7 +245,7 @@ class HomeViewModel @Inject constructor(
             HomeItemsType.UPCOMING -> AllMediaType.UPCOMING
             HomeItemsType.MYSTERY -> AllMediaType.MYSTERY
             HomeItemsType.ADVENTURE -> AllMediaType.ADVENTURE
-            HomeItemsType.NON -> AllMediaType.NON
+            HomeItemsType.NON -> AllMediaType.ACTOR_MOVIES
         }
         _clickSeeAllMovieEvent.postEvent(type)
     }

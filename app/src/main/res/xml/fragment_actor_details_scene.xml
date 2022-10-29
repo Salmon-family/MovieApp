@@ -17,10 +17,11 @@
             android:id="@+id/actor_image"
             android:layout_width="match_parent"
             android:layout_height="364dp"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            />
+            app:visibilityMode="ignore" />
 
         <Constraint
             android:id="@+id/view_bottom_shadow"
@@ -46,6 +47,18 @@
             app:lottie_rawRes="@raw/lost_internet_animation"
             app:visibilityMode="ignore"
         />
+
+        <Constraint
+            android:id="@+id/button_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/retry"
+            android:textColor="@color/white_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection"
+            app:visibilityMode="ignore"/>
 
         <Constraint
             android:id="@+id/loading"
@@ -124,6 +137,18 @@
             app:lottie_rawRes="@raw/lost_internet_animation"
             app:visibilityMode="ignore"
             />
+
+        <Constraint
+            android:id="@+id/button_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/retry"
+            android:textColor="@color/white_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection"
+            app:visibilityMode="ignore"/>
 
         <Constraint
             android:id="@+id/loading"

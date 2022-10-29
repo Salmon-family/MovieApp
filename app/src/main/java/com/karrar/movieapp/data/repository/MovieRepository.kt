@@ -3,14 +3,30 @@ package com.karrar.movieapp.data.repository
 import androidx.paging.*
 import com.karrar.movieapp.data.local.database.entity.*
 import com.karrar.movieapp.data.remote.response.*
+import androidx.paging.Pager
+import androidx.paging.PagingData
+import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
+import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
+import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.AddListResponse
+import com.karrar.movieapp.data.remote.response.AddMovieDto
+import com.karrar.movieapp.data.remote.response.MovieDto
+import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.remote.response.genre.GenreDto
+import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.genre.GenreResponse
+import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
-import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 interface MovieRepository {
 
     suspend fun getMovieGenreList(): List<Genre>
+
+    suspend fun getMovieGenreList2(): List<GenreDto>?
 
     suspend fun getTrendingMovies(page: Int = 1): List<Media>
 
@@ -35,22 +51,22 @@ interface MovieRepository {
 
     suspend fun getMovieTrailer(movieId: Int): Trailer
 
-    suspend fun getRatedMovie(accountId: Int, sessionId: String): List<Rated>
+    suspend fun getRatedMovie(accountId: Int, sessionId: String): List<RatedMoviesDto>?
 
     suspend fun getTrendingActors(page: Int): List<Actor>
 
-    suspend fun getActorDetails(actorId: Int): ActorDetails
+    suspend fun getActorDetails(actorId: Int): ActorDto?
 
-    suspend fun getActorMovies(actorId: Int): List<Media>
+    suspend fun getActorMovies(actorId: Int): ActorMoviesDto?
 
 
-    suspend fun getAllLists(accountId: Int, sessionId: String): List<CreatedList>
+    suspend fun getAllLists(sessionId: String): List<CreatedListDto>?
 
-    suspend fun getListDetails(listId: Int): MyListsDto
+    suspend fun getListDetails(listId: Int): MyListsDto?
 
-    suspend fun getSavedListDetails(listId: String): List<SaveListDetails>
+    suspend fun getSavedListDetails(listId: Int): List<SavedListDto>?
 
-    suspend fun createList(sessionId: String, name: String): AddListResponse
+    suspend fun createList(sessionId: String, name: String): AddListResponse?
 
     suspend fun addMovieToList(sessionId: String, listId: Int, movieId: Int): AddMovieDto
 
@@ -73,14 +89,11 @@ interface MovieRepository {
 
     fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>
 
-    suspend fun getMediaData(type: AllMediaType, actorId: Int): Pager<Int, Media>
+    suspend fun getActorData(): Pager<Int, ActorDto>
 
-    suspend fun getActorData(): Pager<Int, Actor>
+    suspend fun getAllMovies() : Pager<Int, MovieDto>
 
-    fun getAllMedia(mediaType: Int): Flow<PagingData<Media>>
-
-    fun getMediaByGenre(genreID: Int, mediaType: Int): Flow<PagingData<Media>>
-
+    suspend fun getMovieByGenre(genreID: Int): Pager<Int, MovieDto>
 
     fun getPopularMovies(): Flow<List<PopularMovie>>
 
@@ -113,5 +126,13 @@ interface MovieRepository {
     suspend fun refreshMysteryMovies()
 
     suspend fun refreshTrendingActors()
+
+    suspend fun getTrendingMoviesPager(): Pager<Int, MovieDto>
+
+    suspend fun getNowPlayingMoviesPager(): Pager<Int, MovieDto>
+
+    suspend fun getUpcomingMoviesPager(): Pager<Int, MovieDto>
+
+    suspend fun getActorMoviesPager(actorId: Int): Pager<Int, MovieDto>
 
 }

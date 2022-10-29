@@ -18,7 +18,8 @@
             android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@color/background_color">
+            android:background="@color/background_color"
+            app:hideIfTrue="@{!viewModel.uiState.error.empty}">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
@@ -43,11 +44,11 @@
                         android:id="@+id/chipGroup_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:firstChipSelection="@{true}"
                         app:genresId="@{viewModel.args.mediaId}"
                         app:listener="@{viewModel}"
+                        app:selectedChip="@{viewModel.selectedCategory}"
                         app:selectionRequired="true"
-                        app:setGenres="@{viewModel.categories}"
+                        app:setGenres="@{viewModel.uiState.genre}"
                         app:singleLine="true"
                         app:singleSelection="true" />
 
@@ -67,31 +68,31 @@
             android:paddingHorizontal="@dimen/spacing_small"
             android:paddingTop="@dimen/spacing_medium"
             android:scrollbars="none"
+            app:hideError="@{viewModel.uiState.error}"
+            app:hideIfLoading="@{viewModel.uiState.loading}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:spanCount="3"
-            tools:listitem="@layout/item_media" />
-
-
-        <include
-            android:id="@+id/loading"
-            layout="@layout/loading"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.allMediaState}" />
+            tools:listitem="@layout/item_category" />
 
         <include
             android:id="@+id/error"
-            layout="@layout/error"
-            app:error="@{viewModel.allMediaState}"
+            layout="@layout/error2"
+            app:isError="@{!viewModel.uiState.error.isEmpty()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:viewModel="@{viewModel}" />
 
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading2"
+            app:isLoading="@{viewModel.uiState.loading}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

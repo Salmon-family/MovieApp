@@ -16,10 +16,12 @@ import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.MediaDetails
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.ui.category.uiState.ErrorUIState
+import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
-import com.karrar.movieapp.utilities.Constants.ALL
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
+import com.karrar.movieapp.utilities.Constants.IMAGEACTORPATHWHENISNULL
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -40,6 +42,9 @@ fun isLoading(view: View, value: Boolean) {
 @BindingAdapter("app:isLogIN")
 fun <T> isLogIN(view: View, value: Boolean) {
     if (value) view.isVisible = false
+fun <T> isLogIN(view: View, value: Boolean) {
+    if (value)
+        view.isVisible = false
 }
 
 @BindingAdapter("app:showWhenSuccess")
@@ -47,9 +52,24 @@ fun <T> showWhenSuccess2(view: View, state: UIState<T>?) {
     view.isVisible = state is UIState.Success
 }
 
+@BindingAdapter("app:showWhenListNotEmpty")
+fun <T> showWhenListNotEmpty(view: View,list: List<T>){
+    view.isVisible = list.isNotEmpty() == true
+}
+
+@BindingAdapter("app:showWhenNoError")
+fun <T> showWhenNoError(view: View, error: String?) {
+    view.isVisible = error.isNullOrBlank()
+}
+
 @BindingAdapter(value = ["app:showWhenLoading"])
 fun <T> showWhenLoading2(view: View, state: UIState<T>?) {
     view.isVisible = (state is UIState.Loading)
+}
+
+@BindingAdapter(value = ["app:showWhenLoading3"])
+fun <T> showWhenLoading3(view: View, value: Boolean) {
+    view.isVisible = value
 }
 
 @BindingAdapter(value = ["app:showWhenNoLogin"])
@@ -57,6 +77,10 @@ fun <T> showWhenNoLogin(view: View, state: UIState<T>?) {
     view.isVisible = (state is UIState.NoLogin)
 }
 
+@BindingAdapter(value = ["app:showWhenNoLogin"])
+fun showWhenErrorLogin(view: View, error: String?) {
+    view.isVisible = error != null && error.contains("NoLogin", true)
+}
 
 @BindingAdapter(value = ["app:hideWhenLoading"])
 fun <T> hideWhenLoading(view: View, state: UIState<T>?) {
@@ -66,6 +90,11 @@ fun <T> hideWhenLoading(view: View, state: UIState<T>?) {
 @BindingAdapter("app:showWhenFail")
 fun <T> showWhenFail2(view: View, state: UIState<T>?) {
     view.isVisible = state is UIState.Error
+}
+
+@BindingAdapter("app:showWhenFail3")
+fun <T> showWhenFail3(view: View, error :String) {
+    view.isVisible = error.isEmpty()
 }
 
 @BindingAdapter(value = ["app:showWhenSearch"])
@@ -133,31 +162,26 @@ fun setGenre(textView: TextView, genreList: List<Genre>?) {
     }
 }
 
-@BindingAdapter("app:setGenres", "app:genresId", "app:listener", "app:firstChipSelection")
+@BindingAdapter("app:setGenres", "app:genresId", "app:listener", "app:selectedChip")
 fun <T> setGenresChips(
-    view: ChipGroup,
-    chipList: List<Genre>?,
-    categoryId: Int?,
-    listener: T,
-    isFirstChipSelected: Boolean?
+    view: ChipGroup, chipList: List<GenreUIState>?, categoryId: Int?, listener: T,
+    selectedChip: Int?
 ) {
-    val allMedia = Genre(FIRST_CATEGORY_ID, ALL)
     when (categoryId) {
         MOVIE_CATEGORIES_ID -> {
             chipList?.let {
-                view.addView(view.createChip(allMedia, listener))
                 it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
             }
         }
         TV_CATEGORIES_ID -> {
             chipList?.let {
-                view.addView(view.createChip(allMedia, listener))
                 it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
             }
         }
     }
 
-    if (isFirstChipSelected == true) view.getChildAt(FIRST_CATEGORY_ID)?.id?.let { view.check(it) }
+    val index = chipList?.indexOf(chipList.find { it.genreID == selectedChip }) ?: FIRST_CATEGORY_ID
+    view.getChildAt(index)?.id?.let { view.check(it) }
 }
 
 @BindingAdapter("app:isVisible")
@@ -172,6 +196,26 @@ fun<T> isVisible(view: View, error: List<T>?, loading:Boolean) {
     }else{ View.VISIBLE}
 }
 
+
+@BindingAdapter("app:hideIfTrue")
+fun hideIfTrue(view: View, value: Boolean) {
+    view.isVisible = !value
+}
+
+@BindingAdapter("app:hideIfLoading", "app:hideError")
+fun hideIfNoData(view: View, loading: Boolean, error: List<ErrorUIState>) {
+    view.isVisible = !loading && error.isEmpty()
+}
+
+@BindingAdapter(value = ["app:showWhenNoLogin"])
+fun showWhenNoLogin2(view: View, error: List<ErrorUIState>) {
+    view.isVisible = !error.none { it.code == ErrorUI.NEED_LOGIN }
+}
+
+@BindingAdapter(value = ["app:showWhenNoInternet"])
+fun showWhenNoInternet(view: View, error: List<ErrorUIState>) {
+    view.isVisible = !error.none { it.code != ErrorUI.NEED_LOGIN }
+}
 
 @BindingAdapter("app:setVideoId")
 fun setVideoId(view: YouTubePlayerView, videoId: String?) {
@@ -210,6 +254,16 @@ fun convertToHoursPattern(view: TextView, duration: Int) {
 @BindingAdapter("app:showWhenListIsEmpty")
 fun <T> showWhenListIsEmpty(view: View, list: List<T>?) {
     view.isVisible = list?.isEmpty() == true
+}
+
+@BindingAdapter("app:isListIsEmpty")
+fun <T> showWhenDoneLoadingAndListIsEmpty(view: View, emptyList: Boolean) {
+    view.isVisible = emptyList
+}
+
+@BindingAdapter(value = ["app:showWhenListIsEmpty2","app:loading"])
+fun <T> showWhenListIsEmpty2(view: View, list: List<T>?,value :Boolean) {
+    view.isVisible = list?.isEmpty() == true && !value
 }
 
 @BindingAdapter("app:hideWhenListIsEmpty")
@@ -273,4 +327,41 @@ fun hideIfNotTypeOfMovie(view: View, mediaType: MediaType?) {
 @BindingAdapter("app:showWhenNoResults")
 fun <T> showWhenNoResults(view: View, state: UIState<T>?) {
     view.isVisible = (state == UIState.Success(false))
+}
+
+@BindingAdapter("app:isLoading")
+fun isLoading(view: View, isLoading: Boolean){
+    view.isVisible = isLoading
+}
+
+@BindingAdapter("app:showWhenError")
+fun <T> showWhenError(view: View, error: List<T>){
+    view.isVisible = error.isNotEmpty()
+}
+@BindingAdapter ("app:showWhenNoLoggedIn")
+fun showWhenNoLoggedIn(view: View, isLoggedIn: Boolean){
+    view.isVisible = !isLoggedIn
+}
+
+@BindingAdapter("app:isLoggedIn", "app:isFail")
+fun showWhenLoggedInAndFail(view: View, isLoggedIn: Boolean, isFail: Boolean){
+    if (isLoggedIn && isFail){
+        view.isVisible = true
+    } else if (isLoggedIn){
+        view.isVisible = false
+    }
+}
+
+@BindingAdapter("isLogged", "isFailure")
+fun showWhenIsLoggedInWithoutFail(view: View, isLoggedIn: Boolean, isFail: Boolean){
+    if (isLoggedIn && !isFail){
+        view.isVisible = true
+    } else if (isFail){
+        view.isVisible = false
+    }
+}
+
+@BindingAdapter("app:showProfileWhenSuccess")
+fun showWhenProfileSuccess(view: View, userName: String) {
+    view.isVisible = userName.isNotEmpty()
 }

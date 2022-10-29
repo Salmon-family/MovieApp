@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.myList.MyListsViewModel" />
+            type="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveMovieViewModel" />
 
     </data>
 
@@ -21,30 +21,30 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:showWhenListIsNotEmpty="@{viewModel.myListsUIState.myListItemUI}"
             app:title="@string/save_to"
-            android:visibility="gone"
-            app:showWhenListIsNotEmpty="@{viewModel.createdList.toData()}"
-            app:titleTextColor="@color/shade_primary_color"
-            app:titleCentered="true"/>
+            app:titleCentered="true"
+            app:titleTextColor="@color/shade_primary_color" />
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/save_list_adapter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:clipToPadding="false"
             android:orientation="vertical"
-            app:items="@{viewModel.createdList.toData()}"
+            android:paddingBottom="@dimen/spacing_medium"
+            app:items="@{viewModel.myListsUIState.myListItemUI}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:paddingBottom="@dimen/spacing_medium"
-            android:clipToPadding="false"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/item_list" />
 
         <TextView
@@ -52,30 +52,30 @@
             style="@style/SemiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/spacing_large"
             android:gravity="center"
             android:text="@string/you_must_be_logged_in_to_save_a_movie"
             android:visibility="gone"
-            android:layout_marginVertical="@dimen/spacing_large"
-            app:showWhenFail="@{viewModel.createdList}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:showWhenNoLogin="@{viewModel.myListsUIState.error}" />
 
         <TextView
             android:id="@+id/text_message_empty_list"
             style="@style/SemiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/spacing_large"
             android:gravity="center"
             android:text="@string/this_list_has_no_lists"
             android:visibility="gone"
-            android:layout_marginVertical="@dimen/spacing_large"
-            app:showWhenListIsEmpty="@{viewModel.createdList.toData()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:showWhenListIsEmpty="@{viewModel.myListsUIState.myListItemUI}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

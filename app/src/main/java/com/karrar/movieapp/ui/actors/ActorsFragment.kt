@@ -8,7 +8,7 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentActorsBinding
-import com.karrar.movieapp.domain.models.Actor
+import com.karrar.movieapp.ui.actors.models.ActorInfoUIState
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.collect
@@ -38,13 +38,13 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
         mManager.setSpanSize(footerAdapter, actorsAdapter, mManager.spanCount)
 
         collect(flow = actorsAdapter.loadStateFlow,
-            action = { viewModel.setErrorUiState(it.source.refresh) })
+            action = { viewModel.setErrorUiState(it) })
 
-        collectLast(viewModel.trendingActors, ::setAllActors)
+        collectLast(viewModel.uiState.value.actors, ::setAllActors)
     }
 
 
-    private suspend fun setAllActors(itemsPagingData: PagingData<Actor>) {
+    private suspend fun setAllActors(itemsPagingData: PagingData<ActorInfoUIState>) {
         actorsAdapter.submitData(itemsPagingData)
     }
 

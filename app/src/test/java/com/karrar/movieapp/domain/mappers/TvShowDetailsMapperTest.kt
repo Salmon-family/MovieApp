@@ -5,6 +5,9 @@ import com.karrar.movieapp.data.remote.response.SeasonDto
 import com.karrar.movieapp.data.remote.response.tvShow.CreatedByDto
 import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
 import com.karrar.movieapp.domain.enums.MediaType
+import com.karrar.movieapp.domain.mappers.series.EpisodeMapper
+import com.karrar.movieapp.domain.mappers.series.SeasonMapper
+import com.karrar.movieapp.domain.mappers.series.TvShowDetailsMapper
 import com.karrar.movieapp.domain.models.Season
 import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.utilities.Constants
@@ -12,6 +15,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import java.util.*
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class TvShowDetailsMapperTest {
@@ -41,7 +45,7 @@ internal class TvShowDetailsMapperTest {
                 profilePath = "profilePath"
             )),
             episodeRunTime = listOf(1, 2, 3),
-            firstAirDate = "firstAirDate",
+            firstAirDate = Date(),
             genres = listOf(),
             homepage = "homepage",
             id = 1,

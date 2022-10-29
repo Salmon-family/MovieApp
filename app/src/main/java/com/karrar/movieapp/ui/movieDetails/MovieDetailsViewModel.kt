@@ -75,7 +75,7 @@ class MovieDetailsViewModel @Inject constructor(
         getMovieDetails(movieId)
         getMovieCast(movieId)
         getSimilarMovie(movieId)
-        getRatedMovie(movieId)
+//        getRatedMovie(movieId)
         getMovieReviews(movieId)
     }
 
@@ -106,18 +106,18 @@ class MovieDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun getRatedMovie(movieId: Int) {
-        wrapWithState( {
-            val sessionId = accountRepository.getSessionId()
-            sessionId?.let {
-                val response = movieRepository.getRatedMovie(0, it)
-                checkIfMovieRated(response, movieId)
-                updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
-            }
-        },{
-
-        })
-    }
+//    private fun getRatedMovie(movieId: Int) {
+//        wrapWithState( {
+//            val sessionId = accountRepository.getSessionId()
+//            sessionId?.let {
+//                val response = movieRepository.getRatedMovie(0, it)
+//                checkIfMovieRated(response, movieId)
+//                updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
+//            }
+//        },{
+//
+//        })
+//    }
 
     private fun getMovieReviews(movieId: Int) {
         wrapWithState({

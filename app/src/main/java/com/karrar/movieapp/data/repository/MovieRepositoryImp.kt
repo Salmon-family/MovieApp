@@ -4,12 +4,33 @@ import com.karrar.movieapp.data.local.AppConfiguration
 import com.karrar.movieapp.data.local.database.daos.*
 import androidx.paging.*
 import com.karrar.movieapp.data.local.database.entity.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.karrar.movieapp.data.local.AppConfiguration
+import com.karrar.movieapp.data.local.database.daos.ActorDao
+import com.karrar.movieapp.data.local.database.daos.MovieDao
+import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
+import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.mappers.movie.LocalMovieMappersContainer
 import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.repository.mediaDataSource.ActorMovieDataSource
+import com.karrar.movieapp.data.remote.response.AddListResponse
+import com.karrar.movieapp.data.remote.response.AddMovieDto
+import com.karrar.movieapp.data.remote.response.MovieDto
+import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.remote.response.genre.GenreDto
+import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.mappers.*
+import com.karrar.movieapp.data.repository.mediaDataSource.movie.MovieDataSourceContainer
+import com.karrar.movieapp.domain.mappers.ListMapper
+import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
+import com.karrar.movieapp.domain.mappers.MovieMappersContainer
 import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +48,9 @@ class MovieRepositoryImp @Inject constructor(
     private val appConfiguration: AppConfiguration,
     private val actorDataSource: ActorDataSource,
     private val mediaDataSourceContainer: MediaDataSourceContainer,
-    private val searchDataSourceContainer: SearchDataSourceContainer
+    private val searchDataSourceContainer: SearchDataSourceContainer,
+    private val movieMovieDataSource: MovieDataSourceContainer,
+    private val actorMovieDataSource: ActorMovieDataSource,
 ) : BaseRepository(), MovieRepository {
 
     override suspend fun getMovieGenreList(): List<Genre> {
@@ -35,6 +58,9 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMappersContainer.genreMapper).mapList(it.genres) })
     }
 
+    override suspend fun getMovieGenreList2(): List<GenreDto>? {
+        return movieService.getGenreList().body()?.genres
+    }
 
     override suspend fun getTrendingMovies(page: Int): List<Media> {
         return wrap({ movieService.getTrendingMovies(page = page) },
@@ -94,11 +120,8 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getRatedMovie(
         accountId: Int,
-        sessionId: String,
-    ): List<Rated> {
-        return wrap({ movieService.getRatedMovie(accountId, sessionId) }, { response ->
-            ListMapper(movieMappersContainer.ratedMoviesMapper).mapList(response.items)
-        })
+        sessionId: String, ): List<RatedMoviesDto>? {
+        return movieService.getRatedMovie(accountId, sessionId).body()?.items
     }
 
     override suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto {
@@ -113,14 +136,12 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMappersContainer.actorMapper).mapList(it.items) })
     }
 
-    override suspend fun getActorDetails(actorId: Int): ActorDetails {
-        return wrap({ movieService.getActorDetails(actorId) },
-            { movieMappersContainer.actorDetailsMapper.map(it) })
+    override suspend fun getActorDetails(actorId: Int): ActorDto? {
+        return movieService.getActorDetails(actorId = actorId).body()
     }
 
-    override suspend fun getActorMovies(actorId: Int): List<Media> {
-        return wrap({ movieService.getActorMovies(actorId) },
-            { ListMapper(movieMappersContainer.movieMapper).mapList(it.cast) })
+    override suspend fun getActorMovies(actorId: Int): ActorMoviesDto? {
+        return movieService.getActorMovies(actorId = actorId).body()
     }
 
     /**
@@ -128,27 +149,24 @@ class MovieRepositoryImp @Inject constructor(
      * */
 
     override suspend fun getAllLists(
-        accountId: Int,
         sessionId: String,
-    ): List<CreatedList> {
-        return wrap({ movieService.getCreatedLists(accountId, sessionId) },
-            { ListMapper(movieMappersContainer.createdListsMapper).mapList(it.items) })
+    ): List<CreatedListDto>? {
+        return movieService.getCreatedLists(sessionId = sessionId).body()?.items
     }
 
-    override suspend fun getListDetails(listId: Int): MyListsDto {
-        return wrap({ movieService.getList(listId) }, { it })
+    override suspend fun getListDetails(listId: Int): MyListsDto? {
+        return movieService.getList(listId).body()
     }
 
-    override suspend fun getSavedListDetails(listId: String): List<SaveListDetails> {
-        return wrap({ movieService.getList(listId.toInt()) },
-            { ListMapper(movieMappersContainer.saveListDetailsMapper).mapList(it.items) })
+    override suspend fun getSavedListDetails(listId: Int): List<SavedListDto>? {
+        return movieService.getList(listId).body()?.items
     }
 
     override suspend fun createList(
         sessionId: String,
         name: String,
-    ): AddListResponse {
-        return wrap({ movieService.createList(sessionId, name) }, { it })
+    ): AddListResponse? {
+        return movieService.createList(sessionId, name).body()
     }
 
     override suspend fun addMovieToList(
@@ -212,57 +230,26 @@ class MovieRepositoryImp @Inject constructor(
         return movieDao.getAllWatchedMovies()
     }
 
-    override suspend fun getMediaData(type: AllMediaType, actorId: Int): Pager<Int, Media> {
-        val pagingSourceFactory = when (type) {
-            AllMediaType.ON_THE_AIR, AllMediaType.LATEST -> mediaDataSourceContainer.onTheAirTvShowDataSource
-            AllMediaType.AIRING_TODAY -> mediaDataSourceContainer.airingTodayTvShowDataSource
-            AllMediaType.POPULAR -> mediaDataSourceContainer.popularTvShowDataSource
-            AllMediaType.TOP_RATED -> mediaDataSourceContainer.topRatedTvShowDataSource
-            AllMediaType.TRENDING -> mediaDataSourceContainer.trendingMovieDataSource
-            AllMediaType.NOW_STREAMING -> mediaDataSourceContainer.nowStreamingMovieMovieDataSource
-            AllMediaType.UPCOMING -> mediaDataSourceContainer.upcomingMovieMovieDataSource
-            AllMediaType.MYSTERY -> {
-                val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
-                dataSource.setGenre(Constants.MYSTERY_ID, Constants.MOVIE_CATEGORIES_ID)
-                dataSource
-            }
-            AllMediaType.ADVENTURE -> {
-                val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
-                dataSource.setGenre(Constants.ADVENTURE_ID, Constants.MOVIE_CATEGORIES_ID)
-                dataSource
-            }
-            AllMediaType.NON -> {
-                val dataSource = mediaDataSourceContainer.actorMovieDataSource
-                dataSource.setMovieActorID(actorId)
-                dataSource
-            }
-        }
-        return Pager(config = config, pagingSourceFactory = { pagingSourceFactory })
-    }
 
-    override suspend fun getActorData(): Pager<Int, Actor> {
+    override suspend fun getActorData(): Pager<Int, ActorDto> {
         return Pager(config = config, pagingSourceFactory = { actorDataSource })
     }
 
-    override fun getAllMedia(mediaType: Int): Flow<PagingData<Media>> {
+    override suspend fun getAllMovies(): Pager<Int, MovieDto> {
         return Pager(
             config = config,
-            pagingSourceFactory = {
-                val dataSource = mediaDataSourceContainer.allMediaDataSource
-                dataSource.setTypeMedia(mediaType)
-                dataSource
-            }).flow
+            pagingSourceFactory = { mediaDataSourceContainer.movieDataSource })
     }
 
-    override fun getMediaByGenre(genreID: Int, mediaType: Int): Flow<PagingData<Media>> {
+    override suspend fun getMovieByGenre(genreID: Int): Pager<Int, MovieDto> {
         return Pager(
             config = config,
             pagingSourceFactory = {
-                val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
-                dataSource.setGenre(genreID, mediaType)
+                val dataSource = mediaDataSourceContainer.movieByGenreDataSource
+                dataSource.setGenre(genreID)
                 dataSource
             }
-        ).flow
+        )
     }
 
 
@@ -391,6 +378,24 @@ class MovieRepositoryImp @Inject constructor(
                 actorDao.insertActors(it)
             }
         )
+    }
+
+    override suspend fun getTrendingMoviesPager(): Pager<Int, MovieDto> {
+        return  Pager(config = config,pagingSourceFactory = {movieMovieDataSource.trendingMovieDataSource})
+    }
+
+    override suspend fun getNowPlayingMoviesPager(): Pager<Int, MovieDto> {
+        return  Pager(config = config,pagingSourceFactory = {movieMovieDataSource.nowStreamingMovieMovieDataSource})
+    }
+
+    override suspend fun getUpcomingMoviesPager(): Pager<Int, MovieDto> {
+        return  Pager(config = config,pagingSourceFactory = {movieMovieDataSource.upcomingMovieMovieDataSource})
+    }
+
+    override suspend fun getActorMoviesPager(actorId: Int): Pager<Int, MovieDto> {
+        val dataSource = actorMovieDataSource
+        dataSource.setMovieActorID(actorId)
+        return  Pager(config = config,pagingSourceFactory = {dataSource})
     }
 
     override suspend fun saveRequestDate(value: Long) {
