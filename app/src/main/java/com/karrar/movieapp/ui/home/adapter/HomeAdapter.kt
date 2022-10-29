@@ -145,7 +145,7 @@ class HomeAdapter(
         oldPosition: HomeItem,
         newPosition: HomeItem,
     ): Boolean {
-        return false
+        return oldPosition == newPosition
     }
 
     override fun getItemViewType(position: Int): Int {
