@@ -1,9 +1,9 @@
 package com.karrar.movieapp.data.repository
 
+import com.karrar.movieapp.data.local.AppConfiguration
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.karrar.movieapp.data.local.AppConfiguration
 import com.karrar.movieapp.data.local.database.daos.ActorDao
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
@@ -59,9 +59,8 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
     }
 
-    override suspend fun getDailyTrending(): List<Media> {
-        return wrap({ movieService.getDailyTrending() },
-            { ListMapper(movieMappersContainer.itemListMapper).mapList(it.items) })
+    override suspend fun getDailyTrending(): BaseListResponse<DailyTrendingDto> {
+        return movieService.getDailyTrending().body()!!
     }
 
     override suspend fun getUpcomingMovies(page: Int): List<Media> {

@@ -21,7 +21,6 @@ import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import com.karrar.movieapp.ui.home.HomeRecyclerItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
-import com.karrar.movieapp.utilities.Constants.IMAGEACTORPATHWHENISNULL
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -29,12 +28,16 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 
+@BindingAdapter("app:hideIfTrue")
+fun hideIfTrue(view: View, value: Boolean) {
+    view.isVisible = !value
+}
+
 @BindingAdapter("app:isLogIN")
 fun <T> isLogIN(view: View, value: Boolean) {
     if (value)
         view.isVisible = false
 }
-
 
 @BindingAdapter("app:showWhenSuccess")
 fun <T> showWhenSuccess2(view: View, state: UIState<T>?) {
@@ -101,6 +104,11 @@ fun hideWhenBlankSearch(view: View, text: String) {
     if (text.isBlank()) {
         view.visibility = View.INVISIBLE
     }
+}
+
+@BindingAdapter(value = ["app:showWhenListIsEmpty", "app:loading"])
+fun <T> hideWhenError(view: View, list: List<T>?, loading: Boolean) {
+    view.isVisible = !(list.isNullOrEmpty() && !loading)
 }
 
 @BindingAdapter("app:posterImage")
@@ -171,12 +179,13 @@ fun <T> setGenresChips(
 @BindingAdapter("app:isVisible")
 fun isVisible(view: View, isVisible: Boolean) {
     view.isVisible = isVisible
-
 }
 
-@BindingAdapter("app:hideIfTrue")
-fun hideIfTrue(view: View, value: Boolean) {
-    view.isVisible = !value
+@BindingAdapter("app:hide", "app:isLoading33")
+fun<T> isVisible(view: View, error: List<T>?, loading:Boolean) {
+    view.visibility = if (!error.isNullOrEmpty() && !loading){
+        View.GONE
+    }else{ View.VISIBLE}
 }
 
 @BindingAdapter("app:hideIfLoading", "app:hideError")
@@ -246,13 +255,18 @@ fun <T> showWhenListIsEmpty2(view: View, list: List<T>?,value :Boolean) {
 @BindingAdapter("app:hideWhenListIsEmpty")
 fun <T> hideWhenListIsEmpty(view: View, list: List<T>?) {
     if (list?.isEmpty() == true) {
-        view.visibility = View.INVISIBLE
+        view.visibility = View.GONE
     }
 }
 
 @BindingAdapter("app:showWhenListIsNotEmpty")
 fun <T> showWhenListIsNotEmpty(view: View, list: List<T>?) {
     view.isVisible = list?.isNotEmpty() == true
+}
+
+@BindingAdapter("app:hideWhenListIsNotEmpty")
+fun <T> hideWhenListIsNotEmpty(view: View, list: List<T>?) {
+    view.isVisible = list?.isEmpty() == true
 }
 
 @BindingAdapter("app:overviewText")
@@ -310,6 +324,7 @@ fun isLoading(view: View, isLoading: Boolean){
 fun <T> showWhenError(view: View, error: List<T>){
     view.isVisible = error.isNotEmpty()
 }
+
 @BindingAdapter ("app:showWhenNoLoggedIn")
 fun showWhenNoLoggedIn(view: View, isLoggedIn: Boolean){
     view.isVisible = !isLoggedIn
@@ -333,7 +348,10 @@ fun showWhenIsLoggedInWithoutFail(view: View, isLoggedIn: Boolean, isFail: Boole
     }
 }
 
+
 @BindingAdapter("app:showProfileWhenSuccess")
 fun showWhenProfileSuccess(view: View, userName: String) {
     view.isVisible = userName.isNotEmpty()
 }
+
+

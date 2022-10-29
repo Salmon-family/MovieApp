@@ -3,9 +3,7 @@ package com.karrar.movieapp.ui.explore
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.view.View
-import androidx.compose.ui.unit.Constraints
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -16,8 +14,7 @@ import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.EventObserve
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
@@ -26,17 +23,18 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTitle(true,resources.getString(R.string.explore_label))
+        setTitle(true, resources.getString(R.string.explore_label))
         observeEvents()
         binding.recyclerTrend.adapter = TrendAdapter(mutableListOf(), viewModel)
     }
 
-    private fun observeEvents(){
+    private fun observeEvents() {
         navigateToSearch()
         navigateToMovies()
         navigateToSeries()
@@ -44,53 +42,63 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
         navigateToMediaDetails()
     }
 
-    private fun navigateToSearch(){
+    private fun navigateToSearch() {
         val extras = FragmentNavigatorExtras(binding.inputSearch to "search_box")
-        viewModel.clickSearchEvent.observe(viewLifecycleOwner, EventObserve{
+        viewModel.clickSearchEvent.observe(viewLifecycleOwner, EventObserve {
             Navigation.findNavController(binding.root)
-                .navigate(ExploringFragmentDirections.actionExploringFragmentToSearchFragment(), extras)
+                .navigate(
+                    ExploringFragmentDirections.actionExploringFragmentToSearchFragment(),
+                    extras
+                )
         })
     }
 
-    private fun navigateToMovies(){
-        viewModel.clickMoviesEvent.observe(viewLifecycleOwner, EventObserve{
-            findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToCategoryFragment(
-                Constants.MOVIE_CATEGORIES_ID
-            ))
-        })
-    }
-
-    private fun navigateToSeries(){
-        viewModel.clickSeriesEvent.observe(viewLifecycleOwner, EventObserve{
-            findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToCategoryFragment(
-                Constants.TV_CATEGORIES_ID
-            ))
-        })
-
-        viewModel.clickTrendTVShowEvent.observeEvent(viewLifecycleOwner){
-            findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToTvShowDetailsFragment(
-                it
-            ))
+    private fun navigateToMovies() {
+        viewModel.clickMoviesEvent.observeEvent(viewLifecycleOwner) {
+            findNavController().navigate(
+                ExploringFragmentDirections.actionExploringFragmentToCategoryFragment(
+                    Constants.MOVIE_CATEGORIES_ID
+                )
+            )
         }
     }
 
-    private fun navigateToActors(){
-        viewModel.clickActorsEvent.observe(viewLifecycleOwner, EventObserve{
-            findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToActorsFragment())
-        })
+    private fun navigateToSeries() {
+        viewModel.clickTVShowEvent.observeEvent(viewLifecycleOwner) {
+            findNavController().navigate(
+                ExploringFragmentDirections.actionExploringFragmentToCategoryFragment(
+                    Constants.TV_CATEGORIES_ID
+                )
+            )
+        }
     }
 
-    private fun navigateToMediaDetails(){
-        viewModel.clickTrendEvent.observe(viewLifecycleOwner, EventObserve{ mediaId ->
-            when(viewModel.mediaType.value){
+    private fun navigateToActors() {
+        viewModel.clickActorsEvent.observeEvent(viewLifecycleOwner) {
+            findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToActorsFragment())
+        }
+    }
+
+    private fun navigateToMediaDetails() {
+        viewModel.clickTrendEvent.observeEvent(viewLifecycleOwner) { item ->
+            when (item.mediaType) {
                 Constants.MOVIE -> {
-                    findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToMovieDetailFragment(mediaId))
+                    findNavController().navigate(
+                        ExploringFragmentDirections.actionExploringFragmentToMovieDetailFragment(
+                            item.mediaID
+                        )
+                    )
                 }
                 Constants.TV_SHOWS -> {
-                    findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToTvShowDetailsFragment(mediaId))
+                    findNavController().navigate(
+                        ExploringFragmentDirections.actionExploringFragmentToTvShowDetailsFragment(
+                            item.mediaID
+                        )
+                    )
                 }
-                Constants.ACTOR -> {}
             }
-        })
+        }
     }
+
+
 }

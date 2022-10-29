@@ -19,8 +19,8 @@ abstract class BaseViewModel : ViewModel() {
                 errorFunction(e)
             }
         }
-
     }
+
     fun <T> collectData(
         data: Flow<List<T>>,
         function: suspend (List<T>) -> Unit
