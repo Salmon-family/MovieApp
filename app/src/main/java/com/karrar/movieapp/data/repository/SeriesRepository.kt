@@ -3,6 +3,10 @@ package com.karrar.movieapp.data.repository
 import androidx.paging.PagingData
 import androidx.paging.Pager
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
+import com.karrar.movieapp.data.local.database.entity.movie.AdventureMovieEntity
+import com.karrar.movieapp.data.local.database.entity.series.AiringTodaySeriesEntity
+import com.karrar.movieapp.data.local.database.entity.series.OnTheAirSeriesEntity
+import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntity
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.BaseListResponse
@@ -17,13 +21,13 @@ interface SeriesRepository {
 
     suspend fun getTVShowsGenreList2(): List<GenreDto>?
 
-    suspend fun getOnTheAir(page: Int = 1): List<Media>
+    suspend fun getOnTheAir(page: Int = 1): List<TVShowsDTO>
 
-    suspend fun getAiringToday(page: Int = 1): List<Media>
+    suspend fun getAiringToday(page: Int = 1): List<TVShowsDTO>
 
-    suspend fun getTopRatedTvShow(page: Int = 1): List<Media>
+    suspend fun getTopRatedTvShow(page: Int = 1): List<TVShowsDTO>
 
-    suspend fun getPopularTvShow(page: Int = 1): List<Media>
+    suspend fun getPopularTvShow(page: Int = 1): List<TVShowsDTO>
 
     suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails
 
@@ -45,17 +49,23 @@ interface SeriesRepository {
 
     suspend fun getTVShowByGenre(genreID: Int): Pager<Int, TVShowsDTO>
 
-    fun getAiringToday(): Flow<List<Media>>
+    fun getAiringToday(): Flow<List<AiringTodaySeriesEntity>>
 
-    fun getOnTheAir(): Flow<List<Media>>
+    suspend fun insertAiringToday(items : List<AiringTodaySeriesEntity>)
 
-    fun getTopRatedTvShow(): Flow<List<Media>>
+    suspend fun deleteAiringToday()
 
-    suspend fun refreshTopRatedTvShow()
+    fun getOnTheAir(): Flow<List<OnTheAirSeriesEntity>>
 
-    suspend fun refreshAiringToday()
+    suspend fun insertOnTheAir(items : List<OnTheAirSeriesEntity>)
 
-    suspend fun refreshOnTheAir()
+    suspend fun deleteOnTheAir()
+
+    fun getTopRatedTvShow(): Flow<List<TopRatedSeriesEntity>>
+
+    suspend fun insertTopRatedTvShow(items : List<TopRatedSeriesEntity>)
+
+    suspend fun deleteTopRatedTvShow()
 
     fun getAiringTodayTvShowPager(): Pager<Int, TVShowsDTO>
 

@@ -3,12 +3,11 @@ package com.karrar.movieapp.data.repository
 import com.karrar.movieapp.data.remote.response.*
 import androidx.paging.Pager
 import androidx.paging.PagingData
+import com.karrar.movieapp.data.local.database.entity.ActorEntity
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.remote.response.AddListResponse
-import com.karrar.movieapp.data.remote.response.AddMovieDto
-import com.karrar.movieapp.data.remote.response.MovieDto
-import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.local.database.entity.movie.*
+import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
@@ -22,11 +21,7 @@ interface MovieRepository {
 
     suspend fun getMovieGenreList2(): List<GenreDto>?
 
-    suspend fun getTrendingMovies(page: Int = 1): List<Media>
-
     suspend fun getDailyTrending(): BaseListResponse<DailyTrendingDto>
-
-    suspend fun getUpcomingMovies(page: Int = 1): List<Media>
 
     suspend fun getNowPlayingMovies(page: Int = 1): List<Media>
 
@@ -47,7 +42,6 @@ interface MovieRepository {
 
     suspend fun getRatedMovie(accountId: Int, sessionId: String): List<RatedMoviesDto>?
 
-    suspend fun getTrendingActors(page: Int): List<Actor>
 
     suspend fun getActorDetails(actorId: Int): ActorDto?
 
@@ -63,7 +57,6 @@ interface MovieRepository {
     suspend fun createList(sessionId: String, name: String): AddListResponse?
 
     suspend fun addMovieToList(sessionId: String, listId: Int, movieId: Int): AddMovieDto
-
 
     fun searchForMovie(query: String): Flow<PagingData<Media>>
 
@@ -89,37 +82,66 @@ interface MovieRepository {
 
     suspend fun getMovieByGenre(genreID: Int): Pager<Int, MovieDto>
 
-    fun getPopularMovies(): Flow<List<PopularMovie>>
+    fun getPopularMovies(): Flow<List<PopularMovieEntity>>
 
-    fun getTrendingMovies(): Flow<List<Media>>
+    suspend fun insertPopularMovies(items : List<PopularMovieEntity>)
 
-    fun getNowPlayingMovies(): Flow<List<Media>>
+    suspend fun deletePopularMovies()
 
-    fun getUpcomingMovies(): Flow<List<Media>>
+    fun getTrendingMovies(): Flow<List<TrendingMovieEntity>>
 
-    fun getAdventureMovies(): Flow<List<Media>>
+    suspend fun insertTrendingMovies(items : List<TrendingMovieEntity>)
 
-    fun getMysteryMovies(): Flow<List<Media>>
+    suspend fun deleteTrendingMovies()
 
-    fun getTrendingActors(): Flow<List<Actor>>
+    fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>>
+
+    suspend fun insertNowStreamingMovies(items : List<NowStreamingMovieEntity>)
+
+    suspend fun deleteNowStreamingMovies()
+
+    fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
+
+    suspend fun insertUpcomingMovies(items : List<UpcomingMovieEntity>)
+
+    suspend fun deleteUpcomingMovies()
+
+    fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
+
+    suspend fun insertAdventureMovies(items : List<AdventureMovieEntity>)
+
+    suspend fun deleteAdventureMovies()
+
+    fun getMysteryMovies(): Flow<List<MysteryMovieEntity>>
+
+    suspend fun insertMysteryMovies(items : List<MysteryMovieEntity>)
+
+    suspend fun deleteMysteryMovies()
+
+    fun getTrendingActors(): Flow<List<ActorEntity>>
+
+    suspend fun insertTrendingActors(items : List<ActorEntity>)
+
+    suspend fun deleteTrendingActors()
 
     suspend fun saveRequestDate(value: Long)
 
     suspend fun getRequestDate(): Long?
 
-    suspend fun refreshPopularMovies()
+    suspend fun getPopularMovies(page: Int = 1) :  List<MovieDto>
 
-    suspend fun refreshTrendingMovies()
+    suspend fun getTrendingMovies(page: Int = 1) :  List<MovieDto>
 
-    suspend fun refreshNowPlayingMovies()
 
-    suspend fun refreshAdventureMovies()
+    suspend fun getNowStreamingMovies(page:Int = 1) :  List<MovieDto>
 
-    suspend fun refreshUpcomingMovies()
+    suspend fun getAdventureMovies(page:Int = 1) :  List<MovieDto>
 
-    suspend fun refreshMysteryMovies()
+    suspend fun getUpcomingMovies(page:Int = 1) : List<MovieDto>
 
-    suspend fun refreshTrendingActors()
+    suspend fun getMysteryMovies(page:Int = 1) : List<MovieDto>
+
+    suspend fun getTrendingActors(page: Int = 1) : List<ActorDto>
 
     suspend fun getTrendingMoviesPager(): Pager<Int, MovieDto>
 
@@ -128,5 +150,6 @@ interface MovieRepository {
     suspend fun getUpcomingMoviesPager(): Pager<Int, MovieDto>
 
     suspend fun getActorMoviesPager(actorId: Int): Pager<Int, MovieDto>
+
 
 }

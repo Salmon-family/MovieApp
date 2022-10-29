@@ -1,10 +1,11 @@
 package com.karrar.movieapp.data.repository
 
 import androidx.paging.Pager
-import androidx.paging.PagingData
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.daos.SeriesDao
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
+import com.karrar.movieapp.data.local.database.entity.series.AiringTodaySeriesEntity
+import com.karrar.movieapp.data.local.database.entity.series.OnTheAirSeriesEntity
 import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntity
 import com.karrar.movieapp.data.local.mappers.series.LocalSeriesMappersContainer
 import com.karrar.movieapp.data.repository.mediaDataSource.series.SeriesDataSourceContainer
@@ -19,7 +20,6 @@ import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
 import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class SeriesRepositoryImp @Inject constructor(
@@ -27,7 +27,6 @@ class SeriesRepositoryImp @Inject constructor(
     private val movieDao: MovieDao,
     private val seriesDao: SeriesDao,
     private val seriesMapperContainer: SeriesMapperContainer,
-    private val localSeriesMappersContainer: LocalSeriesMappersContainer,
     private val seriesDataSourceContainer: SeriesDataSourceContainer,
     private val mediaDataSourceContainer: MediaDataSourceContainer,
 ) : BaseRepository(), SeriesRepository {
@@ -41,25 +40,21 @@ class SeriesRepositoryImp @Inject constructor(
         return service.getGenreTvShowList().body()?.genres
     }
 
-    override suspend fun getOnTheAir(page: Int): List<Media> {
-        return wrap({ service.getOnTheAir(page) },
-            { ListMapper(seriesMapperContainer.mediaMapper).mapList(it.items) })
+    override suspend fun getOnTheAir(page: Int): List<TVShowsDTO> {
+        return service.getOnTheAir(page).body()?.items ?: emptyList()
     }
 
-    override suspend fun getAiringToday(page: Int): List<Media> {
-        return wrap({ service.getAiringToday(page) },
-            { ListMapper(seriesMapperContainer.mediaMapper).mapList(it.items) })
+    override suspend fun getAiringToday(page: Int): List<TVShowsDTO> {
+        return service.getAiringToday(page).body()?.items ?: emptyList()
     }
 
 
-    override suspend fun getTopRatedTvShow(page: Int): List<Media> {
-        return wrap({ service.getTopRatedTvShow(page) },
-            { ListMapper(seriesMapperContainer.mediaMapper).mapList(it.items) })
+    override suspend fun getTopRatedTvShow(page: Int): List<TVShowsDTO> {
+        return service.getTopRatedTvShow(page).body()?.items ?: emptyList()
     }
 
-    override suspend fun getPopularTvShow(page: Int): List<Media> {
-        return wrap({ service.getPopularTvShow(page) },
-            { ListMapper(seriesMapperContainer.mediaMapper).mapList(it.items) })
+    override suspend fun getPopularTvShow(page: Int): List<TVShowsDTO> {
+        return service.getPopularTvShow(page).body()?.items ?: emptyList()
     }
 
     override suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails {
@@ -118,58 +113,42 @@ class SeriesRepositoryImp @Inject constructor(
         )
     }
 
-    /**
-     * Caching
-     * */
-
-    override fun getAiringToday(): Flow<List<Media>> {
-        return seriesDao.getAiringTodaySeries().map { list ->
-            list.map { seriesMapperContainer.airingTodaySeriesMapper.map(it) }
-        }
+    override suspend fun insertAiringToday(items: List<AiringTodaySeriesEntity>) {
+        seriesDao.insertAiringTodaySeries(items)
     }
 
-    override fun getOnTheAir(): Flow<List<Media>> {
-        return seriesDao.getOnTheAirSeries().map { list ->
-            list.map { seriesMapperContainer.onTheAirSeriesMapper.map(it) }
-        }
+    override suspend fun deleteAiringToday() {
+        seriesDao.deleteAllAiringTodaySeries()
     }
 
-    override fun getTopRatedTvShow(): Flow<List<Media>> {
-        return seriesDao.getTopRatedSeries().map { list ->
-            list.map { seriesMapperContainer.topRatedSeriesMapper.map(it) }
-        }
+    override suspend fun insertOnTheAir(items: List<OnTheAirSeriesEntity>) {
+        seriesDao.insertOnTheAirSeries(items)
     }
 
-
-    override suspend fun refreshAiringToday() {
-        refreshWrapper(
-            { service.getAiringToday() },
-            { list ->
-                list?.map {
-                    localSeriesMappersContainer.airingTodaySeriesMapper.map(it)
-                }
-            },
-            {
-                seriesDao.deleteAllAiringTodaySeries()
-                seriesDao.insertAiringTodaySeries(it)
-            },
-        )
+    override suspend fun deleteOnTheAir() {
+        seriesDao.deleteAllOnTheAirSeries()
     }
 
-    override suspend fun refreshOnTheAir() {
-        refreshWrapper(
-            { service.getOnTheAir() },
-            { list ->
-                list?.map {
-                    localSeriesMappersContainer.onTheAirSeriesMapper.map(it)
-                }
-            },
-            {
-                seriesDao.deleteAllOnTheAirSeries()
-                seriesDao.insertOnTheAirSeries(it)
-            },
-        )
+    override suspend fun insertTopRatedTvShow(items: List<TopRatedSeriesEntity>) {
+        seriesDao.insertTopRatedSeries(items)
     }
+
+    override suspend fun deleteTopRatedTvShow() {
+        seriesDao.deleteAllTopRatedSeries()
+    }
+
+    override fun getAiringToday(): Flow<List<AiringTodaySeriesEntity>> {
+        return seriesDao.getAiringTodaySeries()
+    }
+
+    override fun getOnTheAir(): Flow<List<OnTheAirSeriesEntity>> {
+        return seriesDao.getOnTheAirSeries()
+    }
+
+    override fun getTopRatedTvShow(): Flow<List<TopRatedSeriesEntity>> {
+        return seriesDao.getTopRatedSeries()
+    }
+
 
     override fun getAiringTodayTvShowPager(): Pager<Int, TVShowsDTO> {
         return Pager(
@@ -194,24 +173,4 @@ class SeriesRepositoryImp @Inject constructor(
             config = config,
             pagingSourceFactory = { seriesDataSourceContainer.popularTvShowDataSource })
     }
-
-    override suspend fun refreshTopRatedTvShow() {
-        try {
-            val items = mutableListOf<TopRatedSeriesEntity>()
-            service.getTopRatedTvShow().body()?.items?.first()?.let {
-                items.add(localSeriesMappersContainer.topRatedSeriesMapper.map(it))
-            }
-            service.getPopularTvShow().body()?.items?.first()?.let {
-                items.add(localSeriesMappersContainer.topRatedSeriesMapper.map(it))
-            }
-            service.getAiringToday().body()?.items?.first()?.let {
-                items.add(localSeriesMappersContainer.topRatedSeriesMapper.map(it))
-            }
-            seriesDao.deleteAllTopRatedSeries()
-            seriesDao.insertTopRatedSeries(items)
-        } catch (throwable: Throwable) {
-
-        }
-    }
-
 }

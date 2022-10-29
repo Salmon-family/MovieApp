@@ -1,29 +1,26 @@
 package com.karrar.movieapp.ui.home.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.DiffUtil
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.adapters.*
 import com.karrar.movieapp.ui.base.BaseAdapter
-import com.karrar.movieapp.ui.base.BaseDiffUtil
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.home.HomeInteractionListener
-import com.karrar.movieapp.ui.home.HomeRecyclerItem
+import com.karrar.movieapp.ui.home.HomeItem
+import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.utilities.Constants
 
 class HomeAdapter(
-    private var homeItems: MutableList<HomeRecyclerItem>,
+    private var homeItems: MutableList<HomeItem>,
     private val listener: BaseInteractionListener,
-) : BaseAdapter<HomeRecyclerItem>(homeItems, listener) {
+) : BaseAdapter<HomeItem>(homeItems, listener) {
     override val layoutID: Int = 0
 
-    fun setItem(item: HomeRecyclerItem) {
+    fun setItem(item: HomeItem) {
         val newItems = homeItems.apply {
             removeAt(item.priority)
             add(item.priority, item)
@@ -47,14 +44,14 @@ class HomeAdapter(
     override fun bind(holder: ItemViewHolder, position: Int) {
         if (position != -1)
             when (val currentItem = homeItems[position]) {
-                is HomeRecyclerItem.Slider -> {
+                is HomeItem.Slider -> {
                     holder.binding.setVariable(
                         BR.adapterRecycler,
                         PopularMovieAdapter(currentItem.items, listener as HomeInteractionListener)
                     )
                 }
 
-                is HomeRecyclerItem.TvShows -> {
+                is HomeItem.TvShows -> {
                     holder.binding.run {
                         if (currentItem.items.isNotEmpty()) {
                             setVariable(BR.topRated, currentItem.items.first())
@@ -65,12 +62,12 @@ class HomeAdapter(
                     }
                 }
 
-                is HomeRecyclerItem.Actor -> {
+                is HomeItem.Actor -> {
                     holder.binding.run {
                         setVariable(
                             BR.adapterRecycler, ActorAdapter(
                                 currentItem.items,
-                                R.layout.item_actor,
+                                R.layout.item_actor_home,
                                 listener as ActorsInteractionListener
                             )
                         )
@@ -79,7 +76,7 @@ class HomeAdapter(
 
                 }
 
-                is HomeRecyclerItem.AiringToday -> {
+                is HomeItem.AiringToday -> {
                     holder.binding.run {
                         setVariable(
                             BR.adapterRecycler,
@@ -93,19 +90,19 @@ class HomeAdapter(
                     }
                 }
 
-                is HomeRecyclerItem.Adventure -> {
+                is HomeItem.Adventure -> {
                     bindMovie(holder, currentItem.items, currentItem.type)
                 }
 
-                is HomeRecyclerItem.Mystery -> {
+                is HomeItem.Mystery -> {
                     bindMovie(holder, currentItem.items, currentItem.type)
                 }
 
-                is HomeRecyclerItem.NowStreaming -> {
+                is HomeItem.NowStreaming -> {
                     bindMovie(holder, currentItem.items, currentItem.type)
                 }
 
-                is HomeRecyclerItem.OnTheAiring -> {
+                is HomeItem.OnTheAiring -> {
                     holder.binding.run {
                         setVariable(
                             BR.adapterRecycler,
@@ -115,17 +112,17 @@ class HomeAdapter(
                     }
                 }
 
-                is HomeRecyclerItem.Trending -> {
+                is HomeItem.Trending -> {
                     bindMovie(holder, currentItem.items, currentItem.type)
                 }
 
-                is HomeRecyclerItem.Upcoming -> {
+                is HomeItem.Upcoming -> {
                     bindMovie(holder, currentItem.items, currentItem.type)
                 }
             }
     }
 
-    private fun bindMovie(holder: ItemViewHolder, items: List<Media>, type: HomeItemsType) {
+    private fun bindMovie(holder: ItemViewHolder, items: List<MediaUiState>, type: HomeItemsType) {
         holder.binding.run {
             setVariable(
                 BR.adapterRecycler,
@@ -135,18 +132,18 @@ class HomeAdapter(
         }
     }
 
-    override fun setItems(newItems: List<HomeRecyclerItem>) {
+    override fun setItems(newItems: List<HomeItem>) {
         homeItems = newItems.sortedBy { it.priority }.toMutableList()
         super.setItems(homeItems)
     }
 
-    override fun areItemsSame(oldItem: HomeRecyclerItem, newItem: HomeRecyclerItem): Boolean {
+    override fun areItemsSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
         return oldItem.priority == newItem.priority
     }
 
     override fun areContentSame(
-        oldPosition: HomeRecyclerItem,
-        newPosition: HomeRecyclerItem,
+        oldPosition: HomeItem,
+        newPosition: HomeItem,
     ): Boolean {
         return oldPosition == newPosition
     }
@@ -154,16 +151,16 @@ class HomeAdapter(
     override fun getItemViewType(position: Int): Int {
         if (homeItems.isNotEmpty()) {
             return when (homeItems[position]) {
-                is HomeRecyclerItem.Actor -> R.layout.list_actor
-                is HomeRecyclerItem.TvShows -> R.layout.list_tv_shows
-                is HomeRecyclerItem.Slider -> R.layout.list_popular
-                is HomeRecyclerItem.AiringToday -> R.layout.list_airing_today
-                is HomeRecyclerItem.OnTheAiring -> R.layout.list_tvshow
-                is HomeRecyclerItem.Adventure,
-                is HomeRecyclerItem.Mystery,
-                is HomeRecyclerItem.NowStreaming,
-                is HomeRecyclerItem.Trending,
-                is HomeRecyclerItem.Upcoming,
+                is HomeItem.Actor -> R.layout.list_actor
+                is HomeItem.TvShows -> R.layout.list_tv_shows
+                is HomeItem.Slider -> R.layout.list_popular
+                is HomeItem.AiringToday -> R.layout.list_airing_today
+                is HomeItem.OnTheAiring -> R.layout.list_tvshow
+                is HomeItem.Adventure,
+                is HomeItem.Mystery,
+                is HomeItem.NowStreaming,
+                is HomeItem.Trending,
+                is HomeItem.Upcoming,
                 -> R.layout.list_movie
             }
         }

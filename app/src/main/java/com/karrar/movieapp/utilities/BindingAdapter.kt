@@ -16,7 +16,7 @@ import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.category.uiState.GenreUIState
-import com.karrar.movieapp.ui.home.HomeRecyclerItem
+import com.karrar.movieapp.ui.home.HomeItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -127,7 +127,7 @@ fun hideWhenBlankSearch(view: View, text: String) {
 // different
 
 @BindingAdapter(value = ["app:homeItems"])
-fun <T> setHomeRecyclerItems(view: RecyclerView, items: List<HomeRecyclerItem>?) {
+fun <T> setHomeRecyclerItems(view: RecyclerView, items: List<HomeItem>?) {
     items?.forEach {
         (view.adapter as HomeAdapter).setItem(it)
     }

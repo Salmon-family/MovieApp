@@ -1,11 +1,11 @@
 package com.karrar.movieapp.ui.adapters
 
-import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
+import com.karrar.movieapp.ui.home.homeUiState.ActorUiState
 
-class ActorAdapter(items: List<Actor>, val layout: Int, val listener: ActorsInteractionListener) :
-    BaseAdapter<Actor>(items, listener) {
+class ActorAdapter(items: List<ActorUiState>, val layout: Int, val listener: ActorsInteractionListener) :
+    BaseAdapter<ActorUiState>(items, listener) {
     override val layoutID: Int = layout
 }
 
