@@ -85,13 +85,14 @@
             app:layout_constraintTop_toBottomOf="@id/text_message_wrong_title" />
 
         <androidx.constraintlayout.widget.Group
+            android:id="@+id/succces_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="
                     saved_list,
                     floating_action_button"
-            app:hideError="@{viewModel.createdListUIState.error}"
-            app:hideIfLoading="@{viewModel.createdListUIState.loading}" />
+            app:showWhenListIsEmpty="@{viewModel.createdListUIState.error}"
+            app:loading="@{viewModel.createdListUIState.loading}" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/needLoginGroup"
@@ -107,7 +108,7 @@
             android:id="@+id/loading"
             android:layout_width="172dp"
             android:layout_height="172dp"
-            app:isVisible="@{viewModel.createdListUIState.loading}"
+            app:showWhenLoading="@{viewModel.createdListUIState.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

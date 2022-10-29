@@ -44,7 +44,6 @@
                         android:id="@+id/chipGroup_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:genresId="@{viewModel.args.mediaId}"
                         app:listener="@{viewModel}"
                         app:selectedChip="@{viewModel.selectedCategory}"
                         app:selectionRequired="true"
@@ -68,17 +67,17 @@
             android:paddingHorizontal="@dimen/spacing_small"
             android:paddingTop="@dimen/spacing_medium"
             android:scrollbars="none"
-            app:hideError="@{viewModel.uiState.error}"
-            app:hideIfLoading="@{viewModel.uiState.loading}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:loading="@{viewModel.uiState.loading}"
+            app:showWhenListIsEmpty="@{viewModel.uiState.error}"
             app:spanCount="3"
             tools:listitem="@layout/item_category" />
 
         <include
             android:id="@+id/error"
             layout="@layout/error2"
-            app:isError="@{!viewModel.uiState.error.isEmpty()}"
+            app:isError="@{!viewModel.uiState.error.empty}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

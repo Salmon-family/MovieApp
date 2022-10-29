@@ -42,7 +42,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenListIsEmpty2="@{viewModel.ratedUiState.ratedList}"
+            app:showWhenListIsEmpty="@{viewModel.ratedUiState.ratedList}"
             app:loading="@{viewModel.ratedUiState.loading}"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -120,7 +120,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:showWhenLoading3="@{viewModel.ratedUiState.loading}" />
+                app:showWhenLoading="@{viewModel.ratedUiState.loading}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

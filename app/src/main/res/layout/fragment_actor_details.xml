@@ -28,11 +28,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:isLoading="@{viewModel.actorDetailsUIState.isLoading}"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading_animation"
-            />
+            app:showWhenLoading="@{viewModel.actorDetailsUIState.isLoading}" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_lost_connection"
@@ -45,7 +44,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/lost_internet_animation"
-            app:showWhenError="@{viewModel.actorDetailsUIState.error}" />
+            app:showWhenListNotEmpty="@{viewModel.actorDetailsUIState.error}" />
 
         <Button
             android:id="@+id/button_retry"
@@ -57,8 +56,8 @@
             android:textColor="@color/white_primary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:showWhenError="@{viewModel.actorDetailsUIState.error}"
-            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection" />
+            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection"
+            app:showWhenListNotEmpty="@{viewModel.actorDetailsUIState.error}" />
 
         <TextView
             android:id="@+id/description_lost_connection"
@@ -72,7 +71,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/animation_lost_connection"
-            app:showWhenError="@{viewModel.actorDetailsUIState.error}" />
+            app:showWhenListNotEmpty="@{viewModel.actorDetailsUIState.error}" />
 
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -80,10 +79,10 @@
             android:layout_width="match_parent"
             android:layout_height="364dp"
             android:scaleType="centerCrop"
+            app:isVisible="@{viewModel.actorDetailsUIState.success}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:isVisible="@{viewModel.actorDetailsUIState.success}"
             app:posterImage="@{viewModel.actorDetailsUIState.imageUrl}"
             tools:src="@drawable/chris_evans" />
 
@@ -133,9 +132,9 @@
                 android:id="@+id/details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/background_color"
                 android:visibility="gone"
-                app:isVisible="@{viewModel.actorDetailsUIState.success}"
-                android:background="@color/background_color">
+                app:isVisible="@{viewModel.actorDetailsUIState.success}">
 
                 <TextView
                     android:id="@+id/genres_title"
@@ -154,7 +153,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    
                     android:text="@{viewModel.actorDetailsUIState.gender}"
                     app:layout_constraintEnd_toEndOf="@+id/genres_title"
                     app:layout_constraintHorizontal_chainStyle="spread"
@@ -192,7 +190,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/place_of_birth"
-                    
                     app:layout_constraintEnd_toStartOf="@+id/known_for_actor_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_gender_actor" />
@@ -204,7 +201,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/spacing_small"
-                    
                     android:lines="2"
                     android:text="@{viewModel.actorDetailsUIState.placeOfBirth}"
                     android:textAlignment="center"
@@ -220,7 +216,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/konwn_for"
-                    
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/place_of_birth_actor_title"
                     app:layout_constraintTop_toBottomOf="@+id/text_birthday_actor" />
@@ -235,7 +230,6 @@
                     android:lines="2"
                     android:text="@{viewModel.actorDetailsUIState.knownFor}"
                     android:textAlignment="center"
-                    
                     app:layout_constraintEnd_toEndOf="@+id/known_for_actor_title"
                     app:layout_constraintStart_toStartOf="@+id/known_for_actor_title"
                     app:layout_constraintTop_toBottomOf="@+id/known_for_actor_title"
@@ -249,7 +243,6 @@
                     android:layout_marginStart="@dimen/radius_medium"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/movies"
-                    
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_place_of_birth_actor" />
 
@@ -262,7 +255,6 @@
                     android:layout_marginEnd="@dimen/spacing_small"
                     android:onClick="@{() -> viewModel.onClickSeeAllMovie(HomeItemsType.NON)}"
                     android:text="@string/see_all"
-                    
                     android:textColor="@color/brand_color"
                     app:drawableEndCompat="@drawable/ic_arrow_right"
                     app:layout_constraintBottom_toBottomOf="@+id/related_movie_title"
@@ -284,7 +276,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/related_movie_title"
                     tools:ignore="MissingConstraints"
-                    
                     tools:listitem="@layout/item_movie" />
 
                 <TextView
@@ -295,7 +286,6 @@
                     android:layout_marginStart="@dimen/radius_medium"
                     android:layout_marginTop="@dimen/radius_large"
                     android:text="@string/biography"
-                    
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/related_movie_recycler" />
 
@@ -314,7 +304,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/over_view_title"
                     tools:ignore="MissingClass"
-                    
                     tools:text="Krasinski's instincts are very good, and once you've placed the primary action there, then it allows the story instincts are very good, and once you've placed the primary action there, then it allows the story" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
