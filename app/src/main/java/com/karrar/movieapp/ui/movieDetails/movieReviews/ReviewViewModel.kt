@@ -44,6 +44,7 @@ class ReviewViewModel @Inject constructor(
                     it.copy(
                         movieReview = result.map { review -> reviewUIStateMapper.map(review) },
                         isLoading = false,
+                        errorUIStates = emptyList()
                     )
                 }
             } catch (e: Exception) {
