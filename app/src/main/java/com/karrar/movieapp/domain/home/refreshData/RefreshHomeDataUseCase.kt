@@ -1,5 +1,6 @@
 package com.karrar.movieapp.domain.home.refreshData
 
+import com.karrar.movieapp.domain.RequestStatus
 import com.karrar.movieapp.domain.home.refreshData.movie.*
 import com.karrar.movieapp.domain.home.refreshData.series.RefreshAiringTodaySeriesUseCase
 import com.karrar.movieapp.domain.home.refreshData.series.RefreshOnTheAirSeriesUseCase
@@ -18,8 +19,8 @@ class RefreshHomeDataUseCase @Inject constructor(
     private val airingTodayUseCase: RefreshAiringTodaySeriesUseCase,
     private val topRatedTvShowUseCase: RefreshTopRatedTvShowSeriesUseCase,
 ) {
-    suspend operator fun invoke(){
-       try {
+    suspend operator fun invoke() : RequestStatus{
+       return try {
            refreshPopularMoviesUseCase()
            refreshTrendingMoviesUseCase()
            refreshMysteryMoviesUseCase()
@@ -30,8 +31,9 @@ class RefreshHomeDataUseCase @Inject constructor(
            onTheAirUseCase()
            airingTodayUseCase()
            topRatedTvShowUseCase()
+           RequestStatus.Success
        }catch (e:Throwable){
-
+           RequestStatus.Failure(e.message.toString())
        }
 
     }

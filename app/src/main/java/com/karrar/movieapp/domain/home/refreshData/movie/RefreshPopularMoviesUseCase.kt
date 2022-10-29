@@ -12,7 +12,7 @@ class RefreshPopularMoviesUseCase @Inject constructor(
 ) {
     suspend operator fun invoke() {
         val genre = getMovieGenreListUseCase()
-        val items = movieRepository.getAdventureMovies(1).map { popularMovieMapper.map(it, genre) }
+        val items = movieRepository.getPopularMovies(1).map { popularMovieMapper.map(it, genre) }
         movieRepository.deletePopularMovies()
         movieRepository.insertPopularMovies(items)
     }
