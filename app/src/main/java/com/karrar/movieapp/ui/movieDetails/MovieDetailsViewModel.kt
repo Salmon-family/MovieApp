@@ -4,10 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.domain.usecase.DeleteRatingUseCase
-import com.karrar.movieapp.domain.usecase.GetMovieDetailsUseCase
-import com.karrar.movieapp.domain.usecase.InsertMoviesUseCase
-import com.karrar.movieapp.domain.usecase.SetRatingUseCase
+import com.karrar.movieapp.domain.usecase.*
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
@@ -36,6 +33,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val ratedUIStateMapper: RatedUIStateMapper,
     private val reviewUIStateMapper: ReviewUIStateMapper,
     private val watchHistoryMapper: WatchHistoryMapper,
+    private val sessionIDUseCase: GetSessionIDUseCase,
     state: SavedStateHandle,
 ) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener,
     DetailInteractionListener {
@@ -73,13 +71,16 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun getData() {
-        getAllDetails(args.movieId)
+        viewModelScope.launch {
+            getAllDetails(args.movieId)
+        }
     }
 
 
-    private fun getAllDetails(movieId: Int) {
+    private suspend fun getAllDetails(movieId: Int) {
         _uiState.update { it.copy(isLoading = true, errorUIStates = emptyList()) }
 
+        checkSessionID()
         getMovieDetails(movieId)
         getMovieCast(movieId)
         getSimilarMovie(movieId)
@@ -87,117 +88,115 @@ class MovieDetailsViewModel @Inject constructor(
         getMovieReviews(movieId)
     }
 
-    private fun getMovieDetails(movieId: Int) {
-        viewModelScope.launch {
-            try {
-                val result = getMovieDetailsUseCase.getMovieDetails(movieId)
-                _uiState.update {
-                    it.copy(
-                        movieDetailsResult = movieDetailsUIStateMapper.map(result),
-                        isLoading = false,
-                    )
-                }
-                onAddMovieDetailsItemOfNestedView(
-                    DetailItemUIState.Header(_uiState.value.movieDetailsResult)
+    private suspend fun getMovieDetails(movieId: Int) {
+        try {
+            val result = getMovieDetailsUseCase.getMovieDetails(movieId)
+            _uiState.update {
+                it.copy(
+                    movieDetailsResult = movieDetailsUIStateMapper.map(result),
+                    isLoading = false,
                 )
-                insertMovieToWatchHistory(_uiState.value.movieDetailsResult)
+            }
+            onAddMovieDetailsItemOfNestedView(
+                DetailItemUIState.Header(_uiState.value.movieDetailsResult)
+            )
+            insertMovieToWatchHistory(_uiState.value.movieDetailsResult)
 
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        errorUIStates = onAddMessageToListError(e), isLoading = false
-                    )
-                }
+        } catch (e: Exception) {
+            _uiState.update {
+                it.copy(
+                    errorUIStates = onAddMessageToListError(e), isLoading = false
+                )
+            }
+        }
+
+    }
+
+    private suspend fun getMovieCast(movieId: Int) {
+        try {
+            val result = getMovieDetailsUseCase.getMovieCast(movieId)
+            _uiState.update {
+                it.copy(
+                    movieCastResult = result.map { actor -> actorUIStateMapper.map(actor) },
+                    isLoading = false
+                )
+            }
+            onAddMovieDetailsItemOfNestedView(
+                DetailItemUIState.Cast(_uiState.value.movieCastResult)
+            )
+        } catch (e: Exception) {
+            _uiState.update {
+                it.copy(errorUIStates = onAddMessageToListError(e), isLoading = false)
             }
         }
     }
 
-    private fun getMovieCast(movieId: Int) {
-        viewModelScope.launch {
-            try {
-                val result = getMovieDetailsUseCase.getMovieCast(movieId)
-                _uiState.update {
-                    it.copy(
-                        movieCastResult = result.map { actor -> actorUIStateMapper.map(actor) },
-                        isLoading = false
-                    )
-                }
-                onAddMovieDetailsItemOfNestedView(
-                    DetailItemUIState.Cast(_uiState.value.movieCastResult)
+    private suspend fun getSimilarMovie(movieId: Int) {
+        try {
+            val result = getMovieDetailsUseCase.getSimilarMovie(movieId)
+            _uiState.update {
+                it.copy(
+                    similarMoviesResult = result.map { media ->
+                        mediaUIStateMapper.map(
+                            media
+                        )
+                    }, isLoading = false
                 )
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(errorUIStates = onAddMessageToListError(e), isLoading = false)
-                }
+            }
+            onAddMovieDetailsItemOfNestedView(
+                DetailItemUIState.SimilarMovies(_uiState.value.similarMoviesResult)
+            )
+        } catch (e: Exception) {
+            _uiState.update {
+                it.copy(errorUIStates = onAddMessageToListError(e), isLoading = false)
             }
         }
     }
 
-    private fun getSimilarMovie(movieId: Int) {
-        viewModelScope.launch {
-            try {
-                val result = getMovieDetailsUseCase.getSimilarMovie(movieId)
-                _uiState.update {
-                    it.copy(
-                        similarMoviesResult = result.map { media ->
-                            mediaUIStateMapper.map(
-                                media
-                            )
-                        }, isLoading = false
-                    )
-                }
-                onAddMovieDetailsItemOfNestedView(
-                    DetailItemUIState.SimilarMovies(_uiState.value.similarMoviesResult)
-                )
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(errorUIStates = onAddMessageToListError(e), isLoading = false)
-                }
+    private fun checkSessionID() {
+        if (!sessionIDUseCase().isNullOrEmpty()) {
+            _uiState.update { it.copy(isLogin = true) }
+        }
+    }
+
+    private suspend fun getRatedMovie(movieId: Int) {
+        try {
+            val result = getMovieDetailsUseCase.getRatedMovie(0)
+            _uiState.update {
+                it.copy(movieGetRatedResult = result.map { rated ->
+                    ratedUIStateMapper.map(rated)
+                })
+            }
+
+            checkIfMovieRated(_uiState.value.movieGetRatedResult, movieId)
+            onAddMovieDetailsItemOfNestedView(
+                DetailItemUIState.Rating(this)
+            )
+        } catch (e: Exception) {
+            _uiState.update {
+                it.copy(errorUIStates = onAddMessageToListError(e), isLoading = false)
             }
         }
     }
 
-    private fun getRatedMovie(movieId: Int) {
-        viewModelScope.launch {
-            try {
-                val result = getMovieDetailsUseCase.getRatedMovie(0)
-                _uiState.update {
-                    it.copy(movieGetRatedResult = result.map { rated ->
-                        ratedUIStateMapper.map(rated)
-                    })
-                }
-
-                checkIfMovieRated(_uiState.value.movieGetRatedResult, movieId)
-                onAddMovieDetailsItemOfNestedView(
-                    DetailItemUIState.Rating(this@MovieDetailsViewModel)
+    private suspend fun getMovieReviews(movieId: Int) {
+        try {
+            val result = getMovieDetailsUseCase.getMovieReviews(movieId)
+            _uiState.update {
+                it.copy(
+                    movieReview = result.map { review -> reviewUIStateMapper.map(review) },
+                    isLoading = false
                 )
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(errorUIStates = onAddMessageToListError(e), isLoading = false)
-                }
+            }
+
+            getThreeCommits()
+            onSeeAllReviews()
+        } catch (e: Exception) {
+            _uiState.update {
+                it.copy(errorUIStates = onAddMessageToListError(e), isLoading = false)
             }
         }
-    }
 
-    private fun getMovieReviews(movieId: Int) {
-        viewModelScope.launch {
-            try {
-                val result = getMovieDetailsUseCase.getMovieReviews(movieId)
-                _uiState.update {
-                    it.copy(
-                        movieReview = result.map { review -> reviewUIStateMapper.map(review) },
-                        isLoading = false
-                    )
-                }
-
-                getThreeCommits()
-                onSeeAllReviews()
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(errorUIStates = onAddMessageToListError(e), isLoading = false)
-                }
-            }
-        }
     }
 
     private fun getThreeCommits() {
@@ -214,13 +213,12 @@ class MovieDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun insertMovieToWatchHistory(movie: MovieDetailsUIState?) {
-        viewModelScope.launch {
-            movie?.let { movieDetails ->
-                val movieDetailsMapper = watchHistoryMapper.map(movieDetails)
-                insertMoviesUseCase(movieDetailsMapper)
-            }
+    private suspend fun insertMovieToWatchHistory(movie: MovieDetailsUIState?) {
+        movie?.let { movieDetails ->
+            val movieDetailsMapper = watchHistoryMapper.map(movieDetails)
+            insertMoviesUseCase(movieDetailsMapper)
         }
+
     }
 
     private fun checkIfMovieRated(items: List<RatedUIState>?, movieId: Int) {

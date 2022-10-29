@@ -48,6 +48,12 @@ fun <T> showWhenLoading3(view: View, state: Boolean = false) {
     view.isVisible = state
 }
 
+@BindingAdapter("app:showRating")
+fun showRating(view: RatingBar, state: Boolean) {
+    view.isVisible = state
+}
+
+
 @BindingAdapter(value = ["app:showWhenNoLogin"])
 fun <T> showWhenNoLogin(view: View, state: UIState<T>?) {
     view.isVisible = (state is UIState.NoLogin)

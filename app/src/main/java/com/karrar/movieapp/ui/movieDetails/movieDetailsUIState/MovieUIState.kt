@@ -9,5 +9,6 @@ data class MovieUIState(
     val detailItemResult: List<DetailItemUIState> = mutableListOf(),
     val ratingValue: Float = 0F,
     val isLoading: Boolean = false,
+    val isLogin: Boolean = false,
     val errorUIStates: List<ErrorUIState> = emptyList(),
 )
