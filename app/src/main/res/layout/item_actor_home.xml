@@ -11,7 +11,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.ui.home.homeUiState.ActorUiState" />
+            type="com.karrar.movieapp.ui.models.ActorUiState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

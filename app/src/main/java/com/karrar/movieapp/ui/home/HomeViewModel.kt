@@ -12,6 +12,7 @@ import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.home.adapter.TVShowInteractionListener
 import com.karrar.movieapp.ui.home.homeUiState.HomeUiState
+import com.karrar.movieapp.ui.mappers.ActorUiMapper
 import com.karrar.movieapp.ui.mappers.MediaUiMapper
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
