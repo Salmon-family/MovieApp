@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.home.homeUiState
+package com.karrar.movieapp.ui.models
 
 data class ActorUiState(
     val id :Int,

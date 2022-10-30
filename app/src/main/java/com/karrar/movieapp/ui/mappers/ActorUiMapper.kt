@@ -1,8 +1,8 @@
-package com.karrar.movieapp.ui.home
+package com.karrar.movieapp.ui.mappers
 
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.Actor
-import com.karrar.movieapp.ui.home.homeUiState.ActorUiState
+import com.karrar.movieapp.ui.models.ActorUiState
 import javax.inject.Inject
 
 class ActorUiMapper @Inject constructor() : Mapper<Actor, ActorUiState> {

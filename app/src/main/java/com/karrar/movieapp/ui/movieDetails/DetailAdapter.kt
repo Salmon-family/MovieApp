@@ -41,20 +41,18 @@ class DetailAdapter(
                 }
             }
             is DetailItem.Cast -> {
-                //TODO:Uncomment this
-//                holder.binding.run {
-//                    setVariable(BR.adapterRecycler,
-//                        ActorAdapter(currentItem.data,
-//                            R.layout.item_cast,
-//                            listener as ActorsInteractionListener))
-//                }
+                holder.binding.run {
+                    setVariable(BR.adapterRecycler,
+                        ActorAdapter(currentItem.data,
+                            R.layout.item_cast,
+                            listener as ActorsInteractionListener))
+                }
             }
             is DetailItem.SimilarMovies -> {
-                //TODO:Uncomment this
-//                holder.binding.run {
-//                    setVariable(BR.adapterRecycler,
-//                        MovieAdapter(currentItem.data, listener as MovieInteractionListener))
-//                }
+                holder.binding.run {
+                    setVariable(BR.adapterRecycler,
+                        MovieAdapter(currentItem.data, listener as MovieInteractionListener))
+                }
             }
             is DetailItem.Seasons -> {
                 holder.binding.run {

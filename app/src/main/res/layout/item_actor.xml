@@ -11,7 +11,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.ui.actors.models.ActorInfoUIState" />
+            type="com.karrar.movieapp.ui.models.ActorUiState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,12 +27,12 @@
             android:layout_width="@dimen/spacing_actor"
             android:layout_height="@dimen/spacing_actor"
             android:background="@color/brand_color"
-            android:onClick="@{()->listener.onClickActor(item.actorID)}"
+            android:onClick="@{()->listener.onClickActor(item.id)}"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:posterImage="@{item.actorImage}"
+            app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/Circle" />
 
 
@@ -48,7 +48,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_actor"
-            android:text="@{item.actorName}"
+            android:text="@{item.name}"
             tools:text="Debora Caprioglio"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>

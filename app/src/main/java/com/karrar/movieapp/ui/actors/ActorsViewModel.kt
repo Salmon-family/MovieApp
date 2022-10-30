@@ -6,10 +6,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
+import com.karrar.movieapp.data.local.mappers.ActorMapper
 import com.karrar.movieapp.domain.usecase.GetActorsDataUseCase
 import com.karrar.movieapp.ui.actors.models.ActorsUIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.mappers.ActorUiMapper
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
@@ -21,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ActorsViewModel @Inject constructor(
     private val getActorsDataUseCase: GetActorsDataUseCase,
-    private val actorMapper: ActorMapper
+    private val actorMapper: ActorUiMapper
 ) : BaseViewModel(), ActorsInteractionListener {
 
     private val _uiState = MutableStateFlow(ActorsUIState())
