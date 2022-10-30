@@ -22,7 +22,6 @@
             android:overScrollMode="never"
             app:items="@{viewModel.stateFlow.detailItemResult}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-
             app:spanCount="1" />
 
         <include
@@ -36,8 +35,8 @@
 
         <include
             android:id="@+id/error"
-            layout="@layout/error"
-            app:showWhenError="@{viewModel.stateFlow.error}"
+            layout="@layout/error_tv_show_details"
+            app:isError="@{!viewModel.stateFlow.error.isEmpty()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

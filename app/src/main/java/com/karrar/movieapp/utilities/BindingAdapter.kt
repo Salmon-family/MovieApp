@@ -63,8 +63,8 @@ fun <T> showWhenFail2(view: View, state: UIState<T>?) {
 }
 
 @BindingAdapter("app:showWhenError")
-fun <T> showWhenError(view: View, error: List<T>){
-    view.isVisible = error.isNotEmpty()
+fun showWhenError(view: View, error: Boolean){
+    view.isVisible = error
 }
 
 @BindingAdapter(value = ["app:showWhenSearch"])
