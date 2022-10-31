@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.karrar.movieapp.domain.enums.HomeItemsType" />
+        <import type="com.karrar.movieapp.domain.enums.com.example.usecase.enums.HomeItemsType" />
 
         <variable
             name="viewModel"
@@ -253,7 +253,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_small"
-                    android:onClick="@{() -> viewModel.onClickSeeAllMovie(HomeItemsType.NON)}"
+                    android:onClick="@{() -> viewModel.onClickSeeAllMovie(com.example.usecase.enums.HomeItemsType.NON)}"
                     android:text="@string/see_all"
                     android:textColor="@color/brand_color"
                     app:drawableEndCompat="@drawable/ic_arrow_right"

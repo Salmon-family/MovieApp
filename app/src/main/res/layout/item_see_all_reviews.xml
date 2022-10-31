@@ -25,6 +25,6 @@
             android:textColor="@color/white_primary"
             android:textAllCaps="false"
             app:cornerRadius="@dimen/radius_small"
-            tools:text="Play Trailer" />
+            tools:text="Play com.example.models.models.Trailer" />
 
 </layout>

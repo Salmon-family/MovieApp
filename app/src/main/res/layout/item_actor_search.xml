@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Media" />
+            type="com.karrar.movieapp.domain.models.com.example.models.models.Media" />
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.search.adapters.ActorSearchInteractionListener" />

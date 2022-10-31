@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.karrar.movieapp.domain.enums.AllMediaType"/>
+        <import type="com.karrar.movieapp.domain.enums.com.example.usecase.enums.AllMediaType"/>
 
         <variable
             name="topRated"
@@ -59,7 +59,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/gradient"
-            android:onClick="@{() -> listener.onClickSeeTVShow(AllMediaType.TOP_RATED)}"
+            android:onClick="@{() -> listener.onClickSeeTVShow(com.example.usecase.enums.AllMediaType.TOP_RATED)}"
             app:layout_constraintBottom_toBottomOf="@+id/image_top_rated"
             app:layout_constraintEnd_toEndOf="@id/image_top_rated"
             app:layout_constraintStart_toStartOf="@id/image_top_rated"
@@ -101,7 +101,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/image_latest"
             app:layout_constraintEnd_toEndOf="@id/image_latest"
             app:layout_constraintStart_toStartOf="@id/image_latest"
-            android:onClick="@{() -> listener.onClickSeeTVShow(AllMediaType.LATEST)}"
+            android:onClick="@{() -> listener.onClickSeeTVShow(com.example.usecase.enums.AllMediaType.LATEST)}"
             app:layout_constraintTop_toTopOf="@id/image_latest"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
@@ -136,7 +136,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:onClick="@{() -> listener.onClickSeeTVShow(AllMediaType.POPULAR)}"
+            android:onClick="@{() -> listener.onClickSeeTVShow(com.example.usecase.enums.AllMediaType.POPULAR)}"
             android:background="@drawable/gradient"
             app:layout_constraintBottom_toBottomOf="@+id/image_popular"
             app:layout_constraintEnd_toEndOf="@id/image_popular"

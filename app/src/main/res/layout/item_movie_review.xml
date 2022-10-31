@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Review" />
+            type="com.karrar.movieapp.domain.models.com.example.models.models.Review" />
 
     </data>
 

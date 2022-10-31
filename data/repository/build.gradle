@@ -19,6 +19,7 @@ android {
 
         buildConfigField "String", "API_KEY", localProperties['apiKey']
         buildConfigField "String", "BASE_URL", "\"https://api.themoviedb.org/3/\""
+        buildConfigField "String", "IMAGE_BASE_PATH", "\"https://image.tmdb.org/t/p/w500\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

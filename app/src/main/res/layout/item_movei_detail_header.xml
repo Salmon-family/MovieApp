@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.MediaDetails" />
+            type="com.karrar.movieapp.domain.models.com.example.models.models.MediaDetails" />
 
         <variable
             name="listener"
@@ -89,7 +89,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="Play Trailer" />
+            tools:text="Play com.example.models.models.Trailer" />
 
         <TextView
             android:id="@+id/movie_name"

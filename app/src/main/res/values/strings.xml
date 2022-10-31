@@ -2,7 +2,7 @@
     <string name="app_name">Movie App</string>
 
     <string name="see_all">See all</string>
-    <string name="top_rated">Top Rated</string>
+    <string name="top_rated">Top com.example.models.models.Rated</string>
     <string name="latest">Latest</string>
     <string name="popular">Popular</string>
     <string name="tv_shows">TV Shows</string>
@@ -26,7 +26,7 @@
     <string name="actors">Actors</string>
     <string name="oops">Oops!</string>
     <string name="description">There is no internet connection\nPlease check it out</string>
-    <string name="all_movies_of_actor">All Movies Of Actor</string>
+    <string name="all_movies_of_actor">All Movies Of com.example.models.models.Actor</string>
     <!--   Titles -->
     <string name="title_on_air">On The Air</string>
     <string name="title_tv_shows">TV Shows</string>
@@ -37,7 +37,7 @@
     <string name="title_upcoming">Upcoming</string>
     <string name="title_celebrity">Celebrities</string>
     <string name="title_airing_today">Airing today</string>
-    <string name="title_top_rated_tv_show">Top Rated Tv-Show</string>
+    <string name="title_top_rated_tv_show">Top com.example.models.models.Rated Tv-Show</string>
     <string name="text_movies">%s Movies</string>
     <string name="movies_label">Movies</string>
     <string name="tv_shows_label">TV Shows</string>
@@ -48,7 +48,7 @@
     <string name="explore">Explore</string>
     <string name="myList">My Lists</string>
     <string name="profile">Profile</string>
-    <string name="play_trailer">Play Trailer</string>
+    <string name="play_trailer">Play com.example.models.models.Trailer</string>
     <string name="duration">%1$d Minutes</string>
     <string name="reviews">(%1$s reviews)</string>
     <string name="overview">Overview</string>
@@ -84,7 +84,7 @@
     <string name="list_name">List Name</string>
     <string name="explore_some_movies_on_home_or_search_and_then_create_your_movie_list">Explore some movies on “Home” or “Search” and then create your movie list.</string>
     <string name="empty_overview_text">This season has no description.</string>
-    <string name="one_season">%1$d Season</string>
+    <string name="one_season">%1$d com.example.models.models.Season</string>
     <string name="more_than_one_season">%1$d Seasons</string>
     <string name="internet_connection">There is no internet connection.</string>
     <string name="retry">Retry</string>
