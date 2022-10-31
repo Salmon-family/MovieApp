@@ -10,5 +10,5 @@ data class TvShowDetailsUIState(
     val watchHistoryUIState: WatchHistoryUIState = WatchHistoryUIState(),
     val ratingValue: Float = 0F,
     val isLoading: Boolean = false,
-    val error: List<Error> = emptyList()
+    val errorUIState: List<Error> = emptyList()
 )

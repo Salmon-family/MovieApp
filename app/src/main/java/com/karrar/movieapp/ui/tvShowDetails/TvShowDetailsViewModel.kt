@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.models.TvShowDetails
-import com.karrar.movieapp.domain.usecase.tvShowDetails.InsertTvShowUserCase
 import com.karrar.movieapp.domain.usecase.tvShowDetails.GetTvShowDetailsUseCase
+import com.karrar.movieapp.domain.usecase.tvShowDetails.InsertTvShowUserCase
 import com.karrar.movieapp.domain.usecase.tvShowDetails.SetRatingUesCase
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
@@ -13,6 +13,7 @@ import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper.TvShowMapperContainer
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.*
+import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
@@ -75,7 +76,7 @@ class TvShowDetailsViewModel @Inject constructor(
     }
 
     private suspend fun getAllDetails(tvShowId: Int) {
-        _stateFlow.update { it.copy(isLoading = true) }
+        _stateFlow.update { it.copy(isLoading = true, errorUIState = emptyList()) }
         getTvShowDetails(tvShowId)
         getTvShowCast(tvShowId)
         getSeasons(tvShowId)
@@ -98,7 +99,7 @@ class TvShowDetailsViewModel @Inject constructor(
         } catch (e: Exception) {
             _stateFlow.update {
                 it.copy(
-                    error = listOf(Error(message = e.message.toString())),
+                    errorUIState = onAddMessageToListError(e),
                     isLoading = false
                 )
             }
@@ -117,7 +118,7 @@ class TvShowDetailsViewModel @Inject constructor(
         } catch (e: Exception) {
             _stateFlow.update {
                 it.copy(
-                    error = listOf(Error(message = e.message.toString())),
+                    errorUIState = onAddMessageToListError(e),
                     isLoading = false
                 )
             }
@@ -140,7 +141,7 @@ class TvShowDetailsViewModel @Inject constructor(
         } catch (e: Exception) {
             _stateFlow.update {
                 it.copy(
-                    error = listOf(Error(message = e.message.toString())),
+                    errorUIState = onAddMessageToListError(e),
                     isLoading = false
                 )
             }
@@ -161,7 +162,12 @@ class TvShowDetailsViewModel @Inject constructor(
             checkIfTvShowRated(_stateFlow.value.seriesRatedResult, tvShowId)
             updateDetailItems(DetailItemUIState.Rating(this))
         } catch (e: Exception) {
-            _stateFlow.update { it.copy(error = listOf(Error(message = e.message.toString()))) }
+            _stateFlow.update {
+                it.copy(
+                    errorUIState = onAddMessageToListError(e),
+                    isLoading = false
+                )
+            }
         }
     }
 
@@ -179,7 +185,12 @@ class TvShowDetailsViewModel @Inject constructor(
             getThreeCommits()
             onSeeAllReviews()
         } catch (e: Exception) {
-            _stateFlow.update { it.copy(error = listOf(Error(message = e.message.toString()))) }
+            _stateFlow.update {
+                it.copy(
+                    errorUIState = onAddMessageToListError(e),
+                    isLoading = false
+                )
+            }
         }
     }
 
@@ -222,10 +233,23 @@ class TvShowDetailsViewModel @Inject constructor(
                 setRatingUesCase(tvShowId, value)
                 onShowMessageOfChangeRating()
             } catch (e: Exception) {
-                val listErrorUIState = listOf(Error(message = "${e.message}"))
-                _stateFlow.update { it.copy(error = listErrorUIState, isLoading = false) }
+                _stateFlow.update {
+                    it.copy(
+                        errorUIState = onAddMessageToListError(e),
+                        isLoading = false
+                    )
+                }
             }
         }
+    }
+
+    private fun onAddMessageToListError(e: Exception): List<Error> {
+        return listOf(
+            Error(
+                code = Constants.INTERNET_STATUS,
+                message = e.message.toString()
+            )
+        )
     }
 
     private fun onShowMessageOfChangeRating() {
