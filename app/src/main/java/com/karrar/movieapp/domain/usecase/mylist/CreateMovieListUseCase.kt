@@ -1,14 +1,14 @@
 package com.karrar.movieapp.domain.usecase.mylist
 
-import com.karrar.movieapp.data.repository.AccountRepository
-import com.karrar.movieapp.data.repository.MovieRepository
+import com.thechance.repository.AccountRepository
+import com.thechance.repository.MovieRepository
 import com.karrar.movieapp.domain.models.CreatedList
 import com.karrar.movieapp.utilities.ErrorUI
 import javax.inject.Inject
 
 class CreateMovieListUseCase @Inject constructor(
-    private val accountRepository: AccountRepository,
-    private val movieRepository: MovieRepository,
+    private val accountRepository: com.thechance.repository.AccountRepository,
+    private val movieRepository: com.thechance.repository.MovieRepository,
     private val getMyListUseCase: GetMyListUseCase
 ) {
 

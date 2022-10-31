@@ -1,7 +1,7 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.ui.profile.watchhistory.MediaHistoryUiState
+import com.thechance.repository.local.database.entity.WatchHistoryEntity
 import javax.inject.Inject
 
 class WatchHistoryMapper @Inject constructor() : Mapper<WatchHistoryEntity, MediaHistoryUiState> {

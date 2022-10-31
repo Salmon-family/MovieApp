@@ -2,10 +2,8 @@ package com.karrar.movieapp.ui.tvShowDetails
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.repository.AccountRepository
-import com.karrar.movieapp.data.repository.SeriesRepository
+import com.thechance.repository.AccountRepository
+import com.thechance.repository.SeriesRepository
 import com.karrar.movieapp.domain.models.Rated
 import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.ui.UIState
@@ -79,29 +77,29 @@ class TvShowDetailsViewModel @Inject constructor(
     }
 
     private fun getTvShowDetails(tvShowId: Int) {
-        wrapWithState(
-            {
-                val response = seriesRepository.getTvShowDetails(tvShowId)
-                updateDetailItems(DetailItem.Header(response))
-                insertMovieToWatchHistory(response)
-            },
-            {
-                detailItemsLiveData.postValue(UIState.Error("error"))
-            })
+//        wrapWithState(
+//            {
+//                val response = seriesRepository.getTvShowDetails(tvShowId)
+//                updateDetailItems(DetailItem.Header(response))
+//                insertMovieToWatchHistory(response)
+//            },
+//            {
+//                detailItemsLiveData.postValue(UIState.Error("error"))
+//            })
     }
 
     private fun getTvShowCast(tvShowId: Int) {
-        wrapWithState({
-            val response = seriesRepository.getTvShowCast(tvShowId).map(actorUiMapper::map)
-            updateDetailItems(DetailItem.Cast(response))
-        })
+//        wrapWithState({
+//            val response = seriesRepository.getTvShowCast(tvShowId).map(actorUiMapper::map)
+//            updateDetailItems(DetailItem.Cast(response))
+//        })
     }
 
     private fun getSeasons(tvShowId: Int) {
-        wrapWithState({
-            val response = seriesRepository.getTvShowDetails(tvShowId).seasons
-            updateDetailItems(DetailItem.Seasons(response))
-        })
+//        wrapWithState({
+//            val response = seriesRepository.getTvShowDetails(tvShowId).seasons
+//            updateDetailItems(DetailItem.Seasons(response))
+//        })
     }
 
 //    private fun getRatedTvShows(tvShowId: Int) {
@@ -117,14 +115,14 @@ class TvShowDetailsViewModel @Inject constructor(
 //    }
 
     private fun getTvShowReviews(tvShowId: Int) {
-        wrapWithState({
-            val response = seriesRepository.getTvShowReviews(tvShowId)
-            if (response.isNotEmpty()) {
-                response.take(3).forEach { updateDetailItems(DetailItem.Comment(it)) }
-                updateDetailItems(DetailItem.ReviewText)
-            }
-            if (response.count() > 3) updateDetailItems(DetailItem.SeeAllReviewsButton)
-        })
+//        wrapWithState({
+//            val response = seriesRepository.getTvShowReviews(tvShowId)
+//            if (response.isNotEmpty()) {
+//                response.take(3).forEach { updateDetailItems(DetailItem.Comment(it)) }
+//                updateDetailItems(DetailItem.ReviewText)
+//            }
+//            if (response.count() > 3) updateDetailItems(DetailItem.SeeAllReviewsButton)
+//        })
     }
 
 
@@ -135,21 +133,21 @@ class TvShowDetailsViewModel @Inject constructor(
 
 
     private fun insertMovieToWatchHistory(tvShow: TvShowDetails?) {
-        viewModelScope.launch {
-            tvShow?.let { tvShowDetails ->
-                seriesRepository.insertTvShow(
-                    WatchHistoryEntity(
-                        id = tvShowDetails.id,
-                        posterPath = tvShowDetails.image,
-                        movieTitle = tvShowDetails.name,
-                        movieDuration = tvShowDetails.specialNumber,
-                        voteAverage = tvShowDetails.voteAverage,
-                        releaseDate = tvShowDetails.releaseDate,
-                        mediaType = Constants.TV_SHOWS
-                    )
-                )
-            }
-        }
+//        viewModelScope.launch {
+//            tvShow?.let { tvShowDetails ->
+//                seriesRepository.insertTvShow(
+//                    WatchHistoryEntity(
+//                        id = tvShowDetails.id,
+//                        posterPath = tvShowDetails.image,
+//                        movieTitle = tvShowDetails.name,
+//                        movieDuration = tvShowDetails.specialNumber,
+//                        voteAverage = tvShowDetails.voteAverage,
+//                        releaseDate = tvShowDetails.releaseDate,
+//                        mediaType = Constants.TV_SHOWS
+//                    )
+//                )
+//            }
+//        }
     }
 
     private fun checkIfTvShowRated(items: List<Rated>?, tvShowId: Int) {
@@ -163,19 +161,19 @@ class TvShowDetailsViewModel @Inject constructor(
     }
 
     fun onAddRating(tvShowId: Int, value: Float) {
-        if (_check.value != value) {
-            wrapWithState({
-                accountRepository.getSessionId()?.let {
-                    val response = seriesRepository.setRating(tvShowId, value, it)
-                    if (response.statusCode != null
-                        && response.statusCode == Constants.SUCCESS_REQUEST
-                    ) {
-                        _check.postValue(value)
-                    }
-                }
-            })
-            messageAppear.postValue(Event(true))
-        }
+//        if (_check.value != value) {
+//            wrapWithState({
+//                accountRepository.getSessionId()?.let {
+//                    val response = seriesRepository.setRating(tvShowId, value, it)
+//                    if (response.statusCode != null
+//                        && response.statusCode == Constants.SUCCESS_REQUEST
+//                    ) {
+//                        _check.postValue(value)
+//                    }
+//                }
+//            })
+//            messageAppear.postValue(Event(true))
+//        }
     }
 
 

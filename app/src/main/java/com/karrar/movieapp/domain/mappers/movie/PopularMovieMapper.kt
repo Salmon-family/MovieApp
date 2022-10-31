@@ -1,8 +1,8 @@
 package com.karrar.movieapp.domain.mappers.movie
 
-import com.karrar.movieapp.data.local.database.entity.movie.PopularMovieEntity
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.PopularMovie
+import com.thechance.repository.local.database.entity.movie.PopularMovieEntity
 import javax.inject.Inject
 
 class PopularMovieMapper @Inject constructor() : Mapper<PopularMovieEntity, PopularMovie> {

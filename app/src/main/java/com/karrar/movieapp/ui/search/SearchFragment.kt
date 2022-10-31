@@ -49,7 +49,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         inputMethodManager.showSoftInput(binding.inputSearch, InputMethodManager.SHOW_IMPLICIT)
 
         observeEvents()
-        getSearchResults()
+//        getSearchResults()
 
         binding.recyclerSearchHistory.adapter = SearchHistoryAdapter(mutableListOf(), viewModel)
         lifecycleScope.launch {
@@ -89,29 +89,29 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             }
         }
 
-        viewModel.clickMoviesCategoryEvent.observeEvent(viewLifecycleOwner){ isClicked ->
-            if(isClicked){
-                getMovieSearchResults(viewModel.searchText.value)
-            }else{
-                getSearchResults()
-            }
-        }
+//        viewModel.clickMoviesCategoryEvent.observeEvent(viewLifecycleOwner){ isClicked ->
+//            if(isClicked){
+//                getMovieSearchResults(viewModel.searchText.value)
+//            }else{
+//                getSearchResults()
+//            }
+//        }
 
-        viewModel.clickSeriesCategoryEvent.observeEvent(viewLifecycleOwner){ isClicked ->
-            if(isClicked){
-                getSeriesSearchResults(viewModel.searchText.value)
-            }else{
-                getSearchResults()
-            }
-        }
-
-        viewModel.clickActorsCategoryEvent.observeEvent(viewLifecycleOwner){ isClicked ->
-            if(isClicked){
-                getActorsSearchResults(viewModel.searchText.value)
-            }else{
-                getSearchResults()
-            }
-        }
+//        viewModel.clickSeriesCategoryEvent.observeEvent(viewLifecycleOwner){ isClicked ->
+//            if(isClicked){
+//                getSeriesSearchResults(viewModel.searchText.value)
+//            }else{
+//                getSearchResults()
+//            }
+//        }
+//
+//        viewModel.clickActorsCategoryEvent.observeEvent(viewLifecycleOwner){ isClicked ->
+//            if(isClicked){
+//                getActorsSearchResults(viewModel.searchText.value)
+//            }else{
+//                getSearchResults()
+//            }
+//        }
     }
 
     private fun navigateToMovieDetails(movieId: Int) {
@@ -159,44 +159,44 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 action = {viewModel.setUiState(it.source.refresh, actorSearchAdapter.itemCount)})
     }
 
-    @OptIn(FlowPreview::class)
-    private fun getSearchResults(){
-        lifecycleScope.launch {
-            viewModel.searchText.debounce(500).collect{ search ->
-                if (search.isNotBlank()) {
-                    when (viewModel.mediaType.value) {
-                        Constants.MOVIE -> {
-                            getMovieSearchResults(search)
-                        }
-                        Constants.TV_SHOWS -> {
-                            getSeriesSearchResults(search)
-                        }
-                        Constants.ACTOR -> {
-                            getActorsSearchResults(search)
-                        }
-                    }
-                }
-            }
-        }
-    }
+//    @OptIn(FlowPreview::class)
+//    private fun getSearchResults(){
+//        lifecycleScope.launch {
+//            viewModel.searchText.debounce(500).collect{ search ->
+//                if (search.isNotBlank()) {
+//                    when (viewModel.mediaType.value) {
+//                        Constants.MOVIE -> {
+//                            getMovieSearchResults(search)
+//                        }
+//                        Constants.TV_SHOWS -> {
+//                            getSeriesSearchResults(search)
+//                        }
+//                        Constants.ACTOR -> {
+//                            getActorsSearchResults(search)
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
-    private fun getMovieSearchResults(searchText: String){
-        mediaSearchAdapter.submitData(lifecycle, PagingData.empty())
-        collectLast(viewModel.searchForMovie(searchText))
-        {mediaSearchAdapter.submitData(it)}
-    }
-
-    private fun getSeriesSearchResults(searchText: String){
-        mediaSearchAdapter.submitData(lifecycle, PagingData.empty())
-        collectLast(viewModel.searchForSeries(searchText))
-        {mediaSearchAdapter.submitData(it)}
-    }
-
-    private fun getActorsSearchResults(searchText: String){
-        actorSearchAdapter.submitData(lifecycle, PagingData.empty())
-        collectLast(viewModel.searchForActor(searchText))
-        {actorSearchAdapter.submitData(it)}
-    }
+//    private fun getMovieSearchResults(searchText: String){
+//        mediaSearchAdapter.submitData(lifecycle, PagingData.empty())
+//        collectLast(viewModel.searchForMovie(searchText))
+//        {mediaSearchAdapter.submitData(it)}
+//    }
+//
+//    private fun getSeriesSearchResults(searchText: String){
+//        mediaSearchAdapter.submitData(lifecycle, PagingData.empty())
+//        collectLast(viewModel.searchForSeries(searchText))
+//        {mediaSearchAdapter.submitData(it)}
+//    }
+//
+//    private fun getActorsSearchResults(searchText: String){
+//        actorSearchAdapter.submitData(lifecycle, PagingData.empty())
+//        collectLast(viewModel.searchForActor(searchText))
+//        {actorSearchAdapter.submitData(it)}
+//    }
 
     private fun setSpanSize(footerAdapter: LoadUIStateAdapter) {
         val mManager = binding.recyclerMedia.layoutManager as GridLayoutManager

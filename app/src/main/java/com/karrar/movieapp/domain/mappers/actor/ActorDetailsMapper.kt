@@ -1,9 +1,9 @@
 package com.karrar.movieapp.domain.mappers.actor
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.ActorDetails
+import com.thechance.repository.remote.response.actor.ActorDto
 import javax.inject.Inject
 
 class ActorDetailsMapper @Inject constructor() : Mapper<ActorDto, ActorDetails> {

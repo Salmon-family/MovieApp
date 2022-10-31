@@ -3,9 +3,8 @@ package com.karrar.movieapp.ui.movieDetails
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.repository.AccountRepository
-import com.karrar.movieapp.data.repository.MovieRepository
+import com.thechance.repository.AccountRepository
+import com.thechance.repository.MovieRepository
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.MovieDetails
 import com.karrar.movieapp.domain.models.Rated
@@ -84,30 +83,30 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun getMovieDetails(movieId: Int) {
-        wrapWithState(
-            {
-                val response = movieRepository.getMovieDetails(movieId)
-                updateDetailItems(DetailItem.Header(response))
-                insertMovieToWatchHistory(response)
-            }, {
-                detailItemsLiveData.postValue(UIState.Error(""))
-            })
+//        wrapWithState(
+//            {
+//                val response = movieRepository.getMovieDetails(movieId)
+//                updateDetailItems(DetailItem.Header(response))
+//                insertMovieToWatchHistory(response)
+//            }, {
+//                detailItemsLiveData.postValue(UIState.Error(""))
+//            })
     }
 
     private fun getMovieCast(movieId: Int) {
-        wrapWithState({
-            val response = movieRepository.getMovieCast(movieId).map(actorUiMapper::map)
-            updateDetailItems(DetailItem.Cast(response))
-        })
+//        wrapWithState({
+//            val response = movieRepository.getMovieCast(movieId).map(actorUiMapper::map)
+//            updateDetailItems(DetailItem.Cast(response))
+//        })
     }
 
     private fun getSimilarMovie(movieId: Int) {
-        wrapWithState(
-            {
-                val response = movieRepository.getSimilarMovie(movieId).map (mediaUiMapper::map)
-                updateDetailItems(DetailItem.SimilarMovies(response))
-            }
-        )
+//        wrapWithState(
+//            {
+//                val response = movieRepository.getSimilarMovie(movieId).map (mediaUiMapper::map)
+//                updateDetailItems(DetailItem.SimilarMovies(response))
+//            }
+//        )
     }
 
 //    private fun getRatedMovie(movieId: Int) {
@@ -124,30 +123,30 @@ class MovieDetailsViewModel @Inject constructor(
 //    }
 
     private fun getMovieReviews(movieId: Int) {
-        wrapWithState({
-            val response = movieRepository.getMovieReviews(movieId)
-            if (response.isNotEmpty()) {
-                response.take(3).forEach { updateDetailItems(DetailItem.Comment(it)) }
-                updateDetailItems(DetailItem.ReviewText)
-            }
-            if (response.count() > 3) updateDetailItems(DetailItem.SeeAllReviewsButton)
-        })
+//        wrapWithState({
+//            val response = movieRepository.getMovieReviews(movieId)
+//            if (response.isNotEmpty()) {
+//                response.take(3).forEach { updateDetailItems(DetailItem.Comment(it)) }
+//                updateDetailItems(DetailItem.ReviewText)
+//            }
+//            if (response.count() > 3) updateDetailItems(DetailItem.SeeAllReviewsButton)
+//        })
     }
 
     private fun insertMovieToWatchHistory(movie: MovieDetails?) {
         viewModelScope.launch {
             movie?.let { movieDetails ->
-                movieRepository.insertMovie(
-                    WatchHistoryEntity(
-                        id = movieDetails.id,
-                        posterPath = movieDetails.image,
-                        movieTitle = movieDetails.name,
-                        movieDuration = movieDetails.specialNumber,
-                        voteAverage = movieDetails.voteAverage,
-                        releaseDate = movieDetails.releaseDate,
-                        mediaType = Constants.MOVIE
-                    )
-                )
+//                movieRepository.insertMovie(
+//                    WatchHistoryEntity(
+//                        id = movieDetails.id,
+//                        posterPath = movieDetails.image,
+//                        movieTitle = movieDetails.name,
+//                        movieDuration = movieDetails.specialNumber,
+//                        voteAverage = movieDetails.voteAverage,
+//                        releaseDate = movieDetails.releaseDate,
+//                        mediaType = Constants.MOVIE
+//                    )
+//                )
             }
         }
     }

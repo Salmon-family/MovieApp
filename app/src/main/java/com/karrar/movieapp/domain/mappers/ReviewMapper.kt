@@ -1,9 +1,9 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.domain.mappers.account.UserMapper
 import com.karrar.movieapp.domain.models.Review
 import com.karrar.movieapp.domain.models.User
+import com.thechance.repository.remote.response.review.ReviewsDto
 import javax.inject.Inject
 
 

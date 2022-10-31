@@ -2,7 +2,7 @@ package com.karrar.movieapp.ui.profile.myratings
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.data.repository.AccountRepository
+import com.thechance.repository.AccountRepository
 import com.karrar.movieapp.domain.GetListOfRatedUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.*
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyRatingsViewModel @Inject constructor(
-    private val accountRepository: AccountRepository,
+    private val accountRepository: com.thechance.repository.AccountRepository,
     private val getRatedUseCase: GetListOfRatedUseCase,
     private val ratedUIStateMapper: RatedUIStateMapper
 ) : BaseViewModel(), RatedMoviesInteractionListener {

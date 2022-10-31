@@ -1,9 +1,9 @@
 package com.karrar.movieapp.domain.mappers.savedList
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.SavedListDto
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.SaveListDetails
+import com.thechance.repository.remote.response.SavedListDto
 import javax.inject.Inject
 
 class SaveListDetailsMapper @Inject constructor() : Mapper<SavedListDto, SaveListDetails> {

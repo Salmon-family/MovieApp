@@ -1,9 +1,9 @@
 package com.karrar.movieapp.domain.mappers.series
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.episode.EpisodeDto
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.Episode
+import com.thechance.repository.remote.response.episode.EpisodeDto
 import javax.inject.Inject
 
 class EpisodeMapper @Inject constructor() : Mapper<EpisodeDto, Episode> {

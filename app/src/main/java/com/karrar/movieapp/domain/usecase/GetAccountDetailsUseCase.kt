@@ -1,6 +1,6 @@
 package com.karrar.movieapp.domain.usecase
 
-import com.karrar.movieapp.data.repository.AccountRepository
+import com.thechance.repository.AccountRepository
 import com.karrar.movieapp.domain.mappers.account.AccountMapper
 import com.karrar.movieapp.domain.models.Account
 import javax.inject.Inject

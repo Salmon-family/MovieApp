@@ -1,11 +1,11 @@
 package com.karrar.movieapp.domain.mappers.movie
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.MovieDetails
 import com.karrar.movieapp.utilities.convertToDayMonthYearFormat
+import com.thechance.repository.remote.response.movie.MovieDetailsDto
 import javax.inject.Inject
 
 class MovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsDto, MovieDetails> {

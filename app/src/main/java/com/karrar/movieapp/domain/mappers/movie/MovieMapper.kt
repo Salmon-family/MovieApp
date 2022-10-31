@@ -1,11 +1,10 @@
 package com.karrar.movieapp.domain.mappers.movie
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.utilities.Constants
+import com.thechance.repository.remote.response.MovieDto
 import javax.inject.Inject
 
 class MovieMapper @Inject constructor() : Mapper<MovieDto, Media> {

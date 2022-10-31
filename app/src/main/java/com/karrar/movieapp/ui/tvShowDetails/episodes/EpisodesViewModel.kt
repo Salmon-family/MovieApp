@@ -2,7 +2,7 @@ package com.karrar.movieapp.ui.tvShowDetails.episodes
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import com.karrar.movieapp.data.repository.SeriesRepository
+import com.thechance.repository.SeriesRepository
 import com.karrar.movieapp.domain.models.Season
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EpisodesViewModel @Inject constructor(
-    private val seriesRepository: SeriesRepository,
+    private val seriesRepository: com.thechance.repository.SeriesRepository,
     state: SavedStateHandle
 ) : BaseViewModel(), EpisodesInteractionListener {
 
@@ -27,13 +27,13 @@ class EpisodesViewModel @Inject constructor(
     }
 
     override fun getData() {
-        _seasonDetails.postValue(UIState.Loading)
-        wrapWithState({
-            val response = seriesRepository.getSeasonDetails(args.tvShowId, args.seasonNumber)
-            _seasonDetails.postValue(UIState.Success(response))
-        }, {
-            _seasonDetails.postValue(UIState.Error("error"))
-        })
+//        _seasonDetails.postValue(UIState.Loading)
+//        wrapWithState({
+//            val response = seriesRepository.getSeasonDetails(args.tvShowId, args.seasonNumber)
+//            _seasonDetails.postValue(UIState.Success(response))
+//        }, {
+//            _seasonDetails.postValue(UIState.Error("error"))
+//        })
     }
 
 

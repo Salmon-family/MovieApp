@@ -3,8 +3,6 @@ package com.karrar.movieapp.ui.search
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
-import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
-import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.SearchHistory
 import com.karrar.movieapp.ui.UIState
@@ -16,15 +14,15 @@ import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
+import com.thechance.repository.local.database.entity.SearchHistoryEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val movieRepository: com.thechance.repository.MovieRepository
 ) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener,
     SearchHistoryInteractionListener {
 
@@ -66,17 +64,17 @@ class SearchViewModel @Inject constructor(
         _clickRetryEvent.postEvent(true)
     }
 
-    fun searchForActor(text: String): Flow<PagingData<Media>> {
-        return movieRepository.searchForActor(text)
-    }
-
-    fun searchForMovie(text: String): Flow<PagingData<Media>> {
-        return movieRepository.searchForMovie(text)
-    }
-
-    fun searchForSeries(text: String): Flow<PagingData<Media>> {
-        return movieRepository.searchForSeries(text)
-    }
+//    fun searchForActor(text: String): Flow<PagingData<Media>> {
+//        return movieRepository.searchForActor(text)
+//    }
+//
+//    fun searchForMovie(text: String): Flow<PagingData<Media>> {
+//        return movieRepository.searchForMovie(text)
+//    }
+//
+//    fun searchForSeries(text: String): Flow<PagingData<Media>> {
+//        return movieRepository.searchForSeries(text)
+//    }
 
     fun onClickMoviesCategory() {
         viewModelScope.launch {
@@ -106,11 +104,11 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun getAllSearchHistory() {
-        viewModelScope.launch {
-            movieRepository.getAllSearchHistory().collect {
-                _searchHistory.postValue(it)
-            }
-        }
+//        viewModelScope.launch {
+//            movieRepository.getAllSearchHistory().collect {
+//                _searchHistory.postValue(it)
+//            }
+//        }
     }
 
     override fun onClickMediaResult(media: Media) {

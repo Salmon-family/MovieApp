@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
-import com.karrar.movieapp.data.local.mappers.ActorMapper
 import com.karrar.movieapp.domain.usecase.GetActorsDataUseCase
 import com.karrar.movieapp.ui.actors.models.ActorsUIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener

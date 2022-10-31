@@ -1,10 +1,10 @@
 package com.karrar.movieapp.domain.mappers.savedList
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.DailyTrendingDto
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.utilities.Constants
+import com.thechance.repository.remote.response.DailyTrendingDto
 import javax.inject.Inject
 
 class ItemListMapper @Inject constructor() : Mapper<DailyTrendingDto, Media> {

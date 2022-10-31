@@ -7,8 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.search.SearchViewModel"
-            />
+            type="com.karrar.movieapp.ui.search.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -123,8 +122,8 @@
             android:text="@string/history_label"
             android:textColor="@color/shade_primary_color"
             app:drawableStartCompat="@drawable/ic_history"
-            app:hideWhenSearch="@{viewModel.searchText}"
             app:hideWhenListIsEmpty="@{viewModel.searchHistory}"
+            app:hideWhenSearch="@{viewModel.searchText}"
             app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
             app:layout_constraintTop_toBottomOf="@id/input_search" />
 
@@ -133,15 +132,15 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clipToPadding="false"
+            android:orientation="vertical"
             android:paddingVertical="@dimen/spacing_small"
             app:hideWhenLoading="@{viewModel.mediaState}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"
-            app:showWhenSearch="@{viewModel.searchText}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/chip_group_media_type"
+            app:showWhenSearch="@{viewModel.searchText}"
             tools:listitem="@layout/item_media_search" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -187,6 +186,7 @@
             android:id="@+id/no_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:hideWhenBlankSearch="@{viewModel.searchText}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -194,8 +194,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/no_result"
-            app:showWhenNoResults="@{viewModel.mediaState}"
-            app:hideWhenBlankSearch="@{viewModel.searchText}" />
+            app:showWhenNoResults="@{viewModel.mediaState}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

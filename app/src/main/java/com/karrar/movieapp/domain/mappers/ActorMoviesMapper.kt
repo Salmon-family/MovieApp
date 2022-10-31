@@ -1,8 +1,8 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.domain.models.ActorMovie
+import com.thechance.repository.remote.response.MovieDto
 import javax.inject.Inject
 
 class ActorMoviesMapper @Inject constructor() : Mapper<MovieDto, ActorMovie>{

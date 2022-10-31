@@ -1,11 +1,11 @@
 package com.karrar.movieapp.domain.mappers.series
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.utilities.convertToDayMonthYearFormat
+import com.thechance.repository.remote.response.tvShow.TvShowDetailsDto
 import javax.inject.Inject
 
 class TvShowDetailsMapper @Inject constructor(

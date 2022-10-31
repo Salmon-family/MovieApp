@@ -1,10 +1,10 @@
 package com.karrar.movieapp.domain.mappers.movie
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.local.database.entity.movie.AdventureMovieEntity
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.Media
+import com.thechance.repository.local.database.entity.movie.AdventureMovieEntity
 import javax.inject.Inject
 
 class AdventureMovieMapper @Inject constructor() : Mapper<AdventureMovieEntity, Media> {

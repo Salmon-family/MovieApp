@@ -1,7 +1,7 @@
 package com.karrar.movieapp.domain.usecase
 
-import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.repository.MovieRepository
+import com.thechance.repository.MovieRepository
+import com.thechance.repository.local.database.entity.WatchHistoryEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

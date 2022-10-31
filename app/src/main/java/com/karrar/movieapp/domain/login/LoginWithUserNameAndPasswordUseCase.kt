@@ -1,9 +1,9 @@
 package com.karrar.movieapp.domain.login
 
-import com.karrar.movieapp.data.DataClassParser
-import com.karrar.movieapp.data.remote.response.login.ErrorResponse
-import com.karrar.movieapp.data.repository.AccountRepository
+import com.thechance.repository.DataClassParser
+import com.thechance.repository.AccountRepository
 import com.karrar.movieapp.domain.LoginStatus
+import com.thechance.repository.remote.response.login.ErrorResponse
 import javax.inject.Inject
 
 class LoginWithUserNameAndPasswordUseCase @Inject constructor(

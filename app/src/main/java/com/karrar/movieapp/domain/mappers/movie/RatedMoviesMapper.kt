@@ -1,10 +1,10 @@
 package com.karrar.movieapp.domain.mappers.movie
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.RatedMoviesDto
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.Rated
 import com.karrar.movieapp.utilities.Constants
+import com.thechance.repository.remote.response.RatedMoviesDto
 import javax.inject.Inject
 
 class RatedMoviesMapper @Inject constructor() : Mapper<RatedMoviesDto, Rated> {

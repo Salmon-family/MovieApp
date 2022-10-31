@@ -1,10 +1,10 @@
 package com.karrar.movieapp.domain.mappers.series
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.local.database.entity.series.AiringTodaySeriesEntity
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.Media
+import com.thechance.repository.local.database.entity.series.AiringTodaySeriesEntity
 import javax.inject.Inject
 
 class AiringTodaySeriesMapper @Inject constructor() : Mapper<AiringTodaySeriesEntity, Media> {

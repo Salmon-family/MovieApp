@@ -1,7 +1,7 @@
 package com.karrar.movieapp.utilities
 
 object Constants {
-    const val IMAGE_BASE_PATH = "https://image.tmdb.org/t/p/w780"
+//    const val IMAGE_BASE_PATH = "https://image.tmdb.org/t/p/w780"
     const val MAX_NUMBER_AIRING_TODAY = 6
     const val MYSTERY_ID = 9648
     const val ADVENTURE_ID = 12
@@ -19,12 +19,9 @@ object Constants {
     const val SUCCESS_REQUEST = 1
 
     const val PROFILE = 1
-    const val IMAGEACTORPATHWHENISNULL = "https://image.tmdb.org/t/p/w500null"
+//    const val IMAGEACTORPATHWHENISNULL = "https://image.tmdb.org/t/p/w500null"
 }
 
-object DataStorePreferencesKeys {
-    const val SESSION_ID_KEY = "session_id"
-}
 
 object ErrorUI {
     const val NEED_LOGIN = 100

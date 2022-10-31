@@ -1,12 +1,12 @@
 package com.karrar.movieapp.domain.usecase
 
-import com.karrar.movieapp.data.remote.response.genre.GenreDto
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.data.repository.SeriesRepository
+import com.thechance.repository.MovieRepository
+import com.thechance.repository.SeriesRepository
 import com.karrar.movieapp.domain.mappers.GenreMapper
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.utilities.Constants
+import com.thechance.repository.remote.response.genre.GenreDto
 import javax.inject.Inject
 
 class GetGenreListUseCase @Inject constructor(
@@ -18,10 +18,10 @@ class GetGenreListUseCase @Inject constructor(
     suspend operator fun invoke(mediaId: Int): List<Genre> {
         val genre = when (mediaId) {
             Constants.MOVIE_CATEGORIES_ID -> {
-                mapGenre(movieRepository.getMovieGenreList2())
+                mapGenre(movieRepository.getMovieGenreList())
             }
             else -> {
-                mapGenre(seriesRepository.getTVShowsGenreList2())
+                mapGenre(seriesRepository.getTVShowsGenreList())
             }
         }
         return setGenre(genre)

@@ -1,9 +1,9 @@
 package com.karrar.movieapp.domain.mappers.account
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.review.AuthorDetailsDto
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.User
+import com.thechance.repository.remote.response.review.AuthorDetailsDto
 import javax.inject.Inject
 
 class UserMapper @Inject constructor() : Mapper<AuthorDetailsDto, User> {

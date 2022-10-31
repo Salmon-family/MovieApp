@@ -3,8 +3,8 @@ package com.karrar.movieapp.domain.usecase
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.data.repository.SeriesRepository
+import com.thechance.repository.MovieRepository
+import com.thechance.repository.SeriesRepository
 import com.karrar.movieapp.domain.mappers.movie.MovieMapper
 import com.karrar.movieapp.domain.mappers.series.TVShowMapper
 import com.karrar.movieapp.domain.models.Media

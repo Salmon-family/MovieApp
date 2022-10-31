@@ -1,6 +1,6 @@
 package com.karrar.movieapp.domain.login
 
-import com.karrar.movieapp.data.repository.AccountRepository
+import com.thechance.repository.AccountRepository
 import javax.inject.Inject
 
 class GetRequestTokenUseCase @Inject constructor(
