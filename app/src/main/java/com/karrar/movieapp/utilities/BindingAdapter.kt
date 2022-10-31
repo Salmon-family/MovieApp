@@ -48,8 +48,8 @@ fun <T> showWhenLoading3(view: View, state: Boolean = false) {
     view.isVisible = state
 }
 
-@BindingAdapter("app:showRating")
-fun showRating(view: RatingBar, state: Boolean) {
+@BindingAdapter("app:showRatingItem")
+fun showRating(view: View, state: Boolean) {
     view.isVisible = state
 }
 

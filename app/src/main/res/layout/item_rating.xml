@@ -23,7 +23,8 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:text="@string/rate_the_movie"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:showRatingItem="@{viewModel.uiState.login}" />
 
         <RatingBar
             android:id="@+id/rating_bar"
@@ -38,7 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rate_the_movie"
-            app:showRating="@{viewModel.uiState.login}" />
+            app:showRatingItem="@{viewModel.uiState.login}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
