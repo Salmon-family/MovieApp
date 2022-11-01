@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.mappers.WatchHistoryMapper
 import com.karrar.movieapp.domain.usecase.GetWatchHistoryUseCase
+import com.karrar.movieapp.ui.profile.ProfileUIEvent
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
@@ -22,14 +23,10 @@ class WatchHistoryViewModel @Inject constructor(
     private val watchHistoryMapper: WatchHistoryMapper
 ) : ViewModel(), WatchHistoryInteractionListener {
 
-    private val _clickMovieEvent = MutableLiveData<Event<Int>>()
-    val clickMovieEvent = _clickMovieEvent.toLiveData()
-
-    private val _clickTVShowEvent = MutableLiveData<Event<Int>>()
-    val clickTVShowEvent = _clickTVShowEvent.toLiveData()
-
     private val _uiState = MutableStateFlow(WatchHistoryUiState())
     val uiState = _uiState.asStateFlow()
+
+    val watchHistoryUIEvent: MutableStateFlow<Event<WatchHistoryUIEvent>?> = MutableStateFlow(null)
 
     init {
         getWatchHistoryData()
@@ -52,9 +49,9 @@ class WatchHistoryViewModel @Inject constructor(
 
     override fun onClickMovie(item: MediaHistoryUiState) {
         if (item.mediaType == Constants.MOVIE) {
-            _clickMovieEvent.postEvent(item.id)
+            watchHistoryUIEvent.update { Event(WatchHistoryUIEvent.MovieEvent(item.id)) }
         } else {
-            _clickTVShowEvent.postEvent(item.id)
+            watchHistoryUIEvent.update { Event(WatchHistoryUIEvent.TVShowEvent(item.id)) }
         }
     }
 

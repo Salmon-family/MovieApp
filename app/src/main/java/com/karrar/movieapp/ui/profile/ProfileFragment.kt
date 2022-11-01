@@ -8,8 +8,8 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentProfileBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.Constants
+import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
-import com.karrar.movieapp.utilities.observeEvent
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
@@ -18,29 +18,29 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeEvents()
         setTitle(true, getString(R.string.profile))
-    }
 
-    private fun observeEvents() {
-        viewModel.clickRatedMoviesEvent.observeEvent(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_profileFragment_to_ratedMoviesFragment)
-        }
-
-        viewModel.clickDialogLogoutEvent.observeEvent(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_profileFragment_to_logoutDialog)
-        }
-
-        viewModel.clickWatchHistoryEvent.observeEvent(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_profileFragment_to_watchHistoryFragment)
-        }
-
-        viewModel.clickLoginEvent.observeEvent(viewLifecycleOwner) {
-            findNavController().navigate(
-                ProfileFragmentDirections.actionProfileFragmentToLoginFragment(
-                    Constants.PROFILE
-                )
-            )
+        collectLast(viewModel.profileUIEvent) {
+            it?.getContentIfNotHandled()?.let { onEvent(it) }
         }
     }
+
+    private fun onEvent(event: ProfileUIEvent) {
+        val action = when (event) {
+            ProfileUIEvent.DialogLogoutEvent -> {
+                ProfileFragmentDirections.actionProfileFragmentToLogoutDialog()
+            }
+            ProfileUIEvent.LoginEvent -> {
+                ProfileFragmentDirections.actionProfileFragmentToLoginFragment(Constants.PROFILE)
+            }
+            ProfileUIEvent.RatedMoviesEvent -> {
+                ProfileFragmentDirections.actionProfileFragmentToRatedMoviesFragment()
+            }
+            ProfileUIEvent.WatchHistoryEvent -> {
+                ProfileFragmentDirections.actionProfileFragmentToWatchHistoryFragment()
+            }
+        }
+        findNavController().navigate(action)
+    }
+
 }

@@ -1,11 +1,11 @@
 package com.karrar.movieapp.ui.profile.myratings
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.domain.GetListOfRatedUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.utilities.*
+import com.karrar.movieapp.utilities.Constants
+import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,11 +23,7 @@ class MyRatingsViewModel @Inject constructor(
     private val _ratedUiState = MutableStateFlow(MyRateUIState())
     val ratedUiState: StateFlow<MyRateUIState> = _ratedUiState
 
-    private val _clickMovieEvent = MutableLiveData<Event<Int>>()
-    val clickMovieEvent = _clickMovieEvent.toLiveData()
-
-    private val _clickTVShowEvent = MutableLiveData<Event<Int>>()
-    val clickTVShowEvent = _clickTVShowEvent.toLiveData()
+    val myRatingUIEvent: MutableStateFlow<Event<MyRatingUIEvent>?> = MutableStateFlow(null)
 
     init {
         getData()
@@ -54,8 +50,11 @@ class MyRatingsViewModel @Inject constructor(
         ratedUiState.value.ratedList.let { it ->
             val item = it.find { it.id == movieId }
             item?.let {
-                if (it.mediaType == Constants.MOVIE) _clickMovieEvent.postEvent(movieId)
-                else _clickTVShowEvent.postEvent(movieId)
+                if (it.mediaType == Constants.MOVIE) {
+                    myRatingUIEvent.update { Event(MyRatingUIEvent.MovieEvent(movieId)) }
+                } else {
+                    myRatingUIEvent.update { Event(MyRatingUIEvent.TVShowEvent(movieId)) }
+                }
             }
         }
     }

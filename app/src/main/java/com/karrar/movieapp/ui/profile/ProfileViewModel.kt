@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecase.CheckIfLoggedInUseCase
 import com.karrar.movieapp.domain.usecase.GetAccountDetailsUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.myList.myListUIState.MyListUIEvent
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
@@ -25,17 +26,7 @@ class ProfileViewModel @Inject constructor(
     private val _profileDetailsUIState = MutableStateFlow(ProfileUIState())
     val profileDetailsUIState = _profileDetailsUIState.asStateFlow()
 
-    private val _clickLoginEvent = MutableLiveData<Event<Boolean>>()
-    val clickLoginEvent = _clickLoginEvent.toLiveData()
-
-    private val _clickRatedMoviesEvent = MutableLiveData<Event<Boolean>>()
-    val clickRatedMoviesEvent = _clickRatedMoviesEvent.toLiveData()
-
-    private val _clickDialogLogoutEvent = MutableLiveData<Event<Boolean>>()
-    val clickDialogLogoutEvent = _clickDialogLogoutEvent.toLiveData()
-
-    private val _clickWatchHistoryEvent = MutableLiveData<Event<Boolean>>()
-    val clickWatchHistoryEvent = _clickWatchHistoryEvent.toLiveData()
+    val profileUIEvent: MutableStateFlow<Event<ProfileUIEvent>?> = MutableStateFlow(null)
 
     init {
         getData()
@@ -76,18 +67,18 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onClickRatedMovies() {
-        _clickRatedMoviesEvent.postEvent(true)
+        profileUIEvent.update { Event(ProfileUIEvent.RatedMoviesEvent) }
     }
 
     fun onClickLogout() {
-        _clickDialogLogoutEvent.postEvent(true)
+        profileUIEvent.update { Event(ProfileUIEvent.DialogLogoutEvent) }
     }
 
     fun onClickWatchHistory() {
-        _clickWatchHistoryEvent.postEvent(true)
+        profileUIEvent.update { Event(ProfileUIEvent.WatchHistoryEvent) }
     }
 
     fun onClickLogin() {
-        _clickLoginEvent.postEvent(true)
+        profileUIEvent.update { Event(ProfileUIEvent.LoginEvent) }
     }
 }
