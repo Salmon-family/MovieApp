@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentCategoryBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.category.uiState.CategoryUIEvent
 import com.karrar.movieapp.utilities.*
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +25,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setTitle(true, getTitle())
         setMediaAdapter()
-        observeEvents()
+        collectEvent()
     }
 
     private fun setMediaAdapter() {
@@ -37,30 +37,32 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
         collect(flow = allMediaAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it) })
-
-        getDataByCategory()
     }
 
-    private fun getDataByCategory() {
-        viewModel.selectedCategory.observe(viewLifecycleOwner) {
-            viewModel.getMediaList()
-            collectLast(viewModel.uiState.value.media) {
-                allMediaAdapter.submitData(it)
-            }
+    private fun collectEvent() {
+        collectLast(viewModel.categoryUIEvent) {
+            it?.getContentIfNotHandled()?.let { onEvent(it) }
         }
     }
 
-    private fun observeEvents() {
-        viewModel.clickMovieEvent.observe(viewLifecycleOwner, EventObserve {
-            if (viewModel.args.mediaId == TV_CATEGORIES_ID) {
-                navigateToTvShowDetails(it)
-            } else {
-                navigateToMovieDetails(it)
+    private fun onEvent(event: CategoryUIEvent) {
+        when (event) {
+            is CategoryUIEvent.ClickMovieEvent -> {
+                if (viewModel.args.mediaId == TV_CATEGORIES_ID) {
+                    navigateToTvShowDetails(event.movieID)
+                } else {
+                    navigateToMovieDetails(event.movieID)
+                }
             }
-        })
-
-        viewModel.clickRetryEvent.observeEvent(viewLifecycleOwner) {
-            allMediaAdapter.retry()
+            CategoryUIEvent.RetryEvent -> {
+                allMediaAdapter.retry()
+            }
+            is CategoryUIEvent.SelectedCategory -> {
+                viewModel.getMediaList(event.categoryID)
+                collectLast(viewModel.uiState.value.media) {
+                    allMediaAdapter.submitData(it)
+                }
+            }
         }
     }
 

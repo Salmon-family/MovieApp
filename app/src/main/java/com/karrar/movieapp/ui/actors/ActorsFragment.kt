@@ -13,7 +13,6 @@ import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.models.ActorUiState
 import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
-import com.karrar.movieapp.utilities.observeEvent
 import com.karrar.movieapp.utilities.setSpanSize
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,7 +26,7 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setTitle(true, resources.getString(R.string.actors))
         setAdapter()
-        observeEvents()
+        collectEvent()
     }
 
     private fun setAdapter() {
@@ -43,19 +42,29 @@ class ActorsFragment : BaseFragment<FragmentActorsBinding>() {
         collectLast(viewModel.uiState.value.actors, ::setAllActors)
     }
 
-
     private suspend fun setAllActors(itemsPagingData: PagingData<ActorUiState>) {
         actorsAdapter.submitData(itemsPagingData)
     }
 
-    private fun observeEvents() {
-        viewModel.clickActorEvent.observeEvent(viewLifecycleOwner){ actorID ->
-            findNavController()
-                .navigate(ActorsFragmentDirections.actionActorsFragmentToActorDetailsFragment(actorID))
-        }
-
-        viewModel.clickRetryEvent.observeEvent(viewLifecycleOwner) {
-            if (it) { actorsAdapter.retry() }
+    private fun collectEvent() {
+        collectLast(viewModel.actorsUIEventFlow) {
+            it?.getContentIfNotHandled()?.let { onEvent(it) }
         }
     }
+
+    private fun onEvent(event: ActorsUIEvent) {
+        when (event) {
+            is ActorsUIEvent.ActorEvent -> {
+                findNavController().navigate(
+                    ActorsFragmentDirections.actionActorsFragmentToActorDetailsFragment(
+                        event.actorID
+                    )
+                )
+            }
+            ActorsUIEvent.RetryEvent -> {
+                actorsAdapter.retry()
+            }
+        }
+    }
+
 }

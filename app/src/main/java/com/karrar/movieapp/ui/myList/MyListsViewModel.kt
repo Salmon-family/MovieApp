@@ -1,6 +1,5 @@
 package com.karrar.movieapp.ui.myList
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecase.mylist.CreateMovieListUseCase
 import com.karrar.movieapp.domain.usecase.mylist.GetMyListUseCase
@@ -8,13 +7,12 @@ import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.myList.myListUIState.CreateListDialogUIState
 import com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState
+import com.karrar.movieapp.ui.myList.myListUIState.MyListUIEvent
 import com.karrar.movieapp.ui.myList.myListUIState.MyListUIState
 import com.karrar.movieapp.utilities.ErrorUI.INTERNET_CONNECTION
 import com.karrar.movieapp.utilities.ErrorUI.NEED_LOGIN
 import com.karrar.movieapp.utilities.ErrorUI.NO_LOGIN
 import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.postEvent
-import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,17 +34,7 @@ class MyListsViewModel @Inject constructor(
     private val _createListDialogUIState = MutableStateFlow(CreateListDialogUIState())
     val createListDialogUIState = _createListDialogUIState.asStateFlow()
 
-    private val _isCreateButtonClicked = MutableLiveData<Event<Boolean>>()
-    val isButtonClicked = _isCreateButtonClicked.toLiveData()
-
-    private val _onCLickAddEvent = MutableLiveData<Event<Boolean>>()
-    val onClickAddEvent = _onCLickAddEvent.toLiveData()
-
-    private val _onSelectItem = MutableLiveData<Event<CreatedListUIState>>()
-    val onSelectItem = _onSelectItem.toLiveData()
-
-    private val _displayError = MutableLiveData<Event<String>>()
-    val displayError = _displayError.toLiveData()
+    val myListUIEvent: MutableStateFlow<Event<MyListUIEvent>?> = MutableStateFlow(null)
 
     override fun getData() {
         _createdListUIState.update {
@@ -73,7 +61,7 @@ class MyListsViewModel @Inject constructor(
     }
 
     fun onCreateList() {
-        _isCreateButtonClicked.postEvent(true)
+        myListUIEvent.update { Event(MyListUIEvent.CreateButtonClicked) }
     }
 
     fun onClickAddList() {
@@ -88,15 +76,15 @@ class MyListsViewModel @Inject constructor(
                     )
                 }
             } catch (t: Throwable) {
-                _displayError.postEvent(t.message.toString())
+                myListUIEvent.update { Event(MyListUIEvent.DisplayError(t.message.toString())) }
             }
             _createListDialogUIState.update { it.copy(mediaListName = "") }
         }
-        _onCLickAddEvent.postEvent(true)
+//        myListUIEvent.update { Event(MyListUIEvent.CLickAddEvent) }
     }
 
     override fun onListClick(item: CreatedListUIState) {
-        _onSelectItem.postValue(Event(item))
+        myListUIEvent.update { Event(MyListUIEvent.OnSelectItem(item)) }
     }
 
     private fun setError(t: Throwable) {

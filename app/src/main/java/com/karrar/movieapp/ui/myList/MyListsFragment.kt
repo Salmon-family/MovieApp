@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMyListsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.myList.myListUIState.MyListUIEvent
+import com.karrar.movieapp.utilities.collectLast
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,32 +25,32 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setTitle(true, getString(R.string.myList))
         binding.savedList.adapter = CreatedListAdapter(emptyList(), viewModel)
-        observeEvents()
+        collectEvent()
     }
 
-    private fun observeEvents() {
-        viewModel.isButtonClicked.observeEvent(viewLifecycleOwner) {
-            navigateToCreateListDialog()
+    private fun collectEvent() {
+        collectLast(viewModel.myListUIEvent) {
+            it?.getContentIfNotHandled()?.let { onEvent(it) }
         }
-
-        viewModel.onSelectItem.observeEvent(viewLifecycleOwner) {
-            val action = MyListsFragmentDirections.actionMyListFragmentToSavedListFragment(
-                it.listID,
-                it.name
-            )
-            findNavController().navigate(action)
-        }
-
-        viewModel.displayError.observeEvent(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
-        }
-
     }
 
-    private fun navigateToCreateListDialog() {
-        findNavController().navigate(
-            MyListsFragmentDirections.actionMyListFragmentToCreateSavedList()
-        )
+    private fun onEvent(event: MyListUIEvent) {
+        var action: NavDirections? = null
+        when (event) {
+            MyListUIEvent.CreateButtonClicked -> {
+                action = MyListsFragmentDirections.actionMyListFragmentToCreateSavedList()
+            }
+            is MyListUIEvent.DisplayError -> {
+                Toast.makeText(requireContext(), event.errorMessage, Toast.LENGTH_LONG).show()
+            }
+            is MyListUIEvent.OnSelectItem -> {
+                action = MyListsFragmentDirections.actionMyListFragmentToSavedListFragment(
+                    event.createdListUIState.listID,
+                    event.createdListUIState.name
+                )
+            }
+        }
+        action?.let { findNavController().navigate(it) }
     }
 
     override fun onResume() {

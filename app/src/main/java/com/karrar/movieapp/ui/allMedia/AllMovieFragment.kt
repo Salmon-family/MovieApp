@@ -14,7 +14,6 @@ import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
-import com.karrar.movieapp.utilities.observeEvent
 import com.karrar.movieapp.utilities.setSpanSize
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +27,7 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setTitle(true, getTitle(viewModel.args.type))
         setMovieAdapter()
-        observeEvents()
+        collectEvent()
     }
 
     private fun setMovieAdapter() {
@@ -40,11 +39,10 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
 
         collect(flow = allMediaAdapter.loadStateFlow,
             action = {
-                viewModel.setErrorUiState(it) })
+                viewModel.setErrorUiState(it)
+            })
 
         collectLast(viewModel.uiState.value.allMedia, ::setAllMedia)
-
-
     }
 
 
@@ -52,25 +50,32 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
         allMediaAdapter.submitData(itemsPagingData)
     }
 
-    private fun observeEvents() {
-        viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner) { movieID ->
-            findNavController().navigate(
-                AllMovieFragmentDirections.actionAllMovieFragmentToMovieDetailFragment(
-                    movieID
-                )
-            )
+    private fun collectEvent() {
+        collectLast(viewModel.mediaUIEvent) {
+            it?.getContentIfNotHandled()?.let { onEvent(it) }
         }
-        viewModel.clickSeriesEvent.observeEvent(viewLifecycleOwner) { seriesID ->
-            findNavController().navigate(
-                AllMovieFragmentDirections.actionAllMovieFragmentToTvShowDetailsFragment(
-                    seriesID
-                )
-            )
-        }
-        viewModel.backEvent.observeEvent(viewLifecycleOwner) { removeFragment() }
+    }
 
-        viewModel.clickRetryEvent.observeEvent(viewLifecycleOwner) {
-            if (it) {
+    private fun onEvent(event: MediaUIEvent) {
+        when (event) {
+            MediaUIEvent.BackEvent -> {
+                removeFragment()
+            }
+            is MediaUIEvent.ClickMovieEvent -> {
+                findNavController().navigate(
+                    AllMovieFragmentDirections.actionAllMovieFragmentToMovieDetailFragment(
+                        event.movieID
+                    )
+                )
+            }
+            is MediaUIEvent.ClickSeriesEvent -> {
+                findNavController().navigate(
+                    AllMovieFragmentDirections.actionAllMovieFragmentToTvShowDetailsFragment(
+                        event.seriesID
+                    )
+                )
+            }
+            MediaUIEvent.RetryEvent -> {
                 allMediaAdapter.retry()
             }
         }
