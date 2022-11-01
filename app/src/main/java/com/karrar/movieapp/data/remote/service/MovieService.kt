@@ -121,7 +121,7 @@ interface MovieService {
     suspend fun postTvShowRating(
         @Path("tv_id") tvShowId: Int,
         @Field("value") rating: Float,
-        @Query("session_id") apiKey: String?
+        @Query("session_id") sessionId: String = ""
     ): Response<RatingDto>
 
 
@@ -176,7 +176,7 @@ interface MovieService {
     suspend fun getAllTvShows(@Query("page") page: Int = 1): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("account")
-    suspend fun getAccountDetails(@Query("session_id") sessionId: String?): Response<AccountDto>
+    suspend fun getAccountDetails(@Query("session_id") sessionId: String? = ""): Response<AccountDto>
 
     @DELETE("authentication/session")
     suspend fun logout(@Query("session_id") sessionId: String): Response<LogoutResponse>

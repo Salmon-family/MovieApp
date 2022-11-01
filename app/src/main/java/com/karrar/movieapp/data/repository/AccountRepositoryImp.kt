@@ -18,7 +18,7 @@ class AccountRepositoryImp @Inject constructor(
 ) : AccountRepository, BaseRepository() {
 
     override fun getSessionId(): String? {
-        return appConfiguration.readString(DataStorePreferencesKeys.SESSION_ID_KEY)
+        return appConfiguration.getSessionId()
     }
 
 
@@ -51,11 +51,11 @@ class AccountRepositoryImp @Inject constructor(
     }
 
     override suspend fun logout() {
-        appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
+        appConfiguration.saveSessionId( "")
     }
 
-    override suspend fun getAccountDetails(sessionId: String): AccountDto? {
-        return service.getAccountDetails(sessionId).body()
+    override suspend fun getAccountDetails(): AccountDto? {
+        return service.getAccountDetails().body()
     }
 
      private suspend fun getRequestToken(): String {
@@ -73,7 +73,7 @@ class AccountRepositoryImp @Inject constructor(
     }
 
     private suspend fun saveSessionId(sessionId: String) {
-        appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, sessionId)
+        appConfiguration.saveSessionId(sessionId)
     }
 
 }

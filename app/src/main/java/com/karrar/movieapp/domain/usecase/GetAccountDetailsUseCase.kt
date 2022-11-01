@@ -10,8 +10,7 @@ class GetAccountDetailsUseCase @Inject constructor(
     private val accountMapper: AccountMapper
 ) {
     suspend operator fun invoke() : Account {
-        val sessionId = accountRepository.getSessionId().toString()
-        val account = accountRepository.getAccountDetails(sessionId = sessionId)
+        val account = accountRepository.getAccountDetails()
         return if (account != null) {
             accountMapper.map(account)
         } else {

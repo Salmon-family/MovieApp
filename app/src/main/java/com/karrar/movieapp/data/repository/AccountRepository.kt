@@ -12,6 +12,6 @@ interface AccountRepository {
 
     suspend fun logout()
 
-    suspend fun getAccountDetails(sessionId: String): AccountDto?
+    suspend fun getAccountDetails(): AccountDto?
 }
 
