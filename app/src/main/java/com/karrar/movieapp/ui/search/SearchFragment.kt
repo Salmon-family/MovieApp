@@ -34,6 +34,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private val mediaSearchAdapter by lazy { MediaSearchAdapter(viewModel) }
     private val actorSearchAdapter by lazy { ActorSearchAdapter(viewModel) }
 
+    private val oldValue = MutableStateFlow(MediaSearchUIState())
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -54,8 +56,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.recyclerSearchHistory.adapter = SearchHistoryAdapter(mutableListOf(), viewModel)
     }
 
-    private val oldValue = MutableStateFlow(MediaSearchUIState())
-
     @OptIn(FlowPreview::class)
     private fun getSearchResultsBySearchTerm(){
         lifecycleScope.launch {
@@ -67,7 +67,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             }
         }
     }
-
 
     private fun getSearchResult(){
         when (viewModel.uiState.value.searchTypes) {
@@ -87,6 +86,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         viewModel.clickActorEvent.observeEvent(viewLifecycleOwner) { actorID -> navigateToActorDetails(actorID) }
         viewModel.clickBackEvent.observeEvent(viewLifecycleOwner) { popFragment() }
 
+        viewModel.clickRetryEvent.observeEvent(viewLifecycleOwner){
+            actorSearchAdapter.retry()
+            mediaSearchAdapter.retry()
+        }
     }
 
     private fun navigateToMovieDetails(movieId: Int) {

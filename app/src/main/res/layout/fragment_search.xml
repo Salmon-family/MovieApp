@@ -140,6 +140,8 @@
             android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingVertical="@dimen/spacing_small"
+            app:doneLoading="@{viewModel.uiState.loading}"
+            app:errorNotEmpty="@{viewModel.uiState.error}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -192,14 +194,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:hideWhenBlankSearch="@{viewModel.uiState.searchInput}"
+            app:isListEmpty="@{viewModel.uiState.empty}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/no_result"
-            app:isListEmpty="@{viewModel.uiState.empty}" />
+            app:lottie_rawRes="@raw/no_result" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
