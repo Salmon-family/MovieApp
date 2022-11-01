@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CreateListDialog : BaseDialogFragment<FragmentCreateListDialogBinding>() {
+
     override val layoutIdFragment = R.layout.fragment_create_list_dialog
     override val viewModel: MyListsViewModel by activityViewModels()
 

@@ -40,6 +40,7 @@
             android:layout_marginStart="@dimen/spacing_small"
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_medium"
+            android:afterTextChanged="@{(text) -> viewModel.onSearchInputChange(text)}"
             android:background="@drawable/edit_text_background"
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="@dimen/spacing_small"
@@ -47,10 +48,9 @@
             android:focusableInTouchMode="true"
             android:hint="@string/search_hint"
             android:inputType="text"
-            android:text="@{viewModel.uiState.searchInput}"
             android:maxLines="1"
             android:paddingStart="@dimen/spacing_small"
-            android:afterTextChanged="@{(text) -> viewModel.onSearchInputChange(text)}"
+            android:text="@{viewModel.uiState.searchInput}"
             android:textColor="@color/shade_primary_color"
             android:textColorHint="@color/shade_ternary_color"
             android:textCursorDrawable="@drawable/color_cursor"
@@ -128,27 +128,25 @@
             android:text="@string/history_label"
             android:textColor="@color/shade_primary_color"
             app:drawableStartCompat="@drawable/ic_history"
-            app:hideWhenSearch="@{viewModel.uiState.searchInput}"
             app:hideWhenListIsEmpty="@{viewModel.uiState.searchHistory}"
+            app:hideWhenSearch="@{viewModel.uiState.searchInput}"
             app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
-            app:layout_constraintTop_toBottomOf="@id/input_search"
-            />
+            app:layout_constraintTop_toBottomOf="@id/input_search" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_media"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clipToPadding="false"
+            android:orientation="vertical"
             android:paddingVertical="@dimen/spacing_small"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"
-            app:showWhenSearch="@{viewModel.uiState.searchInput}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/chip_group_media_type"
-            tools:listitem="@layout/item_media_search"
-            />
+            app:showWhenSearch="@{viewModel.uiState.searchInput}"
+            tools:listitem="@layout/item_media_search" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_search_history"
@@ -173,26 +171,27 @@
         <include
             android:id="@+id/loading"
             layout="@layout/loading2"
+            app:isLoading="@{viewModel.uiState.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:isLoading="@{viewModel.uiState.loading}" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <include
             android:id="@+id/error"
             layout="@layout/error_search"
+            app:isError="@{!viewModel.uiState.error.isEmpty()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:isError="@{!viewModel.uiState.error.isEmpty()}"
             app:viewModel="@{viewModel}" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/no_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:hideWhenBlankSearch="@{viewModel.uiState.searchInput}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -200,9 +199,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/no_result"
-            app:showWhenNoResults="@{viewModel.uiState.empty}"
-            app:hideWhenBlankSearch="@{viewModel.uiState.searchInput}"
-            />
+            app:isListEmpty="@{viewModel.uiState.empty}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

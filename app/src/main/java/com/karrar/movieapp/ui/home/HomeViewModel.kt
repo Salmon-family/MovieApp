@@ -1,32 +1,35 @@
 package com.karrar.movieapp.ui.home
 
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.data.repository.SeriesRepository
+import com.karrar.movieapp.domain.RequestStatus
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.domain.models.PopularMovie
-import com.karrar.movieapp.ui.UIState
+import com.karrar.movieapp.domain.usecases.home.HomeUseCasesContainer
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.home.adapter.TVShowInteractionListener
-import com.karrar.movieapp.utilities.Constants
+import com.karrar.movieapp.ui.home.homeUiState.HomeUiState
+import com.karrar.movieapp.ui.mappers.ActorUiMapper
+import com.karrar.movieapp.ui.mappers.MediaUiMapper
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val movieRepository: MovieRepository,
-    private val seriesRepository: SeriesRepository,
+    private val homeUseCasesContainer: HomeUseCasesContainer,
+    private val mediaUiMapper: MediaUiMapper,
+    private val actorUiMapper: ActorUiMapper,
+    private val popularUiMapper: PopularUiMapper,
 ) : BaseViewModel(), HomeInteractionListener, ActorsInteractionListener, MovieInteractionListener,
     MediaInteractionListener, TVShowInteractionListener {
 
@@ -48,83 +51,28 @@ class HomeViewModel @Inject constructor(
     private val _clickSeeAllActorEvent = MutableLiveData<Event<Boolean>>()
     val clickSeeAllActorEvent = _clickSeeAllActorEvent.toLiveData()
 
-    val homeItemsLiveData = MutableLiveData<UIState<List<HomeRecyclerItem>>>()
-    private val homeItems = mutableListOf<HomeRecyclerItem>()
+    private val _homeUiState = MutableStateFlow(HomeUiState())
+    val homeUiState = _homeUiState.asStateFlow()
 
-
-    private val _failedState = MutableLiveData(0)
-    private var counter = 0
-    val failedState = MediatorLiveData<UIState<Boolean>>().apply {
-        addSource(_failedState, ::updateState)
-    }
-
-    private fun updateState(value: Any) {
-        if (_failedState.value!! >= Constants.NUM_HOME_REQUEST) {
-            failedState.postValue(UIState.Error(""))
-            homeItemsLiveData.postValue(UIState.Error(""))
-        }
-    }
 
     init {
-        getData()
-        refreshDataOneTimeInDay { refreshHomeData() }
-    }
-
-    private fun refreshHomeData() {
-        wrapWithState({
-            movieRepository.refreshPopularMovies()
-        })
-        wrapWithState({
-            movieRepository.refreshTrendingMovies()
-        })
-        wrapWithState({
-            movieRepository.refreshNowPlayingMovies()
-        })
-        wrapWithState({
-            movieRepository.refreshAdventureMovies()
-        })
-        wrapWithState({
-            movieRepository.refreshUpcomingMovies()
-        })
-        wrapWithState({
-            movieRepository.refreshMysteryMovies()
-        })
-        wrapWithState({
-            movieRepository.refreshTrendingActors()
-        })
-        wrapWithState({
-            seriesRepository.refreshTopRatedTvShow()
-        })
-        wrapWithState({
-            seriesRepository.refreshAiringToday()
-        })
-        wrapWithState({
-            seriesRepository.refreshOnTheAir()
-        })
-    }
-
-
-    private fun refreshDataOneTimeInDay(
-        refreshData: () -> Unit,
-    ) {
         viewModelScope.launch {
-            val requestDate = movieRepository.getRequestDate()
-            val currentDate = Date()
-            if (requestDate != null) {
-                val date = Date(requestDate)
-                if (date.after(currentDate)) {
-                    refreshData()
-                    movieRepository.saveRequestDate(currentDate.time)
-                }
-            } else {
-                refreshData()
-                movieRepository.saveRequestDate(currentDate.time)
-            }
+            getHomeData()
+            refreshHomeDataOneTimePerDayUseCase()
         }
     }
 
-    override fun getData() {
-        homeItemsLiveData.postValue(UIState.Loading)
+    private suspend fun refreshHomeDataOneTimePerDayUseCase(){
+        try {
+            _homeUiState.update { it.copy(isLoading = true) }
+            homeUseCasesContainer.refreshHomeDataOneTimePerDayUseCase()
+        }catch (e:Throwable){
+            _homeUiState.update { it.copy(isLoading = false) }
+            _homeUiState.update { it.copy(error = e.message.toString()) }
+        }
+    }
+
+    private fun getHomeData(){
         getTrending()
         getNowStreaming()
         getUpcoming()
@@ -136,94 +84,139 @@ class HomeViewModel @Inject constructor(
         getAdventure()
         getActors()
     }
-
-
-    val idEquality = { oldMessages: List<PopularMovie>, newMessages: List<PopularMovie> ->
-        oldMessages.map(PopularMovie::movieID) == newMessages.map(PopularMovie::movieID)
+    override fun getData() {
+        viewModelScope.launch {
+            _homeUiState.update { it.copy(isLoading = true) }
+            when(val requestStatus = homeUseCasesContainer.refreshHomeDataUseCase()){
+                is RequestStatus.Failure -> _homeUiState.update { it.copy(isLoading = false, error = requestStatus.message) }
+                RequestStatus.Success -> _homeUiState.update { it.copy(isLoading = false, error = "") }
+            }
+        }
     }
 
-    private fun updateHomeItems(item: HomeRecyclerItem) {
-        homeItems.add(item)
-        homeItemsLiveData.postValue(UIState.Success(homeItems))
-    }
 
     private fun getPopularMovies() {
-        collectData(movieRepository.getPopularMovies()) {
-            if (it.isNotEmpty()) {
-                updateHomeItems(HomeRecyclerItem.Slider(it))
+        collectData(homeUseCasesContainer.getPopularMoviesUseCase()) { list ->
+            if (list.isNotEmpty()) {
+                val items = list.map(popularUiMapper::map)
+                _homeUiState.update {
+                    it.copy(popularMovies = HomeItem.Slider(items),
+                        isLoading = false)
+                }
             }
         }
 
     }
 
     private fun getTrending() {
-        collectData(movieRepository.getTrendingMovies()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.Trending(it, HomeItemsType.TRENDING))
+        collectData(homeUseCasesContainer.getTrendingMoviesUseCase()) { list ->
+            if (list.isNotEmpty()) {
+                val items = list.map(mediaUiMapper::map)
+                _homeUiState.update {
+                    it.copy(trendingMovies = HomeItem.Trending(items),
+                        isLoading = false)
+                }
+            }
         }
     }
 
     private fun getActors() {
-        collectData(movieRepository.getTrendingActors()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.Actor(it))
+        collectData(homeUseCasesContainer.getTrendingActorsUseCase()) { list ->
+            if (list.isNotEmpty()) {
+                val items = list.map(actorUiMapper::map)
+                _homeUiState.update { it.copy(actors = HomeItem.Actor(items), isLoading = false) }
+            }
         }
 
     }
 
     private fun getUpcoming() {
-        collectData(movieRepository.getUpcomingMovies()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.Upcoming(it, HomeItemsType.UPCOMING))
+        collectData(homeUseCasesContainer.getUpcomingMoviesUseCase()) { list ->
+            if (list.isNotEmpty()) {
+                val items = list.map(mediaUiMapper::map)
+                _homeUiState.update {
+                    it.copy(upcomingMovies = HomeItem.Upcoming(items),
+                        isLoading = false)
+                }
+            }
         }
 
     }
 
     private fun getNowStreaming() {
-        collectData(movieRepository.getNowPlayingMovies()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.NowStreaming(it, HomeItemsType.NOW_STREAMING))
+        collectData(homeUseCasesContainer.getNowStreamingMoviesUseCase()) { list ->
+            if (list.isNotEmpty()) {
+                val items = list.map(mediaUiMapper::map)
+                _homeUiState.update {
+                    it.copy(nowStreamingMovies = HomeItem.NowStreaming(items),
+                        isLoading = false)
+                }
+            }
         }
-
     }
 
     private fun getTopRatedTvShow() {
-        collectData(seriesRepository.getTopRatedTvShow()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.TvShows(it))
+        collectData(homeUseCasesContainer.getTopRatedTvShowUseCase()) { list ->
+            if (list.isNotEmpty()) {
+                val items = list.map(mediaUiMapper::map)
+                _homeUiState.update {
+                    it.copy(tvShowsSeries = HomeItem.TvShows(items),
+                        isLoading = false)
+                }
+            }
         }
 
     }
 
     private fun getOnTheAir() {
-        collectData(seriesRepository.getOnTheAir()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.OnTheAiring(it, HomeItemsType.ON_THE_AIR))
+        collectData(homeUseCasesContainer.getOnTheAirUseCase()) { list ->
+            if (list.isNotEmpty()) {
+                val items = list.map(mediaUiMapper::map)
+                _homeUiState.update {
+                    it.copy(onTheAiringSeries = HomeItem.OnTheAiring(items),
+                        isLoading = false)
+                }
+            }
         }
 
     }
 
     private fun getAiringToday() {
-        collectData(seriesRepository.getAiringToday()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.AiringToday(it))
+        collectData(homeUseCasesContainer.getAiringTodayUseCase()) { list ->
+            if (list.isNotEmpty()) {
+                val items = list.map(mediaUiMapper::map)
+                _homeUiState.update {
+                    it.copy(airingTodaySeries = HomeItem.AiringToday(items),
+                        isLoading = false)
+                }
+            }
         }
 
     }
 
     private fun getMystery() {
-        collectData(movieRepository.getMysteryMovies()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.Mystery(it, HomeItemsType.MYSTERY))
+        collectData(homeUseCasesContainer.getMysteryMoviesUseCase()) { list ->
+            if (list.isNotEmpty()) {
+                val items = list.map(mediaUiMapper::map)
+                _homeUiState.update {
+                    it.copy(mysteryMovies = HomeItem.Mystery(items),
+                        isLoading = false)
+                }
+            }
         }
 
 
     }
 
     private fun getAdventure() {
-        collectData(movieRepository.getAdventureMovies()) {
-            if (it.isNotEmpty())
-                updateHomeItems(HomeRecyclerItem.Adventure(it, HomeItemsType.ADVENTURE))
+        collectData(homeUseCasesContainer.getAdventureMoviesUseCase()) { list ->
+            if (list.isNotEmpty()) {
+                val items = list.map(mediaUiMapper::map)
+                _homeUiState.update {
+                    it.copy(adventureMovies = HomeItem.Adventure(items),
+                        isLoading = false)
+                }
+            }
         }
 
 

@@ -2,7 +2,7 @@ package com.karrar.movieapp.ui.search
 
 import androidx.lifecycle.*
 import androidx.paging.*
-import com.karrar.movieapp.domain.searchUseCase.*
+import com.karrar.movieapp.domain.usecases.searchUseCase.*
 import com.karrar.movieapp.ui.allMedia.Error
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.search.adapters.*
@@ -14,7 +14,6 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 
 @HiltViewModel

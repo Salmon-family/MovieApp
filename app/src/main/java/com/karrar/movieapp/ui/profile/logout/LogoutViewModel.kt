@@ -3,7 +3,7 @@ package com.karrar.movieapp.ui.profile.logout
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.data.repository.AccountRepository
+import com.karrar.movieapp.domain.usecases.LogoutUseCase
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LogoutViewModel @Inject constructor(private val accountRepository: AccountRepository) :
+class LogoutViewModel @Inject constructor(private val logoutUseCase: LogoutUseCase) :
     ViewModel() {
     private val _clickLogoutEvent = MutableLiveData<Event<Boolean>>()
     val clickLoginEvent = _clickLogoutEvent.toLiveData()
@@ -22,7 +22,7 @@ class LogoutViewModel @Inject constructor(private val accountRepository: Account
 
     fun onLogout() {
         viewModelScope.launch {
-            accountRepository.logout()
+            logoutUseCase()
             logoutEvent()
         }
     }
@@ -33,6 +33,5 @@ class LogoutViewModel @Inject constructor(private val accountRepository: Account
 
     private fun logoutEvent() {
         _clickLogoutEvent.postEvent(true)
-
     }
 }

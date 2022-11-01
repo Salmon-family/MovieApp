@@ -5,9 +5,10 @@ import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
+import com.karrar.movieapp.ui.models.MediaUiState
 
-class MovieAdapter(items: List<Media>,val listener: MovieInteractionListener) :
-    BaseAdapter<Media>(items, listener) {
+class MovieAdapter(items: List<MediaUiState>,val listener: MovieInteractionListener) :
+    BaseAdapter<MediaUiState>(items, listener) {
     override val layoutID: Int = R.layout.item_movie
 }
 

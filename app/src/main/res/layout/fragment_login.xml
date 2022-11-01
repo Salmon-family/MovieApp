@@ -49,7 +49,7 @@
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
             android:hint="@string/username"
-            app:helperText="@{viewModel.userNameHelperText}"
+            app:helperText="@{viewModel.loginUIState.userNameHelperText}"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:startIconDrawable="@drawable/ic_profile">
 
@@ -58,7 +58,7 @@
                 android:layout_height="56dp"
                 android:inputType="textPersonName"
                 android:maxLines="1"
-                android:text="@={viewModel.userName}"
+                android:afterTextChanged="@{(text) -> viewModel.onUserNameInputChange(text)}"
                 android:textColor="@color/shade_secondary_color"
 
                 />
@@ -71,7 +71,7 @@
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
             android:hint="@string/password"
-            app:helperText="@{viewModel.passwordHelperText}"
+            app:helperText="@{viewModel.loginUIState.passwordHelperText}"
             app:layout_constraintTop_toBottomOf="@+id/user_name"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/shade_secondary_color"
@@ -82,7 +82,7 @@
                 android:layout_height="56dp"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:text="@={viewModel.password}"
+                android:afterTextChanged="@{(text) -> viewModel.onPasswordInputChange(text)}"
                 android:textColor="@color/shade_secondary_color" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,7 +92,7 @@
             android:layout_height="56dp"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_extra_large"
-            android:enabled="@{viewModel.loginValidation}"
+            android:enabled="@{viewModel.loginUIState.validForm}"
             android:onClick="@{()->viewModel.onClickLogin()}"
             android:text="@string/login"
             android:textAppearance="@style/SemiBold.Medium"
@@ -102,7 +102,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password"
-            app:hideWhenLoading="@{viewModel.loginRequestState}" />
+            app:hideIfTrue="@{viewModel.loginUIState.loading}" />
 
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -115,7 +115,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password"
-            app:showWhenLoading="@{viewModel.loginRequestState}"
+            app:isVisible="@{viewModel.loginUIState.loading}"
             app:trackColor="@color/shade_secondary_color" />
 
         <com.google.android.material.textview.MaterialTextView

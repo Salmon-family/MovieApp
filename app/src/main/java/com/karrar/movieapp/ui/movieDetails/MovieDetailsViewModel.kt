@@ -13,6 +13,8 @@ import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.MediaDetailsViewModel
+import com.karrar.movieapp.ui.mappers.ActorUiMapper
+import com.karrar.movieapp.ui.mappers.MediaUiMapper
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.toLiveData
@@ -25,6 +27,8 @@ import javax.inject.Inject
 class MovieDetailsViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     private val accountRepository: AccountRepository,
+    private val mediaUiMapper: MediaUiMapper,
+    private val actorUiMapper: ActorUiMapper,
     state: SavedStateHandle,
 ) : MediaDetailsViewModel(), ActorsInteractionListener, MovieInteractionListener,
     DetailInteractionListener {
@@ -75,7 +79,7 @@ class MovieDetailsViewModel @Inject constructor(
         getMovieDetails(movieId)
         getMovieCast(movieId)
         getSimilarMovie(movieId)
-        getRatedMovie(movieId)
+//        getRatedMovie(movieId)
         getMovieReviews(movieId)
     }
 
@@ -92,7 +96,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun getMovieCast(movieId: Int) {
         wrapWithState({
-            val response = movieRepository.getMovieCast(movieId)
+            val response = movieRepository.getMovieCast(movieId).map(actorUiMapper::map)
             updateDetailItems(DetailItem.Cast(response))
         })
     }
@@ -100,24 +104,24 @@ class MovieDetailsViewModel @Inject constructor(
     private fun getSimilarMovie(movieId: Int) {
         wrapWithState(
             {
-                val response = movieRepository.getSimilarMovie(movieId)
+                val response = movieRepository.getSimilarMovie(movieId).map (mediaUiMapper::map)
                 updateDetailItems(DetailItem.SimilarMovies(response))
             }
         )
     }
 
-    private fun getRatedMovie(movieId: Int) {
-        wrapWithState( {
-            val sessionId = accountRepository.getSessionId()
-            sessionId?.let {
-                val response = movieRepository.getRatedMovie(0, it)
-                checkIfMovieRated(response, movieId)
-                updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
-            }
-        },{
-
-        })
-    }
+//    private fun getRatedMovie(movieId: Int) {
+//        wrapWithState( {
+//            val sessionId = accountRepository.getSessionId()
+//            sessionId?.let {
+//                val response = movieRepository.getRatedMovie(0, it)
+//                checkIfMovieRated(response, movieId)
+//                updateDetailItems(DetailItem.Rating(this@MovieDetailsViewModel))
+//            }
+//        },{
+//
+//        })
+//    }
 
     private fun getMovieReviews(movieId: Int) {
         wrapWithState({

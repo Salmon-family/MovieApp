@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.CreatedList"
-            />
+            type="com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.MyListItemUI" />
 
         <variable
             name="listener"
@@ -17,13 +17,12 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> listener.onClickSaveList(item)}"
-        app:cardCornerRadius="@dimen/radius_large"
-        app:cardBackgroundColor="@color/background_color"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginVertical="@dimen/spacing_too_small"
-        app:cardElevation="0dp"
-        >
+        android:onClick="@{() -> listener.onClickSaveList(item.listID)}"
+        app:cardBackgroundColor="@color/background_color"
+        app:cardCornerRadius="@dimen/radius_large"
+        app:cardElevation="0dp">
 
         <TextView
             android:id="@+id/list_name"
