@@ -9,6 +9,10 @@ import com.karrar.movieapp.domain.usecases.login.LoginWithUserNameAndPasswordUse
 import com.karrar.movieapp.domain.usecases.login.ValidateFiledUseCase
 import com.karrar.movieapp.domain.usecases.login.ValidateLoginFormUseCase
 import com.karrar.movieapp.domain.usecases.login.ValidatePasswordFiledUseCase
+import com.karrar.movieapp.domain.login.LoginWithUserNameAndPasswordUseCase
+import com.karrar.movieapp.domain.login.ValidateFiledUseCase
+import com.karrar.movieapp.domain.login.ValidateLoginFormUseCase
+import com.karrar.movieapp.domain.login.ValidatePasswordFiledUseCase
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData
@@ -81,10 +85,9 @@ class LoginViewModel @Inject constructor(
                 val loginState =
                     loginWithUserNameAndPasswordUseCase(loginUIState.value.userName,
                         loginUIState.value.password)
-                when (loginState) {
-                    is LoginStatus.Failure -> onLoginError(loginState.message)
-                    LoginStatus.Success -> onLoginSuccessfully()
-                }
+              if (loginState){
+                  onLoginSuccessfully()
+              }
             } catch (e: Throwable) {
                 onLoginError(e.message.toString())
             }
