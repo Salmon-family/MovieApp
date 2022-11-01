@@ -7,14 +7,13 @@ import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.series.AiringTodaySeriesEntity
 import com.karrar.movieapp.data.local.database.entity.series.OnTheAirSeriesEntity
 import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntity
-import com.karrar.movieapp.data.local.mappers.series.LocalSeriesMappersContainer
 import com.karrar.movieapp.data.repository.mediaDataSource.series.SeriesDataSourceContainer
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
-import com.karrar.movieapp.data.remote.response.BaseListResponse
 import com.karrar.movieapp.data.remote.response.RatedTvShowDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
+import com.karrar.movieapp.data.repository.serchDataSource.SearchDataSourceContainer
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
 import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
@@ -29,7 +28,8 @@ class SeriesRepositoryImp @Inject constructor(
     private val seriesMapperContainer: SeriesMapperContainer,
     private val seriesDataSourceContainer: SeriesDataSourceContainer,
     private val mediaDataSourceContainer: MediaDataSourceContainer,
-) : BaseRepository(), SeriesRepository {
+    private val searchDataSourceContainer: SearchDataSourceContainer,
+    ) : BaseRepository(), SeriesRepository {
 
     override suspend fun getTVShowsGenreList(): List<Genre> {
         return wrap({ service.getGenreTvShowList() },
@@ -78,7 +78,7 @@ class SeriesRepositoryImp @Inject constructor(
     }
 
     override suspend fun getRatedTvShow(accountId: Int, sessionId: String)
-    : List<RatedTvShowDto>? {
+            : List<RatedTvShowDto>? {
         return service.getRatedTvShow(accountId, sessionId).body()?.items
     }
 
@@ -172,5 +172,11 @@ class SeriesRepositoryImp @Inject constructor(
         return Pager(
             config = config,
             pagingSourceFactory = { seriesDataSourceContainer.popularTvShowDataSource })
+    }
+
+    override suspend fun searchForSeriesPager(query: String): Pager<Int, TVShowsDTO> {
+        val dataSource = searchDataSourceContainer.seriesSearchDataSource
+        dataSource.setSearchText(query)
+        return Pager(config = config, pagingSourceFactory = {dataSource})
     }
 }

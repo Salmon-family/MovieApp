@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.domain.usecase.GetActorDetailsUseCase
-import com.karrar.movieapp.domain.usecase.GetActorMoviesUseCase
+import com.karrar.movieapp.domain.usecases.GetActorDetailsUseCase
+import com.karrar.movieapp.domain.usecases.GetActorMoviesUseCase
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event

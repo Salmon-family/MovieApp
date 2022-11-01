@@ -3,7 +3,7 @@ package com.karrar.movieapp.ui.myList.listDetails
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecase.mylist.GetMyMediaListDetailsUseCase
+import com.karrar.movieapp.domain.usecases.mylist.GetMyMediaListDetailsUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.myList.listDetails.listDetailsUIState.ListDetailsUIState

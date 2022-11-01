@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.RequestStatus
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.domain.home.HomeUseCasesContainer
+import com.karrar.movieapp.domain.usecases.home.HomeUseCasesContainer
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener

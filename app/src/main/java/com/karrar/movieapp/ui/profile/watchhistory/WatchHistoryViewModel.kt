@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.mappers.WatchHistoryMapper
-import com.karrar.movieapp.domain.usecase.GetWatchHistoryUseCase
+import com.karrar.movieapp.domain.usecases.GetWatchHistoryUseCase
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent

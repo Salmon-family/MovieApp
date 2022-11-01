@@ -3,7 +3,7 @@ package com.karrar.movieapp.ui.profile.logout
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecase.LogoutUseCase
+import com.karrar.movieapp.domain.usecases.LogoutUseCase
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData

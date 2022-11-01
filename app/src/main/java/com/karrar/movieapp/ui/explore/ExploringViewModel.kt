@@ -2,7 +2,7 @@ package com.karrar.movieapp.ui.explore
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecase.GetTrendingMovieUseCase
+import com.karrar.movieapp.domain.usecases.GetTrendingMovieUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.explore.exploreUIState.ErrorUIState
 import com.karrar.movieapp.ui.explore.exploreUIState.ExploreUIState

@@ -5,10 +5,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.LoginStatus
-import com.karrar.movieapp.domain.login.LoginWithUserNameAndPasswordUseCase
-import com.karrar.movieapp.domain.login.ValidateFiledUseCase
-import com.karrar.movieapp.domain.login.ValidateLoginFormUseCase
-import com.karrar.movieapp.domain.login.ValidatePasswordFiledUseCase
+import com.karrar.movieapp.domain.usecases.login.LoginWithUserNameAndPasswordUseCase
+import com.karrar.movieapp.domain.usecases.login.ValidateFiledUseCase
+import com.karrar.movieapp.domain.usecases.login.ValidateLoginFormUseCase
+import com.karrar.movieapp.domain.usecases.login.ValidatePasswordFiledUseCase
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.postEvent
 import com.karrar.movieapp.utilities.toLiveData

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Media" />
+            type="com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState" />
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.search.adapters.MediaSearchInteractionListener" />
@@ -63,7 +63,7 @@
                 android:layout_marginBottom="@dimen/spacing_small"
                 android:drawableStart="@drawable/ic_star_small"
                 android:drawablePadding="@dimen/spacing_too_small"
-                android:text="@{String.valueOf(item.mediaRate)}"
+                android:text="@{String.valueOf(item.mediaVoteAverage)}"
                 android:textColor="@color/yellow"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image_movie"
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginBottom="@dimen/spacing_small"
-                android:text="@{item.mediaDate}"
+                android:text="@{item.mediaReleaseDate}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/text_rate_movie"
                 tools:text="2022" />
