@@ -11,7 +11,8 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Media" />
+            type="com.karrar.movieapp.ui.models.MediaUiState" />
+
         <variable
             name="type"
             type="com.karrar.movieapp.domain.enums.HomeItemsType" />
@@ -33,8 +34,8 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:background="@color/yellow"
             app:layout_constraintTop_toTopOf="parent"
-            android:onClick="@{()->listener.onClickMovie(item.mediaID)}"
-            app:posterImage="@{item.mediaImage}"
+            android:onClick="@{()->listener.onClickMovie(item.id)}"
+            app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

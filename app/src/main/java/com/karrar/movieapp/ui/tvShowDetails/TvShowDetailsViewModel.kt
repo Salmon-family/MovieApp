@@ -11,6 +11,7 @@ import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.MediaDetailsViewModel
+import com.karrar.movieapp.ui.mappers.ActorUiMapper
 import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
 import com.karrar.movieapp.ui.movieDetails.DetailItem
 import com.karrar.movieapp.utilities.Constants
@@ -25,6 +26,7 @@ import javax.inject.Inject
 class TvShowDetailsViewModel @Inject constructor(
     private val seriesRepository: SeriesRepository,
     private val accountRepository: AccountRepository,
+    private val actorUiMapper: ActorUiMapper,
     state: SavedStateHandle
 ) : MediaDetailsViewModel(), ActorsInteractionListener, SeasonInteractionListener,
     DetailInteractionListener {
@@ -72,7 +74,7 @@ class TvShowDetailsViewModel @Inject constructor(
         getTvShowDetails(tvShowId)
         getTvShowCast(tvShowId)
         getSeasons(tvShowId)
-        getRatedTvShows(tvShowId)
+//        getRatedTvShows(tvShowId)
         getTvShowReviews(tvShowId)
     }
 
@@ -90,7 +92,7 @@ class TvShowDetailsViewModel @Inject constructor(
 
     private fun getTvShowCast(tvShowId: Int) {
         wrapWithState({
-            val response = seriesRepository.getTvShowCast(tvShowId)
+            val response = seriesRepository.getTvShowCast(tvShowId).map(actorUiMapper::map)
             updateDetailItems(DetailItem.Cast(response))
         })
     }
@@ -102,17 +104,17 @@ class TvShowDetailsViewModel @Inject constructor(
         })
     }
 
-    private fun getRatedTvShows(tvShowId: Int) {
-        viewModelScope.launch {
-            accountRepository.getSessionId()?.let {
-                wrapWithState({
-                    val response = seriesRepository.getRatedTvShow(0, it.toString())
-                    checkIfTvShowRated(response, tvShowId)
-                    updateDetailItems(DetailItem.Rating(this@TvShowDetailsViewModel))
-                })
-            }
-        }
-    }
+//    private fun getRatedTvShows(tvShowId: Int) {
+//        viewModelScope.launch {
+//            accountRepository.getSessionId()?.let {
+//                wrapWithState({
+//                    val response = seriesRepository.getRatedTvShow(0, it.toString())
+//                    checkIfTvShowRated(response, tvShowId)
+//                    updateDetailItems(DetailItem.Rating(this@TvShowDetailsViewModel))
+//                })
+//            }
+//        }
+//    }
 
     private fun getTvShowReviews(tvShowId: Int) {
         wrapWithState({

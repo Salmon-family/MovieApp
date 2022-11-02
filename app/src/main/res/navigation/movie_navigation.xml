@@ -275,7 +275,7 @@
     </activity>
     <fragment
         android:id="@+id/listDetailsFragment"
-        android:name="com.karrar.movieapp.ui.myList.ListDetailsFragment"
+        android:name="com.karrar.movieapp.ui.myList.listDetails.ListDetailsFragment"
         tools:layout="@layout/fragment_list_details">
         <argument
             android:name="id"

@@ -10,7 +10,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.PopularMovie" />
+            type="com.karrar.movieapp.ui.home.homeUiState.PopularUiState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

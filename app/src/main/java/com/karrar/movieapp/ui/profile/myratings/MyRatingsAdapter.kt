@@ -5,8 +5,8 @@ import com.karrar.movieapp.domain.models.Rated
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 
-class RatedMoviesAdapter(items: List<Rated>, listener: RatedMoviesInteractionListener) :
-    BaseAdapter<Rated>(items, listener) {
+class RatedMoviesAdapter(items: List<RatedUIState>, listener: RatedMoviesInteractionListener) :
+    BaseAdapter<RatedUIState>(items, listener) {
     override val layoutID: Int = R.layout.item_rated_movie
 }
 
