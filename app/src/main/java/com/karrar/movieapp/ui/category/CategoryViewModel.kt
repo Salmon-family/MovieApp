@@ -33,8 +33,9 @@ class CategoryViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CategoryUIState())
     val uiState: StateFlow<CategoryUIState> = _uiState.asStateFlow()
 
-    val categoryUIEvent: MutableStateFlow<Event<CategoryUIEvent>> =
+    private val _categoryUIEvent: MutableStateFlow<Event<CategoryUIEvent>> =
         MutableStateFlow(Event(CategoryUIEvent.SelectedCategory(FIRST_CATEGORY_ID)))
+    val categoryUIEvent = _categoryUIEvent.asStateFlow()
 
     init {
         getData()
@@ -44,7 +45,7 @@ class CategoryViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = true) }
         getMediaList(uiState.value.selectedCategoryID)
         getGenre()
-        categoryUIEvent.update { Event(CategoryUIEvent.RetryEvent) }
+        _categoryUIEvent.update { Event(CategoryUIEvent.RetryEvent) }
     }
 
     private fun getGenre() {
@@ -75,13 +76,13 @@ class CategoryViewModel @Inject constructor(
     }
 
     override fun onClickMedia(mediaId: Int) {
-        categoryUIEvent.update { Event(CategoryUIEvent.ClickMovieEvent(mediaId)) }
+        _categoryUIEvent.update { Event(CategoryUIEvent.ClickMovieEvent(mediaId)) }
     }
 
     override fun onClickCategory(categoryId: Int) {
         viewModelScope.launch {
             _uiState.update { it.copy(selectedCategoryID = categoryId) }
-            categoryUIEvent.emit(Event(CategoryUIEvent.SelectedCategory(categoryId)))
+            _categoryUIEvent.emit(Event(CategoryUIEvent.SelectedCategory(categoryId)))
         }
     }
 

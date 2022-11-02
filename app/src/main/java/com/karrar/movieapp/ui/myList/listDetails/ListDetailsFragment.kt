@@ -7,8 +7,9 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentListDetailsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.myList.listDetails.listDetailsUIState.ListDetailsUIEvent
 import com.karrar.movieapp.utilities.Constants
-import com.karrar.movieapp.utilities.observeEvent
+import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,15 +21,17 @@ class ListDetailsFragment : BaseFragment<FragmentListDetailsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setTitle(true, viewModel.args.listName)
         binding.lists.adapter = ListDetailsAdapter(mutableListOf(), viewModel)
-        observeEvents()
+        collectLast(viewModel.listDetailsUIEvent) {
+            it.getContentIfNotHandled()?.let { onEvent(it) }
+        }
     }
 
-    private fun observeEvents() {
-        viewModel.onItemSelected.observeEvent(viewLifecycleOwner) {
-            if (it.mediaType == Constants.MOVIE) {
-                navigateToMovieDetails(it.mediaID)
+    private fun onEvent(event: ListDetailsUIEvent) {
+        if (event is ListDetailsUIEvent.OnItemSelected) {
+            if (event.savedMediaUIState.mediaType == Constants.MOVIE) {
+                navigateToMovieDetails(event.savedMediaUIState.mediaID)
             } else {
-                navigateToTvShowDetails(it.mediaID)
+                navigateToTvShowDetails(event.savedMediaUIState.mediaID)
             }
         }
     }
