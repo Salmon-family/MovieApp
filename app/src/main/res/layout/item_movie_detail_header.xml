@@ -139,7 +139,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/line"
             app:layout_constraintTop_toTopOf="@+id/line"
-            app:textBasedOnMediaType2="@{item}"
+            app:textBasedOnMediaType="@{item}"
             tools:text="100m" />
 
         <TextView
@@ -176,7 +176,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_medium"
-            android:text="@{item.voteAverage.toString()}"
+            android:text="@{item.voteAverage}"
             android:textColor="@color/yellow"
             app:layout_constraintBottom_toBottomOf="@+id/review"
             app:layout_constraintEnd_toStartOf="@+id/review"

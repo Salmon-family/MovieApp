@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.usecase
+package com.karrar.movieapp.domain.usecases.movieDetails
 
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.mappers.ListMapper

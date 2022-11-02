@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.domain.usecase.*
+import com.karrar.movieapp.domain.usecases.movieDetails.*
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
@@ -174,9 +174,7 @@ class MovieDetailsViewModel @Inject constructor(
                 }
 
                 checkIfMovieRated(_uiState.value.movieGetRatedResult, movieId)
-                onAddMovieDetailsItemOfNestedView(
-                    DetailItemUIState.Rating(this@MovieDetailsViewModel)
-                )
+                onAddMovieDetailsItemOfNestedView(DetailItemUIState.Rating(this@MovieDetailsViewModel))
             } catch (e: Exception) {
                 _uiState.update {
                     it.copy(errorUIStates = onAddMessageToListError(e), isLoading = false)

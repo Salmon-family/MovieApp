@@ -2,7 +2,7 @@ package com.karrar.movieapp.ui.movieDetails.movieReviews
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecase.GetMovieDetailsUseCase
+import com.karrar.movieapp.domain.usecases.movieDetails.GetMovieDetailsUseCase
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.movieDetails.mapper.ReviewUIStateMapper

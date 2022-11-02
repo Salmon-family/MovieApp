@@ -1,9 +1,12 @@
 package com.karrar.movieapp.ui.movieDetails.movieDetailsUIState
 
+import com.karrar.movieapp.ui.models.ActorUiState
+import com.karrar.movieapp.ui.models.MediaUiState
+
 data class MovieUIState(
     val movieDetailsResult: MovieDetailsUIState = MovieDetailsUIState(),
     val movieCastResult: List<ActorUiState> = emptyList(),
-    val similarMoviesResult: List<MediaUIState> = emptyList(),
+    val similarMoviesResult: List<MediaUiState> = emptyList(),
     val movieGetRatedResult: List<RatedUIState> = emptyList(),
     val movieReview: List<ReviewUIState> = emptyList(),
     val detailItemResult: List<DetailItemUIState> = mutableListOf(),

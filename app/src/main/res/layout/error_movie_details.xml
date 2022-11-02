@@ -70,8 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_retry"
-            app:showWhenError="@{isError}" />
-
+            app:isVisible="@{isError}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -37,8 +37,8 @@ class MovieRepositoryImp @Inject constructor(
     private val mediaDataSourceContainer: MediaDataSourceContainer,
     private val searchDataSourceContainer: SearchDataSourceContainer,
     private val movieMovieDataSource: MovieDataSourceContainer,
-    private val actorMovieDataSource: ActorMovieDataSource,
-) : BaseRepository(), MovieRepository {
+    private val actorMovieDataSource: ActorMovieDataSource
+    ) : BaseRepository(), MovieRepository {
 
     override suspend fun getMovieGenreList(): List<Genre> {
         return wrap({ movieService.getGenreList() },
@@ -65,32 +65,6 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
     }
 
-    /**
-     * movie details
-     * */
-
-    override suspend fun getMovieDetails(movieId: Int): MovieDetails {
-        return wrap({ movieService.getMovieDetails(movieId) },
-            { movieMappersContainer.movieDetailsMapper.map(it) })
-    }
-
-    override suspend fun getMovieCast(movieId: Int): List<Actor> {
-        return wrap({ movieService.getMovieCast(movieId) }, { response ->
-            ListMapper(movieMappersContainer.actorMapper).mapList(response.cast)
-        })
-    }
-
-    override suspend fun getSimilarMovie(movieId: Int): List<Media> {
-        return wrap({ movieService.getSimilarMovie(movieId) }, { response ->
-            ListMapper(movieMappersContainer.movieMapper).mapList(response.items)
-        })
-    }
-
-    override suspend fun getMovieReviews(movieId: Int): List<Review> {
-        return wrap({ movieService.getMovieReviews(movieId) }, { response ->
-            ListMapper(movieMappersContainer.reviewMapper).mapList(response.items)
-        })
-    }
 
     override suspend fun getMovieTrailer(movieId: Int): Trailer {
         return wrap({ movieService.getMovieTrailer(movieId) },

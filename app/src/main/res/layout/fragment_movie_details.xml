@@ -36,7 +36,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading="@{viewModel.uiState.loading}" />
+            app:isVisible="@{viewModel.uiState.loading}" />
 
         <include
             android:id="@+id/error"
