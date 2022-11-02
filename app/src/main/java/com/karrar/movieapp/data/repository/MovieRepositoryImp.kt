@@ -1,26 +1,23 @@
 package com.karrar.movieapp.data.repository
 
-import com.karrar.movieapp.data.local.AppConfiguration
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.karrar.movieapp.data.local.AppConfiguration
 import com.karrar.movieapp.data.local.database.daos.ActorDao
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.ActorEntity
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.remote.response.*
-import com.karrar.movieapp.data.repository.mediaDataSource.ActorMovieDataSource
 import com.karrar.movieapp.data.local.database.entity.movie.*
-import com.karrar.movieapp.data.remote.response.AddListResponse
-import com.karrar.movieapp.data.remote.response.AddMovieDto
-import com.karrar.movieapp.data.remote.response.MovieDto
-import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.local.mappers.movie.LocalMovieMappersContainer
+import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
-import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
+import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.service.MovieService
+import com.karrar.movieapp.data.repository.mediaDataSource.ActorMovieDataSource
 import com.karrar.movieapp.data.repository.mediaDataSource.movie.MovieDataSourceContainer
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
@@ -29,6 +26,7 @@ import com.karrar.movieapp.domain.models.*
 import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.util.*
 import javax.inject.Inject
 
 
@@ -39,6 +37,7 @@ class MovieRepositoryImp @Inject constructor(
     private val movieMappersContainer: MovieMappersContainer,
     private val appConfiguration: AppConfiguration,
     private val actorDataSource: ActorDataSource,
+    private val dataMappers: LocalMovieMappersContainer,
     private val mediaDataSourceContainer: MediaDataSourceContainer,
     private val searchDataSourceContainer: SearchDataSourceContainer,
     private val movieMovieDataSource: MovieDataSourceContainer,
@@ -104,7 +103,8 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getRatedMovie(
         accountId: Int,
-        sessionId: String, ): List<RatedMoviesDto>? {
+        sessionId: String,
+    ): List<RatedMoviesDto>? {
         return movieService.getRatedMovie(accountId, sessionId).body()?.items
     }
 
@@ -257,91 +257,14 @@ class MovieRepositoryImp @Inject constructor(
         return movieDao.getMysteryMovies()
     }
 
-    override suspend fun getMysteryMovies(page: Int): List<MovieDto> {
-        return movieService.getMovieListByGenre(genreID = Constants.MYSTERY_ID).body()?.items
-            ?: emptyList()
-    }
-
-    override suspend fun insertMysteryMovies(items: List<MysteryMovieEntity>) {
-        movieDao.insertMysteryMovie(items)
-    }
-
-    override suspend fun deleteMysteryMovies() {
-        movieDao.deleteAllMysteryMovies()
-    }
-
-    override fun getTrendingActors(): Flow<List<ActorEntity>> {
+    override suspend fun getTrendingActors(): Flow<List<ActorEntity>> {
+        refreshTrendingActorsOneTimePerDay()
         return actorDao.getActors()
     }
 
-    override suspend fun getTrendingActors(page: Int): List<ActorDto> {
-        return movieService.getTrendingActors().body()?.items ?: emptyList()
-    }
-
-    override suspend fun insertTrendingActors(items: List<ActorEntity>) {
-        actorDao.insertActors(items)
-    }
-
-    override suspend fun deleteTrendingActors() {
-        actorDao.deleteActors()
-    }
-
-    override suspend fun getPopularMovies(page: Int): List<MovieDto> {
-        return movieService.getPopularMovies().body()?.items ?: emptyList()
-
-    }
-
-    override suspend fun getTrendingMovies(page: Int): List<MovieDto> {
-        return movieService.getTrendingMovies(page = page).body()?.items ?: emptyList()
-    }
-
-    override suspend fun insertTrendingMovies(items: List<TrendingMovieEntity>) {
-        movieDao.insertTrendingMovie(items)
-    }
-
-    override suspend fun deleteTrendingMovies() {
-        movieDao.deleteAllTrendingMovies()
-    }
-
-    override suspend fun getNowStreamingMovies(page: Int): List<MovieDto> {
-        return movieService.getNowPlayingMovies().body()?.items ?: emptyList()
-    }
-
-    override suspend fun insertNowStreamingMovies(items: List<NowStreamingMovieEntity>) {
-        movieDao.insertNowStreamingMovie(items)
-    }
-
-    override suspend fun deleteNowStreamingMovies() {
-        movieDao.deleteAllNowStreamingMovies()
-    }
 
     override fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>> {
         return movieDao.getUpcomingMovies()
-    }
-
-    override suspend fun getUpcomingMovies(page: Int): List<MovieDto> {
-        return movieService.getUpcomingMovies().body()?.items ?: emptyList()
-    }
-
-    override suspend fun insertUpcomingMovies(items: List<UpcomingMovieEntity>) {
-        movieDao.insertUpcomingMovie(items)
-    }
-
-    override suspend fun deleteUpcomingMovies() {
-        movieDao.deleteAllUpcomingMovies()
-    }
-
-    override suspend fun getAdventureMovies(page: Int): List<MovieDto> {
-        return movieService.getMovieListByGenre(genreID = Constants.ADVENTURE_ID).body()?.items
-            ?: emptyList()
-    }
-
-    override suspend fun insertAdventureMovies(items: List<AdventureMovieEntity>) {
-        movieDao.insertAdventureMovie(items)
-    }
-
-    override suspend fun deleteAdventureMovies() {
-        movieDao.deleteAllAdventureMovies()
     }
 
 
@@ -378,20 +301,117 @@ class MovieRepositoryImp @Inject constructor(
         return Pager(config = config, pagingSourceFactory = { dataSource })
     }
 
-    override suspend fun insertPopularMovies(items: List<PopularMovieEntity>) {
-        movieDao.insertPopularMovies(items)
+
+    suspend fun refreshPopularMovies() {
+        val genres = getMovieGenreList()
+        refreshWrapper(
+            { movieService.getPopularMovies() },
+            { items ->
+                items?.map { dataMappers.popularMovieMapper.map(it, genres) }
+            },
+            {
+                movieDao.deletePopularMovies()
+                movieDao.insertPopularMovies(it)
+            },
+        )
+
     }
 
-    override suspend fun deletePopularMovies() {
-        movieDao.deletePopularMovies()
+    suspend fun refreshTrendingMovies() {
+        refreshWrapper(
+            { movieService.getTrendingMovies() },
+            { list ->
+                list?.map { dataMappers.trendingMovieMapper.map(it) }
+            },
+            {
+                movieDao.deleteAllTrendingMovies()
+                movieDao.insertTrendingMovie(it)
+            },
+        )
     }
 
-    override suspend fun saveRequestDate(value: Long) {
-        appConfiguration.saveRequestDate(value)
+    suspend fun refreshNowPlayingMovies() {
+        refreshWrapper(
+            { movieService.getNowPlayingMovies() },
+            { list ->
+                list?.map { dataMappers.nowStreamingMovieMapper.map(it) }
+            },
+            {
+                movieDao.deleteAllNowStreamingMovies()
+                movieDao.insertNowStreamingMovie(it)
+            },
+        )
     }
 
-    override suspend fun getRequestDate(): Long? {
-        return appConfiguration.getRequestDate()
+    suspend fun refreshUpcomingMovies() {
+        refreshWrapper({ movieService.getUpcomingMovies() }, { list ->
+            list?.map { dataMappers.upcomingMovieMapper.map(it) }
+        }, {
+            movieDao.deleteAllUpcomingMovies()
+            movieDao.insertUpcomingMovie(it)
+        })
+    }
+
+    suspend fun refreshAdventureMovies() {
+        refreshWrapper(
+            { movieService.getMovieListByGenre(genreID = Constants.ADVENTURE_ID) },
+            { list ->
+                list?.map { dataMappers.adventureMovieMapper.map(it) }
+            },
+            {
+                movieDao.deleteAllAdventureMovies()
+                movieDao.insertAdventureMovie(it)
+            },
+        )
+    }
+
+    suspend fun refreshMysteryMovies() {
+        refreshWrapper(
+            { movieService.getMovieListByGenre(genreID = Constants.MYSTERY_ID) },
+            { list ->
+                list?.map { dataMappers.mysteryMovieMapper.map(it) }
+            },
+            {
+                movieDao.deleteAllMysteryMovies()
+                movieDao.insertMysteryMovie(it)
+            },
+        )
+    }
+
+    private suspend fun refreshTrendingActorsOneTimePerDay() {
+        val requestDate = appConfiguration.getActorsRequestDate()
+        val currentDate = Date()
+        if (checkIfDateAfterCurrentDate(requestDate, currentDate)) {
+            refreshTrendingActors(currentDate)
+        } else {
+            refreshTrendingActors(currentDate)
+        }
+    }
+
+    private suspend fun refreshTrendingActors(currentDate: Date) {
+        try {
+            refreshWrapper(
+                { movieService.getTrendingActors() }, { items ->
+                    items?.map { dataMappers.actorMapper.map(it) }
+                }, {
+                    actorDao.deleteActors()
+                    actorDao.insertActors(it)
+                }
+            )
+            appConfiguration.saveActorsRequestDate(currentDate.time)
+        } catch (th: Throwable) {
+            throw th
+        }
+    }
+
+
+    private fun checkIfDateAfterCurrentDate(requestDate: Long?, currentDate: Date): Boolean {
+        return if (requestDate != null) {
+            val date = Date(requestDate)
+            date.after(currentDate)
+        } else {
+            false
+        }
     }
 
 }

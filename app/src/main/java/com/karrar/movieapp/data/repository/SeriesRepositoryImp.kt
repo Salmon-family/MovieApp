@@ -40,22 +40,7 @@ class SeriesRepositoryImp @Inject constructor(
         return service.getGenreTvShowList().body()?.genres
     }
 
-    override suspend fun getOnTheAir(page: Int): List<TVShowsDTO> {
-        return service.getOnTheAir(page).body()?.items ?: emptyList()
-    }
 
-    override suspend fun getAiringToday(page: Int): List<TVShowsDTO> {
-        return service.getAiringToday(page).body()?.items ?: emptyList()
-    }
-
-
-    override suspend fun getTopRatedTvShow(page: Int): List<TVShowsDTO> {
-        return service.getTopRatedTvShow(page).body()?.items ?: emptyList()
-    }
-
-    override suspend fun getPopularTvShow(page: Int): List<TVShowsDTO> {
-        return service.getPopularTvShow(page).body()?.items ?: emptyList()
-    }
 
     override suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails {
         return wrap({ service.getTvShowDetails(tvShowId) }, { response ->
@@ -113,30 +98,6 @@ class SeriesRepositoryImp @Inject constructor(
         )
     }
 
-    override suspend fun insertAiringToday(items: List<AiringTodaySeriesEntity>) {
-        seriesDao.insertAiringTodaySeries(items)
-    }
-
-    override suspend fun deleteAiringToday() {
-        seriesDao.deleteAllAiringTodaySeries()
-    }
-
-    override suspend fun insertOnTheAir(items: List<OnTheAirSeriesEntity>) {
-        seriesDao.insertOnTheAirSeries(items)
-    }
-
-    override suspend fun deleteOnTheAir() {
-        seriesDao.deleteAllOnTheAirSeries()
-    }
-
-    override suspend fun insertTopRatedTvShow(items: List<TopRatedSeriesEntity>) {
-        seriesDao.insertTopRatedSeries(items)
-    }
-
-    override suspend fun deleteTopRatedTvShow() {
-        seriesDao.deleteAllTopRatedSeries()
-    }
-
     override fun getAiringToday(): Flow<List<AiringTodaySeriesEntity>> {
         return seriesDao.getAiringTodaySeries()
     }
@@ -173,4 +134,5 @@ class SeriesRepositoryImp @Inject constructor(
             config = config,
             pagingSourceFactory = { seriesDataSourceContainer.popularTvShowDataSource })
     }
+
 }

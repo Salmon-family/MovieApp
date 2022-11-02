@@ -1,19 +1,19 @@
-package com.karrar.movieapp.domain.home.getData.movie
+package com.karrar.movieapp.domain.usecase.home.getData.movie
 
 import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.mappers.movie.UpcomingMovieMapper
+import com.karrar.movieapp.domain.mappers.movie.MysteryMovieMapper
 import com.karrar.movieapp.domain.models.Media
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetUpcomingMoviesUseCase @Inject constructor(
+class GetMysteryMoviesUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
-    private val movieMapper: UpcomingMovieMapper,
+    private val movieMapper: MysteryMovieMapper,
 ) {
 
     operator fun invoke(): Flow<List<Media>> {
-        return movieRepository.getUpcomingMovies().map {
+        return movieRepository.getMysteryMovies().map {
             it.map(movieMapper::map)
         }
     }

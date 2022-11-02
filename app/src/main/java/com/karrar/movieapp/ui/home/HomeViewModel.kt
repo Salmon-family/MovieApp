@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.RequestStatus
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.domain.home.HomeUseCasesContainer
+import com.karrar.movieapp.domain.usecase.home.HomeUseCasesContainer
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
@@ -20,6 +20,7 @@ import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -56,21 +57,10 @@ class HomeViewModel @Inject constructor(
 
 
     init {
-        viewModelScope.launch {
             getHomeData()
-            refreshHomeDataOneTimePerDayUseCase()
-        }
     }
 
-    private suspend fun refreshHomeDataOneTimePerDayUseCase(){
-        try {
-            _homeUiState.update { it.copy(isLoading = true) }
-            homeUseCasesContainer.refreshHomeDataOneTimePerDayUseCase()
-        }catch (e:Throwable){
-            _homeUiState.update { it.copy(isLoading = false) }
-            _homeUiState.update { it.copy(error = e.message.toString()) }
-        }
-    }
+
 
     private fun getHomeData(){
         getTrending()
@@ -85,13 +75,13 @@ class HomeViewModel @Inject constructor(
         getActors()
     }
     override fun getData() {
-        viewModelScope.launch {
-            _homeUiState.update { it.copy(isLoading = true) }
-            when(val requestStatus = homeUseCasesContainer.refreshHomeDataUseCase()){
-                is RequestStatus.Failure -> _homeUiState.update { it.copy(isLoading = false, error = requestStatus.message) }
-                RequestStatus.Success -> _homeUiState.update { it.copy(isLoading = false, error = "") }
-            }
-        }
+//        viewModelScope.launch {
+//            _homeUiState.update { it.copy(isLoading = true) }
+//            when(val requestStatus = homeUseCasesContainer.refreshHomeDataUseCase()){
+//                is RequestStatus.Failure -> _homeUiState.update { it.copy(isLoading = false, error = requestStatus.message) }
+//                RequestStatus.Success -> _homeUiState.update { it.copy(isLoading = false, error = "") }
+//            }
+//        }
     }
 
 
@@ -120,14 +110,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getActors() {
-        collectData(homeUseCasesContainer.getTrendingActorsUseCase()) { list ->
-            if (list.isNotEmpty()) {
-                val items = list.map(actorUiMapper::map)
-                _homeUiState.update { it.copy(actors = HomeItem.Actor(items), isLoading = false) }
+    private  fun getActors() {
+        viewModelScope.launch {
+            homeUseCasesContainer.getTrendingActorsUseCase().collect{list->
+                if (list.isNotEmpty()) {
+                    val items = list.map(actorUiMapper::map)
+                    _homeUiState.update { it.copy(actors = HomeItem.Actor(items), isLoading = false) }
+                }
             }
-        }
-
+            }
     }
 
     private fun getUpcoming() {

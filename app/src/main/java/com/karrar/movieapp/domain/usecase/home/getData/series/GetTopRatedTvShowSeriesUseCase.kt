@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.home.getData.series
+package com.karrar.movieapp.domain.usecase.home.getData.series
 
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.mappers.series.TopRatedSeriesMapper

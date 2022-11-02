@@ -21,13 +21,6 @@ interface SeriesRepository {
 
     suspend fun getTVShowsGenreList2(): List<GenreDto>?
 
-    suspend fun getOnTheAir(page: Int = 1): List<TVShowsDTO>
-
-    suspend fun getAiringToday(page: Int = 1): List<TVShowsDTO>
-
-    suspend fun getTopRatedTvShow(page: Int = 1): List<TVShowsDTO>
-
-    suspend fun getPopularTvShow(page: Int = 1): List<TVShowsDTO>
 
     suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails
 
@@ -51,21 +44,9 @@ interface SeriesRepository {
 
     fun getAiringToday(): Flow<List<AiringTodaySeriesEntity>>
 
-    suspend fun insertAiringToday(items : List<AiringTodaySeriesEntity>)
-
-    suspend fun deleteAiringToday()
-
     fun getOnTheAir(): Flow<List<OnTheAirSeriesEntity>>
 
-    suspend fun insertOnTheAir(items : List<OnTheAirSeriesEntity>)
-
-    suspend fun deleteOnTheAir()
-
     fun getTopRatedTvShow(): Flow<List<TopRatedSeriesEntity>>
-
-    suspend fun insertTopRatedTvShow(items : List<TopRatedSeriesEntity>)
-
-    suspend fun deleteTopRatedTvShow()
 
     fun getAiringTodayTvShowPager(): Pager<Int, TVShowsDTO>
 
