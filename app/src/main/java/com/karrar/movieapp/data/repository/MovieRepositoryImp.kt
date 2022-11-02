@@ -1,5 +1,6 @@
 package com.karrar.movieapp.data.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -258,7 +259,8 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override suspend fun getTrendingActors(): Flow<List<ActorEntity>> {
-        refreshTrendingActorsOneTimePerDay()
+        val requestDate = appConfiguration.getActorsRequestDate()
+        doOnTimePerDay(requestDate,::refreshTrendingActors)
         return actorDao.getActors()
     }
 
@@ -378,13 +380,16 @@ class MovieRepositoryImp @Inject constructor(
         )
     }
 
-    private suspend fun refreshTrendingActorsOneTimePerDay() {
-        val requestDate = appConfiguration.getActorsRequestDate()
+    private suspend fun doOnTimePerDay(
+        requestDate:Long?,
+        refreshData :  suspend (Date) -> Unit){
         val currentDate = Date()
-        if (checkIfDateAfterCurrentDate(requestDate, currentDate)) {
-            refreshTrendingActors(currentDate)
+        if (requestDate != null) {
+            if (Date(requestDate).after(currentDate)) {
+                refreshData(currentDate)
+            }
         } else {
-            refreshTrendingActors(currentDate)
+            refreshData(currentDate)
         }
     }
 
@@ -399,18 +404,8 @@ class MovieRepositoryImp @Inject constructor(
                 }
             )
             appConfiguration.saveActorsRequestDate(currentDate.time)
-        } catch (th: Throwable) {
-            throw th
-        }
-    }
+        } catch (_: Throwable) {
 
-
-    private fun checkIfDateAfterCurrentDate(requestDate: Long?, currentDate: Date): Boolean {
-        return if (requestDate != null) {
-            val date = Date(requestDate)
-            date.after(currentDate)
-        } else {
-            false
         }
     }
 
