@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.usecases.home.getData.series
+package com.karrar.movieapp.domain.usecase.home.getData.series
 
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.mappers.series.OnTheAirSeriesMapper
@@ -12,7 +12,7 @@ class GetOnTheAirSeriesUseCase @Inject constructor(
     private val seriesMapper: OnTheAirSeriesMapper,
 ) {
 
-    operator fun invoke(): Flow<List<Media>> {
+    suspend operator fun invoke(): Flow<List<Media>> {
         return seriesRepository.getOnTheAir().map {
             it.map(seriesMapper::map)
         }

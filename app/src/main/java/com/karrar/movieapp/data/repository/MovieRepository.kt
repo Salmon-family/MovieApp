@@ -58,43 +58,38 @@ interface MovieRepository {
 
     suspend fun getMovieByGenre(genreID: Int): Pager<Int, MovieDto>
 
-    fun getPopularMovies(): Flow<List<PopularMovieEntity>>
-
     suspend fun insertPopularMovies(items: List<PopularMovieEntity>)
 
-    suspend fun deletePopularMovies()
+    suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>>
 
-    fun getTrendingMovies(): Flow<List<TrendingMovieEntity>>
+
+    suspend fun getTrendingMovies(): Flow<List<TrendingMovieEntity>>
 
     suspend fun insertTrendingMovies(items: List<TrendingMovieEntity>)
 
-    suspend fun deleteTrendingMovies()
 
-    fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>>
+   suspend fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>>
 
     suspend fun insertNowStreamingMovies(items: List<NowStreamingMovieEntity>)
 
-    suspend fun deleteNowStreamingMovies()
 
-    fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
+    suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
 
     suspend fun insertUpcomingMovies(items: List<UpcomingMovieEntity>)
 
-    suspend fun deleteUpcomingMovies()
+    suspend fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
 
-    fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
+    suspend fun getMysteryMovies(): Flow<List<MysteryMovieEntity>>
 
     suspend fun insertAdventureMovies(items: List<AdventureMovieEntity>)
 
-    suspend fun deleteAdventureMovies()
+    suspend fun getTrendingActors(): Flow<List<ActorEntity>>
 
-    fun getMysteryMovies(): Flow<List<MysteryMovieEntity>>
+    suspend fun deleteAdventureMovies()
 
     suspend fun insertMysteryMovies(items: List<MysteryMovieEntity>)
 
     suspend fun deleteMysteryMovies()
-
-    fun getTrendingActors(): Flow<List<ActorEntity>>
 
     suspend fun insertTrendingActors(items: List<ActorEntity>)
 

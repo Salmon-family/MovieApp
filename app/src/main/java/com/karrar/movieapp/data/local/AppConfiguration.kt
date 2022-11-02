@@ -9,9 +9,10 @@ interface AppConfiguration {
 
     suspend fun saveSessionId(value: String)
 
-    suspend fun saveRequestDate(value: Long)
+    suspend fun saveRequestDate(key: String,value: Long)
 
-    suspend fun getRequestDate(): Long?
+    suspend fun getRequestDate(key: String): Long?
+
 }
 
 class AppConfigurator @Inject constructor(private val dataStorePreferences: DataStorePreferences) :
@@ -25,16 +26,17 @@ class AppConfigurator @Inject constructor(private val dataStorePreferences: Data
         dataStorePreferences.writeString(SESSION_ID_KEY, value)
     }
 
-    override suspend fun saveRequestDate(value: Long) {
-        dataStorePreferences.writeLong(REQUEST_DATE_KEY, value)
+    override suspend fun saveRequestDate(key: String, value: Long) {
+        dataStorePreferences.writeLong(key, value)
     }
 
-    override suspend fun getRequestDate(): Long? {
-        return dataStorePreferences.readLong(REQUEST_DATE_KEY)
+    override suspend fun getRequestDate(key: String): Long? {
+        return dataStorePreferences.readLong(key)
     }
+
+
 
     companion object DataStorePreferencesKeys {
         const val SESSION_ID_KEY = "session_id"
-        const val REQUEST_DATE_KEY = "request_date"
     }
 }

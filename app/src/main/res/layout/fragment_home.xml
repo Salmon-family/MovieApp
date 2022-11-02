@@ -23,7 +23,7 @@
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:hideIfTrue="@{viewModel.homeUiState.loading || !viewModel.homeUiState.error.isEmpty()}"
+            app:hideIfTrue="@{viewModel.homeUiState.loading || viewModel.homeUiState.error.size() &gt;5}"
             app:spanCount="1" />
 
         <include
@@ -39,7 +39,7 @@
         <include
             android:id="@+id/error"
             layout="@layout/error2"
-            app:isError="@{!viewModel.homeUiState.error.isEmpty() &amp;&amp; !viewModel.homeUiState.loading}"
+            app:isError="@{viewModel.homeUiState.error.size() &gt;5 &amp;&amp; !viewModel.homeUiState.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

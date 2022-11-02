@@ -1,6 +1,9 @@
 package com.karrar.movieapp.data.repository
 
 import androidx.paging.Pager
+import com.karrar.movieapp.data.Constants
+import com.karrar.movieapp.data.local.AppConfiguration
+import com.karrar.movieapp.data.local.AppConfigurator
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.daos.SeriesDao
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
@@ -19,13 +22,16 @@ import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
 import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
+import java.util.Date
 import javax.inject.Inject
 
 class SeriesRepositoryImp @Inject constructor(
     private val service: MovieService,
     private val movieDao: MovieDao,
     private val seriesDao: SeriesDao,
+    private val appConfiguration: AppConfiguration,
     private val seriesMapperContainer: SeriesMapperContainer,
+    private val localSeriesMappersContainer: LocalSeriesMappersContainer,
     private val seriesDataSourceContainer: SeriesDataSourceContainer,
     private val mediaDataSourceContainer: MediaDataSourceContainer,
     private val searchDataSourceContainer: SearchDataSourceContainer,
@@ -38,23 +44,6 @@ class SeriesRepositoryImp @Inject constructor(
 
     override suspend fun getTVShowsGenreList2(): List<GenreDto>? {
         return service.getGenreTvShowList().body()?.genres
-    }
-
-    override suspend fun getOnTheAir(page: Int): List<TVShowsDTO> {
-        return service.getOnTheAir(page).body()?.items ?: emptyList()
-    }
-
-    override suspend fun getAiringToday(page: Int): List<TVShowsDTO> {
-        return service.getAiringToday(page).body()?.items ?: emptyList()
-    }
-
-
-    override suspend fun getTopRatedTvShow(page: Int): List<TVShowsDTO> {
-        return service.getTopRatedTvShow(page).body()?.items ?: emptyList()
-    }
-
-    override suspend fun getPopularTvShow(page: Int): List<TVShowsDTO> {
-        return service.getPopularTvShow(page).body()?.items ?: emptyList()
     }
 
     override suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails {
@@ -113,39 +102,18 @@ class SeriesRepositoryImp @Inject constructor(
         )
     }
 
-    override suspend fun insertAiringToday(items: List<AiringTodaySeriesEntity>) {
-        seriesDao.insertAiringTodaySeries(items)
-    }
-
-    override suspend fun deleteAiringToday() {
-        seriesDao.deleteAllAiringTodaySeries()
-    }
-
-    override suspend fun insertOnTheAir(items: List<OnTheAirSeriesEntity>) {
-        seriesDao.insertOnTheAirSeries(items)
-    }
-
-    override suspend fun deleteOnTheAir() {
-        seriesDao.deleteAllOnTheAirSeries()
-    }
-
-    override suspend fun insertTopRatedTvShow(items: List<TopRatedSeriesEntity>) {
-        seriesDao.insertTopRatedSeries(items)
-    }
-
-    override suspend fun deleteTopRatedTvShow() {
-        seriesDao.deleteAllTopRatedSeries()
-    }
-
-    override fun getAiringToday(): Flow<List<AiringTodaySeriesEntity>> {
+    override suspend fun getAiringToday(): Flow<List<AiringTodaySeriesEntity>> {
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.AIRING_TODAY_SERIES_REQUEST_DATE_KEY),::refreshAiringToday)
         return seriesDao.getAiringTodaySeries()
     }
 
-    override fun getOnTheAir(): Flow<List<OnTheAirSeriesEntity>> {
+    override suspend fun getOnTheAir(): Flow<List<OnTheAirSeriesEntity>> {
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.ON_THE_AIR_SERIES_REQUEST_DATE_KEY),::refreshOnTheAir)
         return seriesDao.getOnTheAirSeries()
     }
 
-    override fun getTopRatedTvShow(): Flow<List<TopRatedSeriesEntity>> {
+    override suspend fun getTopRatedTvShow(): Flow<List<TopRatedSeriesEntity>> {
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.TOP_RATED_SERIES_REQUEST_DATE_KEY),::refreshTopRatedTvShow)
         return seriesDao.getTopRatedSeries()
     }
 
@@ -179,4 +147,58 @@ class SeriesRepositoryImp @Inject constructor(
         dataSource.setSearchText(query)
         return Pager(config = config, pagingSourceFactory = {dataSource})
     }
+
+
+     private suspend fun refreshAiringToday(currentDate: Date) {
+        refreshWrapper(
+            { service.getAiringToday() },
+            { list ->
+                list?.map {
+                    localSeriesMappersContainer.airingTodaySeriesMapper.map(it)
+                }
+            },
+            {
+                seriesDao.deleteAllAiringTodaySeries()
+                seriesDao.insertAiringTodaySeries(it)
+                appConfiguration.saveRequestDate(Constants.AIRING_TODAY_SERIES_REQUEST_DATE_KEY,currentDate.time)
+            },
+        )
+    }
+
+     private suspend fun refreshOnTheAir(currentDate : Date) {
+        refreshWrapper(
+            { service.getOnTheAir() },
+            { list ->
+                list?.map {
+                    localSeriesMappersContainer.onTheAirSeriesMapper.map(it)
+                }
+            },
+            {
+                seriesDao.deleteAllOnTheAirSeries()
+                seriesDao.insertOnTheAirSeries(it)
+                appConfiguration.saveRequestDate(Constants.ON_THE_AIR_SERIES_REQUEST_DATE_KEY,currentDate.time)
+            },
+        )
+    }
+
+     private suspend fun refreshTopRatedTvShow(currentDate: Date) {
+        try {
+            val items = mutableListOf<TopRatedSeriesEntity>()
+            service.getTopRatedTvShow().body()?.items?.first()?.let {
+                items.add(localSeriesMappersContainer.topRatedSeriesMapper.map(it))
+            }
+            service.getPopularTvShow().body()?.items?.first()?.let {
+                items.add(localSeriesMappersContainer.topRatedSeriesMapper.map(it))
+            }
+            service.getAiringToday().body()?.items?.first()?.let {
+                items.add(localSeriesMappersContainer.topRatedSeriesMapper.map(it))
+            }
+            seriesDao.deleteAllTopRatedSeries()
+            seriesDao.insertTopRatedSeries(items)
+            appConfiguration.saveRequestDate(Constants.TOP_RATED_SERIES_REQUEST_DATE_KEY,currentDate.time)
+        } catch (_: Throwable) {
+
+        }
+    }
+
 }

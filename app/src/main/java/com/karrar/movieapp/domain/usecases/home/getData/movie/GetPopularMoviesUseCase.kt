@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.usecases.home.getData.movie
+package com.karrar.movieapp.domain.usecase.home.getData.movie
 
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.mappers.movie.PopularMovieMapper
@@ -11,7 +11,7 @@ class GetPopularMoviesUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val movieMapper: PopularMovieMapper,
 ) {
-    operator fun invoke(): Flow<List<PopularMovie>> {
+    suspend  operator fun invoke(): Flow<List<PopularMovie>> {
         return movieRepository.getPopularMovies().map { items ->
             items.map(movieMapper::map)
         }
