@@ -3,7 +3,11 @@ package com.karrar.movieapp.ui.profile.myratings
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.data.repository.AccountRepository
+import com.karrar.movieapp.data.repository.MovieRepository
+import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.GetListOfRatedUseCase
+import com.karrar.movieapp.domain.models.Rated
+import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -12,7 +12,9 @@ import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
+import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
+import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.repository.mediaDataSource.ActorMovieDataSource
 import com.karrar.movieapp.data.repository.mediaDataSource.movie.MovieDataSourceContainer
@@ -35,8 +37,8 @@ class MovieRepositoryImp @Inject constructor(
     private val mediaDataSourceContainer: MediaDataSourceContainer,
     private val searchDataSourceContainer: SearchDataSourceContainer,
     private val movieMovieDataSource: MovieDataSourceContainer,
-    private val actorMovieDataSource: ActorMovieDataSource,
-) : BaseRepository(), MovieRepository {
+    private val actorMovieDataSource: ActorMovieDataSource
+    ) : BaseRepository(), MovieRepository {
 
     override suspend fun getMovieGenreList(): List<Genre> {
         return wrap({ movieService.getGenreList() },
@@ -63,32 +65,6 @@ class MovieRepositoryImp @Inject constructor(
             { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
     }
 
-    /**
-     * movie details
-     * */
-
-    override suspend fun getMovieDetails(movieId: Int): MovieDetails {
-        return wrap({ movieService.getMovieDetails(movieId) },
-            { movieMappersContainer.movieDetailsMapper.map(it) })
-    }
-
-    override suspend fun getMovieCast(movieId: Int): List<Actor> {
-        return wrap({ movieService.getMovieCast(movieId) }, { response ->
-            ListMapper(movieMappersContainer.actorMapper).mapList(response.cast)
-        })
-    }
-
-    override suspend fun getSimilarMovie(movieId: Int): List<Media> {
-        return wrap({ movieService.getSimilarMovie(movieId) }, { response ->
-            ListMapper(movieMappersContainer.movieMapper).mapList(response.items)
-        })
-    }
-
-    override suspend fun getMovieReviews(movieId: Int): List<Review> {
-        return wrap({ movieService.getMovieReviews(movieId) }, { response ->
-            ListMapper(movieMappersContainer.reviewMapper).mapList(response.items)
-        })
-    }
 
     override suspend fun getMovieTrailer(movieId: Int): Trailer {
         return wrap({ movieService.getMovieTrailer(movieId) },
@@ -376,4 +352,29 @@ class MovieRepositoryImp @Inject constructor(
     override suspend fun getAllSearchHistory(): Flow<List<SearchHistoryEntity>> {
         return movieDao.getAllSearchHistory()
     }
+
+    /**
+     * movie details
+     * */
+
+    override suspend fun getMovieDetails(movieId: Int): MovieDetailsDto? {
+        return movieService.getMovieDetails(movieId).body()
+    }
+
+    override suspend fun getMovieCast(movieId: Int): CreditsDto? {
+        return movieService.getMovieCast(movieId).body()
+    }
+
+    override suspend fun getSimilarMovie(movieId: Int): List<MovieDto>? {
+        return movieService.getSimilarMovie(movieId).body()?.items
+    }
+
+    override suspend fun getMovieReviews(movieId: Int): List<ReviewsDto>? {
+        return movieService.getMovieReviews(movieId).body()?.items
+    }
+
+    override suspend fun deleteRating(movieId: Int, session_id: String): RatingDto? {
+        return movieService.deleteRating(movieId, session_id).body()
+    }
+
 }

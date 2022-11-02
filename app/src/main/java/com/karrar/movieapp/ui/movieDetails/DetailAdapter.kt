@@ -5,19 +5,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
-import com.karrar.movieapp.ui.adapters.ActorAdapter
-import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
-import com.karrar.movieapp.ui.adapters.MovieAdapter
-import com.karrar.movieapp.ui.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.adapters.*
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
-import com.karrar.movieapp.ui.tvShowDetails.SeasonAdapter
-import com.karrar.movieapp.ui.tvShowDetails.SeasonInteractionListener
+import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.DetailItemUIState
 
 class DetailAdapter(
-    private var items: List<DetailItem>,
+    private var items: List<DetailItemUIState>,
     private val listener: BaseInteractionListener,
-) : BaseAdapter<DetailItem>(items, listener) {
+) : BaseAdapter<DetailItemUIState>(items, listener) {
     override val layoutID: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
@@ -34,46 +30,45 @@ class DetailAdapter(
 
     override fun bind(holder: ItemViewHolder, position: Int) {
         when (val currentItem = items[position]) {
-            is DetailItem.Header -> {
+            is DetailItemUIState.Header -> {
                 holder.binding.run {
                     setVariable(BR.item, currentItem.data)
                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
-            is DetailItem.Cast -> {
+            is DetailItemUIState.Cast -> {
                 holder.binding.run {
-                    setVariable(BR.adapterRecycler,
-                        ActorAdapter(currentItem.data,
+                    setVariable(
+                        BR.adapterRecycler,
+                        ActorAdapter(
+                            currentItem.data,
                             R.layout.item_cast,
-                            listener as ActorsInteractionListener))
-                }
-            }
-            is DetailItem.SimilarMovies -> {
-                holder.binding.run {
-                    setVariable(BR.adapterRecycler,
-                        MovieAdapter(currentItem.data, listener as MovieInteractionListener))
-                }
-            }
-            is DetailItem.Seasons -> {
-                holder.binding.run {
-                    setVariable(BR.adapterRecycler,
-                        SeasonAdapter(currentItem.data, listener as SeasonInteractionListener)
+                            listener as ActorsInteractionListener
+                        )
                     )
                 }
             }
-            is DetailItem.Rating -> {
+            is DetailItemUIState.SimilarMovies -> {
+                holder.binding.run {
+                    setVariable(
+                        BR.adapterRecycler,
+                        MovieAdapter(currentItem.data, listener as MovieInteractionListener)
+                    )
+                }
+            }
+            is DetailItemUIState.Rating -> {
                 holder.binding.run {
                     setVariable(BR.viewModel, currentItem.viewModel)
                 }
             }
-            is DetailItem.Comment -> {
+            is DetailItemUIState.Comment -> {
                 holder.binding.run {
                     setVariable(BR.item, currentItem.data)
                     setVariable(BR.listener, listener)
                 }
             }
-            is DetailItem.ReviewText -> {}
-            DetailItem.SeeAllReviewsButton -> {
+            is DetailItemUIState.ReviewText -> {}
+            DetailItemUIState.SeeAllReviewsButton -> {
                 holder.binding.run {
                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
@@ -81,25 +76,24 @@ class DetailAdapter(
         }
     }
 
-    override fun setItems(newItems: List<DetailItem>) {
+    override fun setItems(newItems: List<DetailItemUIState>) {
         items = newItems.sortedBy { it.priority }
         super.setItems(items)
     }
 
-    override fun areItemsSame(oldItem: DetailItem, newItem: DetailItem): Boolean {
+    override fun areItemsSame(oldItem: DetailItemUIState, newItem: DetailItemUIState): Boolean {
         return oldItem.priority == newItem.priority
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is DetailItem.Header -> R.layout.item_movei_detail_header
-            is DetailItem.Cast -> R.layout.list_cast
-            is DetailItem.SimilarMovies -> R.layout.list_similar_movie
-            is DetailItem.Seasons -> R.layout.list_season
-            is DetailItem.Rating -> R.layout.item_rating
-            is DetailItem.Comment -> R.layout.item_movie_review
-            is DetailItem.ReviewText -> R.layout.item_review_text
-            DetailItem.SeeAllReviewsButton -> R.layout.item_see_all_reviews
+            is DetailItemUIState.Header -> R.layout.item_movie_detail_header
+            is DetailItemUIState.Cast -> R.layout.list_cast
+            is DetailItemUIState.SimilarMovies -> R.layout.list_similar_movie
+            is DetailItemUIState.Rating -> R.layout.item_rating
+            is DetailItemUIState.Comment -> R.layout.item_movie_review
+            is DetailItemUIState.ReviewText -> R.layout.item_review_text
+            DetailItemUIState.SeeAllReviewsButton -> R.layout.item_see_all_reviews
         }
     }
 

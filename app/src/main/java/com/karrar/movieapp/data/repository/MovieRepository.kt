@@ -9,7 +9,9 @@ import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
+import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
+import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
 
@@ -25,21 +27,7 @@ interface MovieRepository {
 
     suspend fun getMovieListByGenreID(genreID: Int, page: Int = 1): List<Media>
 
-
-    suspend fun getMovieDetails(movieId: Int): MovieDetails
-
-    suspend fun getMovieCast(movieId: Int): List<Actor>
-
-    suspend fun getSimilarMovie(movieId: Int): List<Media>
-
-    suspend fun getMovieReviews(movieId: Int): List<Review>
-
-    suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto
-
     suspend fun getMovieTrailer(movieId: Int): Trailer
-
-    suspend fun getRatedMovie(accountId: Int, sessionId: String): List<RatedMoviesDto>?
-
 
     suspend fun getActorDetails(actorId: Int): ActorDto?
 
@@ -151,5 +139,20 @@ interface MovieRepository {
     suspend fun getAllSearchHistory(): Flow<List<SearchHistoryEntity>>
 
     suspend fun getActorData(): Pager<Int, ActorDto>
+
+
+    suspend fun getMovieDetails(movieId: Int): MovieDetailsDto?
+
+    suspend fun getMovieCast(movieId: Int): CreditsDto?
+
+    suspend fun getSimilarMovie(movieId: Int): List<MovieDto>?
+
+    suspend fun getMovieReviews(movieId: Int): List<ReviewsDto>?
+
+    suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto?
+
+    suspend fun deleteRating(movieId: Int, session_id: String): RatingDto?
+
+    suspend fun getRatedMovie(accountId: Int, sessionId: String): List<RatedMoviesDto>?
 
 }

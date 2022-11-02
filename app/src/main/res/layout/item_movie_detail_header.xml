@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.MediaDetails" />
+            type="com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieDetailsUIState" />
 
         <variable
             name="listener"
@@ -47,8 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:background="@drawable/back_icon_shape"
             android:layout_marginTop="16dp"
+            android:background="@drawable/back_icon_shape"
             android:onClick="@{() -> listener.onclickBack()}"
             android:padding="@dimen/spacing_small"
             android:src="@drawable/ic_arrow_left"
@@ -65,8 +65,8 @@
             android:contentDescription="@string/back_button"
             android:onClick="@{() -> listener.onClickSave()}"
             android:padding="@dimen/spacing_small"
-            app:hideIfNotTypeOfMovie="@{item.mediaType}"
             android:src="@drawable/ic_save"
+            app:hideIfNotTypeOfMovie="@{item.mediaType}"
             app:layout_constraintBottom_toBottomOf="@+id/imageView3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imageView3"
@@ -80,9 +80,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_small"
             android:onClick="@{() -> listener.onClickPlayTrailer()}"
-            android:textColor="@color/white_primary"
             android:text="@string/play_trailer"
             android:textAllCaps="false"
+            android:textColor="@color/white_primary"
             app:cornerRadius="@dimen/spacing_large"
             app:icon="@drawable/ic_play_filled"
             app:iconTint="@color/white_primary"
@@ -110,12 +110,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_small"
+            android:text="@{item.releaseDate}"
             app:layout_constraintBottom_toBottomOf="@+id/line"
             app:layout_constraintEnd_toStartOf="@+id/line"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintTop_toTopOf="@+id/line"
-            android:text="@{item.releaseDate}"
             tools:text="2014" />
 
         <View
@@ -176,8 +176,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_medium"
-            android:text="@{item.voteAverage.toString()}"
-
+            android:text="@{item.voteAverage}"
             android:textColor="@color/yellow"
             app:layout_constraintBottom_toBottomOf="@+id/review"
             app:layout_constraintEnd_toStartOf="@+id/review"
@@ -185,7 +184,6 @@
             app:layout_constraintStart_toEndOf="@+id/star"
             app:layout_constraintTop_toTopOf="@+id/review"
             app:layout_constraintVertical_bias="1.0"
-
             tools:text="8.6" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -194,7 +192,6 @@
             android:layout_height="16dp"
             android:layout_marginEnd="@dimen/spacing_small"
             android:src="@drawable/ic_star_filled"
-
             app:layout_constraintBottom_toBottomOf="@+id/stars"
             app:layout_constraintEnd_toStartOf="@+id/stars"
             app:layout_constraintHorizontal_bias="0.5"
