@@ -16,7 +16,8 @@ object Constants {
     const val PERSON = "person"
     const val ACTING = "Acting"
     const val NUM_HOME_REQUEST = 9
-    const val SUCCESS_REQUEST = 1
+    const val  SUCCESS_REQUEST = 1
+    const val INTERNET_STATUS = 400
 
     const val PROFILE = 1
     const val IMAGEACTORPATHWHENISNULL = "https://image.tmdb.org/t/p/w500null"

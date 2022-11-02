@@ -18,6 +18,7 @@ import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import com.karrar.movieapp.ui.home.HomeItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
+import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieDetailsUIState
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -170,7 +171,7 @@ fun setOverViewText(view: TextView, text: String) {
 }
 
 @BindingAdapter("app:textBasedOnMediaType")
-fun setTextBasedOnMediaType(view: TextView, mediaDetails: MediaDetails?) {
+fun setTextBasedOnMediaType(view: TextView, mediaDetails: MovieDetailsUIState?) {
     mediaDetails?.let {
         when (mediaDetails.mediaType) {
             MediaType.MOVIE -> setDuration(view, mediaDetails.specialNumber)

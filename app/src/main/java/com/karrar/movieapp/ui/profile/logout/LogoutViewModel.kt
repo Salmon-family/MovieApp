@@ -2,7 +2,7 @@ package com.karrar.movieapp.ui.profile.logout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecase.LogoutUseCase
+import com.karrar.movieapp.domain.usecases.LogoutUseCase
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

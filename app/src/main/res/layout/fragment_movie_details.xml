@@ -21,24 +21,27 @@
             android:background="@color/background_color"
             android:overScrollMode="never"
             android:scrollbars="none"
-            app:items="@{viewModel.detailItemsLiveData.toData()}"
+            app:items="@{viewModel.uiState.detailItemResult}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:showWhenSuccess="@{viewModel.detailItemsLiveData}"
             app:spanCount="1" />
 
-        <include
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/loading"
-            layout="@layout/loading"
+            android:layout_width="172dp"
+            android:layout_height="172dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.detailItemsLiveData}" />
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_animation"
+            app:isVisible="@{viewModel.uiState.loading}" />
 
         <include
             android:id="@+id/error"
-            layout="@layout/error"
-            app:error="@{viewModel.detailItemsLiveData}"
+            layout="@layout/error_movie_details"
+            app:isError="@{!viewModel.uiState.errorUIStates.isEmpty()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

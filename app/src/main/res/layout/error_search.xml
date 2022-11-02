@@ -5,12 +5,13 @@
     <data>
 
         <variable
-            name="error"
-            type="com.karrar.movieapp.ui.UIState" />
+            name="isError"
+            type="Boolean" />
 
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.search.SearchViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,8 +71,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_retry"
-            app:showWhenFail="@{error}"
-            app:hideWhenBlankSearch="@{viewModel.searchText}"/>
+            app:isVisible="@{isError}"
+            app:hideWhenBlankSearch="@{viewModel.uiState.searchInput}"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

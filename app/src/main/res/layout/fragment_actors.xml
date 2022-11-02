@@ -38,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:isLoading="@{viewModel.uiState.loading}" />
+            app:isVisible="@{viewModel.uiState.loading}" />
 
         <include
             android:id="@+id/error"

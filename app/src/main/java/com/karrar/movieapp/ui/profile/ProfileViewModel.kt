@@ -2,8 +2,8 @@ package com.karrar.movieapp.ui.profile
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecase.CheckIfLoggedInUseCase
-import com.karrar.movieapp.domain.usecase.GetAccountDetailsUseCase
+import com.karrar.movieapp.domain.usecases.CheckIfLoggedInUseCase
+import com.karrar.movieapp.domain.usecases.GetAccountDetailsUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.myList.myListUIState.MyListUIEvent
 import com.karrar.movieapp.utilities.Event

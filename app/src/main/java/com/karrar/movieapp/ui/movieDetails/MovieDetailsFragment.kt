@@ -24,7 +24,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
         setDetailAdapter()
-        addRating()
+        showMessageOfChangeRating()
         observeEvents()
     }
 
@@ -33,16 +33,17 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         binding.recyclerView.adapter = detailAdapter
     }
 
-    private fun addRating() {
-        viewModel.ratingValue.observe(viewLifecycleOwner) {
-            it?.let { viewModel.onAddRating(args.movieId, it) }
+    private fun showMessageOfChangeRating() {
+        viewModel.messageAppear.observe(viewLifecycleOwner) {
+            if (viewModel.messageAppear.value == true) {
+                Toast.makeText(
+                    context,
+                    getString(R.string.submit_toast),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
-        viewModel.messageAppear.observe(viewLifecycleOwner, EventObserve {
-            val toast =
-                Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT)
-            if (it) toast.show()
-        })
     }
 
 

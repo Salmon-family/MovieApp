@@ -1,8 +1,8 @@
 package com.karrar.movieapp.ui.myList
 
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecase.mylist.CreateMovieListUseCase
-import com.karrar.movieapp.domain.usecase.mylist.GetMyListUseCase
+import com.karrar.movieapp.domain.usecases.mylist.CreateMovieListUseCase
+import com.karrar.movieapp.domain.usecases.mylist.GetMyListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.myList.myListUIState.CreateListDialogUIState

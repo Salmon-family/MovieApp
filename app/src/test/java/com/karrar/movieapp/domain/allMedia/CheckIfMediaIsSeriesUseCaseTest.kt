@@ -1,7 +1,7 @@
 package com.karrar.movieapp.domain.allMedia
 
 import com.karrar.movieapp.domain.enums.AllMediaType
-import com.karrar.movieapp.domain.usecase.allMedia.CheckIfMediaIsSeriesUseCase
+import com.karrar.movieapp.domain.usecases.allMedia.CheckIfMediaIsSeriesUseCase
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach

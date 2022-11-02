@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
-import com.karrar.movieapp.domain.usecase.GetGenreListUseCase
-import com.karrar.movieapp.domain.usecase.GetMediaByGenreIDUseCase
+import com.karrar.movieapp.domain.usecases.GetGenreListUseCase
+import com.karrar.movieapp.domain.usecases.GetMediaByGenreIDUseCase
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.CategoryUIEvent
