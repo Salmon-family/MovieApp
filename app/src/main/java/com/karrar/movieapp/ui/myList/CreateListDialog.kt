@@ -6,6 +6,8 @@ import androidx.fragment.app.activityViewModels
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentCreateListDialogBinding
 import com.karrar.movieapp.ui.base.BaseDialogFragment
+import com.karrar.movieapp.ui.myList.myListUIState.MyListUIEvent
+import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,10 +18,16 @@ class CreateListDialog : BaseDialogFragment<FragmentCreateListDialogBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dismissDialog()
+        collectLast(viewModel.myListUIEvent) {
+            it.peekContent()?.let {
+                if (it is MyListUIEvent.CLickAddEvent) {
+                    dismissDialog()
+                }
+            }
+        }
     }
 
-    fun dismissDialog() {
+    private fun dismissDialog() {
         this.dismiss()
     }
 

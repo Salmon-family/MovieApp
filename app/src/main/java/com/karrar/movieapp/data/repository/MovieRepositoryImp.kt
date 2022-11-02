@@ -15,6 +15,7 @@ import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.response.review.ReviewsDto
+import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.repository.mediaDataSource.ActorMovieDataSource
 import com.karrar.movieapp.data.repository.mediaDataSource.movie.MovieDataSourceContainer
@@ -31,7 +32,6 @@ class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     private val movieDao: MovieDao,
     private val actorDao: ActorDao,
-    private val movieMappersContainer: MovieMappersContainer,
     private val appConfiguration: AppConfiguration,
     private val actorDataSource: ActorDataSource,
     private val mediaDataSourceContainer: MediaDataSourceContainer,
@@ -40,12 +40,7 @@ class MovieRepositoryImp @Inject constructor(
     private val actorMovieDataSource: ActorMovieDataSource
     ) : BaseRepository(), MovieRepository {
 
-    override suspend fun getMovieGenreList(): List<Genre> {
-        return wrap({ movieService.getGenreList() },
-            { ListMapper(movieMappersContainer.genreMapper).mapList(it.genres) })
-    }
-
-    override suspend fun getMovieGenreList2(): List<GenreDto>? {
+    override suspend fun getMovieGenreList(): List<GenreDto>? {
         return movieService.getGenreList().body()?.genres
     }
 
@@ -55,22 +50,6 @@ class MovieRepositoryImp @Inject constructor(
     }
 
 
-    override suspend fun getNowPlayingMovies(page: Int): List<Media> {
-        return wrap({ movieService.getNowPlayingMovies(page = page) },
-            { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
-    }
-
-    override suspend fun getMovieListByGenreID(genreID: Int, page: Int): List<Media> {
-        return wrap({ movieService.getMovieListByGenre(genreID = genreID, page = page) },
-            { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
-    }
-
-
-    override suspend fun getMovieTrailer(movieId: Int): Trailer {
-        return wrap({ movieService.getMovieTrailer(movieId) },
-            { movieMappersContainer.trailerMapper.map(it) })
-    }
-
     override suspend fun getRatedMovie(
         accountId: Int,
         sessionId: String,
@@ -78,8 +57,8 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getRatedMovie(accountId, sessionId).body()?.items
     }
 
-    override suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto {
-        return wrap({ movieService.postRating(movieId, value, session_id) }, { it })
+    override suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto? {
+        return  movieService.postRating(movieId, value, session_id).body()
     }
 
     /**
@@ -123,8 +102,8 @@ class MovieRepositoryImp @Inject constructor(
         sessionId: String,
         listId: Int,
         movieId: Int,
-    ): AddMovieDto {
-        return wrap({ movieService.addMovieToList(listId, sessionId, movieId) }, { it })
+    ): AddMovieDto? {
+        return  movieService.addMovieToList(listId, sessionId, movieId).body()
     }
 
     override suspend fun clearWatchHistory() {
@@ -375,6 +354,10 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun deleteRating(movieId: Int, session_id: String): RatingDto? {
         return movieService.deleteRating(movieId, session_id).body()
+    }
+
+    override suspend fun getMovieTrailer(movieId: Int): TrailerDto? {
+        return movieService.getMovieTrailer(movieId).body()
     }
 
 }

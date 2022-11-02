@@ -24,7 +24,7 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
 
     private fun collectEvent() {
         collectLast(viewModel.watchHistoryUIEvent) {
-            it?.getContentIfNotHandled()?.let { onEvent(it) }
+            it.getContentIfNotHandled()?.let { onEvent(it) }
         }
     }
 

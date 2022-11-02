@@ -14,6 +14,7 @@ import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.toStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -32,7 +33,8 @@ class AllMovieViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(AllMediaUiState())
     val uiState = _uiState.toStateFlow()
 
-    val mediaUIEvent: MutableStateFlow<Event<MediaUIEvent>?> = MutableStateFlow(null)
+    private val _mediaUIEvent: MutableStateFlow<Event<MediaUIEvent>?> = MutableStateFlow(null)
+    val mediaUIEvent = _mediaUIEvent.asStateFlow()
 
     init {
         getData()
@@ -49,14 +51,14 @@ class AllMovieViewModel @Inject constructor(
             _uiState.update { it.copy(allMedia = allMediaItems, isLoading = false) }
         }
 
-        mediaUIEvent.update { Event(MediaUIEvent.RetryEvent) }
+        _mediaUIEvent.update { Event(MediaUIEvent.RetryEvent) }
     }
 
     override fun onClickMedia(mediaId: Int) {
         if (checkIfMediaIsSeriesUseCase(args.type)) {
-            mediaUIEvent.update { Event(MediaUIEvent.ClickSeriesEvent(mediaId)) }
+            _mediaUIEvent.update { Event(MediaUIEvent.ClickSeriesEvent(mediaId)) }
         } else {
-            mediaUIEvent.update { Event(MediaUIEvent.ClickMovieEvent(mediaId)) }
+            _mediaUIEvent.update { Event(MediaUIEvent.ClickMovieEvent(mediaId)) }
         }
     }
 

@@ -11,6 +11,7 @@ import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,7 +26,8 @@ class ExploringViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ExploreUIState())
     val uiState: StateFlow<ExploreUIState> = _uiState
 
-    val exploringUIEvent: MutableStateFlow<Event<ExploringUIEvent>?> = MutableStateFlow(null)
+    private val _exploringUIEvent: MutableStateFlow<Event<ExploringUIEvent>?> = MutableStateFlow(null)
+    val exploringUIEvent= _exploringUIEvent.asStateFlow()
 
     init {
         getData()
@@ -53,23 +55,23 @@ class ExploringViewModel @Inject constructor(
     }
 
     override fun onClickTrend(item: TrendyMediaUIState) {
-        exploringUIEvent.update { Event(ExploringUIEvent.TrendEvent(item)) }
+        _exploringUIEvent.update { Event(ExploringUIEvent.TrendEvent(item)) }
     }
 
     fun onClickSearch() {
-        exploringUIEvent.update { Event(ExploringUIEvent.SearchEvent) }
+        _exploringUIEvent.update { Event(ExploringUIEvent.SearchEvent) }
     }
 
     fun onClickMovies() {
-        exploringUIEvent.update { Event(ExploringUIEvent.MoviesEvent) }
+        _exploringUIEvent.update { Event(ExploringUIEvent.MoviesEvent) }
     }
 
     fun onClickTVShow() {
-        exploringUIEvent.update { Event(ExploringUIEvent.TVShowEvent) }
+        _exploringUIEvent.update { Event(ExploringUIEvent.TVShowEvent) }
     }
 
     fun onClickActors() {
-        exploringUIEvent.update { Event(ExploringUIEvent.ActorsEvent) }
+        _exploringUIEvent.update { Event(ExploringUIEvent.ActorsEvent) }
     }
 
 }

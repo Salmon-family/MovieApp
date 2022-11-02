@@ -1,6 +1,7 @@
 package com.karrar.movieapp.ui.myList
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
@@ -11,7 +12,6 @@ import com.karrar.movieapp.databinding.FragmentMyListsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.myList.myListUIState.MyListUIEvent
 import com.karrar.movieapp.utilities.collectLast
-import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -30,7 +30,7 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
 
     private fun collectEvent() {
         collectLast(viewModel.myListUIEvent) {
-            it?.getContentIfNotHandled()?.let { onEvent(it) }
+            it.getContentIfNotHandled()?.let { onEvent(it) }
         }
     }
 
@@ -49,6 +49,8 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
                     event.createdListUIState.name
                 )
             }
+            else -> {
+            }
         }
         action?.let { findNavController().navigate(it) }
     }
@@ -57,4 +59,5 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
         super.onResume()
         viewModel.getData()
     }
+
 }

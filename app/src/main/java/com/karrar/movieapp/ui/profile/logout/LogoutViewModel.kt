@@ -6,6 +6,7 @@ import com.karrar.movieapp.domain.usecases.LogoutUseCase
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,8 +15,8 @@ import javax.inject.Inject
 class LogoutViewModel @Inject constructor(private val logoutUseCase: LogoutUseCase) :
     ViewModel() {
 
-    val logoutUIEvent: MutableStateFlow<Event<LogoutUIEvent>?> = MutableStateFlow(null)
-
+    private val _logoutUIEvent: MutableStateFlow<Event<LogoutUIEvent?>> = MutableStateFlow(Event(null))
+    val logoutUIEvent= _logoutUIEvent.asStateFlow()
     fun onLogout() {
         viewModelScope.launch {
             logoutUseCase()
@@ -24,10 +25,10 @@ class LogoutViewModel @Inject constructor(private val logoutUseCase: LogoutUseCa
     }
 
     fun onCloseDialog() {
-        logoutUIEvent.update { Event(LogoutUIEvent.CloseDialogEvent) }
+        _logoutUIEvent.update { Event(LogoutUIEvent.CloseDialogEvent) }
     }
 
     private fun logoutEvent() {
-        logoutUIEvent.update { Event(LogoutUIEvent.LogoutEvent) }
+        _logoutUIEvent.update { Event(LogoutUIEvent.LogoutEvent) }
     }
 }

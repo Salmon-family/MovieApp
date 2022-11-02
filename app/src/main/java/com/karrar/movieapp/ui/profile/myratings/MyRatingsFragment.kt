@@ -22,7 +22,7 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
         val adapter = RatedMoviesAdapter(emptyList(), viewModel)
         binding.recyclerViewRatedMovies.adapter = adapter
         collectLast(viewModel.myRatingUIEvent) {
-            it?.getContentIfNotHandled()?.let { onEvent(it) }
+            it.getContentIfNotHandled()?.let { onEvent(it) }
         }
     }
 

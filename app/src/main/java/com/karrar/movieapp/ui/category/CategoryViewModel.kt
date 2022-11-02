@@ -1,6 +1,5 @@
 package com.karrar.movieapp.ui.category
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
@@ -15,7 +14,6 @@ import com.karrar.movieapp.ui.category.uiState.CategoryUIState
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -35,11 +33,8 @@ class CategoryViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CategoryUIState())
     val uiState: StateFlow<CategoryUIState> = _uiState.asStateFlow()
 
-
-    val categoryUIEvent: MutableStateFlow<Event<CategoryUIEvent>?> = MutableStateFlow(null)
-
-    private val _selectedCategory = MutableLiveData(FIRST_CATEGORY_ID)
-    val selectedCategory = _selectedCategory.toLiveData()
+    val categoryUIEvent: MutableStateFlow<Event<CategoryUIEvent>> =
+        MutableStateFlow(Event(CategoryUIEvent.SelectedCategory(FIRST_CATEGORY_ID)))
 
     init {
         getData()
@@ -81,12 +76,13 @@ class CategoryViewModel @Inject constructor(
 
     override fun onClickMedia(mediaId: Int) {
         categoryUIEvent.update { Event(CategoryUIEvent.ClickMovieEvent(mediaId)) }
-
     }
 
     override fun onClickCategory(categoryId: Int) {
-        _selectedCategory.postValue(categoryId)
-        categoryUIEvent.update { Event(CategoryUIEvent.SelectedCategory(categoryId)) }
+        viewModelScope.launch {
+            _uiState.update { it.copy(selectedCategoryID = categoryId) }
+            categoryUIEvent.emit(Event(CategoryUIEvent.SelectedCategory(categoryId)))
+        }
     }
 
     fun setErrorUiState(combinedLoadStates: CombinedLoadStates) {

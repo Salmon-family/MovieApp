@@ -1,6 +1,5 @@
 package com.karrar.movieapp.ui.login
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,8 +8,6 @@ import com.karrar.movieapp.domain.usecases.login.ValidateFiledUseCase
 import com.karrar.movieapp.domain.usecases.login.ValidateLoginFormUseCase
 import com.karrar.movieapp.domain.usecases.login.ValidatePasswordFiledUseCase
 import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.postEvent
-import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,18 +26,14 @@ class LoginViewModel @Inject constructor(
 
     val args = LoginFragmentArgs.fromSavedStateHandle(state)
 
-    private val _loginEvent = MutableLiveData<Event<Int>>()
-    val loginEvent = _loginEvent.toLiveData()
-
-    private val _signUpEvent = MutableLiveData<Event<Boolean>>()
-    val signUpEvent = _signUpEvent.toLiveData()
-
     private val _loginUIState = MutableStateFlow(LoginUiState())
     val loginUIState = _loginUIState.asStateFlow()
 
+    private val _loginEvent = MutableStateFlow<Event<LoginUIEvent?>>(Event(null))
+    val loginEvent = _loginEvent.asStateFlow()
 
     fun onClickSignUp() {
-        _signUpEvent.postValue(Event(true))
+        _loginEvent.update { Event(LoginUIEvent.SignUpEvent) }
     }
 
     fun onClickLogin() {
@@ -53,8 +46,10 @@ class LoginViewModel @Inject constructor(
             it.copy(
                 userName = text.toString(),
                 userNameHelperText = userNameFieldState.errorMessage() ?: "",
-                isValidForm = validateLoginFormUseCase(loginUIState.value.userName,
-                    loginUIState.value.password)
+                isValidForm = validateLoginFormUseCase(
+                    loginUIState.value.userName,
+                    loginUIState.value.password
+                )
             )
 
         }
@@ -66,8 +61,10 @@ class LoginViewModel @Inject constructor(
             it.copy(
                 password = text.toString(),
                 passwordHelperText = passwordFieldState.errorMessage() ?: "",
-                isValidForm = validateLoginFormUseCase(loginUIState.value.userName,
-                    loginUIState.value.password)
+                isValidForm = validateLoginFormUseCase(
+                    loginUIState.value.userName,
+                    loginUIState.value.password
+                )
             )
         }
     }
@@ -78,11 +75,13 @@ class LoginViewModel @Inject constructor(
             try {
                 _loginUIState.update { it.copy(isLoading = true) }
                 val loginState =
-                    loginWithUserNameAndPasswordUseCase(loginUIState.value.userName,
-                        loginUIState.value.password)
-              if (loginState){
-                  onLoginSuccessfully()
-              }
+                    loginWithUserNameAndPasswordUseCase(
+                        loginUIState.value.userName,
+                        loginUIState.value.password
+                    )
+                if (loginState) {
+                    onLoginSuccessfully()
+                }
             } catch (e: Throwable) {
                 onLoginError(e.message.toString())
             }
@@ -92,15 +91,17 @@ class LoginViewModel @Inject constructor(
 
     private fun onLoginSuccessfully() {
         _loginUIState.update { it.copy(isLoading = false) }
-        _loginEvent.postEvent(args.from)
+        _loginEvent.update { Event(LoginUIEvent.LoginEvent(args.from)) }
         resetForm()
     }
 
     private fun onLoginError(message: String) {
         _loginUIState.update {
-            it.copy(isLoading = false,
+            it.copy(
+                isLoading = false,
                 error = message,
-                passwordHelperText = message)
+                passwordHelperText = message
+            )
         }
     }
 

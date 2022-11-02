@@ -23,7 +23,7 @@ class LogoutDialog : BaseDialog<DialogLogoutBinding>() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setWidthPercent(90)
         collectLast(viewModel.logoutUIEvent) {
-            it?.getContentIfNotHandled()?.let { onEvent(it) }
+            it.getContentIfNotHandled()?.let { onEvent(it) }
         }
     }
 

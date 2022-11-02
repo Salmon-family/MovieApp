@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
-import com.karrar.movieapp.domain.usecase.GetActorsDataUseCase
+import com.karrar.movieapp.domain.usecases.GetActorsDataUseCase
 import com.karrar.movieapp.ui.actors.models.ActorsUIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
@@ -27,8 +27,8 @@ class ActorsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ActorsUIState())
     val uiState = _uiState.asStateFlow()
 
-    val actorsUIEventFlow: MutableStateFlow<Event<ActorsUIEvent>?> = MutableStateFlow(null)
-
+    private val _actorsUIEventFlow: MutableStateFlow<Event<ActorsUIEvent>?> = MutableStateFlow(null)
+    val actorsUIEventFlow = _actorsUIEventFlow.asStateFlow()
     init {
         getData()
     }
@@ -36,7 +36,7 @@ class ActorsViewModel @Inject constructor(
     override fun getData() {
         _uiState.update { it.copy(isLoading = true) }
         getActors()
-        actorsUIEventFlow.update { Event(ActorsUIEvent.RetryEvent) }
+        _actorsUIEventFlow.update { Event(ActorsUIEvent.RetryEvent) }
     }
 
     private fun getActors() {
@@ -54,7 +54,7 @@ class ActorsViewModel @Inject constructor(
     }
 
     override fun onClickActor(actorID: Int) {
-        actorsUIEventFlow.update { Event(ActorsUIEvent.ActorEvent(actorID)) }
+        _actorsUIEventFlow.update { Event(ActorsUIEvent.ActorEvent(actorID)) }
     }
 
     fun setErrorUiState(combinedLoadStates: CombinedLoadStates) {

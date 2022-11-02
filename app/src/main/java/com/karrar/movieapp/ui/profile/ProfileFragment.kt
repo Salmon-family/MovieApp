@@ -21,7 +21,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         setTitle(true, getString(R.string.profile))
 
         collectLast(viewModel.profileUIEvent) {
-            it?.getContentIfNotHandled()?.let { onEvent(it) }
+            it.getContentIfNotHandled()?.let { onEvent(it) }
         }
     }
 

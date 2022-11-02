@@ -1,6 +1,5 @@
 package com.karrar.movieapp.ui.movieDetails
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.HomeItemsType
@@ -12,7 +11,6 @@ import com.karrar.movieapp.ui.movieDetails.mapper.*
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.*
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -40,31 +38,13 @@ class MovieDetailsViewModel @Inject constructor(
 
     private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
 
-    private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
-    var clickBackEvent = _clickBackEvent.toLiveData()
-
-    private val _clickMovieEvent = MutableLiveData<Event<Int>>()
-    val clickMovieEvent = _clickMovieEvent.toLiveData()
-
-    private val _clickCastEvent = MutableLiveData<Event<Int>>()
-    var clickCastEvent = _clickCastEvent.toLiveData()
-
-    private val _clickPlayTrailerEvent = MutableLiveData<Event<Boolean>>()
-    var clickPlayTrailerEvent = _clickPlayTrailerEvent.toLiveData()
-
-    private val _clickReviewsEvent = MutableLiveData<Event<Boolean>>()
-    var clickReviewsEvent = _clickReviewsEvent.toLiveData()
-
-    private val _clickSaveEvent = MutableLiveData<Event<Boolean>>()
-    var clickSaveEvent = _clickSaveEvent.toLiveData()
-
-    private val _messageAppear = MutableLiveData<Boolean>()
-    var messageAppear = _messageAppear.toLiveData()
-
     private val movieDetailItemsOfNestedView = mutableListOf<DetailItemUIState>()
 
     private val _uiState = MutableStateFlow(MovieUIState())
     val uiState: StateFlow<MovieUIState> = _uiState.asStateFlow()
+
+    private val _movieDetailsUIEvent = MutableStateFlow<Event<MovieDetailsUIEvent?>>(Event(null))
+    val movieDetailsUIEvent = _movieDetailsUIEvent.asStateFlow()
 
     init {
         getData()
@@ -259,7 +239,7 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun onShowMessageOfChangeRating() {
-        _messageAppear.postValue(true)
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.MessageAppear) }
     }
 
     private fun onAddMessageToListError(e: Exception): List<ErrorUIState> {
@@ -277,28 +257,28 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickSave() {
-        _clickSaveEvent.postValue(Event(true))
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickSaveEvent) }
     }
 
     override fun onClickPlayTrailer() {
-        _clickPlayTrailerEvent.postValue(Event(true))
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickPlayTrailerEvent) }
     }
 
     override fun onclickBack() {
-        _clickBackEvent.postValue(Event(true))
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickBackEvent) }
     }
 
     override fun onclickViewReviews() {
-        _clickReviewsEvent.postValue(Event(true))
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickReviewsEvent) }
     }
 
     override fun onClickMovie(movieId: Int) {
-        _clickMovieEvent.postValue(Event(movieId))
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickMovieEvent(movieId)) }
     }
 
     override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {}
 
     override fun onClickActor(actorID: Int) {
-        _clickCastEvent.postValue(Event(actorID))
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickCastEvent(actorID)) }
     }
 }

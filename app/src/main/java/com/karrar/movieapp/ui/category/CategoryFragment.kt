@@ -3,6 +3,7 @@ package com.karrar.movieapp.ui.category
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
@@ -10,9 +11,12 @@ import com.karrar.movieapp.databinding.FragmentCategoryBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.category.uiState.CategoryUIEvent
-import com.karrar.movieapp.utilities.*
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
+import com.karrar.movieapp.utilities.collect
+import com.karrar.movieapp.utilities.collectLast
+import com.karrar.movieapp.utilities.setSpanSize
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
@@ -26,6 +30,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         setTitle(true, getTitle())
         setMediaAdapter()
         collectEvent()
+        collectData()
     }
 
     private fun setMediaAdapter() {
@@ -37,11 +42,22 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
         collect(flow = allMediaAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it) })
+
+
+    }
+
+    private fun collectData() {
+        lifecycleScope.launch {
+            viewModel.uiState.collect {
+                collectLast(viewModel.uiState.value.media)
+                { allMediaAdapter.submitData(it) }
+            }
+        }
     }
 
     private fun collectEvent() {
-        collectLast(viewModel.categoryUIEvent) {
-            it?.getContentIfNotHandled()?.let { onEvent(it) }
+        collect(viewModel.categoryUIEvent) {
+            it.getContentIfNotHandled()?.let { onEvent(it) }
         }
     }
 
@@ -59,9 +75,6 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
             }
             is CategoryUIEvent.SelectedCategory -> {
                 viewModel.getMediaList(event.categoryID)
-                collectLast(viewModel.uiState.value.media) {
-                    allMediaAdapter.submitData(it)
-                }
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.karrar.movieapp.ui.movieDetails.saveMovie
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecases.mylist.GetMyListUseCase
@@ -8,7 +7,8 @@ import com.karrar.movieapp.domain.usecases.mylist.SaveMovieToMyListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.MySavedListUIState
-import com.karrar.movieapp.utilities.toLiveData
+import com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.SaveMovieUIEvent
+import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,8 +29,8 @@ class SaveMovieViewModel @Inject constructor(
     private val _myListsUIState = MutableStateFlow(MySavedListUIState())
     val myListsUIState = _myListsUIState.asStateFlow()
 
-    private val _message = MutableLiveData<String>()
-    val message = _message.toLiveData()
+    private val _saveMovieUIEvent = MutableStateFlow<Event<SaveMovieUIEvent?>>(Event(null))
+    val saveMovieUIEvent = _saveMovieUIEvent.asStateFlow()
 
     init {
         getData()
@@ -47,18 +47,24 @@ class SaveMovieViewModel @Inject constructor(
                     )
                 }
             } catch (t: Throwable) {
-                _myListsUIState.update { it.copy(isLoading = false, error = listOf(ErrorUIState(404,t.message.toString()))) }
+                _myListsUIState.update {
+                    it.copy(
+                        isLoading = false,
+                        error = listOf(ErrorUIState(404, t.message.toString()))
+                    )
+                }
             }
         }
     }
 
     override fun onClickSaveList(listID: Int) {
         viewModelScope.launch {
-            try {
-                _message.postValue(saveMovieToMyListUseCase(listID, args.movieId) ?: "")
+            val message = try {
+                saveMovieToMyListUseCase(listID, args.movieId)
             } catch (t: Throwable) {
-                _message.postValue(t.message.toString())
+                t.message.toString()
             }
+            _saveMovieUIEvent.update { Event(SaveMovieUIEvent.DisplayMessage(message ?: "")) }
         }
     }
 }

@@ -1,17 +1,27 @@
 package com.karrar.movieapp.ui.search
 
-import androidx.lifecycle.*
-import androidx.paging.*
+import androidx.lifecycle.viewModelScope
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
+import androidx.paging.map
 import com.karrar.movieapp.domain.usecases.searchUseCase.*
 import com.karrar.movieapp.ui.allMedia.Error
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.search.adapters.*
-import com.karrar.movieapp.ui.search.mediaSearchUIState.*
-import com.karrar.movieapp.ui.search.uiStatMapper.*
-import com.karrar.movieapp.utilities.*
+import com.karrar.movieapp.ui.search.adapters.ActorSearchInteractionListener
+import com.karrar.movieapp.ui.search.adapters.MediaSearchInteractionListener
+import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaSearchUIState
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState
+import com.karrar.movieapp.ui.search.uiStatMapper.SearchHistoryUIStateMapper
+import com.karrar.movieapp.ui.search.uiStatMapper.SearchMediaUIStateMapper
+import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.toStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,25 +41,15 @@ class SearchViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(MediaSearchUIState())
     val uiState = _uiState.toStateFlow()
 
-    private val _clickMediaEvent = MutableLiveData<Event<MediaUIState>>()
-    val clickMediaEvent = _clickMediaEvent.toLiveData()
-
-    private val _clickActorEvent = MutableLiveData<Event<Int>>()
-    val clickActorEvent = _clickActorEvent.toLiveData()
-
-    private val _clickBackEvent = MutableLiveData<Event<Boolean>>()
-    val clickBackEvent = _clickBackEvent.toLiveData()
-
-    private val _clickRetryEvent = MutableLiveData<Event<Boolean>>()
-    val clickRetryEvent = _clickRetryEvent.toLiveData()
-
+    private val _searchUIEvent = MutableStateFlow<Event<SearchUIEvent?>>(Event(null))
+    val searchUIEvent = _searchUIEvent.asStateFlow()
 
     init {
         getAllSearchHistory()
     }
 
     override fun getData() {
-        _clickRetryEvent.postEvent(true)
+        _searchUIEvent.update { Event(SearchUIEvent.ClickRetryEvent) }
     }
 
     private fun getAllSearchHistory() {
@@ -58,12 +58,16 @@ class SearchViewModel @Inject constructor(
             try {
                 getSearchHistoryUseCase().collect { list ->
                     _uiState.update {
-                        it.copy(searchHistory = list.map { item -> searchHistoryUIStateMapper.map(item) }, isLoading = false, isEmpty = false)
+                        it.copy(searchHistory = list.map { item ->
+                            searchHistoryUIStateMapper.map(
+                                item
+                            )
+                        }, isLoading = false, isEmpty = false)
                     }
                 }
-            } catch (e:Throwable) {
+            } catch (e: Throwable) {
                 _uiState.update {
-                    it.copy(error = listOf(Error(0,e.message.toString())))
+                    it.copy(error = listOf(Error(0, e.message.toString())))
                 }
             }
         }
@@ -72,7 +76,7 @@ class SearchViewModel @Inject constructor(
     fun onSearchInputChange(searchTerm: CharSequence) {
         _uiState.update { it.copy(searchInput = searchTerm.toString(), isLoading = true) }
         viewModelScope.launch {
-            when(_uiState.value.searchTypes){
+            when (_uiState.value.searchTypes) {
                 MediaTypes.MOVIE -> onSearchForMovie()
                 MediaTypes.TVS_SHOW -> onSearchForSeries()
                 MediaTypes.ACTOR -> onSearchForActor()
@@ -81,48 +85,57 @@ class SearchViewModel @Inject constructor(
     }
 
 
-    fun onSearchForMovie(){
+    fun onSearchForMovie() {
         viewModelScope.launch {
-            _uiState.update { it.copy(
-                searchTypes = MediaTypes.MOVIE,
-                isLoading = false,
-                searchResult= getSearchForMovieUseCase(it.searchInput).map { pagingData ->
-                    pagingData.map { item -> searchMediaUIStateMapper.map(item) } }
-                ) }
+            _uiState.update {
+                it.copy(
+                    searchTypes = MediaTypes.MOVIE,
+                    isLoading = false,
+                    searchResult = getSearchForMovieUseCase(it.searchInput).map { pagingData ->
+                        pagingData.map { item -> searchMediaUIStateMapper.map(item) }
+                    }
+                )
+            }
         }
     }
 
-    fun onSearchForSeries(){
+    fun onSearchForSeries() {
         viewModelScope.launch {
-            _uiState.update { it.copy(
-                searchTypes = MediaTypes.TVS_SHOW,
-                isLoading = false,
-                searchResult= getSearchForSeriesUserCase(it.searchInput).map { pagingData ->
-                    pagingData.map { item -> searchMediaUIStateMapper.map(item) } }
-            ) }
+            _uiState.update {
+                it.copy(
+                    searchTypes = MediaTypes.TVS_SHOW,
+                    isLoading = false,
+                    searchResult = getSearchForSeriesUserCase(it.searchInput).map { pagingData ->
+                        pagingData.map { item -> searchMediaUIStateMapper.map(item) }
+                    }
+                )
+            }
         }
     }
 
-    fun onSearchForActor(){
+    fun onSearchForActor() {
         viewModelScope.launch {
-            _uiState.update { it.copy(
-                searchTypes = MediaTypes.ACTOR,
-                isLoading = false,
-                searchResult= getSearchForActorUseCase(it.searchInput).map { pagingData ->
-                    pagingData.map { item -> searchMediaUIStateMapper.map(item) } }
-                ) }
+            _uiState.update {
+                it.copy(
+                    searchTypes = MediaTypes.ACTOR,
+                    isLoading = false,
+                    searchResult = getSearchForActorUseCase(it.searchInput).map { pagingData ->
+                        pagingData.map { item -> searchMediaUIStateMapper.map(item) }
+                    }
+                )
+            }
         }
     }
 
 
     override fun onClickMediaResult(media: MediaUIState) {
         saveSearchResult(media.mediaID, media.mediaName)
-        _clickMediaEvent.postEvent(media)
+        _searchUIEvent.update { Event(SearchUIEvent.ClickMediaEvent(media)) }
     }
 
     override fun onClickActorResult(personID: Int, name: String) {
         saveSearchResult(personID, name)
-        _clickActorEvent.postEvent(personID)
+        _searchUIEvent.update { Event(SearchUIEvent.ClickActorEvent(personID)) }
     }
 
     private fun saveSearchResult(id: Int, name: String) {
@@ -134,7 +147,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onClickBack() {
-        _clickBackEvent.postEvent(true)
+        _searchUIEvent.update { Event(SearchUIEvent.ClickBackEvent) }
     }
 
     fun setErrorUiState(combinedLoadStates: CombinedLoadStates, itemCount: Int) {
@@ -150,13 +163,25 @@ class SearchViewModel @Inject constructor(
                 }
             }
             is LoadState.NotLoading -> {
-                if( itemCount < 1){
-                    _uiState.update { it.copy(isEmpty = true, isLoading = false, error = emptyList()) }
-                }else{
-                    _uiState.update { it.copy(isEmpty = false , isLoading = false, error = emptyList()) }
+                if (itemCount < 1) {
+                    _uiState.update {
+                        it.copy(
+                            isEmpty = true,
+                            isLoading = false,
+                            error = emptyList()
+                        )
+                    }
+                } else {
+                    _uiState.update {
+                        it.copy(
+                            isEmpty = false,
+                            isLoading = false,
+                            error = emptyList()
+                        )
+                    }
                 }
             }
         }
     }
 
- }
+}

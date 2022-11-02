@@ -34,7 +34,8 @@ class MyListsViewModel @Inject constructor(
     private val _createListDialogUIState = MutableStateFlow(CreateListDialogUIState())
     val createListDialogUIState = _createListDialogUIState.asStateFlow()
 
-    val myListUIEvent: MutableStateFlow<Event<MyListUIEvent>?> = MutableStateFlow(null)
+    private val _myListUIEvent: MutableStateFlow<Event<MyListUIEvent?>> = MutableStateFlow(Event(null))
+    val myListUIEvent = _myListUIEvent.asStateFlow()
 
     override fun getData() {
         _createdListUIState.update {
@@ -61,7 +62,7 @@ class MyListsViewModel @Inject constructor(
     }
 
     fun onCreateList() {
-        myListUIEvent.update { Event(MyListUIEvent.CreateButtonClicked) }
+        _myListUIEvent.update { Event(MyListUIEvent.CreateButtonClicked) }
     }
 
     fun onClickAddList() {
@@ -76,15 +77,15 @@ class MyListsViewModel @Inject constructor(
                     )
                 }
             } catch (t: Throwable) {
-                myListUIEvent.update { Event(MyListUIEvent.DisplayError(t.message.toString())) }
+                _myListUIEvent.update { Event(MyListUIEvent.DisplayError(t.message.toString())) }
             }
             _createListDialogUIState.update { it.copy(mediaListName = "") }
+            _myListUIEvent.emit(Event(MyListUIEvent.CLickAddEvent))
         }
-//        myListUIEvent.update { Event(MyListUIEvent.CLickAddEvent) }
     }
 
     override fun onListClick(item: CreatedListUIState) {
-        myListUIEvent.update { Event(MyListUIEvent.OnSelectItem(item)) }
+        _myListUIEvent.update { Event(MyListUIEvent.OnSelectItem(item)) }
     }
 
     private fun setError(t: Throwable) {
