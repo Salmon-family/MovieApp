@@ -32,7 +32,7 @@ class ActorViewModel @Inject constructor(
 
     private val _actorDetailsUIEvent: MutableStateFlow<Event<ActorDetailsUIEvent?>> =
         MutableStateFlow(Event(null))
-    val actorDetailsUIEvent = _actorDetailsUIEvent.asSharedFlow()
+    val actorDetailsUIEvent = _actorDetailsUIEvent.asStateFlow()
 
     init {
         getData()
