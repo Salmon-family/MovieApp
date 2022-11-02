@@ -24,7 +24,6 @@ class MovieDetailsViewModel @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val insertMoviesUseCase: InsertMoviesUseCase,
     private val setRatingUseCase: SetRatingUseCase,
-    private val deleteRatingUseCase: DeleteRatingUseCase,
     private val movieDetailsUIStateMapper: MovieDetailsUIStateMapper,
     private val actorUIStateMapper: ActorUIStateMapper,
     private val mediaUIStateMapper: MediaUIStateMapper,
@@ -54,10 +53,8 @@ class MovieDetailsViewModel @Inject constructor(
         getAllDetails(args.movieId)
     }
 
-
     private fun getAllDetails(movieId: Int) {
         _uiState.update { it.copy(isLoading = true, errorUIStates = emptyList()) }
-
         checkSessionID()
         getMovieDetails(movieId)
         getMovieCast(movieId)
@@ -198,16 +195,6 @@ class MovieDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun insertMovieToWatchHistory(movie: MovieDetailsUIState?) {
-        viewModelScope.launch {
-            movie?.let { movieDetails ->
-                val movieDetailsMapper = watchHistoryMapper.map(movieDetails)
-                insertMoviesUseCase(movieDetailsMapper)
-            }
-        }
-
-    }
-
     private fun checkIfMovieRated(items: List<RatedUIState>?, movieId: Int) {
         val item = items?.firstOrNull { it.id == movieId }
         item?.let { ratedUIState ->
@@ -217,6 +204,17 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+    private fun insertMovieToWatchHistory(movie: MovieDetailsUIState?) {
+        viewModelScope.launch {
+            movie?.let { movieDetails ->
+                val movieDetailsMapper = watchHistoryMapper.map(movieDetails)
+                insertMoviesUseCase(movieDetailsMapper)
+            }
+        }
+    }
+
+
+
     fun onChangeRating(value: Float) {
         _uiState.value.movieDetailsResult.let { onAddRating(it.id, value) }
     }
@@ -224,11 +222,7 @@ class MovieDetailsViewModel @Inject constructor(
     private fun onAddRating(movieId: Int, value: Float) {
         viewModelScope.launch {
             try {
-                if (value == 0f) {
-                    deleteRatingUseCase(movieId)
-                } else {
-                    setRatingUseCase(movieId, value)
-                }
+                setRatingUseCase(movieId, value)
                 onShowMessageOfChangeRating()
             } catch (e: Exception) {
                 _uiState.update {

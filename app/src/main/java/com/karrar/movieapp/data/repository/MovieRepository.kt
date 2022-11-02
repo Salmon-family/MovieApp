@@ -144,9 +144,9 @@ interface MovieRepository {
 
     suspend fun getMovieReviews(movieId: Int): List<ReviewsDto>?
 
-    suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto?
+    suspend fun setRating(movieId: Int, value: Float): RatingDto?
 
-    suspend fun deleteRating(movieId: Int, session_id: String): RatingDto?
+    suspend fun deleteRating(movieId: Int): RatingDto?
 
     suspend fun getRatedMovie(accountId: Int, sessionId: String): List<RatedMoviesDto>?
 

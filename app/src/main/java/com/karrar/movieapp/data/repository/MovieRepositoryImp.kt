@@ -57,8 +57,8 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getRatedMovie(accountId, sessionId).body()?.items
     }
 
-    override suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto? {
-        return  movieService.postRating(movieId, value, session_id).body()
+    override suspend fun setRating(movieId: Int, value: Float): RatingDto? {
+        return  movieService.postRating(movieId, value).body()
     }
 
     /**
@@ -352,8 +352,8 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getMovieReviews(movieId).body()?.items
     }
 
-    override suspend fun deleteRating(movieId: Int, session_id: String): RatingDto? {
-        return movieService.deleteRating(movieId, session_id).body()
+    override suspend fun deleteRating(movieId: Int): RatingDto? {
+        return movieService.deleteRating(movieId).body()
     }
 
     override suspend fun getMovieTrailer(movieId: Int): TrailerDto? {
