@@ -33,7 +33,6 @@ interface MovieRepository {
 
     suspend fun getActorMovies(actorId: Int): ActorMoviesDto?
 
-
     suspend fun getAllLists(sessionId: String): List<CreatedListDto>?
 
     suspend fun getListDetails(listId: Int): MyListsDto?
@@ -58,61 +57,19 @@ interface MovieRepository {
 
     suspend fun getMovieByGenre(genreID: Int): Pager<Int, MovieDto>
 
-    suspend fun insertPopularMovies(items: List<PopularMovieEntity>)
-
     suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>>
-
 
     suspend fun getTrendingMovies(): Flow<List<TrendingMovieEntity>>
 
-    suspend fun insertTrendingMovies(items: List<TrendingMovieEntity>)
-
-
    suspend fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>>
 
-    suspend fun insertNowStreamingMovies(items: List<NowStreamingMovieEntity>)
-
-
     suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
-
-    suspend fun insertUpcomingMovies(items: List<UpcomingMovieEntity>)
 
     suspend fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
 
     suspend fun getMysteryMovies(): Flow<List<MysteryMovieEntity>>
 
-    suspend fun insertAdventureMovies(items: List<AdventureMovieEntity>)
-
     suspend fun getTrendingActors(): Flow<List<ActorEntity>>
-
-    suspend fun deleteAdventureMovies()
-
-    suspend fun insertMysteryMovies(items: List<MysteryMovieEntity>)
-
-    suspend fun deleteMysteryMovies()
-
-    suspend fun insertTrendingActors(items: List<ActorEntity>)
-
-    suspend fun deleteTrendingActors()
-
-    suspend fun saveRequestDate(value: Long)
-
-    suspend fun getRequestDate(): Long?
-
-    suspend fun getPopularMovies(page: Int = 1): List<MovieDto>
-
-    suspend fun getTrendingMovies(page: Int = 1): List<MovieDto>
-
-
-    suspend fun getNowStreamingMovies(page: Int = 1): List<MovieDto>
-
-    suspend fun getAdventureMovies(page: Int = 1): List<MovieDto>
-
-    suspend fun getUpcomingMovies(page: Int = 1): List<MovieDto>
-
-    suspend fun getMysteryMovies(page: Int = 1): List<MovieDto>
-
-    suspend fun getTrendingActors(page: Int = 1): List<ActorDto>
 
     suspend fun getTrendingMoviesPager(): Pager<Int, MovieDto>
 
@@ -126,7 +83,6 @@ interface MovieRepository {
 
     suspend fun getMysteryMoviesPager(): Pager<Int, MovieDto>
 
-
     suspend fun searchForMoviePager(query: String): Pager<Int, MovieDto>
 
     suspend fun searchForActorPager(query: String): Pager<Int, ActorDto>
@@ -134,7 +90,6 @@ interface MovieRepository {
     suspend fun getAllSearchHistory(): Flow<List<SearchHistoryEntity>>
 
     suspend fun getActorData(): Pager<Int, ActorDto>
-
 
     suspend fun getMovieDetails(movieId: Int): MovieDetailsDto?
 

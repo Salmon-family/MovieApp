@@ -127,13 +127,6 @@ fun hideWhenBlankSearch(view: View, text: String) {
 
 // different
 
-@BindingAdapter(value = ["app:homeItems"])
-fun <T> setHomeRecyclerItems(view: RecyclerView, items: List<HomeItem>?) {
-    items?.forEach {
-        (view.adapter as HomeAdapter).setItem(it)
-    }
-}
-
 @BindingAdapter(value = ["app:items"])
 fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
     (view.adapter as BaseAdapter<T>?)?.setItems(items ?: emptyList())
