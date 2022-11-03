@@ -24,7 +24,7 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
         binding.relatedMovieRecycler.adapter = ActorMoviesAdapter(mutableListOf(), viewModel)
 
         collectLast(viewModel.actorDetailsUIEvent) {
-            it?.getContentIfNotHandled()?.let { onEvent(it) }
+            it.getContentIfNotHandled()?.let { onEvent(it) }
         }
     }
 
