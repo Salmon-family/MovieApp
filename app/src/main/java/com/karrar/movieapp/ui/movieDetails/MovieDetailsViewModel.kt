@@ -140,9 +140,9 @@ class MovieDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _uiState.update { it.copy(ratingValue = getMovieRate(movieId)) }
+                onAddMovieDetailsItemOfNestedView(DetailItemUIState.Rating(this@MovieDetailsViewModel))
             } catch (e: Throwable) {
             }
-            onAddMovieDetailsItemOfNestedView(DetailItemUIState.Rating(this@MovieDetailsViewModel))
         }
     }
 

@@ -10,7 +10,7 @@ class GetMovieRateUseCase @Inject constructor(
     suspend operator fun invoke(movieID: Int): Float {
         val result = movieRepository.getRatedMovie()
         return result?.let {
-            it.find { it.id == movieID }?.rating
-        } ?: 0F
+            it.find { it.id == movieID }?.rating ?: 0F
+        } ?: throw Throwable("Error")
     }
 }
