@@ -97,6 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
             android:text="@{item.name}"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"

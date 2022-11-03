@@ -100,14 +100,15 @@
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/radius_medium"
-            android:layout_marginTop="@dimen/radius_medium"
-            android:contentDescription="@string/todo"
-            android:onClick="@{() -> viewModel.onClickBack()}"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/back_icon_shape"
+            android:padding="@dimen/spacing_small"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/shade_primary_color" />
+            app:tint="@color/background_color"
+            android:onClick="@{() -> viewModel.onClickBack()}"/>
 
         <TextView
             android:id="@+id/text_name_actor"
