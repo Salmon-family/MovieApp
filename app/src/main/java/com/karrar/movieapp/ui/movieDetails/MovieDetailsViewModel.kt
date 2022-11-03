@@ -157,7 +157,6 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-
     private fun getMovieReviews(movieId: Int) {
         viewModelScope.launch {
             try {

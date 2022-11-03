@@ -58,7 +58,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun getSearchResultsBySearchTerm() {
         lifecycleScope.launch {
             viewModel.uiState.debounce(500).collectLatest { searchTerm ->
-                if (searchTerm.searchInput.isNotBlank() && oldValue.value.searchInput != viewModel.uiState.value.searchInput || oldValue.value.searchTypes != viewModel.uiState.value.searchTypes) {
+                if (searchTerm.searchInput.isNotBlank()
+                    && oldValue.value.searchInput != viewModel.uiState.value.searchInput
+                    || oldValue.value.searchTypes != viewModel.uiState.value.searchTypes) {
                     getSearchResult()
                     oldValue.emit(viewModel.uiState.value)
                 }
@@ -147,17 +149,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun getMediaSearchResults() {
-        lifecycleScope.launch {
-            collectLast(viewModel.uiState.value.searchResult)
-            { mediaSearchAdapter.submitData(it) }
-        }
+        collectLast(viewModel.uiState.value.searchResult)
+        { mediaSearchAdapter.submitData(it) }
     }
 
     private fun getActorsSearchResults() {
-        lifecycleScope.launch {
-            collectLast(viewModel.uiState.value.searchResult)
-            { actorSearchAdapter.submitData(it) }
-        }
+        collectLast(viewModel.uiState.value.searchResult)
+        { actorSearchAdapter.submitData(it) }
     }
 
     private fun setSpanSize(footerAdapter: LoadUIStateAdapter) {

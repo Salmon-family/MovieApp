@@ -28,8 +28,17 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
-        binding.recyclerView.adapter = detailAdapter
+        collectMovieDetailsItems()
         collectEvents()
+    }
+
+    private fun collectMovieDetailsItems() {
+        binding.recyclerView.adapter = detailAdapter
+        lifecycleScope.launch {
+            viewModel.uiState.collectLatest {
+                detailAdapter.setItems(viewModel.uiState.value.detailItemResult)
+            }
+        }
     }
 
     private fun collectEvents() {
