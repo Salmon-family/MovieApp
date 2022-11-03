@@ -352,15 +352,17 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     private suspend fun refreshUpcomingMovies(currentDate: Date) {
-           refreshWrapper({ movieService.getUpcomingMovies() }, { list ->
-               list?.map { dataMappers.upcomingMovieMapper.map(it) }
-           }, {
-               movieDao.deleteAllUpcomingMovies()
-               movieDao.insertUpcomingMovie(it)
-               appConfiguration.saveTrendingMoviesRequestDate(currentDate.time)
-           })
-
-
+        refreshWrapper(
+            { movieService.getUpcomingMovies() },
+            { list ->
+                list?.map { dataMappers.upcomingMovieMapper.map(it) }
+            },
+            {
+                movieDao.deleteAllUpcomingMovies()
+                movieDao.insertUpcomingMovie(it)
+                appConfiguration.saveUpcomingMoviesRequestDate(currentDate.time)
+            },
+        )
     }
 
     private suspend fun refreshAdventureMovies(currentDate: Date) {
@@ -389,19 +391,6 @@ class MovieRepositoryImp @Inject constructor(
                 appConfiguration.saveMysteryMoviesRequestDate(currentDate.time)
             },
         )
-    }
-
-    private suspend fun refreshOneTimePerDay(
-        requestDate:Long?,
-        refreshData :  suspend (Date) -> Unit){
-        val currentDate = Date()
-        if (requestDate != null) {
-            if (Date(requestDate).after(currentDate)) {
-                refreshData(currentDate)
-            }
-        } else {
-            refreshData(currentDate)
-        }
     }
 
     private suspend fun refreshTrendingActors(currentDate: Date) {

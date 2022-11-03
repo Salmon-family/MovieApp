@@ -42,11 +42,11 @@ interface SeriesRepository {
 
     suspend fun getTVShowByGenre(genreID: Int): Pager<Int, TVShowsDTO>
 
-    fun getAiringToday(): Flow<List<AiringTodaySeriesEntity>>
+    suspend fun getAiringToday(): Flow<List<AiringTodaySeriesEntity>>
 
-    fun getOnTheAir(): Flow<List<OnTheAirSeriesEntity>>
+    suspend fun getOnTheAir(): Flow<List<OnTheAirSeriesEntity>>
 
-    fun getTopRatedTvShow(): Flow<List<TopRatedSeriesEntity>>
+    suspend fun getTopRatedTvShow(): Flow<List<TopRatedSeriesEntity>>
 
     fun getAiringTodayTvShowPager(): Pager<Int, TVShowsDTO>
 

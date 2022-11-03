@@ -42,6 +42,10 @@ interface AppConfiguration {
 
     suspend fun getAiringTodaySeriesRequestDate(): Long?
 
+    suspend fun saveTopRatedSeriesRequestDate(value: Long)
+
+    suspend fun getTopRatedSeriesRequestDate(): Long?
+
     suspend fun saveActorsRequestDate(value: Long)
 
     suspend fun getActorsRequestDate(): Long?
@@ -125,6 +129,14 @@ class AppConfigurator @Inject constructor(private val dataStorePreferences: Data
         return dataStorePreferences.readLong(AIRING_TODAY_SERIES_REQUEST_DATE_KEY)
     }
 
+    override suspend fun saveTopRatedSeriesRequestDate(value: Long) {
+        dataStorePreferences.writeLong(TOP_RATED_SERIES_REQUEST_DATE_KEY, value)
+    }
+
+    override suspend fun getTopRatedSeriesRequestDate(): Long? {
+        return dataStorePreferences.readLong(TOP_RATED_SERIES_REQUEST_DATE_KEY)
+    }
+
     override suspend fun saveActorsRequestDate(value: Long) {
         dataStorePreferences.writeLong(ACTOR_REQUEST_DATE_KEY, value)
     }
@@ -142,6 +154,7 @@ class AppConfigurator @Inject constructor(private val dataStorePreferences: Data
         const val ADVENTURE_MOVIE_REQUEST_DATE_KEY = "adventure_movie_request_date"
         const val NOW_STREAMING_MOVIE_REQUEST_DATE_KEY = "now_streaming_movie_request_date"
         const val MYSTERY_MOVIE_REQUEST_DATE_KEY = "mystery_movie_request_date"
+        const val TOP_RATED_SERIES_REQUEST_DATE_KEY = "top_rated_series_request_date"
         const val ON_THE_AIR_SERIES_REQUEST_DATE_KEY = "on_the_air_series_request_date"
         const val AIRING_TODAY_SERIES_REQUEST_DATE_KEY = "airing_today_series_request_date"
     }

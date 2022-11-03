@@ -12,7 +12,7 @@ class GetTopRatedTvShowSeriesUseCase @Inject constructor(
     private val seriesMapper: TopRatedSeriesMapper,
 ) {
 
-    operator fun invoke(): Flow<List<Media>> {
+    suspend operator fun invoke(): Flow<List<Media>> {
         return seriesRepository.getTopRatedTvShow().map {
             it.map(seriesMapper::map)
         }

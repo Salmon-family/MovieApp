@@ -12,7 +12,7 @@ class GetOnTheAirSeriesUseCase @Inject constructor(
     private val seriesMapper: OnTheAirSeriesMapper,
 ) {
 
-    operator fun invoke(): Flow<List<Media>> {
+    suspend operator fun invoke(): Flow<List<Media>> {
         return seriesRepository.getOnTheAir().map {
             it.map(seriesMapper::map)
         }
