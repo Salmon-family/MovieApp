@@ -1,11 +1,10 @@
 package com.karrar.movieapp.ui.tvShowDetails.episodes
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.domain.usecase.tvShowDetails.GetSeasonsEpisodesUseCase
 import com.karrar.movieapp.domain.usecase.tvShowDetails.GetTvShowDetailsUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper.TvShowMapperContainer
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.Error
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,8 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EpisodesViewModel @Inject constructor(
-    private val getTvShowDetailsUseCase: GetTvShowDetailsUseCase,
-    private val getTvShowMapperContainer: TvShowMapperContainer,
+    private val getSeasonsEpisodesUseCase: GetSeasonsEpisodesUseCase,
+    private val tvShowEpisodesUIMapper: TvShowEpisodesUIMapper,
     state: SavedStateHandle
 ) : BaseViewModel(), EpisodesInteractionListener {
 
@@ -36,11 +35,10 @@ class EpisodesViewModel @Inject constructor(
             _stateFlowEpisode.update { it.copy(isLoading = true) }
             try {
                 val result =
-                    getTvShowDetailsUseCase.getSeasonsDetails(args.tvShowId, args.seasonNumber)
-                Log.i("test", "getData: $result")
+                    getSeasonsEpisodesUseCase(args.tvShowId, args.seasonNumber)
                 _stateFlowEpisode.update { it ->
                     it.copy(
-                        seriesEpisodeUIState = result.map { getTvShowMapperContainer.tvShowEpisodesUIMapper.map(it) },
+                        seriesEpisodeUIState = result.map(tvShowEpisodesUIMapper::map),
                         isLoading = false
                     )
                 }
