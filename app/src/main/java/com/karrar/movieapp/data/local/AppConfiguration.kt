@@ -9,7 +9,6 @@ interface AppConfiguration {
 
     suspend fun writeString(key: String, value: String)
 
-
     suspend fun saveRequestDate(key: String,value: Long)
 
     suspend fun getRequestDate(key: String): Long?
