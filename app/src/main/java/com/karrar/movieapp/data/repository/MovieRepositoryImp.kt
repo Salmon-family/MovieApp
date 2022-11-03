@@ -3,8 +3,8 @@ package com.karrar.movieapp.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.karrar.movieapp.data.Constants
 import com.karrar.movieapp.data.local.AppConfiguration
-import com.karrar.movieapp.data.local.AppConfigurator
 import com.karrar.movieapp.data.local.database.daos.ActorDao
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.ActorEntity
@@ -24,7 +24,6 @@ import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
 import com.karrar.movieapp.domain.mappers.MovieMappersContainer
 import com.karrar.movieapp.domain.models.*
-import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.*
@@ -239,38 +238,38 @@ class MovieRepositoryImp @Inject constructor(
      * */
 
     override suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>> {
-        refreshOneTimePerDay(appConfiguration.getRequestDate(AppConfigurator.POPULAR_MOVIE_REQUEST_DATE_KEY),::refreshPopularMovies)
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.POPULAR_MOVIE_REQUEST_DATE_KEY),::refreshPopularMovies)
         return movieDao.getPopularMovies()
     }
 
     override suspend fun getTrendingMovies(): Flow<List<TrendingMovieEntity>> {
-        refreshOneTimePerDay(appConfiguration.getRequestDate(AppConfigurator.TRENDING_MOVIE_REQUEST_DATE_KEY),::refreshTrendingMovies)
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.TRENDING_MOVIE_REQUEST_DATE_KEY),::refreshTrendingMovies)
         return movieDao.getTrendingMovies()
     }
 
     override suspend fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>> {
-        refreshOneTimePerDay(appConfiguration.getRequestDate(AppConfigurator.NOW_STREAMING_MOVIE_REQUEST_DATE_KEY),::refreshNowPlayingMovies)
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.NOW_STREAMING_MOVIE_REQUEST_DATE_KEY),::refreshNowPlayingMovies)
         return movieDao.getNowStreamingMovies()
     }
 
     override  suspend fun getAdventureMovies(): Flow<List<AdventureMovieEntity>> {
-        refreshOneTimePerDay(appConfiguration.getRequestDate(AppConfigurator.ADVENTURE_MOVIE_REQUEST_DATE_KEY),::refreshAdventureMovies)
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.ADVENTURE_MOVIE_REQUEST_DATE_KEY),::refreshAdventureMovies)
         return movieDao.getAdventureMovies()
     }
 
     override suspend fun getMysteryMovies(): Flow<List<MysteryMovieEntity>> {
-        refreshOneTimePerDay(appConfiguration.getRequestDate(AppConfigurator.MYSTERY_MOVIE_REQUEST_DATE_KEY),::refreshMysteryMovies)
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.MYSTERY_MOVIE_REQUEST_DATE_KEY),::refreshMysteryMovies)
         return movieDao.getMysteryMovies()
     }
 
     override suspend fun getTrendingActors(): Flow<List<ActorEntity>> {
-        refreshOneTimePerDay(appConfiguration.getRequestDate(AppConfigurator.ACTOR_REQUEST_DATE_KEY),::refreshTrendingActors)
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.ACTOR_REQUEST_DATE_KEY),::refreshTrendingActors)
         return actorDao.getActors()
     }
 
 
     override suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>> {
-        refreshOneTimePerDay(appConfiguration.getRequestDate(AppConfigurator.UPCOMING_MOVIE_REQUEST_DATE_KEY),::refreshUpcomingMovies)
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.UPCOMING_MOVIE_REQUEST_DATE_KEY),::refreshUpcomingMovies)
         return movieDao.getUpcomingMovies()
     }
 
@@ -319,7 +318,7 @@ class MovieRepositoryImp @Inject constructor(
                {
                    movieDao.deletePopularMovies()
                    movieDao.insertPopularMovies(it)
-                   appConfiguration.saveRequestDate(AppConfigurator.POPULAR_MOVIE_REQUEST_DATE_KEY,currentDate.time)
+                   appConfiguration.saveRequestDate(Constants.POPULAR_MOVIE_REQUEST_DATE_KEY,currentDate.time)
                },
            )
     }
@@ -333,7 +332,7 @@ class MovieRepositoryImp @Inject constructor(
                {
                    movieDao.deleteAllTrendingMovies()
                    movieDao.insertTrendingMovie(it)
-                   appConfiguration.saveRequestDate(AppConfigurator.TRENDING_MOVIE_REQUEST_DATE_KEY,currentDate.time)
+                   appConfiguration.saveRequestDate(Constants.TRENDING_MOVIE_REQUEST_DATE_KEY,currentDate.time)
                },
            )
     }
@@ -347,7 +346,7 @@ class MovieRepositoryImp @Inject constructor(
             {
                 movieDao.deleteAllNowStreamingMovies()
                 movieDao.insertNowStreamingMovie(it)
-                appConfiguration.saveRequestDate(AppConfigurator.NOW_STREAMING_MOVIE_REQUEST_DATE_KEY,currentDate.time)
+                appConfiguration.saveRequestDate(Constants.NOW_STREAMING_MOVIE_REQUEST_DATE_KEY,currentDate.time)
             },
         )
     }
@@ -361,7 +360,7 @@ class MovieRepositoryImp @Inject constructor(
             {
                 movieDao.deleteAllUpcomingMovies()
                 movieDao.insertUpcomingMovie(it)
-                appConfiguration.saveRequestDate(AppConfigurator.UPCOMING_MOVIE_REQUEST_DATE_KEY,currentDate.time)
+                appConfiguration.saveRequestDate(Constants.UPCOMING_MOVIE_REQUEST_DATE_KEY,currentDate.time)
             },
         )
     }
@@ -375,7 +374,7 @@ class MovieRepositoryImp @Inject constructor(
                 {
                     movieDao.deleteAllAdventureMovies()
                     movieDao.insertAdventureMovie(it)
-                    appConfiguration.saveRequestDate(AppConfigurator.ADVENTURE_MOVIE_REQUEST_DATE_KEY,currentDate.time)
+                    appConfiguration.saveRequestDate(Constants.ADVENTURE_MOVIE_REQUEST_DATE_KEY,currentDate.time)
                 },
             )
     }
@@ -389,7 +388,7 @@ class MovieRepositoryImp @Inject constructor(
             {
                 movieDao.deleteAllMysteryMovies()
                 movieDao.insertMysteryMovie(it)
-                appConfiguration.saveRequestDate(AppConfigurator.MYSTERY_MOVIE_REQUEST_DATE_KEY,currentDate.time)
+                appConfiguration.saveRequestDate(Constants.MYSTERY_MOVIE_REQUEST_DATE_KEY,currentDate.time)
             },
         )
     }
@@ -401,7 +400,7 @@ class MovieRepositoryImp @Inject constructor(
                 }, {
                     actorDao.deleteActors()
                     actorDao.insertActors(it)
-                    appConfiguration.saveRequestDate(AppConfigurator.ACTOR_REQUEST_DATE_KEY,currentDate.time)
+                    appConfiguration.saveRequestDate(Constants.ACTOR_REQUEST_DATE_KEY,currentDate.time)
                 }
             )
     }

@@ -1,6 +1,7 @@
 package com.karrar.movieapp.data.repository
 
 import androidx.paging.Pager
+import com.karrar.movieapp.data.Constants
 import com.karrar.movieapp.data.local.AppConfiguration
 import com.karrar.movieapp.data.local.AppConfigurator
 import com.karrar.movieapp.data.local.database.daos.MovieDao
@@ -103,17 +104,17 @@ class SeriesRepositoryImp @Inject constructor(
     }
 
     override suspend fun getAiringToday(): Flow<List<AiringTodaySeriesEntity>> {
-        refreshOneTimePerDay(appConfiguration.getRequestDate(AppConfigurator.AIRING_TODAY_SERIES_REQUEST_DATE_KEY),::refreshAiringToday)
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.AIRING_TODAY_SERIES_REQUEST_DATE_KEY),::refreshAiringToday)
         return seriesDao.getAiringTodaySeries()
     }
 
     override suspend fun getOnTheAir(): Flow<List<OnTheAirSeriesEntity>> {
-        refreshOneTimePerDay(appConfiguration.getRequestDate(AppConfigurator.ON_THE_AIR_SERIES_REQUEST_DATE_KEY),::refreshOnTheAir)
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.ON_THE_AIR_SERIES_REQUEST_DATE_KEY),::refreshOnTheAir)
         return seriesDao.getOnTheAirSeries()
     }
 
     override suspend fun getTopRatedTvShow(): Flow<List<TopRatedSeriesEntity>> {
-        refreshOneTimePerDay(appConfiguration.getRequestDate(AppConfigurator.TOP_RATED_SERIES_REQUEST_DATE_KEY),::refreshTopRatedTvShow)
+        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.TOP_RATED_SERIES_REQUEST_DATE_KEY),::refreshTopRatedTvShow)
         return seriesDao.getTopRatedSeries()
     }
 
@@ -154,7 +155,7 @@ class SeriesRepositoryImp @Inject constructor(
             {
                 seriesDao.deleteAllAiringTodaySeries()
                 seriesDao.insertAiringTodaySeries(it)
-                appConfiguration.saveRequestDate(AppConfigurator.AIRING_TODAY_SERIES_REQUEST_DATE_KEY,currentDate.time)
+                appConfiguration.saveRequestDate(Constants.AIRING_TODAY_SERIES_REQUEST_DATE_KEY,currentDate.time)
             },
         )
     }
@@ -170,7 +171,7 @@ class SeriesRepositoryImp @Inject constructor(
             {
                 seriesDao.deleteAllOnTheAirSeries()
                 seriesDao.insertOnTheAirSeries(it)
-                appConfiguration.saveRequestDate(AppConfigurator.ON_THE_AIR_SERIES_REQUEST_DATE_KEY,currentDate.time)
+                appConfiguration.saveRequestDate(Constants.ON_THE_AIR_SERIES_REQUEST_DATE_KEY,currentDate.time)
             },
         )
     }
@@ -189,7 +190,7 @@ class SeriesRepositoryImp @Inject constructor(
             }
             seriesDao.deleteAllTopRatedSeries()
             seriesDao.insertTopRatedSeries(items)
-            appConfiguration.saveRequestDate(AppConfigurator.TOP_RATED_SERIES_REQUEST_DATE_KEY,currentDate.time)
+            appConfiguration.saveRequestDate(Constants.TOP_RATED_SERIES_REQUEST_DATE_KEY,currentDate.time)
         } catch (_: Throwable) {
 
         }
