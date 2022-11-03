@@ -18,6 +18,7 @@ import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import com.karrar.movieapp.ui.home.HomeItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
+import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieDetailsUIState
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -156,7 +157,7 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
     imageURL?.let {
         image.load(imageURL) {
             placeholder(R.drawable.loading)
-            error(R.drawable.ic_baseline_person_24)
+            error(R.drawable.ic_profile_place_holder)
         }
     }
 }
@@ -266,7 +267,6 @@ fun <T> showWhenFail2(view: View, state: UIState<T>?) {
 fun <T> showWhenNoResults(view: View, state: UIState<T>?) {
     view.isVisible = (state == UIState.Success(false))
 }
-
 
 @BindingAdapter("android:rating")
 fun setRating(view: RatingBar?, rating: Float) {

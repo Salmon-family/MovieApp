@@ -20,6 +20,7 @@
 
     <color name="white_primary">#FFFFFF</color>
     <color name="white_secondary">#99FFFFFF</color>
+    <color name="gray">#33737373</color>
 
     <color name="profile_background">#9903050A</color>
 
