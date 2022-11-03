@@ -63,8 +63,7 @@ class CategoryViewModel @Inject constructor(
 
     fun getMediaList(selectedCategory: Int) {
         viewModelScope.launch {
-            val result =
-                getCategoryUseCase(args.mediaId, selectedCategory)
+            val result = getCategoryUseCase(args.mediaId, selectedCategory)
             _uiState.update {
                 it.copy(
                     isLoading = false,

@@ -2,6 +2,7 @@ package com.karrar.movieapp.utilities
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
@@ -17,11 +18,11 @@ import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import com.karrar.movieapp.ui.home.HomeItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
-import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieDetailsUIState
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+
 
 @BindingAdapter("app:showWhenListNotEmpty")
 fun <T> showWhenListNotEmpty(view: View, list: List<T>) {
@@ -147,8 +148,9 @@ fun <T> setHomeRecyclerItems(view: RecyclerView, items: List<HomeItem>?) {
 @BindingAdapter(value = ["app:items"])
 fun <T> setRecyclerItems(view: RecyclerView, items: List<T>?) {
     (view.adapter as BaseAdapter<T>?)?.setItems(items ?: emptyList())
-    view.scrollToPosition(0)
+//    view.scrollToPosition(0)
 }
+
 
 @BindingAdapter(value = ["app:usePagerSnapHelper"])
 fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolean = false) {
@@ -177,17 +179,6 @@ fun setOverViewText(view: TextView, text: String) {
         view.text = text
     } else {
         view.text = view.context.getString(R.string.empty_overview_text)
-    }
-}
-
-@BindingAdapter("app:textBasedOnMediaType")
-fun setTextBasedOnMediaType(view: TextView, mediaDetails: MovieDetailsUIState?) {
-    mediaDetails?.let {
-        when (mediaDetails.mediaType) {
-            MediaType.MOVIE -> setDuration(view, mediaDetails.specialNumber)
-            MediaType.TV_SHOW -> view.text =
-                view.context.getString(R.string.more_than_one_season, mediaDetails.specialNumber)
-        }
     }
 }
 
@@ -220,19 +211,15 @@ fun convertToHoursPattern(view: TextView, duration: Int) {
     }
 }
 
-fun setDuration(view: TextView, duration: Int?) {
-    val hours = duration?.div(60)
-    val minutes = duration?.rem(60)
+@BindingAdapter(value = ["app:movieHours", "app:movieMinutes"])
+fun setDuration(view: TextView, hours: Int?, minutes: Int?) {
     if (hours == 0) {
-        view.text = view.context.getString(R.string.minutes_pattern, minutes.toString())
+        view.text = String.format(view.context.getString(R.string.minutes_pattern), minutes)
     } else if (minutes == 0) {
-        view.text = view.context.getString(R.string.hours_pattern, hours.toString())
+        view.text = String.format(view.context.getString(R.string.hours_pattern), hours)
     } else {
-        view.text = view.context.getString(
-            R.string.hours_minutes_pattern,
-            hours.toString(),
-            minutes.toString()
-        )
+        view.text =
+            String.format(view.context.getString(R.string.hours_minutes_pattern), hours, minutes)
     }
 }
 
@@ -285,4 +272,12 @@ fun <T> showWhenFail2(view: View, state: UIState<T>?) {
 @BindingAdapter("app:showWhenNoResults")
 fun <T> showWhenNoResults(view: View, state: UIState<T>?) {
     view.isVisible = (state == UIState.Success(false))
+}
+
+
+@BindingAdapter("android:rating")
+fun setRating(view: RatingBar?, rating: Float) {
+    view?.let {
+        view.rating = rating
+    }
 }

@@ -42,8 +42,6 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
         collect(flow = allMediaAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it) })
-
-
     }
 
     private fun collectData() {

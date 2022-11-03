@@ -148,6 +148,6 @@ interface MovieRepository {
 
     suspend fun deleteRating(movieId: Int): RatingDto?
 
-    suspend fun getRatedMovie(accountId: Int, sessionId: String): List<RatedMoviesDto>?
+    suspend fun getRatedMovie(): List<RatedMoviesDto>?
 
 }

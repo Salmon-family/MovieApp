@@ -205,14 +205,12 @@ interface MovieService {
 
     @GET("account/{account_id}/rated/tv")
     suspend fun getRatedTvShow(
-        @Path("account_id") listId: Int,
-        @Query("session_id") sessionId: String
+        @Path("account_id") listId: Int = 0,
     ): Response<BaseListResponse<RatedTvShowDto>>
 
     @GET("account/{account_id}/rated/movies")
     suspend fun getRatedMovie(
-        @Path("account_id") accountId: Int,
-        @Query("session_id") sessionId: String
+        @Path("account_id") accountId: Int = 0,
     ): Response<BaseListResponse<RatedMoviesDto>>
 
     @GET("tv/{tv_id}/season/{season_number}")

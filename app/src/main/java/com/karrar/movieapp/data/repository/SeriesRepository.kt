@@ -33,7 +33,7 @@ interface SeriesRepository {
 
     suspend fun setRating(tvShowId: Int, value: Float, sessionId: String): RatingDto
 
-    suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<RatedTvShowDto>?
+    suspend fun getRatedTvShow(): List<RatedTvShowDto>?
 
     suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): Season
 

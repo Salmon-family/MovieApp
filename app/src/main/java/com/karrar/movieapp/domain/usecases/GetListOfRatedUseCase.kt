@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain
+package com.karrar.movieapp.domain.usecases
 
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
@@ -16,15 +16,15 @@ class GetListOfRatedUseCase @Inject constructor(
     private val ratedTvShowMapper: RatedTvShowMapper
 ) {
 
-    suspend operator fun invoke(accountId: Int, sessionId: String): List<Rated> {
-        return getRatedMovie(accountId, sessionId).margeTowList(getRatedTvShow(accountId, sessionId)).reversed()
+    suspend operator fun invoke(): List<Rated> {
+        return getRatedMovie().margeTowList(getRatedTvShow()).reversed()
     }
 
-    private suspend fun getRatedMovie(accountId: Int, sessionId: String): List<Rated> {
-        return ListMapper(ratedMoviesMapper).mapList(movieRepository.getRatedMovie(accountId, sessionId))
+    private suspend fun getRatedMovie(): List<Rated> {
+        return ListMapper(ratedMoviesMapper).mapList(movieRepository.getRatedMovie())
     }
 
-    private suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<Rated> {
-        return ListMapper(ratedTvShowMapper).mapList(tvShowRepository.getRatedTvShow(accountId, sessionId))
+    private suspend fun getRatedTvShow(): List<Rated> {
+        return ListMapper(ratedTvShowMapper).mapList(tvShowRepository.getRatedTvShow())
     }
 }

@@ -50,11 +50,8 @@ class MovieRepositoryImp @Inject constructor(
     }
 
 
-    override suspend fun getRatedMovie(
-        accountId: Int,
-        sessionId: String,
-    ): List<RatedMoviesDto>? {
-        return movieService.getRatedMovie(accountId, sessionId).body()?.items
+    override suspend fun getRatedMovie(): List<RatedMoviesDto>? {
+        return movieService.getRatedMovie().body()?.items
     }
 
     override suspend fun setRating(movieId: Int, value: Float): RatingDto? {

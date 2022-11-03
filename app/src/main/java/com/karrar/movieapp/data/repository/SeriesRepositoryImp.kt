@@ -76,9 +76,9 @@ class SeriesRepositoryImp @Inject constructor(
         return wrap({ service.postTvShowRating(tvShowId, value, sessionId) }, { it })
     }
 
-    override suspend fun getRatedTvShow(accountId: Int, sessionId: String)
+    override suspend fun getRatedTvShow()
             : List<RatedTvShowDto>? {
-        return service.getRatedTvShow(accountId, sessionId).body()?.items
+        return service.getRatedTvShow().body()?.items
     }
 
     override suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): Season {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,6 +14,8 @@ import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
@@ -20,20 +23,14 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     override val layoutIdFragment = R.layout.fragment_movie_details
     override val viewModel: MovieDetailsViewModel by viewModels()
     private val args: MovieDetailsFragmentArgs by navArgs()
-    private lateinit var detailAdapter: DetailAdapter
+    private val detailAdapter by lazy { DetailAdapter(emptyList(), viewModel) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
-        setDetailAdapter()
+        binding.recyclerView.adapter = detailAdapter
         collectEvents()
     }
-
-    private fun setDetailAdapter() {
-        detailAdapter = DetailAdapter(emptyList(), viewModel)
-        binding.recyclerView.adapter = detailAdapter
-    }
-
 
     private fun collectEvents() {
         collectLast(viewModel.movieDetailsUIEvent) {
