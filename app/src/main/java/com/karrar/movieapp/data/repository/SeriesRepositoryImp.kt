@@ -2,6 +2,7 @@ package com.karrar.movieapp.data.repository
 
 import androidx.paging.Pager
 import com.karrar.movieapp.data.local.AppConfiguration
+import com.karrar.movieapp.data.local.AppConfigurator
 import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.daos.SeriesDao
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
@@ -102,17 +103,17 @@ class SeriesRepositoryImp @Inject constructor(
     }
 
     override suspend fun getAiringToday(): Flow<List<AiringTodaySeriesEntity>> {
-        refreshOneTimePerDay(appConfiguration.getAiringTodaySeriesRequestDate(),::refreshAiringToday)
+        refreshOneTimePerDay(appConfiguration.getRequestDate(AppConfigurator.AIRING_TODAY_SERIES_REQUEST_DATE_KEY),::refreshAiringToday)
         return seriesDao.getAiringTodaySeries()
     }
 
     override suspend fun getOnTheAir(): Flow<List<OnTheAirSeriesEntity>> {
-        refreshOneTimePerDay(appConfiguration.getOnTheAirSeriesRequestDate(),::refreshOnTheAir)
+        refreshOneTimePerDay(appConfiguration.getRequestDate(AppConfigurator.ON_THE_AIR_SERIES_REQUEST_DATE_KEY),::refreshOnTheAir)
         return seriesDao.getOnTheAirSeries()
     }
 
     override suspend fun getTopRatedTvShow(): Flow<List<TopRatedSeriesEntity>> {
-        refreshOneTimePerDay(appConfiguration.getTopRatedSeriesRequestDate(),::refreshTopRatedTvShow)
+        refreshOneTimePerDay(appConfiguration.getRequestDate(AppConfigurator.TOP_RATED_SERIES_REQUEST_DATE_KEY),::refreshTopRatedTvShow)
         return seriesDao.getTopRatedSeries()
     }
 
@@ -153,7 +154,7 @@ class SeriesRepositoryImp @Inject constructor(
             {
                 seriesDao.deleteAllAiringTodaySeries()
                 seriesDao.insertAiringTodaySeries(it)
-                appConfiguration.saveAiringTodaySeriesRequestDate(currentDate.time)
+                appConfiguration.saveRequestDate(AppConfigurator.AIRING_TODAY_SERIES_REQUEST_DATE_KEY,currentDate.time)
             },
         )
     }
@@ -169,7 +170,7 @@ class SeriesRepositoryImp @Inject constructor(
             {
                 seriesDao.deleteAllOnTheAirSeries()
                 seriesDao.insertOnTheAirSeries(it)
-                appConfiguration.saveOnTheAirSeriesRequestDate(currentDate.time)
+                appConfiguration.saveRequestDate(AppConfigurator.ON_THE_AIR_SERIES_REQUEST_DATE_KEY,currentDate.time)
             },
         )
     }
@@ -188,7 +189,7 @@ class SeriesRepositoryImp @Inject constructor(
             }
             seriesDao.deleteAllTopRatedSeries()
             seriesDao.insertTopRatedSeries(items)
-            appConfiguration.saveTopRatedSeriesRequestDate(currentDate.time)
+            appConfiguration.saveRequestDate(AppConfigurator.TOP_RATED_SERIES_REQUEST_DATE_KEY,currentDate.time)
         } catch (_: Throwable) {
 
         }
