@@ -8,9 +8,8 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentActorDetailsBinding
 import com.karrar.movieapp.domain.enums.AllMediaType
-import com.karrar.movieapp.ui.adapters.MovieAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.EventObserve
+import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,20 +21,25 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
-        setMovieAdapter()
-        observeEvents()
+        binding.relatedMovieRecycler.adapter = ActorMoviesAdapter(mutableListOf(), viewModel)
+
+        collectLast(viewModel.actorDetailsUIEvent) {
+            it.getContentIfNotHandled()?.let { onEvent(it) }
+        }
     }
 
-    private fun setMovieAdapter() {
-        binding.relatedMovieRecycler.adapter = MovieAdapter(mutableListOf(), viewModel)
-    }
-
-    private fun observeEvents() {
-        viewModel.backEvent.observe(viewLifecycleOwner, EventObserve { removeFragment() })
-        viewModel.seeAllMovies.observe(viewLifecycleOwner, EventObserve { navigateToActorMovies() })
-        viewModel.clickMovieEvent.observe(
-            viewLifecycleOwner,
-            EventObserve { movieID -> seeMovieDetails(movieID) })
+    private fun onEvent(event: ActorDetailsUIEvent) {
+        when (event) {
+            ActorDetailsUIEvent.BackEvent -> {
+                removeFragment()
+            }
+            is ActorDetailsUIEvent.ClickMovieEvent -> {
+                seeMovieDetails(event.movieID)
+            }
+            ActorDetailsUIEvent.SeeAllMovies -> {
+                navigateToActorMovies()
+            }
+        }
     }
 
     private fun navigateToActorMovies() {
@@ -43,7 +47,8 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
             .navigate(
                 ActorDetailsFragmentDirections.actionActorDetailsFragmentToAllMovieOfActorFragment(
                     viewModel.args.id,
-                    AllMediaType.NON)
+                    AllMediaType.ACTOR_MOVIES
+                )
             )
     }
 

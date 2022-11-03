@@ -13,7 +13,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Media" />
+            type="com.karrar.movieapp.ui.models.MediaUiState" />
 
     </data>
 
@@ -26,14 +26,14 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             tools:background="@color/yellow"
-            android:onClick="@{()->listener.onClickMedia(item.mediaID)}"
+            android:onClick="@{()->listener.onClickMedia(item.id)}"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1.4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:posterImage="@{item.mediaImage}"
+            app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

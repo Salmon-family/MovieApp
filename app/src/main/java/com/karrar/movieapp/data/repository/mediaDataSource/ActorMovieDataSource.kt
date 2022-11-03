@@ -1,16 +1,13 @@
 package com.karrar.movieapp.data.repository.mediaDataSource
 
-import com.karrar.movieapp.domain.mappers.ListMapper
-import com.karrar.movieapp.domain.mappers.movie.MovieMapper
-import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.data.remote.response.MovieDto
+import com.karrar.movieapp.data.remote.service.MovieService
 import javax.inject.Inject
 import kotlin.properties.Delegates
-import com.karrar.movieapp.data.remote.service.MovieService
 
 class ActorMovieDataSource @Inject constructor(
     private val service: MovieService,
-    private val mapper: MovieMapper
-) : MediaDataSource() {
+) : BasePagingSource<MovieDto>() {
 
     private var actorID by Delegates.notNull<Int>()
 
@@ -18,12 +15,12 @@ class ActorMovieDataSource @Inject constructor(
         actorID = actor
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Media> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieDto> {
 
         return try {
             val response = service.getActorMovies(actorID)
             LoadResult.Page(
-                data = ListMapper(mapper).mapList(response.body()?.cast),
+                data = response.body()?.cast?: emptyList(),
                 prevKey = null,
                 nextKey = null
             )

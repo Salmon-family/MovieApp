@@ -1,20 +1,17 @@
 package com.karrar.movieapp.data.repository
 
-import com.karrar.movieapp.domain.models.Account
-import com.karrar.movieapp.ui.UIState
-import kotlinx.coroutines.flow.Flow
+import com.karrar.movieapp.data.remote.response.account.AccountDto
+
 
 interface AccountRepository {
 
     fun getSessionId(): String?
 
-    suspend fun loginWithUserNameANdPassword(
-        userName: String,
-        password: String,
-    ): Boolean
 
-    suspend fun logout(): Boolean
+    suspend fun loginWithUserNameANdPassword(userName: String, password: String) : Boolean
 
-    suspend fun getAccountDetails(sessionId: String): Account
+    suspend fun logout()
+
+    suspend fun getAccountDetails(): AccountDto?
 }
 

@@ -6,11 +6,14 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.SearchHistory" />
+            type="com.karrar.movieapp.ui.search.mediaSearchUIState.SearchHistoryUIState" />
+
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener" />
+
     </data>
+
     <TextView
         android:id="@+id/text_search_history"
         android:layout_width="match_parent"
@@ -24,4 +27,5 @@
         android:drawablePadding="6dp"
         app:drawableEndCompat="@drawable/ic_arrow_up_left"
         android:onClick="@{() -> listener.onClickSearchHistory(item.name)}"/>
+
 </layout>

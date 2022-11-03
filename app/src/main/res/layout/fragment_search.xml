@@ -7,8 +7,12 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.search.SearchViewModel"
-            />
+            type="com.karrar.movieapp.ui.search.SearchViewModel" />
+
+        <variable
+            name="mediaTypes"
+            type="com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +32,7 @@
             app:layout_constraintTop_toTopOf="@id/input_search"
             app:tint="@color/shade_primary_color" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_search"
             style="@style/Regular.Medium"
             android:layout_width="0dp"
@@ -36,6 +40,7 @@
             android:layout_marginStart="@dimen/spacing_small"
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_medium"
+            android:afterTextChanged="@{(text) -> viewModel.onSearchInputChange(text)}"
             android:background="@drawable/edit_text_background"
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="@dimen/spacing_small"
@@ -45,7 +50,8 @@
             android:inputType="text"
             android:maxLines="1"
             android:paddingStart="@dimen/spacing_small"
-            android:text="@={viewModel.searchText}"
+            android:paddingEnd="@dimen/spacing_small"
+            android:text="@{viewModel.uiState.searchInput}"
             android:textColor="@color/shade_primary_color"
             android:textColorHint="@color/shade_ternary_color"
             android:textCursorDrawable="@drawable/color_cursor"
@@ -56,7 +62,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <requestFocus />
-        </EditText>
+        </com.google.android.material.textfield.TextInputEditText>
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group_media_type"
@@ -69,7 +75,7 @@
             app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
             app:layout_constraintTop_toBottomOf="@id/input_search"
             app:selectionRequired="true"
-            app:showWhenSearch="@{viewModel.searchText}"
+            app:showWhenSearch="@{viewModel.uiState.searchInput}"
             app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
@@ -77,7 +83,7 @@
                 style="@style/Chip.Regular.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.onClickMoviesCategory()}"
+                android:onClick="@{() -> viewModel.onSearchForMovie()}"
                 android:paddingHorizontal="@dimen/spacing_medium"
                 android:paddingVertical="6dp"
                 android:text="@string/movies_chip"
@@ -90,7 +96,7 @@
                 style="@style/Chip.Regular.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.onClickSeriesCategory()}"
+                android:onClick="@{() -> viewModel.onSearchForSeries()}"
                 android:paddingHorizontal="@dimen/spacing_medium"
                 android:paddingVertical="6dp"
                 android:text="@string/tv_shows_chip"
@@ -103,7 +109,7 @@
                 style="@style/Chip.Regular.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.onClickActorsCategory()}"
+                android:onClick="@{() -> viewModel.onSearchForActor()}"
                 android:paddingHorizontal="@dimen/spacing_medium"
                 android:paddingVertical="6dp"
                 android:text="@string/actors_label"
@@ -123,8 +129,8 @@
             android:text="@string/history_label"
             android:textColor="@color/shade_primary_color"
             app:drawableStartCompat="@drawable/ic_history"
-            app:hideWhenSearch="@{viewModel.searchText}"
-            app:hideWhenListIsEmpty="@{viewModel.searchHistory}"
+            app:hideWhenListIsEmpty="@{viewModel.uiState.searchHistory}"
+            app:hideWhenSearch="@{viewModel.uiState.searchInput}"
             app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
             app:layout_constraintTop_toBottomOf="@id/input_search" />
 
@@ -133,15 +139,16 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clipToPadding="false"
-            android:paddingVertical="@dimen/spacing_small"
-            app:hideWhenLoading="@{viewModel.mediaState}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
-            app:showWhenSearch="@{viewModel.searchText}"
+            android:paddingVertical="@dimen/spacing_small"
+            app:errorSearch="@{viewModel.uiState.error}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/chip_group_media_type"
+            app:loadingSearch="@{viewModel.uiState.loading}"
+            app:searchInput="@{viewModel.uiState.searchInput}"
             tools:listitem="@layout/item_media_search" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -153,8 +160,8 @@
             android:overScrollMode="never"
             android:paddingVertical="@dimen/spacing_too_small"
             android:scrollbars="none"
-            app:hideWhenSearch="@{viewModel.searchText}"
-            app:items="@{viewModel.searchHistory}"
+            app:hideWhenSearch="@{viewModel.uiState.searchInput}"
+            app:items="@{viewModel.uiState.searchHistory}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/input_search"
@@ -166,17 +173,17 @@
 
         <include
             android:id="@+id/loading"
-            layout="@layout/loading"
+            layout="@layout/loading2"
+            app:isLoading="@{viewModel.uiState.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.mediaState}" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <include
             android:id="@+id/error"
             layout="@layout/error_search"
-            app:error="@{viewModel.mediaState}"
+            app:isError="@{!viewModel.uiState.error.isEmpty()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -187,15 +194,15 @@
             android:id="@+id/no_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:hideWhenBlankSearch="@{viewModel.uiState.searchInput}"
+            app:isListEmpty="@{viewModel.uiState.empty}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/no_result"
-            app:showWhenNoResults="@{viewModel.mediaState}"
-            app:hideWhenBlankSearch="@{viewModel.searchText}" />
+            app:lottie_rawRes="@raw/no_result" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

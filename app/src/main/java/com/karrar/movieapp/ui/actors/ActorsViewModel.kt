@@ -1,64 +1,79 @@
 package com.karrar.movieapp.ui.actors
 
-
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.models.Actor
-import com.karrar.movieapp.ui.UIState
+import androidx.paging.map
+import com.karrar.movieapp.domain.usecases.GetActorsDataUseCase
+import com.karrar.movieapp.ui.actors.models.ActorsUIState
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.mappers.ActorUiMapper
 import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.postEvent
-import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ActorsViewModel @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val getActorsDataUseCase: GetActorsDataUseCase,
+    private val actorMapper: ActorUiMapper
 ) : BaseViewModel(), ActorsInteractionListener {
 
-    lateinit var trendingActors: Flow<PagingData<Actor>>
+    private val _uiState = MutableStateFlow(ActorsUIState())
+    val uiState = _uiState.asStateFlow()
 
-    private val _actorsState = MutableLiveData<UIState<Boolean>>(UIState.Loading)
-    val actorsState = _actorsState.toLiveData()
-
-    private val _clickActorEvent = MutableLiveData<Event<Int>>()
-    val clickActorEvent = _clickActorEvent.toLiveData()
-
-    private val _clickRetryEvent = MutableLiveData<Event<Boolean>>()
-    val clickRetryEvent = _clickRetryEvent.toLiveData()
-
+    private val _actorsUIEventFlow: MutableStateFlow<Event<ActorsUIEvent>?> = MutableStateFlow(null)
+    val actorsUIEventFlow = _actorsUIEventFlow.asStateFlow()
     init {
-        viewModelScope.launch {
-            trendingActors = movieRepository.getActorData().flow.cachedIn(viewModelScope)
-        }
+        getData()
     }
 
     override fun getData() {
-        _clickRetryEvent.postEvent(true)
+        _uiState.update { it.copy(isLoading = true) }
+        getActors()
+        _actorsUIEventFlow.update { Event(ActorsUIEvent.RetryEvent) }
     }
 
+    private fun getActors() {
+        viewModelScope.launch {
+            val actorsItems =
+                getActorsDataUseCase().map { pager -> pager.map { actorMapper.map(it) } }
+            _uiState.update {
+                it.copy(
+                    isLoading = false,
+                    actors = actorsItems,
+                    error = emptyList()
+                )
+            }
+        }
+    }
 
     override fun onClickActor(actorID: Int) {
-        _clickActorEvent.postEvent(actorID)
+        _actorsUIEventFlow.update { Event(ActorsUIEvent.ActorEvent(actorID)) }
     }
 
-    fun setErrorUiState(loadState: LoadState) {
-        val result = if (loadState is LoadState.Error) {
-            loadState.error.message ?: "com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.Error"
-        } else null
-
-        if (!result.isNullOrBlank()) {
-            _actorsState.postValue(UIState.Error(result))
-        } else {
-            _actorsState.postValue(UIState.Success(true))
+    fun setErrorUiState(combinedLoadStates: CombinedLoadStates) {
+        when (combinedLoadStates.refresh) {
+            is LoadState.NotLoading -> {
+                _uiState.update {
+                    it.copy(isLoading = false, error = emptyList())
+                }
+            }
+            LoadState.Loading -> {
+                _uiState.update {
+                    it.copy(isLoading = true, error = emptyList())
+                }
+            }
+            is LoadState.Error -> {
+                _uiState.update {
+                    it.copy(isLoading = false, error = listOf(Error("")))
+                }
+            }
         }
     }
 

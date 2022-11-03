@@ -1,134 +1,73 @@
 package com.karrar.movieapp.data.repository
 
+import androidx.paging.Pager
+import com.karrar.movieapp.data.Constants
 import com.karrar.movieapp.data.local.AppConfiguration
 import com.karrar.movieapp.data.local.database.daos.ActorDao
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import com.karrar.movieapp.data.local.database.daos.MovieDao
+import com.karrar.movieapp.data.local.database.entity.ActorEntity
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
+import com.karrar.movieapp.data.local.database.entity.movie.*
 import com.karrar.movieapp.data.local.mappers.movie.LocalMovieMappersContainer
-import com.karrar.movieapp.data.remote.response.AddListResponse
-import com.karrar.movieapp.data.remote.response.AddMovieDto
-import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
+import com.karrar.movieapp.data.remote.response.genre.GenreDto
+import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
+import com.karrar.movieapp.data.remote.response.review.ReviewsDto
+import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.domain.enums.AllMediaType
-import com.karrar.movieapp.domain.mappers.ListMapper
+import com.karrar.movieapp.data.repository.mediaDataSource.ActorMovieDataSource
+import com.karrar.movieapp.data.repository.mediaDataSource.movie.MovieDataSourceContainer
+import com.karrar.movieapp.data.repository.serchDataSource.SearchDataSourceContainer
 import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
-import com.karrar.movieapp.domain.mappers.MovieMappersContainer
-import com.karrar.movieapp.domain.models.*
-import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import java.util.*
 import javax.inject.Inject
-
 
 class MovieRepositoryImp @Inject constructor(
     private val movieService: MovieService,
     private val movieDao: MovieDao,
     private val actorDao: ActorDao,
-    private val movieMappersContainer: MovieMappersContainer,
-    private val dataMappers: LocalMovieMappersContainer,
     private val appConfiguration: AppConfiguration,
     private val actorDataSource: ActorDataSource,
+    private val dataMappers: LocalMovieMappersContainer,
     private val mediaDataSourceContainer: MediaDataSourceContainer,
-    private val searchDataSourceContainer: SearchDataSourceContainer
+    private val searchDataSourceContainer: SearchDataSourceContainer,
+    private val movieMovieDataSource: MovieDataSourceContainer,
+    private val actorMovieDataSource: ActorMovieDataSource
 ) : BaseRepository(), MovieRepository {
 
-    override suspend fun getMovieGenreList(): List<Genre> {
-        return wrap({ movieService.getGenreList() },
-            { ListMapper(movieMappersContainer.genreMapper).mapList(it.genres) })
+    override suspend fun getMovieGenreList(): List<GenreDto>? {
+        return movieService.getGenreList().body()?.genres
     }
 
 
-    override suspend fun getTrendingMovies(page: Int): List<Media> {
-        return wrap({ movieService.getTrendingMovies(page = page) },
-            { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
+    override suspend fun getDailyTrending(): BaseListResponse<DailyTrendingDto> {
+        return movieService.getDailyTrending().body()!!
     }
 
-    override suspend fun getDailyTrending(): List<Media> {
-        return wrap({ movieService.getDailyTrending() },
-            { ListMapper(movieMappersContainer.itemListMapper).mapList(it.items) })
+
+    override suspend fun getRatedMovie(): List<RatedMoviesDto>? {
+        return movieService.getRatedMovie().body()?.items
     }
 
-    override suspend fun getUpcomingMovies(page: Int): List<Media> {
-        return wrap({ movieService.getUpcomingMovies(page = page) },
-            { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
-    }
-
-    override suspend fun getNowPlayingMovies(page: Int): List<Media> {
-        return wrap({ movieService.getNowPlayingMovies(page = page) },
-            { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
-    }
-
-    override suspend fun getMovieListByGenreID(genreID: Int, page: Int): List<Media> {
-        return wrap({ movieService.getMovieListByGenre(genreID = genreID, page = page) },
-            { ListMapper(movieMappersContainer.movieMapper).mapList(it.items) })
-    }
-
-    /**
-     * movie details
-     * */
-
-    override suspend fun getMovieDetails(movieId: Int): MovieDetails {
-        return wrap({ movieService.getMovieDetails(movieId) },
-            { movieMappersContainer.movieDetailsMapper.map(it) })
-    }
-
-    override suspend fun getMovieCast(movieId: Int): List<Actor> {
-        return wrap({ movieService.getMovieCast(movieId) }, { response ->
-            ListMapper(movieMappersContainer.actorMapper).mapList(response.cast)
-        })
-    }
-
-    override suspend fun getSimilarMovie(movieId: Int): List<Media> {
-        return wrap({ movieService.getSimilarMovie(movieId) }, { response ->
-            ListMapper(movieMappersContainer.movieMapper).mapList(response.items)
-        })
-    }
-
-    override suspend fun getMovieReviews(movieId: Int): List<Review> {
-        return wrap({ movieService.getMovieReviews(movieId) }, { response ->
-            ListMapper(movieMappersContainer.reviewMapper).mapList(response.items)
-        })
-    }
-
-    override suspend fun getMovieTrailer(movieId: Int): Trailer {
-        return wrap({ movieService.getMovieTrailer(movieId) },
-            { movieMappersContainer.trailerMapper.map(it) })
-    }
-
-    override suspend fun getRatedMovie(
-        accountId: Int,
-        sessionId: String,
-    ): List<Rated> {
-        return wrap({ movieService.getRatedMovie(accountId, sessionId) }, { response ->
-            ListMapper(movieMappersContainer.ratedMoviesMapper).mapList(response.items)
-        })
-    }
-
-    override suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto {
-        return wrap({ movieService.postRating(movieId, value, session_id) }, { it })
+    override suspend fun setRating(movieId: Int, value: Float): RatingDto? {
+        return movieService.postRating(movieId, value).body()
     }
 
     /**
      * Actor.
      * */
-    override suspend fun getTrendingActors(page: Int): List<Actor> {
-        return wrap({ movieService.getTrendingActors() },
-            { ListMapper(movieMappersContainer.actorMapper).mapList(it.items) })
+
+    override suspend fun getActorDetails(actorId: Int): ActorDto? {
+        return movieService.getActorDetails(actorId = actorId).body()
     }
 
-    override suspend fun getActorDetails(actorId: Int): ActorDetails {
-        return wrap({ movieService.getActorDetails(actorId) },
-            { movieMappersContainer.actorDetailsMapper.map(it) })
-    }
-
-    override suspend fun getActorMovies(actorId: Int): List<Media> {
-        return wrap({ movieService.getActorMovies(actorId) },
-            { ListMapper(movieMappersContainer.movieMapper).mapList(it.cast) })
+    override suspend fun getActorMovies(actorId: Int): ActorMoviesDto? {
+        return movieService.getActorMovies(actorId = actorId).body()
     }
 
     /**
@@ -136,68 +75,32 @@ class MovieRepositoryImp @Inject constructor(
      * */
 
     override suspend fun getAllLists(
-        accountId: Int,
         sessionId: String,
-    ): List<CreatedList> {
-        return wrap({ movieService.getCreatedLists(accountId, sessionId) },
-            { ListMapper(movieMappersContainer.createdListsMapper).mapList(it.items) })
+    ): List<CreatedListDto>? {
+        return movieService.getCreatedLists(sessionId = sessionId).body()?.items
     }
 
-    override suspend fun getListDetails(listId: Int): MyListsDto {
-        return wrap({ movieService.getList(listId) }, { it })
+    override suspend fun getListDetails(listId: Int): MyListsDto? {
+        return movieService.getList(listId).body()
     }
 
-    override suspend fun getSavedListDetails(listId: String): List<SaveListDetails> {
-        return wrap({ movieService.getList(listId.toInt()) },
-            { ListMapper(movieMappersContainer.saveListDetailsMapper).mapList(it.items) })
+    override suspend fun getSavedListDetails(listId: Int): List<SavedListDto>? {
+        return movieService.getList(listId).body()?.items
     }
 
     override suspend fun createList(
         sessionId: String,
         name: String,
-    ): AddListResponse {
-        return wrap({ movieService.createList(sessionId, name) }, { it })
+    ): AddListResponse? {
+        return movieService.createList(sessionId, name).body()
     }
 
     override suspend fun addMovieToList(
         sessionId: String,
         listId: Int,
         movieId: Int,
-    ): AddMovieDto {
-        return wrap({ movieService.addMovieToList(listId, sessionId, movieId) }, { it })
-    }
-
-
-    /**
-     * searching
-     * */
-
-    override fun searchForMovie(query: String): Flow<PagingData<Media>> {
-        val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
-        val dataSource = searchDataSourceContainer.movieSearchDataSource
-        dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource}).flow
-    }
-
-    override fun searchForSeries(query: String): Flow<PagingData<Media>> {
-        val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
-        val dataSource = searchDataSourceContainer.seriesSearchDataSource
-        dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource}).flow
-    }
-
-    //should remove empty list ...
-    override fun searchForActor(query: String): Flow<PagingData<Media>> {
-        val config = PagingConfig(pageSize = 100, prefetchDistance = 5, enablePlaceholders = false)
-        val dataSource = searchDataSourceContainer.actorSearchDataSource
-        dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource}).flow
-    }
-
-    override fun getAllSearchHistory(): Flow<List<SearchHistory>> {
-        return movieDao.getAllSearchHistory().map { response ->
-            response.map { movieMappersContainer.searchHistoryMapper.map(it) }
-        }
+    ): AddMovieDto? {
+        return movieService.addMovieToList(listId, sessionId, movieId).body()
     }
 
     override suspend fun clearWatchHistory() {
@@ -220,57 +123,26 @@ class MovieRepositoryImp @Inject constructor(
         return movieDao.getAllWatchedMovies()
     }
 
-    override suspend fun getMediaData(type: AllMediaType, actorId: Int): Pager<Int, Media> {
-        val pagingSourceFactory = when (type) {
-            AllMediaType.ON_THE_AIR, AllMediaType.LATEST -> mediaDataSourceContainer.onTheAirTvShowDataSource
-            AllMediaType.AIRING_TODAY -> mediaDataSourceContainer.airingTodayTvShowDataSource
-            AllMediaType.POPULAR -> mediaDataSourceContainer.popularTvShowDataSource
-            AllMediaType.TOP_RATED -> mediaDataSourceContainer.topRatedTvShowDataSource
-            AllMediaType.TRENDING -> mediaDataSourceContainer.trendingMovieDataSource
-            AllMediaType.NOW_STREAMING -> mediaDataSourceContainer.nowStreamingMovieMovieDataSource
-            AllMediaType.UPCOMING -> mediaDataSourceContainer.upcomingMovieMovieDataSource
-            AllMediaType.MYSTERY -> {
-                val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
-                dataSource.setGenre(Constants.MYSTERY_ID, Constants.MOVIE_CATEGORIES_ID)
-                dataSource
-            }
-            AllMediaType.ADVENTURE -> {
-                val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
-                dataSource.setGenre(Constants.ADVENTURE_ID, Constants.MOVIE_CATEGORIES_ID)
-                dataSource
-            }
-            AllMediaType.NON -> {
-                val dataSource = mediaDataSourceContainer.actorMovieDataSource
-                dataSource.setMovieActorID(actorId)
-                dataSource
-            }
-        }
-        return Pager(config = config, pagingSourceFactory = { pagingSourceFactory })
-    }
 
-    override suspend fun getActorData(): Pager<Int, Actor> {
+    override suspend fun getActorData(): Pager<Int, ActorDto> {
         return Pager(config = config, pagingSourceFactory = { actorDataSource })
     }
 
-    override fun getAllMedia(mediaType: Int): Flow<PagingData<Media>> {
+    override suspend fun getAllMovies(): Pager<Int, MovieDto> {
         return Pager(
             config = config,
-            pagingSourceFactory = {
-                val dataSource = mediaDataSourceContainer.allMediaDataSource
-                dataSource.setTypeMedia(mediaType)
-                dataSource
-            }).flow
+            pagingSourceFactory = { mediaDataSourceContainer.movieDataSource })
     }
 
-    override fun getMediaByGenre(genreID: Int, mediaType: Int): Flow<PagingData<Media>> {
+    override suspend fun getMovieByGenre(genreID: Int): Pager<Int, MovieDto> {
         return Pager(
             config = config,
             pagingSourceFactory = {
-                val dataSource = mediaDataSourceContainer.movieGenreShowDataSource
-                dataSource.setGenre(genreID, mediaType)
+                val dataSource = mediaDataSourceContainer.movieByGenreDataSource
+                dataSource.setGenre(genreID)
                 dataSource
             }
-        ).flow
+        )
     }
 
 
@@ -278,44 +150,100 @@ class MovieRepositoryImp @Inject constructor(
      * Caching
      * */
 
-    override fun getPopularMovies(): Flow<List<PopularMovie>> {
-        return movieDao.getPopularMovies().map { list ->
-            list.map { movieMappersContainer.popularMovieEntityMapper.map(it) }
-        }
+    override suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>> {
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.POPULAR_MOVIE_REQUEST_DATE_KEY),
+            ::refreshPopularMovies
+        )
+        return movieDao.getPopularMovies()
     }
 
-    override fun getTrendingMovies(): Flow<List<Media>> {
-        return movieDao.getTrendingMovies().map { list ->
-            list.map { movieMappersContainer.trendingMapper.map(it) }
-        }
+    override suspend fun getTrendingMovies(): Flow<List<TrendingMovieEntity>> {
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.TRENDING_MOVIE_REQUEST_DATE_KEY),
+            ::refreshTrendingMovies
+        )
+        return movieDao.getTrendingMovies()
     }
 
-    override fun getNowPlayingMovies(): Flow<List<Media>> {
-        return movieDao.getNowStreamingMovies().map { list ->
-            list.map { movieMappersContainer.nowStreamingMovieMapper.map(it) }
-        }
+    override suspend fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>> {
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.NOW_STREAMING_MOVIE_REQUEST_DATE_KEY),
+            ::refreshNowPlayingMovies
+        )
+        return movieDao.getNowStreamingMovies()
     }
 
-    override fun getUpcomingMovies(): Flow<List<Media>> {
-        return movieDao.getUpcomingMovies().map { list ->
-            list.map { movieMappersContainer.upcomingMovieMapper.map(it) }
-        }
+    override suspend fun getAdventureMovies(): Flow<List<AdventureMovieEntity>> {
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.ADVENTURE_MOVIE_REQUEST_DATE_KEY),
+            ::refreshAdventureMovies
+        )
+        return movieDao.getAdventureMovies()
     }
 
-    override fun getAdventureMovies(): Flow<List<Media>> {
-        return movieDao.getAdventureMovies().map { list ->
-            list.map { movieMappersContainer.adventureMovieMapper.map(it) }
-        }
+    override suspend fun getMysteryMovies(): Flow<List<MysteryMovieEntity>> {
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.MYSTERY_MOVIE_REQUEST_DATE_KEY),
+            ::refreshMysteryMovies
+        )
+        return movieDao.getMysteryMovies()
     }
 
-    override fun getMysteryMovies(): Flow<List<Media>> {
-        return movieDao.getMysteryMovies().map { list ->
-            list.map { movieMappersContainer.mysteryMovieMapper.map(it) }
-        }
+    override suspend fun getTrendingActors(): Flow<List<ActorEntity>> {
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.ACTOR_REQUEST_DATE_KEY),
+            ::refreshTrendingActors
+        )
+        return actorDao.getActors()
     }
 
-    override suspend fun refreshPopularMovies() {
-        val genres = getMovieGenreList()
+
+    override suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>> {
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.UPCOMING_MOVIE_REQUEST_DATE_KEY),
+            ::refreshUpcomingMovies
+        )
+        return movieDao.getUpcomingMovies()
+    }
+
+
+    override suspend fun getTrendingMoviesPager(): Pager<Int, MovieDto> {
+        return Pager(config = config,
+            pagingSourceFactory = { movieMovieDataSource.trendingMovieDataSource })
+    }
+
+    override suspend fun getNowPlayingMoviesPager(): Pager<Int, MovieDto> {
+        return Pager(config = config,
+            pagingSourceFactory = { movieMovieDataSource.nowStreamingMovieMovieDataSource })
+    }
+
+    override suspend fun getUpcomingMoviesPager(): Pager<Int, MovieDto> {
+        return Pager(config = config,
+            pagingSourceFactory = { movieMovieDataSource.upcomingMovieMovieDataSource })
+    }
+
+    override suspend fun getAdventureMoviesPager(): Pager<Int, MovieDto> {
+        val dataSource = movieMovieDataSource.movieByGenreDataSource
+        dataSource.setGenre(Constants.MYSTERY_ID)
+        return Pager(config = config, pagingSourceFactory = { dataSource })
+    }
+
+    override suspend fun getMysteryMoviesPager(): Pager<Int, MovieDto> {
+        val dataSource = movieMovieDataSource.movieByGenreDataSource
+        dataSource.setGenre(Constants.ADVENTURE_ID)
+        return Pager(config = config, pagingSourceFactory = { dataSource })
+    }
+
+    override suspend fun getActorMoviesPager(actorId: Int): Pager<Int, MovieDto> {
+        val dataSource = actorMovieDataSource
+        dataSource.setMovieActorID(actorId)
+        return Pager(config = config, pagingSourceFactory = { dataSource })
+    }
+
+
+    private suspend fun refreshPopularMovies(currentDate: Date) {
+        val genres = getMovieGenreList() ?: emptyList()
         refreshWrapper(
             { movieService.getPopularMovies() },
             { items ->
@@ -324,12 +252,15 @@ class MovieRepositoryImp @Inject constructor(
             {
                 movieDao.deletePopularMovies()
                 movieDao.insertPopularMovies(it)
+                appConfiguration.saveRequestDate(
+                    Constants.POPULAR_MOVIE_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
             },
         )
-
     }
 
-    override suspend fun refreshTrendingMovies() {
+    private suspend fun refreshTrendingMovies(currentDate: Date) {
         refreshWrapper(
             { movieService.getTrendingMovies() },
             { list ->
@@ -338,11 +269,15 @@ class MovieRepositoryImp @Inject constructor(
             {
                 movieDao.deleteAllTrendingMovies()
                 movieDao.insertTrendingMovie(it)
+                appConfiguration.saveRequestDate(
+                    Constants.TRENDING_MOVIE_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
             },
         )
     }
 
-    override suspend fun refreshNowPlayingMovies() {
+    private suspend fun refreshNowPlayingMovies(currentDate: Date) {
         refreshWrapper(
             { movieService.getNowPlayingMovies() },
             { list ->
@@ -351,20 +286,32 @@ class MovieRepositoryImp @Inject constructor(
             {
                 movieDao.deleteAllNowStreamingMovies()
                 movieDao.insertNowStreamingMovie(it)
+                appConfiguration.saveRequestDate(
+                    Constants.NOW_STREAMING_MOVIE_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
             },
         )
     }
 
-    override suspend fun refreshUpcomingMovies() {
-        refreshWrapper({ movieService.getUpcomingMovies() }, { list ->
-            list?.map { dataMappers.upcomingMovieMapper.map(it) }
-        }, {
-            movieDao.deleteAllUpcomingMovies()
-            movieDao.insertUpcomingMovie(it)
-        })
+    private suspend fun refreshUpcomingMovies(currentDate: Date) {
+        refreshWrapper(
+            { movieService.getUpcomingMovies() },
+            { list ->
+                list?.map { dataMappers.upcomingMovieMapper.map(it) }
+            },
+            {
+                movieDao.deleteAllUpcomingMovies()
+                movieDao.insertUpcomingMovie(it)
+                appConfiguration.saveRequestDate(
+                    Constants.UPCOMING_MOVIE_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
+            },
+        )
     }
 
-    override suspend fun refreshAdventureMovies() {
+    private suspend fun refreshAdventureMovies(currentDate: Date) {
         refreshWrapper(
             { movieService.getMovieListByGenre(genreID = Constants.ADVENTURE_ID) },
             { list ->
@@ -373,11 +320,15 @@ class MovieRepositoryImp @Inject constructor(
             {
                 movieDao.deleteAllAdventureMovies()
                 movieDao.insertAdventureMovie(it)
+                appConfiguration.saveRequestDate(
+                    Constants.ADVENTURE_MOVIE_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
             },
         )
     }
 
-    override suspend fun refreshMysteryMovies() {
+    private suspend fun refreshMysteryMovies(currentDate: Date) {
         refreshWrapper(
             { movieService.getMovieListByGenre(genreID = Constants.MYSTERY_ID) },
             { list ->
@@ -386,33 +337,74 @@ class MovieRepositoryImp @Inject constructor(
             {
                 movieDao.deleteAllMysteryMovies()
                 movieDao.insertMysteryMovie(it)
+                appConfiguration.saveRequestDate(
+                    Constants.MYSTERY_MOVIE_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
             },
         )
     }
 
-    override suspend fun refreshTrendingActors() {
+    private suspend fun refreshTrendingActors(currentDate: Date) {
         refreshWrapper(
             { movieService.getTrendingActors() }, { items ->
                 items?.map { dataMappers.actorMapper.map(it) }
             }, {
                 actorDao.deleteActors()
                 actorDao.insertActors(it)
+                appConfiguration.saveRequestDate(Constants.ACTOR_REQUEST_DATE_KEY, currentDate.time)
             }
         )
     }
 
-    override suspend fun saveRequestDate(value: Long) {
-        appConfiguration.saveRequestDate(value)
+
+    /**
+     * searching
+     * */
+
+    override suspend fun searchForMoviePager(query: String): Pager<Int, MovieDto> {
+        val dataSource = searchDataSourceContainer.movieSearchDataSource
+        dataSource.setSearchText(query)
+        return Pager(config = config, pagingSourceFactory = { dataSource })
     }
 
-    override suspend fun getRequestDate(): Long? {
-        return appConfiguration.getRequestDate()
+    override suspend fun searchForActorPager(query: String): Pager<Int, ActorDto> {
+        val dataSource = searchDataSourceContainer.actorSearchDataSource
+        dataSource.setSearchText(query)
+        return Pager(config = config, pagingSourceFactory = { dataSource })
     }
 
-    override fun getTrendingActors(): Flow<List<Actor>> {
-        return actorDao.getActors()
-            .map { list -> list.map { movieMappersContainer.actorEntityMapper.map(it) } }
+
+    override suspend fun getAllSearchHistory(): Flow<List<SearchHistoryEntity>> {
+        return movieDao.getAllSearchHistory()
     }
 
+    /**
+     * movie details
+     * */
+
+    override suspend fun getMovieDetails(movieId: Int): MovieDetailsDto? {
+        return movieService.getMovieDetails(movieId).body()
+    }
+
+    override suspend fun getMovieCast(movieId: Int): CreditsDto? {
+        return movieService.getMovieCast(movieId).body()
+    }
+
+    override suspend fun getSimilarMovie(movieId: Int): List<MovieDto>? {
+        return movieService.getSimilarMovie(movieId).body()?.items
+    }
+
+    override suspend fun getMovieReviews(movieId: Int): List<ReviewsDto>? {
+        return movieService.getMovieReviews(movieId).body()?.items
+    }
+
+    override suspend fun deleteRating(movieId: Int): RatingDto? {
+        return movieService.deleteRating(movieId).body()
+    }
+
+    override suspend fun getMovieTrailer(movieId: Int): TrailerDto? {
+        return movieService.getMovieTrailer(movieId).body()
+    }
 
 }

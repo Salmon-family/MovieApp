@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieDetailsUIState" />
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@color/background_color">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="364dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:posterImage="@{item.image}"
+            tools:src="@drawable/image" />
+
+        <View
+            android:id="@+id/view_bottom_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_shadow"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="@+id/imageView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/back_icon_shape"
+            android:onClick="@{() -> listener.onclickBack()}"
+            android:padding="@dimen/spacing_small"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/background_color" />
+
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/back_icon_shape"
+            android:contentDescription="@string/back_button"
+            android:onClick="@{() -> listener.onClickSave()}"
+            android:padding="@dimen/spacing_small"
+            android:src="@drawable/ic_save"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView3"
+            app:tint="@color/background_color" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_play_trailer"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:onClick="@{() -> listener.onClickPlayTrailer()}"
+            android:text="@string/play_trailer"
+            android:textAllCaps="false"
+            android:textColor="@color/white_primary"
+            app:cornerRadius="@dimen/spacing_large"
+            app:icon="@drawable/ic_play_filled"
+            app:iconTint="@color/white_primary"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Play Trailer" />
+
+        <TextView
+            android:id="@+id/movie_name"
+            style="@style/SemiBold.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@{item.name}"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            tools:text="A Star Wars Story" />
+
+        <TextView
+            android:id="@+id/release_date"
+            style="@style/Regular.Small.ternary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:text="@{item.releaseDate}"
+            app:layout_constraintBottom_toBottomOf="@+id/line"
+            app:layout_constraintEnd_toStartOf="@+id/line"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintTop_toTopOf="@+id/line"
+            tools:text="2014" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="1dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:background="@color/shade_ternary_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movie_name" />
+
+        <TextView
+            android:id="@+id/duration"
+            style="@style/Regular.Small.ternary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            app:layout_constraintBottom_toBottomOf="@+id/line"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/line"
+            app:layout_constraintTop_toTopOf="@+id/line"
+            app:movieHours="@{item.hours}"
+            app:movieMinutes="@{item.minutes}"
+            tools:text="100m" />
+
+        <TextView
+            android:id="@+id/genres"
+            style="@style/Regular.Small.ternary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:gravity="center"
+            android:text="@{item.genres}"
+            android:textColor="@color/brand_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line"
+            tools:text="Adventure, Drama, Science Fiction" />
+
+        <TextView
+            android:id="@+id/review"
+            style="@style/Regular.Small.Secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@{@string/reviews(item.review)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/stars"
+            app:layout_constraintTop_toBottomOf="@+id/genres"
+            tools:text="128 Reviews" />
+
+        <TextView
+            android:id="@+id/stars"
+            style="@style/SemiBold.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:text="@{item.voteAverage}"
+            android:textColor="@color/yellow"
+            app:layout_constraintBottom_toBottomOf="@+id/review"
+            app:layout_constraintEnd_toStartOf="@+id/review"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/star"
+            app:layout_constraintTop_toTopOf="@+id/review"
+            app:layout_constraintVertical_bias="1.0"
+            tools:text="8.6" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/star"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:src="@drawable/ic_star_filled"
+            app:layout_constraintBottom_toBottomOf="@+id/stars"
+            app:layout_constraintEnd_toStartOf="@+id/stars"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/stars" />
+
+        <TextView
+            android:id="@+id/over_view_title"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:text="@string/overview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/review" />
+
+        <TextView
+            android:id="@+id/over_view"
+            style="@style/Regular.Medium.Secondary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:text="@{item.overview}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/over_view_title"
+            app:layout_constraintTop_toBottomOf="@+id/over_view_title"
+            tools:text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam. Exercitation veniam." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -8,9 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMyRatingsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.profile.watchhistory.WatchHistoryFragmentDirections
-import com.karrar.movieapp.utilities.EventObserve
-import com.karrar.movieapp.utilities.observeEvent
+import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,20 +18,23 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setTitle(true, getString(R.string.my_ratings))
         val adapter = RatedMoviesAdapter(emptyList(), viewModel)
         binding.recyclerViewRatedMovies.adapter = adapter
-        observeEvents()
-        setTitle(true, getString(R.string.my_ratings))
+        collectLast(viewModel.myRatingUIEvent) {
+            it.getContentIfNotHandled()?.let { onEvent(it) }
+        }
     }
 
-    private fun observeEvents() {
-        viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner){ movieId ->
-            findNavController().navigate(MyRatingsFragmentDirections.actionRatedMoviesFragmentToMovieDetailFragment(movieId))
+    private fun onEvent(event: MyRatingUIEvent) {
+        val action = when (event) {
+            is MyRatingUIEvent.MovieEvent -> {
+                MyRatingsFragmentDirections.actionRatedMoviesFragmentToMovieDetailFragment(event.movieID)
+            }
+            is MyRatingUIEvent.TVShowEvent -> {
+                MyRatingsFragmentDirections.actionRatedMoviesFragmentToTvShowDetailsFragment(event.tvShowID)
+            }
         }
-
-        viewModel.clickTVShowEvent.observeEvent(viewLifecycleOwner){ tvShowId->
-            findNavController().navigate(
-                MyRatingsFragmentDirections.actionRatedMoviesFragmentToTvShowDetailsFragment(tvShowId))
-        }
+        findNavController().navigate(action)
     }
 }

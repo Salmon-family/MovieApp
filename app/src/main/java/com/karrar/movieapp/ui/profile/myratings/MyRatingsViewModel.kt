@@ -1,53 +1,64 @@
 package com.karrar.movieapp.ui.profile.myratings
 
-import androidx.lifecycle.MutableLiveData
-import com.karrar.movieapp.data.repository.AccountRepository
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.data.repository.SeriesRepository
-import com.karrar.movieapp.domain.models.Rated
-import com.karrar.movieapp.ui.UIState
+import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.domain.usecases.GetListOfRatedUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.utilities.*
+import com.karrar.movieapp.utilities.Constants
+import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MyRatingsViewModel @Inject constructor(
-    private val accountRepository: AccountRepository,
-    private val movieRepository: MovieRepository,
-    private val tvShowsRepository: SeriesRepository
+    private val getRatedUseCase: GetListOfRatedUseCase,
+    private val ratedUIStateMapper: RatedUIStateMapper
 ) : BaseViewModel(), RatedMoviesInteractionListener {
 
-    private val _rated = MutableLiveData<UIState<List<Rated>>>()
-    val ratedMovies = _rated.toLiveData()
+    private val _ratedUiState = MutableStateFlow(MyRateUIState())
+    val ratedUiState: StateFlow<MyRateUIState> = _ratedUiState
 
-    private val _clickMovieEvent = MutableLiveData<Event<Int>>()
-    val clickMovieEvent = _clickMovieEvent.toLiveData()
-
-    private val _clickTVShowEvent = MutableLiveData<Event<Int>>()
-    val clickTVShowEvent = _clickTVShowEvent.toLiveData()
+    private val _myRatingUIEvent: MutableStateFlow<Event<MyRatingUIEvent?>> =
+        MutableStateFlow(Event(null))
+    val myRatingUIEvent = _myRatingUIEvent.asStateFlow()
 
     init {
         getData()
     }
 
     override fun getData() {
-        _rated.postValue(UIState.Loading)
-        wrapWithState({
-//
-//                val movieResponse = movieRepository.getRatedMovie(0, it)
-//                val tvShowResponse = tvShowsRepository.getRatedTvShow(0, it)
-
-        }, { _rated.postValue(UIState.Error(it.message.toString())) })
-    }
-
-    override fun onClickMovie(mediaID: Int) {
-        ratedMovies.value?.let { it ->
-            val item = it.toData()?.find { it.id == mediaID }
-            item?.let {
-                if (it.mediaType == Constants.MOVIE) _clickMovieEvent.postEvent(mediaID)
-                else _clickTVShowEvent.postEvent(mediaID)
+        viewModelScope.launch {
+            _ratedUiState.update { it.copy(isLoading = true) }
+            try {
+                val listOfRated =
+                    getRatedUseCase().map { rate -> ratedUIStateMapper.map(rate) }
+                _ratedUiState.update { it.copy(ratedList = listOfRated, isLoading = false) }
+            } catch (e: Throwable) {
+                _ratedUiState.update { it.copy(error = listOf(Error("")), isLoading = false) }
             }
         }
+    }
+
+
+    override fun onClickMovie(movieId: Int) {
+        ratedUiState.value.ratedList.let { it ->
+            val item = it.find { it.id == movieId }
+            item?.let {
+                if (it.mediaType == Constants.MOVIE) {
+                    _myRatingUIEvent.update { Event(MyRatingUIEvent.MovieEvent(movieId)) }
+                } else {
+                    _myRatingUIEvent.update { Event(MyRatingUIEvent.TVShowEvent(movieId)) }
+                }
+            }
+        }
+    }
+
+    fun retryConnect() {
+        _ratedUiState.update { it.copy(error = emptyList()) }
+        getData()
     }
 }

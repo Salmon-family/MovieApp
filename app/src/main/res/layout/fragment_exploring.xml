@@ -8,6 +8,7 @@
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.explore.ExploringViewModel" />
+
     </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout
@@ -15,6 +16,60 @@
         android:layout_height="match_parent"
         android:background="@color/background_color"
         app:layoutDescription="@xml/fragment_exploring_scene">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_lost_connection"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginBottom="@dimen/spacing_small"
+            app:layout_constraintBottom_toTopOf="@+id/title_lost_connection"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/lost_internet_animation"
+            app:showWhenListNotEmpty="@{viewModel.uiState.error}" />
+
+        <TextView
+            android:id="@+id/title_lost_connection"
+            style="@style/SemiBold.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_extra_large"
+            android:text="@string/oops"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_trend_label"
+            app:showWhenListNotEmpty="@{viewModel.uiState.error}" />
+
+        <TextView
+            android:id="@+id/description_lost_connection"
+            style="@style/Regular.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:gravity="center"
+            android:text="@string/description"
+            android:textColor="@color/brand_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_lost_connection"
+            app:showWhenListNotEmpty="@{viewModel.uiState.error}" />
+
+        <Button
+            android:id="@+id/button_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:onClick="@{() -> viewModel.getData()}"
+            android:text="@string/retry"
+            android:textColor="@color/white_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection"
+            app:showWhenListNotEmpty="@{viewModel.uiState.error}" />
+
+        <!--        layout-->
 
         <TextView
             android:id="@+id/text_explore"
@@ -56,10 +111,10 @@
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_medium"
-            app:cardElevation="0dp"
             android:backgroundTint="@color/card_background_color"
             android:onClick="@{() -> viewModel.onClickMovies()}"
             app:cardCornerRadius="@dimen/radius_small"
+            app:cardElevation="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@id/card_series"
             app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +146,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/spacing_medium"
             android:backgroundTint="@color/card_background_color"
-            android:onClick="@{() -> viewModel.onClickSeries()}"
+            android:onClick="@{() -> viewModel.onClickTVShow()}"
             app:cardCornerRadius="@dimen/radius_small"
             app:cardElevation="0dp"
             app:layout_constraintDimensionRatio="1:1"
@@ -126,10 +181,10 @@
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_medium"
-            app:cardElevation="0dp"
             android:backgroundTint="@color/card_background_color"
             android:onClick="@{() -> viewModel.onClickActors()}"
             app:cardCornerRadius="@dimen/radius_small"
+            app:cardElevation="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/input_search"
             app:layout_constraintStart_toEndOf="@id/card_series"
@@ -163,6 +218,10 @@
             android:layout_marginTop="@dimen/spacing_large"
             android:text="@string/trending_today_label"
             android:textColor="@color/shade_primary_color"
+
+            app:doneLoading="@{viewModel.uiState.loading}"
+            app:errorNotEmpty="@{viewModel.uiState.error}"
+
             app:layout_constraintStart_toStartOf="@id/card_movies"
             app:layout_constraintTop_toBottomOf="@id/card_movies" />
 
@@ -170,17 +229,20 @@
             android:id="@+id/recycler_trend"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_small"
             android:clipToPadding="false"
             android:elevation="@dimen/spacing_too_small"
-            android:layout_marginVertical="@dimen/spacing_small"
-            android:layout_marginHorizontal="@dimen/spacing_small"
-            app:items="@{viewModel.trend.toData()}"
+
+            app:doneLoading="@{viewModel.uiState.loading}"
+            app:errorNotEmpty="@{viewModel.uiState.error}"
+
+            app:items="@{viewModel.uiState.trendyMovie}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_trend_label"
-            app:showWhenSuccess="@{viewModel.trend}"
             app:spanCount="2"
             tools:listitem="@layout/item_trend" />
 
@@ -188,33 +250,15 @@
             android:id="@+id/animation_loading"
             android:layout_width="128dp"
             android:layout_height="128dp"
+            app:isVisible="@{viewModel.uiState.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_animation"
-            app:showWhenLoading="@{viewModel.trend}" />
+            app:lottie_rawRes="@raw/loading_animation" />
 
-<!--        <include-->
-<!--            android:id="@+id/loading"-->
-<!--            layout="@layout/loading"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:loading="@{viewModel.trend}" />-->
-
-<!--        <include-->
-<!--            android:id="@+id/error"-->
-<!--            layout="@layout/error"-->
-<!--            app:error="@{viewModel.trend}"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:viewModel="@{viewModel}" />-->
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

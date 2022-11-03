@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.SeriesCastUIState" />
+            type="com.karrar.movieapp.ui.models.ActorUiState" />
 
         <variable
             name="listener"
@@ -20,7 +20,7 @@
         android:layout_marginVertical="@dimen/spacing_small"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:backgroundTint="@color/background_color"
-        android:onClick="@{() -> listener.onClickActor(item.actorID)}"
+        android:onClick="@{() -> listener.onClickActor(item.id)}"
         >
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -32,7 +32,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:posterImage="@{item.actorImage}"
+            app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/Circle"
             tools:srcCompat="@drawable/image"
             />
@@ -45,7 +45,7 @@
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:lines="2"
-            android:text="@{item.actorName}"
+            android:text="@{item.name}"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="@+id/cast_image"
             app:layout_constraintStart_toStartOf="@+id/cast_image"

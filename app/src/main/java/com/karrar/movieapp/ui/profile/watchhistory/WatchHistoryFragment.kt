@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentWatchHistoryBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.observeEvent
+import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,21 +19,29 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setTitle(true, getString(R.string.watch_history))
         binding.recyclerViewWatchHistory.adapter = WatchHistoryAdapter(emptyList(), viewModel)
-        observeEvents()
+        collectEvent()
     }
 
-    private fun observeEvents() {
-        viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner) { movieId ->
-            findNavController().navigate(
+    private fun collectEvent() {
+        collectLast(viewModel.watchHistoryUIEvent) {
+            it.getContentIfNotHandled()?.let { onEvent(it) }
+        }
+    }
+
+    private fun onEvent(event: WatchHistoryUIEvent) {
+        val action = when (event) {
+            is WatchHistoryUIEvent.MovieEvent -> {
                 WatchHistoryFragmentDirections.actionWatchHistoryFragmentToMovieDetailFragment(
-                    movieId
+                    event.movieID
                 )
-            )
+            }
+            is WatchHistoryUIEvent.TVShowEvent -> {
+                WatchHistoryFragmentDirections.actionWatchHistoryFragmentToTvShowDetailsFragment(
+                    event.tvShowID
+                )
+            }
         }
-
-        viewModel.clickTVShowEvent.observeEvent(viewLifecycleOwner) { tvShowID ->
-            findNavController().navigate(
-                WatchHistoryFragmentDirections.actionWatchHistoryFragmentToTvShowDetailsFragment(tvShowID))
-        }
+        findNavController().navigate(action)
     }
+
 }

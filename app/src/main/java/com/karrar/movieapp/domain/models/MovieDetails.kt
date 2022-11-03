@@ -1,7 +1,5 @@
 package com.karrar.movieapp.domain.models
 
-import com.karrar.movieapp.domain.enums.MediaType
-
 data class MovieDetails(
     val movieId: Int,
     val movieImage: String,
@@ -12,17 +10,4 @@ data class MovieDetails(
     val movieReview: Int,
     val movieVoteAverage: String,
     val movieOverview: String,
-    val movieType: MediaType
-) : MediaDetails(
-    movieId,
-    movieImage,
-    movieName,
-    movieReleaseDate,
-    movieGenres,
-    movieDuration,
-    movieReview,
-    movieVoteAverage,
-    movieOverview,
-    emptyList(),
-    movieType
 )

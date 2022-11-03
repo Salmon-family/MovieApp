@@ -20,7 +20,6 @@ class MovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsDto, MovieDe
             input.voteCount ?: 0,
             input.voteAverage.toString().take(3),
             input.overview ?: "",
-            MediaType.MOVIE
         )
     }
 }

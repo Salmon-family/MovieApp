@@ -9,12 +9,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentAllMovieBinding
 import com.karrar.movieapp.domain.enums.AllMediaType
-import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
-import com.karrar.movieapp.utilities.observeEvent
 import com.karrar.movieapp.utilities.setSpanSize
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +27,7 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setTitle(true, getTitle(viewModel.args.type))
         setMovieAdapter()
-        observeEvents()
+        collectEvent()
     }
 
     private fun setMovieAdapter() {
@@ -39,35 +38,44 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
         mManager.setSpanSize(footerAdapter, allMediaAdapter, mManager.spanCount)
 
         collect(flow = allMediaAdapter.loadStateFlow,
-            action = { viewModel.setErrorUiState(it.source.refresh) })
+            action = {
+                viewModel.setErrorUiState(it)
+            })
 
-        collectLast(viewModel.allMedia, ::setAllMedia)
+        collectLast(viewModel.uiState.value.allMedia, ::setAllMedia)
     }
 
 
-    private suspend fun setAllMedia(itemsPagingData: PagingData<Media>) {
+    private suspend fun setAllMedia(itemsPagingData: PagingData<MediaUiState>) {
         allMediaAdapter.submitData(itemsPagingData)
     }
 
-    private fun observeEvents() {
-        viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner) { movieID ->
-            findNavController().navigate(
-                AllMovieFragmentDirections.actionAllMovieFragmentToMovieDetailFragment(
-                    movieID
-                )
-            )
+    private fun collectEvent() {
+        collectLast(viewModel.mediaUIEvent) {
+            it?.getContentIfNotHandled()?.let { onEvent(it) }
         }
-        viewModel.clickSeriesEvent.observeEvent(viewLifecycleOwner) { seriesID ->
-            findNavController().navigate(
-                AllMovieFragmentDirections.actionAllMovieFragmentToTvShowDetailsFragment(
-                    seriesID
-                )
-            )
-        }
-        viewModel.backEvent.observeEvent(viewLifecycleOwner) { removeFragment() }
+    }
 
-        viewModel.clickRetryEvent.observeEvent(viewLifecycleOwner) {
-            if (it) {
+    private fun onEvent(event: MediaUIEvent) {
+        when (event) {
+            MediaUIEvent.BackEvent -> {
+                removeFragment()
+            }
+            is MediaUIEvent.ClickMovieEvent -> {
+                findNavController().navigate(
+                    AllMovieFragmentDirections.actionAllMovieFragmentToMovieDetailFragment(
+                        event.movieID
+                    )
+                )
+            }
+            is MediaUIEvent.ClickSeriesEvent -> {
+                findNavController().navigate(
+                    AllMovieFragmentDirections.actionAllMovieFragmentToTvShowDetailsFragment(
+                        event.seriesID
+                    )
+                )
+            }
+            MediaUIEvent.RetryEvent -> {
                 allMediaAdapter.retry()
             }
         }
@@ -89,7 +97,7 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
             AllMediaType.UPCOMING -> resources.getString(R.string.title_upcoming)
             AllMediaType.MYSTERY -> resources.getString(R.string.title_mystery)
             AllMediaType.ADVENTURE -> resources.getString(R.string.title_adventure)
-            AllMediaType.NON -> ""
+            AllMediaType.ACTOR_MOVIES -> ""
         }
     }
 

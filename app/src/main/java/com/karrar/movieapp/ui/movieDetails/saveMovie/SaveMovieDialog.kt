@@ -3,12 +3,12 @@ package com.karrar.movieapp.ui.movieDetails.saveMovie
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.navArgs
+import androidx.fragment.app.viewModels
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.DialogSaveMovieBinding
 import com.karrar.movieapp.ui.base.BaseDialogFragment
-import com.karrar.movieapp.ui.myList.MyListsViewModel
+import com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.SaveMovieUIEvent
+import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -16,26 +16,25 @@ import dagger.hilt.android.AndroidEntryPoint
 class SaveMovieDialog : BaseDialogFragment<DialogSaveMovieBinding>() {
 
     override val layoutIdFragment = R.layout.dialog_save_movie
-    override val viewModel: MyListsViewModel by activityViewModels()
-    private val args: SaveMovieDialogArgs by navArgs()
+    override val viewModel: SaveMovieViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.saveListAdapter.adapter = SaveListAdapter(mutableListOf(), viewModel)
+        collectLast(viewModel.saveMovieUIEvent) {
+            it.getContentIfNotHandled()?.let { onEvent(it) }
 
-        viewModel.newAdd.observe(viewLifecycleOwner){
-            if(it == true) viewModel.checkMovie(args.movieId)
         }
+    }
 
-        viewModel.message.observe(viewLifecycleOwner) {
-            if (viewModel.newAdd.value == true){
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+    private fun onEvent(event: SaveMovieUIEvent) {
+        if (event is SaveMovieUIEvent.DisplayMessage) {
+            if (!event.message.isNullOrBlank()) {
+                Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
                 dismiss()
             }
         }
-
     }
-
-
 
 }

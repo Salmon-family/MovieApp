@@ -2,11 +2,12 @@ package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.DataClassParser
 import com.karrar.movieapp.data.local.AppConfiguration
+import com.karrar.movieapp.data.remote.response.account.AccountDto
 import com.karrar.movieapp.data.remote.response.login.ErrorResponse
+import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.domain.mappers.account.AccountMapper
-import com.karrar.movieapp.domain.models.Account
 import com.karrar.movieapp.utilities.DataStorePreferencesKeys
+import retrofit2.Response
 import javax.inject.Inject
 
 
@@ -14,19 +15,20 @@ class AccountRepositoryImp @Inject constructor(
     private val service: MovieService,
     private val appConfiguration: AppConfiguration,
     private val dataClassParser: DataClassParser,
-    private val accountMapper: AccountMapper,
 ) : AccountRepository, BaseRepository() {
 
     override fun getSessionId(): String? {
-        return appConfiguration.readString(DataStorePreferencesKeys.SESSION_ID_KEY)
+        return appConfiguration.getSessionId()
     }
+
+
 
     override suspend fun loginWithUserNameANdPassword(
         userName: String,
         password: String
     ): Boolean {
         return try {
-            val token = getRequestToken().toString()
+            val token = getRequestToken()
             val body = mapOf<String, Any>(
                 "username" to userName,
                 "password" to password,
@@ -48,21 +50,22 @@ class AccountRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend fun logout(): Boolean {
-        appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, "")
-        return true
+    override suspend fun logout() {
+        appConfiguration.saveSessionId( "")
     }
 
-    override suspend fun getAccountDetails(sessionId: String): Account {
-        return wrap({ service.getAccountDetails(sessionId) }, { accountMapper.map(it) })
+    override suspend fun getAccountDetails(): AccountDto? {
+        return service.getAccountDetails().body()
     }
 
-    private suspend fun getRequestToken(): String? {
+     private suspend fun getRequestToken(): String {
         val tokenResponse = service.getRequestToken()
-        return tokenResponse.body()?.requestToken
+        return tokenResponse.body()?.requestToken.toString()
     }
 
-    private suspend fun createSession(requestToken: String) {
+
+
+     private suspend fun createSession(requestToken: String) {
         val sessionResponse = service.createSession(requestToken).body()
         if (sessionResponse?.success == true) {
             saveSessionId(sessionResponse.sessionId.toString())
@@ -70,7 +73,7 @@ class AccountRepositoryImp @Inject constructor(
     }
 
     private suspend fun saveSessionId(sessionId: String) {
-        appConfiguration.writeString(DataStorePreferencesKeys.SESSION_ID_KEY, sessionId)
+        appConfiguration.saveSessionId(sessionId)
     }
 
 }

@@ -1,140 +1,101 @@
 package com.karrar.movieapp.ui.myList
 
-import androidx.lifecycle.*
-import com.karrar.movieapp.data.repository.*
-import com.karrar.movieapp.domain.models.CreatedList
-import com.karrar.movieapp.ui.UIState
+import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.domain.usecases.mylist.CreateMovieListUseCase
+import com.karrar.movieapp.domain.usecases.mylist.GetMyListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.movieDetails.saveMovie.SaveListInteractionListener
-import com.karrar.movieapp.utilities.*
+import com.karrar.movieapp.ui.category.uiState.ErrorUIState
+import com.karrar.movieapp.ui.myList.myListUIState.CreateListDialogUIState
+import com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState
+import com.karrar.movieapp.ui.myList.myListUIState.MyListUIEvent
+import com.karrar.movieapp.ui.myList.myListUIState.MyListUIState
+import com.karrar.movieapp.utilities.ErrorUI.INTERNET_CONNECTION
+import com.karrar.movieapp.utilities.ErrorUI.NEED_LOGIN
+import com.karrar.movieapp.utilities.ErrorUI.NO_LOGIN
+import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class MyListsViewModel @Inject constructor(
-    private val movieRepository: MovieRepository,
-    private val accountRepository: AccountRepository,
-) : BaseViewModel(), CreatedListInteractionListener, SaveListInteractionListener {
+    private val createMovieListUseCase: CreateMovieListUseCase,
+    private val getMyListUseCase: GetMyListUseCase,
+    private val createdListUIMapper: CreatedListUIMapper,
+) : BaseViewModel(), CreatedListInteractionListener {
 
+    private val _createdListUIState = MutableStateFlow(MyListUIState())
+    val createdListUIState = _createdListUIState.asStateFlow()
 
-    private val _createdList = MutableLiveData<UIState<MutableList<CreatedList>?>>()
-    val createdList = _createdList.toLiveData()
+    private val _createListDialogUIState = MutableStateFlow(CreateListDialogUIState())
+    val createListDialogUIState = _createListDialogUIState.asStateFlow()
 
-    val listName = MutableLiveData("")
-
-    private val _isCreateButtonClicked = MutableLiveData<Event<Boolean>>()
-    val isButtonClicked = _isCreateButtonClicked.toLiveData()
-
-    private val _onCLickAddEvent = MutableLiveData<Event<Boolean>>()
-    val onClickAddEvent = _onCLickAddEvent.toLiveData()
-
-    private val _item = MutableLiveData<Event<CreatedList>>()
-    val item: LiveData<Event<CreatedList>>
-        get() = _item
+    private val _myListUIEvent: MutableStateFlow<Event<MyListUIEvent?>> = MutableStateFlow(Event(null))
+    val myListUIEvent = _myListUIEvent.asStateFlow()
 
     override fun getData() {
-        _createdList.postValue(UIState.Loading)
-        wrapWithState({
-            val sessionId = accountRepository.getSessionId()
-            sessionId?.let {
-                val response = movieRepository.getAllLists(0, it).toMutableList()
-                _createdList.value = UIState.Success(response)
-            } ?: _createdList.postValue(UIState.NoLogin)
-        }, {
-            _createdList.value = UIState.Error(it.message.toString())
-            checkTheError()
-        })
-    }
-
-    fun checkIfLogin() {
-        val sessionId = accountRepository.getSessionId()
-        if (sessionId.isNullOrBlank() && _createdList.value !is UIState.NoLogin) {
-            _createdList.postValue(UIState.NoLogin)
-        } else if (!sessionId.isNullOrBlank() && _createdList.value is UIState.NoLogin) {
-            getData()
+        _createdListUIState.update {
+            it.copy(
+                isLoading = true,
+                isEmpty = false,
+                error = emptyList()
+            )
+        }
+        viewModelScope.launch {
+            try {
+                val list = getMyListUseCase().map { createdListUIMapper.map(it) }
+                _createdListUIState.update {
+                    it.copy(isLoading = false, isEmpty = list.isEmpty(), createdList = list)
+                }
+            } catch (t: Throwable) {
+                setError(t)
+            }
         }
     }
 
-    private fun checkTheError() {
-        if (_createdList.value == UIState.Error("response is not successful"))
-            _createdList.postValue(UIState.NoLogin)
+    fun onListNameInputChange(listName: CharSequence) {
+        _createListDialogUIState.update { it.copy(mediaListName = listName.toString()) }
     }
 
-
     fun onCreateList() {
-        _isCreateButtonClicked.postEvent(true)
+        _myListUIEvent.update { Event(MyListUIEvent.CreateButtonClicked) }
     }
 
     fun onClickAddList() {
-        wrapWithState({
-            val sessionId = accountRepository.getSessionId()
-            sessionId?.let {
-                val item = movieRepository.createList(it.toString(), listName.value.toString())
-                if (item.success == true)
-                    addList(CreatedList(item.listId ?: 0, 0, listName.value.toString()))
-                listName.postValue(null)
+        viewModelScope.launch {
+            try {
+                _createdListUIState.update {
+                    it.copy(
+                        isLoading = false,
+                        createdList = createMovieListUseCase(_createListDialogUIState.value.mediaListName)
+                            .map { createdListUIMapper.map(it) },
+                        error = emptyList()
+                    )
+                }
+            } catch (t: Throwable) {
+                _myListUIEvent.update { Event(MyListUIEvent.DisplayError(t.message.toString())) }
             }
-        })
-        _onCLickAddEvent.postEvent(true)
+            _createListDialogUIState.update { it.copy(mediaListName = "") }
+            _myListUIEvent.emit(Event(MyListUIEvent.CLickAddEvent))
+        }
     }
 
-    private fun addList(createdLists: CreatedList) {
-        val oldList = _createdList.value?.toData()?.toMutableList()
-        oldList?.add(0, createdLists)
-        _createdList.postValue(UIState.Success(oldList))
+    override fun onListClick(item: CreatedListUIState) {
+        _myListUIEvent.update { Event(MyListUIEvent.OnSelectItem(item)) }
     }
 
-    override fun onListClick(item: CreatedList) {
-        _item.postValue(Event(item))
-    }
-
-
-    override fun onClickSaveList(list: CreatedList) {
-        chosenList.postValue(list)
-        _newAdd.postValue(true)
-    }
-
-    private val _newAdd = MutableLiveData(false)
-    var newAdd: LiveData<Boolean> = _newAdd
-
-    private val chosenList = MutableLiveData<CreatedList>()
-
-    private val _message = MutableLiveData<String>()
-    var message: LiveData<String> = _message
-
-
-    fun checkMovie(movieId: Int) {
-        wrapWithState({
-            val result = movieRepository.getListDetails(chosenList.value?.id ?: 0)
-            if (result.checkIfExist(movieId)) {
-                _message.postValue("Fail: this movie is already on the list")
-                _newAdd.postValue(false)
+    private fun setError(t: Throwable) {
+        _createdListUIState.update {
+            val error = if (t.message == NO_LOGIN) {
+                listOf(ErrorUIState(NEED_LOGIN, t.message.toString()))
+            } else {
+                listOf(ErrorUIState(INTERNET_CONNECTION, t.message.toString()))
             }
-            if (!result.checkIfExist(movieId)) {
-                addMovieToList(movieId)
-            }
-        })
-
+            it.copy(isLoading = false, error = error)
+        }
     }
-
-    private fun addMovieToList(movieId: Int) {
-        wrapWithState({
-            val sessionID = accountRepository.getSessionId()
-            sessionID?.let {
-                movieRepository.addMovieToList(
-                    it,
-                    chosenList.value?.id ?: 0,
-                    movieId
-                )
-                _message.postValue("Susses: The movie has been added")
-                getData()
-                _newAdd.postValue(false)
-            }
-        }, {
-            _message.postValue("error: No Internet Connection")
-            _newAdd.postValue(false)
-        })
-    }
-
 }
