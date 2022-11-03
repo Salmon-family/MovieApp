@@ -12,7 +12,7 @@ class MovieDetailsMapper @Inject constructor() : Mapper<MovieDetailsDto, MovieDe
     override fun map(input: MovieDetailsDto): MovieDetails {
         return MovieDetails(
             input.id ?: 0,
-            BuildConfig.IMAGE_BASE_PATH + input.posterPath,
+            BuildConfig.IMAGE_BASE_PATH + input.backdropPath,
             input.title ?: "",
             input.releaseDate?.convertToDayMonthYearFormat() ?: "",
             input.genres?.map { it?.name }?.joinToString(" , ") ?: "",
