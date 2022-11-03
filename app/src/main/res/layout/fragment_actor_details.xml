@@ -243,6 +243,7 @@
                     android:layout_marginStart="@dimen/radius_medium"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/movies"
+                    app:showWhenListNotEmpty="@{viewModel.actorDetailsUIState.actorMovies}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_place_of_birth_actor" />
 
@@ -254,6 +255,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_small"
                     android:onClick="@{() -> viewModel.onClickSeeAllMovie(HomeItemsType.NON)}"
+                    app:showWhenListNotEmpty="@{viewModel.actorDetailsUIState.actorMovies}"
                     android:text="@string/see_all"
                     android:textColor="@color/brand_color"
                     app:drawableEndCompat="@drawable/ic_arrow_right"
@@ -287,7 +289,8 @@
                     android:layout_marginTop="@dimen/radius_large"
                     android:text="@string/biography"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/related_movie_recycler" />
+                    app:layout_constraintTop_toBottomOf="@+id/related_movie_recycler"
+                    app:showWhenTextNotEmpty="@{viewModel.actorDetailsUIState.biography}"/>
 
 
                 <TextView

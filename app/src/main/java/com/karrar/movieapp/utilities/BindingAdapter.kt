@@ -269,3 +269,8 @@ fun <T> showWhenFail2(view: View, state: UIState<T>?) {
 fun <T> showWhenNoResults(view: View, state: UIState<T>?) {
     view.isVisible = (state == UIState.Success(false))
 }
+
+@BindingAdapter("showWhenTextNotEmpty")
+fun <T> showWhenTextNotEmpty(view: View,text:String){
+    view.isVisible = text.isNotEmpty()
+}
