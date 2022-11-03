@@ -19,6 +19,7 @@ import com.karrar.movieapp.utilities.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 
 
@@ -56,7 +57,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     @OptIn(FlowPreview::class)
     private fun getSearchResultsBySearchTerm() {
         lifecycleScope.launch {
-            viewModel.uiState.debounce(500).collect { searchTerm ->
+            viewModel.uiState.debounce(500).collectLatest { searchTerm ->
                 if (searchTerm.searchInput.isNotBlank() && oldValue.value.searchInput != viewModel.uiState.value.searchInput || oldValue.value.searchTypes != viewModel.uiState.value.searchTypes) {
                     getSearchResult()
                     oldValue.emit(viewModel.uiState.value)

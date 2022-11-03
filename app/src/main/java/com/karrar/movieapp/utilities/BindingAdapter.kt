@@ -11,7 +11,6 @@ import coil.load
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MediaType
-import com.karrar.movieapp.domain.models.MediaDetails
 import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
@@ -53,9 +52,11 @@ fun <T, M> showWhenNoData(view: View, error: List<T>?, loading: Boolean, data: L
 
 @BindingAdapter(value = ["app:errorNotEmpty", "app:doneLoading"])
 fun <T> hidWhenFail(view: View, error: List<T>?, loading: Boolean) {
-    view.visibility = if (!error.isNullOrEmpty() && !loading){
+    view.visibility = if (!error.isNullOrEmpty() && !loading) {
         View.GONE
-    }else{ View.VISIBLE}
+    } else {
+        View.VISIBLE
+    }
 }
 
 @BindingAdapter("app:isListEmpty")
@@ -124,6 +125,15 @@ fun hideWhenBlankSearch(view: View, text: String) {
     }
 }
 
+
+@BindingAdapter(value = ["app:searchInput", "app:errorSearch", "app:loadingSearch"])
+fun <T> hideWhenSuccessSearch(view: View, text: String, error: List<T>?, loading: Boolean) {
+    view.visibility = if (text.isNotBlank() && error.isNullOrEmpty() && !loading) {
+        View.VISIBLE
+    } else {
+        View.INVISIBLE
+    }
+}
 
 // different
 

@@ -181,6 +181,7 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+    //////////// comments ///////////////
     private fun getThreeCommits() {
         if (_uiState.value.movieReview.isNotEmpty()) {
             _uiState.value.movieReview.take(3)
@@ -190,10 +191,13 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun onSeeAllReviews() {
-        if (_uiState.value.movieReview.count() > 3) onAddMovieDetailsItemOfNestedView(
+        if (_uiState.value.movieReview.count() > 3)
+            onAddMovieDetailsItemOfNestedView(
             DetailItemUIState.SeeAllReviewsButton
         )
     }
+    //////////////////////////////
+
 
     private fun checkIfMovieRated(items: List<RatedUIState>?, movieId: Int) {
         val item = items?.firstOrNull { it.id == movieId }
@@ -212,8 +216,6 @@ class MovieDetailsViewModel @Inject constructor(
             }
         }
     }
-
-
 
     fun onChangeRating(value: Float) {
         _uiState.value.movieDetailsResult.let { onAddRating(it.id, value) }

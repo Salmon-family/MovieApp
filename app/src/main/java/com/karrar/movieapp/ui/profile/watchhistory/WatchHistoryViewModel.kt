@@ -46,7 +46,7 @@ class WatchHistoryViewModel @Inject constructor(
     }
 
     override fun onClickMovie(item: MediaHistoryUiState) {
-        if (item.mediaType == Constants.MOVIE) {
+        if (item.mediaType.equals(Constants.MOVIE, true)) {
             _watchHistoryUIEvent.update { Event(WatchHistoryUIEvent.MovieEvent(item.id)) }
         } else {
             _watchHistoryUIEvent.update { Event(WatchHistoryUIEvent.TVShowEvent(item.id)) }
