@@ -176,9 +176,8 @@ class HomeViewModel @Inject constructor(
                         }
                     }
                 }
-            }
+            }catch (t:Throwable){}
         }
-
     }
 
     private fun getOnTheAir() {
