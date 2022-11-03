@@ -76,11 +76,11 @@
                 style="@style/Regular.Small.ternary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="@dimen/spacing_small"
                 android:text="@{item.releaseDate}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/text_rate_movie"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:text="2022" />
 
 
