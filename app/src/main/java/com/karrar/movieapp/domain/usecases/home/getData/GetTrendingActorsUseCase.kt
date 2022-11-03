@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.usecases.home.getData
+package com.karrar.movieapp.domain.usecase.home.getData
 
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.mappers.actor.ActorEntityMapper
@@ -12,7 +12,7 @@ class GetTrendingActorsUseCase @Inject constructor(
     private val actorMapper: ActorEntityMapper,
 ) {
 
-    operator fun invoke(): Flow<List<Actor>> {
+  suspend operator fun invoke(): Flow<List<Actor>> {
         return movieRepository.getTrendingActors().map {
             it.map(actorMapper::map)
         }

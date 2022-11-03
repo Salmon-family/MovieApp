@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.usecases.home.getData.movie
+package com.karrar.movieapp.domain.usecase.home.getData.movie
 
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.mappers.movie.AdventureMovieMapper
@@ -12,7 +12,7 @@ class GetAdventureMoviesUseCase @Inject constructor(
     private val movieMapper: AdventureMovieMapper,
 ) {
 
-    operator fun invoke(): Flow<List<Media>> {
+    suspend operator fun invoke(): Flow<List<Media>> {
         return movieRepository.getAdventureMovies().map {
             it.map(movieMapper::map)
         }
