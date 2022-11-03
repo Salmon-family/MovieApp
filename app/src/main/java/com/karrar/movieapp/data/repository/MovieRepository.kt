@@ -81,23 +81,23 @@ interface MovieRepository {
 
     suspend fun getMovieByGenre(genreID: Int): Pager<Int, MovieDto>
 
-    fun getPopularMovies(): Flow<List<PopularMovieEntity>>
+    suspend fun getPopularMovies(): Flow<List<PopularMovieEntity>>
 
 
-    fun getTrendingMovies(): Flow<List<TrendingMovieEntity>>
-
-
-
-    fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>>
+    suspend fun getTrendingMovies(): Flow<List<TrendingMovieEntity>>
 
 
 
-    fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
+   suspend fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>>
 
 
-    fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
 
-    fun getMysteryMovies(): Flow<List<MysteryMovieEntity>>
+    suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
+
+
+    suspend fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
+
+    suspend fun getMysteryMovies(): Flow<List<MysteryMovieEntity>>
 
     suspend fun getTrendingActors(): Flow<List<ActorEntity>>
 

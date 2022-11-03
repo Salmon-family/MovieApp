@@ -12,7 +12,7 @@ class GetAdventureMoviesUseCase @Inject constructor(
     private val movieMapper: AdventureMovieMapper,
 ) {
 
-    operator fun invoke(): Flow<List<Media>> {
+    suspend operator fun invoke(): Flow<List<Media>> {
         return movieRepository.getAdventureMovies().map {
             it.map(movieMapper::map)
         }

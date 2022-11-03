@@ -12,7 +12,7 @@ class GetNowStreamingMoviesUseCase @Inject constructor(
     private val movieMapper: NowStreamingMovieMapper,
 ) {
 
-    operator fun invoke(): Flow<List<Media>> {
+    suspend  operator fun invoke(): Flow<List<Media>> {
         return movieRepository.getNowStreamingMovies().map {
             it.map(movieMapper::map)
         }

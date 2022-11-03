@@ -12,7 +12,7 @@ class GetTrendingMoviesUseCase @Inject constructor(
     private val movieMapper: TrendingMovieMapper,
 ) {
 
-    operator fun invoke(): Flow<List<Media>> {
+    suspend  operator fun invoke(): Flow<List<Media>> {
         return movieRepository.getTrendingMovies().map {
             it.map(movieMapper::map)
         }
