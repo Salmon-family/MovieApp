@@ -12,7 +12,7 @@ class RatedMoviesMapper @Inject constructor() : Mapper<RatedMoviesDto, Rated> {
         return Rated(
             id = input.id ?: 0,
             title = input.title ?: "",
-            posterPath = BuildConfig.IMAGE_BASE_PATH + input.posterPath,
+            posterPath = BuildConfig.IMAGE_BASE_PATH + input.backdropPath,
             rating = input.rating ?: 0F,
             releaseDate = input.releaseDate ?: "",
             mediaType = Constants.MOVIE

@@ -16,7 +16,7 @@ class SaveListDetailsMapper @Inject constructor() : Mapper<SavedListDto, SaveLis
             releaseDate = listOf(input.firstAirDate, input.releaseDate).filter { it != null }
                 .first().toString(),
             voteAverage = input.voteAverage ?: 0.0,
-            posterPath = BuildConfig.IMAGE_BASE_PATH + input.posterPath,
+            posterPath = BuildConfig.IMAGE_BASE_PATH + input.backdropPath,
         )
     }
 }
