@@ -18,10 +18,12 @@
             android:id="@+id/youtube_player"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:error="@{viewModel.trailerUIState.error}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:loading="@{viewModel.trailerUIState.loading}"
             app:setVideoId="@{viewModel.trailerUIState.videoKey}" />
 
         <com.airbnb.lottie.LottieAnimationView
@@ -36,6 +38,16 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading_animation" />
+
+        <include
+            android:id="@+id/error"
+            layout="@layout/error2"
+            app:isError="@{!viewModel.trailerUIState.error.empty}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:viewModel="@{viewModel}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
