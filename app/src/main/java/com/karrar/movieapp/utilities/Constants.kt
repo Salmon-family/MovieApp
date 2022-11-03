@@ -10,6 +10,8 @@ object Constants {
     const val FIRST_CATEGORY_ID = 0
     const val ALL = "All"
 
+    const val MAX_NUM_REVIEWS = 3
+
     const val MOVIE = "movie"
     const val TV_SHOWS = "tv"
     const val ACTOR = "person"

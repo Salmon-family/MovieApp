@@ -2,7 +2,7 @@ package com.karrar.movieapp.domain.usecase.tvShowDetails
 
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.mappers.series.WatchHistoryMapper
-import com.karrar.movieapp.domain.models.WatchHistory
+import com.karrar.movieapp.domain.models.TvShowDetails
 import javax.inject.Inject
 
 class InsertTvShowUserCase @Inject constructor(
@@ -10,7 +10,7 @@ class InsertTvShowUserCase @Inject constructor(
     private val watchHistoryMapper: WatchHistoryMapper
 ) {
 
-    suspend operator fun invoke(tvShow: WatchHistory) {
+    suspend operator fun invoke(tvShow: TvShowDetails) {
         return seriesRepository.insertTvShow(
             watchHistoryMapper.map(tvShow)
         )

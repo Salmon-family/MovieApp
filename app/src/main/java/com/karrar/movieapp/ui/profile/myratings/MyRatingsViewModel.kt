@@ -34,12 +34,10 @@ class MyRatingsViewModel @Inject constructor(
     override fun getData() {
         _rated.postValue(UIState.Loading)
         wrapWithState({
-            val sessionId = accountRepository.getSessionId()
-            sessionId?.let {
-                val movieResponse = movieRepository.getRatedMovie(0, it)
-                val tvShowResponse = tvShowsRepository.getRatedTvShow(0, it)
-//                _rated.postValue(UIState.Success(movieResponse.margeTowList(tvShowResponse)))
-            }
+//
+//                val movieResponse = movieRepository.getRatedMovie(0, it)
+//                val tvShowResponse = tvShowsRepository.getRatedTvShow(0, it)
+
         }, { _rated.postValue(UIState.Error(it.message.toString())) })
     }
 

@@ -38,8 +38,6 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
         binding.recyclerView.adapter = detailAdapter
     }
 
-
-
     private fun collectEvents() {
         collectLast(viewModel.tvShowDetailsUIEvent) {
             it.getContentIfNotHandled()?.let { onEvent(it) }
@@ -78,7 +76,6 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
             TvShowDetailsUIEvent.InitialEvent ->{}
         }
         action?.let { findNavController().navigate(it) }
-
     }
 
 }

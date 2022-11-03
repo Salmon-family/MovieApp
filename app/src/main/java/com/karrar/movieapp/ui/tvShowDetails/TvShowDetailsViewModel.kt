@@ -2,6 +2,8 @@ package com.karrar.movieapp.ui.tvShowDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.domain.models.TvShowDetails
+import com.karrar.movieapp.domain.usecase.GetSessionIDUseCase
 import com.karrar.movieapp.domain.usecase.tvShowDetails.GetTvShowDetailsUseCase
 import com.karrar.movieapp.domain.usecase.tvShowDetails.InsertTvShowUserCase
 import com.karrar.movieapp.domain.usecase.tvShowDetails.SetRatingUesCase
@@ -9,7 +11,9 @@ import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper.TvShowMapperContainer
-import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.*
+import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.DetailItemUIState
+import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.Error
+import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.TvShowDetailsUIState
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,41 +29,32 @@ class TvShowDetailsViewModel @Inject constructor(
     private val getTvShowDetailsUseCase: GetTvShowDetailsUseCase,
     private val getInsertTvShowUserCase: InsertTvShowUserCase,
     private val setRatingUesCase: SetRatingUesCase,
+    private val sessionIDUseCase: GetSessionIDUseCase,
     private val tvShowMapperContainer: TvShowMapperContainer,
     state: SavedStateHandle,
-) : BaseViewModel(),
-    ActorsInteractionListener,
-    SeasonInteractionListener,
+) : BaseViewModel(), ActorsInteractionListener, SeasonInteractionListener,
     DetailInteractionListener {
 
     val args = TvShowDetailsFragmentArgs.fromSavedStateHandle(state)
 
     private val _tvShowDetailsUIEvent =
         MutableStateFlow<Event<TvShowDetailsUIEvent>>(Event(TvShowDetailsUIEvent.InitialEvent))
-    val tvShowDetailsUIEvent = _tvShowDetailsUIEvent.asStateFlow()
+    val tvShowDetailsUIEvent = this._tvShowDetailsUIEvent.asStateFlow()
 
-
-    private val movieDetailItemsOfNestedView = mutableListOf<DetailItemUIState>()
-
-    private val _stateFlow = MutableStateFlow(TvShowDetailsUIState())
-    val stateFlow: StateFlow<TvShowDetailsUIState> = _stateFlow.asStateFlow()
+    private val _stateUI = MutableStateFlow(TvShowDetailsUIState())
+    val stateFlow: StateFlow<TvShowDetailsUIState> = _stateUI.asStateFlow()
 
     init {
         getData()
     }
 
     override fun getData() {
-        getAllDetails(args.tvShowId)
-
-    }
-
-    private fun getAllDetails(tvShowId: Int) {
-        _stateFlow.update { it.copy(isLoading = true, errorUIState = emptyList()) }
-        getTvShowDetails(tvShowId)
-        getTvShowCast(tvShowId)
-        getSeasons(tvShowId)
-        getRatedTvShows(tvShowId)
-        getTvShowReviews(tvShowId)
+        _stateUI.update { it.copy(isLoading = true, errorUIState = emptyList()) }
+        getTvShowDetails(args.tvShowId)
+        getLoginStatus()
+        getTvShowCast(args.tvShowId)
+        getSeasons(args.tvShowId)
+        getTvShowReviews(args.tvShowId)
     }
 
     private fun getTvShowDetails(tvShowId: Int) {
@@ -67,19 +62,23 @@ class TvShowDetailsViewModel @Inject constructor(
             try {
                 val result = getTvShowDetailsUseCase.getTvShowDetails(tvShowId)
                 val tvShowDetailsResult = tvShowMapperContainer.tvShowDetailsUIMapper.map(result)
-                _stateFlow.update {
+                _stateUI.update {
                     it.copy(
                         tvShowDetailsResult = tvShowDetailsResult,
                         isLoading = false
                     )
                 }
-
-                updateDetailItems(DetailItemUIState.Header(_stateFlow.value.tvShowDetailsResult))
-                insertMovieToWatchHistory(tvShowDetailsResult)
+                updateDetailItems(DetailItemUIState.Header(_stateUI.value.tvShowDetailsResult))
+                insertMovieToWatchHistory(result)
             } catch (e: Exception) {
-                _stateFlow.update {
+                _stateUI.update {
                     it.copy(
-                        errorUIState = onAddMessageToListError(e),
+                        errorUIState = listOf(
+                            Error(
+                                code = Constants.INTERNET_STATUS,
+                                message = e.message.toString()
+                            )
+                        ),
                         isLoading = false
                     )
                 }
@@ -91,7 +90,7 @@ class TvShowDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val result = getTvShowDetailsUseCase.getSeriesCast(tvShowId)
-                _stateFlow.update { it ->
+                _stateUI.update { it ->
                     it.copy(
                         seriesCastResult = result.map {
                             tvShowMapperContainer.tvShowCastUIMapper.map(it)
@@ -99,14 +98,8 @@ class TvShowDetailsViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
-                updateDetailItems(DetailItemUIState.Cast(_stateFlow.value.seriesCastResult))
+                updateDetailItems(DetailItemUIState.Cast(_stateUI.value.seriesCastResult))
             } catch (e: Exception) {
-                _stateFlow.update {
-                    it.copy(
-                        errorUIState = onAddMessageToListError(e),
-                        isLoading = false
-                    )
-                }
             }
 
         }
@@ -116,7 +109,7 @@ class TvShowDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val seasons = getTvShowDetailsUseCase.getSeasons(tvShowId)
-                _stateFlow.update { it ->
+                _stateUI.update { it ->
                     it.copy(
                         seriesSeasonsResult = seasons.map {
                             tvShowMapperContainer.tvShowSeasonUIMapper.map(it)
@@ -124,32 +117,36 @@ class TvShowDetailsViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
-                updateDetailItems(DetailItemUIState.Seasons(_stateFlow.value.seriesSeasonsResult))
+                updateDetailItems(DetailItemUIState.Seasons(_stateUI.value.seriesSeasonsResult))
             } catch (e: Exception) {
-                _stateFlow.update {
-                    it.copy(
-                        errorUIState = onAddMessageToListError(e),
-                        isLoading = false
-                    )
-                }
             }
+        }
+    }
+
+    private fun getLoginStatus() {
+        if (!sessionIDUseCase().isNullOrEmpty()) {
+            _stateUI.update { it.copy(isLogin = true) }
+            getRatedTvShows(args.tvShowId)
         }
     }
 
     private fun getRatedTvShows(tvShowId: Int) {
         viewModelScope.launch {
             try {
-                val result = getTvShowDetailsUseCase.getTvShowRated(0)
-                    .map(tvShowMapperContainer.tvShowRatedUIMapper::map)
-                checkIfTvShowRated(result, tvShowId)
+                _stateUI.update { it.copy(ratingValue = getTvShowDetailsUseCase.getTvShowRated(tvShowId)) }
                 updateDetailItems(DetailItemUIState.Rating(this@TvShowDetailsViewModel))
-            } catch (e: Exception) {
-                _stateFlow.update {
-                    it.copy(
-                        errorUIState = onAddMessageToListError(e),
-                        isLoading = false
-                    )
-                }
+            } catch (e: Throwable) {
+            }
+        }
+    }
+
+    fun onChangeRating(value: Float) {
+        viewModelScope.launch {
+            try {
+                setRatingUesCase(args.tvShowId, value)
+                _stateUI.update { it.copy(ratingValue = value) }
+                _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.MessageAppear) }
+            } catch (e: Throwable) {
             }
         }
     }
@@ -158,100 +155,39 @@ class TvShowDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val result = getTvShowDetailsUseCase.getTvShowReviews(tvShowId)
-                _stateFlow.update { it ->
+                _stateUI.update {
                     it.copy(
-                        seriesReviewsResult = result.map {
-                            tvShowMapperContainer.tvShowReviewUIMapper.map(it)
-                        },
-                        isLoading = false
+                        seriesReviewsResult = result.reviews.map { review ->
+                            tvShowMapperContainer.tvShowReviewUIMapper.map(review)
+                        }, isLoading = false
                     )
                 }
-                getThreeCommits()
-                onSeeAllReviews()
-            } catch (e: Exception) {
-                _stateFlow.update {
-                    it.copy(
-                        errorUIState = onAddMessageToListError(e),
-                        isLoading = false
-                    )
+                if (result.reviews.isNotEmpty()) {
+                    setReviews(result.isMoreThanMax)
                 }
-            }
-        }
-    }
-
-    private fun getThreeCommits() {
-        if (_stateFlow.value.seriesReviewsResult.isNotEmpty()) {
-            _stateFlow.value.seriesReviewsResult.take(3)
-                .forEach { updateDetailItems(DetailItemUIState.Comment(it)) }
-            updateDetailItems(DetailItemUIState.ReviewText)
-        }
-    }
-
-    private fun onSeeAllReviews() {
-        if (_stateFlow.value.seriesReviewsResult.count() > 3) updateDetailItems(
-            DetailItemUIState.SeeAllReviewsButton
-        )
-    }
-
-    private fun insertMovieToWatchHistory(tvShow: TvShowDetailsResultUIState) {
-        viewModelScope.launch {
-            getInsertTvShowUserCase(tvShowMapperContainer.tvShowWatchHistoryMapper.map(tvShow))
-        }
-    }
-
-    private fun checkIfTvShowRated(items: List<RatedUIState>?, tvShowId: Int) {
-        val item = items?.firstOrNull { it.id == tvShowId }
-        item?.let { ratedUIState ->
-            if (ratedUIState.rating != _stateFlow.value.ratingValue) {
-                _stateFlow.update { it.copy(ratingValue = ratedUIState.rating) }
-            }
-        }
-    }
-
-    fun onChangeRating(value: Float) {
-        viewModelScope.launch {
-            try {
-                onAddRating(args.tvShowId, value)
-                _stateFlow.value.tvShowDetailsResult.let { onAddRating(it.tvShowId, value) }
-                _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.MessageAppear) }
             } catch (e: Throwable) {
             }
         }
     }
 
-    private fun onAddRating(tvShowId: Int, value: Float) {
-        viewModelScope.launch {
-            try {
-                setRatingUesCase(tvShowId, value)
-                onShowMessageOfChangeRating()
-            } catch (e: Exception) {
-                _stateFlow.update {
-                    it.copy(
-                        errorUIState = onAddMessageToListError(e),
-                        isLoading = false
-                    )
-                }
-            }
+    private fun setReviews(showSeeAll: Boolean) {
+        _stateUI.value.seriesReviewsResult
+            .forEach { updateDetailItems(DetailItemUIState.Comment(it)) }
+        updateDetailItems(DetailItemUIState.ReviewText)
+
+        if (showSeeAll) {
+            updateDetailItems(DetailItemUIState.SeeAllReviewsButton)
         }
     }
 
-
-    private fun onAddMessageToListError(e: Exception): List<Error> {
-        return listOf(
-            Error(
-                code = Constants.INTERNET_STATUS,
-                message = e.message.toString()
-            )
-        )
+    private fun updateDetailItems(item: DetailItemUIState) {
+        val list = _stateUI.value.detailItemResult.toMutableList()
+        list.add(item)
+        _stateUI.update { it.copy(detailItemResult = list.toList()) }
     }
 
-    private fun onShowMessageOfChangeRating() {
-        _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.MessageAppear) }
-    }
-
-    private fun updateDetailItems(items: DetailItemUIState) {
-        movieDetailItemsOfNestedView.add(items)
-        _stateFlow.update { it.copy(detailItemResult = movieDetailItemsOfNestedView) }
+    private suspend fun insertMovieToWatchHistory(tvShow: TvShowDetails) {
+        getInsertTvShowUserCase(tvShow)
     }
 
     override fun onClickSave() {}
@@ -261,12 +197,11 @@ class TvShowDetailsViewModel @Inject constructor(
     }
 
     override fun onclickBack() {
-        _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickBackEvent) }
+        this._tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickBackEvent) }
     }
 
     override fun onclickViewReviews() {
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickReviewsEvent) }
-
     }
 
     override fun onClickActor(actorID: Int) {
@@ -276,4 +211,5 @@ class TvShowDetailsViewModel @Inject constructor(
     override fun onClickSeason(seasonNumber: Int) {
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickSeasonEvent(seasonNumber)) }
     }
+
 }

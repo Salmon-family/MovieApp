@@ -68,12 +68,12 @@ class SeriesRepositoryImp @Inject constructor(
         return service.getTvShowReviews(tvShowId).body()?.items
     }
 
-    override suspend fun setRating(tvShowId: Int, value: Float, sessionId: String): RatingDto? {
-        return service.postTvShowRating(tvShowId, value, sessionId).body()
+    override suspend fun setRating(tvShowId: Int, value: Float): RatingDto? {
+        return service.postTvShowRating(tvShowId, value).body()
     }
 
-    override suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<RatedTvShowDto>? {
-        return service.getRatedTvShow(accountId, sessionId).body()?.items
+    override suspend fun getRatedTvShow(): List<RatedTvShowDto>? {
+        return service.getRatedTvShow().body()?.items
     }
 
     override suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): List<EpisodeDto>? {

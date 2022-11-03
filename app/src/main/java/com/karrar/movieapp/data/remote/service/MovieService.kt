@@ -4,7 +4,6 @@ import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.account.AccountDto
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
-import com.karrar.movieapp.data.remote.response.episode.EpisodeDto
 import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.response.login.SessionResponse
@@ -85,7 +84,8 @@ interface MovieService {
     @GET("discover/movie")
     suspend fun getMovieListByGenre(
         @Query("with_genres") genreID: Int,
-        @Query("page") page: Int =1): Response<BaseListResponse<MovieDto>>
+        @Query("page") page: Int = 1
+    ): Response<BaseListResponse<MovieDto>>
 
     @GET("trending/all/day")
     suspend fun getDailyTrending(): Response<BaseListResponse<DailyTrendingDto>>
@@ -120,8 +120,7 @@ interface MovieService {
     @POST("tv/{tv_id}/rating")
     suspend fun postTvShowRating(
         @Path("tv_id") tvShowId: Int,
-        @Field("value") rating: Float,
-        @Query("session_id") apiKey: String?
+        @Field("value") rating: Float
     ): Response<RatingDto>
 
 
@@ -149,16 +148,16 @@ interface MovieService {
     suspend fun getList(@Path("list_id") listId: Int): Response<MyListsDto>
 
     @GET("tv/on_the_air")
-    suspend fun getOnTheAir(@Query("page") page: Int = 1 ): Response<BaseListResponse<TVShowsDTO>>
+    suspend fun getOnTheAir(@Query("page") page: Int = 1): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("tv/airing_today")
-    suspend fun getAiringToday(@Query("page")page: Int = 1 ): Response<BaseListResponse<TVShowsDTO>>
+    suspend fun getAiringToday(@Query("page") page: Int = 1): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("tv/top_rated")
-    suspend fun getTopRatedTvShow(@Query("page")page: Int = 1 ): Response<BaseListResponse<TVShowsDTO>>
+    suspend fun getTopRatedTvShow(@Query("page") page: Int = 1): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("tv/popular")
-    suspend fun getPopularTvShow(@Query("page")page: Int = 1 ): Response<BaseListResponse<TVShowsDTO>>
+    suspend fun getPopularTvShow(@Query("page") page: Int = 1): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("tv/latest")
     suspend fun getLatestTvShow(): Response<BaseListResponse<TVShowsDTO>>
@@ -169,10 +168,11 @@ interface MovieService {
     @GET("discover/tv")
     suspend fun getTvListByGenre(
         @Query("with_genres") genreId: Int,
-        @Query("page") page: Int = 1 ): Response<BaseListResponse<TVShowsDTO>>
+        @Query("page") page: Int = 1
+    ): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("discover/tv")
-    suspend fun getAllTvShows(@Query("page")page: Int = 1 ): Response<BaseListResponse<TVShowsDTO>>
+    suspend fun getAllTvShows(@Query("page") page: Int = 1): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("account")
     suspend fun getAccountDetails(@Query("session_id") sessionId: String?): Response<AccountDto>
@@ -200,8 +200,7 @@ interface MovieService {
 
     @GET("account/{account_id}/rated/tv")
     suspend fun getRatedTvShow(
-        @Path("account_id") listId: Int,
-        @Query("session_id") sessionId: String
+        @Path("account_id") listId: Int = 0,
     ): Response<BaseListResponse<RatedTvShowDto>>
 
     @GET("account/{account_id}/rated/movies")

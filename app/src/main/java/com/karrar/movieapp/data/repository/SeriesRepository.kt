@@ -1,16 +1,15 @@
 package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.remote.response.BaseListResponse
 import com.karrar.movieapp.data.remote.response.CreditsDto
 import com.karrar.movieapp.data.remote.response.RatedTvShowDto
-import com.karrar.movieapp.data.remote.response.SeasonDto
-import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.episode.EpisodeDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
-import com.karrar.movieapp.domain.models.*
+import com.karrar.movieapp.domain.models.Genre
+import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.domain.models.Trailer
 import kotlinx.coroutines.flow.Flow
 
 interface SeriesRepository {
@@ -31,9 +30,9 @@ interface SeriesRepository {
 
     suspend fun getTvShowReviews(tvShowId: Int): List<ReviewsDto>?
 
-    suspend fun setRating(tvShowId: Int, value: Float, sessionId: String): RatingDto?
+    suspend fun setRating(tvShowId: Int, value: Float): RatingDto?
 
-    suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<RatedTvShowDto>?
+    suspend fun getRatedTvShow(): List<RatedTvShowDto>?
 
     suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): List<EpisodeDto>?
 

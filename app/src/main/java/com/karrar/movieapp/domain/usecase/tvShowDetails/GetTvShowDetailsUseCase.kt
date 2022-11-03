@@ -3,13 +3,18 @@ package com.karrar.movieapp.domain.usecase.tvShowDetails
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
-import com.karrar.movieapp.domain.models.*
+import com.karrar.movieapp.domain.models.Actor
+import com.karrar.movieapp.domain.models.MediaDetailsReviews
+import com.karrar.movieapp.domain.models.Season
+import com.karrar.movieapp.domain.models.TvShowDetails
+import com.karrar.movieapp.domain.usecase.GetTVShowsReviewsUseCase
+import com.karrar.movieapp.utilities.Constants.MAX_NUM_REVIEWS
 import javax.inject.Inject
 
 class GetTvShowDetailsUseCase @Inject constructor(
     private val seriesRepository: SeriesRepository,
     private val seriesMapperContainer: SeriesMapperContainer,
-    private val getSessionIdUseCase: GetSessionIdUseCase
+    private val getTVShowsReviews: GetTVShowsReviewsUseCase
 ) {
 
     suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails {
@@ -29,17 +34,16 @@ class GetTvShowDetailsUseCase @Inject constructor(
     }
 
 
-    suspend fun getTvShowReviews(tvShowId: Int): List<Review> {
-        return ListMapper(seriesMapperContainer.reviewMapper)
-            .mapList(seriesRepository.getTvShowReviews(tvShowId))
+    suspend fun getTvShowReviews(tvShowId: Int): MediaDetailsReviews {
+        val reviews = getTVShowsReviews(tvShowId)
+        return MediaDetailsReviews(reviews.take(MAX_NUM_REVIEWS), reviews.size > MAX_NUM_REVIEWS)
     }
 
-    suspend fun getTvShowRated(accountId: Int): List<Rated> {
-        return ListMapper(seriesMapperContainer.ratedTvShowMapper).mapList(
-            seriesRepository.getRatedTvShow(
-                accountId,
-                getSessionIdUseCase() ?: ""
-            )
-        )
+
+    suspend fun getTvShowRated(tvShowID: Int): Float {
+        val result = seriesRepository.getRatedTvShow()
+        return result?.let {
+            it.find { it.id == tvShowID }?.rating ?: 0F
+        } ?: throw Throwable("Error")
     }
 }
