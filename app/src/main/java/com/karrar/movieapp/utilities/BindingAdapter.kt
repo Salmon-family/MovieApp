@@ -274,3 +274,8 @@ fun setRating(view: RatingBar?, rating: Float) {
         view.rating = rating
     }
 }
+
+@BindingAdapter("showWhenTextNotEmpty")
+fun <T> showWhenTextNotEmpty(view: View,text:String){
+    view.isVisible = text.isNotEmpty()
+}
