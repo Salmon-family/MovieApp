@@ -50,6 +50,7 @@
             android:inputType="text"
             android:maxLines="1"
             android:paddingStart="@dimen/spacing_small"
+            android:paddingEnd="@dimen/spacing_small"
             android:text="@{viewModel.uiState.searchInput}"
             android:textColor="@color/shade_primary_color"
             android:textColorHint="@color/shade_ternary_color"
@@ -140,14 +141,14 @@
             android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingVertical="@dimen/spacing_small"
-            app:doneLoading="@{viewModel.uiState.loading}"
-            app:errorNotEmpty="@{viewModel.uiState.error}"
+            app:errorSearch="@{viewModel.uiState.error}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/chip_group_media_type"
-            app:showWhenSearch="@{viewModel.uiState.searchInput}"
+            app:loadingSearch="@{viewModel.uiState.loading}"
+            app:searchInput="@{viewModel.uiState.searchInput}"
             tools:listitem="@layout/item_media_search" />
 
         <androidx.recyclerview.widget.RecyclerView

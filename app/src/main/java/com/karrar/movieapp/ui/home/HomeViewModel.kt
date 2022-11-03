@@ -2,6 +2,7 @@ package com.karrar.movieapp.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.domain.RequestStatus
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.usecase.home.HomeUseCasesContainer
@@ -10,12 +11,11 @@ import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.home.adapter.TVShowInteractionListener
+import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
 import com.karrar.movieapp.ui.home.homeUiState.HomeUiState
 import com.karrar.movieapp.ui.mappers.ActorUiMapper
 import com.karrar.movieapp.ui.mappers.MediaUiMapper
 import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.postEvent
-import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,27 +32,11 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel(), HomeInteractionListener, ActorsInteractionListener, MovieInteractionListener,
     MediaInteractionListener, TVShowInteractionListener {
 
-    private val _clickMovieEvent = MutableLiveData<Event<Int>>()
-    val clickMovieEvent = _clickMovieEvent.toLiveData()
-
-    private val _clickActorEvent = MutableLiveData<Event<Int>>()
-    val clickActorEvent = _clickActorEvent.toLiveData()
-
-    private val _clickSeriesEvent = MutableLiveData<Event<Int>>()
-    val clickSeriesEvent = _clickSeriesEvent.toLiveData()
-
-    private val _clickSeeAllMovieEvent = MutableLiveData<Event<AllMediaType>>()
-    val clickSeeAllMovieEvent = _clickSeeAllMovieEvent.toLiveData()
-
-    private val _clickSeeAllTVShowsEvent = MutableLiveData<Event<AllMediaType>>()
-    val clickSeeAllTVShowsEvent = _clickSeeAllTVShowsEvent.toLiveData()
-
-    private val _clickSeeAllActorEvent = MutableLiveData<Event<Boolean>>()
-    val clickSeeAllActorEvent = _clickSeeAllActorEvent.toLiveData()
-
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()
 
+    private val _homeUIEvent = MutableStateFlow<Event<HomeUIEvent?>>(Event(null))
+    val homeUIEvent = _homeUIEvent.asStateFlow()
 
     init {
         getHomeData()
@@ -192,11 +176,8 @@ class HomeViewModel @Inject constructor(
                         }
                     }
                 }
-            } catch (th: Throwable) {
-                onError(th.message.toString())
-            }
+            }catch (t:Throwable){}
         }
-
     }
 
     private fun getOnTheAir() {
@@ -277,11 +258,11 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onClickMovie(movieId: Int) {
-        _clickMovieEvent.postEvent(movieId)
+        _homeUIEvent.update { Event(HomeUIEvent.ClickMovieEvent(movieId)) }
     }
 
     override fun onClickActor(actorID: Int) {
-        _clickActorEvent.postEvent(actorID)
+        _homeUIEvent.update { Event(HomeUIEvent.ClickActorEvent(actorID)) }
     }
 
     override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
@@ -294,23 +275,24 @@ class HomeViewModel @Inject constructor(
             HomeItemsType.ADVENTURE -> AllMediaType.ADVENTURE
             HomeItemsType.NON -> AllMediaType.ACTOR_MOVIES
         }
-        _clickSeeAllMovieEvent.postEvent(type)
+        _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllMovieEvent(type)) }
     }
 
     override fun onClickSeeAllActors() {
-        _clickSeeAllActorEvent.postEvent(true)
+        _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllActorEvent) }
+
     }
 
     override fun onClickMedia(mediaId: Int) {
-        _clickSeriesEvent.postEvent(mediaId)
+        _homeUIEvent.update { Event(HomeUIEvent.ClickSeriesEvent(mediaId)) }
     }
 
     override fun onClickTVShow(tVShowID: Int) {
-        _clickSeriesEvent.postEvent(tVShowID)
+        _homeUIEvent.update { Event(HomeUIEvent.ClickSeriesEvent(tVShowID)) }
     }
 
     override fun onClickSeeTVShow(type: AllMediaType) {
-        _clickSeeAllTVShowsEvent.postEvent(type)
+        _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllTVShowsEvent(type)) }
     }
 
 

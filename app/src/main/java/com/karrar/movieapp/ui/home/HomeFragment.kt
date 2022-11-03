@@ -9,7 +9,8 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentHomeBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
-import com.karrar.movieapp.utilities.observeEvent
+import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
+import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -24,26 +25,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
         setAdapter()
-        observeEvents()
+        collectEvent()
         collectHomeData()
-
     }
 
     private fun collectHomeData() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.homeUiState.collect {
-                homeAdapter.setItems(mutableListOf(
-                    it.popularMovies,
-                    it.tvShowsSeries,
-                    it.onTheAiringSeries,
-                    it.airingTodaySeries,
-                    it.upcomingMovies,
-                    it.nowStreamingMovies,
-                    it.mysteryMovies,
-                    it.adventureMovies,
-                    it.trendingMovies,
-                    it.actors,
-                ))
+                homeAdapter.setItems(
+                    mutableListOf(
+                        it.popularMovies,
+                        it.tvShowsSeries,
+                        it.onTheAiringSeries,
+                        it.airingTodaySeries,
+                        it.upcomingMovies,
+                        it.nowStreamingMovies,
+                        it.mysteryMovies,
+                        it.adventureMovies,
+                        it.trendingMovies,
+                        it.actors,
+                    )
+                )
             }
         }
     }
@@ -53,45 +55,45 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.recyclerView.adapter = homeAdapter
     }
 
-    private fun observeEvents() {
-        viewModel.clickSeeAllActorEvent.observeEvent(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_homeFragment_to_actorsFragment)
-        }
-
-        viewModel.clickActorEvent.observeEvent(viewLifecycleOwner) { actorID ->
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToActorDetailsFragment(
-                actorID))
-        }
-
-        viewModel.clickMovieEvent.observeEvent(viewLifecycleOwner) { movieID ->
-            navigateToMovieDetails(movieID)
-        }
-
-        viewModel.clickSeriesEvent.observeEvent(viewLifecycleOwner) { seriesID ->
-            navigateToTvShowDetails(seriesID)
-        }
-
-        viewModel.clickSeeAllMovieEvent.observeEvent(viewLifecycleOwner) { typeMovieID ->
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(
-                -1,
-                typeMovieID))
-        }
-
-        viewModel.clickSeeAllTVShowsEvent.observeEvent(viewLifecycleOwner) { typeTVShow ->
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(
-                -1,
-                typeTVShow))
+    private fun collectEvent() {
+        collectLast(viewModel.homeUIEvent) {
+            it.getContentIfNotHandled()?.let { onEvent(it) }
         }
     }
 
-    private fun navigateToMovieDetails(movieID: Int) {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMovieDetailFragment(
-            movieID))
-    }
-
-    private fun navigateToTvShowDetails(tvShowId: Int) {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(
-            tvShowId))
+    private fun onEvent(event: HomeUIEvent) {
+        val action = when (event) {
+            is HomeUIEvent.ClickActorEvent -> {
+                HomeFragmentDirections.actionHomeFragmentToActorDetailsFragment(
+                    event.actorID
+                )
+            }
+            is HomeUIEvent.ClickMovieEvent -> {
+                HomeFragmentDirections.actionHomeFragmentToMovieDetailFragment(
+                    event.movieID
+                )
+            }
+            HomeUIEvent.ClickSeeAllActorEvent -> {
+                HomeFragmentDirections.actionHomeFragmentToActorsFragment()
+            }
+            is HomeUIEvent.ClickSeeAllMovieEvent -> {
+                HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(
+                    -1, event.mediaType
+                )
+            }
+            is HomeUIEvent.ClickSeeAllTVShowsEvent -> {
+                HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(
+                    -1,
+                    event.mediaType
+                )
+            }
+            is HomeUIEvent.ClickSeriesEvent -> {
+                HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(
+                    event.seriesID
+                )
+            }
+        }
+        findNavController().navigate(action)
     }
 
 }

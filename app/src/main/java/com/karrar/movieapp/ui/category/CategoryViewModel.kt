@@ -1,6 +1,5 @@
 package com.karrar.movieapp.ui.category
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
@@ -10,12 +9,11 @@ import com.karrar.movieapp.domain.usecases.GetGenreListUseCase
 import com.karrar.movieapp.domain.usecases.GetMediaByGenreIDUseCase
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.category.uiState.CategoryUIEvent
 import com.karrar.movieapp.ui.category.uiState.CategoryUIState
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.postEvent
-import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -35,14 +33,9 @@ class CategoryViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CategoryUIState())
     val uiState: StateFlow<CategoryUIState> = _uiState.asStateFlow()
 
-    private val _clickMovieEvent = MutableLiveData<Event<Int>>()
-    var clickMovieEvent = _clickMovieEvent
-
-    private val _clickRetryEvent = MutableLiveData<Event<Boolean>>()
-    val clickRetryEvent = _clickRetryEvent.toLiveData()
-
-    private val _selectedCategory = MutableLiveData(FIRST_CATEGORY_ID)
-    val selectedCategory = _selectedCategory.toLiveData()
+    private val _categoryUIEvent: MutableStateFlow<Event<CategoryUIEvent>> =
+        MutableStateFlow(Event(CategoryUIEvent.SelectedCategory(FIRST_CATEGORY_ID)))
+    val categoryUIEvent = _categoryUIEvent.asStateFlow()
 
     init {
         getData()
@@ -50,9 +43,9 @@ class CategoryViewModel @Inject constructor(
 
     override fun getData() {
         _uiState.update { it.copy(isLoading = true) }
-        getMediaList()
+        getMediaList(uiState.value.selectedCategoryID)
         getGenre()
-        _clickRetryEvent.postEvent(true)
+        _categoryUIEvent.update { Event(CategoryUIEvent.RetryEvent) }
     }
 
     private fun getGenre() {
@@ -68,10 +61,9 @@ class CategoryViewModel @Inject constructor(
         }
     }
 
-    fun getMediaList() {
+    fun getMediaList(selectedCategory: Int) {
         viewModelScope.launch {
-            val result =
-                getCategoryUseCase(args.mediaId, selectedCategory.value ?: FIRST_CATEGORY_ID)
+            val result = getCategoryUseCase(args.mediaId, selectedCategory)
             _uiState.update {
                 it.copy(
                     isLoading = false,
@@ -83,11 +75,14 @@ class CategoryViewModel @Inject constructor(
     }
 
     override fun onClickMedia(mediaId: Int) {
-        _clickMovieEvent.postValue(Event(mediaId))
+        _categoryUIEvent.update { Event(CategoryUIEvent.ClickMovieEvent(mediaId)) }
     }
 
     override fun onClickCategory(categoryId: Int) {
-        _selectedCategory.postValue(categoryId)
+        viewModelScope.launch {
+            _uiState.update { it.copy(selectedCategoryID = categoryId) }
+            _categoryUIEvent.emit(Event(CategoryUIEvent.SelectedCategory(categoryId)))
+        }
     }
 
     fun setErrorUiState(combinedLoadStates: CombinedLoadStates) {

@@ -66,7 +66,6 @@
             android:onClick="@{() -> listener.onClickSave()}"
             android:padding="@dimen/spacing_small"
             android:src="@drawable/ic_save"
-            app:hideIfNotTypeOfMovie="@{item.mediaType}"
             app:layout_constraintBottom_toBottomOf="@+id/imageView3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imageView3"
@@ -139,7 +138,8 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/line"
             app:layout_constraintTop_toTopOf="@+id/line"
-            app:textBasedOnMediaType="@{item}"
+            app:movieHours="@{item.hours}"
+            app:movieMinutes="@{item.minutes}"
             tools:text="100m" />
 
         <TextView

@@ -18,10 +18,10 @@ class GetGenreListUseCase @Inject constructor(
     suspend operator fun invoke(mediaId: Int): List<Genre> {
         val genre = when (mediaId) {
             Constants.MOVIE_CATEGORIES_ID -> {
-                mapGenre(movieRepository.getMovieGenreList2())
+                mapGenre(movieRepository.getMovieGenreList())
             }
             else -> {
-                mapGenre(seriesRepository.getTVShowsGenreList2())
+                mapGenre(seriesRepository.getTVShowsGenreList())
             }
         }
         return setGenre(genre)

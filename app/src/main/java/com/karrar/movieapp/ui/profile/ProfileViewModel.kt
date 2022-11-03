@@ -1,13 +1,10 @@
 package com.karrar.movieapp.ui.profile
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecases.CheckIfLoggedInUseCase
 import com.karrar.movieapp.domain.usecases.GetAccountDetailsUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.postEvent
-import com.karrar.movieapp.utilities.toLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,17 +22,8 @@ class ProfileViewModel @Inject constructor(
     private val _profileDetailsUIState = MutableStateFlow(ProfileUIState())
     val profileDetailsUIState = _profileDetailsUIState.asStateFlow()
 
-    private val _clickLoginEvent = MutableLiveData<Event<Boolean>>()
-    val clickLoginEvent = _clickLoginEvent.toLiveData()
-
-    private val _clickRatedMoviesEvent = MutableLiveData<Event<Boolean>>()
-    val clickRatedMoviesEvent = _clickRatedMoviesEvent.toLiveData()
-
-    private val _clickDialogLogoutEvent = MutableLiveData<Event<Boolean>>()
-    val clickDialogLogoutEvent = _clickDialogLogoutEvent.toLiveData()
-
-    private val _clickWatchHistoryEvent = MutableLiveData<Event<Boolean>>()
-    val clickWatchHistoryEvent = _clickWatchHistoryEvent.toLiveData()
+    private val _profileUIEvent: MutableStateFlow<Event<ProfileUIEvent?>> = MutableStateFlow(Event(null))
+    val profileUIEvent= _profileUIEvent.asStateFlow()
 
     init {
         getData()
@@ -46,7 +34,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getProfileDetails() {
-        if (checkIfLoggedInUseCase()){
+        if (checkIfLoggedInUseCase()) {
             _profileDetailsUIState.update {
                 it.copy(isLoading = true, isLoggedIn = true, error = false)
             }
@@ -76,18 +64,18 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onClickRatedMovies() {
-        _clickRatedMoviesEvent.postEvent(true)
+        _profileUIEvent.update { Event(ProfileUIEvent.RatedMoviesEvent) }
     }
 
     fun onClickLogout() {
-        _clickDialogLogoutEvent.postEvent(true)
+        _profileUIEvent.update { Event(ProfileUIEvent.DialogLogoutEvent) }
     }
 
     fun onClickWatchHistory() {
-        _clickWatchHistoryEvent.postEvent(true)
+        _profileUIEvent.update { Event(ProfileUIEvent.WatchHistoryEvent) }
     }
 
     fun onClickLogin() {
-        _clickLoginEvent.postEvent(true)
+        _profileUIEvent.update { Event(ProfileUIEvent.LoginEvent) }
     }
 }

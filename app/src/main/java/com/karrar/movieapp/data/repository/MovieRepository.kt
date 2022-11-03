@@ -12,22 +12,17 @@ import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.response.review.ReviewsDto
+import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
-    suspend fun getMovieGenreList(): List<Genre>
-
-    suspend fun getMovieGenreList2(): List<GenreDto>?
+    suspend fun getMovieGenreList(): List<GenreDto>?
 
     suspend fun getDailyTrending(): BaseListResponse<DailyTrendingDto>
 
-    suspend fun getNowPlayingMovies(page: Int = 1): List<Media>
-
-    suspend fun getMovieListByGenreID(genreID: Int, page: Int = 1): List<Media>
-
-    suspend fun getMovieTrailer(movieId: Int): Trailer
+    suspend fun getMovieTrailer(movieId: Int): TrailerDto?
 
     suspend fun getActorDetails(actorId: Int): ActorDto?
 
@@ -41,7 +36,7 @@ interface MovieRepository {
 
     suspend fun createList(sessionId: String, name: String): AddListResponse?
 
-    suspend fun addMovieToList(sessionId: String, listId: Int, movieId: Int): AddMovieDto
+    suspend fun addMovieToList(sessionId: String, listId: Int, movieId: Int): AddMovieDto?
 
     suspend fun clearWatchHistory()
 
@@ -99,10 +94,10 @@ interface MovieRepository {
 
     suspend fun getMovieReviews(movieId: Int): List<ReviewsDto>?
 
-    suspend fun setRating(movieId: Int, value: Float, session_id: String): RatingDto?
+    suspend fun setRating(movieId: Int, value: Float): RatingDto?
 
-    suspend fun deleteRating(movieId: Int, session_id: String): RatingDto?
+    suspend fun deleteRating(movieId: Int): RatingDto?
 
-    suspend fun getRatedMovie(accountId: Int, sessionId: String): List<RatedMoviesDto>?
+    suspend fun getRatedMovie(): List<RatedMoviesDto>?
 
 }

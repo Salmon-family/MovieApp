@@ -46,7 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:listener="@{viewModel}"
-                        app:selectedChip="@{viewModel.selectedCategory}"
+                        app:selectedChip="@{viewModel.uiState.selectedCategoryID}"
                         app:selectionRequired="true"
                         app:setGenres="@{viewModel.uiState.genre}"
                         app:singleLine="true"

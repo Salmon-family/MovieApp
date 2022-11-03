@@ -9,18 +9,22 @@ import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.series.AiringTodaySeriesEntity
 import com.karrar.movieapp.data.local.database.entity.series.OnTheAirSeriesEntity
 import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntity
+import com.karrar.movieapp.data.remote.response.RatedTvShowDto
 import com.karrar.movieapp.data.local.mappers.series.LocalSeriesMappersContainer
 import com.karrar.movieapp.data.repository.mediaDataSource.series.SeriesDataSourceContainer
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
-import com.karrar.movieapp.data.remote.response.RatedTvShowDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
+import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.repository.serchDataSource.SearchDataSourceContainer
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
 import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
-import com.karrar.movieapp.domain.models.*
+import com.karrar.movieapp.domain.models.Actor
+import com.karrar.movieapp.domain.models.Review
+import com.karrar.movieapp.domain.models.Season
+import com.karrar.movieapp.domain.models.TvShowDetails
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 import javax.inject.Inject
@@ -35,14 +39,9 @@ class SeriesRepositoryImp @Inject constructor(
     private val seriesDataSourceContainer: SeriesDataSourceContainer,
     private val mediaDataSourceContainer: MediaDataSourceContainer,
     private val searchDataSourceContainer: SearchDataSourceContainer,
-    ) : BaseRepository(), SeriesRepository {
+) : BaseRepository(), SeriesRepository {
 
-    override suspend fun getTVShowsGenreList(): List<Genre> {
-        return wrap({ service.getGenreTvShowList() },
-            { ListMapper(seriesMapperContainer.genreMapper).mapList(it.genres) })
-    }
-
-    override suspend fun getTVShowsGenreList2(): List<GenreDto>? {
+    override suspend fun getTVShowsGenreList(): List<GenreDto>? {
         return service.getGenreTvShowList().body()?.genres
     }
 
@@ -66,9 +65,9 @@ class SeriesRepositoryImp @Inject constructor(
         return wrap({ service.postTvShowRating(tvShowId, value, sessionId) }, { it })
     }
 
-    override suspend fun getRatedTvShow(accountId: Int, sessionId: String)
+    override suspend fun getRatedTvShow()
             : List<RatedTvShowDto>? {
-        return service.getRatedTvShow(accountId, sessionId).body()?.items
+        return service.getRatedTvShow().body()?.items
     }
 
     override suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): Season {
@@ -76,9 +75,8 @@ class SeriesRepositoryImp @Inject constructor(
             { seriesMapperContainer.seasonMapper.map(it) })
     }
 
-    override suspend fun getTvShowTrailer(tvShowId: Int): Trailer {
-        return wrap({ service.getTvShowTrailer(tvShowId) },
-            { seriesMapperContainer.trailerMapper.map(it) })
+    override suspend fun getTvShowTrailer(tvShowId: Int): TrailerDto? {
+        return service.getTvShowTrailer(tvShowId).body()
     }
 
     override suspend fun insertTvShow(tvShow: WatchHistoryEntity) {
@@ -145,7 +143,7 @@ class SeriesRepositoryImp @Inject constructor(
     override suspend fun searchForSeriesPager(query: String): Pager<Int, TVShowsDTO> {
         val dataSource = searchDataSourceContainer.seriesSearchDataSource
         dataSource.setSearchText(query)
-        return Pager(config = config, pagingSourceFactory = {dataSource})
+        return Pager(config = config, pagingSourceFactory = { dataSource })
     }
 
 

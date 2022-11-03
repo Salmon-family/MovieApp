@@ -9,7 +9,8 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.DialogLogoutBinding
 import com.karrar.movieapp.ui.base.BaseDialog
-import com.karrar.movieapp.utilities.*
+import com.karrar.movieapp.utilities.collectLast
+import com.karrar.movieapp.utilities.setWidthPercent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,15 +22,20 @@ class LogoutDialog : BaseDialog<DialogLogoutBinding>() {
         super.onViewCreated(view, savedInstanceState)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setWidthPercent(90)
-        observeEvents()
+        collectLast(viewModel.logoutUIEvent) {
+            it.getContentIfNotHandled()?.let { onEvent(it) }
+        }
     }
 
-    private fun observeEvents() {
-        viewModel.clickLoginEvent.observeEvent(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_logoutDialog_to_homeFragment)
-        }
-        viewModel.closeDialogEvent.observeEvent(viewLifecycleOwner) {
-            dismiss()
+    private fun onEvent(event: LogoutUIEvent) {
+        when (event) {
+            LogoutUIEvent.CloseDialogEvent -> {
+                dismiss()
+            }
+            LogoutUIEvent.LogoutEvent -> {
+                findNavController().navigate(R.id.action_logoutDialog_to_homeFragment)
+            }
         }
     }
+
 }

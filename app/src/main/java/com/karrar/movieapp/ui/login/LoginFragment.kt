@@ -8,8 +8,7 @@ import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentLoginBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.Constants
-import com.karrar.movieapp.utilities.observeEvent
+import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -20,21 +19,22 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     override fun onStart() {
         super.onStart()
-        observeEvents()
         setTitle(false)
+        collectLast(viewModel.loginEvent) {
+            it.getContentIfNotHandled()?.let { onEvent(it) }
+        }
     }
 
-
-    private fun observeEvents() {
-        viewModel.loginEvent.observeEvent(viewLifecycleOwner) {
-            if (it == Constants.PROFILE) {
+    private fun onEvent(event: LoginUIEvent) {
+        when (event) {
+            is LoginUIEvent.LoginEvent -> {
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToProfileFragment())
             }
-        }
-
-        viewModel.signUpEvent.observeEvent(viewLifecycleOwner) {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.TMDB_SIGNUP_URL))
-            startActivity(browserIntent)
+            LoginUIEvent.SignUpEvent -> {
+                val browserIntent =
+                    Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.TMDB_SIGNUP_URL))
+                startActivity(browserIntent)
+            }
         }
     }
 }

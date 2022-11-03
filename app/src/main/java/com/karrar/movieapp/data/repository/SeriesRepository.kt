@@ -10,14 +10,13 @@ import com.karrar.movieapp.data.remote.response.RatedTvShowDto
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
+import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
 
 interface SeriesRepository {
 
-    suspend fun getTVShowsGenreList(): List<Genre>
-
-    suspend fun getTVShowsGenreList2(): List<GenreDto>?
+    suspend fun getTVShowsGenreList(): List<GenreDto>?
 
 
     suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails
@@ -28,11 +27,11 @@ interface SeriesRepository {
 
     suspend fun setRating(tvShowId: Int, value: Float, sessionId: String): RatingDto
 
-    suspend fun getRatedTvShow(accountId: Int, sessionId: String): List<RatedTvShowDto>?
+    suspend fun getRatedTvShow(): List<RatedTvShowDto>?
 
     suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): Season
 
-    suspend fun getTvShowTrailer(tvShowId: Int): Trailer
+    suspend fun getTvShowTrailer(tvShowId: Int): TrailerDto?
 
     suspend fun insertTvShow(tvShow: WatchHistoryEntity)
 

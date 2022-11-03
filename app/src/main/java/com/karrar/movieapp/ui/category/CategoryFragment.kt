@@ -3,16 +3,20 @@ package com.karrar.movieapp.ui.category
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentCategoryBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.*
+import com.karrar.movieapp.ui.category.uiState.CategoryUIEvent
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
+import com.karrar.movieapp.utilities.collect
+import com.karrar.movieapp.utilities.collectLast
+import com.karrar.movieapp.utilities.setSpanSize
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
@@ -25,7 +29,8 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setTitle(true, getTitle())
         setMediaAdapter()
-        observeEvents()
+        collectEvent()
+        collectData()
     }
 
     private fun setMediaAdapter() {
@@ -37,30 +42,38 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
         collect(flow = allMediaAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it) })
-
-        getDataByCategory()
     }
 
-    private fun getDataByCategory() {
-        viewModel.selectedCategory.observe(viewLifecycleOwner) {
-            viewModel.getMediaList()
-            collectLast(viewModel.uiState.value.media) {
-                allMediaAdapter.submitData(it)
+    private fun collectData() {
+        lifecycleScope.launch {
+            viewModel.uiState.collect {
+                collectLast(viewModel.uiState.value.media)
+                { allMediaAdapter.submitData(it) }
             }
         }
     }
 
-    private fun observeEvents() {
-        viewModel.clickMovieEvent.observe(viewLifecycleOwner, EventObserve {
-            if (viewModel.args.mediaId == TV_CATEGORIES_ID) {
-                navigateToTvShowDetails(it)
-            } else {
-                navigateToMovieDetails(it)
-            }
-        })
+    private fun collectEvent() {
+        collect(viewModel.categoryUIEvent) {
+            it.getContentIfNotHandled()?.let { onEvent(it) }
+        }
+    }
 
-        viewModel.clickRetryEvent.observeEvent(viewLifecycleOwner) {
-            allMediaAdapter.retry()
+    private fun onEvent(event: CategoryUIEvent) {
+        when (event) {
+            is CategoryUIEvent.ClickMovieEvent -> {
+                if (viewModel.args.mediaId == TV_CATEGORIES_ID) {
+                    navigateToTvShowDetails(event.movieID)
+                } else {
+                    navigateToMovieDetails(event.movieID)
+                }
+            }
+            CategoryUIEvent.RetryEvent -> {
+                allMediaAdapter.retry()
+            }
+            is CategoryUIEvent.SelectedCategory -> {
+                viewModel.getMediaList(event.categoryID)
+            }
         }
     }
 

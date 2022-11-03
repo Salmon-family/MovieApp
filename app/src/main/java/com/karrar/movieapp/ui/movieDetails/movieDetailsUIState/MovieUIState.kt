@@ -7,7 +7,6 @@ data class MovieUIState(
     val movieDetailsResult: MovieDetailsUIState = MovieDetailsUIState(),
     val movieCastResult: List<ActorUiState> = emptyList(),
     val similarMoviesResult: List<MediaUiState> = emptyList(),
-    val movieGetRatedResult: List<RatedUIState> = emptyList(),
     val movieReview: List<ReviewUIState> = emptyList(),
     val detailItemResult: List<DetailItemUIState> = mutableListOf(),
     val ratingValue: Float = 0F,
