@@ -16,7 +16,6 @@ import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState
 import com.karrar.movieapp.ui.search.uiStatMapper.SearchHistoryUIStateMapper
 import com.karrar.movieapp.ui.search.uiStatMapper.SearchMediaUIStateMapper
 import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.toStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -39,7 +38,7 @@ class SearchViewModel @Inject constructor(
     SearchHistoryInteractionListener {
 
     private val _uiState = MutableStateFlow(MediaSearchUIState())
-    val uiState = _uiState.toStateFlow()
+    val uiState = _uiState.asStateFlow()
 
     private val _searchUIEvent = MutableStateFlow<Event<SearchUIEvent?>>(Event(null))
     val searchUIEvent = _searchUIEvent.asStateFlow()
