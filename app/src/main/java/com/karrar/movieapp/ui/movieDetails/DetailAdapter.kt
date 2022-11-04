@@ -11,7 +11,6 @@ import com.karrar.movieapp.ui.adapters.MovieAdapter
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
-import com.karrar.movieapp.ui.tvShowDetails.SeasonAdapter
 import com.karrar.movieapp.ui.tvShowDetails.SeasonInteractionListener
 
 class DetailAdapter(
@@ -56,9 +55,9 @@ class DetailAdapter(
             }
             is DetailItem.Seasons -> {
                 holder.binding.run {
-                    setVariable(BR.adapterRecycler,
-                        SeasonAdapter(currentItem.data, listener as SeasonInteractionListener)
-                    )
+//                    setVariable(BR.adapterRecycler,
+//                        SeasonAdapter(currentItem.data, listener as SeasonInteractionListener)
+//                    )
                 }
             }
             is DetailItem.Rating -> {
