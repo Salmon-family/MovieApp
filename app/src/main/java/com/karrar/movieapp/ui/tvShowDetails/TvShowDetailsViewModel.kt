@@ -87,15 +87,16 @@ class TvShowDetailsViewModel @Inject constructor(
       viewModelScope.launch {
           try {
               val result = getTvShowDetailsUseCase.getTvShowDetails(tvShowId)
+              val tvShowDetailsResult = tvShowMapperContainer.tvShowDetailsUIMapper.map(result)
               _stateFlow.update {
                   it.copy(
-                      tvShowDetailsResult = tvShowMapperContainer.tvShowDetailsUIMapper.map(result),
+                      tvShowDetailsResult = tvShowDetailsResult,
                       isLoading = false
                   )
               }
 
               updateDetailItems(DetailItemUIState.Header(_stateFlow.value.tvShowDetailsResult))
-              insertMovieToWatchHistory(_stateFlow.value.watchHistoryUIState)
+              insertMovieToWatchHistory(tvShowDetailsResult)
           } catch (e: Exception) {
               _stateFlow.update {
                   it.copy(
@@ -157,16 +158,8 @@ class TvShowDetailsViewModel @Inject constructor(
     private  fun getRatedTvShows(tvShowId: Int) {
         viewModelScope.launch {
             try {
-                val result = getTvShowDetailsUseCase.getTvShowRated(0)
-                _stateFlow.update { rated ->
-                    rated.copy(
-                        seriesRatedResult = result.map {
-                            tvShowMapperContainer.tvShowRatedUIMapper.map(it)
-                        },
-                        isLoading = false
-                    )
-                }
-                checkIfTvShowRated(_stateFlow.value.seriesRatedResult, tvShowId)
+                val result = getTvShowDetailsUseCase.getTvShowRated(0).map(tvShowMapperContainer.tvShowRatedUIMapper::map)
+                checkIfTvShowRated(result,tvShowId)
                 updateDetailItems(DetailItemUIState.Rating(this@TvShowDetailsViewModel))
             } catch (e: Exception) {
                 _stateFlow.update {
@@ -218,7 +211,7 @@ class TvShowDetailsViewModel @Inject constructor(
         )
     }
 
-    private fun insertMovieToWatchHistory(tvShow: WatchHistoryUIState) {
+    private fun insertMovieToWatchHistory(tvShow: TvShowDetailsResultUIState) {
         viewModelScope.launch {
             getInsertTvShowUserCase(tvShowMapperContainer.tvShowWatchHistoryMapper.map(tvShow))
         }
