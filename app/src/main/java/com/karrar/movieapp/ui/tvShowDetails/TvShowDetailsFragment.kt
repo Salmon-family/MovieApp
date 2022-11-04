@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentTvShowDetailsBinding
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.movieDetails.MovieDetailsFragmentDirections
+import com.karrar.movieapp.utilities.collectLast
 import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,8 +30,7 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
         setTitle(false)
 
         setDetailAdapter()
-        addRating()
-        observeEvents()
+        collectEvents()
     }
 
     private fun setDetailAdapter() {
@@ -36,64 +38,47 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
         binding.recyclerView.adapter = detailAdapter
     }
 
-    private fun addRating() {
-        viewModel.messageAppear.observe(viewLifecycleOwner) {
-            if (viewModel.messageAppear.value == true) {
-                Toast.makeText(
-                    context,
-                    getString(R.string.submit_toast),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+
+
+    private fun collectEvents() {
+        collectLast(viewModel.tvShowDetailsUIEvent) {
+            it.getContentIfNotHandled()?.let { onEvent(it) }
         }
     }
 
-    private fun observeEvents() {
-        viewModel.clickPlayTrailerEvent.observeEvent(viewLifecycleOwner) { navigateToTrailer() }
+    private fun onEvent(event: TvShowDetailsUIEvent) {
+        var action: NavDirections? = null
+        when (event) {
+            TvShowDetailsUIEvent.ClickBackEvent -> {
+                findNavController().navigateUp()
+            }
+            is TvShowDetailsUIEvent.ClickCastEvent -> {
+                action =
+                    TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToActorDetailsFragment(
+                        event.castID
+                    )
+            }
+            is TvShowDetailsUIEvent.ClickSeasonEvent -> {
+                action = TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(args.tvShowId,event.seasonId)
+            }
+            TvShowDetailsUIEvent.ClickPlayTrailerEvent -> {
+                action =
+                    TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToYoutubePlayerActivity(
+                        args.tvShowId, MediaType.MOVIE
+                    )
+            }
+            TvShowDetailsUIEvent.ClickReviewsEvent -> {
+                action = TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewFragment(
+                    args.tvShowId, MediaType.MOVIE
+                )
+            }
+            TvShowDetailsUIEvent.MessageAppear -> {
+                Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT).show()
+            }
+            TvShowDetailsUIEvent.InitialEvent ->{}
+        }
+        action?.let { findNavController().navigate(it) }
 
-        viewModel.clickCastEvent.observeEvent(viewLifecycleOwner) { navigateToCast(it) }
-
-        viewModel.clickReviewsEvent.observeEvent(viewLifecycleOwner) { navigateToReviews() }
-
-        viewModel.clickEpisodeEvent.observeEvent(viewLifecycleOwner) { navigateToEpisodes(it) }
-
-        viewModel.clickBackEvent.observeEvent(viewLifecycleOwner) { goBack() }
     }
 
-    private fun navigateToTrailer() {
-        val action =
-            TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToYoutubePlayerActivity(
-                args.tvShowId,
-                MediaType.TV_SHOW
-            )
-        findNavController().navigate(action)
-    }
-
-    private fun navigateToCast(castId: Int) {
-        val action =
-            TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToActorDetailsFragment(castId)
-        findNavController().navigate(action)
-    }
-
-    private fun navigateToReviews() {
-        val action =
-            TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewFragment(
-                args.tvShowId,
-                MediaType.TV_SHOW
-            )
-        findNavController().navigate(action)
-    }
-
-    private fun navigateToEpisodes(seasonNumber: Int) {
-        val action =
-            TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(
-                args.tvShowId,
-                seasonNumber
-            )
-        findNavController().navigate(action)
-    }
-
-    private fun goBack() {
-        findNavController().navigateUp()
-    }
 }
