@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.base.BaseViewModel" />
+            type="com.thechance.movie.ui.base.BaseViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

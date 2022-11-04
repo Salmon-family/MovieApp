@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="brand_color">#E82627</color>
+    <color name="background_color">#FFFFFF</color>
+
+
+    <color name="card_background_color">#F3F5F6</color>
+    <color name="text_field_background_color">#E8EBEE</color>
+    <color name="slider_gradiant_end_color">#9903050A</color>
+
+    <color name="shade_primary_color">#DF03050A</color>
+    <color name="shade_secondary_color">#9903050A</color>
+    <color name="shade_ternary_color">#6103050A</color>
+    <color name="shade_quaternary_color">#2903050A</color>
+
+    <color name="yellow">#FDB92C</color>
+    <color name="colorDisabled">#66E82627</color>
+
+
+    <color name="white_primary">#FFFFFF</color>
+    <color name="white_secondary">#99FFFFFF</color>
+    <color name="gray">#33737373</color>
+
+    <color name="profile_background">#9903050A</color>
+
+</resources>

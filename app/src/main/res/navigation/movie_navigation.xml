@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.karrar.movieapp.ui.home.HomeFragment"
+        android:name="com.thechance.movie.ui.home.HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_actorsFragment"
@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.karrar.movieapp.ui.login.LoginFragment"
+        android:name="com.thechance.movie.ui.login.LoginFragment"
         tools:layout="@layout/fragment_login">
 
         <argument
@@ -49,7 +49,7 @@
 
     <fragment
         android:id="@+id/actorDetailsFragment"
-        android:name="com.karrar.movieapp.ui.actorDetails.ActorDetailsFragment"
+        android:name="com.thechance.movie.ui.actorDetails.ActorDetailsFragment"
         tools:layout="@layout/fragment_actor_details">
         <argument
             android:name="id"
@@ -64,7 +64,7 @@
 
     <fragment
         android:id="@+id/actorsFragment"
-        android:name="com.karrar.movieapp.ui.actors.ActorsFragment"
+        android:name="com.thechance.movie.ui.actors.ActorsFragment"
         tools:layout="@layout/fragment_actors">
         <action
             android:id="@+id/action_actorsFragment_to_actorDetailsFragment"
@@ -73,7 +73,7 @@
 
     <fragment
         android:id="@+id/movieDetailFragment"
-        android:name="com.karrar.movieapp.ui.movieDetails.MovieDetailsFragment"
+        android:name="com.thechance.movie.ui.movieDetails.MovieDetailsFragment"
         tools:layout="@layout/fragment_movie_details">
         <argument
             android:name="movie_id"
@@ -98,7 +98,7 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.karrar.movieapp.ui.profile.ProfileFragment"
+        android:name="com.thechance.movie.ui.profile.ProfileFragment"
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_logoutDialog"
@@ -121,7 +121,7 @@
 
     <fragment
         android:id="@+id/myListFragment"
-        android:name="com.karrar.movieapp.ui.myList.MyListsFragment"
+        android:name="com.thechance.movie.ui.myList.MyListsFragment"
         tools:layout="@layout/fragment_my_lists">
         <action
             android:id="@+id/action_myListFragment_to_createSavedList"
@@ -133,7 +133,7 @@
 
     <fragment
         android:id="@+id/categoryFragment"
-        android:name="com.karrar.movieapp.ui.category.CategoryFragment"
+        android:name="com.thechance.movie.ui.category.CategoryFragment"
         tools:layout="@layout/fragment_category">
         <argument
             android:name="mediaId"
@@ -148,7 +148,7 @@
 
     <fragment
         android:id="@+id/allMovieFragment"
-        android:name="com.karrar.movieapp.ui.allMedia.AllMovieFragment"
+        android:name="com.thechance.movie.ui.allMedia.AllMovieFragment"
         tools:layout="@layout/fragment_all_movie">
         <argument
             android:name="id"
@@ -166,7 +166,7 @@
 
     <fragment
         android:id="@+id/exploringFragment"
-        android:name="com.karrar.movieapp.ui.explore.ExploringFragment"
+        android:name="com.thechance.movie.ui.explore.ExploringFragment"
         tools:layout="@layout/fragment_exploring">
         <action
             android:id="@+id/action_exploringFragment_to_searchFragment"
@@ -187,7 +187,7 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.karrar.movieapp.ui.search.SearchFragment"
+        android:name="com.thechance.movie.ui.search.SearchFragment"
         tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_movieDetailFragment"
@@ -202,7 +202,7 @@
 
     <fragment
         android:id="@+id/reviewFragment"
-        android:name="com.karrar.movieapp.ui.reviews.ReviewFragment"
+        android:name="com.thechance.movie.ui.reviews.ReviewFragment"
         tools:layout="@layout/fragment_review">
         <argument
             android:name="mediaId"
@@ -214,7 +214,7 @@
 
     <dialog
         android:id="@+id/saveMovieDialog"
-        android:name="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveMovieDialog"
+        android:name="com.thechance.movie.ui.movieDetails.saveMovie.SaveMovieDialog"
         tools:layout="@layout/dialog_save_movie">
         <argument
             android:name="movie_id"
@@ -223,7 +223,7 @@
 
     <dialog
         android:id="@+id/logoutDialog"
-        android:name="com.karrar.movieapp.ui.profile.logout.LogoutDialog"
+        android:name="com.thechance.movie.ui.profile.logout.LogoutDialog"
         tools:layout="@layout/dialog_logout">
         <action
             android:id="@+id/action_logoutDialog_to_homeFragment"
@@ -233,14 +233,14 @@
     </dialog>
     <dialog
         android:id="@+id/createSavedList"
-        android:name="com.karrar.movieapp.ui.myList.CreateListDialog"
+        android:name="com.thechance.movie.ui.myList.CreateListDialog"
         tools:layout="@layout/fragment_create_list_dialog">
 
     </dialog>
 
     <fragment
         android:id="@+id/ratedMoviesFragment"
-        android:name="com.karrar.movieapp.ui.profile.myratings.MyRatingsFragment"
+        android:name="com.thechance.movie.ui.profile.myratings.MyRatingsFragment"
         tools:layout="@layout/fragment_my_ratings">
         <action
             android:id="@+id/action_ratedMoviesFragment_to_movieDetailFragment"
@@ -252,7 +252,7 @@
 
     <fragment
         android:id="@+id/watchHistoryFragment"
-        android:name="com.karrar.movieapp.ui.profile.watchhistory.WatchHistoryFragment"
+        android:name="com.thechance.movie.ui.profile.watchhistory.WatchHistoryFragment"
         tools:layout="@layout/fragment_watch_history">
         <action
             android:id="@+id/action_watchHistoryFragment_to_movieDetailFragment"
@@ -264,7 +264,7 @@
 
     <activity
         android:id="@+id/youtubePlayerActivity"
-        android:name="com.karrar.movieapp.ui.youtubePlayer.YoutubePlayerActivity"
+        android:name="com.thechance.movie.ui.youtubePlayer.YoutubePlayerActivity"
         tools:layout="@layout/activity_youtube_player">
         <argument
             android:name="movie_id"
@@ -275,7 +275,7 @@
     </activity>
     <fragment
         android:id="@+id/listDetailsFragment"
-        android:name="com.karrar.movieapp.ui.myList.listDetails.ListDetailsFragment"
+        android:name="com.thechance.movie.ui.myList.listDetails.ListDetailsFragment"
         tools:layout="@layout/fragment_list_details">
         <argument
             android:name="id"
@@ -294,7 +294,7 @@
 
     <fragment
         android:id="@+id/episodesFragment"
-        android:name="com.karrar.movieapp.ui.tvShowDetails.episodes.EpisodesFragment"
+        android:name="com.thechance.movie.ui.tvShowDetails.episodes.EpisodesFragment"
         tools:layout="@layout/fragment_episodes">
         <argument
             android:name="tvShowId"
@@ -303,7 +303,7 @@
 
     <fragment
         android:id="@+id/tvShowDetailsFragment"
-        android:name="com.karrar.movieapp.ui.tvShowDetails.TvShowDetailsFragment"
+        android:name="com.thechance.movie.ui.tvShowDetails.TvShowDetailsFragment"
         tools:layout="@layout/fragment_tv_show_details">
         <argument
             android:name="tvShowId"
@@ -324,5 +324,4 @@
             android:id="@+id/action_tvShowDetailFragment_to_youtubePlayerActivity"
             app:destination="@id/youtubePlayerActivity" />
     </fragment>
-
 </navigation>

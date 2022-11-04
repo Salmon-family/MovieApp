@@ -1,0 +1,162 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MovieApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/brand_color</item>
+        <item name="colorPrimaryVariant">@color/background_color</item>
+
+        <item name="android:statusBarColor">@color/background_color</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+
+        <item name="textInputStyle">@style/Login</item>
+        <item name="actionBarTheme">@style/MyTheme</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+
+    </style>
+
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_corners</item>
+    </style>
+
+
+    <style name="MyTheme" parent="@style/ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="android:background">@color/background_color</item>
+        <item name="android:textColorPrimary">@color/shade_primary_color</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="contentInsetStart">0dp</item>
+    </style>
+
+
+    <style name="SemiBold">
+        <item name="android:fontFamily">@font/plus_jakarta_sans_semibold</item>
+        <item name="android:textColor">@color/shade_primary_color</item>
+    </style>
+
+    <style name="SemiBold.Large">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+
+    <style name="SemiBold.Medium">
+        <item name="android:textSize">@dimen/text_medium</item>
+    </style>
+
+    <style name="SemiBold.Small">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+
+    <style name="Regular">
+        <item name="android:fontFamily">@font/plus_jakarta_sans_regular</item>
+    </style>
+
+    <style name="Regular.Medium">
+        <item name="android:textSize">@dimen/text_medium</item>
+    </style>
+
+    <style name="Regular.Medium.Primary">
+        <item name="android:textColor">@color/shade_primary_color</item>
+    </style>
+
+    <style name="Regular.Medium.Secondary">
+        <item name="android:textColor">@color/shade_secondary_color</item>
+    </style>
+
+
+    <style name="Regular.Small">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/shade_primary_color</item>
+    </style>
+
+    <style name="Regular.Small.Secondary">
+        <item name="android:textColor">@color/shade_secondary_color</item>
+    </style>
+
+    <style name="Regular.Small.ternary">
+        <item name="android:textColor">@color/shade_ternary_color</item>
+    </style>
+
+
+    <style name="CardCorners">
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="CardCorners.Small">
+        <item name="cornerSize">@dimen/radius_small</item>
+    </style>
+
+    <style name="CardCorners.Medium">
+        <item name="cornerSize">@dimen/radius_medium</item>
+    </style>
+
+    <style name="Login" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:textColorHint">@color/shade_secondary_color</item>
+        <item name="boxBackgroundColor">@color/text_field_background_color</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radius_small</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_small</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_small</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_small</item>
+        <item name="hintTextAppearance">@style/Regular.Medium.Primary</item>
+        <item name="startIconTint">@color/shade_secondary_color</item>
+        <item name="helperTextEnabled">true</item>
+        <item name="helperTextTextColor">@color/design_default_color_error</item>
+        <item name="errorEnabled">true</item>
+
+    </style>
+
+    <style name="Theme.MovieApp.SplashScreen" parent="Theme.SplashScreen.IconBackground">
+        <item name="postSplashScreenTheme">@style/Theme.MovieApp</item>
+        <item name="windowSplashScreenBackground">@color/background_color</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+    </style>
+
+    <style name="CircleImage">
+        <item name="cornerSize">50%</item>
+    </style>
+
+
+    <style name="CardCorners.BottomMedium">
+        <item name="cornerSizeBottomLeft">@dimen/radius_medium</item>
+        <item name="cornerSizeBottomRight">@dimen/radius_medium</item>
+    </style>
+
+
+    <style name="Circle">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="Chip.Regular.Small" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipStrokeColor">@color/chip_stroke</item>
+        <item name="chipBackgroundColor">@color/chip_background</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+
+    <style name="chipChip" parent="Widget.Material3.Chip.Suggestion">
+        <item name="chipStrokeColor">@color/brand_color</item>
+        <item name="chipSurfaceColor">@color/shade_secondary_color</item>
+        <item name="chipStrokeWidth">@dimen/cardview_compat_inset_shadow</item>
+    </style>
+
+    <style name="Colors_Widget.MaterialComponents.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/selector_chip_background</item>
+        <item name="chipStrokeColor">@color/selector_chip_stroke</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="android:textColor">@color/selector_chip_text</item>
+        <item name="chipCornerRadius">8dp</item>
+    </style>
+
+
+    <style name="Regular.Small.Primary">
+        <item name="android:textColor">@color/shade_primary_color</item>
+
+    </style>
+
+
+</resources>

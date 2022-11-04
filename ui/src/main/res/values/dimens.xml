@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- spacing -->
+    <dimen name="spacing_extra_large">32dp</dimen>
+    <dimen name="spacing_large">24dp</dimen>
+    <dimen name="spacing_medium">16dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_too_small">4dp</dimen>
+    <dimen name="season_card_width">88dp</dimen>
+
+    <!--  layout -->
+    <dimen name="spacing_actor">72dp</dimen>
+    <dimen name="media_card_width">128dp</dimen>
+    <dimen name="media_card_airing_today_height">145dp</dimen>
+    <dimen name="media_card_popular_movie">350dp</dimen>
+    <!-- texts -->
+    <dimen name="text_large">20sp</dimen>
+    <dimen name="text_medium">14sp</dimen>
+    <dimen name="text_small">12sp</dimen>
+
+    <!-- radius -->
+    <dimen name="radius_large">24dp</dimen>
+    <dimen name="radius_medium">16dp</dimen>
+    <dimen name="radius_small">8dp</dimen>
+    <dimen name="radius_too_small">4dp</dimen>
+
+    <!-- chips -->
+    <dimen name="chip_height">32dp</dimen>
+
+</resources>
