@@ -117,6 +117,7 @@ class TvShowDetailsViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
+                updateDetailItems(DetailItemUIState.Cast(_stateFlow.value.seriesCastResult))
             } catch (e: Exception) {
                 _stateFlow.update {
                     it.copy(
@@ -125,7 +126,7 @@ class TvShowDetailsViewModel @Inject constructor(
                     )
                 }
             }
-            updateDetailItems(DetailItemUIState.Cast(_stateFlow.value.seriesCastResult))
+
         }
     }
 
