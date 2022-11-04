@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class YoutubePlayerViewModel @Inject constructor(
-    private val getTrailerUseCase: com.devfalah.usecases.GetTrailerUseCase,
+    private val getTrailerUseCase: GetTrailerUseCase,
     state: SavedStateHandle
 ) : BaseViewModel() {
 

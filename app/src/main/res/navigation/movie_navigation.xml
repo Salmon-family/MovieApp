@@ -155,7 +155,7 @@
             app:argType="integer" />
         <argument
             android:name="type"
-            app:argType="com.karrar.movieapp.domain.enums.AllMediaType" />
+            app:argType="com.devfalah.types.AllMediaType" />
         <action
             android:id="@+id/action_allMovieFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
@@ -209,7 +209,7 @@
             app:argType="integer" />
         <argument
             android:name="type"
-            app:argType="com.karrar.movieapp.domain.enums.MediaType" />
+            app:argType="com.devfalah.types.MediaType" />
     </fragment>
 
     <dialog
@@ -271,7 +271,7 @@
             app:argType="integer" />
         <argument
             android:name="type"
-            app:argType="com.karrar.movieapp.domain.enums.MediaType" />
+            app:argType="com.devfalah.types.MediaType" />
     </activity>
     <fragment
         android:id="@+id/listDetailsFragment"

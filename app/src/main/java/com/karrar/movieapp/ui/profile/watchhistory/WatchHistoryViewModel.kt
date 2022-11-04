@@ -3,7 +3,6 @@ package com.karrar.movieapp.ui.profile.watchhistory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devfalah.usecases.GetWatchHistoryUseCase
-import com.devfalah.usecases.mappers.WatchHistoryMapper
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,8 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WatchHistoryViewModel @Inject constructor(
-    private val getWatchHistoryUseCase: com.devfalah.usecases.GetWatchHistoryUseCase,
-    private val watchHistoryMapper: com.devfalah.usecases.mappers.WatchHistoryMapper
+    private val getWatchHistoryUseCase: GetWatchHistoryUseCase,
 ) : ViewModel(), WatchHistoryInteractionListener {
 
     private val _uiState = MutableStateFlow(WatchHistoryUiState())
@@ -34,9 +32,11 @@ class WatchHistoryViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 getWatchHistoryUseCase().collect { list ->
-                    _uiState.update { watchHistoryUiState ->
-                        watchHistoryUiState.copy(allMedia = list.map { watchHistoryMapper.map(it) })
-                    }
+
+                    //TODO :CREATE UI MAPPER
+//                    _uiState.update { watchHistoryUiState ->
+//                        watchHistoryUiState.copy(allMedia = list.map { watchHistoryMapper.map(it) })
+//                    }
                 }
             } catch (t: Throwable) {
                 _uiState.update { it.copy(error = listOf(Error(400, t.message.toString()))) }

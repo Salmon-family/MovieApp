@@ -47,7 +47,7 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
             .navigate(
                 ActorDetailsFragmentDirections.actionActorDetailsFragmentToAllMovieOfActorFragment(
                     viewModel.args.id,
-                    com.devfalah.types.AllMediaType.ACTOR_MOVIES
+                    AllMediaType.ACTOR_MOVIES
                 )
             )
     }

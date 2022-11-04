@@ -13,6 +13,6 @@ class MovieAdapter(items: List<MediaUiState>,val listener: MovieInteractionListe
 
 interface MovieInteractionListener : BaseInteractionListener {
     fun onClickMovie(movieId: Int)
-    fun onClickSeeAllMovie(homeItemsType: com.devfalah.types.HomeItemsType)
+    fun onClickSeeAllMovie(homeItemsType: HomeItemsType)
 }
 

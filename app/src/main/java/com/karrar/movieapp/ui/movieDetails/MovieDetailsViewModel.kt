@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.devfalah.types.HomeItemsType
 import com.devfalah.models.MovieDetails
 import com.devfalah.usecases.GetSessionIDUseCase
-import com.karrar.movieapp.domain.usecases.movieDetails.*
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
@@ -36,7 +35,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val mediaUIStateMapper: MediaUIStateMapper,
     private val getMovieRate: com.devfalah.usecases.movieDetails.GetMovieRateUseCase,
     private val reviewUIStateMapper: ReviewUIStateMapper,
-    private val sessionIDUseCase: com.devfalah.usecases.GetSessionIDUseCase,
+    private val sessionIDUseCase: GetSessionIDUseCase,
     state: SavedStateHandle,
 ) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener,
     DetailInteractionListener {

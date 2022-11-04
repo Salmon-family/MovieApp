@@ -13,7 +13,7 @@ class GetTrailerUseCase @Inject constructor(
     private val trailerMapper: TrailerMapper
 ) {
 
-    suspend operator fun invoke(mediaType: MediaType, mediaID: Int): com.devfalah.models.Trailer {
+    suspend operator fun invoke(mediaType: MediaType, mediaID: Int): Trailer {
         val result = when (mediaType) {
             MediaType.MOVIE -> {
                 movieRepository.getMovieTrailer(mediaID)

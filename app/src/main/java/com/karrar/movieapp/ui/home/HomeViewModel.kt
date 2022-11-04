@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val homeUseCasesContainer: com.devfalah.usecases.home.HomeUseCasesContainer,
+    private val homeUseCasesContainer: HomeUseCasesContainer,
     private val mediaUiMapper: MediaUiMapper,
     private val actorUiMapper: ActorUiMapper,
     private val popularUiMapper: PopularUiMapper,

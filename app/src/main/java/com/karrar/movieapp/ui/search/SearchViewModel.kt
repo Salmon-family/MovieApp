@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
-import com.karrar.movieapp.domain.usecases.searchUseCase.*
 import com.karrar.movieapp.ui.allMedia.Error
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.search.adapters.ActorSearchInteractionListener
