@@ -11,7 +11,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.domain.models.Season" />
+            type="com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.SeasonUIState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

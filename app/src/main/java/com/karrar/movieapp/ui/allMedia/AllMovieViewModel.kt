@@ -11,7 +11,6 @@ import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.mappers.MediaUiMapper
 import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.toStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,7 +30,7 @@ class AllMovieViewModel @Inject constructor(
     val args = AllMovieFragmentArgs.fromSavedStateHandle(state)
 
     private val _uiState = MutableStateFlow(AllMediaUiState())
-    val uiState = _uiState.toStateFlow()
+    val uiState = _uiState.asStateFlow()
 
     private val _mediaUIEvent: MutableStateFlow<Event<MediaUIEvent>?> = MutableStateFlow(null)
     val mediaUIEvent = _mediaUIEvent.asStateFlow()

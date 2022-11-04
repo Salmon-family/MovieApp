@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.movieDetails.movieReviews.ReviewViewModel" />
+            type="com.karrar.movieapp.ui.reviews.ReviewViewModel" />
 
     </data>
 
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_color"
-        tools:context=".ui.movieDetails.movieReviews.ReviewFragment">
+        tools:context=".ui.reviews.ReviewFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/comment_review_adapter"

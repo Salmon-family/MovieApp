@@ -6,30 +6,21 @@ import com.karrar.movieapp.data.local.database.entity.movie.AdventureMovieEntity
 import com.karrar.movieapp.data.local.database.entity.series.AiringTodaySeriesEntity
 import com.karrar.movieapp.data.local.database.entity.series.OnTheAirSeriesEntity
 import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntity
+import com.karrar.movieapp.data.remote.response.CreditsDto
 import com.karrar.movieapp.data.remote.response.RatedTvShowDto
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
+import com.karrar.movieapp.data.remote.response.episode.EpisodeDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
+import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
+import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
 
 interface SeriesRepository {
 
     suspend fun getTVShowsGenreList(): List<GenreDto>?
-
-
-    suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails
-
-    suspend fun getTvShowCast(tvShowId: Int): List<Actor>
-
-    suspend fun getTvShowReviews(tvShowId: Int): List<Review>
-
-    suspend fun setRating(tvShowId: Int, value: Float, sessionId: String): RatingDto
-
-    suspend fun getRatedTvShow(): List<RatedTvShowDto>?
-
-    suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): Season
 
     suspend fun getTvShowTrailer(tvShowId: Int): TrailerDto?
 
@@ -54,4 +45,18 @@ interface SeriesRepository {
     fun getPopularTvShowPager(): Pager<Int, TVShowsDTO>
 
     suspend fun searchForSeriesPager(query: String): Pager<Int, TVShowsDTO>
+
+    suspend fun getTvShowDetails(tvShowId: Int): TvShowDetailsDto?
+
+    suspend fun getTvShowCast(tvShowId: Int): CreditsDto?
+
+    suspend fun getTvShowReviews(tvShowId: Int): List<ReviewsDto>?
+
+    suspend fun setRating(tvShowId: Int, value: Float): RatingDto?
+
+    suspend fun getRatedTvShow(): List<RatedTvShowDto>?
+
+    suspend fun getSeasonDetails(tvShowId: Int): List<EpisodeDto>?
+
+
 }

@@ -9,24 +9,22 @@ import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.series.AiringTodaySeriesEntity
 import com.karrar.movieapp.data.local.database.entity.series.OnTheAirSeriesEntity
 import com.karrar.movieapp.data.local.database.entity.series.TopRatedSeriesEntity
-import com.karrar.movieapp.data.remote.response.RatedTvShowDto
 import com.karrar.movieapp.data.local.mappers.series.LocalSeriesMappersContainer
-import com.karrar.movieapp.data.repository.mediaDataSource.series.SeriesDataSourceContainer
+import com.karrar.movieapp.data.remote.response.CreditsDto
+import com.karrar.movieapp.data.remote.response.RatedTvShowDto
 import com.karrar.movieapp.data.remote.response.TVShowsDTO
+import com.karrar.movieapp.data.remote.response.episode.EpisodeDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
+import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
+import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
 import com.karrar.movieapp.data.remote.service.MovieService
+import com.karrar.movieapp.data.repository.mediaDataSource.series.SeriesDataSourceContainer
 import com.karrar.movieapp.data.repository.serchDataSource.SearchDataSourceContainer
-import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
-import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
-import com.karrar.movieapp.domain.models.Actor
-import com.karrar.movieapp.domain.models.Review
-import com.karrar.movieapp.domain.models.Season
-import com.karrar.movieapp.domain.models.TvShowDetails
 import kotlinx.coroutines.flow.Flow
-import java.util.Date
+import java.util.*
 import javax.inject.Inject
 
 class SeriesRepositoryImp @Inject constructor(
@@ -34,7 +32,6 @@ class SeriesRepositoryImp @Inject constructor(
     private val movieDao: MovieDao,
     private val seriesDao: SeriesDao,
     private val appConfiguration: AppConfiguration,
-    private val seriesMapperContainer: SeriesMapperContainer,
     private val localSeriesMappersContainer: LocalSeriesMappersContainer,
     private val seriesDataSourceContainer: SeriesDataSourceContainer,
     private val mediaDataSourceContainer: MediaDataSourceContainer,
@@ -43,36 +40,6 @@ class SeriesRepositoryImp @Inject constructor(
 
     override suspend fun getTVShowsGenreList(): List<GenreDto>? {
         return service.getGenreTvShowList().body()?.genres
-    }
-
-    override suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails {
-        return wrap({ service.getTvShowDetails(tvShowId) }, { response ->
-            seriesMapperContainer.tvShowDetailsMapper.map(response)
-        })
-    }
-
-    override suspend fun getTvShowCast(tvShowId: Int): List<Actor> {
-        return wrap({ service.getTvShowCast(tvShowId) },
-            { ListMapper(seriesMapperContainer.actorMapper).mapList(it.cast) })
-    }
-
-    override suspend fun getTvShowReviews(tvShowId: Int): List<Review> {
-        return wrap({ service.getTvShowReviews(tvShowId) },
-            { ListMapper(seriesMapperContainer.reviewMapper).mapList(it.items) })
-    }
-
-    override suspend fun setRating(tvShowId: Int, value: Float, sessionId: String): RatingDto {
-        return wrap({ service.postTvShowRating(tvShowId, value, sessionId) }, { it })
-    }
-
-    override suspend fun getRatedTvShow()
-            : List<RatedTvShowDto>? {
-        return service.getRatedTvShow().body()?.items
-    }
-
-    override suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): Season {
-        return wrap({ service.getSeasonDetails(tvShowId, seasonId) },
-            { seriesMapperContainer.seasonMapper.map(it) })
     }
 
     override suspend fun getTvShowTrailer(tvShowId: Int): TrailerDto? {
@@ -101,17 +68,26 @@ class SeriesRepositoryImp @Inject constructor(
     }
 
     override suspend fun getAiringToday(): Flow<List<AiringTodaySeriesEntity>> {
-        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.AIRING_TODAY_SERIES_REQUEST_DATE_KEY),::refreshAiringToday)
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.AIRING_TODAY_SERIES_REQUEST_DATE_KEY),
+            ::refreshAiringToday
+        )
         return seriesDao.getAiringTodaySeries()
     }
 
     override suspend fun getOnTheAir(): Flow<List<OnTheAirSeriesEntity>> {
-        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.ON_THE_AIR_SERIES_REQUEST_DATE_KEY),::refreshOnTheAir)
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.ON_THE_AIR_SERIES_REQUEST_DATE_KEY),
+            ::refreshOnTheAir
+        )
         return seriesDao.getOnTheAirSeries()
     }
 
     override suspend fun getTopRatedTvShow(): Flow<List<TopRatedSeriesEntity>> {
-        refreshOneTimePerDay(appConfiguration.getRequestDate(Constants.TOP_RATED_SERIES_REQUEST_DATE_KEY),::refreshTopRatedTvShow)
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.TOP_RATED_SERIES_REQUEST_DATE_KEY),
+            ::refreshTopRatedTvShow
+        )
         return seriesDao.getTopRatedSeries()
     }
 
@@ -147,7 +123,7 @@ class SeriesRepositoryImp @Inject constructor(
     }
 
 
-     private suspend fun refreshAiringToday(currentDate: Date) {
+    private suspend fun refreshAiringToday(currentDate: Date) {
         refreshWrapper(
             { service.getAiringToday() },
             { list ->
@@ -158,12 +134,15 @@ class SeriesRepositoryImp @Inject constructor(
             {
                 seriesDao.deleteAllAiringTodaySeries()
                 seriesDao.insertAiringTodaySeries(it)
-                appConfiguration.saveRequestDate(Constants.AIRING_TODAY_SERIES_REQUEST_DATE_KEY,currentDate.time)
+                appConfiguration.saveRequestDate(
+                    Constants.AIRING_TODAY_SERIES_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
             },
         )
     }
 
-     private suspend fun refreshOnTheAir(currentDate : Date) {
+    private suspend fun refreshOnTheAir(currentDate: Date) {
         refreshWrapper(
             { service.getOnTheAir() },
             { list ->
@@ -174,12 +153,15 @@ class SeriesRepositoryImp @Inject constructor(
             {
                 seriesDao.deleteAllOnTheAirSeries()
                 seriesDao.insertOnTheAirSeries(it)
-                appConfiguration.saveRequestDate(Constants.ON_THE_AIR_SERIES_REQUEST_DATE_KEY,currentDate.time)
+                appConfiguration.saveRequestDate(
+                    Constants.ON_THE_AIR_SERIES_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
             },
         )
     }
 
-     private suspend fun refreshTopRatedTvShow(currentDate: Date) {
+    private suspend fun refreshTopRatedTvShow(currentDate: Date) {
         try {
             val items = mutableListOf<TopRatedSeriesEntity>()
             service.getTopRatedTvShow().body()?.items?.first()?.let {
@@ -193,10 +175,39 @@ class SeriesRepositoryImp @Inject constructor(
             }
             seriesDao.deleteAllTopRatedSeries()
             seriesDao.insertTopRatedSeries(items)
-            appConfiguration.saveRequestDate(Constants.TOP_RATED_SERIES_REQUEST_DATE_KEY,currentDate.time)
+            appConfiguration.saveRequestDate(
+                Constants.TOP_RATED_SERIES_REQUEST_DATE_KEY,
+                currentDate.time
+            )
         } catch (_: Throwable) {
 
         }
     }
 
+
+    //tv
+
+    override suspend fun getTvShowDetails(tvShowId: Int): TvShowDetailsDto? {
+        return service.getTvShowDetails(tvShowId).body()
+    }
+
+    override suspend fun getTvShowCast(tvShowId: Int): CreditsDto? {
+        return service.getTvShowCast(tvShowId).body()
+    }
+
+    override suspend fun getTvShowReviews(tvShowId: Int): List<ReviewsDto>? {
+        return service.getTvShowReviews(tvShowId).body()?.items
+    }
+
+    override suspend fun setRating(tvShowId: Int, value: Float): RatingDto? {
+        return service.postTvShowRating(tvShowId, value).body()
+    }
+
+    override suspend fun getRatedTvShow(): List<RatedTvShowDto>? {
+        return service.getRatedTvShow().body()?.items
+    }
+
+    override suspend fun getSeasonDetails(tvShowId: Int): List<EpisodeDto>? {
+        return service.getSeasonDetails(tvShowId).body()?.episodes
+    }
 }

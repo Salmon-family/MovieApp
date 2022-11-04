@@ -12,13 +12,9 @@ import coil.load
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MediaType
-import com.karrar.movieapp.ui.UIState
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.category.uiState.GenreUIState
-import com.karrar.movieapp.ui.home.HomeItem
-import com.karrar.movieapp.ui.home.adapter.HomeAdapter
-import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieDetailsUIState
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -239,33 +235,6 @@ fun setAllGenre(textView: TextView, genreList: List<String>?) {
 @BindingAdapter("app:hideIfNotTypeOfMovie")
 fun hideIfNotTypeOfMovie(view: View, mediaType: MediaType?) {
     if (mediaType != MediaType.MOVIE) view.isVisible = false
-}
-
-// all UIState should delete
-
-@BindingAdapter(value = ["app:showWhenLoading"])
-fun <T> showWhenLoading2(view: View, state: UIState<T>?) {
-    view.isVisible = (state is UIState.Loading)
-}
-
-@BindingAdapter("app:showWhenSuccess")
-fun <T> showWhenSuccess2(view: View, state: UIState<T>?) {
-    view.isVisible = state is UIState.Success
-}
-
-@BindingAdapter(value = ["app:hideWhenLoading"])
-fun <T> hideWhenLoading(view: View, state: UIState<T>?) {
-    view.isVisible = state !is UIState.Loading
-}
-
-@BindingAdapter("app:showWhenFail")
-fun <T> showWhenFail2(view: View, state: UIState<T>?) {
-    view.isVisible = state is UIState.Error
-}
-
-@BindingAdapter("app:showWhenNoResults")
-fun <T> showWhenNoResults(view: View, state: UIState<T>?) {
-    view.isVisible = (state == UIState.Success(false))
 }
 
 @BindingAdapter("android:rating")

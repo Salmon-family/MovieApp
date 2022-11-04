@@ -22,11 +22,6 @@ object Constants {
     const val INTERNET_STATUS = 400
 
     const val PROFILE = 1
-    const val IMAGEACTORPATHWHENISNULL = "https://image.tmdb.org/t/p/w500null"
-}
-
-object DataStorePreferencesKeys {
-    const val SESSION_ID_KEY = "session_id"
 }
 
 object ErrorUI {

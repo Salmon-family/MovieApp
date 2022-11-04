@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.usecases.movieDetails
+package com.karrar.movieapp.domain.usecases
 
 import com.karrar.movieapp.data.repository.AccountRepository
 import javax.inject.Inject

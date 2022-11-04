@@ -1,40 +1,55 @@
 package com.karrar.movieapp.ui.tvShowDetails.episodes
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import com.karrar.movieapp.data.repository.SeriesRepository
-import com.karrar.movieapp.domain.models.Season
-import com.karrar.movieapp.ui.UIState
+import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.domain.usecases.tvShowDetails.GetSeasonsEpisodesUseCase
+import com.karrar.movieapp.domain.usecases.tvShowDetails.GetTvShowDetailsUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.utilities.toLiveData
+import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.Error
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class EpisodesViewModel @Inject constructor(
-    private val seriesRepository: SeriesRepository,
+    private val getSeasonsEpisodesUseCase: GetSeasonsEpisodesUseCase,
+    private val tvShowEpisodesUIMapper: TvShowEpisodesUIMapper,
     state: SavedStateHandle
 ) : BaseViewModel(), EpisodesInteractionListener {
 
     private val args = EpisodesFragmentArgs.fromSavedStateHandle(state)
 
-    private var _seasonDetails = MutableLiveData<UIState<Season>>()
-    val seasonDetails = _seasonDetails.toLiveData()
-
+    private val _stateFlowEpisode = MutableStateFlow(EpisodesUIState())
+    val stateFlowEpisode: StateFlow<EpisodesUIState> = _stateFlowEpisode.asStateFlow()
 
     init {
         getData()
     }
 
     override fun getData() {
-        _seasonDetails.postValue(UIState.Loading)
-        wrapWithState({
-            val response = seriesRepository.getSeasonDetails(args.tvShowId, args.seasonNumber)
-            _seasonDetails.postValue(UIState.Success(response))
-        }, {
-            _seasonDetails.postValue(UIState.Error("error"))
-        })
+        viewModelScope.launch {
+            _stateFlowEpisode.update { it.copy(isLoading = true) }
+            try {
+                val result =
+                    getSeasonsEpisodesUseCase(args.tvShowId)
+                _stateFlowEpisode.update { it ->
+                    it.copy(
+                        seriesEpisodeUIState = result.map(tvShowEpisodesUIMapper::map),
+                        isLoading = false
+                    )
+                }
+            } catch (e: Exception) {
+                _stateFlowEpisode.update {
+                    it.copy(
+                        error = listOf(Error(message = e.message.toString())),
+                        isLoading = false
+                    )
+                }
+            }
+        }
     }
-
-
 }

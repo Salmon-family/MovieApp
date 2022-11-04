@@ -23,28 +23,25 @@
             android:overScrollMode="never"
             android:paddingTop="@dimen/spacing_small"
             android:scrollbars="none"
-            app:items="@{viewModel.seasonDetails.toData().episodes}"
+            app:items="@{viewModel.stateFlowEpisode.seriesEpisodeUIState}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_episode" />
 
         <include
             android:id="@+id/loading"
-            layout="@layout/loading"
+            layout="@layout/loading2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:loading="@{viewModel.seasonDetails}" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <include
             android:id="@+id/error"
-            layout="@layout/error"
-            app:error="@{viewModel.seasonDetails}"
+            layout="@layout/error2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

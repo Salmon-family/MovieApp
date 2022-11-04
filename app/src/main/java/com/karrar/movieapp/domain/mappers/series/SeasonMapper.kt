@@ -7,7 +7,7 @@ import com.karrar.movieapp.domain.models.Season
 import javax.inject.Inject
 
 class SeasonMapper @Inject constructor(
-    private val episodeMapper: EpisodeMapper,
+    private val episodeMapper: EpisodeMapper
 ) : Mapper<SeasonDto, Season> {
     override fun map(input: SeasonDto): Season {
         return Season(

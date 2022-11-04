@@ -1,18 +1,16 @@
 package com.karrar.movieapp.utilities
 
-import android.app.Activity
 import android.content.res.Resources
 import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
@@ -31,27 +29,9 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun <T> MutableLiveData<T>.toLiveData(): LiveData<T> {
-    return this
-}
-
-fun <T> MutableLiveData<Event<T>>.postEvent(content: T) {
-    postValue(Event(content))
-}
-
-inline fun <T> LiveData<Event<T>>.observeEvent(
-    owner: LifecycleOwner,
-    crossinline onEventUnhandledContent: (T) -> Unit
-) {
-    observe(owner) { it?.getContentIfNotHandled()?.let(onEventUnhandledContent) }
-}
-
 fun <T> ChipGroup.createChip(item: GenreUIState, listener: T): View {
     val chipBinding: ChipItemCategoryBinding = DataBindingUtil.inflate(
-        LayoutInflater.from(context),
-        R.layout.chip_item_category,
-        this,
-        false
+        LayoutInflater.from(context), R.layout.chip_item_category, this, false
     )
     chipBinding.item = item
     chipBinding.listener = listener as CategoryInteractionListener
@@ -59,11 +39,9 @@ fun <T> ChipGroup.createChip(item: GenreUIState, listener: T): View {
 }
 
 
-fun List<ResultDto?>.getKey(): String? =
-    this.map {
-        if (it?.type == "Trailer")
-            return it.key
-    }.toString()
+fun List<ResultDto?>.getKey(): String? = this.map {
+    if (it?.type == "Trailer") return it.key
+}.toString()
 
 
 fun MyListsDto.checkIfExist(movie_id: Int): Boolean {
@@ -102,20 +80,20 @@ fun <T> LifecycleOwner.collect(flow: Flow<T>, action: suspend (T) -> Unit) {
     }
 }
 
-fun <T> List<T>.margeTowList(secondList :List<T>):List<T>{
+fun <T> List<T>.margeTowList(secondList: List<T>): List<T> {
     return this.plus(secondList)
 }
 
 fun <T : Any> GridLayoutManager.setSpanSize(
-    footerAdapter: LoadUIStateAdapter,
-    adapter: BasePagingAdapter<T>,
-    spanCount: Int
+    footerAdapter: LoadUIStateAdapter, adapter: BasePagingAdapter<T>, spanCount: Int
 ) {
     this.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
-            return if ((position == adapter.itemCount)
-                && footerAdapter.itemCount > 0
-            ) { spanCount } else { 1 }
+            return if ((position == adapter.itemCount) && footerAdapter.itemCount > 0) {
+                spanCount
+            } else {
+                1
+            }
         }
     }
 }
@@ -123,9 +101,4 @@ fun <T : Any> GridLayoutManager.setSpanSize(
 fun Date.convertToDayMonthYearFormat(): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(this)
-}
-
-
-fun <T> MutableStateFlow<T>.toStateFlow(): StateFlow<T> {
-    return this
 }
