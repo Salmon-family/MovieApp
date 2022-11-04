@@ -11,7 +11,8 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.ui.models.ActorUiState" />
+            type="com.karrar.movieapp.ui.models.ActorUiState"
+            />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +27,7 @@
             android:id="@+id/image_actor"
             android:layout_width="@dimen/spacing_actor"
             android:layout_height="@dimen/spacing_actor"
-            android:background="@color/brand_color"
+            android:background="@color/gray"
             android:onClick="@{()->listener.onClickActor(item.id)}"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"

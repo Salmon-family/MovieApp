@@ -12,38 +12,40 @@
         <variable
             name="item"
             type="com.karrar.movieapp.ui.models.ActorUiState" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:background="@color/background_color"
-        android:layout_marginVertical="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_medium"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:background="@android:color/transparent">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_actor"
-            android:layout_width="@dimen/spacing_actor"
-            android:layout_height="@dimen/spacing_actor"
-            android:background="@color/gray"
-            android:onClick="@{()->listener.onClickActor(item.id)}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="1:1"
+            android:background="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/Circle"
+            tools:src="@drawable/actor"
             app:posterImage="@{item.imageUrl}"
-            app:shapeAppearanceOverlay="@style/Circle" />
-
+            android:onClick="@{()->listener.onClickActor(item.id)}"
+            />
 
         <TextView
-            android:id="@+id/text_actor_name"
-            style="@style/SemiBold.Small"
+            android:id="@+id/cast_name"
+            style="@style/Regular.Small.Secondary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
-            android:lines="1"
+            android:lines="2"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +53,6 @@
             android:text="@{item.name}"
             tools:text="Debora Caprioglio"
             />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

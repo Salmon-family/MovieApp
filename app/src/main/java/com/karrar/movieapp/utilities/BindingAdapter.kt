@@ -153,7 +153,7 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
     imageURL?.let {
         image.load(imageURL) {
             placeholder(R.drawable.loading)
-            error(R.drawable.ic_baseline_person_24)
+            error(R.drawable.ic_profile_place_holder)
         }
     }
 }
@@ -242,4 +242,9 @@ fun setRating(view: RatingBar?, rating: Float) {
     view?.let {
         view.rating = rating
     }
+}
+
+@BindingAdapter("showWhenTextNotEmpty")
+fun <T> showWhenTextNotEmpty(view: View,text:String){
+    view.isVisible = text.isNotEmpty()
 }

@@ -100,14 +100,15 @@
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/radius_medium"
-            android:layout_marginTop="@dimen/radius_medium"
-            android:contentDescription="@string/todo"
-            android:onClick="@{() -> viewModel.onClickBack()}"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/back_icon_shape"
+            android:padding="@dimen/spacing_small"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/shade_primary_color" />
+            app:tint="@color/background_color"
+            android:onClick="@{() -> viewModel.onClickBack()}"/>
 
         <TextView
             android:id="@+id/text_name_actor"
@@ -243,6 +244,7 @@
                     android:layout_marginStart="@dimen/radius_medium"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/movies"
+                    app:showWhenListNotEmpty="@{viewModel.actorDetailsUIState.actorMovies}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_place_of_birth_actor" />
 
@@ -254,6 +256,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_small"
                     android:onClick="@{() -> viewModel.onClickSeeAllMovie(HomeItemsType.NON)}"
+                    app:showWhenListNotEmpty="@{viewModel.actorDetailsUIState.actorMovies}"
                     android:text="@string/see_all"
                     android:textColor="@color/brand_color"
                     app:drawableEndCompat="@drawable/ic_arrow_right"
@@ -287,7 +290,8 @@
                     android:layout_marginTop="@dimen/radius_large"
                     android:text="@string/biography"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/related_movie_recycler" />
+                    app:layout_constraintTop_toBottomOf="@+id/related_movie_recycler"
+                    app:showWhenTextNotEmpty="@{viewModel.actorDetailsUIState.biography}"/>
 
 
                 <TextView

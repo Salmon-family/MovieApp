@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         app:cardElevation="0dp"
         android:layout_marginVertical="@dimen/spacing_small"
-        android:layout_marginHorizontal="@dimen/spacing_medium"
+        android:layout_marginHorizontal="@dimen/spacing_small"
         android:onClick="@{() -> listener.onClickMediaResult(item)}"
         app:cardCornerRadius="@dimen/radius_small">
 

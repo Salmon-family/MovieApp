@@ -13,7 +13,7 @@ class RatedTvShowMapper @Inject constructor() : Mapper<RatedTvShowDto, Rated> {
         return Rated(
             id = input.id ?: 0,
             title = input.title ?: "",
-            posterPath = BuildConfig.IMAGE_BASE_PATH + input.posterPath,
+            posterPath = BuildConfig.IMAGE_BASE_PATH + input.backdropPath,
             rating = input.rating ?: 0F,
             releaseDate = "",
             mediaType = Constants.TV_SHOWS
