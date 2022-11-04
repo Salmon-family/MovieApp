@@ -122,7 +122,7 @@ class HomeAdapter(
             }
     }
 
-    private fun bindMovie(holder: ItemViewHolder, items: List<MediaUiState>, type: com.devfalah.types.HomeItemsType) {
+    private fun bindMovie(holder: ItemViewHolder, items: List<MediaUiState>, type: HomeItemsType) {
         holder.binding.run {
             setVariable(
                 BR.adapterRecycler,

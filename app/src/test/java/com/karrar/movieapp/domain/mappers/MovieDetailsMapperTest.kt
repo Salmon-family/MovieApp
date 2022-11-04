@@ -68,7 +68,7 @@ internal class MovieDetailsMapperTest {
             movieReview = 1,
             movieVoteAverage = "1.0",
             movieOverview = "overview",
-            movieType = com.devfalah.types.MediaType.MOVIE,
+            movieType = MediaType.MOVIE,
         )
 
         // then the result should be a Movie Details object with the same values

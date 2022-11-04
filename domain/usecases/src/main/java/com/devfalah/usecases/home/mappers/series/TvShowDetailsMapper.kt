@@ -3,6 +3,7 @@ package com.devfalah.usecases.home.mappers.series
 import com.thechance.remote.response.tvShow.TvShowDetailsDto
 import com.devfalah.usecases.mappers.Mapper
 import com.devfalah.models.TvShowDetails
+import com.devfalah.types.MediaType
 import com.thechance.repository.BuildConfig
 import javax.inject.Inject
 
@@ -22,7 +23,6 @@ class TvShowDetailsMapper @Inject constructor(
             input.voteAverage.toString().take(3),
             input.overview ?: "",
             input.season?.map { seasonMapper.map(it) } ?: emptyList(),
-            com.devfalah.types.MediaType.TV_SHOW
         )
     }
 }

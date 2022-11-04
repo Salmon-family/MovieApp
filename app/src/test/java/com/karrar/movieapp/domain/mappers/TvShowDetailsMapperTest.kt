@@ -2,11 +2,11 @@ package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
 import com.devfalah.types.MediaType
-import com.karrar.movieapp.domain.mappers.series.EpisodeMapper
-import com.karrar.movieapp.domain.mappers.series.SeasonMapper
-import com.karrar.movieapp.domain.mappers.series.TvShowDetailsMapper
 import com.devfalah.models.Season
 import com.devfalah.models.TvShowDetails
+import com.devfalah.usecases.home.mappers.series.EpisodeMapper
+import com.devfalah.usecases.home.mappers.series.SeasonMapper
+import com.devfalah.usecases.home.mappers.series.TvShowDetailsMapper
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -106,7 +106,6 @@ internal class TvShowDetailsMapperTest {
             ),
             tvShowReview = 1,
             tvShowSeasonsNumber = 1,
-            tvShowType = com.devfalah.types.MediaType.TV_SHOW,
             tvShowVoteAverage = "1.0",
         )
 

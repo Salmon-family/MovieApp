@@ -3,6 +3,7 @@ package com.devfalah.usecases.home.mappers.movie
 import com.thechance.local.database.entity.movie.NowStreamingMovieEntity
 import com.devfalah.usecases.mappers.Mapper
 import com.devfalah.models.Media
+import com.devfalah.types.MediaType
 import com.thechance.repository.BuildConfig
 import javax.inject.Inject
 
@@ -15,7 +16,7 @@ class NowStreamingMovieMapper @Inject constructor() :
             mediaImage = BuildConfig.IMAGE_BASE_PATH + input.imageUrl,
             mediaRate = 0f,
             mediaDate = "",
-            mediaType = com.devfalah.types.MediaType.MOVIE.value,
+            mediaType = MediaType.MOVIE.value,
         )
     }
 }

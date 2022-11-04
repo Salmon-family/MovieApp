@@ -1,6 +1,7 @@
 package com.devfalah.usecases.movieDetails
 
 
+import com.devfalah.types.MediaType
 import com.devfalah.usecases.GetReviewsUseCase
 import com.devfalah.usecases.home.mappers.actor.ActorDtoMapper
 import com.devfalah.usecases.home.mappers.movie.MovieDetailsMapper
@@ -29,7 +30,7 @@ class GetMovieDetailsUseCase @Inject constructor(
     }
 
     suspend fun getMovieReviews(movieId: Int): com.devfalah.models.MediaDetailsReviews {
-        val reviews = getMovieReviewsUseCase(com.devfalah.types.MediaType.MOVIE, movieId)
+        val reviews = getMovieReviewsUseCase(MediaType.MOVIE, movieId)
         val MAX_NUM_REVIEWS = 3
         return com.devfalah.models.MediaDetailsReviews(reviews.take(MAX_NUM_REVIEWS),
             reviews.size > MAX_NUM_REVIEWS)

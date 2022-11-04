@@ -1,6 +1,7 @@
 package com.devfalah.usecases
 
 import com.devfalah.models.Review
+import com.devfalah.types.MediaType
 import com.devfalah.usecases.home.mappers.ReviewMapper
 import com.thechance.repository.MovieRepository
 import com.thechance.repository.SeriesRepository
@@ -12,10 +13,10 @@ class GetReviewsUseCase @Inject constructor(
     private val reviewMapper: ReviewMapper,
 ) {
 
-    suspend operator fun invoke(type: com.devfalah.types.MediaType, mediaID: Int): List<Review> {
+    suspend operator fun invoke(type: MediaType, mediaID: Int): List<Review> {
         val reviews = when (type) {
-            com.devfalah.types.MediaType.MOVIE -> movieRepository.getMovieReviews(mediaID)
-            com.devfalah.types.MediaType.TV_SHOW -> seriesRepository.getTvShowReviews(mediaID)
+            MediaType.MOVIE -> movieRepository.getMovieReviews(mediaID)
+            MediaType.TV_SHOW -> seriesRepository.getTvShowReviews(mediaID)
         }
         return reviews?.let {
             it.map { reviewMapper.map(it) }

@@ -80,7 +80,7 @@ class ActorViewModel @Inject constructor(
         _actorDetailsUIEvent.update { Event(ActorDetailsUIEvent.ClickMovieEvent(movieId)) }
     }
 
-    override fun onClickSeeAllMovie(homeItemsType: com.devfalah.types.HomeItemsType) {
+    override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
         _actorDetailsUIEvent.update { Event(ActorDetailsUIEvent.SeeAllMovies) }
     }
 

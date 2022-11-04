@@ -9,6 +9,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.devfalah.types.MediaType
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.ui.base.BaseAdapter
@@ -232,8 +233,8 @@ fun setAllGenre(textView: TextView, genreList: List<String>?) {
 }
 
 @BindingAdapter("app:hideIfNotTypeOfMovie")
-fun hideIfNotTypeOfMovie(view: View, mediaType: com.devfalah.types.MediaType?) {
-    if (mediaType != com.devfalah.types.MediaType.MOVIE) view.isVisible = false
+fun hideIfNotTypeOfMovie(view: View, mediaType: MediaType?) {
+    if (mediaType != MediaType.MOVIE) view.isVisible = false
 }
 
 @BindingAdapter("android:rating")

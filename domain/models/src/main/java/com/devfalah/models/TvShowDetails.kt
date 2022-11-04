@@ -1,7 +1,5 @@
 package com.devfalah.models
 
-import com.devfalah.types.MediaType
-
 data class TvShowDetails(
     val tvShowId: Int = 0,
     val tvShowImage: String = "",
@@ -12,6 +10,5 @@ data class TvShowDetails(
     val tvShowReview: Int = 0,
     val tvShowVoteAverage: String = "",
     val tvShowOverview: String = "",
-    val tvShowSeasons: List<Season> = emptyList(),
-    val tvShowType :MediaType = MediaType.TV_SHOW
+    val tvShowSeasons: List<Season> = emptyList()
 )

@@ -21,7 +21,7 @@ internal class CheckIfMediaIsSeriesUseCaseTest {
     @Test
     fun should_ReturnTrue_WhenGivenSeries() {
         //given series type
-        val type = com.devfalah.types.AllMediaType.TOP_RATED
+        val type = AllMediaType.TOP_RATED
 
         //when
         val result = checkIfMediaIsSeriesUseCase(type)
@@ -34,7 +34,7 @@ internal class CheckIfMediaIsSeriesUseCaseTest {
     @Test
     fun should_ReturnFalse_WhenGivenMovie() {
         //given series type
-        val type = com.devfalah.types.AllMediaType.TRENDING
+        val type = AllMediaType.TRENDING
 
         //when
         val result = checkIfMediaIsSeriesUseCase(type)
@@ -46,7 +46,7 @@ internal class CheckIfMediaIsSeriesUseCaseTest {
     @Test
     fun should_ReturnFalse_WhenGivenNON() {
         //given series type
-        val type = com.devfalah.types.AllMediaType.ACTOR_MOVIES
+        val type = AllMediaType.ACTOR_MOVIES
 
         //when
         val result = checkIfMediaIsSeriesUseCase(type)

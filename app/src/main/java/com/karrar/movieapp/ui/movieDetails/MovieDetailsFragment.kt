@@ -66,12 +66,12 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
             MovieDetailsUIEvent.ClickPlayTrailerEvent -> {
                 action =
                     MovieDetailsFragmentDirections.actionMovieDetailFragmentToYoutubePlayerActivity(
-                        args.movieId, com.devfalah.types.MediaType.MOVIE
+                        args.movieId, MediaType.MOVIE
                     )
             }
             MovieDetailsUIEvent.ClickReviewsEvent -> {
                 action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewFragment(
-                    args.movieId, com.devfalah.types.MediaType.MOVIE
+                    args.movieId, MediaType.MOVIE
                 )
             }
             MovieDetailsUIEvent.ClickSaveEvent -> {

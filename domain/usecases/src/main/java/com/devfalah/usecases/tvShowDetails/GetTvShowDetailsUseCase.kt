@@ -4,6 +4,7 @@ package com.devfalah.usecases.tvShowDetails
 import com.devfalah.models.MediaDetailsReviews
 import com.devfalah.models.Season
 import com.devfalah.models.TvShowDetails
+import com.devfalah.types.MediaType
 import com.devfalah.usecases.Constant.MAX_NUM_REVIEWS
 import com.devfalah.usecases.GetReviewsUseCase
 import com.devfalah.usecases.home.mappers.ListMapper
@@ -35,7 +36,7 @@ class GetTvShowDetailsUseCase @Inject constructor(
 
 
     suspend fun getTvShowReviews(tvShowId: Int): MediaDetailsReviews {
-        val reviews = getTVShowsReviews(com.devfalah.types.MediaType.TV_SHOW, tvShowId)
+        val reviews = getTVShowsReviews(MediaType.TV_SHOW, tvShowId)
         return MediaDetailsReviews(reviews.take(MAX_NUM_REVIEWS),
             reviews.size > MAX_NUM_REVIEWS)
     }

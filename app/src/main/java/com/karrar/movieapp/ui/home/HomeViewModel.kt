@@ -263,15 +263,15 @@ class HomeViewModel @Inject constructor(
         _homeUIEvent.update { Event(HomeUIEvent.ClickActorEvent(actorID)) }
     }
 
-    override fun onClickSeeAllMovie(homeItemsType: com.devfalah.types.HomeItemsType) {
+    override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
         val type = when (homeItemsType) {
-            com.devfalah.types.HomeItemsType.ON_THE_AIR -> com.devfalah.types.AllMediaType.ON_THE_AIR
-            com.devfalah.types.HomeItemsType.TRENDING -> com.devfalah.types.AllMediaType.TRENDING
-            com.devfalah.types.HomeItemsType.NOW_STREAMING -> com.devfalah.types.AllMediaType.NOW_STREAMING
-            com.devfalah.types.HomeItemsType.UPCOMING -> com.devfalah.types.AllMediaType.UPCOMING
-            com.devfalah.types.HomeItemsType.MYSTERY -> com.devfalah.types.AllMediaType.MYSTERY
-            com.devfalah.types.HomeItemsType.ADVENTURE -> com.devfalah.types.AllMediaType.ADVENTURE
-            com.devfalah.types.HomeItemsType.NON -> com.devfalah.types.AllMediaType.ACTOR_MOVIES
+            HomeItemsType.ON_THE_AIR -> AllMediaType.ON_THE_AIR
+            HomeItemsType.TRENDING -> AllMediaType.TRENDING
+            HomeItemsType.NOW_STREAMING -> AllMediaType.NOW_STREAMING
+            HomeItemsType.UPCOMING -> AllMediaType.UPCOMING
+            HomeItemsType.MYSTERY -> AllMediaType.MYSTERY
+            HomeItemsType.ADVENTURE -> AllMediaType.ADVENTURE
+            HomeItemsType.NON -> AllMediaType.ACTOR_MOVIES
         }
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllMovieEvent(type)) }
     }
@@ -289,7 +289,7 @@ class HomeViewModel @Inject constructor(
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeriesEvent(tVShowID)) }
     }
 
-    override fun onClickSeeTVShow(type: com.devfalah.types.AllMediaType) {
+    override fun onClickSeeTVShow(type: AllMediaType) {
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllTVShowsEvent(type)) }
     }
 

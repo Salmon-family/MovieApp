@@ -66,13 +66,13 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
             TvShowDetailsUIEvent.ClickPlayTrailerEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToYoutubePlayerActivity(
-                        args.tvShowId, com.devfalah.types.MediaType.TV_SHOW
+                        args.tvShowId, MediaType.TV_SHOW
                     )
             }
             TvShowDetailsUIEvent.ClickReviewsEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewFragment(
-                        args.tvShowId, com.devfalah.types.MediaType.TV_SHOW
+                        args.tvShowId, MediaType.TV_SHOW
                     )
             }
             TvShowDetailsUIEvent.MessageAppear -> {
