@@ -1,16 +1,16 @@
 package com.karrar.movieapp.domain.usecases.movieDetails
 
-import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.enums.MediaType
-import com.karrar.movieapp.domain.mappers.actor.ActorDtoMapper
-import com.karrar.movieapp.domain.mappers.movie.MovieDetailsMapper
-import com.karrar.movieapp.domain.mappers.movie.MovieMapper
 import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.MediaDetailsReviews
 import com.karrar.movieapp.domain.models.MovieDetails
 import com.karrar.movieapp.domain.usecases.GetReviewsUseCase
+import com.karrar.movieapp.domain.usecases.home.mappers.actor.ActorDtoMapper
+import com.karrar.movieapp.domain.usecases.home.mappers.movie.MovieDetailsMapper
+import com.karrar.movieapp.domain.usecases.home.mappers.movie.MovieMapper
 import com.karrar.movieapp.utilities.Constants.MAX_NUM_REVIEWS
+import com.thechance.repository.MovieRepository
 import javax.inject.Inject
 
 class GetMovieDetailsUseCase @Inject constructor(

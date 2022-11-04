@@ -1,6 +1,6 @@
 package com.karrar.movieapp.ui.myList.listDetails
 
-import com.karrar.movieapp.domain.mappers.Mapper
+import com.karrar.movieapp.domain.usecases.mappers.Mapper
 import com.karrar.movieapp.domain.models.SaveListDetails
 import com.karrar.movieapp.ui.myList.listDetails.listDetailsUIState.SavedMediaUIState
 import javax.inject.Inject

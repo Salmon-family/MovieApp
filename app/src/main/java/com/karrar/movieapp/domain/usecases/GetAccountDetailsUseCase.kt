@@ -1,12 +1,11 @@
 package com.karrar.movieapp.domain.usecases
 
-import com.karrar.movieapp.data.repository.AccountRepository
-import com.karrar.movieapp.domain.mappers.account.AccountMapper
 import com.karrar.movieapp.domain.models.Account
+import com.karrar.movieapp.domain.usecases.home.mappers.account.AccountMapper
 import javax.inject.Inject
 
 class GetAccountDetailsUseCase @Inject constructor(
-    private val accountRepository: AccountRepository,
+    private val accountRepository: com.thechance.repository.AccountRepository,
     private val accountMapper: AccountMapper
 ) {
     suspend operator fun invoke() : Account {

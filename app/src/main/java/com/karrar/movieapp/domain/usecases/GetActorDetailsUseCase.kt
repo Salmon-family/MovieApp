@@ -1,12 +1,11 @@
 package com.karrar.movieapp.domain.usecases
 
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.mappers.MovieMappersContainer
 import com.karrar.movieapp.domain.models.ActorDetails
+import com.karrar.movieapp.domain.usecases.home.mappers.MovieMappersContainer
 import javax.inject.Inject
 
 class GetActorDetailsUseCase @Inject constructor(
-    private val movieRepository: MovieRepository,
+    private val movieRepository: com.thechance.repository.MovieRepository,
     private val movieMappersContainer: MovieMappersContainer,
 ) {
     suspend operator fun invoke(actorId: Int): ActorDetails {

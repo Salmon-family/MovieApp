@@ -1,9 +1,9 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.account.AccountDto
-import com.karrar.movieapp.data.remote.response.account.Avatar
-import com.karrar.movieapp.data.remote.response.account.Gravatar
+import com.thechance.remote.response.account.AccountDto
+import com.thechance.remote.response.account.Avatar
+import com.thechance.remote.response.account.Gravatar
 import com.karrar.movieapp.domain.mappers.account.AccountMapper
 import com.karrar.movieapp.domain.models.Account
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -24,15 +24,15 @@ internal class AccountMapperTest {
     @Test
     fun should_ReturnAccountMapper_when_EnterAccountDTO() {
         // given a AccountDTO object with random values
-        val accountDTO = AccountDto(
+        val accountDTO = com.thechance.remote.response.account.AccountDto(
             id = 1,
             name = "name",
             username = "username",
             includeAdult = true,
             iso6391 = "iso6391",
             iso31661 = "iso31661",
-            avatar = Avatar(
-                gravatar = Gravatar(
+            avatar = com.thechance.remote.response.account.Avatar(
+                gravatar = com.thechance.remote.response.account.Gravatar(
                     hash = "hash"
                 )
             ),

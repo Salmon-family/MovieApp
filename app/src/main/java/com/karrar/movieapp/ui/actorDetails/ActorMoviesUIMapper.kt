@@ -1,6 +1,6 @@
 package com.karrar.movieapp.ui.actorDetails
 
-import com.karrar.movieapp.domain.mappers.Mapper
+import com.karrar.movieapp.domain.usecases.mappers.Mapper
 import com.karrar.movieapp.domain.models.ActorMovie
 import javax.inject.Inject
 

@@ -1,8 +1,8 @@
-package com.karrar.movieapp.domain.usecase.home.getData
+package com.karrar.movieapp.domain.usecases.home.getData
 
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.mappers.actor.ActorEntityMapper
 import com.karrar.movieapp.domain.models.Actor
+import com.karrar.movieapp.domain.usecases.home.mappers.ActorEntityMapper
+import com.thechance.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

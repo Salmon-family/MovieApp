@@ -1,7 +1,7 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.MovieDto
+import com.thechance.remote.response.MovieDto
 import com.karrar.movieapp.domain.mappers.movie.MovieMapper
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.utilities.Constants.MOVIE
@@ -24,7 +24,7 @@ internal class MovieMapperTest {
     @Test
     fun should_ReturnMovieMapper_when_EnterMovieDTO() {
         // given a MovieDTO object with random values
-        val movieDTO = MovieDto(
+        val movieDTO = com.thechance.remote.response.MovieDto(
             adult = false,
             backdropPath = "backdropPath",
             genreIds = listOf(1, 2, 3),

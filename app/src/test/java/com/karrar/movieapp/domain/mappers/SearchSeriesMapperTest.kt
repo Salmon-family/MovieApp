@@ -1,7 +1,7 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.TVShowsDTO
+import com.thechance.remote.response.TVShowsDTO
 import com.karrar.movieapp.domain.mappers.search.SearchSeriesMapper
 import com.karrar.movieapp.domain.models.Media
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -22,7 +22,7 @@ internal class SearchSeriesMapperTest {
     @Test
     fun should_ReturnSearchSeriesMapper_when_SearchSeriesDTO() {
         // given a SearchSeriesDTO object with random values
-        val searchSeriesDTO = TVShowsDTO(
+        val searchSeriesDTO = com.thechance.remote.response.TVShowsDTO(
             backdropPath = "backdropPath",
             firstAirDate = "firstAirDate",
             genreIds = listOf(1, 2, 3),

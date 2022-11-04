@@ -1,6 +1,6 @@
 package com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper
 
-import com.karrar.movieapp.domain.mappers.Mapper
+import com.karrar.movieapp.domain.usecases.mappers.Mapper
 import com.karrar.movieapp.domain.models.WatchHistory
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.WatchHistoryUIState
 import javax.inject.Inject

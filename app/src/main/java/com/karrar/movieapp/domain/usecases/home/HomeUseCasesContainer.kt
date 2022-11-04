@@ -1,10 +1,10 @@
-package com.karrar.movieapp.domain.usecase.home
+package com.karrar.movieapp.domain.usecases.home
 
-import com.karrar.movieapp.domain.usecase.home.getData.GetTrendingActorsUseCase
-import com.karrar.movieapp.domain.usecase.home.getData.series.GetAiringTodaySeriesUseCase
-import com.karrar.movieapp.domain.usecase.home.getData.series.GetOnTheAirSeriesUseCase
-import com.karrar.movieapp.domain.usecase.home.getData.series.GetTopRatedTvShowSeriesUseCase
-import com.karrar.movieapp.domain.usecase.home.getData.movie.*
+import com.karrar.movieapp.domain.usecases.home.getData.GetTrendingActorsUseCase
+import com.karrar.movieapp.domain.usecases.home.getData.series.GetAiringTodaySeriesUseCase
+import com.karrar.movieapp.domain.usecases.home.getData.series.GetOnTheAirSeriesUseCase
+import com.karrar.movieapp.domain.usecases.home.getData.series.GetTopRatedTvShowSeriesUseCase
+import com.karrar.movieapp.domain.usecases.home.getData.movie.*
 
 import javax.inject.Inject
 

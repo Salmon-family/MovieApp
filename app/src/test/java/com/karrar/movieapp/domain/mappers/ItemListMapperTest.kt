@@ -1,7 +1,7 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.DailyTrendingDto
+import com.thechance.remote.response.DailyTrendingDto
 import com.karrar.movieapp.domain.mappers.savedList.ItemListMapper
 import com.karrar.movieapp.domain.models.Media
 import org.junit.jupiter.api.Assertions.*
@@ -23,7 +23,7 @@ internal class ItemListMapperTest {
     @Test
     fun should_ReturnItemListMapper_when_EnterListItem() {
         // given a List Item object with random values
-        val listsItem = DailyTrendingDto(
+        val listsItem = com.thechance.remote.response.DailyTrendingDto(
             adult = false,
             backdropPath = "backdropPath",
             genreIds = listOf(1, 2, 3),

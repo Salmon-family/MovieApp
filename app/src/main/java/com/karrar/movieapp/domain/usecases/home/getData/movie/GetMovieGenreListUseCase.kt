@@ -1,12 +1,11 @@
-package com.karrar.movieapp.domain.usecase.home.getData.movie
+package com.karrar.movieapp.domain.usecases.home.getData.movie
 
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.mappers.GenreMapper
 import com.karrar.movieapp.domain.models.Genre
+import com.karrar.movieapp.domain.usecases.home.mappers.GenreMapper
 import javax.inject.Inject
 
 class GetMovieGenreListUseCase @Inject constructor(
-    private val movieRepository: MovieRepository,
+    private val movieRepository: com.thechance.repository.MovieRepository,
     private val genreMapper: GenreMapper
 ) {
     suspend operator fun invoke(): List<Genre> {

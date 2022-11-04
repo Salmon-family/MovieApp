@@ -1,7 +1,7 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.TVShowsDTO
+import com.thechance.remote.response.TVShowsDTO
 import com.karrar.movieapp.domain.mappers.series.TVShowMapper
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.utilities.Constants
@@ -23,7 +23,7 @@ internal class TVShowMapperTest {
     @Test
     fun should_ReturnTVShowMapper_when_EnterTVShowsDTO() {
         // given a TVShowsDTO object with random values
-        val tvShowsDTO = TVShowsDTO(
+        val tvShowsDTO = com.thechance.remote.response.TVShowsDTO(
             backdropPath = "backdropPath",
             firstAirDate = "firstAirDate",
             genreIds = listOf(1, 2, 3),

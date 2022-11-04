@@ -1,8 +1,8 @@
 package com.karrar.movieapp.domain.usecases.movieDetails
 
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.mappers.movie.RatingStatusMoviesMapper
 import com.karrar.movieapp.domain.models.RatingStatus
+import com.karrar.movieapp.domain.usecases.home.mappers.movie.RatingStatusMoviesMapper
+import com.thechance.repository.MovieRepository
 import javax.inject.Inject
 
 class SetRatingUseCase @Inject constructor(
@@ -16,8 +16,8 @@ class SetRatingUseCase @Inject constructor(
         } else {
             movieRepository.setRating(movieId, value)
         }
-       return response?.let {
+        return response?.let {
             ratingStatusMoviesMapper.map(response)
-        }?: throw Throwable("Not Success")
+        } ?: throw Throwable("Not Success")
     }
 }

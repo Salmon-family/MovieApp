@@ -1,13 +1,12 @@
 package com.karrar.movieapp.domain.usecases
 
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.mappers.ActorMoviesMapper
-import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.models.ActorMovie
+import com.karrar.movieapp.domain.usecases.home.mappers.ActorMoviesMapper
+import com.karrar.movieapp.domain.usecases.home.mappers.ListMapper
 import javax.inject.Inject
 
 class GetActorMoviesUseCase @Inject constructor(
-    private val movieRepository: MovieRepository,
+    private val movieRepository: com.thechance.repository.MovieRepository,
     private val actorMoviesMapper: ActorMoviesMapper,
 ) {
 

@@ -1,14 +1,12 @@
 package com.karrar.movieapp.domain.usecases.mylist
 
-import com.karrar.movieapp.data.repository.AccountRepository
-import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.utilities.ErrorUI
 import com.karrar.movieapp.utilities.checkIfExist
 import javax.inject.Inject
 
 class SaveMovieToMyListUseCase @Inject constructor(
-    private val accountRepository: AccountRepository,
-    private val movieRepository: MovieRepository
+    private val accountRepository: com.thechance.repository.AccountRepository,
+    private val movieRepository: com.thechance.repository.MovieRepository
 ) {
 
     suspend operator fun invoke(listID: Int, mediaId: Int): String {

@@ -2,7 +2,7 @@ package com.karrar.movieapp.domain.mappers
 
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.episode.EpisodeDto
+import com.thechance.remote.response.episode.EpisodeDto
 import com.karrar.movieapp.domain.mappers.series.EpisodeMapper
 import com.karrar.movieapp.domain.models.Episode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -23,7 +23,7 @@ internal class EpisodeMapperTest {
     @Test
     fun should_ReturnEpisodeMapper_when_EnterEpisodeDTO() {
         // given a EpisodeDTO object with random values
-        val episodeDTO = EpisodeDto(
+        val episodeDTO = com.thechance.remote.response.episode.EpisodeDto(
             airDate = "airDate",
             episodeNumber = 1,
             id = 1,

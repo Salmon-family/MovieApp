@@ -1,17 +1,15 @@
 package com.karrar.movieapp.domain.usecases
 
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.data.repository.SeriesRepository
-import com.karrar.movieapp.domain.mappers.ListMapper
-import com.karrar.movieapp.domain.mappers.movie.RatedMoviesMapper
-import com.karrar.movieapp.domain.mappers.series.RatedTvShowMapper
 import com.karrar.movieapp.domain.models.Rated
+import com.karrar.movieapp.domain.usecases.home.mappers.ListMapper
+import com.karrar.movieapp.domain.usecases.home.mappers.movie.RatedMoviesMapper
+import com.karrar.movieapp.domain.usecases.home.mappers.series.RatedTvShowMapper
 import com.karrar.movieapp.utilities.margeTowList
 import javax.inject.Inject
 
 class GetListOfRatedUseCase @Inject constructor(
-    private val movieRepository: MovieRepository,
-    private val tvShowRepository: SeriesRepository,
+    private val movieRepository: com.thechance.repository.MovieRepository,
+    private val tvShowRepository: com.thechance.repository.SeriesRepository,
     private val ratedMoviesMapper: RatedMoviesMapper,
     private val ratedTvShowMapper: RatedTvShowMapper
 ) {

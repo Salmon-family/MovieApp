@@ -1,16 +1,15 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.SeasonDto
-import com.karrar.movieapp.data.remote.response.tvShow.CreatedByDto
-import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
+import com.thechance.remote.response.SeasonDto
+import com.thechance.remote.response.tvShow.CreatedByDto
+import com.thechance.remote.response.tvShow.TvShowDetailsDto
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.series.EpisodeMapper
 import com.karrar.movieapp.domain.mappers.series.SeasonMapper
 import com.karrar.movieapp.domain.mappers.series.TvShowDetailsMapper
 import com.karrar.movieapp.domain.models.Season
 import com.karrar.movieapp.domain.models.TvShowDetails
-import com.karrar.movieapp.utilities.Constants
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -35,15 +34,17 @@ internal class TvShowDetailsMapperTest {
     @Test
     fun should_ReturnTVShowDetailsMapper_when_EnterTVShowsDetailsDTO() {
         //given a TVShowsDetailsDTO object with random values
-        val tvShowsDetailsDTO = TvShowDetailsDto(
+        val tvShowsDetailsDTO = com.thechance.remote.response.tvShow.TvShowDetailsDto(
             backdropPath = "backdropPath",
-            createdBy = listOf(CreatedByDto(
-                id = 1,
-                creditId = "creditId",
-                name = "name",
-                gender = 1,
-                profilePath = "profilePath"
-            )),
+            createdBy = listOf(
+                com.thechance.remote.response.tvShow.CreatedByDto(
+                    id = 1,
+                    creditId = "creditId",
+                    name = "name",
+                    gender = 1,
+                    profilePath = "profilePath"
+                )
+            ),
             episodeRunTime = listOf(1, 2, 3),
             firstAirDate = Date(),
             genres = listOf(),
@@ -66,7 +67,7 @@ internal class TvShowDetailsMapperTest {
             posterPath = "posterPath",
             productionCompanies = listOf(),
             season = listOf(
-                SeasonDto(
+                com.thechance.remote.response.SeasonDto(
                     airDate = "airDate",
                     episodeCount = 1,
                     id = 1,

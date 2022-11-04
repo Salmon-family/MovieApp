@@ -14,16 +14,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
-import com.karrar.movieapp.data.remote.response.MyListsDto
-import com.karrar.movieapp.data.remote.response.trailerVideosDto.ResultDto
+import com.thechance.remote.response.MyListsDto
+import com.thechance.remote.response.trailerVideosDto.ResultDto
 import com.karrar.movieapp.databinding.ChipItemCategoryBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BasePagingAdapter
 import com.karrar.movieapp.ui.category.CategoryInteractionListener
 import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -39,12 +37,12 @@ fun <T> ChipGroup.createChip(item: GenreUIState, listener: T): View {
 }
 
 
-fun List<ResultDto?>.getKey(): String? = this.map {
+fun List<com.thechance.remote.response.trailerVideosDto.ResultDto?>.getKey(): String? = this.map {
     if (it?.type == "Trailer") return it.key
 }.toString()
 
 
-fun MyListsDto.checkIfExist(movie_id: Int): Boolean {
+fun com.thechance.remote.response.MyListsDto.checkIfExist(movie_id: Int): Boolean {
     this.items?.map {
         if (it?.id == movie_id) {
             return true

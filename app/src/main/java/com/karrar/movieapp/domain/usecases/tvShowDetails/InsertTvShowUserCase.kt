@@ -1,8 +1,8 @@
 package com.karrar.movieapp.domain.usecases.tvShowDetails
 
-import com.karrar.movieapp.data.repository.SeriesRepository
-import com.karrar.movieapp.domain.mappers.series.WatchHistoryMapper
 import com.karrar.movieapp.domain.models.TvShowDetails
+import com.karrar.movieapp.domain.usecases.home.mappers.series.WatchHistoryMapper
+import com.thechance.repository.SeriesRepository
 import javax.inject.Inject
 
 class InsertTvShowUserCase @Inject constructor(

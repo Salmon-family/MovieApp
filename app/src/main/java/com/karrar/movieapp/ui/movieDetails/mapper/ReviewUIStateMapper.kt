@@ -1,6 +1,6 @@
 package com.karrar.movieapp.ui.movieDetails.mapper
 
-import com.karrar.movieapp.domain.mappers.Mapper
+import com.karrar.movieapp.domain.usecases.mappers.Mapper
 import com.karrar.movieapp.domain.models.Review
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ReviewUIState
 import javax.inject.Inject

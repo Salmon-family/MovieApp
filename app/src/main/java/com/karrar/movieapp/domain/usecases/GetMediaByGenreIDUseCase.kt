@@ -3,19 +3,17 @@ package com.karrar.movieapp.domain.usecases
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.data.repository.SeriesRepository
-import com.karrar.movieapp.domain.mappers.movie.MovieMapper
-import com.karrar.movieapp.domain.mappers.series.TVShowMapper
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.domain.usecases.home.mappers.movie.MovieMapper
+import com.karrar.movieapp.domain.usecases.home.mappers.series.TVShowMapper
 import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetMediaByGenreIDUseCase @Inject constructor(
-    private val movieRepository: MovieRepository,
-    private val seriesRepository: SeriesRepository,
+    private val movieRepository: com.thechance.repository.MovieRepository,
+    private val seriesRepository: com.thechance.repository.SeriesRepository,
     private val movieMapper: MovieMapper,
     private val tvShowMapper: TVShowMapper
 ) {

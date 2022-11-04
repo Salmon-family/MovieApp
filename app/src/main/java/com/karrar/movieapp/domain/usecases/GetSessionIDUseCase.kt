@@ -1,10 +1,10 @@
 package com.karrar.movieapp.domain.usecases
 
-import com.karrar.movieapp.data.repository.AccountRepository
+import com.thechance.repository.AccountRepository
 import javax.inject.Inject
 
 class GetSessionIDUseCase @Inject constructor(
-    private val accountRepository: AccountRepository,
+    private val accountRepository: com.thechance.repository.AccountRepository,
 ) {
     operator fun invoke(): String? {
         return accountRepository.getSessionId()

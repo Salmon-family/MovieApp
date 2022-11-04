@@ -1,8 +1,8 @@
-package com.karrar.movieapp.domain.usecase.home.getData.series
+package com.karrar.movieapp.domain.usecases.home.getData.series
 
-import com.karrar.movieapp.data.repository.SeriesRepository
-import com.karrar.movieapp.domain.mappers.series.AiringTodaySeriesMapper
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.domain.usecases.home.mappers.series.AiringTodaySeriesMapper
+import com.thechance.repository.SeriesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

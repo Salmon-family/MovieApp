@@ -2,8 +2,8 @@ package com.karrar.movieapp.ui.profile.watchhistory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.mappers.WatchHistoryMapper
 import com.karrar.movieapp.domain.usecases.GetWatchHistoryUseCase
+import com.karrar.movieapp.domain.usecases.mappers.WatchHistoryMapper
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel

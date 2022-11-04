@@ -1,7 +1,6 @@
 package com.karrar.movieapp.ui.explore
 
-import com.karrar.movieapp.domain.mappers.Mapper
-import com.karrar.movieapp.domain.mappers.account.UserMapper
+import com.karrar.movieapp.domain.usecases.mappers.Mapper
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.explore.exploreUIState.TrendyMediaUIState
 import javax.inject.Inject

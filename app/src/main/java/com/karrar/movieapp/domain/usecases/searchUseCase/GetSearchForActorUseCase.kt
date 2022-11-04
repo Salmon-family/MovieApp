@@ -1,9 +1,11 @@
 package com.karrar.movieapp.domain.usecases.searchUseCase
 
-import androidx.paging.*
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.mappers.search.SearchActorMapper
+import androidx.paging.Pager
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.domain.usecases.home.mappers.search.SearchActorMapper
+import com.thechance.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -12,10 +14,10 @@ import javax.inject.Inject
 class GetSearchForActorUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val searchActorMapper: SearchActorMapper
-    ) {
+) {
 
     suspend operator fun invoke(searchTerm: String): Flow<PagingData<Media>> {
-        return wrapper({movieRepository.searchForActorPager(searchTerm)}, searchActorMapper::map)
+        return wrapper({ movieRepository.searchForActorPager(searchTerm) }, searchActorMapper::map)
     }
 
     private suspend fun <T : Any> wrapper(

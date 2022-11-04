@@ -1,21 +1,22 @@
 package com.karrar.movieapp.domain.usecases.searchUseCase
 
-import androidx.paging.*
-import com.karrar.movieapp.data.repository.SeriesRepository
-import com.karrar.movieapp.domain.mappers.search.SearchSeriesMapper
+import androidx.paging.Pager
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.domain.usecases.home.mappers.search.SearchSeriesMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 
 class GetSearchForSeriesUserCase @Inject constructor(
-    private val seriesRepository: SeriesRepository,
+    private val seriesRepository: com.thechance.repository.SeriesRepository,
     private val seriesMapper: SearchSeriesMapper
 ) {
 
     suspend operator fun invoke(searchTerm: String): Flow<PagingData<Media>> {
-        return wrapper({seriesRepository.searchForSeriesPager(searchTerm)}, seriesMapper::map)
+        return wrapper({ seriesRepository.searchForSeriesPager(searchTerm) }, seriesMapper::map)
     }
 
     private suspend fun <T : Any> wrapper(

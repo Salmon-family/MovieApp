@@ -1,9 +1,8 @@
 package com.karrar.movieapp.domain.usecases.movieDetails
 
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.mappers.movie.WatchHistoryMapper
 import com.karrar.movieapp.domain.models.MovieDetails
-import com.karrar.movieapp.domain.models.WatchHistory
+import com.karrar.movieapp.domain.usecases.home.mappers.movie.WatchHistoryMapper
+import com.thechance.repository.MovieRepository
 import javax.inject.Inject
 
 class InsertMoviesUseCase @Inject constructor(

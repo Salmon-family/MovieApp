@@ -1,13 +1,12 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.SpokenLanguageDto
-import com.karrar.movieapp.data.remote.response.genre.GenreDto
-import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
+import com.thechance.remote.response.SpokenLanguageDto
+import com.thechance.remote.response.genre.GenreDto
+import com.thechance.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.movie.MovieDetailsMapper
 import com.karrar.movieapp.domain.models.MovieDetails
-import com.karrar.movieapp.utilities.Constants
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 
@@ -28,12 +27,12 @@ internal class MovieDetailsMapperTest {
     @Test
     fun should_ReturnMovieDetailsMapper_when_EnterMovieDetailsDto() {
         // given a MovieDetailsDto object with random values
-        val movieDetailsDto = MovieDetailsDto(
+        val movieDetailsDto = com.thechance.remote.response.movie.MovieDetailsDto(
             adult = false,
             backdropPath = "backdropPath",
             belongsToCollection = null,
             budget = 1,
-            genres = listOf(GenreDto(18, "Drama")),
+            genres = listOf(com.thechance.remote.response.genre.GenreDto(18, "Drama")),
             homepage = "homepage",
             id = 1,
             imdbId = "imdbId",
@@ -45,7 +44,12 @@ internal class MovieDetailsMapperTest {
             releaseDate = Date(),
             revenue = 1,
             runtime = 1,
-            spokenLanguages = listOf(SpokenLanguageDto(iso6391 = "iso6391", name = "name")),
+            spokenLanguages = listOf(
+                com.thechance.remote.response.SpokenLanguageDto(
+                    iso6391 = "iso6391",
+                    name = "name"
+                )
+            ),
             status = "status",
             tagline = "tagline",
             title = "title",

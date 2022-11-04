@@ -1,14 +1,13 @@
-package com.karrar.movieapp.domain.usecase.home.getData.series
+package com.karrar.movieapp.domain.usecases.home.getData.series
 
-import com.karrar.movieapp.data.repository.SeriesRepository
-import com.karrar.movieapp.domain.mappers.series.OnTheAirSeriesMapper
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.domain.usecases.home.mappers.series.OnTheAirSeriesMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetOnTheAirSeriesUseCase @Inject constructor(
-    private val seriesRepository: SeriesRepository,
+    private val seriesRepository: com.thechance.repository.SeriesRepository,
     private val seriesMapper: OnTheAirSeriesMapper,
 ) {
 

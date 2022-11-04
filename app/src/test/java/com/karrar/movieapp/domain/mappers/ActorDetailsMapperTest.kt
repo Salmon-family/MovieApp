@@ -1,7 +1,7 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.thechance.remote.response.actor.ActorDto
 import com.karrar.movieapp.domain.mappers.actor.ActorDetailsMapper
 import com.karrar.movieapp.domain.models.ActorDetails
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -22,7 +22,7 @@ internal class ActorDetailsMapperTest {
     @Test
     fun should_ReturnActorDetailsMapper_when_EnterActorDetailsDTO() {
         // given a ActorDetailsDTO object with random values
-        val actorDTO = ActorDto(
+        val actorDTO = com.thechance.remote.response.actor.ActorDto(
             id = 1,
             name = "name",
             profilePath = "profilePath",

@@ -1,10 +1,9 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.thechance.remote.response.actor.ActorDto
 import com.karrar.movieapp.domain.mappers.search.SearchActorMapper
 import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.utilities.Constants
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 
@@ -24,7 +23,7 @@ internal class SearchActorMapperTest {
     @Test
     fun should_ReturnSearchActorMapper_when_EnterSearchActorDTO() {
         // given a SearchActorDTO object with random values
-        val searchActorDTO = ActorDto(
+        val searchActorDTO = com.thechance.remote.response.actor.ActorDto(
             id = 1,
             name = "name",
             profilePath = "profilePath",

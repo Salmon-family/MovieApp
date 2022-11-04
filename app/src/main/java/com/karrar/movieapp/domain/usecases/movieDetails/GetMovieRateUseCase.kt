@@ -1,10 +1,10 @@
 package com.karrar.movieapp.domain.usecases.movieDetails
 
-import com.karrar.movieapp.data.repository.MovieRepository
+import com.thechance.repository.MovieRepository
 import javax.inject.Inject
 
 class GetMovieRateUseCase @Inject constructor(
-    private val movieRepository: MovieRepository,
+    private val movieRepository: com.thechance.repository.MovieRepository,
 ) {
 
     suspend operator fun invoke(movieID: Int): Float {

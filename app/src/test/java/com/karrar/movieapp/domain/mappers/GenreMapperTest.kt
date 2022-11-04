@@ -1,6 +1,6 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.karrar.movieapp.data.remote.response.genre.GenreDto
+import com.thechance.remote.response.genre.GenreDto
 import com.karrar.movieapp.domain.models.Genre
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
@@ -20,7 +20,7 @@ internal class GenreMapperTest {
     @Test
     fun should_ReturnGenreMapper_when_EnterGenreDto() {
         // given a GenreDto object with random values
-        val genreDto = GenreDto(
+        val genreDto = com.thechance.remote.response.genre.GenreDto(
             id = 1,
             name = "name"
         )

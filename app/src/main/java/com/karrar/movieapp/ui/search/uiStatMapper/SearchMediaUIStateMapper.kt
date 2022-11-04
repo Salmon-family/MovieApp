@@ -1,6 +1,6 @@
 package com.karrar.movieapp.ui.search.uiStatMapper
 
-import com.karrar.movieapp.domain.mappers.Mapper
+import com.karrar.movieapp.domain.usecases.mappers.Mapper
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState
 import javax.inject.Inject

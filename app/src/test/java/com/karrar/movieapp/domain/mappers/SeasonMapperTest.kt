@@ -1,7 +1,7 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.SeasonDto
+import com.thechance.remote.response.SeasonDto
 import com.karrar.movieapp.domain.mappers.series.EpisodeMapper
 import com.karrar.movieapp.domain.mappers.series.SeasonMapper
 import com.karrar.movieapp.domain.models.Season
@@ -26,7 +26,7 @@ internal class SeasonMapperTest {
     @Test
     fun should_ReturnSeasonMapper_when_EnterSeasonDTO() {
         // given a SeasonDTO object with random values
-        val seasonDTO = SeasonDto(
+        val seasonDTO = com.thechance.remote.response.SeasonDto(
             airDate = "airDate",
             episodeCount = 1,
             id = 1,

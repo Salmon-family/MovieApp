@@ -1,6 +1,6 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.karrar.movieapp.data.remote.response.CreatedListDto
+import com.thechance.remote.response.CreatedListDto
 import com.karrar.movieapp.domain.mappers.savedList.CreatedListsMapper
 import com.karrar.movieapp.domain.models.CreatedList
 import org.junit.jupiter.api.Assertions.*
@@ -21,7 +21,7 @@ internal class CreatedListsMapperTest {
     @Test
     fun should_ReturnCreateListsMapper_when_EnterCreatedListDTO() {
         // given a CreatedListDTO object with random values
-        val movieDTO = CreatedListDto(
+        val movieDTO = com.thechance.remote.response.CreatedListDto(
             description = "description",
             favoriteCount = 1,
             id = 1,

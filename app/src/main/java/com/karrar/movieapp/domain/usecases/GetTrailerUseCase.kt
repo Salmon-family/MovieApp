@@ -1,10 +1,10 @@
 package com.karrar.movieapp.domain.usecases
 
-import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MediaType
-import com.karrar.movieapp.domain.mappers.TrailerMapper
 import com.karrar.movieapp.domain.models.Trailer
+import com.karrar.movieapp.domain.usecases.home.mappers.TrailerMapper
+import com.thechance.repository.MovieRepository
+import com.thechance.repository.SeriesRepository
 import javax.inject.Inject
 
 class GetTrailerUseCase @Inject constructor(
