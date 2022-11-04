@@ -1,6 +1,7 @@
 package com.karrar.movieapp.domain.usecases.movieDetails
 
 import com.karrar.movieapp.data.repository.MovieRepository
+import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.actor.ActorDtoMapper
 import com.karrar.movieapp.domain.mappers.movie.MovieDetailsMapper
 import com.karrar.movieapp.domain.mappers.movie.MovieMapper
@@ -8,14 +9,14 @@ import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.MediaDetailsReviews
 import com.karrar.movieapp.domain.models.MovieDetails
-import com.karrar.movieapp.domain.usecases.GetMovieReviewsUseCase
+import com.karrar.movieapp.domain.usecases.GetReviewsUseCase
 import com.karrar.movieapp.utilities.Constants.MAX_NUM_REVIEWS
 import javax.inject.Inject
 
 class GetMovieDetailsUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val movieDetailsMapper: MovieDetailsMapper,
-    private val getMovieReviewsUseCase: GetMovieReviewsUseCase,
+    private val getMovieReviewsUseCase: GetReviewsUseCase,
     private val actorMapper: ActorDtoMapper,
     private val movieMapper: MovieMapper
 ) {
@@ -33,7 +34,7 @@ class GetMovieDetailsUseCase @Inject constructor(
     }
 
     suspend fun getMovieReviews(movieId: Int): MediaDetailsReviews {
-        val reviews = getMovieReviewsUseCase(movieId)
+        val reviews = getMovieReviewsUseCase(MediaType.MOVIE, movieId)
         return MediaDetailsReviews(reviews.take(MAX_NUM_REVIEWS), reviews.size > MAX_NUM_REVIEWS)
     }
 

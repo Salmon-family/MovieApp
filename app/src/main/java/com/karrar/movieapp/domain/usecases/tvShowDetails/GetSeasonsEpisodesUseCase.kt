@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.usecase.tvShowDetails
+package com.karrar.movieapp.domain.usecases.tvShowDetails
 
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.mappers.series.EpisodeMapper
@@ -9,7 +9,7 @@ class GetSeasonsEpisodesUseCase @Inject constructor(
     private val seriesRepository: SeriesRepository,
     private val episodeMapper: EpisodeMapper,
 ) {
-    suspend operator fun invoke(tvShowId: Int, seasonId: Int): List<Episode> {
-        return seriesRepository.getSeasonDetails(tvShowId, seasonId)?.map(episodeMapper::map) ?: emptyList()
+    suspend operator fun invoke(tvShowId: Int): List<Episode> {
+        return seriesRepository.getSeasonDetails(tvShowId)?.map(episodeMapper::map) ?: emptyList()
     }
 }

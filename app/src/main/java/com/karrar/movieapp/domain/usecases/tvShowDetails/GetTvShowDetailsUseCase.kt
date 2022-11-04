@@ -1,20 +1,21 @@
-package com.karrar.movieapp.domain.usecase.tvShowDetails
+package com.karrar.movieapp.domain.usecases.tvShowDetails
 
 import com.karrar.movieapp.data.repository.SeriesRepository
+import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
 import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.domain.models.MediaDetailsReviews
 import com.karrar.movieapp.domain.models.Season
 import com.karrar.movieapp.domain.models.TvShowDetails
-import com.karrar.movieapp.domain.usecase.GetTVShowsReviewsUseCase
+import com.karrar.movieapp.domain.usecases.GetReviewsUseCase
 import com.karrar.movieapp.utilities.Constants.MAX_NUM_REVIEWS
 import javax.inject.Inject
 
 class GetTvShowDetailsUseCase @Inject constructor(
     private val seriesRepository: SeriesRepository,
     private val seriesMapperContainer: SeriesMapperContainer,
-    private val getTVShowsReviews: GetTVShowsReviewsUseCase
+    private val getTVShowsReviews: GetReviewsUseCase
 ) {
 
     suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails {
@@ -35,7 +36,7 @@ class GetTvShowDetailsUseCase @Inject constructor(
 
 
     suspend fun getTvShowReviews(tvShowId: Int): MediaDetailsReviews {
-        val reviews = getTVShowsReviews(tvShowId)
+        val reviews = getTVShowsReviews(MediaType.TV_SHOW, tvShowId)
         return MediaDetailsReviews(reviews.take(MAX_NUM_REVIEWS), reviews.size > MAX_NUM_REVIEWS)
     }
 

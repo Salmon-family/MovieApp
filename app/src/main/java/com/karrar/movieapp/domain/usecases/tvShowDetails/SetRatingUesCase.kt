@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.usecase.tvShowDetails
+package com.karrar.movieapp.domain.usecases.tvShowDetails
 
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.mappers.series.RatingStatusTvShowMapper

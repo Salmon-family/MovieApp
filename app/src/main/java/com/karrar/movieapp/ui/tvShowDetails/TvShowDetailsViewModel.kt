@@ -3,13 +3,14 @@ package com.karrar.movieapp.ui.tvShowDetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.models.TvShowDetails
-import com.karrar.movieapp.domain.usecase.GetSessionIDUseCase
-import com.karrar.movieapp.domain.usecase.tvShowDetails.GetTvShowDetailsUseCase
-import com.karrar.movieapp.domain.usecase.tvShowDetails.InsertTvShowUserCase
-import com.karrar.movieapp.domain.usecase.tvShowDetails.SetRatingUesCase
+import com.karrar.movieapp.domain.usecases.GetSessionIDUseCase
+import com.karrar.movieapp.domain.usecases.tvShowDetails.GetTvShowDetailsUseCase
+import com.karrar.movieapp.domain.usecases.tvShowDetails.InsertTvShowUserCase
+import com.karrar.movieapp.domain.usecases.tvShowDetails.SetRatingUesCase
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
+import com.karrar.movieapp.ui.movieDetails.mapper.ActorUIStateMapper
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper.TvShowMapperContainer
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.DetailItemUIState
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.Error
@@ -31,6 +32,7 @@ class TvShowDetailsViewModel @Inject constructor(
     private val setRatingUesCase: SetRatingUesCase,
     private val sessionIDUseCase: GetSessionIDUseCase,
     private val tvShowMapperContainer: TvShowMapperContainer,
+    private val actorUIStateMapper: ActorUIStateMapper,
     state: SavedStateHandle,
 ) : BaseViewModel(), ActorsInteractionListener, SeasonInteractionListener,
     DetailInteractionListener {
@@ -38,7 +40,7 @@ class TvShowDetailsViewModel @Inject constructor(
     val args = TvShowDetailsFragmentArgs.fromSavedStateHandle(state)
 
     private val _tvShowDetailsUIEvent =
-        MutableStateFlow<Event<TvShowDetailsUIEvent>>(Event(TvShowDetailsUIEvent.InitialEvent))
+        MutableStateFlow<Event<TvShowDetailsUIEvent?>>(Event(null))
     val tvShowDetailsUIEvent = this._tvShowDetailsUIEvent.asStateFlow()
 
     private val _stateUI = MutableStateFlow(TvShowDetailsUIState())
@@ -92,9 +94,7 @@ class TvShowDetailsViewModel @Inject constructor(
                 val result = getTvShowDetailsUseCase.getSeriesCast(tvShowId)
                 _stateUI.update { it ->
                     it.copy(
-                        seriesCastResult = result.map {
-                            tvShowMapperContainer.tvShowCastUIMapper.map(it)
-                        },
+                        seriesCastResult = result.map { actorUIStateMapper.map(it) },
                         isLoading = false
                     )
                 }
@@ -133,7 +133,13 @@ class TvShowDetailsViewModel @Inject constructor(
     private fun getRatedTvShows(tvShowId: Int) {
         viewModelScope.launch {
             try {
-                _stateUI.update { it.copy(ratingValue = getTvShowDetailsUseCase.getTvShowRated(tvShowId)) }
+                _stateUI.update {
+                    it.copy(
+                        ratingValue = getTvShowDetailsUseCase.getTvShowRated(
+                            tvShowId
+                        )
+                    )
+                }
                 updateDetailItems(DetailItemUIState.Rating(this@TvShowDetailsViewModel))
             } catch (e: Throwable) {
             }

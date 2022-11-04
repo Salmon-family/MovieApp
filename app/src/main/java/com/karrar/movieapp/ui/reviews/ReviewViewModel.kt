@@ -1,8 +1,8 @@
-package com.karrar.movieapp.ui.movieDetails.movieReviews
+package com.karrar.movieapp.ui.reviews
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecases.GetMovieReviewsUseCase
+import com.karrar.movieapp.domain.usecases.GetReviewsUseCase
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.movieDetails.mapper.ReviewUIStateMapper
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReviewViewModel @Inject constructor(
-    private val getMovieReviews: GetMovieReviewsUseCase,
+    private val getReviews: GetReviewsUseCase,
     private val reviewUIStateMapper: ReviewUIStateMapper,
     state: SavedStateHandle
 ) : BaseViewModel(), BaseInteractionListener {
@@ -38,7 +38,7 @@ class ReviewViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = true, errorUIStates = emptyList()) }
         viewModelScope.launch {
             try {
-                val result = getMovieReviews(args.mediaId)
+                val result = getReviews(args.type, args.mediaId)
                 _uiState.update {
                     it.copy(
                         movieReview = result.map { review -> reviewUIStateMapper.map(review) },

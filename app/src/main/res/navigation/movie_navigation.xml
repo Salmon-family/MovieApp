@@ -44,7 +44,7 @@
             android:id="@+id/action_loginFragment_to_profileFragment"
             app:destination="@id/profileFragment"
             app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -202,7 +202,7 @@
 
     <fragment
         android:id="@+id/reviewFragment"
-        android:name="com.karrar.movieapp.ui.movieDetails.movieReviews.ReviewFragment"
+        android:name="com.karrar.movieapp.ui.reviews.ReviewFragment"
         tools:layout="@layout/fragment_review">
         <argument
             android:name="mediaId"
@@ -298,9 +298,6 @@
         tools:layout="@layout/fragment_episodes">
         <argument
             android:name="tvShowId"
-            app:argType="integer" />
-        <argument
-            android:name="seasonNumber"
             app:argType="integer" />
     </fragment>
 

@@ -1,12 +1,13 @@
 package com.karrar.movieapp.ui.tvShowDetails.tvShowUIState
 
 import androidx.lifecycle.ViewModel
+import com.karrar.movieapp.ui.models.ActorUiState
 
 sealed class DetailItemUIState(val priority: Int) {
 
     class Header(val data: TvShowDetailsResultUIState) : DetailItemUIState(0)
 
-    class Cast(val data: List<SeriesCastUIState>) : DetailItemUIState(1)
+    class Cast(val data: List<ActorUiState>) : DetailItemUIState(1)
 
     class Seasons(val data: List<SeasonUIState>) : DetailItemUIState(2)
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -11,10 +12,10 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentTvShowDetailsBinding
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.movieDetails.MovieDetailsFragmentDirections
 import com.karrar.movieapp.utilities.collectLast
-import com.karrar.movieapp.utilities.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
@@ -22,20 +23,22 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
     override val layoutIdFragment = R.layout.fragment_tv_show_details
     override val viewModel: TvShowDetailsViewModel by viewModels()
     private val args: TvShowDetailsFragmentArgs by navArgs()
-    private lateinit var detailAdapter: DetailUIStateAdapter
+    private val detailAdapter by lazy { DetailUIStateAdapter(emptyList(), viewModel) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setTitle(false)
-
-        setDetailAdapter()
+        collectTVShowDetailsItems()
         collectEvents()
     }
 
-    private fun setDetailAdapter() {
-        detailAdapter = DetailUIStateAdapter(emptyList(), viewModel)
+    private fun collectTVShowDetailsItems() {
         binding.recyclerView.adapter = detailAdapter
+        lifecycleScope.launch {
+            viewModel.stateFlow.collectLatest {
+                detailAdapter.setItems(viewModel.stateFlow.value.detailItemResult)
+            }
+        }
     }
 
     private fun collectEvents() {
@@ -57,23 +60,24 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
                     )
             }
             is TvShowDetailsUIEvent.ClickSeasonEvent -> {
-                action = TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(args.tvShowId,event.seasonId)
+                action =
+                    TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(args.tvShowId)
             }
             TvShowDetailsUIEvent.ClickPlayTrailerEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToYoutubePlayerActivity(
-                        args.tvShowId, MediaType.MOVIE
+                        args.tvShowId, MediaType.TV_SHOW
                     )
             }
             TvShowDetailsUIEvent.ClickReviewsEvent -> {
-                action = TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewFragment(
-                    args.tvShowId, MediaType.MOVIE
-                )
+                action =
+                    TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewFragment(
+                        args.tvShowId, MediaType.TV_SHOW
+                    )
             }
             TvShowDetailsUIEvent.MessageAppear -> {
                 Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT).show()
             }
-            TvShowDetailsUIEvent.InitialEvent ->{}
         }
         action?.let { findNavController().navigate(it) }
     }

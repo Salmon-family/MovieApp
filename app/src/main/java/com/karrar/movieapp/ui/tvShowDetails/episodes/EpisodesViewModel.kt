@@ -2,8 +2,8 @@ package com.karrar.movieapp.ui.tvShowDetails.episodes
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecase.tvShowDetails.GetSeasonsEpisodesUseCase
-import com.karrar.movieapp.domain.usecase.tvShowDetails.GetTvShowDetailsUseCase
+import com.karrar.movieapp.domain.usecases.tvShowDetails.GetSeasonsEpisodesUseCase
+import com.karrar.movieapp.domain.usecases.tvShowDetails.GetTvShowDetailsUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.Error
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,7 +35,7 @@ class EpisodesViewModel @Inject constructor(
             _stateFlowEpisode.update { it.copy(isLoading = true) }
             try {
                 val result =
-                    getSeasonsEpisodesUseCase(args.tvShowId, args.seasonNumber)
+                    getSeasonsEpisodesUseCase(args.tvShowId)
                 _stateFlowEpisode.update { it ->
                     it.copy(
                         seriesEpisodeUIState = result.map(tvShowEpisodesUIMapper::map),

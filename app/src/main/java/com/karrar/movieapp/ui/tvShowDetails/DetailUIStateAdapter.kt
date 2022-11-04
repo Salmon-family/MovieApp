@@ -44,7 +44,7 @@ class DetailUIStateAdapter(
                 holder.binding.run {
                     setVariable(
                         BR.adapterRecycler,
-                        ActorAdapterUIState(
+                        ActorAdapter(
                             currentItem.data,
                             R.layout.item_cast,
                             listener as ActorsInteractionListener
@@ -94,8 +94,8 @@ class DetailUIStateAdapter(
             is DetailItemUIState.Header -> R.layout.item_tv_show_details_header
             is DetailItemUIState.Cast -> R.layout.list_cast
             is DetailItemUIState.Seasons -> R.layout.list_season
-            is DetailItemUIState.Rating -> R.layout.item_rating
-            is DetailItemUIState.Comment -> R.layout.item_movie_review
+            is DetailItemUIState.Rating -> R.layout.item_tvshow_rating
+            is DetailItemUIState.Comment -> R.layout.item_tvshow_review
             is DetailItemUIState.ReviewText -> R.layout.item_review_text
             DetailItemUIState.SeeAllReviewsButton -> R.layout.item_see_all_reviews
         }

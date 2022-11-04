@@ -22,19 +22,6 @@ interface SeriesRepository {
 
     suspend fun getTVShowsGenreList(): List<GenreDto>?
 
-
-    suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails
-
-    suspend fun getTvShowCast(tvShowId: Int): List<Actor>
-
-    suspend fun getTvShowReviews(tvShowId: Int): List<Review>
-
-    suspend fun setRating(tvShowId: Int, value: Float, sessionId: String): RatingDto
-
-    suspend fun getRatedTvShow(): List<RatedTvShowDto>?
-
-    suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): Season
-
     suspend fun getTvShowTrailer(tvShowId: Int): TrailerDto?
 
     suspend fun insertTvShow(tvShow: WatchHistoryEntity)
@@ -59,7 +46,6 @@ interface SeriesRepository {
 
     suspend fun searchForSeriesPager(query: String): Pager<Int, TVShowsDTO>
 
-// tv show
     suspend fun getTvShowDetails(tvShowId: Int): TvShowDetailsDto?
 
     suspend fun getTvShowCast(tvShowId: Int): CreditsDto?
@@ -70,7 +56,7 @@ interface SeriesRepository {
 
     suspend fun getRatedTvShow(): List<RatedTvShowDto>?
 
-    suspend fun getSeasonDetails(tvShowId: Int, seasonId: Int): List<EpisodeDto>?
+    suspend fun getSeasonDetails(tvShowId: Int): List<EpisodeDto>?
 
 
 }
