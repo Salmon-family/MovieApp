@@ -2,9 +2,8 @@ package com.karrar.movieapp.domain.mappers
 
 
 import com.karrar.movieapp.BuildConfig
-import com.thechance.remote.response.RatedMoviesDto
 import com.karrar.movieapp.domain.mappers.movie.RatedMoviesMapper
-import com.karrar.movieapp.domain.models.Rated
+import com.devfalah.models.Rated
 import com.karrar.movieapp.utilities.Constants
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
@@ -45,7 +44,7 @@ internal class RatedMapperTest {
         val result = ratedMoviesMapper.map(ratedMoviesDto)
 
         // expected
-        val expectedRatedMovie = Rated(
+        val expectedRatedMovie = com.devfalah.models.Rated(
             id = 1,
             title = "title",
             posterPath = BuildConfig.IMAGE_BASE_PATH + "posterPath",

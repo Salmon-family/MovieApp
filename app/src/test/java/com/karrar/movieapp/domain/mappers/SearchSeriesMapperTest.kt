@@ -1,9 +1,8 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.thechance.remote.response.TVShowsDTO
 import com.karrar.movieapp.domain.mappers.search.SearchSeriesMapper
-import com.karrar.movieapp.domain.models.Media
+import com.devfalah.models.Media
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -41,7 +40,7 @@ internal class SearchSeriesMapperTest {
         // when map function is called
         val searchSeries = searchSeriesMapper.map(searchSeriesDTO)
 
-        val expected = Media(
+        val expected = com.devfalah.models.Media(
             mediaID = 1,
             mediaImage = BuildConfig.IMAGE_BASE_PATH + "backdropPath",
             mediaType = "tv",

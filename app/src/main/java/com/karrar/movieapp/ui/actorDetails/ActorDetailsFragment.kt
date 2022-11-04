@@ -7,7 +7,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentActorDetailsBinding
-import com.karrar.movieapp.domain.enums.AllMediaType
+import com.devfalah.types.AllMediaType
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,7 +47,7 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
             .navigate(
                 ActorDetailsFragmentDirections.actionActorDetailsFragmentToAllMovieOfActorFragment(
                     viewModel.args.id,
-                    AllMediaType.ACTOR_MOVIES
+                    com.devfalah.types.AllMediaType.ACTOR_MOVIES
                 )
             )
     }

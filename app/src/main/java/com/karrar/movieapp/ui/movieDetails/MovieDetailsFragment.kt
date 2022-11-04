@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
-import com.karrar.movieapp.domain.enums.MediaType
+import com.devfalah.types.MediaType
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,12 +66,12 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
             MovieDetailsUIEvent.ClickPlayTrailerEvent -> {
                 action =
                     MovieDetailsFragmentDirections.actionMovieDetailFragmentToYoutubePlayerActivity(
-                        args.movieId, MediaType.MOVIE
+                        args.movieId, com.devfalah.types.MediaType.MOVIE
                     )
             }
             MovieDetailsUIEvent.ClickReviewsEvent -> {
                 action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewFragment(
-                    args.movieId, MediaType.MOVIE
+                    args.movieId, com.devfalah.types.MediaType.MOVIE
                 )
             }
             MovieDetailsUIEvent.ClickSaveEvent -> {

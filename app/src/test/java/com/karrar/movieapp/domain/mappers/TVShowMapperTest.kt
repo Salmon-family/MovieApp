@@ -1,9 +1,8 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.thechance.remote.response.TVShowsDTO
 import com.karrar.movieapp.domain.mappers.series.TVShowMapper
-import com.karrar.movieapp.domain.models.Media
+import com.devfalah.models.Media
 import com.karrar.movieapp.utilities.Constants
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
@@ -41,7 +40,7 @@ internal class TVShowMapperTest {
         // when map is called
         val tvShows = tvShowMapper.map(tvShowsDTO)
 
-        val expected = Media(
+        val expected = com.devfalah.models.Media(
             mediaID = 1,
             mediaImage = BuildConfig.IMAGE_BASE_PATH + "posterPath",
             mediaType = Constants.TV_SHOWS,

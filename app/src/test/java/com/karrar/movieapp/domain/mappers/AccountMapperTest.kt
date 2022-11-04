@@ -1,11 +1,8 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.thechance.remote.response.account.AccountDto
-import com.thechance.remote.response.account.Avatar
-import com.thechance.remote.response.account.Gravatar
 import com.karrar.movieapp.domain.mappers.account.AccountMapper
-import com.karrar.movieapp.domain.models.Account
+import com.devfalah.models.Account
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -41,7 +38,7 @@ internal class AccountMapperTest {
         // when map function is called
         val account = AccountMapper().map(accountDTO)
 
-        val expected = Account(
+        val expected = com.devfalah.models.Account(
             name = "name",
             username = "username",
             avatarPath = BuildConfig.IMAGE_BASE_PATH + null,

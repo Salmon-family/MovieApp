@@ -1,11 +1,12 @@
 package com.karrar.movieapp.ui.actorDetails
 
-import com.karrar.movieapp.domain.usecases.mappers.Mapper
-import com.karrar.movieapp.domain.models.ActorDetails
+import com.devfalah.usecases.mappers.Mapper
+import com.devfalah.models.ActorDetails
 import javax.inject.Inject
 
-class ActorDetailsUIMapper @Inject constructor() : Mapper<ActorDetails, ActorDetailsUIState> {
-    override fun map(input: ActorDetails): ActorDetailsUIState {
+class ActorDetailsUIMapper @Inject constructor() :
+    com.devfalah.usecases.mappers.Mapper<com.devfalah.models.ActorDetails, ActorDetailsUIState> {
+    override fun map(input: com.devfalah.models.ActorDetails): ActorDetailsUIState {
         return ActorDetailsUIState(
             name = input.actorName,
             imageUrl = input.actorImage,

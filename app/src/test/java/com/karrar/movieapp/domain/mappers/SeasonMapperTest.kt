@@ -1,10 +1,9 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.thechance.remote.response.SeasonDto
 import com.karrar.movieapp.domain.mappers.series.EpisodeMapper
 import com.karrar.movieapp.domain.mappers.series.SeasonMapper
-import com.karrar.movieapp.domain.models.Season
+import com.devfalah.models.Season
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 
@@ -40,7 +39,7 @@ internal class SeasonMapperTest {
         // when map function is called
         val season = seasonMapper.map(seasonDTO)
 
-        val expected = Season(
+        val expected = com.devfalah.models.Season(
             seasonId = 1,
             seasonName = "name",
             seasonNumber = 1,

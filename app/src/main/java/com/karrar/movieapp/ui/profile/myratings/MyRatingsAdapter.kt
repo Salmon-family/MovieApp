@@ -1,7 +1,6 @@
 package com.karrar.movieapp.ui.profile.myratings
 
 import com.karrar.movieapp.R
-import com.karrar.movieapp.domain.models.Rated
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 

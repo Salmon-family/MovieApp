@@ -2,8 +2,8 @@ package com.karrar.movieapp.ui.profile.watchhistory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecases.GetWatchHistoryUseCase
-import com.karrar.movieapp.domain.usecases.mappers.WatchHistoryMapper
+import com.devfalah.usecases.GetWatchHistoryUseCase
+import com.devfalah.usecases.mappers.WatchHistoryMapper
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,8 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WatchHistoryViewModel @Inject constructor(
-    private val getWatchHistoryUseCase: GetWatchHistoryUseCase,
-    private val watchHistoryMapper: WatchHistoryMapper
+    private val getWatchHistoryUseCase: com.devfalah.usecases.GetWatchHistoryUseCase,
+    private val watchHistoryMapper: com.devfalah.usecases.mappers.WatchHistoryMapper
 ) : ViewModel(), WatchHistoryInteractionListener {
 
     private val _uiState = MutableStateFlow(WatchHistoryUiState())

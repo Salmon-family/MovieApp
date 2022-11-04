@@ -1,9 +1,8 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.thechance.remote.response.actor.ActorDto
 import com.karrar.movieapp.domain.mappers.actor.ActorDetailsMapper
-import com.karrar.movieapp.domain.models.ActorDetails
+import com.devfalah.models.ActorDetails
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -42,7 +41,7 @@ internal class ActorDetailsMapperTest {
         // when map function is called
         val actorDetails = actorDetailsMapper.map(actorDTO)
 
-        val expected = ActorDetails(
+        val expected = com.devfalah.models.ActorDetails(
             actorID = 1,
             actorName = "name",
             actorImage = BuildConfig.IMAGE_BASE_PATH + "profilePath",

@@ -1,12 +1,13 @@
 package com.karrar.movieapp.ui.movieDetails.saveMovie
 
-import com.karrar.movieapp.domain.usecases.mappers.Mapper
-import com.karrar.movieapp.domain.models.CreatedList
+import com.devfalah.usecases.mappers.Mapper
+import com.devfalah.models.CreatedList
 import com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.MyListItemUI
 import javax.inject.Inject
 
-class MyListItemUIStateMapper @Inject constructor() : Mapper<CreatedList, MyListItemUI> {
-    override fun map(input: CreatedList): MyListItemUI {
+class MyListItemUIStateMapper @Inject constructor() :
+    com.devfalah.usecases.mappers.Mapper<com.devfalah.models.CreatedList, MyListItemUI> {
+    override fun map(input: com.devfalah.models.CreatedList): MyListItemUI {
         return MyListItemUI(
             listID = input.id,
             name = input.name

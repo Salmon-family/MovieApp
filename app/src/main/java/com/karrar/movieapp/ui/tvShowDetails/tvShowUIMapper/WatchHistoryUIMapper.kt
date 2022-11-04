@@ -1,13 +1,14 @@
 package com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper
 
-import com.karrar.movieapp.domain.usecases.mappers.Mapper
-import com.karrar.movieapp.domain.models.WatchHistory
+import com.devfalah.usecases.mappers.Mapper
+import com.devfalah.models.WatchHistory
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.WatchHistoryUIState
 import javax.inject.Inject
 
-class WatchHistoryUIMapper @Inject constructor() : Mapper<WatchHistoryUIState, WatchHistory> {
-    override fun map(input: WatchHistoryUIState): WatchHistory {
-        return WatchHistory(
+class WatchHistoryUIMapper @Inject constructor() :
+    com.devfalah.usecases.mappers.Mapper<WatchHistoryUIState, com.devfalah.models.WatchHistory> {
+    override fun map(input: WatchHistoryUIState): com.devfalah.models.WatchHistory {
+        return com.devfalah.models.WatchHistory(
             id = input.id,
             posterPath = input.posterPath,
             movieTitle = input.movieTitle,

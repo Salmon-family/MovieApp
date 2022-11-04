@@ -1,9 +1,8 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.thechance.remote.response.DailyTrendingDto
 import com.karrar.movieapp.domain.mappers.savedList.ItemListMapper
-import com.karrar.movieapp.domain.models.Media
+import com.devfalah.models.Media
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 
@@ -45,9 +44,9 @@ internal class ItemListMapperTest {
         val result = itemListMapper.map(listsItem)
 
         // expected
-        val expectedMedia = Media(
+        val expectedMedia = com.devfalah.models.Media(
             mediaID = 1,
-            mediaImage = BuildConfig.IMAGE_BASE_PATH  + "posterPath",
+            mediaImage = BuildConfig.IMAGE_BASE_PATH + "posterPath",
             mediaType = "mediaType",
             mediaName = "originalLanguage",
             mediaDate = "releaseDate",

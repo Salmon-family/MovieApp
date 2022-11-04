@@ -2,9 +2,8 @@ package com.karrar.movieapp.domain.mappers
 
 
 import com.karrar.movieapp.BuildConfig
-import com.thechance.remote.response.episode.EpisodeDto
 import com.karrar.movieapp.domain.mappers.series.EpisodeMapper
-import com.karrar.movieapp.domain.models.Episode
+import com.devfalah.models.Episode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -42,7 +41,7 @@ internal class EpisodeMapperTest {
         // when map function is called
         val episode = episodeMapper.map(episodeDTO)
 
-        val expected = Episode(
+        val expected = com.devfalah.models.Episode(
             episodeId = 1,
             episodeName = "name",
             episodeDescription = "overview",

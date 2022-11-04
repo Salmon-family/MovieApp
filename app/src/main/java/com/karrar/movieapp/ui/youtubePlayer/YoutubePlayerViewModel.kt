@@ -2,7 +2,7 @@ package com.karrar.movieapp.ui.youtubePlayer
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecases.GetTrailerUseCase
+import com.devfalah.usecases.GetTrailerUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class YoutubePlayerViewModel @Inject constructor(
-    private val getTrailerUseCase: GetTrailerUseCase,
+    private val getTrailerUseCase: com.devfalah.usecases.GetTrailerUseCase,
     state: SavedStateHandle
 ) : BaseViewModel() {
 

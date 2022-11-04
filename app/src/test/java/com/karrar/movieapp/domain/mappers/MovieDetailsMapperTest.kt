@@ -1,12 +1,9 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.thechance.remote.response.SpokenLanguageDto
-import com.thechance.remote.response.genre.GenreDto
-import com.thechance.remote.response.movie.MovieDetailsDto
-import com.karrar.movieapp.domain.enums.MediaType
+import com.devfalah.types.MediaType
 import com.karrar.movieapp.domain.mappers.movie.MovieDetailsMapper
-import com.karrar.movieapp.domain.models.MovieDetails
+import com.devfalah.models.MovieDetails
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 
@@ -61,7 +58,7 @@ internal class MovieDetailsMapperTest {
         val result = movieDetailsMapper.map(movieDetailsDto)
 
         // expected
-        val expectedGenre = MovieDetails(
+        val expectedGenre = com.devfalah.models.MovieDetails(
             movieId = 1,
             movieImage = BuildConfig.IMAGE_BASE_PATH + "posterPath",
             movieName = "title",
@@ -71,7 +68,7 @@ internal class MovieDetailsMapperTest {
             movieReview = 1,
             movieVoteAverage = "1.0",
             movieOverview = "overview",
-            movieType = MediaType.MOVIE,
+            movieType = com.devfalah.types.MediaType.MOVIE,
         )
 
         // then the result should be a Movie Details object with the same values

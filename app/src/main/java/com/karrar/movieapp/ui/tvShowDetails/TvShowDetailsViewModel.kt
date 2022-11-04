@@ -2,11 +2,11 @@ package com.karrar.movieapp.ui.tvShowDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.models.TvShowDetails
-import com.karrar.movieapp.domain.usecases.GetSessionIDUseCase
-import com.karrar.movieapp.domain.usecases.tvShowDetails.GetTvShowDetailsUseCase
-import com.karrar.movieapp.domain.usecases.tvShowDetails.InsertTvShowUserCase
-import com.karrar.movieapp.domain.usecases.tvShowDetails.SetRatingUesCase
+import com.devfalah.models.TvShowDetails
+import com.devfalah.usecases.GetSessionIDUseCase
+import com.devfalah.usecases.tvShowDetails.GetTvShowDetailsUseCase
+import com.devfalah.usecases.tvShowDetails.InsertTvShowUserCase
+import com.devfalah.usecases.tvShowDetails.SetRatingUesCase
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
@@ -27,10 +27,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TvShowDetailsViewModel @Inject constructor(
-    private val getTvShowDetailsUseCase: GetTvShowDetailsUseCase,
-    private val getInsertTvShowUserCase: InsertTvShowUserCase,
-    private val setRatingUesCase: SetRatingUesCase,
-    private val sessionIDUseCase: GetSessionIDUseCase,
+    private val getTvShowDetailsUseCase: com.devfalah.usecases.tvShowDetails.GetTvShowDetailsUseCase,
+    private val getInsertTvShowUserCase: com.devfalah.usecases.tvShowDetails.InsertTvShowUserCase,
+    private val setRatingUesCase: com.devfalah.usecases.tvShowDetails.SetRatingUesCase,
+    private val sessionIDUseCase: com.devfalah.usecases.GetSessionIDUseCase,
     private val tvShowMapperContainer: TvShowMapperContainer,
     private val actorUIStateMapper: ActorUIStateMapper,
     state: SavedStateHandle,
@@ -192,7 +192,7 @@ class TvShowDetailsViewModel @Inject constructor(
         _stateUI.update { it.copy(detailItemResult = list.toList()) }
     }
 
-    private suspend fun insertMovieToWatchHistory(tvShow: TvShowDetails) {
+    private suspend fun insertMovieToWatchHistory(tvShow: com.devfalah.models.TvShowDetails) {
         getInsertTvShowUserCase(tvShow)
     }
 

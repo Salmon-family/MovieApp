@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.karrar.movieapp.domain.enums.HomeItemsType" />
+        <import type="com.devfalah.types.HomeItemsType" />
 
         <variable
             name="listener"

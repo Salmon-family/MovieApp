@@ -2,8 +2,7 @@ package com.karrar.movieapp.ui.tvShowDetails.episodes
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecases.tvShowDetails.GetSeasonsEpisodesUseCase
-import com.karrar.movieapp.domain.usecases.tvShowDetails.GetTvShowDetailsUseCase
+import com.devfalah.usecases.tvShowDetails.GetSeasonsEpisodesUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.Error
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EpisodesViewModel @Inject constructor(
-    private val getSeasonsEpisodesUseCase: GetSeasonsEpisodesUseCase,
+    private val getSeasonsEpisodesUseCase: com.devfalah.usecases.tvShowDetails.GetSeasonsEpisodesUseCase,
     private val tvShowEpisodesUIMapper: TvShowEpisodesUIMapper,
     state: SavedStateHandle
 ) : BaseViewModel(), EpisodesInteractionListener {

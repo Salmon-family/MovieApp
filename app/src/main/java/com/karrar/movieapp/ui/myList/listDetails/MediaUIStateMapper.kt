@@ -1,13 +1,14 @@
 package com.karrar.movieapp.ui.myList.listDetails
 
-import com.karrar.movieapp.domain.usecases.mappers.Mapper
-import com.karrar.movieapp.domain.models.SaveListDetails
+import com.devfalah.usecases.mappers.Mapper
+import com.devfalah.models.SaveListDetails
 import com.karrar.movieapp.ui.myList.listDetails.listDetailsUIState.SavedMediaUIState
 import javax.inject.Inject
 
-class MediaUIStateMapper @Inject constructor() : Mapper<SaveListDetails, SavedMediaUIState> {
+class MediaUIStateMapper @Inject constructor() :
+    com.devfalah.usecases.mappers.Mapper<com.devfalah.models.SaveListDetails, SavedMediaUIState> {
 
-    override fun map(input: SaveListDetails): SavedMediaUIState {
+    override fun map(input: com.devfalah.models.SaveListDetails): SavedMediaUIState {
         return SavedMediaUIState(
             image = input.posterPath,
             mediaID = input.id,

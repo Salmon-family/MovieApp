@@ -2,7 +2,7 @@ package com.karrar.movieapp.ui.myList.listDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecases.mylist.GetMyMediaListDetailsUseCase
+import com.devfalah.usecases.mylist.GetMyMediaListDetailsUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.myList.listDetails.listDetailsUIState.ListDetailsUIEvent
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListDetailsViewModel @Inject constructor(
-    private val getMyMediaListDetailsUseCase: GetMyMediaListDetailsUseCase,
+    private val getMyMediaListDetailsUseCase: com.devfalah.usecases.mylist.GetMyMediaListDetailsUseCase,
     private val mediaUIStateMapper: MediaUIStateMapper,
     saveStateHandle: SavedStateHandle
 ) : BaseViewModel(), ListDetailsInteractionListener {

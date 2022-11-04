@@ -8,7 +8,7 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentAllMovieBinding
-import com.karrar.movieapp.domain.enums.AllMediaType
+import com.devfalah.types.AllMediaType
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.models.MediaUiState
@@ -85,19 +85,19 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
         findNavController().popBackStack()
     }
 
-    private fun getTitle(type: AllMediaType): String {
+    private fun getTitle(type: com.devfalah.types.AllMediaType): String {
         return when (type) {
-            AllMediaType.ON_THE_AIR -> resources.getString(R.string.title_on_air)
-            AllMediaType.AIRING_TODAY -> resources.getString(R.string.title_airing_today)
-            AllMediaType.LATEST -> resources.getString(R.string.latest)
-            AllMediaType.POPULAR -> resources.getString(R.string.popular)
-            AllMediaType.TOP_RATED -> resources.getString(R.string.title_top_rated_tv_show)
-            AllMediaType.TRENDING -> resources.getString(R.string.title_trending)
-            AllMediaType.NOW_STREAMING -> resources.getString(R.string.title_streaming)
-            AllMediaType.UPCOMING -> resources.getString(R.string.title_upcoming)
-            AllMediaType.MYSTERY -> resources.getString(R.string.title_mystery)
-            AllMediaType.ADVENTURE -> resources.getString(R.string.title_adventure)
-            AllMediaType.ACTOR_MOVIES -> ""
+            com.devfalah.types.AllMediaType.ON_THE_AIR -> resources.getString(R.string.title_on_air)
+            com.devfalah.types.AllMediaType.AIRING_TODAY -> resources.getString(R.string.title_airing_today)
+            com.devfalah.types.AllMediaType.LATEST -> resources.getString(R.string.latest)
+            com.devfalah.types.AllMediaType.POPULAR -> resources.getString(R.string.popular)
+            com.devfalah.types.AllMediaType.TOP_RATED -> resources.getString(R.string.title_top_rated_tv_show)
+            com.devfalah.types.AllMediaType.TRENDING -> resources.getString(R.string.title_trending)
+            com.devfalah.types.AllMediaType.NOW_STREAMING -> resources.getString(R.string.title_streaming)
+            com.devfalah.types.AllMediaType.UPCOMING -> resources.getString(R.string.title_upcoming)
+            com.devfalah.types.AllMediaType.MYSTERY -> resources.getString(R.string.title_mystery)
+            com.devfalah.types.AllMediaType.ADVENTURE -> resources.getString(R.string.title_adventure)
+            com.devfalah.types.AllMediaType.ACTOR_MOVIES -> ""
         }
     }
 

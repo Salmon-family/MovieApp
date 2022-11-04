@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentTvShowDetailsBinding
-import com.karrar.movieapp.domain.enums.MediaType
+import com.devfalah.types.MediaType
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,13 +66,13 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
             TvShowDetailsUIEvent.ClickPlayTrailerEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToYoutubePlayerActivity(
-                        args.tvShowId, MediaType.TV_SHOW
+                        args.tvShowId, com.devfalah.types.MediaType.TV_SHOW
                     )
             }
             TvShowDetailsUIEvent.ClickReviewsEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewFragment(
-                        args.tvShowId, MediaType.TV_SHOW
+                        args.tvShowId, com.devfalah.types.MediaType.TV_SHOW
                     )
             }
             TvShowDetailsUIEvent.MessageAppear -> {

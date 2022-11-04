@@ -1,7 +1,6 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.thechance.remote.response.genre.GenreDto
-import com.karrar.movieapp.domain.models.Genre
+import com.devfalah.models.Genre
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -29,7 +28,7 @@ internal class GenreMapperTest {
         val result = genreMapper.map(genreDto)
 
         // expected
-        val expectedGenre = Genre(
+        val expectedGenre = com.devfalah.models.Genre(
             genreID = 1,
             genreName = "name"
         )

@@ -1,9 +1,8 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.thechance.remote.response.actor.ActorDto
 import com.karrar.movieapp.domain.mappers.search.SearchActorMapper
-import com.karrar.movieapp.domain.models.Media
+import com.devfalah.models.Media
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 
@@ -43,8 +42,8 @@ internal class SearchActorMapperTest {
         // when map function is called
         val searchActor = searchActorMapper.map(searchActorDTO)
 
-        val expected = Media(
-            mediaID =  1,
+        val expected = com.devfalah.models.Media(
+            mediaID = 1,
             mediaImage = BuildConfig.IMAGE_BASE_PATH + "profilePath",
             mediaType = "person",
             mediaName = "name",

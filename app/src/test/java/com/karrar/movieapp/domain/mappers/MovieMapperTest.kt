@@ -1,9 +1,8 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.thechance.remote.response.MovieDto
 import com.karrar.movieapp.domain.mappers.movie.MovieMapper
-import com.karrar.movieapp.domain.models.Media
+import com.devfalah.models.Media
 import com.karrar.movieapp.utilities.Constants.MOVIE
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
@@ -44,7 +43,7 @@ internal class MovieMapperTest {
         val result = movieMapper.map(movieDTO)
 
         // expected
-        val expectedMedia = Media(
+        val expectedMedia = com.devfalah.models.Media(
             mediaID = 1,
             mediaImage = BuildConfig.IMAGE_BASE_PATH + "posterPath",
             mediaType = MOVIE,

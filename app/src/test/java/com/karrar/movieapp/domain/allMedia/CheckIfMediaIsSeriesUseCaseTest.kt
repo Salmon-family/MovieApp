@@ -1,19 +1,19 @@
 package com.karrar.movieapp.domain.allMedia
 
-import com.karrar.movieapp.domain.enums.AllMediaType
-import com.karrar.movieapp.domain.usecases.allMedia.CheckIfMediaIsSeriesUseCase
+import com.devfalah.types.AllMediaType
+import com.devfalah.usecases.allMedia.CheckIfMediaIsSeriesUseCase
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class CheckIfMediaIsSeriesUseCaseTest {
-    lateinit var checkIfMediaIsSeriesUseCase: CheckIfMediaIsSeriesUseCase
+    lateinit var checkIfMediaIsSeriesUseCase: com.devfalah.usecases.allMedia.CheckIfMediaIsSeriesUseCase
 
 
     @BeforeEach
     fun setUp() {
-        checkIfMediaIsSeriesUseCase = CheckIfMediaIsSeriesUseCase()
+        checkIfMediaIsSeriesUseCase = com.devfalah.usecases.allMedia.CheckIfMediaIsSeriesUseCase()
 
     }
 
@@ -21,7 +21,7 @@ internal class CheckIfMediaIsSeriesUseCaseTest {
     @Test
     fun should_ReturnTrue_WhenGivenSeries() {
         //given series type
-        val type = AllMediaType.TOP_RATED
+        val type = com.devfalah.types.AllMediaType.TOP_RATED
 
         //when
         val result = checkIfMediaIsSeriesUseCase(type)
@@ -34,7 +34,7 @@ internal class CheckIfMediaIsSeriesUseCaseTest {
     @Test
     fun should_ReturnFalse_WhenGivenMovie() {
         //given series type
-        val type = AllMediaType.TRENDING
+        val type = com.devfalah.types.AllMediaType.TRENDING
 
         //when
         val result = checkIfMediaIsSeriesUseCase(type)
@@ -46,7 +46,7 @@ internal class CheckIfMediaIsSeriesUseCaseTest {
     @Test
     fun should_ReturnFalse_WhenGivenNON() {
         //given series type
-        val type = AllMediaType.ACTOR_MOVIES
+        val type = com.devfalah.types.AllMediaType.ACTOR_MOVIES
 
         //when
         val result = checkIfMediaIsSeriesUseCase(type)

@@ -1,15 +1,12 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.thechance.remote.response.SeasonDto
-import com.thechance.remote.response.tvShow.CreatedByDto
-import com.thechance.remote.response.tvShow.TvShowDetailsDto
-import com.karrar.movieapp.domain.enums.MediaType
+import com.devfalah.types.MediaType
 import com.karrar.movieapp.domain.mappers.series.EpisodeMapper
 import com.karrar.movieapp.domain.mappers.series.SeasonMapper
 import com.karrar.movieapp.domain.mappers.series.TvShowDetailsMapper
-import com.karrar.movieapp.domain.models.Season
-import com.karrar.movieapp.domain.models.TvShowDetails
+import com.devfalah.models.Season
+import com.devfalah.models.TvShowDetails
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -88,7 +85,7 @@ internal class TvShowDetailsMapperTest {
         // when map is called
         val tvShowDetails = tvShowMapper.map(tvShowsDetailsDTO)
 
-        val expected = TvShowDetails(
+        val expected = com.devfalah.models.TvShowDetails(
             tvShowId = 1,
             tvShowName = "name",
             tvShowImage = BuildConfig.IMAGE_BASE_PATH + "posterPath",
@@ -96,7 +93,7 @@ internal class TvShowDetailsMapperTest {
             tvShowOverview = "overview",
             tvShowReleaseDate = "firs",
             tvShowSeasons = listOf(
-                Season(
+                com.devfalah.models.Season(
                     seasonId = 1,
                     seasonName = "name",
                     imageUrl = BuildConfig.IMAGE_BASE_PATH + "posterPath",
@@ -109,7 +106,7 @@ internal class TvShowDetailsMapperTest {
             ),
             tvShowReview = 1,
             tvShowSeasonsNumber = 1,
-            tvShowType = MediaType.TV_SHOW,
+            tvShowType = com.devfalah.types.MediaType.TV_SHOW,
             tvShowVoteAverage = "1.0",
         )
 

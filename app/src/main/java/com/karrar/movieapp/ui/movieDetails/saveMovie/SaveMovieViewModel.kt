@@ -2,8 +2,8 @@ package com.karrar.movieapp.ui.movieDetails.saveMovie
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecases.mylist.GetMyListUseCase
-import com.karrar.movieapp.domain.usecases.mylist.SaveMovieToMyListUseCase
+import com.devfalah.usecases.mylist.GetMyListUseCase
+import com.devfalah.usecases.mylist.SaveMovieToMyListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.MySavedListUIState
@@ -18,8 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SaveMovieViewModel @Inject constructor(
-    private val saveMovieToMyListUseCase: SaveMovieToMyListUseCase,
-    private val getMyListUseCase: GetMyListUseCase,
+    private val saveMovieToMyListUseCase: com.devfalah.usecases.mylist.SaveMovieToMyListUseCase,
+    private val getMyListUseCase: com.devfalah.usecases.mylist.GetMyListUseCase,
     private val myListItemUIStateMapper: MyListItemUIStateMapper,
     state: SavedStateHandle,
 ) : BaseViewModel(), SaveListInteractionListener {

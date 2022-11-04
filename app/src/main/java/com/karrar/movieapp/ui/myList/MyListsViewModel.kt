@@ -1,8 +1,8 @@
 package com.karrar.movieapp.ui.myList
 
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecases.mylist.CreateMovieListUseCase
-import com.karrar.movieapp.domain.usecases.mylist.GetMyListUseCase
+import com.devfalah.usecases.mylist.CreateMovieListUseCase
+import com.devfalah.usecases.mylist.GetMyListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.myList.myListUIState.CreateListDialogUIState
@@ -23,8 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyListsViewModel @Inject constructor(
-    private val createMovieListUseCase: CreateMovieListUseCase,
-    private val getMyListUseCase: GetMyListUseCase,
+    private val createMovieListUseCase: com.devfalah.usecases.mylist.CreateMovieListUseCase,
+    private val getMyListUseCase: com.devfalah.usecases.mylist.GetMyListUseCase,
     private val createdListUIMapper: CreatedListUIMapper,
 ) : BaseViewModel(), CreatedListInteractionListener {
 

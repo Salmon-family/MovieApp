@@ -1,14 +1,15 @@
 package com.karrar.movieapp.ui.movieDetails.mapper
 
-import com.karrar.movieapp.domain.usecases.mappers.Mapper
-import com.karrar.movieapp.domain.models.MovieDetails
+import com.devfalah.usecases.mappers.Mapper
+import com.devfalah.models.MovieDetails
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieDetailsUIState
 import javax.inject.Inject
 
 data class MovieDuration(val hours: Int, val minutes: Int)
 
-class MovieDetailsUIStateMapper @Inject constructor() : Mapper<MovieDetails, MovieDetailsUIState> {
-    override fun map(input: MovieDetails): MovieDetailsUIState {
+class MovieDetailsUIStateMapper @Inject constructor() :
+    com.devfalah.usecases.mappers.Mapper<com.devfalah.models.MovieDetails, MovieDetailsUIState> {
+    override fun map(input: com.devfalah.models.MovieDetails): MovieDetailsUIState {
         val duration = formatMovieDuration(input.movieDuration)
         return MovieDetailsUIState(
             id = input.movieId,

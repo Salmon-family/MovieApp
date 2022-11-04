@@ -15,7 +15,7 @@
 
         <variable
             name="type"
-            type="com.karrar.movieapp.domain.enums.HomeItemsType" />
+            type="com.devfalah.types.HomeItemsType" />
 
     </data>
 

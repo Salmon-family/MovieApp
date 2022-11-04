@@ -1,8 +1,8 @@
 package com.karrar.movieapp.ui.profile
 
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecases.CheckIfLoggedInUseCase
-import com.karrar.movieapp.domain.usecases.GetAccountDetailsUseCase
+import com.devfalah.usecases.CheckIfLoggedInUseCase
+import com.devfalah.usecases.GetAccountDetailsUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,9 +14,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val getAccountDetailsUseCase: GetAccountDetailsUseCase,
+    private val getAccountDetailsUseCase: com.devfalah.usecases.GetAccountDetailsUseCase,
     private val accountUIStateMapper: AccountUIStateMapper,
-    private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase
+    private val checkIfLoggedInUseCase: com.devfalah.usecases.CheckIfLoggedInUseCase
 ) : BaseViewModel() {
 
     private val _profileDetailsUIState = MutableStateFlow(ProfileUIState())

@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
-import com.karrar.movieapp.domain.usecases.allMedia.CheckIfMediaIsSeriesUseCase
-import com.karrar.movieapp.domain.usecases.allMedia.GetMediaByTypeUseCase
+import com.devfalah.usecases.allMedia.CheckIfMediaIsSeriesUseCase
+import com.devfalah.usecases.allMedia.GetMediaByTypeUseCase
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.mappers.MediaUiMapper
@@ -22,8 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AllMovieViewModel @Inject constructor(
     state: SavedStateHandle,
-    private val checkIfMediaIsSeriesUseCase: CheckIfMediaIsSeriesUseCase,
-    private val getMediaByType: GetMediaByTypeUseCase,
+    private val checkIfMediaIsSeriesUseCase: com.devfalah.usecases.allMedia.CheckIfMediaIsSeriesUseCase,
+    private val getMediaByType: com.devfalah.usecases.allMedia.GetMediaByTypeUseCase,
     private val mediaUiMapper: MediaUiMapper,
 ) : BaseViewModel(), MediaInteractionListener {
 

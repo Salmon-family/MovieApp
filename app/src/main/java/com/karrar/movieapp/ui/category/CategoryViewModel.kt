@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
-import com.karrar.movieapp.domain.usecases.GetGenreListUseCase
-import com.karrar.movieapp.domain.usecases.GetMediaByGenreIDUseCase
+import com.devfalah.usecases.GetGenreListUseCase
+import com.devfalah.usecases.GetMediaByGenreIDUseCase
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.CategoryUIEvent
@@ -21,10 +21,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
-    private val getCategoryUseCase: GetMediaByGenreIDUseCase,
+    private val getCategoryUseCase: com.devfalah.usecases.GetMediaByGenreIDUseCase,
     private val mediaUIStateMapper: MediaUIStateMapper,
     private val genreUIStateMapper: GenreUIStateMapper,
-    private val getGenresUseCase: GetGenreListUseCase,
+    private val getGenresUseCase: com.devfalah.usecases.GetGenreListUseCase,
     state: SavedStateHandle
 ) : BaseViewModel(), MediaInteractionListener, CategoryInteractionListener {
 

@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.karrar.movieapp.domain.enums.AllMediaType"/>
+        <import type="com.devfalah.types.AllMediaType"/>
 
         <variable
             name="topRated"

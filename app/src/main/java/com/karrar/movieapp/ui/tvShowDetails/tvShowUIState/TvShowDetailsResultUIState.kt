@@ -1,6 +1,6 @@
 package com.karrar.movieapp.ui.tvShowDetails.tvShowUIState
 
-import com.karrar.movieapp.domain.enums.MediaType
+import com.devfalah.types.MediaType
 
 data class TvShowDetailsResultUIState(
     val tvShowId: Int = 0,

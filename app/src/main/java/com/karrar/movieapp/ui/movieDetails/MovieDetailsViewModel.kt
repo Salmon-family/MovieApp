@@ -2,9 +2,9 @@ package com.karrar.movieapp.ui.movieDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.domain.models.MovieDetails
-import com.karrar.movieapp.domain.usecases.GetSessionIDUseCase
+import com.devfalah.types.HomeItemsType
+import com.devfalah.models.MovieDetails
+import com.devfalah.usecases.GetSessionIDUseCase
 import com.karrar.movieapp.domain.usecases.movieDetails.*
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
@@ -28,15 +28,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
-    private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
-    private val insertMoviesUseCase: InsertMoviesUseCase,
-    private val setRatingUseCase: SetRatingUseCase,
+    private val getMovieDetailsUseCase: com.devfalah.usecases.movieDetails.GetMovieDetailsUseCase,
+    private val insertMoviesUseCase: com.devfalah.usecases.movieDetails.InsertMoviesUseCase,
+    private val setRatingUseCase: com.devfalah.usecases.movieDetails.SetRatingUseCase,
     private val movieDetailsUIStateMapper: MovieDetailsUIStateMapper,
     private val actorUIStateMapper: ActorUIStateMapper,
     private val mediaUIStateMapper: MediaUIStateMapper,
-    private val getMovieRate: GetMovieRateUseCase,
+    private val getMovieRate: com.devfalah.usecases.movieDetails.GetMovieRateUseCase,
     private val reviewUIStateMapper: ReviewUIStateMapper,
-    private val sessionIDUseCase: GetSessionIDUseCase,
+    private val sessionIDUseCase: com.devfalah.usecases.GetSessionIDUseCase,
     state: SavedStateHandle,
 ) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener,
     DetailInteractionListener {
@@ -89,7 +89,7 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun addToWatchHistory(movie: MovieDetails) {
+    private suspend fun addToWatchHistory(movie: com.devfalah.models.MovieDetails) {
         insertMoviesUseCase(movie)
     }
 
@@ -212,7 +212,7 @@ class MovieDetailsViewModel @Inject constructor(
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickMovieEvent(movieId)) }
     }
 
-    override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {}
+    override fun onClickSeeAllMovie(homeItemsType: com.devfalah.types.HomeItemsType) {}
 
     override fun onClickActor(actorID: Int) {
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickCastEvent(actorID)) }

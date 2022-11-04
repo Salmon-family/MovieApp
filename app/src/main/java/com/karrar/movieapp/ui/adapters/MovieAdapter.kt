@@ -1,8 +1,7 @@
 package com.karrar.movieapp.ui.adapters
 
 import com.karrar.movieapp.R
-import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.domain.models.Media
+import com.devfalah.types.HomeItemsType
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.models.MediaUiState
@@ -14,6 +13,6 @@ class MovieAdapter(items: List<MediaUiState>,val listener: MovieInteractionListe
 
 interface MovieInteractionListener : BaseInteractionListener {
     fun onClickMovie(movieId: Int)
-    fun onClickSeeAllMovie(homeItemsType: HomeItemsType)
+    fun onClickSeeAllMovie(homeItemsType: com.devfalah.types.HomeItemsType)
 }
 

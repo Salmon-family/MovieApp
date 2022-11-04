@@ -2,15 +2,14 @@ package com.karrar.movieapp.ui.actorDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.domain.usecases.GetActorDetailsUseCase
-import com.karrar.movieapp.domain.usecases.GetActorMoviesUseCase
+import com.devfalah.types.HomeItemsType
+import com.devfalah.usecases.GetActorDetailsUseCase
+import com.devfalah.usecases.GetActorMoviesUseCase
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -19,8 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ActorViewModel @Inject constructor(
     state: SavedStateHandle,
-    private val getActorDetailsUseCase: GetActorDetailsUseCase,
-    private val getActorMoviesUseCase: GetActorMoviesUseCase,
+    private val getActorDetailsUseCase: com.devfalah.usecases.GetActorDetailsUseCase,
+    private val getActorMoviesUseCase: com.devfalah.usecases.GetActorMoviesUseCase,
     private val actorDetailsUIMapper: ActorDetailsUIMapper,
     private val actorMoviesUIMapper: ActorMoviesUIMapper
 ) : BaseViewModel(), MovieInteractionListener {
@@ -81,7 +80,7 @@ class ActorViewModel @Inject constructor(
         _actorDetailsUIEvent.update { Event(ActorDetailsUIEvent.ClickMovieEvent(movieId)) }
     }
 
-    override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
+    override fun onClickSeeAllMovie(homeItemsType: com.devfalah.types.HomeItemsType) {
         _actorDetailsUIEvent.update { Event(ActorDetailsUIEvent.SeeAllMovies) }
     }
 

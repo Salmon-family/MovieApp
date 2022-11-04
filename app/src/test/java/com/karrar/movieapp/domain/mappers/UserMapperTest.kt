@@ -1,9 +1,8 @@
 package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.BuildConfig
-import com.thechance.remote.response.review.AuthorDetailsDto
 import com.karrar.movieapp.domain.mappers.account.UserMapper
-import com.karrar.movieapp.domain.models.User
+import com.devfalah.models.User
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 
@@ -33,7 +32,7 @@ internal class UserMapperTest {
         // when map function is called
         val user = userMapper.map(actorDetailsDto)
 
-        val expected = User(
+        val expected = com.devfalah.models.User(
             userName = "username",
             userImage = BuildConfig.IMAGE_BASE_PATH + "avatarPath",
             name = "name",

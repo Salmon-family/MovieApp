@@ -1,8 +1,7 @@
 package com.karrar.movieapp.domain.mappers
 
-import com.thechance.remote.response.CreatedListDto
 import com.karrar.movieapp.domain.mappers.savedList.CreatedListsMapper
-import com.karrar.movieapp.domain.models.CreatedList
+import com.devfalah.models.CreatedList
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -35,7 +34,7 @@ internal class CreatedListsMapperTest {
         val result = createdListsMapper.map(movieDTO)
 
         // expected
-        val expectedList = CreatedList(
+        val expectedList = com.devfalah.models.CreatedList(
             id = 1,
             itemCount = 1,
             name = "name"

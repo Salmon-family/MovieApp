@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
-import com.karrar.movieapp.domain.enums.HomeItemsType
+import com.devfalah.types.HomeItemsType
 import com.karrar.movieapp.ui.adapters.*
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
@@ -122,7 +122,7 @@ class HomeAdapter(
             }
     }
 
-    private fun bindMovie(holder: ItemViewHolder, items: List<MediaUiState>, type: HomeItemsType) {
+    private fun bindMovie(holder: ItemViewHolder, items: List<MediaUiState>, type: com.devfalah.types.HomeItemsType) {
         holder.binding.run {
             setVariable(
                 BR.adapterRecycler,

@@ -50,6 +50,8 @@ dependencies {
     implementation(project(":data:repository"))
     implementation(project(":data:remote"))
     implementation(project(":data:local"))
+    implementation(project(":domain:usecases"))
+    implementation(project(":domain:types"))
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'

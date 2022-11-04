@@ -1,7 +1,6 @@
 package com.karrar.movieapp.ui.tvShowDetails
 
 import com.karrar.movieapp.R
-import com.karrar.movieapp.domain.models.Season
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.SeasonUIState

@@ -3,10 +3,10 @@ package com.karrar.movieapp.ui.login
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecases.login.LoginWithUserNameAndPasswordUseCase
-import com.karrar.movieapp.domain.usecases.login.ValidateFiledUseCase
-import com.karrar.movieapp.domain.usecases.login.ValidateLoginFormUseCase
-import com.karrar.movieapp.domain.usecases.login.ValidatePasswordFiledUseCase
+import com.devfalah.usecases.login.LoginWithUserNameAndPasswordUseCase
+import com.devfalah.usecases.login.ValidateFiledUseCase
+import com.devfalah.usecases.login.ValidateLoginFormUseCase
+import com.devfalah.usecases.login.ValidatePasswordFiledUseCase
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,10 +18,10 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     state: SavedStateHandle,
-    private val loginWithUserNameAndPasswordUseCase: LoginWithUserNameAndPasswordUseCase,
-    private val validateFiledUseCase: ValidateFiledUseCase,
-    private val validatePasswordFiledUseCase: ValidatePasswordFiledUseCase,
-    private val validateLoginFormUseCase: ValidateLoginFormUseCase,
+    private val loginWithUserNameAndPasswordUseCase: com.devfalah.usecases.login.LoginWithUserNameAndPasswordUseCase,
+    private val validateFiledUseCase: com.devfalah.usecases.login.ValidateFiledUseCase,
+    private val validatePasswordFiledUseCase: com.devfalah.usecases.login.ValidatePasswordFiledUseCase,
+    private val validateLoginFormUseCase: com.devfalah.usecases.login.ValidateLoginFormUseCase,
 ) : ViewModel() {
 
     val args = LoginFragmentArgs.fromSavedStateHandle(state)

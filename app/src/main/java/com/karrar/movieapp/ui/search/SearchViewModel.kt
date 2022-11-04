@@ -29,11 +29,11 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val searchHistoryUIStateMapper: SearchHistoryUIStateMapper,
     private val searchMediaUIStateMapper: SearchMediaUIStateMapper,
-    private val getSearchForMovieUseCase: GetSearchForMovieUseCase,
-    private val getSearchForSeriesUserCase: GetSearchForSeriesUserCase,
-    private val getSearchForActorUseCase: GetSearchForActorUseCase,
-    private val getSearchHistoryUseCase: GetSearchHistoryUseCase,
-    private val postSaveSearchResultUseCase: PostSaveSearchResultUseCase
+    private val getSearchForMovieUseCase: com.devfalah.usecases.searchUseCase.GetSearchForMovieUseCase,
+    private val getSearchForSeriesUserCase: com.devfalah.usecases.searchUseCase.GetSearchForSeriesUserCase,
+    private val getSearchForActorUseCase: com.devfalah.usecases.searchUseCase.GetSearchForActorUseCase,
+    private val getSearchHistoryUseCase: com.devfalah.usecases.searchUseCase.GetSearchHistoryUseCase,
+    private val postSaveSearchResultUseCase: com.devfalah.usecases.searchUseCase.PostSaveSearchResultUseCase
 ) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener,
     SearchHistoryInteractionListener {
 

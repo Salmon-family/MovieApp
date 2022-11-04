@@ -2,7 +2,7 @@ package com.karrar.movieapp.ui.profile.logout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecases.LogoutUseCase
+import com.devfalah.usecases.LogoutUseCase
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LogoutViewModel @Inject constructor(private val logoutUseCase: LogoutUseCase) :
+class LogoutViewModel @Inject constructor(private val logoutUseCase: com.devfalah.usecases.LogoutUseCase) :
     ViewModel() {
 
     private val _logoutUIEvent: MutableStateFlow<Event<LogoutUIEvent?>> = MutableStateFlow(Event(null))
