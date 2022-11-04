@@ -81,6 +81,7 @@ class MyListsViewModel @Inject constructor(
             }
             _createListDialogUIState.update { it.copy(mediaListName = "") }
             _myListUIEvent.emit(Event(MyListUIEvent.CLickAddEvent))
+            _createdListUIState.update { it.copy(isEmpty = false) }
         }
     }
 
