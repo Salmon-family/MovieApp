@@ -70,12 +70,11 @@ class TvShowDetailsViewModel @Inject constructor(
     }
 
     override fun getData() {
-        viewModelScope.launch {
             getAllDetails(args.tvShowId)
-        }
+
     }
 
-    private suspend fun getAllDetails(tvShowId: Int) {
+    private  fun getAllDetails(tvShowId: Int) {
         _stateFlow.update { it.copy(isLoading = true, errorUIState = emptyList()) }
         getTvShowDetails(tvShowId)
         getTvShowCast(tvShowId)
@@ -84,112 +83,122 @@ class TvShowDetailsViewModel @Inject constructor(
         getTvShowReviews(tvShowId)
     }
 
-    private suspend fun getTvShowDetails(tvShowId: Int) {
-        try {
-            val result = getTvShowDetailsUseCase.getTvShowDetails(tvShowId)
-            _stateFlow.update {
-                it.copy(
-                    tvShowDetailsResult = tvShowMapperContainer.tvShowDetailsUIMapper.map(result),
-                    isLoading = false
-                )
-            }
+    private  fun getTvShowDetails(tvShowId: Int) {
+      viewModelScope.launch {
+          try {
+              val result = getTvShowDetailsUseCase.getTvShowDetails(tvShowId)
+              _stateFlow.update {
+                  it.copy(
+                      tvShowDetailsResult = tvShowMapperContainer.tvShowDetailsUIMapper.map(result),
+                      isLoading = false
+                  )
+              }
 
-            updateDetailItems(DetailItemUIState.Header(_stateFlow.value.tvShowDetailsResult))
-            insertMovieToWatchHistory(_stateFlow.value.watchHistoryUIState)
-        } catch (e: Exception) {
-            _stateFlow.update {
-                it.copy(
-                    errorUIState = onAddMessageToListError(e),
-                    isLoading = false
-                )
+              updateDetailItems(DetailItemUIState.Header(_stateFlow.value.tvShowDetailsResult))
+              insertMovieToWatchHistory(_stateFlow.value.watchHistoryUIState)
+          } catch (e: Exception) {
+              _stateFlow.update {
+                  it.copy(
+                      errorUIState = onAddMessageToListError(e),
+                      isLoading = false
+                  )
+              }
+          }
+      }
+    }
+
+    private  fun getTvShowCast(tvShowId: Int) {
+        viewModelScope.launch{
+            try {
+                val result = getTvShowDetailsUseCase.getSeriesCast(tvShowId)
+                _stateFlow.update { it ->
+                    it.copy(
+                        seriesCastResult = result.map { tvShowMapperContainer.tvShowCastUIMapper.map(it) },
+                        isLoading = false
+                    )
+                }
+            } catch (e: Exception) {
+                _stateFlow.update {
+                    it.copy(
+                        errorUIState = onAddMessageToListError(e),
+                        isLoading = false
+                    )
+                }
+            }
+            updateDetailItems(DetailItemUIState.Cast(_stateFlow.value.seriesCastResult))
+        }
+    }
+
+    private  fun getSeasons(tvShowId: Int) {
+       viewModelScope.launch {
+           try {
+               val seasons = getTvShowDetailsUseCase.getSeasons(tvShowId)
+               _stateFlow.update { it ->
+                   it.copy(
+                       seriesSeasonsResult = seasons.map {
+                           tvShowMapperContainer.tvShowSeasonUIMapper.map(it)
+                       },
+                       isLoading = false
+                   )
+               }
+               updateDetailItems(DetailItemUIState.Seasons(_stateFlow.value.seriesSeasonsResult))
+           } catch (e: Exception) {
+               _stateFlow.update {
+                   it.copy(
+                       errorUIState = onAddMessageToListError(e),
+                       isLoading = false
+                   )
+               }
+           }
+       }
+    }
+
+    private  fun getRatedTvShows(tvShowId: Int) {
+        viewModelScope.launch {
+            try {
+                val result = getTvShowDetailsUseCase.getTvShowRated(0)
+                _stateFlow.update { rated ->
+                    rated.copy(
+                        seriesRatedResult = result.map {
+                            tvShowMapperContainer.tvShowRatedUIMapper.map(it)
+                        },
+                        isLoading = false
+                    )
+                }
+                checkIfTvShowRated(_stateFlow.value.seriesRatedResult, tvShowId)
+                updateDetailItems(DetailItemUIState.Rating(this@TvShowDetailsViewModel))
+            } catch (e: Exception) {
+                _stateFlow.update {
+                    it.copy(
+                        errorUIState = onAddMessageToListError(e),
+                        isLoading = false
+                    )
+                }
             }
         }
     }
 
-    private suspend fun getTvShowCast(tvShowId: Int) {
-        try {
-            val result = getTvShowDetailsUseCase.getSeriesCast(tvShowId)
-            _stateFlow.update { it ->
-                it.copy(
-                    seriesCastResult = result.map { tvShowMapperContainer.tvShowCastUIMapper.map(it) },
-                    isLoading = false
-                )
-            }
-        } catch (e: Exception) {
-            _stateFlow.update {
-                it.copy(
-                    errorUIState = onAddMessageToListError(e),
-                    isLoading = false
-                )
-            }
-        }
-        updateDetailItems(DetailItemUIState.Cast(_stateFlow.value.seriesCastResult))
-    }
-
-    private suspend fun getSeasons(tvShowId: Int) {
-        try {
-            val seasons = getTvShowDetailsUseCase.getSeasons(tvShowId)
-            _stateFlow.update { it ->
-                it.copy(
-                    seriesSeasonsResult = seasons.map {
-                        tvShowMapperContainer.tvShowSeasonUIMapper.map(it)
-                    },
-                    isLoading = false
-                )
-            }
-            updateDetailItems(DetailItemUIState.Seasons(_stateFlow.value.seriesSeasonsResult))
-        } catch (e: Exception) {
-            _stateFlow.update {
-                it.copy(
-                    errorUIState = onAddMessageToListError(e),
-                    isLoading = false
-                )
-            }
-        }
-    }
-
-    private suspend fun getRatedTvShows(tvShowId: Int) {
-        try {
-            val result = getTvShowDetailsUseCase.getTvShowRated(0)
-            _stateFlow.update { rated ->
-                rated.copy(
-                    seriesRatedResult = result.map {
-                        tvShowMapperContainer.tvShowRatedUIMapper.map(it)
-                    },
-                    isLoading = false
-                )
-            }
-            checkIfTvShowRated(_stateFlow.value.seriesRatedResult, tvShowId)
-            updateDetailItems(DetailItemUIState.Rating(this))
-        } catch (e: Exception) {
-            _stateFlow.update {
-                it.copy(
-                    errorUIState = onAddMessageToListError(e),
-                    isLoading = false
-                )
-            }
-        }
-    }
-
-    private suspend fun getTvShowReviews(tvShowId: Int) {
-        try {
-            val result = getTvShowDetailsUseCase.getTvShowReviews(tvShowId)
-            _stateFlow.update { it ->
-                it.copy(
-                    seriesReviewsResult = result.map {
-                        tvShowMapperContainer.tvShowReviewUIMapper.map(it)
-                    },
-                    isLoading = false
-                )
-            }
-            getThreeCommits()
-            onSeeAllReviews()
-        } catch (e: Exception) {
-            _stateFlow.update {
-                it.copy(
-                    errorUIState = onAddMessageToListError(e),
-                    isLoading = false
-                )
+    private  fun getTvShowReviews(tvShowId: Int) {
+        viewModelScope.launch {
+            try {
+                val result = getTvShowDetailsUseCase.getTvShowReviews(tvShowId)
+                _stateFlow.update { it ->
+                    it.copy(
+                        seriesReviewsResult = result.map {
+                            tvShowMapperContainer.tvShowReviewUIMapper.map(it)
+                        },
+                        isLoading = false
+                    )
+                }
+                getThreeCommits()
+                onSeeAllReviews()
+            } catch (e: Exception) {
+                _stateFlow.update {
+                    it.copy(
+                        errorUIState = onAddMessageToListError(e),
+                        isLoading = false
+                    )
+                }
             }
         }
     }
