@@ -1,13 +1,13 @@
 package com.karrar.movieapp.domain.usecases.home.mappers.series
 
 import com.karrar.movieapp.BuildConfig
-import com.thechance.remote.response.episode.EpisodeDto
 import com.karrar.movieapp.domain.usecases.mappers.Mapper
 import com.karrar.movieapp.domain.models.Episode
+import com.thechance.remote.response.episode.EpisodeDto
 import javax.inject.Inject
 
 class EpisodeMapper @Inject constructor() : Mapper<EpisodeDto, Episode> {
-    override fun map(input: com.thechance.remote.response.episode.EpisodeDto): Episode {
+    override fun map(input: EpisodeDto): Episode {
         return Episode(
             input.id ?: 0,
             BuildConfig.IMAGE_BASE_PATH + input.stillPath,

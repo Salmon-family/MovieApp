@@ -6,9 +6,6 @@ plugins {
     id 'androidx.navigation.safeargs'
 }
 
-def localProperties = new Properties()
-localProperties.load(new FileInputStream(rootProject.file("local.properties")))
-
 android {
     compileSdk 32
 
@@ -18,8 +15,6 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
-        buildConfigField "String", "API_KEY", localProperties['apiKey']
-        buildConfigField "String", "BASE_URL", "\"https://api.themoviedb.org/3/\""
         buildConfigField "String", "IMAGE_BASE_PATH", "\"https://image.tmdb.org/t/p/w500\""
         buildConfigField "String", "TMDB_SIGNUP_URL", "\"https://www.themoviedb.org/signup\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -68,9 +63,6 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.2"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.2"
     testImplementation "org.junit.jupiter:junit-jupiter-params:5.8.2"
-
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     //viewModel
     implementation 'androidx.fragment:fragment-ktx:1.5.2'

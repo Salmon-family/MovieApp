@@ -5,10 +5,6 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
-def localProperties = new Properties()
-localProperties.load(new FileInputStream(rootProject.file("local.properties")))
-
-
 android {
     namespace 'com.thechance.remote'
     compileSdk 32
@@ -16,8 +12,6 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 32
-
-        buildConfigField "String", "API_KEY", localProperties['apiKey']
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
