@@ -15,6 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class WatchHistoryViewModel @Inject constructor(
     private val getWatchHistoryUseCase: GetWatchHistoryUseCase,
+    private val watchHistoryUIStateMapper: WatchHistoryUIStateMapper,
 ) : ViewModel(), WatchHistoryInteractionListener {
 
     private val _uiState = MutableStateFlow(WatchHistoryUiState())
@@ -32,11 +33,13 @@ class WatchHistoryViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 getWatchHistoryUseCase().collect { list ->
-
-                    //TODO :CREATE UI MAPPER
-//                    _uiState.update { watchHistoryUiState ->
-//                        watchHistoryUiState.copy(allMedia = list.map { watchHistoryMapper.map(it) })
-//                    }
+                    _uiState.update { watchHistoryUiState ->
+                        watchHistoryUiState.copy(allMedia = list.map {
+                            watchHistoryUIStateMapper.map(
+                                it
+                            )
+                        })
+                    }
                 }
             } catch (t: Throwable) {
                 _uiState.update { it.copy(error = listOf(Error(400, t.message.toString()))) }
