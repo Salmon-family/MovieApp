@@ -10,11 +10,13 @@ class SetRatingUesCase @Inject constructor(
     private val ratingStatusTvShowMapper: RatingStatusTvShowMapper
 ) {
     suspend operator fun invoke(tvShowId: Int, rating: Float): RatingStatus {
-        val response = seriesRepository.setRating(tvShowId, rating)
-        return if (response != null) {
-            ratingStatusTvShowMapper.map(response)
+        val response = if (rating == 0f) {
+            seriesRepository.deleteTvShowRating(tvShowId)
         } else {
-            throw Throwable("Not Success")
+            seriesRepository.setRating(tvShowId, rating)
         }
+        return response?.let {
+            ratingStatusTvShowMapper.map(response)
+        }?: throw Throwable("Not Success")
     }
 }

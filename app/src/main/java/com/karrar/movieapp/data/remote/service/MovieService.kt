@@ -221,4 +221,9 @@ interface MovieService {
     @GET("tv/{tv_id}/videos")
     suspend fun getTvShowTrailer(@Path("tv_id") tvShowId: Int): Response<TrailerDto>
 
+    @DELETE("tv/{tv_id}/rating")
+    suspend fun deleteTvShowRating(
+        @Path("tv_id") tvId: Int,
+    ): Response<RatingDto>
+
 }
