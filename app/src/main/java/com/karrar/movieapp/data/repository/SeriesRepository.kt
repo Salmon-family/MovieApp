@@ -58,5 +58,7 @@ interface SeriesRepository {
 
     suspend fun getSeasonDetails(tvShowId: Int): List<EpisodeDto>?
 
+    suspend fun deleteTvShowRating(tvId: Int): RatingDto?
+
 
 }
