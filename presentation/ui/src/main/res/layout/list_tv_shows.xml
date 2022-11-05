@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="topRated"
+            type="com.thechance.viewmodel.models.MediaUiState" />
+
+        <variable
+            name="latest"
+            type="com.thechance.viewmodel.models.MediaUiState" />
+
+        <variable
+            name="popular"
+            type="com.thechance.viewmodel.models.MediaUiState" />
+
+        <variable
+            name="listener"
+            type="com.thechance.viewmodel.home.TVShowInteractionListener" />
+
+        <import type="com.thechance.viewmodel.category.com.thechance.viewmodel.utilities.AllMediaType"/>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        tools:background="@color/background_color">
+
+        <TextView
+            android:id="@+id/text_tvShow_title"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:text="@string/tv_shows"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_top_rated"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:background="@color/brand_color"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@+id/image_popular"
+            app:layout_constraintEnd_toStartOf="@+id/image_latest"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/image_latest"
+            app:posterImage="@{topRated.imageUrl}"
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/gradient"
+            android:onClick="@{() -> listener.onClickSeeTVShow(AllMediaType.TOP_RATED)}"
+            app:layout_constraintBottom_toBottomOf="@+id/image_top_rated"
+            app:layout_constraintEnd_toEndOf="@id/image_top_rated"
+            app:layout_constraintStart_toStartOf="@id/image_top_rated"
+            app:layout_constraintTop_toTopOf="@id/image_top_rated"
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
+
+        <TextView
+            android:id="@+id/text_top_rated"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_medium"
+            android:elevation="2dp"
+            android:text="@string/top_rated"
+            android:textColor="@color/white_primary"
+            app:layout_constraintBottom_toBottomOf="@+id/image_top_rated"
+            app:layout_constraintStart_toStartOf="@+id/image_top_rated" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_latest"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:background="@color/brand_color"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/image_top_rated"
+            app:layout_constraintTop_toBottomOf="@+id/text_tvShow_title"
+            app:posterImage="@{latest.imageUrl}"
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/gradient"
+            app:layout_constraintBottom_toBottomOf="@+id/image_latest"
+            app:layout_constraintEnd_toEndOf="@id/image_latest"
+            app:layout_constraintStart_toStartOf="@id/image_latest"
+            android:onClick="@{() -> listener.onClickSeeTVShow(AllMediaType.LATEST)}"
+            app:layout_constraintTop_toTopOf="@id/image_latest"
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
+
+        <TextView
+            android:id="@+id/text_latest"
+            style="@style/Regular.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:elevation="2dp"
+            android:text="@string/latest"
+            android:textColor="@color/white_primary"
+            app:layout_constraintBottom_toBottomOf="@+id/image_latest"
+            app:layout_constraintStart_toStartOf="@+id/image_latest" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_popular"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:background="@color/brand_color"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@+id/image_latest"
+            app:layout_constraintStart_toStartOf="@+id/image_latest"
+            app:layout_constraintTop_toBottomOf="@+id/image_latest"
+            app:posterImage="@{popular.imageUrl}"
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:onClick="@{() -> listener.onClickSeeTVShow(AllMediaType.POPULAR)}"
+            android:background="@drawable/gradient"
+            app:layout_constraintBottom_toBottomOf="@+id/image_popular"
+            app:layout_constraintEnd_toEndOf="@id/image_popular"
+            app:layout_constraintStart_toStartOf="@id/image_popular"
+            app:layout_constraintTop_toTopOf="@id/image_popular"
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
+
+        <TextView
+            android:id="@+id/text_popular"
+            style="@style/Regular.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:elevation="2dp"
+            android:text="@string/popular"
+            android:textColor="@color/white_primary"
+            app:layout_constraintBottom_toBottomOf="@+id/image_popular"
+            app:layout_constraintStart_toStartOf="@+id/image_popular" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

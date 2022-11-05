@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.thechance.viewmodel.movieDetails.saveMovie.SaveMovieViewModel" />
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_sheet_corners">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showWhenListNotEmpty="@{viewModel.myListsUIState.myListItemUI}"
+            app:title="@string/save_to"
+            app:titleCentered="true"
+            app:titleTextColor="@color/shade_primary_color" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/save_list_adapter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/spacing_medium"
+            app:items="@{viewModel.myListsUIState.myListItemUI}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            tools:listitem="@layout/item_list" />
+
+        <TextView
+            android:id="@+id/text_message_wrong"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/spacing_large"
+            android:gravity="center"
+            android:text="@string/you_must_be_logged_in_to_save_a_movie"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showWhenNoLogin="@{viewModel.myListsUIState.error}" />
+
+        <TextView
+            android:id="@+id/text_message_empty_list"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/spacing_large"
+            android:gravity="center"
+            android:text="@string/this_list_has_no_lists"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:doneLoad="@{viewModel.myListsUIState.loading}"
+            app:noError="@{viewModel.myListsUIState.error}"
+            app:emptyData="@{viewModel.myListsUIState.myListItemUI}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

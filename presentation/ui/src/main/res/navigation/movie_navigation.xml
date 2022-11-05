@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movie_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.thechance.ui.home.HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_actorsFragment"
+            app:destination="@id/actorsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_actorDetailsFragment"
+            app:destination="@id/actorDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_allMovieFragment"
+            app:destination="@id/allMovieFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.thechance.ui.login.LoginFragment"
+        tools:layout="@layout/fragment_login">
+
+        <argument
+            android:name="from"
+            app:argType="integer" />
+
+
+        <action
+            android:id="@+id/action_loginFragment_to_myListFragment"
+            app:destination="@id/myListFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/actorDetailsFragment"
+        android:name="com.thechance.ui.actorDetails.ActorDetailsFragment"
+        tools:layout="@layout/fragment_actor_details">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_actorDetailsFragment_to_allMovieOfActorFragment"
+            app:destination="@id/allMovieFragment" />
+        <action
+            android:id="@+id/action_actorDetailsFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/actorsFragment"
+        android:name="com.thechance.ui.actors.ActorsFragment"
+        tools:layout="@layout/fragment_actors">
+        <action
+            android:id="@+id/action_actorsFragment_to_actorDetailsFragment"
+            app:destination="@id/actorDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="com.thechance.ui.movieDetails.MovieDetailsFragment"
+        tools:layout="@layout/fragment_movie_details">
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_movieDetailsFragment"
+            app:destination="@id/movieDetailFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_reviewFragment"
+            app:destination="@id/reviewFragment" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_saveMovieDialog"
+            app:destination="@id/saveMovieDialog" />
+        <action
+            android:id="@+id/action_movieDetailFragment_to_actorDetailsFragment"
+            app:destination="@id/actorDetailsFragment" />
+        <action
+            android:id="@+id/action_movieDetailFragment_to_youtubePlayerActivity"
+            app:destination="@id/youtubePlayerActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.thechance.ui.profile.ProfileFragment"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_logoutDialog"
+            app:destination="@id/logoutDialog" />
+        <action
+            android:id="@+id/action_profileFragment_to_ratedMoviesFragment"
+            app:destination="@id/ratedMoviesFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_watchHistoryFragment"
+            app:destination="@id/watchHistoryFragment" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/myListFragment"
+        android:name="com.thechance.ui.myList.MyListsFragment"
+        tools:layout="@layout/fragment_my_lists">
+        <action
+            android:id="@+id/action_myListFragment_to_createSavedList"
+            app:destination="@id/createSavedList" />
+        <action
+            android:id="@+id/action_myListFragment_to_savedListFragment"
+            app:destination="@id/listDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.thechance.ui.category.CategoryFragment"
+        tools:layout="@layout/fragment_category">
+        <argument
+            android:name="mediaId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_categoryFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/allMovieFragment"
+        android:name="com.thechance.ui.allMedia.AllMovieFragment"
+        tools:layout="@layout/fragment_all_movie">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="type"
+            app:argType="com.thechance.viewmodel.category.com.thechance.viewmodel.utilities.AllMediaType" />
+        <action
+            android:id="@+id/action_allMovieFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_allMovieFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/exploringFragment"
+        android:name="com.thechance.ui.explore.ExploringFragment"
+        tools:layout="@layout/fragment_exploring">
+        <action
+            android:id="@+id/action_exploringFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_exploringFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_exploringFragment_to_actorsFragment"
+            app:destination="@id/actorsFragment" />
+        <action
+            android:id="@+id/action_exploringFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_exploringFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.thechance.ui.search.SearchFragment"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_actorDetailsFragment"
+            app:destination="@id/actorDetailsFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/reviewFragment"
+        android:name="com.thechance.ui.reviews.ReviewFragment"
+        tools:layout="@layout/fragment_review">
+        <argument
+            android:name="mediaId"
+            app:argType="integer" />
+        <argument
+            android:name="type"
+            app:argType="com.thechance.viewmodel.category.com.thechance.viewmodel.utilities.MediaType" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/saveMovieDialog"
+        android:name="com.thechance.ui.movieDetails.saveMovie.SaveMovieDialog"
+        tools:layout="@layout/dialog_save_movie">
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/logoutDialog"
+        android:name="com.thechance.ui.profile.logout.LogoutDialog"
+        tools:layout="@layout/dialog_logout">
+        <action
+            android:id="@+id/action_logoutDialog_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/createSavedList"
+        android:name="com.thechance.ui.myList.CreateListDialog"
+        tools:layout="@layout/fragment_create_list_dialog">
+
+    </dialog>
+
+    <fragment
+        android:id="@+id/ratedMoviesFragment"
+        android:name="com.thechance.ui.profile.myratings.MyRatingsFragment"
+        tools:layout="@layout/fragment_my_ratings">
+        <action
+            android:id="@+id/action_ratedMoviesFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_ratedMoviesFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/watchHistoryFragment"
+        android:name="com.thechance.ui.profile.watchhistory.WatchHistoryFragment"
+        tools:layout="@layout/fragment_watch_history">
+        <action
+            android:id="@+id/action_watchHistoryFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_watchHistoryFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+    </fragment>
+
+    <activity
+        android:id="@+id/youtubePlayerActivity"
+        android:name="com.thechance.ui.youtubePlayer.YoutubePlayerActivity"
+        tools:layout="@layout/activity_youtube_player">
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
+        <argument
+            android:name="type"
+            app:argType="com.thechance.viewmodel.category.com.thechance.viewmodel.utilities.MediaType" />
+    </activity>
+    <fragment
+        android:id="@+id/listDetailsFragment"
+        android:name="com.thechance.ui.myList.listDetails.ListDetailsFragment"
+        tools:layout="@layout/fragment_list_details">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_savedListFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+        <argument
+            android:name="listName"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_listDetailsFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/episodesFragment"
+        android:name="com.thechance.ui.tvShowDetails.episodes.EpisodesFragment"
+        tools:layout="@layout/fragment_episodes">
+        <argument
+            android:name="tvShowId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tvShowDetailsFragment"
+        android:name="com.thechance.ui.tvShowDetails.TvShowDetailsFragment"
+        tools:layout="@layout/fragment_tv_show_details">
+        <argument
+            android:name="tvShowId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_episodesFragment"
+            app:destination="@id/episodesFragment" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_reviewFragment"
+            app:destination="@id/reviewFragment" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_saveMovieDialog"
+            app:destination="@id/saveMovieDialog" />
+        <action
+            android:id="@+id/action_tvShowDetailFragment_to_actorDetailsFragment"
+            app:destination="@id/actorDetailsFragment" />
+        <action
+            android:id="@+id/action_tvShowDetailFragment_to_youtubePlayerActivity"
+            app:destination="@id/youtubePlayerActivity" />
+    </fragment>
+
+</navigation>

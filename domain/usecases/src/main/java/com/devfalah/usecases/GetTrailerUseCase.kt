@@ -13,12 +13,12 @@ class GetTrailerUseCase @Inject constructor(
     private val trailerMapper: TrailerMapper
 ) {
 
-    suspend operator fun invoke(mediaType: MediaType, mediaID: Int): Trailer {
+    suspend operator fun invoke(mediaType: String, mediaID: Int): Trailer {
         val result = when (mediaType) {
-            MediaType.MOVIE -> {
+            MediaType.MOVIE.name -> {
                 movieRepository.getMovieTrailer(mediaID)
             }
-            MediaType.TV_SHOW -> {
+            else -> {
                 seriesRepository.getTvShowTrailer(mediaID)
             }
         }

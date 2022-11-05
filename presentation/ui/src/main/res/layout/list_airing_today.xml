@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.thechance.ui.utilities.Constants" />
+
+        <variable
+            name="adapterRecycler"
+            type="com.thechance.ui.adapters.MediaAdapter" />
+
+        <variable
+            name="count"
+            type="Integer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/airing_today_shape"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:layout_marginHorizontal="@dimen/spacing_medium"
+        >
+
+        <TextView
+            android:id="@+id/text_airing_today"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/title_airing_today"
+            android:textColor="@color/shade_primary_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_count_airing_movies"
+            style="@style/Regular.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="20 Movies"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:text="@{@string/text_movies(count.toString())}"
+            android:textColor="@color/shade_ternary_color"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_airing_today"
+            app:layout_constraintEnd_toEndOf="@id/recycler_airing_movies" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_airing_movies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_airing_today"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:adapter="@{adapterRecycler}"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_airing_today"
+            app:spanCount="3"
+            tools:itemCount="6"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

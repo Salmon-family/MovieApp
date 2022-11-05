@@ -36,7 +36,7 @@ class GetTvShowDetailsUseCase @Inject constructor(
 
 
     suspend fun getTvShowReviews(tvShowId: Int): MediaDetailsReviews {
-        val reviews = getTVShowsReviews(MediaType.TV_SHOW, tvShowId)
+        val reviews = getTVShowsReviews(MediaType.TV_SHOW.name, tvShowId)
         return MediaDetailsReviews(reviews.take(MAX_NUM_REVIEWS),
             reviews.size > MAX_NUM_REVIEWS)
     }

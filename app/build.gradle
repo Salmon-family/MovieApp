@@ -16,7 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "IMAGE_BASE_PATH", "\"https://image.tmdb.org/t/p/w500\""
-        buildConfigField "String", "TMDB_SIGNUP_URL", "\"https://www.themoviedb.org/signup\""
+//        buildConfigField "String", "TMDB_SIGNUP_URL", "\"https://www.themoviedb.org/signup\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -51,6 +51,9 @@ dependencies {
     implementation(project(":data:remote"))
     implementation(project(":data:local"))
     implementation(project(":domain:usecases"))
+    implementation(project(":presentation:ui"))
+    implementation(project(":presentation:viewModel"))
+
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'

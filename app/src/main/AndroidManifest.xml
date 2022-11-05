@@ -18,27 +18,27 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <activity
-            android:name=".ui.main.MainActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"
-            android:theme="@style/Theme.MovieApp.SplashScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--        <activity-->
+<!--            android:name="com.thechance.ui.main.MainActivity"-->
+<!--            android:exported="true"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:windowSoftInputMode="adjustNothing"-->
+<!--            android:theme="@style/Theme.MovieApp.SplashScreen">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
 
-        <activity
-            android:name=".ui.youtubePlayer.YoutubePlayerActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode|locale|layoutDirection"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+<!--        <activity-->
+<!--            android:name="com.thechance.ui.youtubePlayer.YoutubePlayerActivity"-->
+<!--            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode|locale|layoutDirection"-->
+<!--            android:exported="false">-->
+<!--            <meta-data-->
+<!--                android:name="android.app.lib_name"-->
+<!--                android:value="" />-->
+<!--        </activity>-->
 
     </application>
 

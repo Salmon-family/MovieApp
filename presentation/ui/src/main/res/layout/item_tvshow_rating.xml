@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.thechance.viewmodel.tvShowDetails.TvShowDetailsViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/rate_the_movie"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/rate_the_movie"
+            app:isVisible="@{viewModel.stateFlow.login}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:isIndicator="false"
+            android:onRatingChanged="@{(ratingBar, rating, fromUser) -> viewModel.onChangeRating(rating)}"
+            android:progressDrawable="@drawable/rating_custom"
+            android:rating="@{viewModel.stateFlow.ratingValue}"
+            app:isVisible="@{viewModel.stateFlow.login}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rate_the_movie" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

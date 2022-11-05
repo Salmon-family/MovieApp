@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.thechance.viewmodel.actors.ActorsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_color">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_actors"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="@dimen/spacing_small"
+            android:paddingHorizontal="@dimen/spacing_small"
+            android:paddingVertical="@dimen/spacing_small"
+            app:hideIfTrue="@{viewModel.uiState.loading}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:spanCount="4" />
+
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading2"
+            app:isLoading="@{viewModel.uiState.loading}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/error"
+            layout="@layout/error2"
+            app:isError="@{!viewModel.uiState.error.isEmpty()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:viewModel="@{viewModel}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

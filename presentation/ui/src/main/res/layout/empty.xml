@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.thechance.viewmodel.BaseViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_rawRes="@raw/no_data" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/SemiBold.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-64dp"
+            android:text="@string/empty"
+            android:textColor="@color/brand_color"
+            app:layout_constraintEnd_toEndOf="@+id/no_data"
+            app:layout_constraintStart_toStartOf="@+id/no_data"
+            app:layout_constraintTop_toBottomOf="@+id/no_data" />
+
+        <TextView
+            style="@style/Regular.Medium.Secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@string/this_list_has_no_movies"
+            app:layout_constraintEnd_toEndOf="@+id/no_data"
+            app:layout_constraintStart_toStartOf="@+id/no_data"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

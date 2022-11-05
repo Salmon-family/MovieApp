@@ -3,7 +3,7 @@ package com.karrar.movieapp.domain.mappers
 import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.domain.mappers.movie.MovieMapper
 import com.devfalah.models.Media
-import com.karrar.movieapp.utilities.Constants.MOVIE
+import com.thechance.ui.utilities.Constants.MOVIE
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test

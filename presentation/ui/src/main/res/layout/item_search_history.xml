@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="item"
+            type="com.thechance.viewmodel.search.mediaSearchUIState.SearchHistoryUIState" />
+
+        <variable
+            name="listener"
+            type="com.thechance.viewmodel.category.com.thechance.viewmodel.search.SearchHistoryInteractionListener" />
+
+    </data>
+
+    <TextView
+        android:id="@+id/text_search_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_too_small"
+        android:layout_marginBottom="@dimen/spacing_too_small"
+        tools:text="Star Wars"
+        android:text="@{item.name}"
+        style="@style/Regular.Medium"
+        android:textColor="@color/shade_secondary_color"
+        android:drawablePadding="6dp"
+        app:drawableEndCompat="@drawable/ic_arrow_up_left"
+        android:onClick="@{() -> listener.onClickSearchHistory(item.name)}"/>
+
+</layout>

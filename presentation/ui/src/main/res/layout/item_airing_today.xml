@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.thechance.viewmodel.category.com.thechance.viewmodel.utilities.HomeItemsType" />
+
+        <variable
+            name="listener"
+            type="com.thechance.viewmodel.allMedia.MediaInteractionListener" />
+
+        <variable
+            name="item"
+            type="com.thechance.viewmodel.models.MediaUiState" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_small">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            tools:background="@color/yellow"
+            android:onClick="@{()->listener.onClickMedia(item.id)}"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1.4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:posterImage="@{item.imageUrl}"
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

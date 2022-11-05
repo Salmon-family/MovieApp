@@ -1,0 +1,3 @@
+package com.thechance.viewmodel.base
+
+interface BaseInteractionListener

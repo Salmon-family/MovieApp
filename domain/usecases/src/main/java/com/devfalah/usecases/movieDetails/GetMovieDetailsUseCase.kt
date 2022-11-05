@@ -30,7 +30,7 @@ class GetMovieDetailsUseCase @Inject constructor(
     }
 
     suspend fun getMovieReviews(movieId: Int): com.devfalah.models.MediaDetailsReviews {
-        val reviews = getMovieReviewsUseCase(MediaType.MOVIE, movieId)
+        val reviews = getMovieReviewsUseCase(MediaType.MOVIE.name, movieId)
         val MAX_NUM_REVIEWS = 3
         return com.devfalah.models.MediaDetailsReviews(reviews.take(MAX_NUM_REVIEWS),
             reviews.size > MAX_NUM_REVIEWS)

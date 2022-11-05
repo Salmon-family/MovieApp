@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.thechance.viewmodel.explore.ExploringViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_color"
+        app:layoutDescription="@xml/fragment_exploring_scene">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_lost_connection"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginBottom="@dimen/spacing_small"
+            app:layout_constraintBottom_toTopOf="@+id/title_lost_connection"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/lost_internet_animation"
+            app:showWhenListNotEmpty="@{viewModel.uiState.error}" />
+
+        <TextView
+            android:id="@+id/title_lost_connection"
+            style="@style/SemiBold.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_extra_large"
+            android:text="@string/oops"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_trend_label"
+            app:showWhenListNotEmpty="@{viewModel.uiState.error}" />
+
+        <TextView
+            android:id="@+id/description_lost_connection"
+            style="@style/Regular.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:gravity="center"
+            android:text="@string/description"
+            android:textColor="@color/brand_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_lost_connection"
+            app:showWhenListNotEmpty="@{viewModel.uiState.error}" />
+
+        <Button
+            android:id="@+id/button_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:onClick="@{() -> viewModel.getData()}"
+            android:text="@string/retry"
+            android:textColor="@color/white_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection"
+            app:showWhenListNotEmpty="@{viewModel.uiState.error}" />
+
+        <!--        layout-->
+
+        <TextView
+            android:id="@+id/text_explore"
+            style="@style/SemiBold.Large"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingVertical="12dp"
+            android:paddingStart="@dimen/spacing_medium"
+            android:text="@string/explore_label"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/input_search"
+            style="@style/Regular.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="@dimen/spacing_small"
+            android:focusableInTouchMode="false"
+            android:hint="@string/search_hint"
+            android:onClick="@{() -> viewModel.onClickSearch()}"
+            android:paddingStart="@dimen/spacing_small"
+            android:textColorHint="@color/shade_ternary_color"
+            android:transitionName="search_box"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_explore" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_movies"
+            style="@style/CardCorners.Small"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:backgroundTint="@color/card_background_color"
+            android:onClick="@{() -> viewModel.onClickMovies()}"
+            app:cardCornerRadius="@dimen/radius_small"
+            app:cardElevation="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/card_series"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_search">
+
+            <ImageView
+                android:id="@+id/icon_movie"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:src="@drawable/ic_movie" />
+
+            <TextView
+                android:id="@+id/text_movies_label"
+                style="@style/SemiBold.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="@string/movies_label"
+                android:textColor="@color/brand_color" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_series"
+            style="@style/CardCorners.Small"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:backgroundTint="@color/card_background_color"
+            android:onClick="@{() -> viewModel.onClickTVShow()}"
+            app:cardCornerRadius="@dimen/radius_small"
+            app:cardElevation="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/card_actors"
+            app:layout_constraintStart_toEndOf="@id/card_movies"
+            app:layout_constraintTop_toBottomOf="@id/input_search">
+
+            <ImageView
+                android:id="@+id/icon_series"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:src="@drawable/ic_tv" />
+
+            <TextView
+                android:id="@+id/text_series_label"
+                style="@style/SemiBold.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="@string/tv_shows_label"
+                android:textColor="@color/brand_color" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_actors"
+            style="@style/CardCorners.Small"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:backgroundTint="@color/card_background_color"
+            android:onClick="@{() -> viewModel.onClickActors()}"
+            app:cardCornerRadius="@dimen/radius_small"
+            app:cardElevation="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/input_search"
+            app:layout_constraintStart_toEndOf="@id/card_series"
+            app:layout_constraintTop_toBottomOf="@id/input_search">
+
+            <ImageView
+                android:id="@+id/icon_actors"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:src="@drawable/ic_actors" />
+
+            <TextView
+                android:id="@+id/text_actors_label"
+                style="@style/SemiBold.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="@string/actors_label"
+                android:textColor="@color/brand_color" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/text_trend_label"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:text="@string/trending_today_label"
+            android:textColor="@color/shade_primary_color"
+
+            app:doneLoading="@{viewModel.uiState.loading}"
+            app:errorNotEmpty="@{viewModel.uiState.error}"
+
+            app:layout_constraintStart_toStartOf="@id/card_movies"
+            app:layout_constraintTop_toBottomOf="@id/card_movies" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_trend"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:clipToPadding="false"
+            android:elevation="@dimen/spacing_too_small"
+
+            app:doneLoading="@{viewModel.uiState.loading}"
+            app:errorNotEmpty="@{viewModel.uiState.error}"
+
+            app:items="@{viewModel.uiState.trendyMovie}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_trend_label"
+            app:spanCount="2"
+            tools:listitem="@layout/item_trend" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_loading"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:isVisible="@{viewModel.uiState.loading}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_animation" />
+
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>

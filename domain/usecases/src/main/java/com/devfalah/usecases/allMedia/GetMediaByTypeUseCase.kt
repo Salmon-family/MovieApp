@@ -3,8 +3,8 @@ package com.devfalah.usecases.allMedia
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.devfalah.types.AllMediaType
 import com.devfalah.models.Media
+import com.devfalah.types.AllMediaType
 import com.devfalah.usecases.home.mappers.movie.MovieMapper
 import com.devfalah.usecases.home.mappers.series.TVShowMapper
 import com.thechance.repository.MovieRepository
@@ -20,43 +20,46 @@ class GetMediaByTypeUseCase @Inject constructor(
     private val tvShowMapper: TVShowMapper,
 ) {
 
-    suspend operator fun invoke(type: AllMediaType, actorId: Int = 0): Flow<PagingData<Media>> {
+    suspend operator fun invoke(type: String, actorId: Int = 0): Flow<PagingData<Media>> {
         return when (type) {
-            AllMediaType.ACTOR_MOVIES -> {
+            AllMediaType.ACTOR_MOVIES.name -> {
                 wrapper({ movieRepository.getActorMoviesPager(actorId) }, movieMapper::map)
             }
-            AllMediaType.LATEST,
-            AllMediaType.AIRING_TODAY,
+            AllMediaType.LATEST.name,
+            AllMediaType.AIRING_TODAY.name,
             -> {
                 wrapper(seriesRepository::getAiringTodayTvShowPager, tvShowMapper::map)
             }
-            AllMediaType.ON_THE_AIR -> {
+            AllMediaType.ON_THE_AIR.name -> {
                 wrapper(seriesRepository::getTopRatedTvShowPager, tvShowMapper::map)
             }
-            AllMediaType.POPULAR -> {
+            AllMediaType.POPULAR.name -> {
                 wrapper(seriesRepository::getPopularTvShowPager, tvShowMapper::map)
             }
-            AllMediaType.TOP_RATED -> {
+            AllMediaType.TOP_RATED.name -> {
                 wrapper(seriesRepository::getTopRatedTvShowPager, tvShowMapper::map)
             }
-            AllMediaType.TRENDING -> {
+            AllMediaType.TRENDING.name -> {
                 wrapper(movieRepository::getTrendingMoviesPager, movieMapper::map)
             }
-            AllMediaType.NOW_STREAMING -> {
+            AllMediaType.NOW_STREAMING.name -> {
                 wrapper(movieRepository::getNowPlayingMoviesPager, movieMapper::map)
             }
-            AllMediaType.UPCOMING -> {
+            AllMediaType.UPCOMING.name -> {
                 wrapper(movieRepository::getUpcomingMoviesPager, movieMapper::map)
             }
-            AllMediaType.MYSTERY -> {
+            AllMediaType.MYSTERY.name -> {
                 wrapper({ movieRepository.getMovieByGenre(9648) }, movieMapper::map)
 
             }
-            AllMediaType.ADVENTURE -> {
+            AllMediaType.ADVENTURE.name -> {
                 wrapper(
                     { movieRepository.getMovieByGenre(12) },
                     movieMapper::map
                 )
+            }
+            else -> {
+                throw Throwable("error")
             }
         }
     }

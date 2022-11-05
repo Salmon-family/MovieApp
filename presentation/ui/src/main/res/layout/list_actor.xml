@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="adapterRecycler"
+            type="com.thechance.ui.adapters.ActorAdapter" />
+
+        <variable
+            name="listener"
+            type="com.thechance.viewmodel.home.HomeInteractionListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@color/background_color"
+        android:background="@android:color/transparent">
+
+        <TextView
+            android:id="@+id/text_celebrities"
+            style="@style/SemiBold.Medium"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_celebrity"
+            tools:text="Celebrities"
+            android:textColor="@color/shade_primary_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_see_actors"
+            style="@style/Regular.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_too_small"
+            android:onClick="@{() -> listener.onClickSeeAllActors()}"
+            android:text="@string/see_all"
+            android:textColor="@color/brand_color"
+            app:drawableEndCompat="@drawable/ic_arrow_right"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_celebrities"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_actors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adapter="@{adapterRecycler}"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/spacing_small"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_celebrities"
+            app:spanCount="2"
+            tools:listitem="@layout/item_actor" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
