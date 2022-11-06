@@ -37,6 +37,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         lifecycleScope.launch {
             viewModel.uiState.collectLatest {
                 detailAdapter.setItems(viewModel.uiState.value.detailItemResult)
+                binding.recyclerView.scrollToPosition(0)
             }
         }
     }
