@@ -73,7 +73,8 @@ class MyListsViewModel @Inject constructor(
                         isLoading = false,
                         createdList = createMovieListUseCase(_createListDialogUIState.value.mediaListName)
                             .map { createdListUIMapper.map(it) },
-                        error = emptyList()
+                        error = emptyList(),
+                        isEmpty = false,
                     )
                 }
             } catch (t: Throwable) {
