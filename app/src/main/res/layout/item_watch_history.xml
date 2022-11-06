@@ -32,13 +32,12 @@
                 android:id="@+id/image_movie"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/ic_media_background"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="3.5:2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:posterImage="@{item.posterPath}"
+                app:mediaPoster="@{item.posterPath}"
                 app:shapeAppearanceOverlay="@style/CardCorners.Small"
                 tools:src="@drawable/test" />
 

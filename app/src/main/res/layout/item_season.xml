@@ -44,7 +44,7 @@
             app:layout_constraintDimensionRatio="1:1.6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:posterImage="@{item.imageUrl}"
+            app:mediaPoster="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium"
             tools:background="@color/yellow"
             tools:src="@drawable/test_2" />
