@@ -37,6 +37,7 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
         lifecycleScope.launch {
             viewModel.stateFlow.collectLatest {
                 detailAdapter.setItems(viewModel.stateFlow.value.detailItemResult)
+                binding.recyclerView.scrollToPosition(0)
             }
         }
     }
