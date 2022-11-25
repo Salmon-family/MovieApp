@@ -36,7 +36,7 @@ data class MovieDetailsDto(
     @SerializedName("release_date")
     val releaseDate: Date? = null,
     @SerializedName("revenue")
-    val revenue: Int? = null,
+    val revenue: Long? = null,
     @SerializedName("runtime")
     val runtime: Int? = null,
     @SerializedName("spoken_languages")
