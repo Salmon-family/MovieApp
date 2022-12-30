@@ -62,7 +62,7 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
             }
             is TvShowDetailsUIEvent.ClickSeasonEvent -> {
                 action =
-                    TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(args.tvShowId)
+                    TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(args.tvShowId, event.seasonId)
             }
             TvShowDetailsUIEvent.ClickPlayTrailerEvent -> {
                 action =
