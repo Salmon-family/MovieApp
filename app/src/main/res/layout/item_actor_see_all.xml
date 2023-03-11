@@ -28,7 +28,7 @@
             android:layout_height="0dp"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1"
-            android:background="@color/brand_color"
+            android:background="@color/background_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

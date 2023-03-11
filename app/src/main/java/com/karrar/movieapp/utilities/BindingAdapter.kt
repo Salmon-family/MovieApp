@@ -158,6 +158,16 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
     }
 }
 
+@BindingAdapter("app:mediaPoster")
+fun loadMediaPoster(image: ImageView, imageURL: String?) {
+    imageURL?.let {
+        image.load(imageURL) {
+            placeholder(R.drawable.loading)
+            error(R.drawable.media_place_holder)
+        }
+    }
+}
+
 @BindingAdapter("app:showProfileWhenSuccess")
 fun showWhenProfileSuccess(view: View, userName: String) {
     view.isVisible = userName.isNotEmpty()

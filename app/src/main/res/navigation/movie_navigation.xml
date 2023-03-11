@@ -299,6 +299,9 @@
         <argument
             android:name="tvShowId"
             app:argType="integer" />
+        <argument
+            android:name="seasonId"
+            app:argType="integer" />
     </fragment>
 
     <fragment
