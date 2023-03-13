@@ -1,11 +1,7 @@
 package com.karrar.movieapp.ui.composable
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFromBaseline
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -28,7 +24,7 @@ fun ActorItem(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.nonRippleEffect(onClick = onClick)
+        modifier = modifier.wrapContentHeight().nonRippleEffect(onClick = onClick)
     ) {
         Image(
             painter = rememberAsyncImagePainter(model = actorImageUrl),
@@ -44,7 +40,7 @@ fun ActorItem(
                 text = actorName,
 //            style = MaterialTheme.typography.subtitle2,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.paddingFromBaseline(top = 8.dp)
+                modifier = Modifier.paddingFromBaseline(top = 4.dp)
             )
         }
     }
