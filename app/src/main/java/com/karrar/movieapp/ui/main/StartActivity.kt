@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.karrar.movieapp.ui.composable.ActorItem
+import com.karrar.movieapp.ui.composable.MediaItem
 import com.karrar.movieapp.ui.ui.theme.MovieAppTheme
 
 class StartActivity : ComponentActivity() {
@@ -30,7 +31,12 @@ class StartActivity : ComponentActivity() {
                         modifier = Modifier.padding(8.dp),
                         actorName = "Test test",
                         actorImageUrl = "https://image.tmdb.org/t/p/w500/8V1XPEDLtJoxOWlE6gYzn2sQaMp.jpg",
-                        onClick = { /* handle click event */ }
+                        onClick = { }
+                    )
+
+                    MediaItem(
+                        mediaImageUrl = "https://image.tmdb.org/t/p/w500/8V1XPEDLtJoxOWlE6gYzn2sQaMp.jpg",
+                        onClick = {}
                     )
                 }
             }
