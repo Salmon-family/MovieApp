@@ -14,6 +14,7 @@ import coil.compose.rememberAsyncImagePainter
 fun MediaItem(
     modifier: Modifier = Modifier,
     mediaImageUrl: String,
+    imageHeight: Int = 176,
     onClick: () -> Unit
 ) {
     Image(
@@ -22,8 +23,8 @@ fun MediaItem(
         contentScale = ContentScale.Crop,
         modifier = modifier
             .wrapContentSize()
-            .height(176.dp)
-            .width(128.dp)
+            .height(imageHeight.dp)
+            .width((imageHeight + 50).dp)
             .clip(shape = RoundedCornerShape(16.dp))
             .nonRippleEffect(onClick = onClick)
 
