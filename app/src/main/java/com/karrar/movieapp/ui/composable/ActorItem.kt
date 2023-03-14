@@ -24,7 +24,9 @@ fun ActorItem(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.wrapContentHeight().nonRippleEffect(onClick = onClick)
+        modifier = modifier
+            .wrapContentHeight()
+            .nonRippleEffect(onClick = onClick)
     ) {
         Image(
             painter = rememberAsyncImagePainter(model = actorImageUrl),
@@ -38,7 +40,6 @@ fun ActorItem(
         if (actorName.isNotEmpty()) {
             Text(
                 text = actorName,
-//            style = MaterialTheme.typography.subtitle2,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.paddingFromBaseline(top = 4.dp)
             )
