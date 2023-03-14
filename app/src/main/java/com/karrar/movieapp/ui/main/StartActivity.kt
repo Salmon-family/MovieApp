@@ -10,6 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.karrar.movieapp.ui.composable.MediaHorizontalItem
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState
 import com.karrar.movieapp.ui.ui.theme.MovieAppTheme
 
 class StartActivity : ComponentActivity() {
@@ -22,7 +24,15 @@ class StartActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    MediaHorizontalItem(mediaUIState = MediaUIState(
+                        23,
+                        "Avengers",
+                        "imageUrl",
+                        "imageUrl",
+                        9.8f,
+                        "2012"
+                    )
+                    )
                 }
             }
         }
