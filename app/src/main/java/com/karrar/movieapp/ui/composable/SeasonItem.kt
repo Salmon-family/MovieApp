@@ -18,11 +18,7 @@ import com.karrar.movieapp.ui.ui.theme.specing.SpacingTooSmallVertical
 
 @Composable
 fun SeasonItem(
-    seasonName: String,
-    seasonYear: String,
-    seasonDescription: String,
-    episodeCount: String,
-    seasonImageUrl: String,
+    seasonUi: SeasonUi,
 ) {
     Box(
         modifier = Modifier
@@ -40,8 +36,8 @@ fun SeasonItem(
                 modifier = Modifier
                     .width(90.dp)
                     .clip(RoundedCornerShape(16.dp)),
-                painter = rememberAsyncImagePainter(model = seasonImageUrl),
-                contentDescription = seasonImageUrl,
+                painter = rememberAsyncImagePainter(model = seasonUi.seasonImageUrl),
+                contentDescription = seasonUi.seasonImageUrl,
             )
             Box(
                 modifier = Modifier
@@ -51,10 +47,12 @@ fun SeasonItem(
                     .padding(vertical = 8.dp)
             ) {
                 CardBody(
-                    seasonName = seasonName,
-                    year = seasonYear,
-                    episodeCount = episodeCount,
-                    description = seasonDescription,
+                    seasonUi = SeasonUi(
+                        name = seasonUi.name,
+                        year = seasonUi.year,
+                        description = seasonUi.description,
+                        episodeCount = seasonUi.episodeCount,
+                    )
                 )
             }
         }
@@ -64,21 +62,18 @@ fun SeasonItem(
 
 @Composable
 fun CardBody(
-    seasonName: String,
-    year: String,
-    episodeCount: String,
-    description: String,
+    seasonUi: SeasonUi,
 ) {
     Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = seasonName,
+                text = seasonUi.name,
                 style = Typography.subtitle1,
                 color = LightPrimaryWhiteColor
             )
             SpacingTooSmallHorizontal()
             Text(
-                text = year,
+                text = seasonUi.year,
                 style = Typography.body2,
                 color = LightTernaryWhiteColor
             )
@@ -86,16 +81,25 @@ fun CardBody(
             Text(text = "|", style = Typography.body2, color = LightTernaryWhiteColor)
             SpacingTooSmallHorizontal()
             Text(
-                text = episodeCount,
+                text = seasonUi.episodeCount,
                 style = Typography.body2,
                 color = LightTernaryWhiteColor
             )
         }
         SpacingTooSmallVertical()
         Text(
-            text = description,
+            text = seasonUi.description,
             style = Typography.body2, color = LightPrimaryWhiteColor,
             maxLines = 4
         )
     }
 }
+
+
+data class SeasonUi(
+    val name: String = "",
+    val year: String = "",
+    val description: String = "",
+    val episodeCount: String = "",
+    val seasonImageUrl: String = "",
+)
