@@ -2,6 +2,7 @@ package com.karrar.movieapp.ui.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -19,12 +20,14 @@ import com.karrar.movieapp.ui.ui.theme.specing.SpacingTooSmallVertical
 @Composable
 fun SeasonItem(
     seasonUi: SeasonUi,
+    onClick: () -> Unit,
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(144.dp)
             .padding(horizontal = 16.dp)
+            .clickable { onClick() }
     ) {
         Row(
             modifier = Modifier
