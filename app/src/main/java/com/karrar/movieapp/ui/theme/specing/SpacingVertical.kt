@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.ui.theme.specing
+package com.karrar.movieapp.ui.theme.specing
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
