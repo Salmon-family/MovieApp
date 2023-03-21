@@ -11,13 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.karrar.movieapp.domain.models.Actor
+import com.karrar.movieapp.ui.models.ActorUiState
 
 @Composable
 fun Actors(
     modifier: Modifier = Modifier,
     numberOfRows: Int = 2,
-    actorsState: List<Actor>,
-    showActorName: Boolean = false,
+    actors: List<ActorUiState>,
+    showActorName: Boolean = true,
     onActorClick: (Int) -> Unit
 ) {
     LazyHorizontalGrid(
@@ -26,31 +27,12 @@ fun Actors(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(8.dp)
     ) {
-        items(actorsState) { actor ->
+        items(actors) { actor ->
             ActorItem(
-                actorImageUrl = actor.actorImage,
-                actorName = if (showActorName) actor.actorName else "",
-                onClick = { onActorClick(actor.actorID) })
+                actor = actor,
+                showActorName = showActorName,
+                onClick = { onActorClick(actor.id) })
         }
     }
 }
 
-
-@Preview(showSystemUi = true)
-@Composable
-fun previewActors() {
-    Actors(
-        actorsState = listOf(
-            Actor(1, "https://image.tmdb.org/t/p/w500/8V1XPEDLtJoxOWlE6gYzn2sQaMp.jpg", "test"),
-            Actor(2, "https://image.tmdb.org/t/p/w500/8V1XPEDLtJoxOWlE6gYzn2sQaMp.jpg", "test"),
-            Actor(3, "https://image.tmdb.org/t/p/w500/8V1XPEDLtJoxOWlE6gYzn2sQaMp.jpg", "test"),
-            Actor(4, "https://image.tmdb.org/t/p/w500/8V1XPEDLtJoxOWlE6gYzn2sQaMp.jpg", "test"),
-            Actor(4, "https://image.tmdb.org/t/p/w500/8V1XPEDLtJoxOWlE6gYzn2sQaMp.jpg", "test"),
-            Actor(4, "https://image.tmdb.org/t/p/w500/8V1XPEDLtJoxOWlE6gYzn2sQaMp.jpg", "test"),
-            Actor(4, "https://image.tmdb.org/t/p/w500/8V1XPEDLtJoxOWlE6gYzn2sQaMp.jpg", "test"),
-            Actor(4, "https://image.tmdb.org/t/p/w500/8V1XPEDLtJoxOWlE6gYzn2sQaMp.jpg", "test"),
-            Actor(4, "https://image.tmdb.org/t/p/w500/8V1XPEDLtJoxOWlE6gYzn2sQaMp.jpg", "test"),
-        ),
-        onActorClick = {}
-    )
-}
