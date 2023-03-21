@@ -9,24 +9,32 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.karrar.movieapp.ui.category.uiState.MediaUIState
 
 @Composable
 fun MediaItem(
     modifier: Modifier = Modifier,
-    mediaImageUrl: String,
+    media: MediaUIState,
+    isSquareItem: Boolean = false,
     imageHeight: Int = 176,
-    onClick: () -> Unit
+    onClick: (Int) -> Unit
 ) {
     Image(
-        painter = rememberAsyncImagePainter(model = mediaImageUrl),
+        painter = rememberAsyncImagePainter(model = media.mediaImage),
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = modifier
             .wrapContentSize()
             .height(imageHeight.dp)
-            .width((imageHeight + 50).dp)
+            .width(
+                if (isSquareItem) {
+                    imageHeight.dp
+                } else {
+                    (imageHeight + 50).dp
+                }
+            )
             .clip(shape = RoundedCornerShape(16.dp))
-            .nonRippleEffect(onClick = onClick)
+            .nonRippleEffect(onClick = { onClick(media.mediaID) })
 
     )
 }
