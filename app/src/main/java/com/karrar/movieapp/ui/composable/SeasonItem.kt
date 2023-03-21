@@ -12,9 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.karrar.movieapp.ui.ui.theme.*
-import com.karrar.movieapp.ui.ui.theme.specing.SpacingTooSmallHorizontal
-import com.karrar.movieapp.ui.ui.theme.specing.SpacingTooSmallVertical
+import com.karrar.movieapp.ui.theme.DarkCardBackground
+import com.karrar.movieapp.ui.theme.LightPrimaryWhiteColor
+import com.karrar.movieapp.ui.theme.LightTernaryWhiteColor
+import com.karrar.movieapp.ui.theme.Typography
+import com.karrar.movieapp.ui.theme.specing.SpacingTooSmallHorizontal
+import com.karrar.movieapp.ui.theme.specing.SpacingTooSmallVertical
 
 
 @Composable

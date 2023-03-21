@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.ui.theme
+package com.karrar.movieapp.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
