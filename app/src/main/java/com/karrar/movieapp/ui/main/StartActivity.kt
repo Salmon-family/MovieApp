@@ -12,6 +12,8 @@ import com.karrar.movieapp.ui.category.uiState.MediaUIState
 import com.karrar.movieapp.ui.composable.AiringToday
 import com.karrar.movieapp.ui.theme.MovieAppTheme
 import com.karrar.movieapp.R
+import com.karrar.movieapp.ui.composable.TvShowsItem
+import com.karrar.movieapp.ui.models.MediaUiState
 
 class StartActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +41,16 @@ class StartActivity : ComponentActivity() {
                             ),
                             onClickMedia = {},
                             cardTitleRes = R.string.title_airing_today
+                        )
+
+                        //////////////////////////
+                        TvShowsItem(
+                            series = listOf(
+                                MediaUiState(imageUrl = "https://image.tmdb.org/t/p/w500/gOnmaxHo0412UVr1QM5Nekv1xPi.jpg"),
+                                MediaUiState(imageUrl = "https://image.tmdb.org/t/p/w500/gOnmaxHo0412UVr1QM5Nekv1xPi.jpg"),
+                                MediaUiState(imageUrl = "https://image.tmdb.org/t/p/w500/gOnmaxHo0412UVr1QM5Nekv1xPi.jpg"),
+                            ),
+                            onClickSeriesCategory = {},
                         )
                     }
                 }

@@ -3,9 +3,7 @@ package com.karrar.movieapp.ui.composable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -18,40 +16,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.karrar.movieapp.ui.category.uiState.MediaUIState
+import com.karrar.movieapp.ui.models.MediaUiState
 
 @Composable
-fun MediaItem(
+fun SeriesCategory(
     modifier: Modifier = Modifier,
-    media: MediaUIState,
-    isSquareItem: Boolean = false,
-    hasTitle: Boolean = false,
-    title: String = "",
-    imageHeight: Int = 176,
+    media: MediaUiState,
+    title: String,
     onClick: (Int) -> Unit
 ) {
-    Box(
-        modifier = modifier
-            .width(if (isSquareItem) { imageHeight.dp } else { (imageHeight + 50).dp })
-            .height(imageHeight.dp)
-            .wrapContentSize(align = Alignment.BottomStart)
-    ) {
+    Box(modifier = modifier.wrapContentSize(align = Alignment.BottomStart)) {
         Image(
-            painter = rememberAsyncImagePainter(model = media.mediaImage),
+            painter = rememberAsyncImagePainter(model = media.imageUrl),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = modifier
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(16.dp))
-                .nonRippleEffect(onClick = { onClick(media.mediaID) })
+                .nonRippleEffect(onClick = { onClick(media.id) })
         )
-        if (hasTitle) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.body2,
-                color = Color.White,
-                modifier = Modifier.padding(8.dp)
-            )
-        }
+        Text(
+            text = title,
+            style = MaterialTheme.typography.body2,
+            color = Color.White,
+            modifier = Modifier.padding(8.dp)
+        )
     }
 }
