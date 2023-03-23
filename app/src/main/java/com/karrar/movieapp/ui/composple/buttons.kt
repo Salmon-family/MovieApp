@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.karrar.movieapp.ui.ui.theme.PrimaryBrandColor
-import com.karrar.movieapp.ui.ui.theme.Typography
+import com.karrar.movieapp.ui.theme.PrimaryBrandColor
+import com.karrar.movieapp.ui.theme.Typography
 
 @Composable
 fun AppButton(
