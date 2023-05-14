@@ -20,9 +20,6 @@
 - [Live Data](https://developer.android.com/topic/libraries/architecture/livedata) to observe data changes, which can improve code quality and responsiveness.
 - [Navigation](https://developer.android.com/jetpack/androidx/releases/navigation) to navigate between screens, which can improve user experience.
 
-## App Structure
-TODO
-
 ## Features
 - <b>Login and signup:</b> Users can create an account and log in to the app to access their lists and preferences across multiple devices.
 - <b>Browse movies and series:</b> Users can browse the app to discover new movies and series that are categorized as new, latest, popular, top-rated, or by genre.
