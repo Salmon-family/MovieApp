@@ -45,7 +45,7 @@ Add your [TMDB](https://developers.themoviedb.org/3/getting-started/introduction
 - apiKey=YOUR_API_KEY
 
 ## Download apk
-download APK from [here](TODO_Link).
+download APK from [here](https://github.com/Salmon-family/MovieApp/releases/tag/1.0.0).
 
 ## License
 
