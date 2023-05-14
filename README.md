@@ -1,9 +1,13 @@
 <h1 align="center"> 	Movie Application </h1>
 
-<img src="https://github.com/Salmon-family/MovieApp/blob/NadaFeteiha-patch-1/movie%20App.gif" align="right" width="320"/>
+<p align="center">This movie andoid app has been developed with features that allow users to browse movies and series, actors and their works, search for movies, series or actors, add reviews and comments on movies and series, create custom lists such as watch later or favorites, and manage their account through a login and signup. </p>
 
-<p align="center">This movie app has been developed with features that allow users to browse movies and series, actors and their works, search for movies, series or actors, add reviews and comments on movies and series, create custom lists such as watch later or favorites, and manage their account through a login and signup system.</p>
-
+## Video
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=i2YURMEcDec?autoplay=1">
+    <img src="http://img.youtube.com/vi/i2YURMEcDec/hqdefault.jpg" alt="Movie App" width="800" height="450">
+  </a>
+</p>
 
 ## Tech stack
 - [Hilt dependency injection](https://developer.android.com/training/dependency-injection/hilt-android) to manage dependencies, which can help to improve code quality and maintainability.
