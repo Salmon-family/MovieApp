@@ -47,7 +47,7 @@ download APK from [here](https://github.com/Salmon-family/MovieApp/releases/tag/
 ## License
 
 ```xml
-Designed and developed by 2022 "Org Name TODo after change name"
+Designed and developed by 2022 EliteDevs
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
